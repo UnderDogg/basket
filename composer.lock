@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "de95ce9a79fe7b04b1d034d721ed3a7b",
+    "hash": "e410fac675ed2f64f2cfe94d73058e74",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -494,6 +494,47 @@
                 "laravel"
             ],
             "time": "2015-06-24 19:38:07"
+        },
+        {
+            "name": "laravel/homestead",
+            "version": "v2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/homestead.git",
+                "reference": "ffab9eac576906fc1ba76c2e50050cc36f381195"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/ffab9eac576906fc1ba76c2e50050cc36f381195",
+                "reference": "ffab9eac576906fc1ba76c2e50050cc36f381195",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/console": "~2.0",
+                "symfony/process": "~2.0"
+            },
+            "bin": [
+                "homestead"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Homestead\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "A virtual machine for web artisans.",
+            "time": "2015-06-24 19:39:40"
         },
         {
             "name": "league/flysystem",
