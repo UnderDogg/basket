@@ -1,20 +1,45 @@
-@extends('master')
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Laravel</title>
 
-@section('content')
-    <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-    </div>
+        <link href="//fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
-@endsection
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                display: table;
+                font-weight: 100;
+                font-family: 'Lato';
+            }
+
+            .container {
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .content {
+                text-align: center;
+                display: inline-block;
+            }
+
+            .title {
+                font-size: 96px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="content">
+                <div class="title">Laravel 5</div>
+            </div>
+        </div>
+    </body>
+</html>
