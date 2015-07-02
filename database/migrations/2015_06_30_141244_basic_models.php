@@ -16,6 +16,7 @@ class BasicModels extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('token', 100);
+            $table->boolean('linked')->default(false);
             $table->timestamps();
         });
 
