@@ -23,4 +23,17 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('logout', 'Auth\AuthController@getLogout');
+
+   $cont = explode('/', $_SERVER['REQUEST_URI']);
+   $contLo = $cont[1];
+   $contUp = ucwords($cont[1]) . 'Controller@';
+   if (!empty($contLo) && $contLo != 'login') {
+       Route::get(     $contLo,               $contUp . 'index'    );
+       Route::get(     $contLo.'/create',     $contUp . 'create'   );
+       Route::post(    $contLo,               $contUp . 'store'    );
+       Route::get(     $contLo.'/{id}',       $contUp . 'show'     );
+       Route::delete(  $contLo.'/{id}',       $contUp . 'destroy'  );
+       Route::get(     $contLo.'/{id}/edit',  $contUp . 'edit'     );
+       Route::patch(   $contLo.'/{id}',       $contUp . 'update'   );
+   }
 });
