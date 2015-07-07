@@ -48,7 +48,7 @@
                     <label class="form-control">Remember Me</label>
                     <span class="input-group-btn">
                         <a href="/password/email">
-                            <button class="btn form-control input-group-addon" type="button">Forgotten Your Password?</button>
+                            <button class="btn form-control input-group-addon" type="button">Forgot Your Password?</button>
                         </a>
                     </span>
                 </div>
