@@ -16,6 +16,7 @@ class BasicModels extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('token', 100);
+            $table->boolean('linked')->default(false);
             $table->timestamps();
         });
 
@@ -43,6 +44,14 @@ class BasicModels extends Migration
 
             $table->foreign('installation_id')->references('id')->on('installations');
         });
+
+        Schema::table('users', function (Blueprint $table) {
+
+            $table->integer('merchant_id')->unsigned()->after('password');
+            $table->string('locations')->after('merchant_id');
+
+            $table->foreign('merchant_id')->references('id')->on('merchants');
+        });
     }
 
     /**
@@ -52,8 +61,14 @@ class BasicModels extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop('merchants');
         Schema::drop('installations');
         Schema::drop('locations');
+
+        Schema::table('users', function (Blueprint $table) {
+
+            $table->dropColumn('merchant_id');
+            $table->dropColumn('locations');
+        });
     }
 }
