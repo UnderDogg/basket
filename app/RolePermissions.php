@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class role_permissions extends Model  {
+class RolePermissions extends Model  {
 
     /**
      * The database table used by the model.
@@ -16,6 +16,12 @@ class role_permissions extends Model  {
      *
      * @var array
      */
-    protected $fillable = [''];
+    protected $fillable = ['permission_id', 'role_id'];
 
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['permission_id', 'role_id'];
 }

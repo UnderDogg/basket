@@ -6,6 +6,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Role;
+use App\RolePermissions;
+use App\Permission;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -66,6 +68,15 @@ class RoleController extends Controller
 	public function edit($id)
 	{
 		$role = Role::findOrFail($id);
+        $role->permissionsAssoc = RolePermissions::where('role_id', '=', $role->id);
+
+        $permissionIds = [];
+        foreach ($role->permissionsAssoc as $assoc) {
+            $permissionIds[] = $assoc->permission_id;
+        }
+
+        $role->permissions = Permission::whereIn('id', $permissionIds);
+
 		return view('role.edit', compact('role'));
 	}
 
