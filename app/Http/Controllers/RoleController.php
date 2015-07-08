@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Exception;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -32,7 +33,8 @@ class RoleController extends Controller
 	 */
 	public function create()
 	{
-		return view('role.create');
+        $permissionsAvailable = Permission::all();
+		return view('role.create', compact('permissionsAvailable'));
 	}
 
 	/**
@@ -43,8 +45,11 @@ class RoleController extends Controller
 	public function store(Request $request)
 	{
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		Role::create($request->all());
-		return redirect('role');
+		$role = Role::create($request->all());
+
+        $this->updateAllRolePermissions($role->id, $request);
+
+		return redirect('role')->with('message','New role and role permissions were successfully created');
 	}
 
 	/**
@@ -67,15 +72,10 @@ class RoleController extends Controller
 	 */
 	public function edit($id)
 	{
-		$role = Role::findOrFail($id);
-        $role->permissionsAssoc = RolePermissions::where('role_id', '=', $role->id);
+        $role = Role::findOrFail($id);
+        $role->message = session()->get('message');
 
-        $permissionIds = [];
-        foreach ($role->permissionsAssoc as $assoc) {
-            $permissionIds[] = $assoc->permission_id;
-        }
-
-        $role->permissions = Permission::whereIn('id', $permissionIds);
+        $role = $this->assignPermissionsToRole($role);
 
 		return view('role.edit', compact('role'));
 	}
@@ -88,10 +88,12 @@ class RoleController extends Controller
 	 */
 	public function update($id, Request $request)
 	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		$role = Role::findOrFail($id);
-		$role->update($request->all());
-		return redirect('role');
+        $role = Role::findOrFail($id);
+        $role->update($request->all());
+
+        $this->updateAllRolePermissions($role->id, $request);
+
+		return redirect()->back()->with('message','Roles and role permissions were successfully updated');
 	}
 
 	/**
@@ -103,7 +105,61 @@ class RoleController extends Controller
 	public function destroy($id)
 	{
 		Role::destroy($id);
-		return redirect('role');
+		return redirect('role')->with('message','Role was successfully deleted');
 	}
 
+    /**
+     * Update All Role Permissions
+     *
+     * @author MS
+     * @param $id
+     * @param mixed $request
+     * @return mixed
+     */
+    private function updateAllRolePermissions($id, $request)
+    {
+        $rolePermissionsToUpdate = explode(':', $request['permissionsApplied']);
+        unset($rolePermissionsToUpdate[0]);
+
+        $rolePermissions = RolePermissions::where('role_id', '=', $id)->get();
+
+        foreach ($rolePermissions as $permission) {
+            if (!in_array($permission['permission_id'], $rolePermissionsToUpdate)) {
+                RolePermissions::where('role_id', '=', $id)
+                    ->where('permission_id', '=', $permission['permission_id'])
+                    ->delete();
+            }
+            if(($key = array_search($permission['permission_id'], $rolePermissionsToUpdate)) !== false) {
+                unset($rolePermissionsToUpdate[$key]);
+            }
+        }
+
+        if (count($rolePermissionsToUpdate) > 0) {
+            foreach ($rolePermissionsToUpdate as $permission) {
+                RolePermissions::create(['permission_id' => $permission, 'role_id' => $id]);
+            }
+        }
+    }
+
+    /**
+     * Assign Permissions To Role
+     *
+     * @author MS
+     * @param Role $role
+     * @return Role
+     */
+    private function assignPermissionsToRole(Role $role)
+    {
+        $role->permissionsAssociation = RolePermissions::where('role_id', '=', $role->id)->get();
+
+        $permissionIds = [];
+        foreach ($role->permissionsAssociation as $association) {
+            $permissionIds[] = $association->permission_id;
+        }
+
+        $role->permissions = Permission::whereIn('id', $permissionIds)->get();
+        $role->permissionsAvailable = Permission::whereNotIn('id', $permissionIds)->get();
+
+        return $role;
+    }
 }

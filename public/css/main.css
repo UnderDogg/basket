@@ -4,6 +4,10 @@
    Author's custom styles
    ========================================================================== */
 
+.hr-tight {
+    margin: 0px;
+    margin-top: 10px;
+}
 
 /* ==========================================================================
    Form Styling
@@ -43,11 +47,37 @@ a.btn {
     color: #fff !important;
 }
 
+.draggableItem {
+    color:#777 !important;
+    background-color:#fff;
+    padding: 4px;
+    border: solid 1px #eee;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   Bootstrap Overrides
+   ========================================================================== */
+
+.panel-default>.panel-heading {
+    background-image: -webkit-linear-gradient(top,#f2f6f6 0,#fff 100%);
+    background-image: -o-linear-gradient(top,#f2f6f6 0,#fff 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#f2f6f6),to(#fff));
+    background-image: linear-gradient(to bottom,#f2f6f6 0,#fff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f6f6', endColorstr='#ffffffff', GradientType=0);
+    background-repeat: repeat-x;
+}
+
+.panel-tight-space {
+    padding: 0px !important;
+    padding-top: 5px !important;
+}
 
 
 
-
-
-
-
-
+.rolePanel {
+    float:left;
+    height: 372px;
+    width: 100%;
+}
