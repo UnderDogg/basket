@@ -2,8 +2,25 @@
 
 @section('content')
 
-    <h1>Create New Role</h1>
     <hr/>
+    @if ($errors->any())
+        <div id="actionMessage" class="col-xs-12" hidden="hidden">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                @foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+            </div>
+        </div>
+    @endif
+
+    <div class="col-xs-12">
+        <h2>
+            <a style="margin-bottom: 7px;" href="{{ '/' . Request::segment(1) }}" class="btn btn-info btn-xs" role="button">Back</a>
+            {{ Str::upper(' create a new ' . Request::segment(1)) }}
+        </h2>
+        <hr/>
+    </div>
 
     {!! Form::open(['url' => 'role', 'class' => 'form-horizontal']) !!}
 
@@ -47,7 +64,7 @@
                                 <hr class="hr-tight">
                             </div>
                             <div class="panel-body panel-tight-space">
-                                <div style="height: 350px;" id="permissionsAppliedHolder" class="connectedSortable col-xs-12">
+                                <div style="height: 365px;" id="permissionsAppliedHolder" class="connectedSortable col-xs-12">
                                 </div>
                             </div>
                         </div>
@@ -59,7 +76,7 @@
                                 <hr class="hr-tight">
                             </div>
                             <div class="panel-body panel-tight-space">
-                                <div style="height: 350px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
+                                <div style="height: 365px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
                                     @foreach ($permissionsAvailable as $permission)
                                         <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
                                     @endforeach
@@ -74,7 +91,7 @@
 
     <div class="form-group">
         <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-            {!! Form::submit('Update', ['class' => 'btn btn-info form-control']) !!}
+            {!! Form::submit('Create Role', ['class' => 'btn btn-info form-control']) !!}
         </div>
     </div>
 

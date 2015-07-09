@@ -46,7 +46,6 @@ class RoleController extends Controller
 	{
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
 		$role = Role::create($request->all());
-
         $this->updateAllRolePermissions($role->id, $request);
 
 		return redirect('role')->with('message','New role and role permissions were successfully created');
@@ -61,6 +60,8 @@ class RoleController extends Controller
 	public function show($id)
 	{
 		$role = Role::findOrFail($id);
+        $role = $this->assignPermissionsToRole($role);
+
 		return view('role.show', compact('role'));
 	}
 
