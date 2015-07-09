@@ -1,4 +1,8 @@
 
+/* ==========================================================================
+ JQUERY EVENT ACTIONS
+ ========================================================================== */
+
 $(document).ready(function(){
 
     // START - Slide Effects for more-info and message bubbles
@@ -12,10 +16,24 @@ $(document).ready(function(){
     $('.message_close').click(function(){
         $(this).parent().parent().slideUp(250);
     });
-    // END - Slide Effects for more-info and message bubbles
+
+    // START - Actions to take when tab button is clicked
+    $('.tabbutton').click(function(){
+        $(this).parent().find('li').each(function(){
+           $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+    });
+
+    // START - Enable JQueryUI Tabs
+    $( "#basketTabs" ).tabs();
 });
 
-// Function to enable Drag and Drop for Role Permissions
+/* ==========================================================================
+ JQUERY FUNCTIONS
+ ========================================================================== */
+
+// START - enable Drag and Drop for Role Permissions
 $(function() {
     $( "#permissionsAppliedHolder, #permissionsAvailableHolder" ).sortable({
         connectWith: ".connectedSortable"
@@ -27,9 +45,5 @@ $(function() {
 
         oldContainerHidden.val(oldContainerHidden.val().replace(':' + permissionId, ''));
         newContainerHidden.val(newContainerHidden.val() + ':' + permissionId);
-
     });
 });
-
-// Enable JQueryUI Tabs
-$( "#basketTabs" ).tabs();

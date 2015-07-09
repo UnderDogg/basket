@@ -4,7 +4,7 @@
 
     <hr/>
     @if ($errors->any())
-        <div id="actionMessage" class="col-xs-12" hidden="hidden">
+        <div id="actionMessage" hidden="hidden">
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -14,19 +14,14 @@
         </div>
     @endif
 
-    <div class="col-xs-12">
-        <h2>
-            <a style="margin-bottom: 7px;" href="{{ '/' . Request::segment(1) }}" class="btn btn-info btn-xs" role="button">Back</a>
-            {{ Str::upper(' create a new ' . Request::segment(1)) }}
-        </h2>
-        <hr/>
-    </div>
+    <h2>{{ Str::upper(' create a new ' . Request::segment(1)) }}</h2>
+    <hr/>
 
     {!! Form::open(['url' => 'role', 'class' => 'form-horizontal']) !!}
 
     <div>
         <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="panel panel-default">
+            <div style="height: 100%;" class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">ROLE DETAILS</h3>
                 </div>

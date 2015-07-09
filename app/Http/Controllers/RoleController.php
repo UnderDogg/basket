@@ -2,112 +2,116 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\Exception;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use App\Role;
 use App\RolePermissions;
 use App\Permission;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class RoleController extends Controller
 {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$role = Role::latest()->get();
-		return view('role.index', compact('role'));
-	}
+    /**
+     * Display a listing of the resource.
+     *
+     * @author MS
+     * @return Response
+     */
+    public function index()
+    {
+        $role = Role::latest()->get();
+        $role->message = session()->get('message');
+        return view('role.index', compact('role'));
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @author MS
+     * @return Response
+     */
+    public function create()
+    {
         $permissionsAvailable = Permission::all();
-		return view('role.create', compact('permissionsAvailable'));
-	}
+        return view('role.create', compact('permissionsAvailable'));
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		$role = Role::create($request->all());
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @author MS
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        //$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+        $role = Role::create($request->all());
         $this->updateAllRolePermissions($role->id, $request);
 
-		return redirect('role')->with('message','New role and role permissions were successfully created');
-	}
+        return redirect('role')->with('message','New role and role permissions were successfully created');
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$role = Role::findOrFail($id);
+    /**
+     * Display the specified resource.
+     *
+     * @author MS
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $role = Role::findOrFail($id);
         $role = $this->assignPermissionsToRole($role);
 
-		return view('role.show', compact('role'));
-	}
+        return view('role.show', compact('role'));
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @author MS
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         $role = Role::findOrFail($id);
         $role->message = session()->get('message');
 
         $role = $this->assignPermissionsToRole($role);
 
-		return view('role.edit', compact('role'));
-	}
+        return view('role.edit', compact('role'));
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @author MS
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
         $role = Role::findOrFail($id);
         $role->update($request->all());
 
         $this->updateAllRolePermissions($role->id, $request);
 
-		return redirect()->back()->with('message','Roles and role permissions were successfully updated');
-	}
+        return redirect()->back()->with('message','Roles and role permissions were successfully updated');
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		Role::destroy($id);
-		return redirect('role')->with('message','Role was successfully deleted');
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @author MS
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        Role::destroy($id);
+        return redirect('role')->with('message','Role was successfully deleted');
+    }
 
     /**
      * Update All Role Permissions
@@ -115,7 +119,6 @@ class RoleController extends Controller
      * @author MS
      * @param $id
      * @param mixed $request
-     * @return mixed
      */
     private function updateAllRolePermissions($id, $request)
     {

@@ -4,7 +4,7 @@
 
     <hr/>
     @if( $role->message !== null )
-        <div id="actionMessage" class="col-xs-12" hidden="hidden">
+        <div id="actionMessage" hidden="hidden">
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -25,13 +25,8 @@
         </div>
     @endif
 
-    <div class="col-xs-12">
-        <h2>
-            <a style="margin-bottom: 7px;" href="{{ '/' . Request::segment(1) }}" class="btn btn-info btn-xs" role="button">Back</a>
-            {{ Str::upper(' edit ' . Request::segment(1)) }}
-        </h2>
-        <hr/>
-    </div>
+    <h2>{{ Str::upper(' edit ' . Request::segment(1)) }}</h2>
+    <hr/>
 
     {!! Form::model($role, ['method' => 'PATCH', 'action' => ['RoleController@update', $role->id], 'class' => 'form-horizontal']) !!}
 
@@ -66,7 +61,7 @@
 
 
         <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="panel panel-default">
+            <div style="height: 100%;" class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">ROLE PERMISSIONS</h3>
                 </div>
@@ -78,7 +73,7 @@
                                 <hr class="hr-tight">
                             </div>
                             <div class="panel-body panel-tight-space">
-                                <div style="height: 365px;" id="permissionsAppliedHolder" class="connectedSortable col-xs-12">
+                                <div style="height: 340px;" id="permissionsAppliedHolder" class="connectedSortable col-xs-12">
                                     @foreach ($role->permissions as $permission)
                                         <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
                                     @endforeach
@@ -93,7 +88,7 @@
                                 <hr class="hr-tight">
                             </div>
                             <div class="panel-body panel-tight-space">
-                                <div style="height: 365px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
+                                <div style="height: 340px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
                                     @foreach ($role->permissionsAvailable as $permission)
                                         <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
                                     @endforeach

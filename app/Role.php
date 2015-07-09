@@ -28,8 +28,4 @@ class Role extends EntrustRole
      * @var array
      */
     protected $hidden = [];
-
-    public $permissionsAssociation;
-    public $permissions;
-    public $permissionsAvailable;
 }

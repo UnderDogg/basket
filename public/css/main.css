@@ -4,18 +4,9 @@
    Author's custom styles
    ========================================================================== */
 
-.hr-tight {
-    margin: 0px;
-    margin-top: 10px;
-}
-
 /* ==========================================================================
    Form Styling
    ========================================================================== */
-
-body, h1, h2, h3, h4, h5, span, label, div, p, a {
-    color: #555 !important;
-}
 
 .more_info_question {
     color: #555555;
@@ -43,10 +34,6 @@ h4.fieldLabel {
     color: #4682b4;
 }
 
-a.btn {
-    color: #fff !important;
-}
-
 .draggableItem {
     color:#777 !important;
     background-color:#fff;
@@ -60,24 +47,37 @@ a.btn {
    Bootstrap Overrides
    ========================================================================== */
 
-.panel-default>.panel-heading {
-    background-image: -webkit-linear-gradient(top,#f2f6f6 0,#fff 100%);
-    background-image: -o-linear-gradient(top,#f2f6f6 0,#fff 100%);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#f2f6f6),to(#fff));
-    background-image: linear-gradient(to bottom,#f2f6f6 0,#fff 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f6f6', endColorstr='#ffffffff', GradientType=0);
-    background-repeat: repeat-x;
-}
-
 .panel-tight-space {
     padding: 0px !important;
     padding-top: 5px !important;
 }
 
+.hr-tight {
+    margin: 0px;
+    margin-top: 10px;
+}
 
+a:focus, a:hover {
+    outline:0 !important;
+    text-decoration: none !important;
+}
 
-.rolePanel {
-    float:left;
-    height: 372px;
-    width: 100%;
+button.dropdown-delete{
+    color       : #777 !important;
+    margin      : 0 !important;
+    padding     : 0 !important;
+    border      : 0 !important;
+    background  : transparent !important;
+    font-family : inherit !important;
+    font-size   : 1em !important;
+    cursor      : pointer !important;
+    font-weight : normal !important;
+    text-align  : left !important;
+    text-indent : 20px !important;
+    width       : 100% !important;
+}
+
+button.dropdown-delete::-moz-focus-inner{
+    padding : 0 !important;
+    border  : 0 !important;
 }
