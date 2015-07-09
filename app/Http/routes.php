@@ -31,18 +31,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('logout', 'Auth\AuthController@getLogout');
 
-    if (PHP_SAPI != 'cli') {
-        $cont = explode('/', $_SERVER['REQUEST_URI']);
-        $contLo = $cont[1];
-        $contUp = ucwords($cont[1]) . 'Controller@';
-        if (!empty($contLo) && $contLo != 'login') {
-            Route::get($contLo, $contUp . 'index');
-            Route::get($contLo . '/create', $contUp . 'create');
-            Route::post($contLo, $contUp . 'store');
-            Route::get($contLo . '/{id}', $contUp . 'show');
-            Route::delete($contLo . '/{id}', $contUp . 'destroy');
-            Route::get($contLo . '/{id}/edit', $contUp . 'edit');
-            Route::patch($contLo . '/{id}', $contUp . 'update');
-        }
-    }
+    // User CRUD Routes
+    Route::get(   'user',            'UserController@index'    );
+    Route::get(   'user/create',     'UserController@create'   );
+    Route::post(  'user',            'UserController@store'    );
+    Route::get(   'user/{id}',       'UserController@show'     );
+    Route::delete('user/{id}',       'UserController@destroy'  );
+    Route::get(   'user/{id}/edit',  'UserController@edit'     );
+    Route::patch( 'user/{id}',       'UserController@update'   );
+
 });
