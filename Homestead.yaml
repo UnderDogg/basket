@@ -12,7 +12,7 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: "~/dev/basket"
+    - map: "./"
       to: "/var/www/basket"
 
 sites:
