@@ -9,6 +9,10 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
+    protected $redirectPat;
+    protected $loginPath;
+    protected $redirectAfterLogout;
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -31,7 +35,7 @@ class AuthController extends Controller
 
         $this->redirectPath = '/';
         $this->loginPath = 'login';
-//        $this->redirectAfterLogout = '';
+        $this->redirectAfterLogout = '/';
 
     }
 

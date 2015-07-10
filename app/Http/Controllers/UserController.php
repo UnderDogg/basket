@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
             'merchant' => 'required',
         ]);
@@ -98,21 +98,22 @@ class UserController extends Controller
      *
      * @author MS
      * @param  int  $id
+     * @param Request $request
      * @return Response
      */
     public function update($id, Request $request)
     {
-        $this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+        $this->validate($request, [
+            'name' => 'required',
+            'password' => 'required',
+        ]);
+
         $user = User::findOrFail($id);
 
-        $array = $request->all();
+        $input = $request->all();
 
-        if (empty($array['password'])) {
-            // Create Error To Show User
-        }
-
-        $array['password'] = bcrypt($array['password']);
-        $user->update($array);
+        $input['password'] = bcrypt($input['password']);
+        $user->update($input);
         return redirect('user');
     }
 

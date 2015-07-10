@@ -27,7 +27,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-downloads]: https://img.shields.io/packagist/dt/paybreak/basket.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/paybreak/basket
-[link-travis]: https://travis-ci.org/paybreak/basket
+[link-travis]: https://travis-ci.org/PayBreak/basket
 [link-scrutinizer]: https://scrutinizer-ci.com/g/paybreak/basket/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/paybreak/basket
 [link-downloads]: https://packagist.org/packages/paybreak/basket
