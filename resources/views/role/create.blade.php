@@ -86,20 +86,12 @@
 
     <div class="form-group">
         <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-            {!! Form::submit('Create Role', ['class' => 'btn btn-info form-control']) !!}
+            {!! Form::submit('Create Role', ['class' => 'btn btn-info form-control', 'name' => 'creatRoleButton']) !!}
         </div>
     </div>
 
     <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="@foreach ($permissionsAvailable as $permission){{ ':'.$permission->id  }}@endforeach">
     <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="">
     {!! Form::close() !!}
-
-    @if ($errors->any())
-        <ul class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
 
 @endsection

@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <h1>Roles <a href="{{ url('/role/create') }}" class="btn btn-info pull-right btn-sm">Add New Role</a></h1>
+    <h1>Roles <a href="{{ url('/role/create') }}" name="addNewButton" class="btn btn-info pull-right btn-sm">Add New Role</a></h1>
     <hr>
 
     <div class="panel panel-default">

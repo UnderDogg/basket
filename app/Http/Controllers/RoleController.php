@@ -44,7 +44,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+        $this->validate($request, [
+            'name' => 'required',
+            'display_name' => 'required',
+            'permissionsApplied' => 'required'
+
+        ]);
         $role = Role::create($request->all());
         $this->updateAllRolePermissions($role->id, $request);
 

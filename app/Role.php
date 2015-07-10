@@ -20,7 +20,7 @@ class Role extends EntrustRole
      *
      * @var array
      */
-    protected $fillable = ['name', 'display_name', 'description'];
+    protected $fillable = ['name', 'display_name', 'description', 'updated_at', 'created_at'];
 
     /**
      * The attributes excluded from the model's JSON form.

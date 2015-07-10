@@ -20,7 +20,15 @@ class UserController extends Controller
 	 */
 	public function index()
 	{
+
+        /*
+         * Just incase you forget
+         * {{ Auth::user()->email }}
+         */
+
+
 		$user = User::latest()->get();
+        $user->message = session()->get('message');
 		return view('user.index', compact('user'));
 	}
 
@@ -75,6 +83,7 @@ class UserController extends Controller
 	public function edit($id)
 	{
 		$user = User::findOrFail($id);
+        $user->message = session()->get('message');
 		return view('user.edit', compact('user'));
 	}
 
