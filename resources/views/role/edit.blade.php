@@ -103,7 +103,7 @@
 
     <div class="form-group">
         <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-            {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control']) !!}
+            {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
         </div>
     </div>
 

@@ -47,8 +47,6 @@ class RoleController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'display_name' => 'required',
-            'permissionsApplied' => 'required'
-
         ]);
         $role = Role::create($request->all());
         $this->updateAllRolePermissions($role->id, $request);
@@ -115,6 +113,7 @@ class RoleController extends Controller
     public function destroy($id)
     {
         Role::destroy($id);
+        RolePermissions::where('role_id', '=', $id)->delete();
         return redirect('role')->with('message','Role was successfully deleted');
     }
 

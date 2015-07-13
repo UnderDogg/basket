@@ -51,7 +51,7 @@
                                 {{--<li><a href="#"> NEW BUTTON SPACER </a></li>--}}
                                 <li role="separator" class="divider"></li>
                                 {!! Form::open(['method'=>'delete','action'=>['RoleController@destroy',$item->id]]) !!}
-                                <button type="submit" class="btn btn-xs dropdown-delete">
+                                <button name={{ 'delete'.$item->id }} type="submit" class="btn btn-xs dropdown-delete">
                                     <li><a>Delete</a></li>
                                 </button>
                                 {!! Form::close() !!}
