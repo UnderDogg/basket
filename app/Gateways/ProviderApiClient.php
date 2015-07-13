@@ -31,14 +31,15 @@ class ProviderApiClient extends AbstractApiClient
      */
     public static function make($baseUrl, $token = '')
     {
-        return new self(
-            [
-                'base_uri' => $baseUrl,
-                'headers'  => ['ApiToken token="' . $token . '"'],
-            ]
-        );
-    }
+        $ar['base_uri'] = $baseUrl;
 
+        if ($token != '') {
+
+            $ar['headers'] = ['ApiToken token="' . $token . '"'];
+        }
+
+        return new self($ar);
+    }
 
     /**
      * @author WN
