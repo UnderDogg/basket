@@ -5,7 +5,8 @@ filter:
         - bootstrap/*
         - config/*
         - resources/*
-
+build:
+    tests: true
 checks:
     php:
         remove_extra_empty_lines: true
