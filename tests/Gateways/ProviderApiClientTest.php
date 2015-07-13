@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Tests\Gateways;
+
 use \App\Gateways\ProviderApiClient;
 
 /**
@@ -15,7 +17,7 @@ use \App\Gateways\ProviderApiClient;
  *
  * @author WN
  */
-class ProviderApiClientTest extends TestCase
+class ProviderApiClientTest extends \TestCase
 {
     /**
      * @author WN
