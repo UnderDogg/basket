@@ -8,21 +8,21 @@
  * file that was distributed with this source code.
  */
 
-use \App\Gateways\ProviderGateway;
+use \App\Gateways\ProviderApiClient;
 
 /**
- * Class ProviderGatewayTest
+ * Class ProviderApiClientTest
  *
  * @author WN
  */
-class ProviderGatewayTest extends TestCase
+class ProviderApiClientTest extends TestCase
 {
     /**
      * @author WN
      */
     public function testMake()
     {
-        $this->assertInstanceOf('App\Gateways\ProviderGateway', ProviderGateway::make('http://httpbin.org/', 'testToken'));
+        $this->assertInstanceOf('App\Gateways\ProviderApiClient', ProviderApiClient::make('http://httpbin.org/', 'testToken'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testGet()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $this->assertInternalType('array', $api->get('get'));
     }
@@ -40,7 +40,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testTokenHeader()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $response = $api->get('get');
 
@@ -54,7 +54,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testQueryIsWorking()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $response = $api->get('get', ['x' => 'y', 'z' => 'a']);
 
@@ -68,7 +68,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testPost()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $this->assertInternalType('array', $api->post('post'));
     }
@@ -78,7 +78,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testDelete()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $this->assertInternalType('array', $api->delete('delete'));
     }
@@ -88,7 +88,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testPut()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $this->assertInternalType('array', $api->put('put'));
     }
@@ -98,7 +98,7 @@ class ProviderGatewayTest extends TestCase
      */
     public function testPatch()
     {
-        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+        $api = ProviderApiClient::make('http://httpbin.org/', 'testToken');
 
         $this->assertInternalType('array', $api->patch('patch'));
     }

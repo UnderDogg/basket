@@ -16,18 +16,18 @@ use WNowicki\Generic\ApiClient\BadResponseException;
 use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
- * Class ProviderGateway
+ * Class ProviderApiClient
  *
  * @author WN
  * @package App\Gateways
  */
-class ProviderGateway extends AbstractApiClient
+class ProviderApiClient extends AbstractApiClient
 {
     /**
      * @author WN
      * @param $baseUrl
      * @param $token
-     * @return ProviderGateway
+     * @return ProviderApiClient
      */
     public static function make($baseUrl, $token = '')
     {
