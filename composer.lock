@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e2193386039196ccbbae8b5387dfa61d",
+    "hash": "41dfaa3ff850beb217ac24bdca911a93",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/crud-generator/zipball/92b4f0e5c86857a5bfa8e68634234698ef954348",
+                "url": "https://api.github.com/repos/PayBreak/crud-generator/zipball/72792b793b8c92a4ae67d788ef18604fa3fcacad",
                 "reference": "92b4f0e5c86857a5bfa8e68634234698ef954348",
                 "shasum": ""
             },
@@ -2103,6 +2103,53 @@
                 "environment"
             ],
             "time": "2015-05-30 15:59:26"
+        },
+        {
+            "name": "wnowicki/generic",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wnowicki/generic.git",
+                "reference": "ff6003bf55cb46895cc9ce39b28d7ba6f1d647f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wnowicki/generic/zipball/ff6003bf55cb46895cc9ce39b28d7ba6f1d647f0",
+                "reference": "ff6003bf55cb46895cc9ce39b28d7ba6f1d647f0",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WNowicki\\Generic\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wojciech Nowicki",
+                    "email": "dev@wojciechnowicki.com",
+                    "homepage": "https://github.com/wnowicki",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Generic Library",
+            "homepage": "https://github.com/wnowicki/generic",
+            "keywords": [
+                "generic"
+            ],
+            "time": "2015-07-09 07:27:33"
         },
         {
             "name": "zizaco/entrust",
