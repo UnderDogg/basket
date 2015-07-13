@@ -25,5 +25,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="BASKET_PROVIDER_URL" value="http://httpbin.org/"/>
     </php>
 </phpunit>
