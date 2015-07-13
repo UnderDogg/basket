@@ -17,8 +17,89 @@ use \App\Gateways\ProviderGateway;
  */
 class ProviderGatewayTest extends TestCase
 {
+    /**
+     * @author WN
+     */
     public function testMake()
     {
         $this->assertInstanceOf('App\Gateways\ProviderGateway', ProviderGateway::make('http://httpbin.org/', 'testToken'));
+    }
+
+    /**
+     * @author WN
+     */
+    public function testGet()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $this->assertInternalType('array', $api->get('get'));
+    }
+
+    /**
+     * @author WN
+     */
+    public function testTokenHeader()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $response = $api->get('get');
+
+        $this->assertArrayHasKey('headers', $response);
+
+        $this->assertContains('ApiToken token="testToken"', $response['headers']);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testQueryIsWorking()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $response = $api->get('get', ['x' => 'y', 'z' => 'a']);
+
+        $this->assertArrayHasKey('args', $response);
+
+        $this->assertCount(2, $response['args']);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testPost()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $this->assertInternalType('array', $api->post('post'));
+    }
+
+    /**
+     * @author WN
+     */
+    public function testDelete()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $this->assertInternalType('array', $api->delete('delete'));
+    }
+
+    /**
+     * @author WN
+     */
+    public function testPut()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $this->assertInternalType('array', $api->put('put'));
+    }
+
+    /**
+     * @author WN
+     */
+    public function testPatch()
+    {
+        $api = ProviderGateway::make('http://httpbin.org/', 'testToken');
+
+        $this->assertInternalType('array', $api->patch('patch'));
     }
 }

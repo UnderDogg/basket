@@ -34,7 +34,7 @@ class ProviderGateway extends AbstractApiClient
         return new self(
             [
                 'base_uri' => $baseUrl,
-                'headers'  => ['MerchantToken:' . $token],
+                'headers'  => ['ApiToken token="' . $token . '"'],
             ]
         );
     }
