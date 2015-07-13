@@ -4,8 +4,10 @@ echo "============================================"
 echo " Homestead - PROVISIONING"
 echo "============================================"
 
-echo "# Migrations"
 cd /var/www/basket/
+composer install
+
+echo "# Migrations"
 php artisan migrate
 echo "# Seeders"
 php artisan db:seed --class=DevSeeder

@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('logout', 'Auth\AuthController@getLogout');
 
-
+    // User CRUD Routes
     Route::get(   'user',            'UserController@index'    );
     Route::get(   'user/create',     'UserController@create'   );
     Route::post(  'user',            'UserController@store'    );
@@ -47,5 +47,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('role/{id}',       'RoleController@destroy'  );
     Route::get(   'role/{id}/edit',  'RoleController@edit'     );
     Route::patch( 'role/{id}',       'RoleController@update'   );
-
 });

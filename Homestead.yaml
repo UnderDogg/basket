@@ -6,10 +6,10 @@ hostname: basket
 name: basket
 provider: virtualbox
 
-authorize: ~/.ssh/homestead.pub
+authorize: ~/.ssh/id_rsa.pub
 
 keys:
-    - ~/.ssh/homestead
+    - ~/.ssh/id_rsa
 
 folders:
     - map: "./"

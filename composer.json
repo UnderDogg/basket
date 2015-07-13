@@ -1,7 +1,10 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "paybreak/basket",
+    "description": "Basket System",
+    "keywords": [
+        "generic"
+    ],
+    "homepage": "https://github.com/paybreak/basket",
     "license": "MIT",
     "type": "project",
     "require": {
