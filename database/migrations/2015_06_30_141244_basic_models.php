@@ -17,7 +17,8 @@ class BasicModels extends Migration
             $table->string('name');
             $table->string('token', 100);
             $table->boolean('linked')->default(false);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::create('installations', function (Blueprint $table) {
@@ -27,7 +28,8 @@ class BasicModels extends Migration
             $table->string('name');
             $table->boolean('active');
             $table->boolean('linked');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
@@ -40,7 +42,8 @@ class BasicModels extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('address');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('installation_id')->references('id')->on('installations');
         });
