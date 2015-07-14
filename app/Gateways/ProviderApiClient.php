@@ -39,7 +39,7 @@ class ProviderApiClient extends AbstractApiClient
             $ar['headers'] = ['ApiToken token="' . $token . '"'];
         }
 
-        return new self($ar);
+        return new self($ar, \Log::getMonolog());
     }
 
     /**
