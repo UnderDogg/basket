@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4e35544e4e60c394e0b9ca02f66d4517",
+    "hash": "1390135db3d9de881a1d901dc16b56b5",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -2106,21 +2106,22 @@
         },
         {
             "name": "wnowicki/generic",
-            "version": "0.2.0",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wnowicki/generic.git",
-                "reference": "ff6003bf55cb46895cc9ce39b28d7ba6f1d647f0"
+                "reference": "2f5fb14abc91136d7d030b6ff80755aa5fede4e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wnowicki/generic/zipball/ff6003bf55cb46895cc9ce39b28d7ba6f1d647f0",
-                "reference": "ff6003bf55cb46895cc9ce39b28d7ba6f1d647f0",
+                "url": "https://api.github.com/repos/wnowicki/generic/zipball/2f5fb14abc91136d7d030b6ff80755aa5fede4e7",
+                "reference": "2f5fb14abc91136d7d030b6ff80755aa5fede4e7",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
-                "php": ">=5.5.0"
+                "php": ">=5.5.0",
+                "psr/log": "~1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
@@ -2149,7 +2150,7 @@
             "keywords": [
                 "generic"
             ],
-            "time": "2015-07-09 07:27:33"
+            "time": "2015-07-14 11:09:02"
         },
         {
             "name": "zizaco/entrust",
