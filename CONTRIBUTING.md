@@ -20,7 +20,7 @@ When creating new migrations, instead of the usual:
 ```php
 $table->timestamps()
 ```
-Please use the following to with DB compatibility:
+Please use the following to help with DB compatibility:
  ```php
  $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
  $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
