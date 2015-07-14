@@ -31,6 +31,7 @@ class ProviderApiClient extends AbstractApiClient
      */
     public static function make($baseUrl, $token = '')
     {
+        $ar = [];
         $ar['base_uri'] = $baseUrl;
 
         if ($token != '') {
