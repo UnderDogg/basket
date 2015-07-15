@@ -50,6 +50,8 @@ class MerchantSynchronisationService
 
             $this->mapMerchant($merchantEntity, $merchant);
 
+            $merchant->linked = true;
+
             $merchant->save();
 
         } catch (\Exception $e) {
