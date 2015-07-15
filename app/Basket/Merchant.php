@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool   $linked
  * @property string $ext_company_name
  * @property string $ext_address
- * @property string $ext+processing_days
+ * @property string $ext_processing_days
  * @property string $ext_minimum_amount_settled
  * @property string $ext_address_on_agreements
  * @package App\Basket

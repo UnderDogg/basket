@@ -13,6 +13,7 @@ namespace App\Basket\Synchronisation;
 use App\Basket\Entities\MerchantEntity;
 use App\Basket\Gateways\MerchantGateway;
 use App\Basket\Merchant;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
@@ -37,26 +38,49 @@ class MerchantSynchronisationService
 
     /**
      * @author WN
-     * @param $id
+     * @param int $id
+     * @return Merchant
      * @throws \Exception
      */
     public function synchroniseMerchant($id)
     {
+        $merchant = $this->fetchLocalObject($id);
+
         try {
-            /** @var Merchant $merchant */
-            $merchant = Merchant::findOrFail($id);
-
             $merchantEntity = $this->gateway->getMerchant($id, $merchant->token);
-
-            $this->mapMerchant($merchantEntity, $merchant);
-
-            $merchant->linked = true;
-
-            $merchant->save();
 
         } catch (\Exception $e) {
 
+            $merchant->linked = false;
+
+            $merchant->save();
+
             $this->logError('MerchantSynchronisationService failed ' . $e->getMessage());
+
+            throw $e;
+        }
+
+        $this->mapMerchant($merchantEntity, $merchant);
+
+        $merchant->linked = true;
+
+        $merchant->save();
+
+        return $merchant;
+    }
+
+    /**
+     * @param $id
+     * @return Merchant
+     */
+    private function fetchLocalObject($id)
+    {
+        try {
+
+            return Merchant::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+            $this->logError('MerchantSynchronisationService: Failed fetching local object: ' . $e->getMessage());
 
             throw $e;
         }
