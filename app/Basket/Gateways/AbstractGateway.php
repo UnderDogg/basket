@@ -48,7 +48,7 @@ abstract class AbstractGateway
     }
 
     /**
-     * 
+     * @author WN
      * @return \Psr\Log\LoggerInterface|null
      */
     protected function getLogger()

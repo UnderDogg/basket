@@ -36,7 +36,7 @@ class ProviderApiClient extends AbstractApiClient
 
         if ($token != '') {
 
-            $ar['headers'] = ['ApiToken token="' . $token . '"'];
+            $ar['headers'] = ['Authorization' => 'ApiToken token="' . $token . '"'];
         }
 
         return new self($ar, \Log::getMonolog());

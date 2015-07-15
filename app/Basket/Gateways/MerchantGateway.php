@@ -34,7 +34,9 @@ class MerchantGateway extends AbstractGateway
 
         try {
 
-            $merchant = MerchantEntity::make($api->get('/merchant'));
+            $merchant = MerchantEntity::make($api->get('/v4/merchant'));
+
+            $merchant->setAddress(json_encode($merchant->getAddress()));
 
             return $merchant->setId($id);
 
