@@ -19,9 +19,24 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $role = Role::latest()->get();
-        $role->message = session()->get('message');
-        return view('role.index', compact('role'));
+
+        $role = Role::query();
+        if (session()->get('message')) {
+            $this->messages->success[] = session()->get('message');
+        }
+
+        if ($this->tableFilter) {
+            foreach ($this->tableFilter as $column => $contains) {
+
+                $role->where($column, 'like', '%' . $contains . '%');
+            }
+            if (!$role->count()) {
+                $this->messages->info[] = 'No records Found';
+            }
+        }
+
+        $role = $role->paginate($this->pageLimit);
+        return View('role.index', ['role' => $role, 'messages' => $this->messages]);
     }
 
     /**

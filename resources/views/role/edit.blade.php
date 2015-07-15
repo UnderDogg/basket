@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
     <hr/>
     @if( $role->message !== null )
         <div id="actionMessage" hidden="hidden">
@@ -26,7 +28,7 @@
     @endif
 
     <h2>{{ Str::upper(' edit ' . Request::segment(1)) }}</h2>
-    <hr/>
+    @include('stubs.page.breadcrumb')
 
     {!! Form::model($role, ['method' => 'PATCH', 'action' => ['RoleController@update', $role->id], 'class' => 'form-horizontal']) !!}
 

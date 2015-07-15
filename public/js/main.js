@@ -30,7 +30,7 @@ $(document).ready(function(){
 });
 
 /* ==========================================================================
- JQUERY FUNCTIONS
+ PAGE LOAD FUNCTIONS
  ========================================================================== */
 
 // START - enable Drag and Drop for Role Permissions
@@ -47,3 +47,16 @@ $(function() {
         newContainerHidden.val(newContainerHidden.val() + ':' + permissionId);
     });
 });
+
+/* ==========================================================================
+ STANDARD FUNCTIONS
+ ========================================================================== */
+
+// START - Clean GET query for table filters
+function submitFilter() {
+    $('.filter').each(function () {
+        if (!($(this).val())) {
+            $(this).attr('disabled', true);
+        }
+    });
+}

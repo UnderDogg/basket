@@ -81,3 +81,11 @@ button.dropdown-delete::-moz-focus-inner{
     padding : 0 !important;
     border  : 0 !important;
 }
+
+.filter {
+    height: 30px !important;
+}
+
+input.filter, select.filter {
+    color: #258cd1 !important;
+}

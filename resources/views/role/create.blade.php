@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
     <hr/>
     @if ($errors->any())
         <div id="actionMessage" hidden="hidden">
@@ -15,7 +17,7 @@
     @endif
 
     <h2>{{ Str::upper(' create a new ' . Request::segment(1)) }}</h2>
-    <hr/>
+    @include('stubs.page.breadcrumb')
 
     {!! Form::open(['url' => 'role', 'class' => 'form-horizontal']) !!}
 

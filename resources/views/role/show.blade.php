@@ -2,9 +2,11 @@
 
 @section('content')
 
+
+
     <hr/>
     <h2>{{ Str::upper(' view ' . $role->display_name) }}</h2>
-    <hr/>
+    @include('stubs.page.breadcrumb')
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">
