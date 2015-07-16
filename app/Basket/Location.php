@@ -16,6 +16,15 @@ use Illuminate\Database\Eloquent\Model;
  * Location Model
  *
  * @author WN
+ * @property int    $id
+ * @property string $reference
+ * @property int    $installation_id
+ * @property bool   $active
+ * @property string $name
+ * @property string $email
+ * @property string $address
+ * @property        $created_at
+ * @property        $updated_at
  * @package App\Basket
  */
 class Location extends Model
