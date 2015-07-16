@@ -5,6 +5,8 @@ filter:
         - bootstrap/*
         - config/*
         - resources/*
+        - app/Exceptions/Handler.php
+        - app/Http/Controllers/Auth/AuthController.php
 
 checks:
     php:
