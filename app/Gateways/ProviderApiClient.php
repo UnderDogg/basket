@@ -31,14 +31,15 @@ class ProviderApiClient extends AbstractApiClient
      */
     public static function make($baseUrl, $token = '')
     {
+        $ar = [];
         $ar['base_uri'] = $baseUrl;
 
         if ($token != '') {
 
-            $ar['headers'] = ['ApiToken token="' . $token . '"'];
+            $ar['headers'] = ['Authorization' => 'ApiToken token="' . $token . '"'];
         }
 
-        return new self($ar);
+        return new self($ar, \Log::getMonolog());
     }
 
     /**
