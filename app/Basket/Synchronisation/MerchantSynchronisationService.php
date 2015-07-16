@@ -52,18 +52,14 @@ class MerchantSynchronisationService
         } catch (\Exception $e) {
 
             $merchant->linked = false;
-
             $merchant->save();
 
             $this->logError('MerchantSynchronisationService failed ' . $e->getMessage());
-
             throw $e;
         }
 
         $this->mapMerchant($merchantEntity, $merchant);
-
         $merchant->linked = true;
-
         $merchant->save();
 
         return $merchant;
