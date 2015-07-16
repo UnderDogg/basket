@@ -262,9 +262,17 @@ class RoleController extends Controller
 
         foreach ($rolePermissions as $permission) {
             if (!in_array($permission['permission_id'], $rolePermissionsToUpdate)) {
-                RolePermissions::where('role_id', '=', $id)
-                    ->where('permission_id', '=', $permission['permission_id'])
-                    ->delete();
+
+                try {
+
+                    RolePermissions::where('role_id', '=', $id)
+                        ->where('permission_id', '=', $permission['permission_id'])
+                        ->delete();
+
+                } catch (ModelNotFoundException $e) {
+
+                    throw $e;
+                }
             }
             if(($key = array_search($permission['permission_id'], $rolePermissionsToUpdate)) !== false) {
                 unset($rolePermissionsToUpdate[$key]);
@@ -273,7 +281,15 @@ class RoleController extends Controller
 
         if (count($rolePermissionsToUpdate) > 0) {
             foreach ($rolePermissionsToUpdate as $permission) {
-                RolePermissions::create(['permission_id' => $permission, 'role_id' => $id]);
+
+                try {
+
+                    RolePermissions::create(['permission_id' => $permission, 'role_id' => $id]);
+
+                } catch (ModelNotFoundException $e) {
+                    
+                    throw $e;
+                }
             }
             return true;
         }
