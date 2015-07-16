@@ -10,7 +10,7 @@
         @if(!Request::segment(3)) {{-- */$last=true;/* --}} @else {{-- */$last=false;/* --}} @endif
             @if($last == true) <li class="active"> @else <li><a href="/{{ Request::segment(1) }}/{{ Request::segment(2) }}"> @endif
             @if(is_numeric(Request::segment(2)))
-                {{ ucwords(Request::segment(1)) }} ID @endif {{ Request::segment(2) }}
+                {{ ucwords(Request::segment(1)) }} ID @endif {{ ucwords(Request::segment(2)) }}
         @if($last == false) </a> @endif </li>
     @endif
     @if(Request::segment(3))

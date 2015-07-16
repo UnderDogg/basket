@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Request;
+use WNowicki\Generic\Logger\PsrLoggerTrait;
 
 /**
  * Class Controller
@@ -22,12 +23,10 @@ use Illuminate\Support\Facades\Request;
  */
 abstract class Controller extends BaseController
 {
-    use DispatchesJobs, ValidatesRequests;
+    use DispatchesJobs, ValidatesRequests, PsrLoggerTrait;
 
     // Default Pagination Record Limit
     const DEFAULT_PAGE_LIMIT = 15;
-
-
 
     /**
      * Make Message Object
@@ -64,5 +63,16 @@ abstract class Controller extends BaseController
     protected function getTableFilter()
     {
         return Request::except('limit', 'page');
+    }
+
+    /**
+     * Get Logger
+     *
+     * @author MS
+     * @return \Psr\Log\LoggerInterface|null
+     */
+    protected function getLogger()
+    {
+        return \Log::getMonolog();
     }
 }

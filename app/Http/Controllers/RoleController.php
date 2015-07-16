@@ -15,7 +15,6 @@ use App\RolePermissions;
 use App\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RoleController
@@ -34,21 +33,33 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $updatedMessage = $this->getMessages();
-        $role = Role::query();
+        $messages = $this->getMessages();
+        $role = null;
 
-        if (!empty($filter = $this->getTableFilter())) {
-            foreach ($filter as $field => $query) {
+        try {
 
-                $role->where($field, 'like', '%' . $query . '%');
+            $role = Role::query();
+
+            if (!empty($filter = $this->getTableFilter())) {
+                foreach ($filter as $field => $query) {
+
+                    $role->where($field, 'like', '%' . $query . '%');
+                }
+                if (!$role->count()) {
+                    $messages['info'] = 'No records were found that matched your filter';
+                }
             }
-            if (!$role->count()) {
-                $updatedMessage['info'] = 'No records were found that matched your filter';
-            }
+
+            $role = $role->paginate($this->getPageLimit());
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Error occurred getting roles: ' . $e->getMessage());
+            $messages['error'] = 'Error occurred getting roles';
+
         }
 
-        $role = $role->paginate($this->getPageLimit());
-        return View('role.index', ['role' => $role, 'messages' => $updatedMessage]);
+        return View('role.index', ['role' => $role, 'messages' => $messages]);
     }
 
     /**
@@ -59,10 +70,22 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissionsAvailable = Permission::all();
+        $permissionsAvailable = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $permissionsAvailable = Permission::all();
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Error occurred getting available permissions: ' . $e->getMessage());
+            $messages['error'] = 'Error occurred getting available permissions';
+        }
+
         return view('role.create', [
             'permissionsAvailable' => $permissionsAvailable,
-            'messages' => $this->getMessages()
+            'messages' => $messages
         ]);
     }
 
@@ -78,10 +101,27 @@ class RoleController extends Controller
             'name' => 'required',
             'display_name' => 'required',
         ]);
-        $role = Role::create($request->all());
-        $this->updateAllRolePermissions($role->id, $request);
 
-        return redirect('role')->with('success','New role and role permissions were successfully created');
+        $message = ['success','New role and role permissions were successfully created'];
+
+        try {
+
+            $role = Role::create($request->all());
+
+            if (!$this->updateAllRolePermissions($role->id, $request)) {
+                $message = [
+                    'info',
+                    'Role was created successfully, but you have not applied any permissions for this role!'
+                ];
+            }
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Could not successfully create new Role' . $e->getMessage());
+            $message = ['error','Could not successfully create new Role'];
+        }
+
+        return redirect('role')->with($message[0], $message[1]);
     }
 
     /**
@@ -99,14 +139,13 @@ class RoleController extends Controller
         try {
 
             $role = Role::findOrFail($id);
+            $role = $this->fetchPermissionsToRole($role);
 
         } catch (ModelNotFoundException $e) {
 
-            $this->logError($e->getMessage());
-            $messages['error'] = 'Could not find Role with ID: [' . $id . ']; Role doesn\'t exist';
+            $this->logError('Could not find Role with ID: [' . $id . ']; Role does not exist: ' . $e->getMessage());
+            $messages['error'] = 'Could not find Role with ID: [' . $id . ']; Role does not exist';
         }
-
-        $role = $this->fetchPermissionsToRole($role);
 
         return view('role.show', ['role' => $role, 'messages' => $messages]);
     }
@@ -120,10 +159,23 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::findOrFail($id);
-        $role = $this->fetchPermissionsToRole($role);
+        $role = null;
+        $messages = $this->getMessages();
 
-        return view('role.edit', ['role' => $role, 'messages' => $this->getMessages()]);
+        try {
+
+            $role = Role::findOrFail($id);
+            $role = $this->fetchPermissionsToRole($role);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get Role with ID [' . $id . '] for editing; Role does not exist:' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get Role with ID [' . $id . '] for editing; Role does not exist';
+        }
+
+        return view('role.edit', ['role' => $role, 'messages' => $messages]);
     }
 
     /**
@@ -135,12 +187,26 @@ class RoleController extends Controller
      */
     public function update($id, Request $request)
     {
-        $role = Role::findOrFail($id);
-        $role->update($request->all());
+        $message = ['success', 'Roles and role permissions were successfully updated'];
 
-        $this->updateAllRolePermissions($role->id, $request);
+        try {
 
-        return redirect()->back()->with('success','Roles and role permissions were successfully updated');
+            $role = Role::findOrFail($id);
+            $role->update($request->all());
+            $this->updateAllRolePermissions($role->id, $request);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Could not update Role with ID [' . $id . ']; Role does not exist' . $e->getMessage());
+            $message = ['error', 'Could not update Role with ID [' . $id . ']; Role does not exist'];
+
+        } catch (\App\Exceptions\Exception $ex) {
+
+            $this->logError($ex->getMessage());
+            $message = ['error', $ex->getMessage()];
+        }
+
+        return redirect()->back()->with($message[0], $message[1]);
     }
 
     /**
@@ -152,9 +218,19 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        Role::destroy($id);
-        RolePermissions::where('role_id', '=', $id)->delete();
-        return redirect('role')->with('success','Role was successfully deleted');
+        $message = ['success','Role was successfully deleted'];
+        try {
+
+            Role::destroy($id);
+            RolePermissions::where('role_id', '=', $id)->delete();
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
+            $message = ['error', 'Deletion of this record did not complete successfully'];
+        }
+
+        return redirect('role')->with($message[0], $message[1]);
     }
 
     /**
@@ -163,9 +239,22 @@ class RoleController extends Controller
      * @author MS
      * @param $id
      * @param mixed $request
+     * @return bool
+     * @throws \App\Exceptions\Exception
      */
     private function updateAllRolePermissions($id, $request)
     {
+        if (empty($id) || !is_int($id)) {
+            throw new \App\Exceptions\Exception(
+                'Could not update Permissions; ID [' . $id . '] does not exist or is malformed'
+            );
+        }
+        if (empty($request)) {
+            throw new \App\Exceptions\Exception(
+                'Could not update Role Permission for Role with ID [' . $id . ']; Request empty of malformed'
+            );
+        }
+
         $rolePermissionsToUpdate = explode(':', $request['permissionsApplied']);
         unset($rolePermissionsToUpdate[0]);
 
@@ -186,7 +275,9 @@ class RoleController extends Controller
             foreach ($rolePermissionsToUpdate as $permission) {
                 RolePermissions::create(['permission_id' => $permission, 'role_id' => $id]);
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -196,18 +287,19 @@ class RoleController extends Controller
      * @param Role $role
      * @return Role
      */
-    private function fetchPermissionsToRole(Role $role)
+    private function fetchPermissionsToRole($role)
     {
-        $role->permissionsAssociation = RolePermissions::where('role_id', '=', $role->id)->get();
+        if (!empty($role)) {
+            $role->permissionsAssociation = RolePermissions::where('role_id', '=', $role->id)->get();
 
-        $permissionIds = [];
-        foreach ($role->permissionsAssociation as $association) {
-            $permissionIds[] = $association->permission_id;
+            $permissionIds = [];
+            foreach ($role->permissionsAssociation as $association) {
+                $permissionIds[] = $association->permission_id;
+            }
+
+            $role->permissions = Permission::whereIn('id', $permissionIds)->get();
+            $role->permissionsAvailable = Permission::whereNotIn('id', $permissionIds)->get();
         }
-
-        $role->permissions = Permission::whereIn('id', $permissionIds)->get();
-        $role->permissionsAvailable = Permission::whereNotIn('id', $permissionIds)->get();
-
         return $role;
     }
 }

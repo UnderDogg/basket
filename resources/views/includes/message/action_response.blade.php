@@ -1,3 +1,5 @@
+<br>
+
 {{--LARAVEL STANDARD ERRORS--}}
 @if( $errors->any())
     <div id="actionMessage" hidden="hidden">

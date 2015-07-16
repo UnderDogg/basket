@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-    <br>
+
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
@@ -63,9 +63,11 @@
                             </div>
                             <div class="panel-body panel-tight-space">
                                 <div style="height: 365px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
-                                    @foreach ($permissionsAvailable as $permission)
-                                        <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
-                                    @endforeach
+                                    @if($permissionsAvailable !== null)
+                                        @foreach ($permissionsAvailable as $permission)
+                                            <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -81,7 +83,9 @@
         </div>
     </div>
 
-    <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="@foreach ($permissionsAvailable as $permission){{ ':'.$permission->id  }}@endforeach">
+    @if($permissionsAvailable !== null)
+        <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="@foreach ($permissionsAvailable as $permission){{ ':'.$permission->id  }}@endforeach">
+    @endif
     <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="">
     {!! Form::close() !!}
 

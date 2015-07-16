@@ -186,7 +186,6 @@ class RoleControllerTest extends TestCase
             ->type('UnitTest','name')
             ->type('Unit Test', 'display_name')
             ->type('Unit Test Description', 'description')
-            ->type('', 'permissionsApplied')
             ->press('saveChanges')
             ->seePageIs('/role/1/edit');
 
@@ -196,7 +195,6 @@ class RoleControllerTest extends TestCase
         $this->assertEquals( 'UnitTest', $roleData->name                        );
         $this->assertEquals( 'Unit Test', $roleData->display_name               );
         $this->assertEquals( 'Unit Test Description', $roleData->description    );
-        $this->assertEmpty(  RolePermissions::where('role_id', '=', 1)->get()   );
     }
 
     /**
