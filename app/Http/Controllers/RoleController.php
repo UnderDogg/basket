@@ -1,5 +1,12 @@
 <?php
-
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
@@ -8,6 +15,12 @@ use App\RolePermissions;
 use App\Permission;
 use Illuminate\Http\Request;
 
+/**
+ * Class RoleController
+ *
+ * @author MS
+ * @package App\Http\Controllers
+ */
 class RoleController extends Controller
 {
 
@@ -21,9 +34,6 @@ class RoleController extends Controller
     {
 
         $role = Role::query();
-        if (session()->get('message')) {
-            $this->messages->success[] = session()->get('message');
-        }
 
         if ($this->tableFilter) {
             foreach ($this->tableFilter as $column => $contains) {
@@ -48,7 +58,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissionsAvailable = Permission::all();
-        return view('role.create', compact('permissionsAvailable'));
+        return view('role.create', ['permissionsAvailable' => $permissionsAvailable, 'messages' => $this->messages]);
     }
 
     /**
@@ -94,11 +104,9 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $role->message = session()->get('message');
-
         $role = $this->assignPermissionsToRole($role);
 
-        return view('role.edit', compact('role'));
+        return view('role.edit', ['role' => $role, 'messages' => $this->messages]);
     }
 
     /**

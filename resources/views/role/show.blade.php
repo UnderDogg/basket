@@ -2,11 +2,9 @@
 
 @section('content')
 
-
-
     <hr/>
     <h2>{{ Str::upper(' view ' . $role->display_name) }}</h2>
-    @include('stubs.page.breadcrumb')
+    @include('includes.page.breadcrumb')
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">
@@ -19,7 +17,7 @@
 
         <div id="fragment-1">
 
-            <div class="col-xs-12 col-md-6">
+            <div class="col-md-6">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -41,7 +39,7 @@
                 </div>
 
             </div>
-            <div class="col-xs-12 col-md-6">
+            <div class="col-md-6">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">

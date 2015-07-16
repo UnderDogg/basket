@@ -4,15 +4,15 @@
 
     <hr>
     {{-- OVERLAY MESSAGES --}}
-    @include('stubs.message.action_response', ['messages' => $messages, 'errors' => $errors])
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>Roles
-        <a href="{{ url('/role/create') }}" name="addNewButton" class="btn btn-info pull-right btn-sm">Add New Role</a>
+        <a href="{{ url('/role/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Role</a>
     </h1>
-    @include('stubs.page.breadcrumb')
+    @include('includes.page.breadcrumb')
     <div class="panel panel-default">
 
-        @include('stubs.form.record_counter', ['object' => $role])
+        @include('includes.form.record_counter', ['object' => $role])
 
         <div class="panel-heading"><h4>Application Roles</h4></div>
 
@@ -21,18 +21,18 @@
             {{-- TABLE HEADER WITH FILTERS --}}
             {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th>ID: @include('stubs.form.input', ['field' => 'id'])</th>
+                <th>ID: @include('includes.form.input', ['field' => 'id'])</th>
 
-                <th>Display Name: @include('stubs.form.select', ['field' => 'display_name', 'object' => $role])</th>
+                <th>Display Name: @include('includes.form.select', ['field' => 'display_name', 'object' => $role])</th>
 
-                <th class="hidden-xs hidden-sm">Role Code: @include('stubs.form.input', ['field' => 'name'])</th>
+                <th class="hidden-xs hidden-sm">Role Code: @include('includes.form.input', ['field' => 'name'])</th>
 
-                <th class="hidden-xs hidden-sm">Description: @include('stubs.form.input', ['field' => 'description'])</th>
+                <th class="hidden-xs hidden-sm">Description: @include('includes.form.input', ['field' => 'description'])</th>
 
                 <th>
                     <span class="pull-right">Actions</span>
                     <br><hr class="hr-tight">
-                    @include('stubs.form.filter_buttons')
+                    @include('includes.form.filter_buttons')
                 </th>
             </tr>
             {!! Form::close() !!}
@@ -50,12 +50,11 @@
 
                     {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-
-                        @include('stubs.form.record_buttons', ['record' => $item, 'crudName' => 'role'])
-
+                        @include('includes.form.record_buttons', ['record' => $item, 'crudName' => 'role'])
                     </td>
                 </tr>
             @endforeach
+            @if($x == 0) <td colspan="5"><em>Your filter returned 0 Results</em></td> @endif
         </table>
     </div>
     {{-- PAGINATION BUTTONS ON RENDER() --}}

@@ -4,31 +4,12 @@
 
 
 
-    <hr/>
-    @if( $role->message !== null )
-        <div id="actionMessage" hidden="hidden">
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>Success</strong> {{ $role->message }}
-            </div>
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div id="actionMessage" class="col-xs-12" hidden="hidden">
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                @foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach
-            </div>
-        </div>
-    @endif
+    <hr>
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' edit ' . Request::segment(1)) }}</h2>
-    @include('stubs.page.breadcrumb')
+    @include('includes.page.breadcrumb')
 
     {!! Form::model($role, ['method' => 'PATCH', 'action' => ['RoleController@update', $role->id], 'class' => 'form-horizontal']) !!}
 
