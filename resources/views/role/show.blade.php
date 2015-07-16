@@ -2,7 +2,6 @@
 
 @section('content')
 
-    <hr/>
     <h2>{{ Str::upper(' view ' . $role->display_name) }}</h2>
     @include('includes.page.breadcrumb')
 

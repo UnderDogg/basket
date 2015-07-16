@@ -25,7 +25,7 @@ abstract class Controller extends BaseController
     use DispatchesJobs, ValidatesRequests;
 
     // Default Pagination Record Limit
-    const DEFAULT_PAGE_LIMIT = 10;
+    const DEFAULT_PAGE_LIMIT = 15;
 
     /** @var Request $requestObject */
     protected $requestObject;

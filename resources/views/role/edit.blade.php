@@ -2,9 +2,6 @@
 
 @section('content')
 
-
-
-    <hr>
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 

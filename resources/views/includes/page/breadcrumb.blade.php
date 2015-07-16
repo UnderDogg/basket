@@ -1,6 +1,5 @@
-<hr>
-<ol style="font-size: 16px" class="breadcrumb well-lg">
-    <li><a href="/{{ Request::segment(0) }}">Basket Dashboard</a></li>
+<ol class="breadcrumb">
+    <li><a href="/{{ Request::segment(0) }}">Dashboard</a></li>
     @if(Request::segment(1))
         @if(!Request::segment(2)) {{-- */$last=true;/* --}} @else {{-- */$last=false;/* --}} @endif
         @if($last == true) <li class="active"> @else <li><a href="/{{ Request::segment(1) }}"> @endif
@@ -29,4 +28,3 @@
         </li>
     @endif
 </ol>
-<hr>
