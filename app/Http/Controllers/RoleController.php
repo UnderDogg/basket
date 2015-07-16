@@ -35,7 +35,7 @@ class RoleController extends Controller
 
         $role = Role::query();
 
-        if ($this->tableFilter) {
+        if (!empty($this->tableFilter)) {
             foreach ($this->tableFilter as $column => $contains) {
 
                 $role->where($column, 'like', '%' . $contains . '%');

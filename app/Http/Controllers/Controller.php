@@ -49,6 +49,18 @@ abstract class Controller extends BaseController
         $this->setPageLimit();
         $this->setTableFilter();
         $this->makeMessageObject();
+
+    }
+
+    /**
+     * Get Current Request Object
+     *
+     * @author MS
+     * @return Request
+     */
+    protected function getRequestObject()
+    {
+        return $this->requestObject->instance();
     }
 
     /**
@@ -77,7 +89,8 @@ abstract class Controller extends BaseController
      */
     private function setPageLimit()
     {
-        $pageLimit = (int) $this->requestObject->only('limit')['limit'];
+        $request = $this->getRequestObject();
+        $pageLimit = (int) $request->only('limit')['limit'];
         $this->pageLimit = ($pageLimit) ? $pageLimit : self::DEFAULT_PAGE_LIMIT;
     }
 
@@ -88,7 +101,7 @@ abstract class Controller extends BaseController
      */
     private function setTableFilter()
     {
-        $filters = $this->requestObject->except('limit', 'page');
-        $this->tableFilter = (!empty($filters)) ? $filters : null;
+        $request = $this->getRequestObject();
+        $this->tableFilter = $request->except('limit', 'page');
     }
 }
