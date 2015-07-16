@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class Controller
@@ -27,81 +27,42 @@ abstract class Controller extends BaseController
     // Default Pagination Record Limit
     const DEFAULT_PAGE_LIMIT = 15;
 
-    /** @var Request $requestObject */
-    protected $requestObject;
 
-    /** @var  int $pageLimit */
-    protected $pageLimit;
-
-    /** @var  array $tableFilter */
-    protected $tableFilter;
-
-    /** @var  Object $messages */
-    protected $messages;
-
-    /**
-     * @author MS
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->requestObject = $request;
-        $this->setPageLimit();
-        $this->setTableFilter();
-        $this->makeMessageObject();
-
-    }
-
-    /**
-     * Get Current Request Object
-     *
-     * @author MS
-     * @return Request
-     */
-    protected function getRequestObject()
-    {
-        return $this->requestObject->instance();
-    }
 
     /**
      * Make Message Object
      *
      * @author MS
      */
-    private function makeMessageObject()
+    protected function getMessages()
     {
-        $messages = new \stdClass();
-        $messages->success = null;
-        $messages->info = null;
-        $messages->error = null;
+        return [
+            'success'   => session()->get('success'),
+            'info'      => session()->get('info'),
+            'error'     => session()->get('error'),
+        ];
+    }
 
-        $this->messages = $messages;
-
-        if (session()->get('message')) {
-            $this->messages->success[] = session()->get('message');
+    /**
+     * Get Page Limit
+     *
+     * @author MS
+     */
+    protected function getPageLimit()
+    {
+        if (Request::get('limit') && is_int(Request::get('limit'))) {
+            return Request::get('limit');
         }
+        return self::DEFAULT_PAGE_LIMIT;
     }
 
     /**
-     * Set Page Limit
+     * Get Table Filter
      *
      * @author MS
      */
-    private function setPageLimit()
+    protected function getTableFilter()
     {
-        $request = $this->getRequestObject();
-        $pageLimit = (int) $request->only('limit')['limit'];
-        $this->pageLimit = ($pageLimit) ? $pageLimit : self::DEFAULT_PAGE_LIMIT;
-    }
-
-    /**
-     * Set Table Filter
-     *
-     * @author MS
-     */
-    private function setTableFilter()
-    {
-        $request = $this->getRequestObject();
-        $this->tableFilter = $request->except('limit', 'page');
+        return Request::except('limit', 'page');
     }
 }

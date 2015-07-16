@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-
+    <br>
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 

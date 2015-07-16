@@ -1,8 +1,11 @@
 @extends('master')
 
 @section('content')
+    <br>
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h2>{{ Str::upper(' view ' . $role->display_name) }}</h2>
+    <h2>{{ Str::upper(' view ' . Request::segment(1)) }}</h2>
     @include('includes.page.breadcrumb')
 
     <div id="basketTabs">
@@ -23,17 +26,19 @@
                         <h3 class="panel-title">Key information</h3>
                     </div>
                     <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <strong>Role ID: </strong> {{ $role->id  }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Role Code: </strong> {{ $role->name  }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Display Name: </strong> {{ $role->display_name  }}
-                            </li>
-                        </ul>
+                        @if($role !== null)
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <strong>Role ID: </strong> {{ $role->id  }}
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Role Code: </strong> {{ $role->name  }}
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Display Name: </strong> {{ $role->display_name  }}
+                                </li>
+                            </ul>
+                        @endif
                     </div>
                 </div>
 
@@ -45,11 +50,13 @@
                         <h3 class="panel-title">Description</h3>
                     </div>
                     <div class="panel-body">
-                        <ul class="list-group">
-                            <li style="min-height: 127px" class="list-group-item">
-                                {{ $role->description  }}
-                            </li>
-                        </ul>
+                        @if($role !== null)
+                            <ul class="list-group">
+                                <li style="min-height: 127px" class="list-group-item">
+                                    {{ $role->description  }}
+                                </li>
+                            </ul>
+                        @endif
                     </div>
                 </div>
 
@@ -69,14 +76,16 @@
                         <th>Display Name</th>
                         <th class="hidden-xs hidden-sm">Description</th>
                     </tr>
-                    @foreach ($role->permissions as $permission)
-                        <tr>
-                            <td>{{ $permission->id }}</td>
-                            <td class="hidden-xs hidden-sm">{{ $permission->name }}</td>
-                            <td>{{ $permission->display_name }}</td>
-                            <td class="hidden-xs hidden-sm">{{ str_limit($permission->description, 60) }}</td>
-                        </tr>
-                    @endforeach
+                    @if($role !== null)
+                        @foreach ($role->permissions as $permission)
+                            <tr>
+                                <td>{{ $permission->id }}</td>
+                                <td class="hidden-xs hidden-sm">{{ $permission->name }}</td>
+                                <td>{{ $permission->display_name }}</td>
+                                <td class="hidden-xs hidden-sm">{{ str_limit($permission->description, 60) }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </table>
             </div>
 

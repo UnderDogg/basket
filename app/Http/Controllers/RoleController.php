@@ -14,6 +14,8 @@ use App\Role;
 use App\RolePermissions;
 use App\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RoleController
@@ -32,21 +34,21 @@ class RoleController extends Controller
      */
     public function index()
     {
-
+        $updatedMessage = $this->getMessages();
         $role = Role::query();
 
-        if (!empty($this->tableFilter)) {
-            foreach ($this->tableFilter as $column => $contains) {
+        if (!empty($filter = $this->getTableFilter())) {
+            foreach ($filter as $field => $query) {
 
-                $role->where($column, 'like', '%' . $contains . '%');
+                $role->where($field, 'like', '%' . $query . '%');
             }
             if (!$role->count()) {
-                $this->messages->info[] = 'No records Found';
+                $updatedMessage['info'] = 'No records were found that matched your filter';
             }
         }
 
-        $role = $role->paginate($this->pageLimit);
-        return View('role.index', ['role' => $role, 'messages' => $this->messages]);
+        $role = $role->paginate($this->getPageLimit());
+        return View('role.index', ['role' => $role, 'messages' => $updatedMessage]);
     }
 
     /**
@@ -58,7 +60,10 @@ class RoleController extends Controller
     public function create()
     {
         $permissionsAvailable = Permission::all();
-        return view('role.create', ['permissionsAvailable' => $permissionsAvailable, 'messages' => $this->messages]);
+        return view('role.create', [
+            'permissionsAvailable' => $permissionsAvailable,
+            'messages' => $this->getMessages()
+        ]);
     }
 
     /**
@@ -76,7 +81,7 @@ class RoleController extends Controller
         $role = Role::create($request->all());
         $this->updateAllRolePermissions($role->id, $request);
 
-        return redirect('role')->with('message','New role and role permissions were successfully created');
+        return redirect('role')->with('success','New role and role permissions were successfully created');
     }
 
     /**
@@ -88,10 +93,22 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = Role::findOrFail($id);
-        $role = $this->assignPermissionsToRole($role);
+        $role = null;
+        $messages = $this->getMessages();
 
-        return view('role.show', compact('role'));
+        try {
+
+            $role = Role::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError($e->getMessage());
+            $messages['error'] = 'Could not find Role with ID: [' . $id . ']; Role doesn\'t exist';
+        }
+
+        $role = $this->fetchPermissionsToRole($role);
+
+        return view('role.show', ['role' => $role, 'messages' => $messages]);
     }
 
     /**
@@ -104,9 +121,9 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $role = $this->assignPermissionsToRole($role);
+        $role = $this->fetchPermissionsToRole($role);
 
-        return view('role.edit', ['role' => $role, 'messages' => $this->messages]);
+        return view('role.edit', ['role' => $role, 'messages' => $this->getMessages()]);
     }
 
     /**
@@ -123,7 +140,7 @@ class RoleController extends Controller
 
         $this->updateAllRolePermissions($role->id, $request);
 
-        return redirect()->back()->with('message','Roles and role permissions were successfully updated');
+        return redirect()->back()->with('success','Roles and role permissions were successfully updated');
     }
 
     /**
@@ -137,7 +154,7 @@ class RoleController extends Controller
     {
         Role::destroy($id);
         RolePermissions::where('role_id', '=', $id)->delete();
-        return redirect('role')->with('message','Role was successfully deleted');
+        return redirect('role')->with('success','Role was successfully deleted');
     }
 
     /**
@@ -179,7 +196,7 @@ class RoleController extends Controller
      * @param Role $role
      * @return Role
      */
-    private function assignPermissionsToRole(Role $role)
+    private function fetchPermissionsToRole(Role $role)
     {
         $role->permissionsAssociation = RolePermissions::where('role_id', '=', $role->id)->get();
 
