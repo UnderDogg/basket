@@ -11,6 +11,7 @@
 namespace Tests\Basket\Gateways;
 
 use App\Basket\Gateways\InstallationGateway;
+use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 class InstallationGatewayTest extends \TestCase
 {
@@ -53,6 +54,23 @@ class InstallationGatewayTest extends \TestCase
         $installationGateway = new InstallationGateway($mock);
 
         $this->setExpectedException('App\Exceptions\Exception', 'Problem fetching Installation data form Provider API');
+
+        $installationGateway->getInstallation(1, 'xxx');
+    }
+
+    public function testGetMerchantErrorResponseException()
+    {
+        $mockApiClient = $this->getMock('App\Gateways\ProviderApiClient');
+
+        $mockApiClient->expects($this->any())->method('get')->willThrowException(new ErrorResponseException('Test'));
+
+        $mock = $this->getMock('App\Gateways\ApiClientFactory');
+
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $installationGateway = new InstallationGateway($mock);
+
+        $this->setExpectedException('App\Exceptions\Exception', 'Test');
 
         $installationGateway->getInstallation(1, 'xxx');
     }

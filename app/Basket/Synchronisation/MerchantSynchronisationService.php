@@ -30,7 +30,7 @@ class MerchantSynchronisationService
     private $gateway;
     private $logger;
 
-    public function __construct(MerchantGateway $gateway, LoggerInterface $logger)
+    public function __construct(MerchantGateway $gateway, LoggerInterface $logger = null)
     {
         $this->gateway = $gateway;
         $this->logger = $logger;
@@ -66,7 +66,7 @@ class MerchantSynchronisationService
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Merchant
      */
     private function fetchLocalObject($id)
@@ -97,7 +97,7 @@ class MerchantSynchronisationService
     }
 
     /**
-     * @return \Psr\Log\LoggerInterface|null
+     * @return LoggerInterface|null
      */
     protected function getLogger()
     {
