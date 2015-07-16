@@ -206,14 +206,6 @@ class RoleControllerTest extends TestCase
      */
     public function test_roles_and_associations_are_deleted()
     {
-        // Test Delete Role from Role ID
-        $roleController = new Controllers\RoleController();
-        $roleController->destroy(1);
-
-        // Test Role ID 1 and all related assoc permissions in association table are removed
-        $this->assertEmpty( Role::find(1)                                       );
-        $this->assertEmpty( RolePermissions::where('role_id', '=', 1)->get()    );
-
         // Press Delete button from role index page with name (ID 2)
         $this->visit('/role')
             ->press('delete2');
