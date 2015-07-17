@@ -13,6 +13,7 @@ namespace App\Basket\Synchronisation;
 use App\Basket\Entities\InstallationEntity;
 use App\Basket\Gateways\InstallationGateway;
 use App\Basket\Installation;
+use Illuminate\Database\Eloquent\Collection;
 use Psr\Log\LoggerInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -101,28 +102,29 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @param InstallationEntity[] $externalInstallations
-     * @param Installation[] $localInstallations
+     * @param Collection $localInstallations
      * @param $merchantId
      * @return Installation[]
      */
-    private function synchroniseNewInstallations(array $externalInstallations, array &$localInstallations, $merchantId)
+    private function synchroniseNewInstallations(array $externalInstallations, Collection $localInstallations, $merchantId)
     {
         $rtn = [];
 
         foreach ($externalInstallations as $installation) {
 
             if ($this->isNewInstallation($installation->getId(), $localInstallations)) {
-
-                $newInstallation = Installation::create([
-                    'name'          => $installation->getName(),
-                    'merchant_id'   => $merchantId,
-                    'active'        => false,
-                    'linked'        => false,
-                ]);
+                $newInstallation = new Installation();
+                $newInstallation->name = $installation->getName();
+                $newInstallation->merchant_id = $merchantId;
+                $newInstallation->active = false;
+                $newInstallation->linked = false;
+                $newInstallation->ext_id = $installation->getId();
+                $newInstallation->save();
 
                 try {
                     $this->synchroniseInstallation($newInstallation->id);
                 } catch (\Exception $e) {
+                    // Empty
                 }
 
                 $rtn[] = 'New installation ' . $installation->getName() . ' has been added.';
@@ -132,22 +134,23 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         return $rtn;
     }
 
-
     /**
      * @author WN
-     * @param Installation[] $localInstallations
+     * @param Collection $localInstallations
      * @return array
      */
-    private function unlinkRestInstallations(array $localInstallations)
+    private function unlinkRestInstallations(Collection $localInstallations)
     {
         $rtn = [];
 
         foreach ($localInstallations as $installation) {
 
-            $installation->linked = false;
-            $installation->save();
+            if ($installation->linked) {
+                $installation->linked = false;
+                $installation->save();
 
-            $rtn[] = 'Installation ' . $installation->name . ' has been unlinked';
+                $rtn[] = 'Installation ' . $installation->name . ' has been unlinked';
+            }
         }
 
         return $rtn;
@@ -186,19 +189,24 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param string $externalId
-     * @param array $installations
+     * @param Collection $installations
      * @return bool
      */
-    private function isNewInstallation($externalId, array &$installations)
+    private function isNewInstallation($externalId, Collection $installations)
     {
-        foreach($installations as &$installation) {
-
-            if ($installation->ext_id == $externalId) {
-
-                unset($installation);
-                return false;
+        $item = $installations->search(function($item, $key) use ($externalId, $installations) {
+            if ($item->ext_id == $externalId) {
+                return true;
             }
+            return false;
+        });
+
+        if ($item !== false) {
+
+            $installations->forget($item);
+            return false;
         }
+
         return true;
     }
 }
