@@ -2,6 +2,10 @@
 - Added Merchants CRUD
 - Fix for Exceptions Handler Error
 - Breadcrumb Improvements
+- Installation Gateway
+- Installation Entity
+- Installation Synchronisation Services
+- AbstractSynchronisationService
 
 # 0.2.0
 2015-07-17
