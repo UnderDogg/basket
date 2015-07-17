@@ -13,6 +13,7 @@ namespace App\Basket\Synchronisation;
 use Psr\Log\LoggerInterface;
 use App\Basket\Merchant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use WNowicki\Generic\Logger\PsrLoggerTrait;
 
 /**
  * Abstract Synchronisation Service
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  * @package App\Basket\Synchronisation
  */
 class AbstractSynchronisationService {
+
+    use PsrLoggerTrait;
 
     private $logger;
 
@@ -44,7 +47,7 @@ class AbstractSynchronisationService {
             return Merchant::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
-            $this->logError(__CLASS__ . ': Failed fetching local object: ' . $e->getMessage());
+            $this->logError(__CLASS__ . ': Failed fetching Merchant[' . $id . '] local object: ' . $e->getMessage());
             throw $e;
         }
     }

@@ -14,7 +14,6 @@ use App\Basket\Entities\MerchantEntity;
 use App\Basket\Gateways\MerchantGateway;
 use Psr\Log\LoggerInterface;
 use App\Basket\Merchant;
-use WNowicki\Generic\Logger\PsrLoggerTrait;
 
 /**
  * Merchant Synchronisation Service
@@ -24,8 +23,6 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  */
 class MerchantSynchronisationService extends AbstractSynchronisationService
 {
-    use PsrLoggerTrait;
-
     private $gateway;
 
     /**
