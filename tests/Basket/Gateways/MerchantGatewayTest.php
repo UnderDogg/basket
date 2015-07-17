@@ -11,6 +11,7 @@
 namespace Tests\Basket\Gateways;
 
 use App\Basket\Gateways\MerchantGateway;
+use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
  * Merchant Gateway Test
@@ -61,6 +62,23 @@ class MerchantGatewayTest extends \TestCase
         $merchantGateway = new MerchantGateway($mock);
 
         $this->setExpectedException('App\Exceptions\Exception', 'Problem fetching Merchant data form Provider API');
+
+        $merchantGateway->getMerchant(1, 'xxx');
+    }
+
+    public function testGetMerchantErrorResponseException()
+    {
+        $mockApiClient = $this->getMock('App\Gateways\ProviderApiClient');
+
+        $mockApiClient->expects($this->any())->method('get')->willThrowException(new ErrorResponseException('Test'));
+
+        $mock = $this->getMock('App\Gateways\ApiClientFactory');
+
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $merchantGateway = new MerchantGateway($mock);
+
+        $this->setExpectedException('App\Exceptions\Exception', 'Test');
 
         $merchantGateway->getMerchant(1, 'xxx');
     }

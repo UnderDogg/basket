@@ -13,7 +13,7 @@ namespace App\Basket\Entities;
 use WNowicki\Generic\AbstractEntity;
 
 /**
- * Class MerchantEntity
+ * Merchant Entity
  *
  * @method $this setId(int $id)
  * @method int|null getId()
