@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' view ' . Request::segment(1)) }}</h2>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>'','override3'=>'','override4'=>''])
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">

@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -25,7 +24,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return void
      */
-    public function report(Exception $e)
+    public function report(\Exception $e)
     {
         return parent::report($e);
     }
@@ -37,7 +36,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, \Exception $e)
     {
         return parent::render($request, $e);
     }

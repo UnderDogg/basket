@@ -7,28 +7,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace App\Basket;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Merchant Model
+ * Class Merchants
  *
- * @author WN
- * @property int    $id
- * @property string $name
- * @property string $token
- * @property bool   $linked
- * @property string $ext_company_name
- * @property string $ext_address
- * @property string $ext_processing_days
- * @property string $ext_minimum_amount_settled
- * @property string $ext_address_on_agreements
- * @package App\Basket
+ * @author MS
+ * @package App
  */
-class Merchant extends Model
-{
+class Merchants extends Model  {
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
     protected $table = 'merchants';
 
     /**
@@ -48,4 +43,5 @@ class Merchant extends Model
         'updated_at',
         'created_at',
     ];
+
 }
