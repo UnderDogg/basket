@@ -12,8 +12,6 @@ namespace App\Basket\Synchronisation;
 
 use App\Basket\Entities\MerchantEntity;
 use App\Basket\Gateways\MerchantGateway;
-use App\Basket\Merchant;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
@@ -23,17 +21,16 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author WN
  * @package App\Basket\Synchronisation
  */
-class MerchantSynchronisationService
+class MerchantSynchronisationService extends AbstractSynchronisationService
 {
     use PsrLoggerTrait;
 
     private $gateway;
-    private $logger;
 
     public function __construct(MerchantGateway $gateway, LoggerInterface $logger = null)
     {
         $this->gateway = $gateway;
-        $this->logger = $logger;
+        parent::__construct($logger);
     }
 
     /**
@@ -66,23 +63,6 @@ class MerchantSynchronisationService
     }
 
     /**
-     * @param int $id
-     * @return Merchant
-     */
-    private function fetchLocalObject($id)
-    {
-        try {
-
-            return Merchant::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-            $this->logError('MerchantSynchronisationService: Failed fetching local object: ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
-
-    /**
      * @author WN
      * @param MerchantEntity $externalEntity
      * @param Merchant $internalData
@@ -94,13 +74,5 @@ class MerchantSynchronisationService
         $internalData->ext_processing_days = $externalEntity->getProcessingDays();
         $internalData->ext_minimum_amount_settled = $externalEntity->getMinimumAmountSettled();
         $internalData->ext_address_on_agreements = $externalEntity->getAddressOnAgreements();
-    }
-
-    /**
-     * @return LoggerInterface|null
-     */
-    protected function getLogger()
-    {
-        return $this->logger;
     }
 }
