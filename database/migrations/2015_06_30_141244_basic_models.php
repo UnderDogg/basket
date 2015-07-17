@@ -17,12 +17,15 @@ class BasicModels extends Migration
             $table->string('name');
             $table->string('token', 100);
             $table->boolean('linked')->default(false);
+
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
             $table->string('ext_company_name');
             $table->string('ext_address');
             $table->string('ext_processing_days');
             $table->string('ext_minimum_amount_settled');
             $table->string('ext_address_on_agreements');
-            $table->timestamps();
         });
 
         Schema::create('installations', function (Blueprint $table) {
@@ -31,12 +34,15 @@ class BasicModels extends Migration
             $table->string('name');
             $table->boolean('active');
             $table->boolean('linked');
+
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
             $table->string('ext_id');
             $table->string('ext_name');
             $table->string('ext_return_url');
             $table->string('ext_notification_url');
             $table->string('ext_default_product');
-            $table->timestamps();
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
@@ -49,15 +55,16 @@ class BasicModels extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('address');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('installation_id')->references('id')->on('installations');
         });
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('merchant_id')->unsigned()->after('password');
-            $table->string('locations')->after('merchant_id');
+            $table->integer('merchant_id')->unsigned()->after('password')->default(0); // Added defaults: fix for sqlite
+            $table->string('locations')->after('merchant_id')->default(''); // Added defaults: fix for sqlite
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });

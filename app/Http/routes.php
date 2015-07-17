@@ -40,4 +40,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'user/{id}/edit',  'UserController@edit'     );
     Route::patch( 'user/{id}',       'UserController@update'   );
 
+    Route::get(   'role',            'RoleController@index'    );
+    Route::get(   'role/create',     'RoleController@create'   );
+    Route::post(  'role',            'RoleController@store'    );
+    Route::get(   'role/{id}',       'RoleController@show'     );
+    Route::delete('role/{id}',       'RoleController@destroy'  );
+    Route::get(   'role/{id}/edit',  'RoleController@edit'     );
+    Route::patch( 'role/{id}',       'RoleController@update'   );
 });
