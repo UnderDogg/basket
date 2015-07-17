@@ -10,12 +10,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Merchants;
+use App\Basket\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
- * Class MerchantsController
+ * Class MerchantController
  *
  * @author MS
  * @package App\Http\Controllers
@@ -35,7 +35,7 @@ class MerchantsController extends Controller
 
         try {
 
-            $merchants = Merchants::query();
+            $merchants = Merchant::query();
             $merchants = $merchants->paginate($this->getPageLimit());
 
         } catch (ModelNotFoundException $e) {
@@ -74,7 +74,7 @@ class MerchantsController extends Controller
 
         try {
 
-            Merchants::create($request->all());
+            Merchant::create($request->all());
 
         } catch (ModelNotFoundException $e) {
 
@@ -98,7 +98,7 @@ class MerchantsController extends Controller
 
         try {
 
-            $merchants = Merchants::findOrFail($id);
+            $merchants = Merchant::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
 
@@ -124,7 +124,7 @@ class MerchantsController extends Controller
 
         try {
 
-            $merchants = Merchants::findOrFail($id);
+            $merchants = Merchant::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
 
@@ -149,7 +149,7 @@ class MerchantsController extends Controller
 
         try {
 
-            $merchants = Merchants::findOrFail($id);
+            $merchants = Merchant::findOrFail($id);
             $merchants->update($request->all());
 
         } catch (ModelNotFoundException $e) {
@@ -174,7 +174,7 @@ class MerchantsController extends Controller
         $message = ['success','Role was successfully deleted'];
         try {
 
-            Merchants::destroy($id);
+            Merchant::destroy($id);
 
         } catch (ModelNotFoundException $e) {
 

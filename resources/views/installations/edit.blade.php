@@ -1,72 +1,30 @@
-@extends('layouts.master')
+@extends('master')
 
 @section('content')
 
-    <h1>Edit Installation</h1>
-    <hr/>
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    {!! Form::model($installation, ['method' => 'PATCH', 'action' => ['InstallationsController@update', $installation->id], 'class' => 'form-horizontal']) !!}
+    <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
+    @include('includes.page.breadcrumb', ['override2'=>$installations->name])
 
-    <div class="form-group">
-                        {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('merchant_id', 'Merchant Id: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('merchant_id', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('active', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('linked', 'Linked: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('linked', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('ext_id', 'Ext Id: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('ext_id', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('ext_name', 'Ext Name: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('ext_name', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('ext_return_url', 'Ext Return Url: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('ext_return_url', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('ext_notification_url', 'Ext Notification Url: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('ext_notification_url', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div><div class="form-group">
-                        {!! Form::label('ext_default_product', 'Ext Default Product: ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class="col-sm-6"> 
-                            {!! Form::text('ext_default_product', null, ['class' => 'form-control']) !!}
-                        </div>    
-                    </div>
-    
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
+    <p>&nbsp;</p>
+    @if($installations !== null)
+        {!! Form::model($installations, ['method' => 'PATCH', 'action' => ['InstallationsController@update', $installations->id], 'class' => 'form-horizontal']) !!}
+        <div class="col-xs-12">
+            <div class="form-group">
+                {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
+                <div class="col-sm-6">
+                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
         </div>
-    </div>
-    {!! Form::close() !!}
-
-    @if ($errors->any())
-        <ul class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+        <p>&nbsp;</p>
+        <div class="form-group">
+            <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
+                {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
+            </div>
+        </div>
+        {!! Form::close() !!}
     @endif
-
 @endsection

@@ -1,14 +1,25 @@
 <?php
-
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use App\Installations;
+use App\Basket\Installation;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+/**
+ * Class InstallationController
+ *
+ * @author MS
+ * @package App\Http\Controllers
+ */
 class InstallationsController extends Controller
 {
 
@@ -19,30 +30,33 @@ class InstallationsController extends Controller
 	 */
 	public function index()
 	{
-		$installations = Installations::latest()->get();
-		return view('installations.index', compact('installations'));
-	}
+        $messages = $this->getMessages();
+        $installations = null;
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return view('installations.create');
-	}
+        try {
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		Installations::create($request->all());
-		return redirect('installations');
+            $installations = Installation::query();
+
+            if (!empty($filter = $this->getTableFilter())) {
+                foreach ($filter as $field => $query) {
+
+                    $installations->where($field, 'like', '%' . $query . '%');
+                }
+                if (!$installations->count()) {
+                    $messages['info'] = 'No records were found that matched your filter';
+                }
+            }
+
+            $installations = $installations->paginate($this->getPageLimit());
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Error occurred getting installations: ' . $e->getMessage());
+            $messages['error'] = 'Error occurred getting installations';
+
+        }
+
+        return View('installations.index', ['installations' => $installations, 'messages' => $messages]);
 	}
 
 	/**
@@ -53,8 +67,23 @@ class InstallationsController extends Controller
 	 */
 	public function show($id)
 	{
-		$installations = Installations::findOrFail($id);
-		return view('installations.show', compact('installations'));
+
+        $installations = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $installations = Installation::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not find installation with ID: [' . $id . ']; installation does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not find installation with ID: [' . $id . ']; installation does not exist';
+        }
+
+        return view('installations.show', ['installations' => $installations, 'messages' => $messages]);
 	}
 
 	/**
@@ -65,8 +94,22 @@ class InstallationsController extends Controller
 	 */
 	public function edit($id)
 	{
-		$installations = Installations::findOrFail($id);
-		return view('installations.edit', compact('installations'));
+        $installations = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $installations = Installation::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get installation with ID [' . $id . '] for editing; installation does not exist:' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get installation with ID [' . $id . '] for editing; installation does not exist';
+        }
+
+        return view('installations.edit', ['installations' => $installations, 'messages' => $messages]);
 	}
 
 	/**
@@ -77,22 +120,21 @@ class InstallationsController extends Controller
 	 */
 	public function update($id, Request $request)
 	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		$installations = Installations::findOrFail($id);
-		$installations->update($request->all());
-		return redirect('installations');
-	}
+        $message = ['success', 'Installation details were successfully updated'];
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		Installations::destroy($id);
-		return redirect('installations');
-	}
+        try {
 
+            $installations = Installation::findOrFail($id);
+            $installations->update($request->all());
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not update installation with ID [' . $id . ']; installation does not exist' . $e->getMessage()
+            );
+            $message = ['error', 'Could not update installation with ID [' . $id . ']; installation does not exist'];
+        }
+
+        return redirect()->back()->with($message[0], $message[1]);
+	}
 }

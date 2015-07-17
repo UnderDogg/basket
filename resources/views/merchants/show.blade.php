@@ -5,8 +5,8 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h2>{{ Str::upper(' view ' . Request::segment(1)) }}</h2>
-    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>$merchants->name,'override3'=>'','override4'=>''])
+    <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}</h2>
+    @include('includes.page.breadcrumb', ['override2'=>$merchants->name])
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">
@@ -25,10 +25,15 @@
                     @if($merchants !== null)
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <strong>Merchant ID: </strong> {{ $merchants->id  }}
+                                <strong>Merchant Name: </strong> {{ $merchants->name  }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Merchant Name: </strong> {{ $merchants->name  }}
+                                <strong>Linked Status: </strong>
+                                @if( $merchants->linked == 0 )
+                                    <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                                @elseif( $merchants->linked == 1 )
+                                    <span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
+                                @endif
                             </li>
                         </ul>
                     @endif
