@@ -34,12 +34,12 @@ class UserController extends Controller
         $user = User::latest()->get();
         return view('user.index', compact('user'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @author MS
-     * @return Response 
+     * @return Response
      */
     public function create()
     {

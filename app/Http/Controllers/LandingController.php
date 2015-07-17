@@ -9,6 +9,7 @@ class LandingController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author MS
      * @return Response
      */
     public function index()

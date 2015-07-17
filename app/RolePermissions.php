@@ -9,39 +9,35 @@
  */
 namespace App;
 
-use Zizaco\Entrust\EntrustPermission;
-use Zizaco\Entrust\Traits\EntrustPermissionTrait;
+use Illuminate\Database\Eloquent\Model;
 /**
- * Class Permission
+ * Class RolePermissions
  *
  * @author MS
- * @property int    $id
- * @property string $name
- * @property string $display_name
- * @property string $description
+ * @property int    $permission_id
+ * @property int    $role_id
  * @package App
  */
-class Permission extends EntrustPermission
-{
-    use EntrustPermissionTrait;
+class RolePermissions extends Model  {
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'permissions';
+    protected $table = 'permission_role';
 
     /**
-     * The attributes that are mass assignable.
+     * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'display_name', 'description'];
+    protected $fillable = ['permission_id', 'role_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = ['permission_id', 'role_id'];
 }

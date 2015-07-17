@@ -48,7 +48,7 @@ return [
 
         'sqlite' => [
             'driver'   => 'sqlite',
-            'database' => storage_path('database.sqlite'),
+            'database' => $app->environment('testing')?':memory:':storage_path('database.sqlite'),
             'prefix'   => '',
         ],
 
