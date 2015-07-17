@@ -287,7 +287,7 @@ class RoleController extends Controller
                     RolePermissions::create(['permission_id' => $permission, 'role_id' => $id]);
 
                 } catch (ModelNotFoundException $e) {
-                    
+
                     throw $e;
                 }
             }
