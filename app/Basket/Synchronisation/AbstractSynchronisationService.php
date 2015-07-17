@@ -14,28 +14,37 @@ use Psr\Log\LoggerInterface;
 use App\Basket\Merchant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+/**
+ * Abstract Synchronisation Service
+ *
+ * @author WN
+ * @package App\Basket\Synchronisation
+ */
 class AbstractSynchronisationService {
 
     private $logger;
 
-    public function __construct(LoggerInterface $logger = [])
+    /**
+     * @author WN
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
 
     /**
+     * @author WN
      * @param int $id
      * @return Merchant
      */
-    protected function fetchLocalObject($id)
+    protected function fetchMerchantLocalObject($id)
     {
         try {
-
             return Merchant::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
-            $this->logError('MerchantSynchronisationService: Failed fetching local object: ' . $e->getMessage());
-
+            $this->logError(__CLASS__ . ': Failed fetching local object: ' . $e->getMessage());
             throw $e;
         }
     }

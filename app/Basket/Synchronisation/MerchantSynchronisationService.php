@@ -13,6 +13,7 @@ namespace App\Basket\Synchronisation;
 use App\Basket\Entities\MerchantEntity;
 use App\Basket\Gateways\MerchantGateway;
 use Psr\Log\LoggerInterface;
+use App\Basket\Merchant;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
 /**
@@ -27,6 +28,11 @@ class MerchantSynchronisationService extends AbstractSynchronisationService
 
     private $gateway;
 
+    /**
+     * @author WN
+     * @param MerchantGateway $gateway
+     * @param LoggerInterface $logger
+     */
     public function __construct(MerchantGateway $gateway, LoggerInterface $logger = null)
     {
         $this->gateway = $gateway;
@@ -41,7 +47,7 @@ class MerchantSynchronisationService extends AbstractSynchronisationService
      */
     public function synchroniseMerchant($id)
     {
-        $merchant = $this->fetchLocalObject($id);
+        $merchant = $this->fetchMerchantLocalObject($id);
 
         try {
             $merchantEntity = $this->gateway->getMerchant($id, $merchant->token);
