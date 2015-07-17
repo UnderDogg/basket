@@ -5,10 +5,10 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h1>Roles
+    <h1>ROLES
         <a href="{{ url('/role/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Role</a>
     </h1>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>'','override3'=>'','override4'=>''])
     <div class="panel panel-default">
 
         @include('includes.form.record_counter', ['object' => $role])

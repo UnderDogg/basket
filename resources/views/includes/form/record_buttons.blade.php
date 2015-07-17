@@ -10,7 +10,7 @@
         <li role="separator" class="divider"></li>
         {{-- */ $crudNameUc=ucwords($crudName); /* --}}
         {!! Form::open( ['method'=>'delete','action'=>[ $crudNameUc.'Controller@destroy', $record->id ] ] ) !!}
-        <button name={{ 'delete'.$record->id }} type="submit" class="btn btn-xs dropdown-delete">
+        <button name="{{ 'delete'.$record->id }}" type="submit" class="btn btn-xs dropdown-delete">
             <li><a>Delete</a></li>
         </button>
         {!! Form::close() !!}
