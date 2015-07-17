@@ -70,12 +70,13 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param int $merchantId
-     * @return bool
+     * @return array
+     * @throws \Exception
      */
     public function synchroniseAllInstallations($merchantId)
     {
+        $rtn = [];
         $merchant = $this->fetchMerchantLocalObject($merchantId);
-
         $localInstallations = Installation::where('merchant_id', '=', $merchantId)->get();
 
         try {
@@ -84,10 +85,29 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
 
         } catch (\Exception $e) {
 
-            // TODO Refactor !!!
-            die($e->getMessage());
+            $this->logError(
+                'InstallationSynchronisationService failed while fetching for Merchant[' . $merchantId . ']:' .
+                $e->getMessage()
+            );
+            throw $e;
 
         }
+
+        $rtn['new'] = $this->synchroniseNewInstallations($externalInstallations, $localInstallations, $merchantId);
+        $rtn['unlinked'] = $this->unlinkRestInstallations($localInstallations);
+
+        return $rtn;
+    }
+
+    /**
+     * @param InstallationEntity[] $externalInstallations
+     * @param Installation[] $localInstallations
+     * @param $merchantId
+     * @return Installation[]
+     */
+    private function synchroniseNewInstallations(array $externalInstallations, array &$localInstallations, $merchantId)
+    {
+        $rtn = [];
 
         foreach ($externalInstallations as $installation) {
 
@@ -103,24 +123,35 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
                 try {
                     $this->synchroniseInstallation($newInstallation->id);
                 } catch (\Exception $e) {
-
-                    // TODO
                 }
+
+                $rtn[] = 'New installation ' . $installation->getName() . ' has been added.';
             }
         }
 
-        if (count($localInstallations) > 0) {
-
-            foreach ($localInstallations as $installation) {
-
-                $installation->linked = false;
-                $installation->save();
-            }
-        }
-
-        return true;
+        return $rtn;
     }
 
+
+    /**
+     * @author WN
+     * @param Installation[] $localInstallations
+     * @return array
+     */
+    private function unlinkRestInstallations(array $localInstallations)
+    {
+        $rtn = [];
+
+        foreach ($localInstallations as $installation) {
+
+            $installation->linked = false;
+            $installation->save();
+
+            $rtn[] = 'Installation ' . $installation->name . ' has been unlinked';
+        }
+
+        return $rtn;
+    }
     /**
      * @author WN
      * @param InstallationEntity $installationEntity
