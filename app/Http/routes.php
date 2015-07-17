@@ -47,4 +47,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('role/{id}',       'RoleController@destroy'  );
     Route::get(   'role/{id}/edit',  'RoleController@edit'     );
     Route::patch( 'role/{id}',       'RoleController@update'   );
+
+    Route::get(   'merchants',            'MerchantsController@index'    );
+    Route::get(   'merchants/create',     'MerchantsController@create'   );
+    Route::post(  'merchants',            'MerchantsController@store'    );
+    Route::get(   'merchants/{id}',       'MerchantsController@show'     );
+    Route::delete('merchants/{id}',       'MerchantsController@destroy'  );
+    Route::get(   'merchants/{id}/edit',  'MerchantsController@edit'     );
+    Route::patch( 'merchants/{id}',       'MerchantsController@update'   );
 });
