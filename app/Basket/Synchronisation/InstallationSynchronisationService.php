@@ -194,7 +194,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      */
     private function isNewInstallation($externalId, Collection $installations)
     {
-        $item = $installations->search(function($item, $key) use ($externalId, $installations) {
+        $item = $installations->search(function($item) use ($externalId, $installations) {
             if ($item->ext_id == $externalId) {
                 return true;
             }
