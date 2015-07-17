@@ -1,3 +1,8 @@
+## Features
+- Added Merchants CRUD
+- Fix for Exceptions Handler Error
+- Breadcrumb Improvements
+
 # 0.2.0
 2015-07-17
 
