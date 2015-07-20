@@ -18,8 +18,8 @@
             {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
                 <th>Name @include('includes.form.input', ['field' => 'name'])</th>
-                <th>Active @include('includes.form.bool_select', ['field' => 'active', 'object' => $installations,'zero'=>'Inactive','one'=>'Active'])</th>
-                <th>Linked @include('includes.form.bool_select', ['field' => 'linked', 'object' => $installations,'zero'=>'Unlinked','one'=>'Linked'])</th>
+                <th>Active @include('includes.form.bool_select', ['field' => 'active', 'object' => $installations,'false'=>'Inactive','true'=>'Active'])</th>
+                <th>Linked @include('includes.form.bool_select', ['field' => 'linked', 'object' => $installations,'false'=>'Unlinked','true'=>'Linked'])</th>
                 <th>
                     <span class="pull-right">Actions</span>
                     <br><hr class="hr-tight">

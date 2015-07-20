@@ -2,22 +2,66 @@
 
 @section('content')
 
-    <h1>Locations <a href="{{ url('/locations/create') }}" class="btn btn-primary pull-right btn-sm">Add New Locations</a></h1>
-    <div class="table">
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
+    <h1>LOCATIONS
+        <a href="{{ url('/locations/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Location</a>
+    </h1>
+    @include('includes.page.breadcrumb')
+
+    <div class="panel panel-default">
+
+        @include('includes.form.record_counter', ['object' => $locations])
+
+        <div class="panel-heading"><h4>Locations</h4></div>
         <table class="table table-bordered table-striped table-hover">
+            {{-- TABLE HEADER WITH FILTERS --}}
+            {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th>SL.</th><th>Name</th><th>Actions</th>
+                <th class="hidden-xs hidden-sm">Reference @include('includes.form.input', ['field' => 'reference'])</th>
+                <th>Name @include('includes.form.input', ['field' => 'name'])</th>
+
+                <th class="hidden-xs hidden-sm">Installation @include('includes.form.associate_select', [
+                    'field' => 'installation_id',
+                    'object' => $locations,
+                    'associate'=>'installation',
+                    'associateField'=>'name',
+                ])</th>
+
+                <th>Active @include('includes.form.bool_select', ['field' => 'active', 'object' => $locations,'false'=>'Inactive','true'=>'Active'])</th>
+                <th>
+                    <span class="pull-right">Actions</span>
+                    <br><hr class="hr-tight">
+                    @include('includes.form.filter_buttons')
+                </th>
             </tr>
+            {!! Form::close() !!}
             {{-- */$x=0;/* --}}
             @foreach($locations as $item)
                 {{-- */$x++;/* --}}
                 <tr>
-                    <td>{{ $x }}</td>
-                    <td><a href="{{ url('/locations', $item->id) }}">{{ $item->name }}</a></td>
-                    <td><a href="{{ url('/locations/'.$item->id.'/edit') }}"><button type="submit" class="btn btn-primary btn-xs">Update</button></a> / {!! Form::open(['method'=>'delete','action'=>['LocationsController@destroy',$item->id], 'style' => 'display:inline']) !!}<button type="submit" class="btn btn-danger btn-xs">Delete</button>{!! Form::close() !!}</td>
+                    <td class="hidden-xs hidden-sm">{{ $item->reference }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td class="hidden-xs hidden-sm">{{ $item->installation->name }}</td>
+                    <td class="col-sm-2 col-md-1">
+                        @if( $item->active == 0 )
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                        @elseif( $item->active == 1 )
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                        @endif
+                    </td>
+
+                    {{-- ACTION BUTTONS --}}
+                    <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
+                        @include('includes.form.record_buttons', ['record' => $item, 'crudName' => 'locations'])
+                    </td>
                 </tr>
             @endforeach
+            @if($x == 0) <td colspan="5"><em>0 Locations</em></td> @endif
         </table>
     </div>
+    {{-- PAGINATION BUTTONS ON RENDER() --}}
+    {!! $locations->appends(Request::except('page'))->render() !!}
 
 @endsection

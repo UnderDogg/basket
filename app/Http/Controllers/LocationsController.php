@@ -36,6 +36,17 @@ class LocationsController extends Controller
         try {
 
             $locations = Location::query();
+
+            if (!empty($filter = $this->getTableFilter())) {
+                foreach ($filter as $field => $query) {
+
+                    $locations->where($field, 'like', '%' . $query . '%');
+                }
+                if (!$locations->count()) {
+                    $messages['info'] = 'No records were found that matched your filter';
+                }
+            }
+
             $locations = $locations->paginate($this->getPageLimit());
 
         } catch (ModelNotFoundException $e) {
