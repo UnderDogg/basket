@@ -41,6 +41,30 @@
             <a class="navbar-brand" href="#">Basket</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+            @if ( \Auth::check())
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Make Application</a></li>
+                            <li><a href="#">Application List</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Manager</li>
+                            <li><a href="\installations">Installations</a></li>
+                            <li><a href="\locations">Locations</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Administrator</li>
+                            <li><a href="\users">Users</a></li>
+                            <li><a href="\merchants">Merchants</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            @endif
             {{--<form class="navbar-form navbar-right" role="form">
                 <div class="form-group">
                     <input type="text" placeholder="Email" class="form-control">
