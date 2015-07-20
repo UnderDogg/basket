@@ -22,14 +22,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class MerchantsController extends Controller
 {
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         $messages = $this->getMessages();
         $merchants = null;
 
@@ -46,25 +45,25 @@ class MerchantsController extends Controller
         }
 
         return View('merchants.index', ['merchants' => $merchants, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
         return view('merchants.create', ['messages' => $this->getMessages()]);
-	}
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required',
             'token' => 'required',
@@ -83,16 +82,16 @@ class MerchantsController extends Controller
         }
 
         return redirect('merchants')->with($message[0], $message[1]);
-	}
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
         $merchants = null;
         $messages = $this->getMessages();
 
@@ -109,16 +108,16 @@ class MerchantsController extends Controller
         }
 
         return view('merchants.show', ['merchants' => $merchants, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         $merchants = null;
         $messages = $this->getMessages();
 
@@ -135,16 +134,16 @@ class MerchantsController extends Controller
         }
 
         return view('merchants.edit', ['merchants' => $merchants, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
         $message = ['success', 'Merchant details were successfully updated'];
 
         try {
@@ -161,16 +160,16 @@ class MerchantsController extends Controller
         }
 
         return redirect()->back()->with($message[0], $message[1]);
-	}
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
         $message = ['success','Role was successfully deleted'];
         try {
 
@@ -183,5 +182,5 @@ class MerchantsController extends Controller
         }
 
         return redirect('merchants')->with($message[0], $message[1]);
-	}
+    }
 }
