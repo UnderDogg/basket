@@ -6,6 +6,9 @@
 - Installation Entity
 - Installation Synchronisation Services
 - AbstractSynchronisationService
+- Added Installations Read & Update
+- Made Improvements to Breadcrumb
+- Refactored Installations and Merchants to use Basket Eloquent Models
 
 # 0.2.0
 2015-07-17
