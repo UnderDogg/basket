@@ -1,13 +1,14 @@
 @extends('master')
 
 @section('content')
+
     {{-- OVERLAY MESSAGES --}}
-    {{--@include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])--}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>MERCHANTS
         <a href="{{ url('/merchants/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Merchant</a>
     </h1>
-    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>'','override3'=>'','override4'=>''])
+    @include('includes.page.breadcrumb')
     <div class="panel panel-default">
 
         @include('includes.form.record_counter', ['object' => $merchants])
@@ -18,7 +19,7 @@
                 <th>Name</th>
                 <th class="hidden-xs hidden-sm">Company Name</th>
                 <th class="hidden-xs hidden-sm">Min. Amount Settled</th>
-                <th>Linked</th>
+                <th class="col-sm-2 col-md-1">Linked</th>
                 <th>Actions</th>
             </tr>
             {{-- */$x=0;/* --}}
@@ -28,7 +29,13 @@
                     <td>{{ $item->name }}</td>
                     <td class="hidden-xs hidden-sm">{{ $item->ext_company_name }}</td>
                     <td class="hidden-xs hidden-sm">{{ $item->ext_minimum_amount_settled }}</td>
-                    <td>{{ $item->linked }}</td>
+                    <td class="col-sm-2 col-md-1">
+                        @if( $item->linked == 0 )
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                        @elseif( $item->linked == 1 )
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                        @endif
+                    </td>
 
                     {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">

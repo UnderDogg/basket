@@ -6,11 +6,11 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb', ['override2'=>$merchants->name])
+    @include('includes.page.breadcrumb', ['override2'=>$installations->name])
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">
-            <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>Merchant Details</h5></a></li>
+            <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>Installation Details</h5></a></li>
         </ul>
         <div class="col-xs-12">&nbsp;</div>
         <hr>
@@ -22,16 +22,24 @@
                     <h3 class="panel-title">Key information</h3>
                 </div>
                 <div class="panel-body">
-                    @if($merchants !== null)
+                    @if($installations !== null)
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <strong>Merchant Name: </strong> {{ $merchants->name  }}
+                                <strong>Name: </strong> {{ $installations->name }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Active Status: </strong>
+                                @if( $installations->active == 0 )
+                                    <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                                @elseif( $installations->active == 1 )
+                                    <span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
+                                @endif
                             </li>
                             <li class="list-group-item">
                                 <strong>Linked Status: </strong>
-                                @if( $merchants->linked == 0 )
+                                @if( $installations->linked == 0 )
                                     <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span>
-                                @elseif( $merchants->linked == 1 )
+                                @elseif( $installations->linked == 1 )
                                     <span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
                                 @endif
                             </li>
@@ -45,22 +53,22 @@
                     <h3 class="panel-title">External Information</h3>
                 </div>
                 <div class="panel-body">
-                    @if($merchants !== null)
+                    @if($installations !== null)
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <strong>Company Name: </strong> {{ $merchants->ext_company_name }}
+                                <strong>Installation ID: </strong> {{ $installations->ext_id }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Company Address: </strong> {{ $merchants->ext_address }}
+                                <strong>Installation Name: </strong> {{ $installations->ext_name }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Processing Days: </strong> {{ $merchants->ext_processing_days }}
+                                <strong>Return URL: </strong> {{ $installations->ext_return_url }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Minimum Amount Settled: </strong> {{ $merchants->ext_minimum_amount_settled }}
+                                <strong>Notification URL: </strong> {{ $installations->ext_notification_url }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Address On Agreements: </strong> {{ $merchants->ext_address_on_agreements }}
+                                <strong>Default Product: </strong> {{ $installations->ext_default_product }}
                             </li>
                         </ul>
                     @endif

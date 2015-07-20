@@ -1,0 +1,31 @@
+<br>
+<hr class="hr-tight">
+@if($object->count())
+    @foreach($object as $item)
+        {{-- */$selects[]=$item->{$field};/* --}}
+    @endforeach
+@endif
+
+<select class="filter form-control" name="{{ $field }}" value="{!! Request::only($field)[$field] !!}">
+    <option></option>
+    @if($object->count())
+        @foreach(array_unique($selects) as $option)
+            <option
+            @if((int) Request::only($field)[$field] === (int) $option && isset(Request::only($field)[$field]))
+                selected="selected"
+            @endif
+                name="{{ $option }}"
+                value="{{ $option }}">
+                @if($option == 0)
+                    {{ $zero }}
+                @elseif($option == 1)
+                    {{ $one }}
+                @endif
+            </option>
+        @endforeach
+    @else()
+        <option selected="selected" name="{!! Request::only($field)[$field] !!}">
+            {!! Request::only($field)[$field] !!}
+        </option>
+    @endif
+</select>

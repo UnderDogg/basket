@@ -8,7 +8,7 @@
     <h1>ROLES
         <a href="{{ url('/role/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Role</a>
     </h1>
-    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>'','override3'=>'','override4'=>''])
+    @include('includes.page.breadcrumb')
     <div class="panel panel-default">
 
         @include('includes.form.record_counter', ['object' => $role])
@@ -22,7 +22,7 @@
             <tr>
                 <th>ID: @include('includes.form.input', ['field' => 'id'])</th>
 
-                <th>Display Name: @include('includes.form.select', ['field' => 'display_name', 'object' => $role])</th>
+                <th>Display Name: @include('includes.form.input', ['field' => 'display_name'])</th>
 
                 <th class="hidden-xs hidden-sm">Role Code: @include('includes.form.input', ['field' => 'name'])</th>
 
