@@ -13,6 +13,7 @@
 - *Merchant* synchronisation GUI
 - *Merchant* creation extended with synchronisation
 - Actions o a row helper for blade
+- Added Locations CRUD
 
 ## Bug Fixes
 - Code Standards fixes
