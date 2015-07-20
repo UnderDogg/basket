@@ -22,6 +22,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class MerchantsController extends Controller
 {
+    /** @var  \App\Basket\Synchronisation\MerchantSynchronisationService */
+    private $merchantSynchronisationService;
+
+    public function __construct()
+    {
+        $this->merchantSynchronisationService = \App::make('App\Basket\Synchronisation\MerchantSynchronisationService');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -73,9 +81,18 @@ class MerchantsController extends Controller
 
         try {
 
-            Merchant::create($request->all());
+            $merchant = Merchant::create($request->all());
 
-        } catch (ModelNotFoundException $e) {
+            $this->merchantSynchronisationService->synchroniseMerchant($merchant->id);
+
+            return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
+
+        } catch (\Exception $e) {
+
+            if (isset($merchant)) {
+
+                $merchant->delete();
+            }
 
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
             $message = ['error','Could not successfully create new Merchant'];
@@ -190,11 +207,8 @@ class MerchantsController extends Controller
      */
     public function synchronise($id)
     {
-        /** @var \App\Basket\Synchronisation\MerchantSynchronisationService $service */
-        $service = \App::make('App\Basket\Synchronisation\MerchantSynchronisationService');
-
         try {
-            $service->synchroniseMerchant($id);
+            $this->merchantSynchronisationService->synchroniseMerchant($id);
             $message = ['success', 'Synchronisation complete successfully'];
 
         } catch (\Exception $e) {
