@@ -190,11 +190,6 @@ class MerchantsController extends Controller
      */
     public function synchronise($id)
     {
-        if (!$this->isMerchantAllowedForUser($id)) {
-
-            return redirect('')->with('error', 'You are not allowed to take an action on this Merchant');
-        }
-
         /** @var \App\Basket\Synchronisation\MerchantSynchronisationService $service */
         $service = \App::make('App\Basket\Synchronisation\MerchantSynchronisationService');
 
