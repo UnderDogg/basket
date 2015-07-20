@@ -30,4 +30,26 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     protected $table = 'locations';
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'reference',
+        'installation_id',
+        'active',
+        'name',
+        'email',
+        'address',
+    ];
+
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function installation()
+    {
+        return $this->belongsTo('App\Basket\Installation');
+    }
 }

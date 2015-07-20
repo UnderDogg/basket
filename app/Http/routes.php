@@ -68,8 +68,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('merchants/{id}/synchronise', 'MerchantsController@synchronise');
     });
 
+
+    Route::get(   'locations',            'LocationsController@index'    );
+    Route::get(   'locations/create',     'LocationsController@create'   );
+    Route::post(  'locations',            'LocationsController@store'    );
+    Route::get(   'locations/{id}',       'LocationsController@show'     );
+    Route::delete('locations/{id}',       'LocationsController@destroy'  );
+    Route::get(   'locations/{id}/edit',  'LocationsController@edit'     );
+    Route::patch( 'locations/{id}',       'LocationsController@update'   );
+
     Route::get(   'installations',            'InstallationsController@index'    );
     Route::get(   'installations/{id}',       'InstallationsController@show'     );
     Route::get(   'installations/{id}/edit',  'InstallationsController@edit'     );
     Route::patch( 'installations/{id}',       'InstallationsController@update'   );
+
 });

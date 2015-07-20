@@ -17,6 +17,8 @@
                     name="{{ $option }}">{{ $option }}</option>
         @endforeach
     @else()
-        <option selected="selected" name="{!! Request::only($field)[$field] !!}">{!! Request::only($field)[$field] !!}</option>
+        <option selected="selected" name="{!! Request::only($field)[$field] !!}">
+            {!! Request::only($field)[$field] !!}
+        </option>
     @endif
 </select>

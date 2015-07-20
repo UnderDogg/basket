@@ -23,7 +23,7 @@ class InstallationsControllerTest extends TestCase
         $user = new User(['name' => 'dev']);
         $this->be($user);
     }
-    
+
     /**
      * Test Index Page
      *

@@ -14,7 +14,7 @@
         </ul>
         <div class="col-xs-12">&nbsp;</div>
         <hr>
-        {{--FIRST PANEL: ROLE DETAILS--}}
+        {{--FIRST PANEL: MERCHANT DETAILS--}}
 
         <div id="fragment-1">
             <div class="panel panel-default">
