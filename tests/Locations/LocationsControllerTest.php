@@ -97,11 +97,5 @@ class LocationsControllerTest extends TestCase
         $this->assertSame($location->name, '99Unit Test');
         $this->assertSame($location->email, '99email@email.com');
         $this->assertSame($location->address, '99some address');
-
-        // Test user can delete record
-        $this->visit('/locations')
-            ->seeStatusCode(200)
-            ->press('delete1')
-            ->seeStatusCode(200)->withSession(['success'=>'locations was successfully deleted']);
     }
 }
