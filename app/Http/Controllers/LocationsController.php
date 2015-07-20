@@ -23,13 +23,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class LocationsController extends Controller
 {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         $messages = $this->getMessages();
         $locations = null;
 
@@ -57,25 +57,25 @@ class LocationsController extends Controller
         }
 
         return View('locations.index', ['locations' => $locations, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
         return view('locations.create', ['messages' => $this->getMessages()]);
-	}
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required:email',
@@ -98,16 +98,16 @@ class LocationsController extends Controller
         }
 
         return redirect('locations')->with($message[0], $message[1]);
-	}
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
         $locations = null;
         $messages = $this->getMessages();
 
@@ -124,16 +124,16 @@ class LocationsController extends Controller
         }
 
         return view('locations.show', ['location' => $locations, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         $locations = null;
         $messages = $this->getMessages();
 
@@ -150,16 +150,16 @@ class LocationsController extends Controller
         }
 
         return view('locations.edit', ['location' => $locations, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required:email',
@@ -185,16 +185,16 @@ class LocationsController extends Controller
         }
 
         return redirect()->back()->with($message[0], $message[1]);
-	}
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
         $message = ['success','locations was successfully deleted'];
         try {
 
@@ -207,6 +207,5 @@ class LocationsController extends Controller
         }
 
         return redirect('locations')->with($message[0], $message[1]);
-	}
-
+    }
 }
