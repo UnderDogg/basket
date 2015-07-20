@@ -171,7 +171,7 @@ class MerchantsController extends Controller
 	 */
 	public function destroy($id)
 	{
-        $message = ['success','Role was successfully deleted'];
+        $message = ['success','Merchant was successfully deleted'];
         try {
 
             Merchant::destroy($id);

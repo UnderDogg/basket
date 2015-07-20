@@ -55,4 +55,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('merchants/{id}',       'MerchantsController@destroy'  );
     Route::get(   'merchants/{id}/edit',  'MerchantsController@edit'     );
     Route::patch( 'merchants/{id}',       'MerchantsController@update'   );
+
+    Route::get(   'locations',            'LocationsController@index'    );
+    Route::get(   'locations/create',     'LocationsController@create'   );
+    Route::post(  'locations',            'LocationsController@store'    );
+    Route::get(   'locations/{id}',       'LocationsController@show'     );
+    Route::delete('locations/{id}',       'LocationsController@destroy'  );
+    Route::get(   'locations/{id}/edit',  'LocationsController@edit'     );
+    Route::patch( 'locations/{id}',       'LocationsController@update'   );
 });
