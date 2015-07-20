@@ -177,10 +177,37 @@ class MerchantsController extends Controller
 
         } catch (ModelNotFoundException $e) {
 
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
+            $this->logError('Deletion of this record did not complete successfully ' . $e->getMessage());
             $message = ['error', 'Deletion of this record did not complete successfully'];
         }
 
         return redirect('merchants')->with($message[0], $message[1]);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function synchronise($id)
+    {
+        if (!$this->isMerchantAllowedForUser($id)) {
+
+            return redirect('')->with('error', 'You are not allowed to take an action on this Merchant');
+        }
+
+        /** @var \App\Basket\Synchronisation\MerchantSynchronisationService $service */
+        $service = \App::make('App\Basket\Synchronisation\MerchantSynchronisationService');
+
+        try {
+            $service->synchroniseMerchant($id);
+            $message = ['success', 'Synchronisation complete successfully'];
+
+        } catch (\Exception $e) {
+
+            $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
+            $message = ['error', 'Synchronisation not complete successfully'];
+        }
+
+        return redirect('merchants/' . $id)->with($message[0], $message[1]);
     }
 }
