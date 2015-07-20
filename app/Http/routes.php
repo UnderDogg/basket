@@ -31,7 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('logout', 'Auth\AuthController@getLogout');
 
-    // User CRUD Routes
+    /*
+     * Users
+     */
     Route::get(   'user',            'UserController@index'    );
     Route::get(   'user/create',     'UserController@create'   );
     Route::post(  'user',            'UserController@store'    );
@@ -40,6 +42,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'user/{id}/edit',  'UserController@edit'     );
     Route::patch( 'user/{id}',       'UserController@update'   );
 
+    /*
+     * Roles
+     */
     Route::get(   'role',            'RoleController@index'    );
     Route::get(   'role/create',     'RoleController@create'   );
     Route::post(  'role',            'RoleController@store'    );
@@ -48,13 +53,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'role/{id}/edit',  'RoleController@edit'     );
     Route::patch( 'role/{id}',       'RoleController@update'   );
 
-    Route::get(   'merchants',            'MerchantsController@index'    );
-    Route::get(   'merchants/create',     'MerchantsController@create'   );
-    Route::post(  'merchants',            'MerchantsController@store'    );
-    Route::get(   'merchants/{id}',       'MerchantsController@show'     );
-    Route::delete('merchants/{id}',       'MerchantsController@destroy'  );
-    Route::get(   'merchants/{id}/edit',  'MerchantsController@edit'     );
-    Route::patch( 'merchants/{id}',       'MerchantsController@update'   );
+    /*
+     * Merchants
+     */
+    Route::get(   'merchants',                  'MerchantsController@index');
+    Route::get(   'merchants/create',           'MerchantsController@create');
+    Route::post(  'merchants',                  'MerchantsController@store');
+
+    Route::group(['middleware' => 'userActionMerchant'], function () {
+        Route::get('merchants/{id}', 'MerchantsController@show');
+        Route::delete('merchants/{id}', 'MerchantsController@destroy');
+        Route::get('merchants/{id}/edit', 'MerchantsController@edit');
+        Route::patch('merchants/{id}', 'MerchantsController@update');
+        Route::get('merchants/{id}/synchronise', 'MerchantsController@synchronise');
+    });
 
     Route::get(   'installations',            'InstallationsController@index'    );
     Route::get(   'installations/{id}',       'InstallationsController@show'     );
