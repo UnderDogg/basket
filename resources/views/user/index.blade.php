@@ -2,57 +2,61 @@
 
 @section('content')
 
-    <hr>
-    @if( $user->message !== null )
-        <div id="actionMessage" hidden="hidden">
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>Success</strong> {{ $user->message }}
-            </div>
-        </div>
-    @endif
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h1>Users <a href="{{ url('/user/create') }}" class="btn btn-info pull-right btn-sm">Add New User</a></h1>
-    <hr>
+    <h1>USERS
+        <a href="{{ url('/user/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New User</a>
+    </h1>
+    @include('includes.page.breadcrumb')
 
-    <div class="table">
+    <div class="panel panel-default">
+
+        @include('includes.form.record_counter', ['object' => $user])
+
+        <div class="panel-heading"><h4>Users</h4></div>
         <table class="table table-bordered table-striped table-hover">
+            {{-- TABLE HEADER WITH FILTERS --}}
+            {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th>ID</th><th>Name</th><th>Email</th><th class="text-right">Actions</th>
+                <th>Name @include('includes.form.input', ['field' => 'name'])</th>
+                <th>Email @include('includes.form.input', ['field' => 'email'])</th>
+
+                <th class="hidden-xs hidden-sm">Merchant @include('includes.form.associate_select', [
+                    'field' => 'merchant_id',
+                    'object' => $user,
+                    'associate'=>'merchant',
+                    'associateField'=>'name',
+                ])</th>
+                <th>
+                    <span class="pull-right">Actions</span>
+                    <br><hr class="hr-tight">
+                    @include('includes.form.filter_buttons')
+                </th>
             </tr>
+            {!! Form::close() !!}
             {{-- */$x=0;/* --}}
             @foreach($user as $item)
                 {{-- */$x++;/* --}}
                 <tr>
-                    <td class="col-xs-1">{{ $item->id }}</td>
-                    <td><a href="{{ url('/user', $item->id) }}">{{ $item->name }}</a></td>
-                    <td>{{ $item->email }}</td>
-                    {{--Action Buttons--}}
+                    <td>{{ $item->name }}</td>
+                    <td class="hidden-xs hidden-sm">{{ $item->email }}</td>
+                    <td class="hidden-xs hidden-sm">{{ $item->merchant->name }}</td>
+                    {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                        <div class="btn-group">
-                            <a href="{{ url('/user', $item->id) }}" style="color: #777 !important;" type="button" class="btn btn-default btn-xs"> VIEW </a>
-                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{ url('/user/'.$item->id.'/edit') }}">Edit</a></li>
-                                {{--<li><a href="#"> NEW BUTTON SPACER </a></li>--}}
-                                {{--<li><a href="#"> NEW BUTTON SPACER </a></li>--}}
-                                <li role="separator" class="divider"></li>
-                                {!! Form::open(['method'=>'delete','action'=>['UserController@destroy',$item->id]]) !!}
-                                <button style="" type="submit" class="btn btn-xs dropdown-delete">
-                                    <li><a>Delete</a></li>
-                                </button>
-                                {!! Form::close() !!}
-                            </ul>
-                        </div>
+                        @include('includes.form.record_buttons', ['record' => $item, 'crudName' => 'user'])
                     </td>
                 </tr>
             @endforeach
+            @if($x == 0) <td colspan="5"><em>0 Users</em></td> @endif
         </table>
     </div>
+    {{-- PAGINATION BUTTONS ON RENDER() --}}
+    {!! $user->appends(Request::except('page'))->render() !!}
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        Launch demo modal
+    </button>
 
 @endsection
