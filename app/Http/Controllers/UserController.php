@@ -26,7 +26,7 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @author MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -63,7 +63,7 @@ class UserController extends Controller
      * Show the form for creating a new resource.
      *
      * @author MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -74,7 +74,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @author MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function store(Request $request)
     {
@@ -107,7 +107,7 @@ class UserController extends Controller
      *
      * @author MS
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -134,7 +134,7 @@ class UserController extends Controller
      *
      * @author MS
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -162,7 +162,7 @@ class UserController extends Controller
      * @author MS
      * @param  int  $id
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function update($id, Request $request)
     {
@@ -196,7 +196,7 @@ class UserController extends Controller
      *
      * @author MS
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function destroy($id)
     {
@@ -212,5 +212,34 @@ class UserController extends Controller
         }
 
         return redirect('user')->with($message[0], $message[1]);
+    }
+
+    /**
+     * Delete
+     *
+     * @author MS
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function delete($id)
+    {
+        $user = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $user = User::findOrFail($id);
+            $user->type = 'user';
+            $user->controller = 'User';
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get user with ID: [' . $id . ']; User does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get user with ID: [' . $id . ']; User does not exist';
+        }
+
+        return view('includes.page.confirm_delete', ['object' => $user, 'messages' => $messages]);
     }
 }

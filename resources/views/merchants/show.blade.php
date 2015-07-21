@@ -5,7 +5,11 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}</h2>
+    <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
+        @if($merchants !== null)
+            @include('includes.page.show_details_button_group', ['id'=>$merchants->id,'edit'=>true,'sync'=>true])
+        @endif
+    </h2>
     @include('includes.page.breadcrumb', ['override2'=>$merchants->name])
 
     <div id="basketTabs">

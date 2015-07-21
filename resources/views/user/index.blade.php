@@ -44,7 +44,9 @@
                     <td class="hidden-xs hidden-sm">{{ $item->merchant->name }}</td>
                     {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                        @include('includes.form.record_buttons', ['record' => $item, 'crudName' => 'user'])
+                        @include('includes.form.record_actions', ['id' => $item->id,
+                            'actions' => ['edit' => 'Edit', 'delete' => 'Delete']
+                        ])
                     </td>
                 </tr>
             @endforeach
@@ -53,10 +55,5 @@
     </div>
     {{-- PAGINATION BUTTONS ON RENDER() --}}
     {!! $user->appends(Request::except('page'))->render() !!}
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-        Launch demo modal
-    </button>
 
 @endsection

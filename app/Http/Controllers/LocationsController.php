@@ -208,4 +208,33 @@ class LocationsController extends Controller
 
         return redirect('locations')->with($message[0], $message[1]);
     }
+
+    /**
+     * Delete
+     *
+     * @author MS
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function delete($id)
+    {
+        $location = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $location = Location::findOrFail($id);
+            $location->type = 'location';
+            $location->controller = 'Locations';
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get location with ID: [' . $id . ']; Location does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get location with ID: [' . $id . ']; Location does not exist';
+        }
+
+        return view('includes.page.confirm_delete', ['object' => $location, 'messages' => $messages]);
+    }
 }

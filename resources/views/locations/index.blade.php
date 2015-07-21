@@ -54,7 +54,9 @@
 
                     {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                        @include('includes.form.record_buttons', ['record' => $item, 'crudName' => 'locations'])
+                        @include('includes.form.record_actions', ['id' => $item->id,
+                            'actions' => ['edit' => 'Edit', 'delete' => 'Delete']
+                        ])
                     </td>
                 </tr>
             @endforeach

@@ -6,7 +6,12 @@
     </button>
     <ul class="dropdown-menu dropdown-menu-right">
         @foreach($actions as $k => $action)
+            @if($action === 'Delete')
+                <li role="separator" class="divider"></li>
+            @endif
+
             <li><a href="{{Request::URL()}}/{{$id}}/{{$k}}">{{$action}}</a></li>
+
         @endforeach
     </ul>
 </div>

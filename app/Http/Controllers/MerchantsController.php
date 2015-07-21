@@ -22,21 +22,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class MerchantsController extends Controller
 {
-    /** @var  \App\Basket\Synchronisation\MerchantSynchronisationService */
-    private $merchantSynchronisationService;
 
-    public function __construct()
-    {
-        $this->merchantSynchronisationService = \App::make('App\Basket\Synchronisation\MerchantSynchronisationService');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
         $messages = $this->getMessages();
         $merchants = null;
 
@@ -53,25 +46,25 @@ class MerchantsController extends Controller
         }
 
         return View('merchants.index', ['merchants' => $merchants, 'messages' => $messages]);
-    }
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
         return view('merchants.create', ['messages' => $this->getMessages()]);
-    }
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store(Request $request)
-    {
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(Request $request)
+	{
         $this->validate($request, [
             'name' => 'required',
             'token' => 'required',
@@ -81,34 +74,25 @@ class MerchantsController extends Controller
 
         try {
 
-            $merchant = Merchant::create($request->all());
+            Merchant::create($request->all());
 
-            $this->merchantSynchronisationService->synchroniseMerchant($merchant->id);
-
-            return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
-
-        } catch (\Exception $e) {
-
-            if (isset($merchant)) {
-
-                $merchant->delete();
-            }
+        } catch (ModelNotFoundException $e) {
 
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
             $message = ['error','Could not successfully create new Merchant'];
         }
 
         return redirect('merchants')->with($message[0], $message[1]);
-    }
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
         $merchants = null;
         $messages = $this->getMessages();
 
@@ -125,16 +109,16 @@ class MerchantsController extends Controller
         }
 
         return view('merchants.show', ['merchants' => $merchants, 'messages' => $messages]);
-    }
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
         $merchants = null;
         $messages = $this->getMessages();
 
@@ -151,16 +135,16 @@ class MerchantsController extends Controller
         }
 
         return view('merchants.edit', ['merchants' => $merchants, 'messages' => $messages]);
-    }
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id, Request $request)
-    {
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
         $message = ['success', 'Merchant details were successfully updated'];
 
         try {
@@ -177,46 +161,27 @@ class MerchantsController extends Controller
         }
 
         return redirect()->back()->with($message[0], $message[1]);
-    }
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $message = ['success','Role was successfully deleted'];
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+        $message = ['success','Merchant was successfully deleted'];
         try {
 
             Merchant::destroy($id);
 
         } catch (ModelNotFoundException $e) {
 
-            $this->logError('Deletion of this record did not complete successfully ' . $e->getMessage());
+            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
             $message = ['error', 'Deletion of this record did not complete successfully'];
         }
 
         return redirect('merchants')->with($message[0], $message[1]);
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function synchronise($id)
-    {
-        try {
-            $this->merchantSynchronisationService->synchroniseMerchant($id);
-            $message = ['success', 'Synchronisation complete successfully'];
-
-        } catch (\Exception $e) {
-
-            $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
-            $message = ['error', 'Synchronisation not complete successfully'];
-        }
-
-        return redirect('merchants/' . $id)->with($message[0], $message[1]);
-    }
+	}
 }
