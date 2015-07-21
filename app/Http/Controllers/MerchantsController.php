@@ -83,7 +83,7 @@ class MerchantsController extends Controller
 
             $merchant = Merchant::create($request->all());
 
-            $this->merchantSynchronisationService->synchroniseMerchant($merchant->id);
+            $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
 
             return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
 
