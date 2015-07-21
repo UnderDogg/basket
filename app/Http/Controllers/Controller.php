@@ -75,4 +75,29 @@ abstract class Controller extends BaseController
     {
         return \Log::getMonolog();
     }
+
+    /**
+     * @author WN
+     * @return \App\User|null
+     */
+    protected function getAuthenticatedUser()
+    {
+        return \Auth::getUser();
+    }
+
+    /**
+     * @author WN
+     * @param $merchantId
+     * @return bool
+     */
+    protected function isMerchantAllowedForUser($merchantId)
+    {
+        if (empty($this->getAuthenticatedUser()->merchant_id) ||
+            $this->getAuthenticatedUser()->merchant_id == $merchantId
+        ) {
+            return true;
+        }
+
+        return false;
+    }
 }

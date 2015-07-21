@@ -23,13 +23,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class InstallationsController extends Controller
 {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         $messages = $this->getMessages();
         $installations = null;
 
@@ -57,16 +57,16 @@ class InstallationsController extends Controller
         }
 
         return View('installations.index', ['installations' => $installations, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
 
         $installations = null;
         $messages = $this->getMessages();
@@ -84,16 +84,16 @@ class InstallationsController extends Controller
         }
 
         return view('installations.show', ['installations' => $installations, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         $installations = null;
         $messages = $this->getMessages();
 
@@ -110,16 +110,16 @@ class InstallationsController extends Controller
         }
 
         return view('installations.edit', ['installations' => $installations, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
         $message = ['success', 'Installation details were successfully updated'];
 
         try {
@@ -136,5 +136,5 @@ class InstallationsController extends Controller
         }
 
         return redirect()->back()->with($message[0], $message[1]);
-	}
+    }
 }
