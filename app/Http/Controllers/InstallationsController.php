@@ -22,6 +22,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class InstallationsController extends Controller
 {
+    /** @var \App\Basket\Synchronisation\InstallationSynchronisationService  */
+    private $installationSynchronisationService;
+
+    /**
+     * @author WN
+     */
+    public function __construct()
+    {
+        $this->installationSynchronisationService = \App::make(
+            'App\Basket\Synchronisation\InstallationSynchronisationService'
+        );
+    }
 
     /**
      * Display a listing of the resource.
@@ -136,5 +148,28 @@ class InstallationsController extends Controller
         }
 
         return redirect()->back()->with($message[0], $message[1]);
+    }
+
+    /**
+     * @author WN
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function synchroniseAllForMerchant($id)
+    {
+        try {
+            $this->installationSynchronisationService->synchroniseAllInstallations($id);
+            $message = ['success', 'Synchronisation complete successfully'];
+
+        } catch (\Exception $e) {
+
+            $this->logError(
+                'Error while trying to synchronise Installations for Merchant[' .
+                $id . ']: ' . $e->getMessage()
+            );
+            $message = ['error', 'Synchronisation not complete successfully'];
+        }
+
+        return redirect('merchants/' . $id)->with($message[0], $message[1]);
     }
 }

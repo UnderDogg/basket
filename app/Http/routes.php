@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('merchants/{id}/edit', 'MerchantsController@edit');
         Route::patch('merchants/{id}', 'MerchantsController@update');
         Route::get('merchants/{id}/synchronise', 'MerchantsController@synchronise');
+        Route::get('merchants/{id}/installations/synchronise', 'InstallationsController@synchroniseAllForMerchant');
     });
 
 
