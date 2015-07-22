@@ -1,5 +1,3 @@
-<br>
-<hr class="hr-tight">
 @if($object->count())
     @foreach($object as $item)
         {{-- */$selects[]=$item->{$field};/* --}}
@@ -7,7 +5,7 @@
 @endif
 
 <select class="filter form-control" name="{{ $field }}" value="{!! Request::only($field)[$field] !!}">
-    <option></option>
+    <option value="">All</option>
     @if($object->count())
         @foreach(array_unique($selects) as $option)
             <option

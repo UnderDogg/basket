@@ -71,7 +71,7 @@ class BasicModels extends Migration
 
         Schema::create('applications', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('requester')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('installation_id')->unsigned();
             $table->integer('location_id')->unsigned();
             $table->integer('ext_id');

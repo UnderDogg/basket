@@ -1,5 +1,3 @@
-<br>
-<hr class="hr-tight">
 @if(isset($associateField)){{-- */$itemProperty=$associateField;/* --}} @else {{-- */$itemProperty=$field;/* --}}@endif
 @if($object->count())
     @foreach($object as $item)
@@ -8,7 +6,7 @@
 @endif
 
 <select class="filter form-control" name="{{ $field }}" value="{!! Request::only($field)[$field] !!}">
-    <option></option>
+    <option value="">All</option>
     @if($object->count())
         @foreach(array_unique($selects) as $key => $option)
             <option

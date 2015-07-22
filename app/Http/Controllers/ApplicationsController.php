@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use App\Applications;
+use App\Basket\Applications;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ApplicationsController extends Controller
 {
@@ -19,30 +17,32 @@ class ApplicationsController extends Controller
 	 */
 	public function index()
 	{
-		$applications = Applications::latest()->get();
-		return view('applications.index', compact('applications'));
-	}
+        $messages = $this->getMessages();
+        $applications = null;
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return view('applications.create');
-	}
+        try {
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		Applications::create($request->all());
-		return redirect('applications');
+            $applications = Applications::query();
+
+            if (!empty($filter = $this->getTableFilter())) {
+                foreach ($filter as $field => $query) {
+
+                    $applications->where($field, 'like', '%' . $query . '%');
+                }
+                if (!$applications->count()) {
+                    $messages['info'] = 'No records were found that matched your filter';
+                }
+            }
+
+            $applications = $applications->paginate($this->getPageLimit());
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Error occurred getting applications: ' . $e->getMessage());
+            $messages['error'] = 'Error occurred getting applications';
+
+        }
+        return View('applications.index', ['applications' => $applications, 'messages' => $messages]);
 	}
 
 	/**
@@ -53,8 +53,22 @@ class ApplicationsController extends Controller
 	 */
 	public function show($id)
 	{
-		$applications = Applications::findOrFail($id);
-		return view('applications.show', compact('applications'));
+        $applications = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $applications = Applications::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not find application with ID: [' . $id . ']; Application does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not find application with ID: [' . $id . ']; Application does not exist';
+        }
+
+        return view('applications.show', ['applications' => $applications, 'messages' => $messages]);
 	}
 
 	/**
@@ -65,8 +79,26 @@ class ApplicationsController extends Controller
 	 */
 	public function edit($id)
 	{
-		$applications = Applications::findOrFail($id);
-		return view('applications.edit', compact('applications'));
+        $applications = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $applications = Applications::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get application with ID [' . $id . '] for editing; Application does not exist:' .
+                $e->getMessage()
+            );
+            $messages['error'] =
+                'Could not get application with ID [' .
+                $id .
+                '] for editing; Application does not exist';
+        }
+
+        return view('applications.edit', ['applications' => $applications, 'messages' => $messages]);
 	}
 
 	/**
@@ -77,22 +109,21 @@ class ApplicationsController extends Controller
 	 */
 	public function update($id, Request $request)
 	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		$applications = Applications::findOrFail($id);
-		$applications->update($request->all());
-		return redirect('applications');
-	}
+        $message = ['success', 'Application details were successfully updated'];
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		Applications::destroy($id);
-		return redirect('applications');
-	}
+        try {
 
+            $applications = Applications::findOrFail($id);
+            $applications->update($request->all());
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not update application with ID [' . $id . ']; Application does not exist' . $e->getMessage()
+            );
+            $message = ['error', 'Could not update application with ID [' . $id . ']; Application does not exist'];
+        }
+
+        return redirect()->back()->with($message[0], $message[1]);
+	}
 }

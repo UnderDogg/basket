@@ -17,14 +17,18 @@
             {{-- TABLE HEADER WITH FILTERS --}}
             {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th>Name @include('includes.form.input', ['field' => 'name'])</th>
-                <th>Active @include('includes.form.bool_select', ['field' => 'active', 'object' => $installations,'false'=>'Inactive','true'=>'Active'])</th>
-                <th>Linked @include('includes.form.bool_select', ['field' => 'linked', 'object' => $installations,'false'=>'Unlinked','true'=>'Linked'])</th>
-                <th>
-                    <span class="pull-right">Actions</span>
-                    <br><hr class="hr-tight">
-                    @include('includes.form.filter_buttons')
-                </th>
+                {{--TITLES--}}
+                <th>Name</th>
+                <th>Active</th>
+                <th>Linked</th>
+                <th><span class="pull-right">Actions</span></th>
+            </tr>
+            <tr>
+                {{--FILTERS--}}
+                <th>@include('includes.form.input', ['field' => 'name'])</th>
+                <th>@include('includes.form.bool_select', ['field' => 'active', 'object' => $installations,'false'=>'Inactive','true'=>'Active'])</th>
+                <th>@include('includes.form.bool_select', ['field' => 'linked', 'object' => $installations,'false'=>'Unlinked','true'=>'Linked'])</th>
+                <th>@include('includes.form.filter_buttons')</th>
             </tr>
             {!! Form::close() !!}
             {{-- */$x=0;/* --}}

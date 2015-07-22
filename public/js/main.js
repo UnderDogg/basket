@@ -27,10 +27,6 @@ $(document).ready(function(){
 
     // START - Enable JQueryUI Tabs
     $( "#basketTabs" ).tabs();
-
-    $('#myModal').on('show.bs.modal', function () {
-        $('#myInput').focus();
-    })
 });
 
 /* ==========================================================================

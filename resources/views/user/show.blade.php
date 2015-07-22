@@ -30,10 +30,10 @@
                     @if($user !== null)
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <strong>Reference: </strong> {{ $user->name  }}
+                                <strong>Name: </strong> {{ $user->name  }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Name: </strong> {{ $user->email  }}
+                                <strong>Email: </strong> {{ $user->email  }}
                             </li>
                             <li class="list-group-item">
                                 <strong>Merchant: </strong>

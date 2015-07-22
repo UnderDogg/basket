@@ -19,22 +19,25 @@
             {{-- TABLE HEADER WITH FILTERS --}}
             {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th class="hidden-xs hidden-sm">Reference @include('includes.form.input', ['field' => 'reference'])</th>
-                <th>Name @include('includes.form.input', ['field' => 'name'])</th>
-
-                <th class="hidden-xs hidden-sm">Installation @include('includes.form.associate_select', [
+                {{--TITLES--}}
+                <th class="hidden-xs hidden-sm">Reference</th>
+                <th>Name</th>
+                <th class="hidden-xs hidden-sm">Installation</th>
+                <th>Active</th>
+                <th><span class="pull-right">Actions</span></th>
+            </tr>
+            <tr>
+                {{--FILTERS--}}
+                <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'reference'])</th>
+                <th>@include('includes.form.input', ['field' => 'name'])</th>
+                <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
                     'field' => 'installation_id',
                     'object' => $locations,
                     'associate'=>'installation',
                     'associateField'=>'name',
                 ])</th>
-
-                <th>Active @include('includes.form.bool_select', ['field' => 'active', 'object' => $locations,'false'=>'Inactive','true'=>'Active'])</th>
-                <th>
-                    <span class="pull-right">Actions</span>
-                    <br><hr class="hr-tight">
-                    @include('includes.form.filter_buttons')
-                </th>
+                <th>@include('includes.form.bool_select', ['field' => 'active', 'object' => $locations,'false'=>'Inactive','true'=>'Active'])</th>
+                <th>@include('includes.form.filter_buttons')</th>
             </tr>
             {!! Form::close() !!}
             {{-- */$x=0;/* --}}
