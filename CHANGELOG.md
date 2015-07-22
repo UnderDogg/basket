@@ -9,6 +9,14 @@
 - Added Installations Read & Update
 - Made Improvements to Breadcrumb
 - Refactored Installations and Merchants to use Basket Eloquent Models
+- Middleware to control if *User* can perform actions on a *Merchant*
+- *Merchant* synchronisation GUI
+- *Merchant* creation extended with synchronisation
+- Actions o a row helper for blade
+- Added Locations CRUD
+
+## Bug Fixes
+- Code Standards fixes
 
 # 0.2.0
 2015-07-17
