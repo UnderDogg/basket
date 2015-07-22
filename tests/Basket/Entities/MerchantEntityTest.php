@@ -24,13 +24,13 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('WNowicki\Generic\EntityInterface', $entity);
+        $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', $entity);
         $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity);
     }
 
     public function testMakeEmpty()
     {
-        $this->assertInstanceOf('WNowicki\Generic\EntityInterface', MerchantEntity::make([]));
+        $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', MerchantEntity::make([]));
         $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', MerchantEntity::make([]));
     }
 
