@@ -63,7 +63,7 @@ class BasicModels extends Migration
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('merchant_id')->unsigned()->after('password')->default(0); // Added defaults: fix for sqlite
+            $table->integer('merchant_id')->unsigned()->after('password')->default(null)->nullable(); // Added defaults: fix for sqlite
             $table->string('locations')->after('merchant_id')->default(''); // Added defaults: fix for sqlite
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
