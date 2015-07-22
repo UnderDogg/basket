@@ -10,6 +10,7 @@
 
 namespace Tests\Basket\Entities;
 
+use App\Basket\Entities\ApplicationEntity;
 use App\Basket\Entities\InstallationEntity;
 
 /**
@@ -22,6 +23,76 @@ class InstallationEntityTest extends \TestCase
 {
     public function testInstance()
     {
+        $entity = ApplicationEntity::make(json_decode('
+        {
+    "id": 123,
+    "posted_date": "2015-03-17T15:18:00Z",
+    "current_status": "converted",
+    "customer": {
+        "title": "Mr",
+        "first_name": "Fillibert",
+        "last_name": "Labingi",
+        "email_address": "fillibertlabingi+paybreak@gmail.com",
+        "phone_home": null,
+        "phone_mobile": "07700900124",
+        "postcode": "TN12 6ZZ"
+    },
+    "application_address": {
+        "abode": "Flat 2A",
+        "building_name": "",
+        "building_number": "1",
+        "street": "Newtown Walk",
+        "locality": "",
+        "town": "Walmington-on-Sea",
+        "postcode": "TN12 6ZZ"
+    },
+    "installation": "NoveltyRock",
+    "order": {
+        "reference": "NRE01234",
+        "amount": 0,
+        "description": "",
+        "validity": ""
+    },
+    "products": {
+        "group": "FF",
+        "options": [
+            "*"
+        ],
+        "default": "FF/1-3"
+    },
+    "fulfilment": {
+        "method": "collection",
+        "location": "Walmington-on-Sea Store"
+    },
+    "applicant": {
+        "title": "Mr",
+        "first_name": "Fillibert",
+        "last_name": "Labingi",
+        "date_of_birth": "1970-01-01",
+        "email_address": "fillibert.labingi@gmail.com",
+        "phone_home": null,
+        "phone_mobile": "07700900123",
+        "postcode": "TN12 6ZZ"
+    },
+    "finance": {
+        "loan_amount": 0,
+        "order_amount": 0,
+        "deposit_amount": 0,
+        "subsidy_amount": 0,
+        "settlement_net_amount": 0
+    },
+    "metadata": {
+        "you": "do",
+        "what_ever": "you",
+        "want": 2
+    }
+}
+        ', true));
+
+        echo $entity->toJson(JSON_PRETTY_PRINT);
+
+die();
+
         $entity = new InstallationEntity();
 
         $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', $entity);
