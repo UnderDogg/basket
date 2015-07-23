@@ -40,6 +40,8 @@
             </button>
             <a class="navbar-brand" href="#">Basket</a>
         </div>
+
+        {{--NAVIGATION BAR--}}
         <div id="navbar" class="navbar-collapse collapse">
             @if ( \Auth::check())
                 <ul class="nav navbar-nav">
@@ -48,19 +50,20 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Make Application</a></li>
-                            <li><a href="#">Application List</a></li>
+                            <li><a href="/applications">Applications List</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Manager</li>
-                            <li><a href="\installations">Installations</a></li>
-                            <li><a href="\locations">Locations</a></li>
+                            <li><a href="/installations">Installations</a></li>
+                            <li><a href="/locations">Locations</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">Administrator</li>
-                            <li><a href="\users">Users</a></li>
-                            <li><a href="\merchants">Merchants</a></li>
+                            <li><a href="/users">Users</a></li>
+                            <li><a href="/merchants">Merchants</a></li>
+                            <li><a href="/roles">Roles & Permissions</a></li>
                         </ul>
                     </li>
                 </ul>
