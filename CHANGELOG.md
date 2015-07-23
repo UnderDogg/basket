@@ -14,6 +14,8 @@
 - *Merchant* creation extended with synchronisation
 - Actions o a row helper for blade
 - Added Locations CRUD
+- Added Applications: Read views
+- Added pattern for drop downs on edit pages
 
 ## Bug Fixes
 - Code Standards fixes
