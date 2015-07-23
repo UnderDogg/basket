@@ -15,7 +15,6 @@ use App\Basket\Gateways\InstallationGateway;
 use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
 use Psr\Log\LoggerInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Installation Synchronisation Service
@@ -167,23 +166,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $installation->ext_return_url = $installationEntity->getReturnUrl();
         $installation->ext_notification_url = $installationEntity->getNotificationUrl();
         $installation->ext_default_product = $installationEntity->getDefaultProduct();
-    }
-
-    /**
-     * @param $id
-     * @return Installation
-     */
-    private function fetchInstallationLocalObject($id)
-    {
-        try {
-            return Installation::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-            $this->logError(
-                __CLASS__ . ': Failed fetching Installation[' . $id . '] local object: ' . $e->getMessage()
-            );
-            throw $e;
-        }
     }
 
     /**
