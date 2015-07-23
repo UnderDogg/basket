@@ -200,23 +200,4 @@ class MerchantsController extends Controller
 
         return redirect('merchants')->with($message[0], $message[1]);
     }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function synchronise($id)
-    {
-        try {
-            $this->merchantSynchronisationService->synchroniseMerchant($id);
-            $message = ['success', 'Synchronisation complete successfully'];
-
-        } catch (\Exception $e) {
-
-            $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
-            $message = ['error', 'Synchronisation not complete successfully'];
-        }
-
-        return redirect('merchants/' . $id)->with($message[0], $message[1]);
-    }
 }

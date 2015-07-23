@@ -1,0 +1,79 @@
+@extends('master')
+
+@section('content')
+
+
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
+    <h1>APPLICATIONS</h1>
+    @include('includes.page.breadcrumb')
+
+    <div class="panel panel-default">
+
+        @include('includes.form.record_counter', ['object' => $applications])
+
+        <div class="panel-heading"><h4>Locations</h4></div>
+        <table class="table table-bordered table-striped table-hover">
+        {{-- TABLE HEADER WITH FILTERS --}}
+        {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
+        <tr>
+            {{--TITLES--}}
+            <th class="hidden-xs hidden-sm">Application ID</th>
+            <th>Received</th>
+            <th>Current Status</th>
+            <th>Retailer Reference</th>
+            <th>Order Amount</th>
+            <th class="hidden-xs hidden-sm">Loan Amount</th>
+            <th class="hidden-xs hidden-sm">Deposit</th>
+            <th class="hidden-xs hidden-sm">Subsidy</th>
+            <th>Net Settlement</th>
+            <th class="hidden-xs hidden-sm">Location</th>
+            <th class="col-xs-3 col-sm-3 col-md-2 col-lg-1"><span class="pull-right">Actions</span></th>
+        </tr>
+        <tr>
+            {{--FILTERS--}}
+            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_id'])</th>
+            <th>@include('includes.form.input', ['field' => 'created_at'])</th>
+            <th>@include('includes.form.input', ['field' => 'ext_current_status'])</th>
+            <th>@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
+            <th>@include('includes.form.input', ['field' => 'ext_order_amount'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_loan_amount'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_deposit'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_subsidy'])</th>
+            <th>@include('includes.form.input', ['field' => 'ext_order_net_settlement'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => ''])</th>
+            <th class="col-xs-3 col-sm-3 col-md-2 col-lg-1">@include('includes.form.filter_buttons')</th>
+        </tr>
+        {!! Form::close() !!}
+        {{-- */$x=0;/* --}}
+        @foreach($applications as $item)
+            {{-- */$x++;/* --}}
+            <tr>
+                <td>{{ $item->ext_id }}</td>
+                <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
+                <td>{{ $item->ext_current_status }}</td>
+                <td>{{ $item->ext_order_reference }}</td>
+                <td>{{ '£' . number_format($item->ext_order_amount/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_order_loan_amount/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_order_deposit/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_order_subsidy/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_order_net_settlement/100, 2) }}</td>
+                <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
+
+
+                {{-- ACTION BUTTONS --}}
+                <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
+                    @include('includes.form.record_actions', ['id' => $item->id,
+                        'actions' => ['edit' => 'Edit', 'synchronise' => 'Synchronise']
+                    ])
+                </td>
+            </tr>
+        @endforeach
+        @if($x == 0) <td colspan="11"><em>0 Applications</em></td> @endif
+    </table>
+    </div>
+    {{-- PAGINATION BUTTONS ON RENDER() --}}
+    {!! $applications->appends(Request::except('page'))->render() !!}
+
+@endsection

@@ -20,19 +20,20 @@
             {{-- TABLE HEADER WITH FILTERS --}}
             {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th>ID: @include('includes.form.input', ['field' => 'id'])</th>
-
-                <th>Display Name: @include('includes.form.input', ['field' => 'display_name'])</th>
-
-                <th class="hidden-xs hidden-sm">Role Code: @include('includes.form.input', ['field' => 'name'])</th>
-
-                <th class="hidden-xs hidden-sm">Description: @include('includes.form.input', ['field' => 'description'])</th>
-
-                <th>
-                    <span class="pull-right">Actions</span>
-                    <br><hr class="hr-tight">
-                    @include('includes.form.filter_buttons')
-                </th>
+                {{--TITLES--}}
+                <th>ID</th>
+                <th>Display Name</th>
+                <th class="hidden-xs hidden-sm">Role Code</th>
+                <th class="hidden-xs hidden-sm">Description</th>
+                <th><span class="pull-right">Actions</span></th>
+            </tr>
+            <tr>
+                {{--FILTERS--}}
+                <th>@include('includes.form.input', ['field' => 'id'])</th>
+                <th>@include('includes.form.input', ['field' => 'display_name'])</th>
+                <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'name'])</th>
+                <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'description'])</th>
+                <th>@include('includes.form.filter_buttons')</th>
             </tr>
             {!! Form::close() !!}
 
@@ -49,7 +50,9 @@
 
                     {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                        @include('includes.form.record_buttons', ['record' => $item, 'crudName' => 'role'])
+                        @include('includes.form.record_actions', ['id' => $item->id,
+                            'actions' => ['edit' => 'Edit', 'delete' => 'Delete']
+                        ])
                     </td>
                 </tr>
             @endforeach
