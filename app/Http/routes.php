@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post(  'merchants',                          'MerchantsController@store');
 
     Route::group(['middleware' => 'userActionMerchant'], function () {
+
         Route::get('merchants/{id}',                            'MerchantsController@show');
         Route::delete('merchants/{id}',                         'MerchantsController@destroy');
         Route::get('merchants/{id}/edit',                       'MerchantsController@edit');

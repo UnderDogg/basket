@@ -196,21 +196,4 @@ class RoleControllerTest extends TestCase
         $this->assertEquals( 'Unit Test', $roleData->display_name               );
         $this->assertEquals( 'Unit Test Description', $roleData->description    );
     }
-
-    /**
-     * Test Roles and Associations Are Deleted
-     *
-     * @author MS
-     */
-    public function test_roles_and_associations_are_deleted()
-    {
-        // Press Delete button from role index page with name (ID 2)
-        $this->visit('/role')
-            ->press('delete2');
-
-        // Test Role ID 2 and all related assoc permissions in association table are removed
-        $this->assertEmpty( Role::find(2)                                       );
-        $this->assertEmpty( RolePermissions::where('role_id', '=', 2)->get()    );
-
-    }
 }
