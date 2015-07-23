@@ -37,5 +37,11 @@ class AppServiceProvider extends ServiceProvider
             'App\Basket\Synchronisation\InstallationSynchronisationService',
             'App\Basket\Synchronisation\InstallationSynchronisationService'
         );
+
+        $this->app->bind('App\Basket\Gateways\ApplicationGateway', 'App\Basket\Gateways\ApplicationGateway');
+        $this->app->bind(
+            'App\Basket\Synchronisation\ApplicationSynchronisationService',
+            'App\Basket\Synchronisation\ApplicationSynchronisationService'
+        );
     }
 }
