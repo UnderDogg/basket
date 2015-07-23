@@ -34,14 +34,14 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Users
      */
-    Route::get(   'user',             'UserController@index');
-    Route::get(   'user/create',      'UserController@create');
-    Route::get(   'user/{id}/delete', 'UserController@delete');
-    Route::post(  'user',             'UserController@store');
-    Route::get(   'user/{id}',        'UserController@show');
-    Route::delete('user/{id}',        'UserController@destroy');
-    Route::get(   'user/{id}/edit',   'UserController@edit');
-    Route::patch( 'user/{id}',        'UserController@update');
+    Route::get(   'users',             'UsersController@index');
+    Route::get(   'users/create',      'UsersController@create');
+    Route::get(   'users/{id}/delete', 'UsersController@delete');
+    Route::post(  'users',             'UsersController@store');
+    Route::get(   'users/{id}',        'UsersController@show');
+    Route::delete('users/{id}',        'UsersController@destroy');
+    Route::get(   'users/{id}/edit',   'UsersController@edit');
+    Route::patch( 'users/{id}',        'UsersController@update');
 
     /*
      * Roles
