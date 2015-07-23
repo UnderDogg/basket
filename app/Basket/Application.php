@@ -13,6 +13,52 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Application
  *
+ * @property int $id
+ * @property int $requester
+ * @property int $installation_id
+ * @property int $location_id
+ * @property int $ext_id
+ * @property string $ext_current_status
+ * @property string $ext_order_reference
+ * @property int $ext_order_amount
+ * @property int $ext_order_loan_amount
+ * @property int $ext_order_deposit
+ * @property int $ext_order_subsidy
+ * @property int $ext_order_net_settlement
+ * @property string $ext_order_description
+ * @property string $ext_order_validity
+ * @property string $ext_products_options
+ * @property string $ext_products_groups
+ * @property string $ext_products_default
+ * @property string $ext_fulfilment_method
+ * @property string $ext_fulfilment_location
+ * @property string $ext_customer_title
+ * @property string $ext_customer_first_name
+ * @property string $ext_customer_last_name
+ * @property string $ext_customer_email_address
+ * @property string $ext_customer_phone_home
+ * @property string $ext_customer_phone_mobile
+ * @property string $ext_customer_postcode
+ * @property string $ext_application_address_abode
+ * @property string $ext_application_address_building_name
+ * @property string $ext_application_address_building_number
+ * @property string $ext_application_address_street
+ * @property string $ext_application_address_locality
+ * @property string $ext_application_address_town
+ * @property string $ext_application_address_postcode
+ * @property string $ext_applicant_title
+ * @property string $ext_applicant_first_name
+ * @property string $ext_applicant_last_name
+ * @property string $ext_applicant_date_of_birth
+ * @property string $ext_applicant_email_address
+ * @property string $ext_applicant_phone_home
+ * @property string $ext_applicant_phone_mobile
+ * @property string $ext_applicant_postcode
+ * @property string $ext_metadata
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $last_sync_at
+ * 
  * @author MS
  * @package App\Basket
  */
