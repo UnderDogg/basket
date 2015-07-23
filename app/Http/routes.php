@@ -46,14 +46,14 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Roles
      */
-    Route::get(   'role',             'RoleController@index');
-    Route::get(   'role/{id}/delete', 'RoleController@delete');
-    Route::get(   'role/create',      'RoleController@create');
-    Route::post(  'role',             'RoleController@store');
-    Route::get(   'role/{id}',        'RoleController@show');
-    Route::delete('role/{id}',        'RoleController@destroy');
-    Route::get(   'role/{id}/edit',   'RoleController@edit');
-    Route::patch( 'role/{id}',        'RoleController@update');
+    Route::get(   'roles',             'RolesController@index');
+    Route::get(   'roles/{id}/delete', 'RolesController@delete');
+    Route::get(   'roles/create',      'RolesController@create');
+    Route::post(  'roles',             'RolesController@store');
+    Route::get(   'roles/{id}',        'RolesController@show');
+    Route::delete('roles/{id}',        'RolesController@destroy');
+    Route::get(   'roles/{id}/edit',   'RolesController@edit');
+    Route::patch( 'roles/{id}',        'RolesController@update');
 
     /*
      * Merchants
