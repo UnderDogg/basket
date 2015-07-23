@@ -24,25 +24,32 @@ use App\Basket\Merchant;
 class MerchantSynchronisationService extends AbstractSynchronisationService
 {
     private $gateway;
+    private $installationSynchronisationService;
 
     /**
      * @author WN
      * @param MerchantGateway $gateway
+     * @param InstallationSynchronisationService $installationSynchronisationService
      * @param LoggerInterface $logger
      */
-    public function __construct(MerchantGateway $gateway, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        MerchantGateway $gateway,
+        InstallationSynchronisationService $installationSynchronisationService,
+        LoggerInterface $logger = null
+    ) {
         $this->gateway = $gateway;
+        $this->installationSynchronisationService = $installationSynchronisationService;
         parent::__construct($logger);
     }
 
     /**
      * @author WN
      * @param int $id
+     * @param bool $withInstallations
      * @return Merchant
      * @throws \Exception
      */
-    public function synchroniseMerchant($id)
+    public function synchroniseMerchant($id, $withInstallations = false)
     {
         $merchant = $this->fetchMerchantLocalObject($id);
 
@@ -61,6 +68,10 @@ class MerchantSynchronisationService extends AbstractSynchronisationService
         $this->mapMerchant($merchantEntity, $merchant);
         $merchant->linked = true;
         $merchant->save();
+
+        if ($withInstallations) {
+            $this->installationSynchronisationService->synchroniseAllInstallations($merchant->id);
+        }
 
         return $merchant;
     }

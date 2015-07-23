@@ -5,8 +5,12 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h2>{{ Str::upper(' view ' . Request::segment(1)) }}</h2>
-    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>'','override3'=>'','override4'=>''])
+    <h2>{{ Str::upper(' view ' . Request::segment(1)) }}
+        @if($role !== null)
+            @include('includes.page.show_details_button_group', ['id'=>$role->id,'edit'=>true,'sync'=>true,'delete'=>true])
+        @endif
+    </h2>
+    @include('includes.page.breadcrumb')
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">

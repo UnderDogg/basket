@@ -12,6 +12,7 @@ namespace App\Basket\Synchronisation;
 
 use Psr\Log\LoggerInterface;
 use App\Basket\Merchant;
+use App\Basket\Installation;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
@@ -48,6 +49,23 @@ class AbstractSynchronisationService {
 
         } catch (ModelNotFoundException $e) {
             $this->logError(__CLASS__ . ': Failed fetching Merchant[' . $id . '] local object: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $id
+     * @return Installation
+     */
+    protected function fetchInstallationLocalObject($id)
+    {
+        try {
+            return Installation::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+            $this->logError(
+                __CLASS__ . ': Failed fetching Installation[' . $id . '] local object: ' . $e->getMessage()
+            );
             throw $e;
         }
     }

@@ -12,7 +12,6 @@ namespace App\Basket\Gateways;
 
 use App\Basket\Entities\MerchantEntity;
 use App\Exceptions\Exception;
-use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
  * Class MerchantGateway
@@ -30,25 +29,10 @@ class MerchantGateway extends AbstractGateway
      */
     public function getMerchant($id, $token)
     {
-        $api = $this->getApiFactory()->makeApiClient($token);
+        $merchant = MerchantEntity::make($this->fetchDocument('/v4/merchant', $token, 'Merchant'));
 
-        try {
+        $merchant->setAddress(json_encode($merchant->getAddress()));
 
-            $merchant = MerchantEntity::make($api->get('/v4/merchant'));
-
-            $merchant->setAddress(json_encode($merchant->getAddress()));
-
-            return $merchant->setId($id);
-
-        } catch (ErrorResponseException $e) {
-
-            throw new Exception($e->getMessage());
-
-        } catch (\Exception $e) {
-
-            $this->logError('MerchantGateway::getMerchant[' . $e->getCode() . ']: ' . $e->getMessage());
-
-            throw new Exception('Problem fetching Merchant data form Provider API');
-        }
+        return $merchant->setId($id);
     }
 }

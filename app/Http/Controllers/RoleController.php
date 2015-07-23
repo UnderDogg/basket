@@ -318,4 +318,33 @@ class RoleController extends Controller
         }
         return $role;
     }
+
+    /**
+     * Delete
+     *
+     * @author MS
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function delete($id)
+    {
+        $role = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $role = Role::findOrFail($id);
+            $role->type = 'role';
+            $role->controller = 'Role';
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get role with ID: [' . $id . ']; Role does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get role with ID: [' . $id . ']; Role does not exist';
+        }
+
+        return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $messages]);
+    }
 }

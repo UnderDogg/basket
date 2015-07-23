@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb', ['override1'=>'','override2'=>$merchants->name,'override3'=>'','override4'=>''])
+    @include('includes.page.breadcrumb', ['override2'=>$merchants->name])
 
     <p>&nbsp;</p>
     @if($merchants !== null)
