@@ -19,20 +19,21 @@
             {{-- TABLE HEADER WITH FILTERS --}}
             {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
             <tr>
-                <th>Name @include('includes.form.input', ['field' => 'name'])</th>
-                <th>Email @include('includes.form.input', ['field' => 'email'])</th>
-
-                <th class="hidden-xs hidden-sm">Merchant @include('includes.form.associate_select', [
+                <th>Name</th>
+                <th>Email</th>
+                <th class="hidden-xs hidden-sm">Merchant</th>
+                <th><span class="pull-right">Actions</span></th>
+            </tr>
+            <tr>
+                <th>@include('includes.form.input', ['field' => 'name'])</th>
+                <th>@include('includes.form.input', ['field' => 'email'])</th>
+                <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
                     'field' => 'merchant_id',
                     'object' => $user,
                     'associate'=>'merchant',
                     'associateField'=>'name',
                 ])</th>
-                <th>
-                    <span class="pull-right">Actions</span>
-                    <br><hr class="hr-tight">
-                    @include('includes.form.filter_buttons')
-                </th>
+                <th>@include('includes.form.filter_buttons')</th>
             </tr>
             {!! Form::close() !!}
             {{-- */$x=0;/* --}}
