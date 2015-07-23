@@ -17,6 +17,7 @@
 
 ## Bug Fixes
 - Code Standards fixes
+- Fixed user migration for `merchant_id` `nullable()`
 
 # 0.2.0
 2015-07-17
