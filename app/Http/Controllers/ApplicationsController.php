@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Basket\Applications;
+use App\Basket\Application;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -22,7 +22,7 @@ class ApplicationsController extends Controller
 
         try {
 
-            $applications = Applications::query();
+            $applications = Application::query();
 
             if (!empty($filter = $this->getTableFilter())) {
                 foreach ($filter as $field => $query) {
@@ -58,7 +58,7 @@ class ApplicationsController extends Controller
 
         try {
 
-            $applications = Applications::findOrFail($id);
+            $applications = Application::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
 
@@ -84,7 +84,7 @@ class ApplicationsController extends Controller
 
         try {
 
-            $applications = Applications::findOrFail($id);
+            $applications = Application::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
 
@@ -113,7 +113,7 @@ class ApplicationsController extends Controller
 
         try {
 
-            $applications = Applications::findOrFail($id);
+            $applications = Application::findOrFail($id);
             $applications->update($request->all());
 
         } catch (ModelNotFoundException $e) {

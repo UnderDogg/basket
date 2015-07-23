@@ -11,12 +11,12 @@ namespace App\Basket;
 
 use Illuminate\Database\Eloquent\Model;
 /**
- * Class Applications
+ * Class Application
  *
  * @author MS
  * @package App\Basket
  */
-class Applications extends Model  {
+class Application extends Model  {
 
     /**
      * The database table used by the model.
