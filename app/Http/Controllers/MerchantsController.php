@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
@@ -87,12 +88,7 @@ class MerchantsController extends Controller
 
             return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
 
-        } catch (\Exception $e) {
-
-            if (isset($merchant)) {
-
-                $merchant->delete();
-            }
+        } catch (ModelNotFoundException $e) {
 
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
             $message = ['error','Could not successfully create new Merchant'];
@@ -187,14 +183,14 @@ class MerchantsController extends Controller
      */
     public function destroy($id)
     {
-        $message = ['success','Role was successfully deleted'];
+        $message = ['success','Merchant was successfully deleted'];
         try {
 
             Merchant::destroy($id);
 
         } catch (ModelNotFoundException $e) {
 
-            $this->logError('Deletion of this record did not complete successfully ' . $e->getMessage());
+            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
             $message = ['error', 'Deletion of this record did not complete successfully'];
         }
 
@@ -210,13 +206,10 @@ class MerchantsController extends Controller
         try {
             $this->merchantSynchronisationService->synchroniseMerchant($id);
             $message = ['success', 'Synchronisation complete successfully'];
-
         } catch (\Exception $e) {
-
             $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
             $message = ['error', 'Synchronisation not complete successfully'];
         }
-
         return redirect('merchants/' . $id)->with($message[0], $message[1]);
     }
 }

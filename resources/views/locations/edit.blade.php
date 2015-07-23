@@ -9,8 +9,12 @@
     @include('includes.page.breadcrumb', ['override2'=>$location->name])
 
     <p>&nbsp;</p>
-    @if($location !== null)
-        {!! Form::model($location, ['method' => 'PATCH', 'action' => ['LocationsController@update', $location->id], 'class' => 'form-horizontal']) !!}
+    @if($location !== null && $installations !== null)
+        {!! Form::model($location, [
+            'method' => 'PATCH',
+            'action' => ['LocationsController@update', $location->id],
+            'class' => 'form-horizontal'
+        ]) !!}
         <div class="col-xs-12">
             <div class="form-group">
                 {!! Form::label('reference', 'Reference: ', ['class' => 'col-sm-3 control-label']) !!}
@@ -20,12 +24,16 @@
             </div><div class="form-group">
                 {!! Form::label('installation_id', 'Installation Id: ', ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
-                    {!! Form::text('installation_id', null, ['class' => 'form-control']) !!}
+                    @include('includes.form.id_as_value_select', [
+                        'select_id' => $location->installation_id,
+                        'field' => 'installation_id',
+                        'object' => $installations
+                    ])
                 </div>
             </div><div class="form-group">
                 {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
-                    {!! Form::text('active', null, ['class' => 'form-control']) !!}
+                    {!! Form::checkbox('active', null, ['class' => 'form-control']) !!}
                 </div>
             </div><div class="form-group">
                 {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}

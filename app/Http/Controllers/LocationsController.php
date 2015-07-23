@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
 use App\Http\Requests;
 use App\Basket\Location;
 use Illuminate\Http\Request;
@@ -135,11 +136,13 @@ class LocationsController extends Controller
     public function edit($id)
     {
         $locations = null;
+        $installations = null;
         $messages = $this->getMessages();
 
         try {
 
             $locations = Location::findOrFail($id);
+            $installations = Installation::query()->get();
 
         } catch (ModelNotFoundException $e) {
 
@@ -149,7 +152,7 @@ class LocationsController extends Controller
             $messages['error'] = 'Could not get Location with ID [' . $id . '] for editing; Location does not exist';
         }
 
-        return view('locations.edit', ['location' => $locations, 'messages' => $messages]);
+        return view('locations.edit', ['location' => $locations, 'installations' => $installations, 'messages' => $messages]);
     }
 
     /**
@@ -174,7 +177,9 @@ class LocationsController extends Controller
         try {
 
             $locations = Location::findOrFail($id);
-            $locations->update($request->all());
+            $toUpdate = $request->all();
+            $toUpdate['active'] = ($request->has('active')) ? 1 : 0;
+            $locations->update($toUpdate);
 
         } catch (ModelNotFoundException $e) {
 
@@ -207,5 +212,34 @@ class LocationsController extends Controller
         }
 
         return redirect('locations')->with($message[0], $message[1]);
+    }
+
+    /**
+     * Delete
+     *
+     * @author MS
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function delete($id)
+    {
+        $location = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $location = Location::findOrFail($id);
+            $location->type = 'location';
+            $location->controller = 'Locations';
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get location with ID: [' . $id . ']; Location does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get location with ID: [' . $id . ']; Location does not exist';
+        }
+
+        return view('includes.page.confirm_delete', ['object' => $location, 'messages' => $messages]);
     }
 }

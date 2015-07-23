@@ -68,6 +68,60 @@ class BasicModels extends Migration
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
+
+        Schema::create('applications', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('installation_id')->unsigned();
+            $table->integer('location_id')->unsigned()->nullable();
+            $table->integer('ext_id');
+            $table->string('ext_current_status');
+            $table->string('ext_order_reference');
+            $table->integer('ext_order_amount');
+            $table->string('ext_order_description')->nullable();
+            $table->string('ext_order_validity')->nullable();
+            $table->string('ext_products_groups');
+            $table->json('ext_products_options')->nullable();
+            $table->string('ext_products_default');
+            $table->string('ext_fulfilment_method');
+            $table->string('ext_fulfilment_location');
+            $table->string('ext_customer_title')->nullable();
+            $table->string('ext_customer_first_name')->nullable();
+            $table->string('ext_customer_last_name')->nullable();
+            $table->string('ext_customer_email_address')->nullable();
+            $table->string('ext_customer_phone_home')->nullable();
+            $table->string('ext_customer_phone_mobile')->nullable();
+            $table->string('ext_customer_postcode')->nullable();
+            $table->string('ext_application_address_abode')->nullable();
+            $table->string('ext_application_address_building_name')->nullable();
+            $table->string('ext_application_address_building_number')->nullable();
+            $table->string('ext_application_address_street');
+            $table->string('ext_application_address_locality')->nullable();
+            $table->string('ext_application_address_town')->nullable();
+            $table->string('ext_application_address_postcode');
+            $table->string('ext_applicant_title')->nullable();
+            $table->string('ext_applicant_first_name')->nullable();
+            $table->string('ext_applicant_last_name')->nullable();
+            $table->string('ext_applicant_date_of_birth')->nullable();
+            $table->string('ext_applicant_email_address')->nullable();
+            $table->string('ext_applicant_phone_home')->nullable();
+            $table->string('ext_applicant_phone_mobile')->nullable();
+            $table->string('ext_applicant_postcode')->nullable();
+            $table->integer('ext_finance_order_amount');
+            $table->integer('ext_finance_loan_amount');
+            $table->integer('ext_finance_deposit');
+            $table->integer('ext_finance_subsidy');
+            $table->integer('ext_finance_net_settlement');
+            $table->json('ext_metadata')->nullable();
+
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('last_sync_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('installation_id')->references('id')->on('installations');
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**

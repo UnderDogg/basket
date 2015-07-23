@@ -46,7 +46,7 @@ class Location extends Model
     ];
 
     /**
-     * Get the phone record associated with the user.
+     * Get the installation record for the application
      */
     public function installation()
     {

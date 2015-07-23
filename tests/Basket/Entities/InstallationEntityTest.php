@@ -10,6 +10,7 @@
 
 namespace Tests\Basket\Entities;
 
+use App\Basket\Entities\ApplicationEntity;
 use App\Basket\Entities\InstallationEntity;
 
 /**

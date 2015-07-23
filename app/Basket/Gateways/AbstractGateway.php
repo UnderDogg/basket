@@ -13,6 +13,8 @@ namespace App\Basket\Gateways;
 use App\Gateways\ApiClientFactory;
 use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
+use App\Exceptions\Exception;
+use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
  * Abstract Gateway
@@ -42,9 +44,37 @@ abstract class AbstractGateway
      * @author WN
      * @return ApiClientFactory
      */
-    public function getApiFactory()
+    protected function getApiFactory()
     {
         return $this->apiFactory;
+    }
+
+    /**
+     * @author WN
+     * @param $documentPath
+     * @param $token
+     * @param $documentName
+     * @return array
+     * @throws Exception
+     */
+    protected function fetchDocument($documentPath, $token, $documentName)
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        try {
+            return $api->get($documentPath);
+
+        } catch (ErrorResponseException $e) {
+
+            throw new Exception($e->getMessage());
+
+        } catch (\Exception $e) {
+
+            $this->logError(
+                $documentName . 'Gateway::get' . $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
+            );
+            throw new Exception('Problem fetching ' . $documentName . ' data form Provider API');
+        }
     }
 
     /**
