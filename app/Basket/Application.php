@@ -14,17 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  * Class Application
  *
  * @property int $id
- * @property int $requester
+ * @property int $user_id
  * @property int $installation_id
  * @property int $location_id
  * @property int $ext_id
  * @property string $ext_current_status
  * @property string $ext_order_reference
  * @property int $ext_order_amount
- * @property int $ext_order_loan_amount
- * @property int $ext_order_deposit
- * @property int $ext_order_subsidy
- * @property int $ext_order_net_settlement
  * @property string $ext_order_description
  * @property string $ext_order_validity
  * @property string $ext_products_options
@@ -54,6 +50,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $ext_applicant_phone_home
  * @property string $ext_applicant_phone_mobile
  * @property string $ext_applicant_postcode
+ * @property int $ext_finance_order_amount
+ * @property int $ext_finance_loan_amount
+ * @property int $ext_finance_deposit
+ * @property int $ext_finance_subsidy
+ * @property int $ext_finance_net_settlement
  * @property string $ext_metadata
  * @property string $created_at
  * @property string $updated_at
@@ -77,17 +78,13 @@ class Application extends Model  {
      * @var array
      */
     protected $fillable = [
-        'requester',
+        'user_id',
         'installation_id',
         'location_id',
         'ext_id',
         'ext_current_status',
         'ext_order_reference',
         'ext_order_amount',
-        'ext_order_loan_amount',
-        'ext_order_deposit',
-        'ext_order_subsidy',
-        'ext_order_net_settlement',
         'ext_order_description',
         'ext_order_validity',
         'ext_products_options',
@@ -117,6 +114,11 @@ class Application extends Model  {
         'ext_applicant_phone_home',
         'ext_applicant_phone_mobile',
         'ext_applicant_postcode',
+        'ext_finance_order_amount',
+        'ext_finance_loan_amount',
+        'ext_finance_deposit',
+        'ext_finance_subsidy',
+        'ext_finance_net_settlement',
         'ext_metadata',
         'last_sync_at'
     ];

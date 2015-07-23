@@ -82,7 +82,6 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'merchant_id' => 'required',
         ]);
 
         $message = ['success','New User has been successfully created'];
@@ -90,6 +89,7 @@ class UserController extends Controller
         try {
 
             $array = $request->all();
+            $array['merchant_id'] = $this->getAuthenticatedUser()->merchant_id;
             $array['password'] = bcrypt($array['password']);
             User::create($array);
 

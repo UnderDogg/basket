@@ -27,11 +27,6 @@
                 {!! Form::password('password', ['class' => 'form-control'], null) !!}
             </div>
         </div><div class="form-group">
-            {!! Form::label('merchant_id', 'Merchant Id: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
-                {!! Form::text('merchant_id', null, ['class' => 'form-control']) !!}
-            </div>
-        </div><div class="form-group">
             {!! Form::label('locations', 'Locations: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
                 {!! Form::text('locations', null, ['class' => 'form-control']) !!}
