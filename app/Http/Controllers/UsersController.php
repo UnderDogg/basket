@@ -14,12 +14,12 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 /**
- * Class UserController
+ * Class UsersController
  *
  * @author MS
  * @package App\Http\Controllers
  */
-class UserController extends Controller
+class UsersController extends Controller
 {
 
     /**
@@ -99,7 +99,7 @@ class UserController extends Controller
             $message = ['error','Could not successfully create new User'];
         }
 
-        return redirect('user')->with($message[0], $message[1]);
+        return redirect('users')->with($message[0], $message[1]);
     }
 
     /**
@@ -211,7 +211,7 @@ class UserController extends Controller
             $message = ['error', 'Deletion of this record did not complete successfully'];
         }
 
-        return redirect('user')->with($message[0], $message[1]);
+        return redirect('users')->with($message[0], $message[1]);
     }
 
     /**
@@ -229,8 +229,8 @@ class UserController extends Controller
         try {
 
             $user = User::findOrFail($id);
-            $user->type = 'user';
-            $user->controller = 'User';
+            $user->type = 'users';
+            $user->controller = 'Users';
 
         } catch (ModelNotFoundException $e) {
 

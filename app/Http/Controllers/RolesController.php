@@ -17,12 +17,12 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
- * Class RoleController
+ * Class RolesController
  *
  * @author MS
  * @package App\Http\Controllers
  */
-class RoleController extends Controller
+class RolesController extends Controller
 {
 
     /**
@@ -121,7 +121,7 @@ class RoleController extends Controller
             $message = ['error','Could not successfully create new Role'];
         }
 
-        return redirect('role')->with($message[0], $message[1]);
+        return redirect('roles')->with($message[0], $message[1]);
     }
 
     /**
@@ -230,7 +230,7 @@ class RoleController extends Controller
             $message = ['error', 'Deletion of this record did not complete successfully'];
         }
 
-        return redirect('role')->with($message[0], $message[1]);
+        return redirect('roles')->with($message[0], $message[1]);
     }
 
     /**
@@ -334,8 +334,8 @@ class RoleController extends Controller
         try {
 
             $role = Role::findOrFail($id);
-            $role->type = 'role';
-            $role->controller = 'Role';
+            $role->type = 'roles';
+            $role->controller = 'Roles';
 
         } catch (ModelNotFoundException $e) {
 
