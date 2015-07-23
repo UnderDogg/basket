@@ -7,7 +7,7 @@
 
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @if($applications !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true,'sync'=>true])
+            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true])
         @endif
     </h2>
     @include('includes.page.breadcrumb')
@@ -44,13 +44,13 @@
                             </li>
                             <li class="list-group-item">
                                 <strong>Installation: </strong>
-                                <a href="{{Request::segment(0)}}/user/{{$applications->installation->id}}">
+                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
                                     {{ $applications->installation->name }}
                                 </a>
                             </li>
                             <li class="list-group-item">
                                 <strong>Location: </strong>
-                                <a href="{{Request::segment(0)}}/user/{{$applications->location->id}}">
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
                                     {{ $applications->location->name }}
                                 </a>
                             </li>

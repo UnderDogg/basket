@@ -19,7 +19,7 @@
         {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
         <tr>
             {{--TITLES--}}
-            <th class="hidden-xs hidden-sm">Application ID</th>
+            <th class="hidden-xs hidden-sm">ID</th>
             <th>Received</th>
             <th>Current Status</th>
             <th>Retailer Reference</th>
@@ -35,7 +35,7 @@
             {{--FILTERS--}}
             <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_id'])</th>
             <th>@include('includes.form.input', ['field' => 'created_at'])</th>
-            <th>@include('includes.form.input', ['field' => 'ext_current_status'])</th>
+            <th>@include('includes.form.select', ['field' => 'ext_current_status', 'object' => $applications])</th>
             <th>@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
             <th>@include('includes.form.input', ['field' => 'ext_order_amount'])</th>
             <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_loan_amount'])</th>
@@ -52,7 +52,7 @@
             <tr>
                 <td>{{ $item->ext_id }}</td>
                 <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
-                <td>{{ $item->ext_current_status }}</td>
+                <td>{{ ucwords($item->ext_current_status) }}</td>
                 <td>{{ $item->ext_order_reference }}</td>
                 <td>{{ '£' . number_format($item->ext_order_amount/100, 2) }}</td>
                 <td>{{ '£' . number_format($item->ext_order_loan_amount/100, 2) }}</td>
