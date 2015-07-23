@@ -53,7 +53,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $merchant = $this->fetchMerchantLocalObject($installation->merchant_id);
 
         try {
-            $applicationEntity = $this->applicationGateway->getInstallation($application->ext_id, $merchant->token);
+            $applicationEntity = $this->applicationGateway->getApplication($application->ext_id, $merchant->token);
 
         } catch (\Exception $e) {
 

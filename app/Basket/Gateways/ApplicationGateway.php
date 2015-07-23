@@ -12,6 +12,7 @@ namespace App\Basket\Gateways;
 
 use App\Basket\Entities\ApplicationEntity;
 use App\Exceptions\Exception;
+use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
  * Application Gateway
@@ -28,8 +29,39 @@ class ApplicationGateway extends AbstractGateway
      * @return ApplicationEntity
      * @throws Exception
      */
-    public function getInstallation($id, $token)
+    public function getApplication($id, $token)
     {
         return ApplicationEntity::make($this->fetchDocument('/v4/applications/' . $id, $token, 'Application'));
+    }
+
+    /**
+     * @author WN
+     * @param ApplicationEntity $application
+     * @param string $token
+     * @return ApplicationEntity
+     * @throws Exception
+     */
+    public function initialiseApplication(ApplicationEntity $application, $token)
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        try {
+            $response = $api->post('/v4/initialize-application66', $application->toArray(true));
+
+            $application->setId($response['application']);
+            $application->setResumeUrl($response['url']);
+
+            return $application;
+
+        } catch (ErrorResponseException $e) {
+
+            $this->logWarning('ApplicationGateway::initialiseApplication[' . $e->getCode() . ']: ' . $e->getMessage());
+            throw new Exception($e->getMessage());
+
+        } catch (\Exception $e) {
+
+            $this->logError('ApplicationGateway::initialiseApplication[' . $e->getCode() . ']: ' . $e->getMessage());
+            throw new Exception('Problem Initialising Application on Provider API');
+        }
     }
 }

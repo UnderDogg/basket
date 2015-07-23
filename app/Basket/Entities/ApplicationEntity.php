@@ -40,6 +40,8 @@ use WNowicki\Generic\AbstractEntity;
  * @method Application\FinanceEntity|null getFinance()
  * @method $this setMetadata(array $metadata)
  * @method array|null getMetadata()
+ * @method $this setResumeUrl(string $resumeUrl)
+ * @method string|null getResumeUrl()
  * @package App\Basket\Entities
  */
 class ApplicationEntity extends AbstractEntity
@@ -57,5 +59,6 @@ class ApplicationEntity extends AbstractEntity
         'applicant' => 'App\Basket\Entities\Application\ApplicantEntity',
         'finance' => 'App\Basket\Entities\Application\FinanceEntity',
         'metadata' => self::TYPE_ARRAY,
+        'resume_url' => self::TYPE_STRING,
     ];
 }
