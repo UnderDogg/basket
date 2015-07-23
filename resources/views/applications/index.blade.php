@@ -19,7 +19,8 @@
         {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
         <tr>
             {{--TITLES--}}
-            <th class="hidden-xs hidden-sm">ID</th>
+
+            <th class="hidden-xs hidden-sm">Application ID</th>
             <th>Received</th>
             <th>Current Status</th>
             <th>Retailer Reference</th>

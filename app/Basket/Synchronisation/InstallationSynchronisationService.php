@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
- * Class InstallationSynchronisationService
+ * Installation Synchronisation Service
  *
  * @author WN
  * @package App\Basket\Synchronisation

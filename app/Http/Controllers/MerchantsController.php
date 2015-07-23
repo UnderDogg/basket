@@ -74,7 +74,11 @@ class MerchantsController extends Controller
 
         try {
 
-            Merchant::create($request->all());
+            $merchant = Merchant::create($request->all());
+
+            $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
+
+            return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
 
         } catch (ModelNotFoundException $e) {
 
@@ -183,5 +187,5 @@ class MerchantsController extends Controller
         }
 
         return redirect('merchants')->with($message[0], $message[1]);
-	}
+    }
 }

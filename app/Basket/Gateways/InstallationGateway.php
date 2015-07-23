@@ -30,21 +30,7 @@ class InstallationGateway extends AbstractGateway
      */
     public function getInstallation($id, $token)
     {
-        $api = $this->getApiFactory()->makeApiClient($token);
-
-        try {
-            return InstallationEntity::make($api->get('/v4/installations/' . $id));
-
-        } catch (ErrorResponseException $e) {
-
-            throw new Exception($e->getMessage());
-
-        } catch (\Exception $e) {
-
-            $this->logError('InstallationGateway::getInstallation[' . $e->getCode() . ']: ' . $e->getMessage());
-
-            throw new Exception('Problem fetching Installation data form Provider API');
-        }
+        return InstallationEntity::make($this->fetchDocument('/v4/installations/' . $id, $token, 'Installation'));
     }
 
     /**

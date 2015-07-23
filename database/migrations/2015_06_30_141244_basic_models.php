@@ -74,6 +74,7 @@ class BasicModels extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('installation_id')->unsigned();
             $table->integer('location_id')->unsigned();
+            $table->integer('requester')->unsigned();
             $table->integer('ext_id');
             $table->integer('ext_current_status');
             $table->string('ext_order_reference');

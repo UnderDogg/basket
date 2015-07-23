@@ -10,6 +10,7 @@
 
 namespace Tests\Basket\Entities;
 
+use App\Basket\Entities\ApplicationEntity;
 use App\Basket\Entities\InstallationEntity;
 
 /**
@@ -24,13 +25,13 @@ class InstallationEntityTest extends \TestCase
     {
         $entity = new InstallationEntity();
 
-        $this->assertInstanceOf('WNowicki\Generic\EntityInterface', $entity);
+        $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', $entity);
         $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity);
     }
 
     public function testMakeEmpty()
     {
-        $this->assertInstanceOf('WNowicki\Generic\EntityInterface', InstallationEntity::make([]));
+        $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', InstallationEntity::make([]));
         $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', InstallationEntity::make([]));
     }
 

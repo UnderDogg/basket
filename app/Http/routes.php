@@ -64,11 +64,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'userActionMerchant'], function () {
 
-        Route::get(     'merchants/{id}',               'MerchantsController@show');
-        Route::delete(  'merchants/{id}',               'MerchantsController@destroy');
-        Route::get(     'merchants/{id}/edit',          'MerchantsController@edit');
-        Route::patch(   'merchants/{id}',               'MerchantsController@update');
-        Route::get(     'merchants/{id}/synchronise',   'MerchantsController@synchronise');
+        Route::get('merchants/{id}',                            'MerchantsController@show');
+        Route::delete('merchants/{id}',                         'MerchantsController@destroy');
+        Route::get('merchants/{id}/edit',                       'MerchantsController@edit');
+        Route::patch('merchants/{id}',                          'MerchantsController@update');
+        Route::get('merchants/{id}/synchronise',                'MerchantsController@synchronise');
+        Route::get('merchants/{id}/installations/synchronise',  'InstallationsController@synchroniseAllForMerchant');
+
     });
 
     /*
