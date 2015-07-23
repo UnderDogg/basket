@@ -44,7 +44,7 @@ abstract class AbstractGateway
      * @author WN
      * @return ApiClientFactory
      */
-    public function getApiFactory()
+    protected function getApiFactory()
     {
         return $this->apiFactory;
     }
