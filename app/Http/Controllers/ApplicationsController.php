@@ -22,14 +22,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class ApplicationsController extends Controller
 {
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         $messages = $this->getMessages();
         $applications = null;
 
@@ -59,16 +58,16 @@ class ApplicationsController extends Controller
 
         }
         return View('applications.index', ['applications' => $applications, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
         $applications = null;
         $messages = $this->getMessages();
 
@@ -85,16 +84,16 @@ class ApplicationsController extends Controller
         }
 
         return view('applications.show', ['applications' => $applications, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         $applications = null;
         $messages = $this->getMessages();
 
@@ -115,16 +114,16 @@ class ApplicationsController extends Controller
         }
 
         return view('applications.edit', ['applications' => $applications, 'messages' => $messages]);
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
         $message = ['success', 'Application details were successfully updated'];
 
         try {
@@ -141,7 +140,7 @@ class ApplicationsController extends Controller
         }
 
         return redirect()->back()->with($message[0], $message[1]);
-	}
+    }
 
     /**
      * Reformat For Currency
