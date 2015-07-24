@@ -10,7 +10,7 @@
 
     <p>&nbsp;</p>
     @if($user !== null)
-    {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UserController@update', $user->id], 'class' => 'form-horizontal']) !!}
+    {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'class' => 'form-horizontal']) !!}
 
         <div class="form-group">
             {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}

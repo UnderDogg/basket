@@ -34,26 +34,26 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Users
      */
-    Route::get(   'user',             'UserController@index');
-    Route::get(   'user/create',      'UserController@create');
-    Route::get(   'user/{id}/delete', 'UserController@delete');
-    Route::post(  'user',             'UserController@store');
-    Route::get(   'user/{id}',        'UserController@show');
-    Route::delete('user/{id}',        'UserController@destroy');
-    Route::get(   'user/{id}/edit',   'UserController@edit');
-    Route::patch( 'user/{id}',        'UserController@update');
+    Route::get(   'users',             'UsersController@index');
+    Route::get(   'users/create',      'UsersController@create');
+    Route::get(   'users/{id}/delete', 'UsersController@delete');
+    Route::post(  'users',             'UsersController@store');
+    Route::get(   'users/{id}',        'UsersController@show');
+    Route::delete('users/{id}',        'UsersController@destroy');
+    Route::get(   'users/{id}/edit',   'UsersController@edit');
+    Route::patch( 'users/{id}',        'UsersController@update');
 
     /*
      * Roles
      */
-    Route::get(   'role',             'RoleController@index');
-    Route::get(   'role/{id}/delete', 'RoleController@delete');
-    Route::get(   'role/create',      'RoleController@create');
-    Route::post(  'role',             'RoleController@store');
-    Route::get(   'role/{id}',        'RoleController@show');
-    Route::delete('role/{id}',        'RoleController@destroy');
-    Route::get(   'role/{id}/edit',   'RoleController@edit');
-    Route::patch( 'role/{id}',        'RoleController@update');
+    Route::get(   'roles',             'RolesController@index');
+    Route::get(   'roles/{id}/delete', 'RolesController@delete');
+    Route::get(   'roles/create',      'RolesController@create');
+    Route::post(  'roles',             'RolesController@store');
+    Route::get(   'roles/{id}',        'RolesController@show');
+    Route::delete('roles/{id}',        'RolesController@destroy');
+    Route::get(   'roles/{id}/edit',   'RolesController@edit');
+    Route::patch( 'roles/{id}',        'RolesController@update');
 
     /*
      * Merchants

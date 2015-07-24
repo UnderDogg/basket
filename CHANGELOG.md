@@ -16,6 +16,8 @@
 - Added Locations CRUD
 - Added Applications: Read views
 - Added pattern for drop downs on edit pages
+- Refactored Role and Users to use plural routing pattern
+- Adjusted navigation menu to reflect all available feature views
 
 ## Bug Fixes
 - Code Standards fixes

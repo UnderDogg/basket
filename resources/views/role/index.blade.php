@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>ROLES
-        <a href="{{ url('/role/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Role</a>
+        <a href="{{ url('/roles/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Role</a>
     </h1>
     @include('includes.page.breadcrumb')
     <div class="panel panel-default">

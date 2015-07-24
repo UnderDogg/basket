@@ -9,7 +9,7 @@
     @include('includes.page.breadcrumb')
 
     @if($role !== null)
-        {!! Form::model($role, ['method' => 'PATCH', 'action' => ['RoleController@update', $role->id], 'class' => 'form-horizontal']) !!}
+        {!! Form::model($role, ['method' => 'PATCH', 'action' => ['RolesController@update', $role->id], 'class' => 'form-horizontal']) !!}
 
         <div>
             <div class="col-xs-12 col-sm-12 col-md-6">

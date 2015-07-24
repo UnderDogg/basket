@@ -8,7 +8,7 @@
     <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb')
 
-    {!! Form::open(['url' => 'user', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['url' => 'users', 'class' => 'form-horizontal']) !!}
     <p>&nbsp;</p>
     <div class="col-xs-12">
         <div class="form-group">
