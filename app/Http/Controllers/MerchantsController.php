@@ -10,6 +10,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
 use Illuminate\Http\Request;
@@ -105,22 +106,10 @@ class MerchantsController extends Controller
      */
     public function show($id)
     {
-        $merchants = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $merchants = Merchant::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find Merchant with ID: [' . $id . ']; Merchant does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not find Merchant with ID: [' . $id . ']; Merchant does not exist';
-        }
-
-        return view('merchants.show', ['merchants' => $merchants, 'messages' => $messages]);
+        return view(
+            'merchants.show',
+            ['merchants' => $this->fetchMerchantById($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
@@ -131,48 +120,31 @@ class MerchantsController extends Controller
      */
     public function edit($id)
     {
-        $merchants = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $merchants = Merchant::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get Merchant with ID [' . $id . '] for editing; Merchant does not exist:' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get Merchant with ID [' . $id . '] for editing; Merchant does not exist';
-        }
-
-        return view('merchants.edit', ['merchants' => $merchants, 'messages' => $messages]);
+        return view(
+            'merchants.edit',
+            ['merchants' => $this->fetchMerchantById($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param Request $request
      * @return Response
+     * @throws RedirectException
      */
     public function update($id, Request $request)
     {
-        $message = ['success', 'Merchant details were successfully updated'];
-
+        $merchants = $this->fetchMerchantById($id);
         try {
-
-            $merchants = Merchant::findOrFail($id);
             $merchants->update($request->all());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not update Merchant with ID [' . $id . ']; Merchant does not exist' . $e->getMessage()
-            );
-            $message = ['error', 'Could not update Merchant with ID [' . $id . ']; Merchant does not exist'];
+        } catch (\Exception $e) {
+            $this->logError('Can not update merchant [' . $id . ']: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/merchants/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return redirect()->back()->with($message[0], $message[1]);
+        return redirect()->back()->with('success', 'Merchant details were successfully updated');
     }
 
     /**
@@ -198,7 +170,7 @@ class MerchantsController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function synchronise($id)
@@ -211,5 +183,28 @@ class MerchantsController extends Controller
             $message = ['error', 'Synchronisation not complete successfully'];
         }
         return redirect('merchants/' . $id)->with($message[0], $message[1]);
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Merchant
+     * @throws RedirectException
+     */
+    private function fetchMerchantById($id)
+    {
+        try {
+
+            return Merchant::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not find Merchant with ID: [' . $id . ']; Merchant does not exist: ' . $e->getMessage()
+            );
+            throw (new RedirectException())
+                ->setTarget('/merchants')
+                ->setError('Could not find Merchant with ID: ' . $id . '.');
+        }
     }
 }

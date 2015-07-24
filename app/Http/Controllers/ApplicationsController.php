@@ -92,8 +92,10 @@ class ApplicationsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int     $id
+     * @param Request $request
      * @return Response
+     * @throws RedirectException
      */
     public function update($id, Request $request)
     {

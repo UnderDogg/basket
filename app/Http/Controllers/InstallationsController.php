@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
 use Illuminate\Http\Request;
@@ -79,23 +80,10 @@ class InstallationsController extends Controller
      */
     public function show($id)
     {
-
-        $installations = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $installations = Installation::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find installation with ID: [' . $id . ']; installation does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not find installation with ID: [' . $id . ']; installation does not exist';
-        }
-
-        return view('installations.show', ['installations' => $installations, 'messages' => $messages]);
+        return view(
+            'installations.show',
+            ['installations' => $this->fetchInstallation($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
@@ -106,48 +94,31 @@ class InstallationsController extends Controller
      */
     public function edit($id)
     {
-        $installations = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $installations = Installation::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get installation with ID [' . $id . '] for editing; installation does not exist:' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get installation with ID [' . $id . '] for editing; installation does not exist';
-        }
-
-        return view('installations.edit', ['installations' => $installations, 'messages' => $messages]);
+        return view(
+            'installations.edit',
+            ['installations' => $this->fetchInstallation($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param Request $request
      * @return Response
+     * @throws RedirectException
      */
     public function update($id, Request $request)
     {
-        $message = ['success', 'Installation details were successfully updated'];
-
+        $installations = $this->fetchInstallation($id);
         try {
-
-            $installations = Installation::findOrFail($id);
             $installations->update($request->all());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not update installation with ID [' . $id . ']; installation does not exist' . $e->getMessage()
-            );
-            $message = ['error', 'Could not update installation with ID [' . $id . ']; installation does not exist'];
+        } catch (\Exception $e) {
+            $this->logError('Can not update installation [' . $id . ']: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/installations/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return redirect()->back()->with($message[0], $message[1]);
+        return redirect()->back()->with('success', 'Installation details were successfully updated');
     }
 
     /**
@@ -171,5 +142,27 @@ class InstallationsController extends Controller
         }
 
         return redirect('merchants/' . $id)->with($message[0], $message[1]);
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Installation
+     * @throws RedirectException
+     */
+    private function fetchInstallation($id)
+    {
+        try {
+            return Installation::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not find installation with ID: [' . $id . ']; installation does not exist: ' . $e->getMessage()
+            );
+            throw (new RedirectException())
+                ->setTarget('/installations')
+                ->setError('Could not find installation with ID: ' . $id . '.');
+        }
     }
 }
