@@ -10,16 +10,16 @@ use App\User;
 class DBSeeder extends Seeder
 {
     /** @var  array $permissions */
-    protected $permissions;
+    protected $permissions = [];
 
     /** @var  array $roles */
-    protected $roles;
+    protected $roles = [];
 
     /** @var  array $rolesPermissions */
-    protected $rolesPermissions;
+    protected $rolesPermissions = [];
 
     /** @var  array $users */
-    protected $users;
+    protected $users = [];
 
     /**
      * Apply Seeder Data
@@ -30,30 +30,30 @@ class DBSeeder extends Seeder
     protected function applySeederData()
     {
         /*
-         * PERMISSIONS[ID]   |  Nice Name    |  Name     |  Description
+         * PERMISSIONS   |  Nice Name    |  Name     |  Description
          */
-        $this->permissions[1] = ['Read Applications', 'read-applications', 'read applications'];
-        $this->permissions[2] = ['Read Settlements', 'read-settlements', 'read settlements'];
-        $this->permissions[3] = ['Cancel Applications', 'cancel-applications', 'cancel applications'];
-        $this->permissions[4] = ['Access In-Store Finance Page', 'access-in-store-finance-page', 'access in-store finance page'];
-        $this->permissions[5] = ['Access In-Store Details', 'access-in-store-details', 'access in-store details'];
+        $this->permissions[] = ['Read Applications', 'read-applications', 'read applications'];
+        $this->permissions[] = ['Read Settlements', 'read-settlements', 'read settlements'];
+        $this->permissions[] = ['Cancel Applications', 'cancel-applications', 'cancel applications'];
+        $this->permissions[] = ['Access In-Store Finance Page', 'access-in-store-finance-page', 'access in-store finance page'];
+        $this->permissions[] = ['Access In-Store Details', 'access-in-store-details', 'access in-store details'];
 
 
         /*
          * ROLES         |  Nice Name    |  Name     |  Description
          */
-        $this->roles[1] = ['Super User', 'su', 'Can do everything'];
+        $this->roles[] = ['Super User', 'su', 'Can do everything'];
 
         /*
          * PERMISSIONS FOR ROLE
          * RoleID = array PermissionsID
          */
-        $this->rolesPermissions[1] = [1, 2, 3, 4, 5];
+        $this->rolesPermissions[] = [1, 2, 3, 4, 5];
 
         /*
          * USERS         |  Name        |  Email     |  Password     |  Merchant ID   |  Role ID
          */
-        $this->users[1] = ['Administrator', 'noreply@paybreak.com', 'password', null, 1];
+        $this->users[] = ['Administrator', 'noreply@paybreak.com', 'password', null, 1];
     }
 
     /**
@@ -97,7 +97,7 @@ class DBSeeder extends Seeder
         foreach ($this->rolesPermissions as $role => $permissionsToAdd) {
             foreach ($permissionsToAdd as $permission) {
                 $rolePermissionObject = new RolePermissions();
-                $rolePermissionObject->role_id = $role;
+                $rolePermissionObject->role_id = $role + 1;
                 $rolePermissionObject->permission_id = $permission;
                 $rolePermissionObject->save();
             }
@@ -109,6 +109,7 @@ class DBSeeder extends Seeder
             $userObject->email = $user[1];
             $userObject->password = bcrypt($user[2]);
             $userObject->merchant_id = $user[3];
+            $userObject->role_id = $user[4];
             $userObject->save();
         }
 

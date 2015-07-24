@@ -21,11 +21,11 @@ class BasicModels extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
-            $table->string('ext_company_name');
-            $table->string('ext_address');
-            $table->string('ext_processing_days');
-            $table->string('ext_minimum_amount_settled');
-            $table->string('ext_address_on_agreements');
+            $table->string('ext_company_name')->nullable();
+            $table->string('ext_address')->nullable();
+            $table->string('ext_processing_days')->nullable();
+            $table->string('ext_minimum_amount_settled')->nullable();
+            $table->string('ext_address_on_agreements')->nullable();
         });
 
         Schema::create('installations', function (Blueprint $table) {
