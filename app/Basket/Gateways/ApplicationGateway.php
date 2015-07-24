@@ -24,7 +24,7 @@ class ApplicationGateway extends AbstractGateway
 {
     /**
      * @author WN
-     * @param string $id
+     * @param int $id
      * @param string $token
      * @return ApplicationEntity
      * @throws Exception
@@ -46,12 +46,39 @@ class ApplicationGateway extends AbstractGateway
         $api = $this->getApiFactory()->makeApiClient($token);
 
         try {
-            $response = $api->post('/v4/initialize-application66', $application->toArray(true));
+            $response = $api->post('/v4/initialize-application', $application->toArray(true));
 
             $application->setId($response['application']);
             $application->setResumeUrl($response['url']);
 
             return $application;
+
+        } catch (ErrorResponseException $e) {
+
+            $this->logWarning('ApplicationGateway::initialiseApplication[' . $e->getCode() . ']: ' . $e->getMessage());
+            throw new Exception($e->getMessage());
+
+        } catch (\Exception $e) {
+
+            $this->logError('ApplicationGateway::initialiseApplication[' . $e->getCode() . ']: ' . $e->getMessage());
+            throw new Exception('Problem Initialising Application on Provider API');
+        }
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @param string $token
+     * @return bool
+     * @throws Exception
+     */
+    public function fulfilApplication($id, $token)
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        try {
+            $api->post('/v4/applications/' . $id . '/fulfil');
+            return true;
 
         } catch (ErrorResponseException $e) {
 
