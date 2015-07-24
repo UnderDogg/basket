@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
@@ -68,22 +69,10 @@ class ApplicationsController extends Controller
      */
     public function show($id)
     {
-        $applications = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $applications = Application::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find application with ID: [' . $id . ']; Application does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not find application with ID: [' . $id . ']; Application does not exist';
-        }
-
-        return view('applications.show', ['applications' => $applications, 'messages' => $messages]);
+        return view(
+            'applications.show',
+            ['applications' => $this->fetchApplicationById($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
@@ -94,26 +83,10 @@ class ApplicationsController extends Controller
      */
     public function edit($id)
     {
-        $applications = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $applications = Application::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get application with ID [' . $id . '] for editing; Application does not exist:' .
-                $e->getMessage()
-            );
-            $messages['error'] =
-                'Could not get application with ID [' .
-                $id .
-                '] for editing; Application does not exist';
-        }
-
-        return view('applications.edit', ['applications' => $applications, 'messages' => $messages]);
+        return view(
+            'applications.edit',
+            ['applications' => $this->fetchApplicationById($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
@@ -124,22 +97,15 @@ class ApplicationsController extends Controller
      */
     public function update($id, Request $request)
     {
-        $message = ['success', 'Application details were successfully updated'];
+        $applications = $this->fetchApplicationById($id);
 
-        try {
-
-            $applications = Application::findOrFail($id);
+        try{
             $applications->update($request->all());
+        } catch (\Exception $e) {
 
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not update application with ID [' . $id . ']; Application does not exist' . $e->getMessage()
-            );
-            $message = ['error', 'Could not update application with ID [' . $id . ']; Application does not exist'];
+            throw (new RedirectException())->setTarget('/applications/' . $id . '/edit')->setError($e->getMessage());
         }
-
-        return redirect()->back()->with($message[0], $message[1]);
+        return redirect()->back()->with('success', 'Application details were successfully updated');
     }
 
     /**
@@ -164,5 +130,27 @@ class ApplicationsController extends Controller
             return $integer;
         }
         return round($integer * 100);
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Application
+     * @throws RedirectException
+     */
+    private function fetchApplicationById($id)
+    {
+        try {
+            return Application::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get application with ID [' . $id . ']; Application does not exist: ' . $e->getMessage()
+            );
+            throw (new RedirectException())
+                ->setTarget('/applications')
+                ->setError('Could not found application with ID ' . $id);
+        }
     }
 }
