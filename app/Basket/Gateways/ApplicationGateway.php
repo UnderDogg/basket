@@ -74,21 +74,56 @@ class ApplicationGateway extends AbstractGateway
      */
     public function fulfilApplication($id, $token)
     {
+        return $this->requestAction('/v4/applications/' . $id . '/fulfil', [], $token, 'Fulfilling');
+    }
+
+    /**
+     * @param int $id
+     * @param string $description
+     * @param string $token
+     * @return bool
+     * @throws Exception
+     */
+    public function cancelApplication($id, $description, $token)
+    {
+        return $this->requestAction(
+            '/v4/applications/' . $id . '/request-cancellation',
+            ['description' => $description],
+            $token,
+            'Cancellation'
+        );
+    }
+
+    /**
+     * @author WN
+     * @param string $action
+     * @param array $data
+     * @param string $token
+     * @param string $actionName
+     * @return bool
+     * @throws Exception
+     */
+    private function requestAction($action, $data, $token, $actionName)
+    {
         $api = $this->getApiFactory()->makeApiClient($token);
 
         try {
-            $api->post('/v4/applications/' . $id . '/fulfil');
+            $api->post($action, $data);
             return true;
 
         } catch (ErrorResponseException $e) {
 
-            $this->logWarning('ApplicationGateway::initialiseApplication[' . $e->getCode() . ']: ' . $e->getMessage());
+            $this->logWarning(
+                'ApplicationGateway ' . $actionName . ' Application[' . $e->getCode() . ']: ' . $e->getMessage()
+            );
             throw new Exception($e->getMessage());
 
         } catch (\Exception $e) {
 
-            $this->logError('ApplicationGateway::initialiseApplication[' . $e->getCode() . ']: ' . $e->getMessage());
-            throw new Exception('Problem Initialising Application on Provider API');
+            $this->logError(
+                'ApplicationGateway ' . $actionName . ' Application[' . $e->getCode() . ']: ' . $e->getMessage()
+            );
+            throw new Exception('Problem ' . $actionName . ' Application on Provider API');
         }
     }
 }
