@@ -193,18 +193,6 @@ class MerchantsController extends Controller
      */
     private function fetchMerchantById($id)
     {
-        try {
-
-            return Merchant::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find Merchant with ID: [' . $id . ']; Merchant does not exist: ' . $e->getMessage()
-            );
-            throw (new RedirectException())
-                ->setTarget('/merchants')
-                ->setError('Could not find Merchant with ID: ' . $id . '.');
-        }
+        return $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants');
     }
 }
