@@ -5,6 +5,7 @@ use App\Basket\Installation;
 use App\Role;
 use App\Permission;
 use App\RolePermissions;
+use App\Basket\Location;
 
 class DevSeeder extends DBSeeder
 {
@@ -17,7 +18,15 @@ class DevSeeder extends DBSeeder
     {
         Model::unguard();
 
+        // Apply Parents (LIVE) details first
         parent::applySeederData();
+
+        // SET INSTALLATIONS        | merchant_ID | name | bool active | bool linked
+        $installations[] = [1, 'Test Installation', 1, 1];
+        $installations[] = [1, 'Unlinked Installation', 1, 0];
+
+        // SET LOCATIONS            | reference | installation_id | bool active | name | email | address
+        $locations[] = ['HIGHLOC', 1, 1, 'Higher Location', 'kira@highloc.com', 'Higher Location City'];
 
         $this->roles[] = ['Report Role', 'report', 'run reports'];
         $this->roles[] = ['Manager Role', 'manager', 'run reports and perform cancellations'];
@@ -39,7 +48,30 @@ class DevSeeder extends DBSeeder
             time(),
         ]);
 
+        // Apply Seed Data to Data Source
         parent::seedDataSource();
+
+        // INSTALLATIONS
+        foreach ($installations as $installation) {
+            $installationObject = new Installation();
+            $installationObject->merchant_id = $installation[0];
+            $installationObject->name = $installation[1];
+            $installationObject->active = $installation[2];
+            $installationObject->linked = $installation[3];
+            $installationObject->save();
+        }
+
+        // LOCATIONS
+        foreach ($locations as $location) {
+            $locationObject = new Location();
+            $locationObject->reference = $location[0];
+            $locationObject->installation_id = $location[1];
+            $locationObject->active = $location[2];
+            $locationObject->name = $location[3];
+            $locationObject->email = $location[4];
+            $locationObject->address = $location[5];
+            $locationObject->save();
+        }
 
         Model::reguard();
     }

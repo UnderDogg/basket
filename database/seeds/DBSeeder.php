@@ -53,7 +53,7 @@ class DBSeeder extends Seeder
         /*
          * USERS         |  Name        |  Email     |  Password     |  Merchant ID   |  Role ID
          */
-        $this->users[] = ['Administrator', 'noreply@paybreak.com', 'password', null, 1];
+        $this->users[] = ['Administrator', 'dev@paybreak.com', 'password', null, 1];
     }
 
     /**
