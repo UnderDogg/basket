@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Role;
 use App\Permission;
 use App\RolePermissions;
+use App\User;
 
 class DBSeeder extends Seeder
 {
@@ -17,6 +18,9 @@ class DBSeeder extends Seeder
     /** @var  array $rolesPermissions */
     protected $rolesPermissions;
 
+    /** @var  array $users */
+    protected $users;
+
     /**
      * Apply Seeder Data
      *
@@ -26,7 +30,7 @@ class DBSeeder extends Seeder
     protected function applySeederData()
     {
         /*
-         * PERMISSIONS   |  Nice Name    |  Name     |  Description
+         * PERMISSIONS[ID]   |  Nice Name    |  Name     |  Description
          */
         $this->permissions[1] = ['Read Applications', 'read-applications', 'read applications'];
         $this->permissions[2] = ['Read Settlements', 'read-settlements', 'read settlements'];
@@ -38,16 +42,18 @@ class DBSeeder extends Seeder
         /*
          * ROLES         |  Nice Name    |  Name     |  Description
          */
-        $this->roles[1] = ['Report Role', 'role', 'run reports'];
-        $this->roles[2] = ['Manager Role', 'manager', 'run reports and perform cancellations'];
-        $this->roles[3] = ['In-Store Role', 'instore', 'access in-store finance page and in-store details'];
+        $this->roles[1] = ['Super User', 'su', 'Can do everything'];
 
         /*
-         * PERMISSIONS FOR ROLE OF ID...
+         * PERMISSIONS FOR ROLE
+         * RoleID = array PermissionsID
          */
-        $this->rolesPermissions[1] = [1, 2];
-        $this->rolesPermissions[2] = [1, 2, 3];
-        $this->rolesPermissions[3] = [4, 5];
+        $this->rolesPermissions[1] = [1, 2, 3, 4, 5];
+
+        /*
+         * USERS         |  Name        |  Email     |  Password     |  Merchant ID   |  Role ID
+         */
+        $this->users[1] = ['Administrator', 'noreply@paybreak.com', 'password', null, 1];
     }
 
     /**
@@ -95,6 +101,15 @@ class DBSeeder extends Seeder
                 $rolePermissionObject->permission_id = $permission;
                 $rolePermissionObject->save();
             }
+        }
+
+        foreach ($this->users as $user) {
+            $userObject= new User();
+            $userObject->name = $user[0];
+            $userObject->email = $user[1];
+            $userObject->password = bcrypt($user[2]);
+            $userObject->merchant_id = $user[3];
+            $userObject->save();
         }
 
         Model::reguard();

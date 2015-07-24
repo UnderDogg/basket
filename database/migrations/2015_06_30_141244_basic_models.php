@@ -65,7 +65,9 @@ class BasicModels extends Migration
 
             $table->integer('merchant_id')->unsigned()->after('password')->default(null)->nullable(); // Added defaults: fix for sqlite
             $table->string('locations')->after('merchant_id')->default(''); // Added defaults: fix for sqlite
+            $table->integer('role_id')->unsigned()->default(null)->nullable();
 
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
 
