@@ -38,6 +38,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, \Exception $e)
     {
+        if ($e instanceof RedirectException) {
+
+            return redirect($e->getTarget())->with('error', $e->getError());
+        }
+
         return parent::render($request, $e);
     }
 }
