@@ -129,4 +129,30 @@ abstract class Controller extends BaseController
                 ->setError('Could not found ' . ucwords($modelName) . ' with ID:' . $id);
         }
     }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    protected function destroyModel(Model $model, $id, $modelName, $redirect)
+    {
+        try {
+
+            $model->destroy($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
+            throw (new RedirectException())
+                ->setTarget($redirect)
+                ->setError('Deletion of this record did not complete successfully');
+        }
+
+        return redirect('locations')->with('success', ucwords($modelName) . ' was successfully deleted');
+    }
 }

@@ -174,18 +174,7 @@ class LocationsController extends Controller
      */
     public function destroy($id)
     {
-        $message = ['success','locations was successfully deleted'];
-        try {
-
-            Location::destroy($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('locations')->with($message[0], $message[1]);
+        return $this->destroyModel((new Location()), $id, 'location', '/locations');
     }
 
     /**
