@@ -10,6 +10,7 @@
 
 namespace App\Basket\Synchronisation;
 
+use Illuminate\Database\Eloquent\Model;
 use Psr\Log\LoggerInterface;
 use App\Basket\Merchant;
 use App\Basket\Installation;
@@ -44,13 +45,7 @@ class AbstractSynchronisationService {
      */
     protected function fetchMerchantLocalObject($id)
     {
-        try {
-            return Merchant::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-            $this->logError(__CLASS__ . ': Failed fetching Merchant[' . $id . '] local object: ' . $e->getMessage());
-            throw $e;
-        }
+        return $this->fetchLocalObject((new Merchant()), $id, 'merchant');
     }
 
     /**
@@ -59,12 +54,25 @@ class AbstractSynchronisationService {
      */
     protected function fetchInstallationLocalObject($id)
     {
+        return $this->fetchLocalObject((new Installation()), $id, 'installation');
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param $id
+     * @param $modelName
+     * @return Model
+     */
+    private function fetchLocalObject(Model $model, $id, $modelName)
+    {
         try {
-            return Installation::findOrFail($id);
+            return $model->findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
             $this->logError(
-                __CLASS__ . ': Failed fetching Installation[' . $id . '] local object: ' . $e->getMessage()
+                __CLASS__ . ': Failed fetching ' . ucwords($modelName) .
+                '[' . $id . '] local object: ' . $e->getMessage()
             );
             throw $e;
         }
