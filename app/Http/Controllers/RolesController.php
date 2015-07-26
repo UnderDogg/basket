@@ -9,12 +9,11 @@
  */
 namespace App\Http\Controllers;
 
-use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Role;
 use App\RolePermissions;
 use App\Permission;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -134,18 +133,21 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        $role = $this->fetchRoleById($id);
+        $role = null;
+        $messages = $this->getMessages();
 
         try {
+
+            $role = Role::findOrFail($id);
             $role = $this->fetchPermissionsToRole($role);
 
         } catch (ModelNotFoundException $e) {
 
-            $this->logError('Problem fetching permissions for Role with ID: [' . $id . ']: ' . $e->getMessage());
-            $messages['error'] = 'Problem fetching permissions for Role';
+            $this->logError('Could not find Role with ID: [' . $id . ']; Role does not exist: ' . $e->getMessage());
+            $messages['error'] = 'Could not find Role with ID: [' . $id . ']; Role does not exist';
         }
 
-        return view('role.show', ['role' => $role, 'messages' => $this->getMessages()]);
+        return view('role.show', ['role' => $role, 'messages' => $messages]);
     }
 
     /**
@@ -179,17 +181,32 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @author MS, WN
-     * @param  int $id
-     * @param Request $request
+     * @author MS
+     * @param  int  $id
      * @return Response
-     * @throws RedirectException
      */
     public function update($id, Request $request)
     {
-        $rtn = $this->updateModel((new Role()), $id, 'role', '/roles', $request);
-        $this->updateAllRolePermissions($id, $request);
-        return $rtn;
+        $message = ['success', 'Roles and role permissions were successfully updated'];
+
+        $role = $this->fetchRoleById($id);
+
+        try {
+            $role->update($request->all());
+            $this->updateAllRolePermissions($role->id, $request);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Could not update Role with ID [' . $id . ']; Role does not exist' . $e->getMessage());
+            $message = ['error', 'Could not update Role with ID [' . $id . ']; Role does not exist'];
+
+        } catch (\App\Exceptions\Exception $ex) {
+
+            $this->logError($ex->getMessage());
+            $message = ['error', $ex->getMessage()];
+        }
+
+        return redirect()->back()->with($message[0], $message[1]);
     }
 
     /**
