@@ -52,8 +52,8 @@ abstract class Controller extends BaseController
      */
     protected function getPageLimit()
     {
-        if (Request::get('limit') && is_int(Request::get('limit'))) {
-            return Request::get('limit');
+        if (Request::capture()->get('limit') && is_int(Request::capture()->get('limit'))) {
+            return Request::capture()->get('limit');
         }
         return self::DEFAULT_PAGE_LIMIT;
     }
@@ -65,7 +65,7 @@ abstract class Controller extends BaseController
      */
     protected function getTableFilter()
     {
-        return Request::except('limit', 'page');
+        return Request::capture()->except(['limit', 'page']);
     }
 
     /**
@@ -142,7 +142,6 @@ abstract class Controller extends BaseController
     protected function destroyModel(Model $model, $id, $modelName, $redirect)
     {
         try {
-
             $model->destroy($id);
 
         } catch (ModelNotFoundException $e) {
