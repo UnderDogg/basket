@@ -14,6 +14,7 @@ use App\Basket\Application;
 use App\Basket\Entities\Application\AddressEntity;
 use App\Basket\Entities\Application\ApplicantEntity;
 use App\Basket\Entities\Application\CustomerEntity;
+use App\Basket\Entities\Application\FinanceEntity;
 use App\Basket\Entities\Application\OrderEntity;
 use App\Basket\Entities\ApplicationEntity;
 use App\Basket\Gateways\ApplicationGateway;
@@ -96,6 +97,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $this->mapCustomer($application, $applicationEntity->getCustomer());
         $this->mapApplicationAddress($application, $applicationEntity->getApplicationAddress());
         $this->mapApplicant($application, $applicationEntity->getApplicant());
+        $this->mapFinance($application, $applicationEntity->getFinance());
 
         $application->ext_metadata = json_encode($applicationEntity->getMetadata());
     }
@@ -164,6 +166,22 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $application->ext_applicant_phone_home = $applicantEntity->getPhoneHome();
             $application->ext_applicant_phone_mobile = $applicantEntity->getPhoneMobile();
             $application->ext_applicant_postcode = $applicantEntity->getEmailAddress();
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Application $application
+     * @param FinanceEntity $financeEntity
+     */
+    private function mapFinance(Application $application, FinanceEntity $financeEntity = null)
+    {
+        if ($financeEntity !== null) {
+            $application->ext_finance_loan_amount = $financeEntity->getLoanAmount();
+            $application->ext_finance_order_amount = $financeEntity->getOrderAmount();
+            $application->ext_finance_deposit = $financeEntity->getDepositAmount();
+            $application->ext_finance_subsidy = $financeEntity->getSubsidyAmount();
+            $application->ext_finance_net_settlement = $financeEntity->getSettlementNetAmount();
         }
     }
 
