@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Role;
 use App\RolePermissions;
@@ -133,21 +134,18 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        $role = null;
-        $messages = $this->getMessages();
+        $role = $this->fetchRoleById($id);
 
         try {
-
-            $role = Role::findOrFail($id);
             $role = $this->fetchPermissionsToRole($role);
 
         } catch (ModelNotFoundException $e) {
 
-            $this->logError('Could not find Role with ID: [' . $id . ']; Role does not exist: ' . $e->getMessage());
-            $messages['error'] = 'Could not find Role with ID: [' . $id . ']; Role does not exist';
+            $this->logError('Problem fetching permissions for Role with ID: [' . $id . ']: ' . $e->getMessage());
+            $messages['error'] = 'Problem fetching permissions for Role';
         }
 
-        return view('role.show', ['role' => $role, 'messages' => $messages]);
+        return view('role.show', ['role' => $role, 'messages' => $this->getMessages()]);
     }
 
     /**
@@ -181,56 +179,39 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @author MS
-     * @param  int  $id
+     * @author MS, WN
+     * @param  int $id
+     * @param Request $request
      * @return Response
+     * @throws RedirectException
      */
     public function update($id, Request $request)
     {
-        $message = ['success', 'Roles and role permissions were successfully updated'];
+        $role = $this->fetchRoleById($id);
 
         try {
-
-            $role = Role::findOrFail($id);
             $role->update($request->all());
             $this->updateAllRolePermissions($role->id, $request);
 
-        } catch (ModelNotFoundException $e) {
+        } catch (\Exception $e) {
 
-            $this->logError('Could not update Role with ID [' . $id . ']; Role does not exist' . $e->getMessage());
-            $message = ['error', 'Could not update Role with ID [' . $id . ']; Role does not exist'];
-
-        } catch (\App\Exceptions\Exception $ex) {
-
-            $this->logError($ex->getMessage());
-            $message = ['error', $ex->getMessage()];
+            $this->logError('RolesController::update failed with message ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/roles')->setError('Problem updating role ID: ' . $id);
         }
 
-        return redirect()->back()->with($message[0], $message[1]);
+        return redirect()->back()->with('success', 'Roles and role permissions were successfully updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @author MS
+     * @author WN
      * @param  int  $id
      * @return Response
      */
     public function destroy($id)
     {
-        $message = ['success','Role was successfully deleted'];
-        try {
-
-            Role::destroy($id);
-            RolePermissions::where('role_id', '=', $id)->delete();
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('roles')->with($message[0], $message[1]);
+        return $this->destroyModel((new Role()), $id, 'role', '/roles');
     }
 
     /**
@@ -346,5 +327,10 @@ class RolesController extends Controller
         }
 
         return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $messages]);
+    }
+
+    private function fetchRoleById($id)
+    {
+        return $this->fetchModelById((new Role()), $id, 'role', '/roles');
     }
 }

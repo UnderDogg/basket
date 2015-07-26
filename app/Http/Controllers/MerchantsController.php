@@ -150,23 +150,13 @@ class MerchantsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @author WN
      * @param  int  $id
      * @return Response
      */
     public function destroy($id)
     {
-        $message = ['success','Merchant was successfully deleted'];
-        try {
-
-            Merchant::destroy($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('merchants')->with($message[0], $message[1]);
+        return $this->destroyModel((new Merchant()), $id, 'merchant', '/merchants');
     }
 
     /**

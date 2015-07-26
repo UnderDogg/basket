@@ -14,6 +14,7 @@ use App\Http\Requests;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 /**
  * Class UsersController
  *
@@ -161,24 +162,13 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @author MS
+     * @author WN
      * @param  int  $id
      * @return \Illuminate\View\View
      */
     public function destroy($id)
     {
-        $message = ['success','User was successfully deleted'];
-        try {
-
-            User::destroy($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('users')->with($message[0], $message[1]);
+        return $this->destroyModel((new User()), $id, 'user', '/users');
     }
 
     /**
