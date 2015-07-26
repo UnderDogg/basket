@@ -14,9 +14,14 @@
 - *Merchant* creation extended with synchronisation
 - Actions o a row helper for blade
 - Added Locations CRUD
+- Added Applications: Read views
+- Added pattern for drop downs on edit pages
+- Refactored Role and Users to use plural routing pattern
+- Adjusted navigation menu to reflect all available feature views
 
 ## Bug Fixes
 - Code Standards fixes
+- Fixed user migration for `merchant_id` `nullable()`
 
 # 0.2.0
 2015-07-17

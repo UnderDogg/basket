@@ -134,19 +134,19 @@
                                 <strong>Order Description: </strong> {{ $applications->ext_order_description }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Order Amount: </strong> {{ '£' . number_format($applications->ext_order_amount/100, 2) }}
+                                <strong>Order Amount: </strong> {{ '£' . number_format($applications->ext_finance_order_amount/100, 2) }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Loan Amount: </strong> {{ '£' . number_format($applications->ext_order_loan_amount/100, 2) }}
+                                <strong>Loan Amount: </strong> {{ '£' . number_format($applications->ext_finance_loan_amount/100, 2) }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Deposit: </strong> {{ '£' . number_format($applications->ext_order_deposit/100, 2) }}
+                                <strong>Deposit: </strong> {{ '£' . number_format($applications->ext_finance_deposit/100, 2) }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Subsidy: </strong> {{ '£' . number_format($applications->ext_order_subsidy/100, 2) }}
+                                <strong>Subsidy: </strong> {{ '£' . number_format($applications->ext_finance_subsidy/100, 2) }}
                             </li>
                             <li class="list-group-item">
-                                <strong>Net Settlement: </strong> {{ '£' . number_format($applications->ext_order_net_settlement/100, 2) }}
+                                <strong>Net Settlement: </strong> {{ '£' . number_format($applications->ext_finance_net_settlement/100, 2) }}
                             </li>
                             <li class="list-group-item">
                                 <strong>Validity: </strong> {{ $applications->ext_validity }}

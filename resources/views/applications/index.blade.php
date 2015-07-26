@@ -38,12 +38,12 @@
             <th>@include('includes.form.input', ['field' => 'created_at'])</th>
             <th>@include('includes.form.select', ['field' => 'ext_current_status', 'object' => $applications])</th>
             <th>@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
-            <th>@include('includes.form.input', ['field' => 'ext_order_amount'])</th>
-            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_loan_amount'])</th>
-            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_deposit'])</th>
-            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_order_subsidy'])</th>
-            <th>@include('includes.form.input', ['field' => 'ext_order_net_settlement'])</th>
-            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => ''])</th>
+            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_order_amount', 'symbol' => '£'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_loan_amount', 'symbol' => '£'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_deposit', 'symbol' => '£'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_subsidy', 'symbol' => '£'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_net_settlement', 'symbol' => '£'])</th>
+            <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'ext_fulfilment_location'])</th>
             <th class="col-xs-3 col-sm-3 col-md-2 col-lg-1">@include('includes.form.filter_buttons')</th>
         </tr>
         {!! Form::close() !!}
@@ -55,11 +55,11 @@
                 <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
                 <td>{{ ucwords($item->ext_current_status) }}</td>
                 <td>{{ $item->ext_order_reference }}</td>
-                <td>{{ '£' . number_format($item->ext_order_amount/100, 2) }}</td>
-                <td>{{ '£' . number_format($item->ext_order_loan_amount/100, 2) }}</td>
-                <td>{{ '£' . number_format($item->ext_order_deposit/100, 2) }}</td>
-                <td>{{ '£' . number_format($item->ext_order_subsidy/100, 2) }}</td>
-                <td>{{ '£' . number_format($item->ext_order_net_settlement/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_finance_order_amount/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_finance_deposit/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
+                <td>{{ '£' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
 
 

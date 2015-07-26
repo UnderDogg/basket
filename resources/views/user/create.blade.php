@@ -8,7 +8,7 @@
     <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb')
 
-    {!! Form::open(['url' => 'user', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['url' => 'users', 'class' => 'form-horizontal']) !!}
     <p>&nbsp;</p>
     <div class="col-xs-12">
         <div class="form-group">
@@ -25,11 +25,6 @@
             {!! Form::label('password', 'Password: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
                 {!! Form::password('password', ['class' => 'form-control'], null) !!}
-            </div>
-        </div><div class="form-group">
-            {!! Form::label('merchant_id', 'Merchant Id: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
-                {!! Form::text('merchant_id', null, ['class' => 'form-control']) !!}
             </div>
         </div><div class="form-group">
             {!! Form::label('locations', 'Locations: ', ['class' => 'col-sm-3 control-label']) !!}

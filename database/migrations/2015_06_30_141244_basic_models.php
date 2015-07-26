@@ -63,7 +63,7 @@ class BasicModels extends Migration
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('merchant_id')->unsigned()->after('password')->default(0); // Added defaults: fix for sqlite
+            $table->integer('merchant_id')->unsigned()->after('password')->default(null)->nullable(); // Added defaults: fix for sqlite
             $table->string('locations')->after('merchant_id')->default(''); // Added defaults: fix for sqlite
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
@@ -71,18 +71,13 @@ class BasicModels extends Migration
 
         Schema::create('applications', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->integer('installation_id')->unsigned();
-            $table->integer('location_id')->unsigned();
-            $table->integer('requester')->unsigned();
+            $table->integer('location_id')->unsigned()->nullable();
             $table->integer('ext_id');
             $table->string('ext_current_status');
             $table->string('ext_order_reference');
             $table->integer('ext_order_amount');
-            $table->integer('ext_order_loan_amount');
-            $table->integer('ext_order_deposit');
-            $table->integer('ext_order_subsidy');
-            $table->integer('ext_order_net_settlement');
             $table->string('ext_order_description')->nullable();
             $table->string('ext_order_validity')->nullable();
             $table->string('ext_products_groups');
@@ -112,6 +107,11 @@ class BasicModels extends Migration
             $table->string('ext_applicant_phone_home')->nullable();
             $table->string('ext_applicant_phone_mobile')->nullable();
             $table->string('ext_applicant_postcode')->nullable();
+            $table->integer('ext_finance_order_amount');
+            $table->integer('ext_finance_loan_amount');
+            $table->integer('ext_finance_deposit');
+            $table->integer('ext_finance_subsidy');
+            $table->integer('ext_finance_net_settlement');
             $table->json('ext_metadata')->nullable();
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -120,7 +120,7 @@ class BasicModels extends Migration
 
             $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('installation_id')->references('id')->on('installations');
-            $table->foreign('requester')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

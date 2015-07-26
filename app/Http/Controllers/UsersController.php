@@ -9,17 +9,18 @@
  */
 namespace App\Http\Controllers;
 
+use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 /**
- * Class UserController
+ * Class UsersController
  *
  * @author MS
  * @package App\Http\Controllers
  */
-class UserController extends Controller
+class UsersController extends Controller
 {
 
     /**
@@ -82,7 +83,6 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'merchant_id' => 'required',
         ]);
 
         $message = ['success','New User has been successfully created'];
@@ -90,6 +90,7 @@ class UserController extends Controller
         try {
 
             $array = $request->all();
+            $array['merchant_id'] = $this->getAuthenticatedUser()->merchant_id;
             $array['password'] = bcrypt($array['password']);
             User::create($array);
 
@@ -99,7 +100,7 @@ class UserController extends Controller
             $message = ['error','Could not successfully create new User'];
         }
 
-        return redirect('user')->with($message[0], $message[1]);
+        return redirect('users')->with($message[0], $message[1]);
     }
 
     /**
@@ -111,22 +112,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $user = User::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find user with ID: [' . $id . ']; User does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not find user with ID: [' . $id . ']; User does not exist';
-        }
-
-        return view('user.show', ['user' => $user, 'messages' => $messages]);
+        return view('user.show', ['user' => $this->fetchUserById($id), 'messages' => $this->getMessages()]);
     }
 
     /**
@@ -138,31 +124,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $user = User::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get user with ID [' . $id . '] for editing; User does not exist:' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get user with ID [' . $id . '] for editing; User does not exist';
-        }
-
-        return view('user.edit', ['user' => $user, 'messages' => $messages]);
+        return view('user.edit', ['user' => $this->fetchUserById($id), 'messages' => $this->getMessages()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @author MS
-     * @param  int  $id
+     * @param  int $id
      * @param Request $request
      * @return \Illuminate\View\View
+     * @throws RedirectException
      */
     public function update($id, Request $request)
     {
@@ -171,24 +143,19 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $message = ['success', 'User details were successfully updated'];
+        $user = $this->fetchUserById($id);
 
         try {
-
-            $user = User::findOrFail($id);
             $input = $request->all();
             $input['password'] = bcrypt($input['password']);
             $user->update($input);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not update User with ID [' . $id . ']; User does not exist' . $e->getMessage()
-            );
-            $message = ['error', 'Could not update User with ID [' . $id . ']; User does not exist'];
+        } catch (\Exception $e) {
+            $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return redirect()->back()->with($message[0], $message[1]);
+
+        return redirect()->back()->with('success', 'User details were successfully updated');
     }
 
     /**
@@ -211,7 +178,7 @@ class UserController extends Controller
             $message = ['error', 'Deletion of this record did not complete successfully'];
         }
 
-        return redirect('user')->with($message[0], $message[1]);
+        return redirect('users')->with($message[0], $message[1]);
     }
 
     /**
@@ -223,23 +190,20 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-        $user = null;
-        $messages = $this->getMessages();
+        $user = $this->fetchUserById($id);
+        $user->type = 'users';
+        $user->controller = 'Users';
+        return view('includes.page.confirm_delete', ['object' => $user, 'messages' => $this->getMessages()]);
+    }
 
-        try {
-
-            $user = User::findOrFail($id);
-            $user->type = 'user';
-            $user->controller = 'User';
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get user with ID: [' . $id . ']; User does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get user with ID: [' . $id . ']; User does not exist';
-        }
-
-        return view('includes.page.confirm_delete', ['object' => $user, 'messages' => $messages]);
+    /**
+     * @author WN
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model
+     * @throws \App\Exceptions\RedirectException
+     */
+    private function fetchUserById($id)
+    {
+        return $this->fetchModelById((new User()), $id, 'user', '/users');
     }
 }

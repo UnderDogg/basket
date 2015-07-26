@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Exceptions\RedirectException;
 use App\Basket\Installation;
 use App\Http\Requests;
 use App\Basket\Location;
@@ -109,22 +110,10 @@ class LocationsController extends Controller
      */
     public function show($id)
     {
-        $locations = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $locations = Location::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find location with ID: [' . $id . ']; Location does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not find location with ID: [' . $id . ']; Location does not exist';
-        }
-
-        return view('locations.show', ['location' => $locations, 'messages' => $messages]);
+        return view(
+            'locations.show',
+            ['location' => $this->fetchLocationById($id), 'messages' => $this->getMessages()]
+        );
     }
 
     /**
@@ -135,31 +124,23 @@ class LocationsController extends Controller
      */
     public function edit($id)
     {
-        $locations = null;
-        $installations = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $locations = Location::findOrFail($id);
-            $installations = Installation::query()->get();
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get Location with ID [' . $id . '] for editing; Location does not exist:' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get Location with ID [' . $id . '] for editing; Location does not exist';
-        }
-
-        return view('locations.edit', ['location' => $locations, 'installations' => $installations, 'messages' => $messages]);
+        return view(
+            'locations.edit',
+            [
+                'location' => $this->fetchLocationById($id),
+                'installations' => Installation::query()->get(),
+                'messages' => $this->getMessages()
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param Request $request
      * @return Response
+     * @throws RedirectException
      */
     public function update($id, Request $request)
     {
@@ -172,24 +153,17 @@ class LocationsController extends Controller
 
         ]);
 
-        $message = ['success', 'Location details were successfully updated'];
-
+        $locations = $this->fetchLocationById($id);
         try {
-
-            $locations = Location::findOrFail($id);
             $toUpdate = $request->all();
             $toUpdate['active'] = ($request->has('active')) ? 1 : 0;
             $locations->update($toUpdate);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not update Location with ID [' . $id . ']; Location does not exist' . $e->getMessage()
-            );
-            $message = ['error', 'Could not update Location with ID [' . $id . ']; Location does not exist'];
+        } catch (\Exception $e) {
+            $this->logError('Can not update location [' . $id . ']: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/locations/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return redirect()->back()->with($message[0], $message[1]);
+        return redirect()->back()->with('success', 'Location details were successfully updated');
     }
 
     /**
@@ -223,23 +197,19 @@ class LocationsController extends Controller
      */
     public function delete($id)
     {
-        $location = null;
-        $messages = $this->getMessages();
+        $location = $this->fetchLocationById($id);
+        $location->type = 'location';
+        $location->controller = 'Locations';
+        return view('includes.page.confirm_delete', ['object' => $location, 'messages' => $this->getMessages()]);
+    }
 
-        try {
-
-            $location = Location::findOrFail($id);
-            $location->type = 'location';
-            $location->controller = 'Locations';
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get location with ID: [' . $id . ']; Location does not exist: ' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get location with ID: [' . $id . ']; Location does not exist';
-        }
-
-        return view('includes.page.confirm_delete', ['object' => $location, 'messages' => $messages]);
+    /**
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Model
+     * @throws \App\Exceptions\RedirectException]
+     */
+    private function fetchLocationById($id)
+    {
+        return $this->fetchModelById((new Location()), $id, 'location', '/locations');
     }
 }
