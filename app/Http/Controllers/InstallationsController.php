@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -103,6 +103,7 @@ class InstallationsController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @author WN
      * @param  int $id
      * @param Request $request
      * @return Response
@@ -110,15 +111,7 @@ class InstallationsController extends Controller
      */
     public function update($id, Request $request)
     {
-        $installations = $this->fetchInstallation($id);
-        try {
-            $installations->update($request->all());
-        } catch (\Exception $e) {
-            $this->logError('Can not update installation [' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/installations/' . $id . '/edit')->setError($e->getMessage());
-        }
-
-        return redirect()->back()->with('success', 'Installation details were successfully updated');
+        return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
     }
 
     /**

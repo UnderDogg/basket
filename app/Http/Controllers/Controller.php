@@ -155,4 +155,27 @@ abstract class Controller extends BaseController
 
         return redirect('locations')->with('success', ucwords($modelName) . ' was successfully deleted');
     }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
+    {
+        $model = $this->fetchModelById($model, $id, $modelName, $redirect);
+
+        try{
+            $model->update($request->all());
+        } catch (\Exception $e) {
+
+            throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
+        }
+        return redirect()->back()->with('success', ucwords($modelName) .' details were successfully updated');
+    }
 }

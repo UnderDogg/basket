@@ -14,7 +14,7 @@ use App\Http\Requests;
 use App\Role;
 use App\RolePermissions;
 use App\Permission;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -187,19 +187,9 @@ class RolesController extends Controller
      */
     public function update($id, Request $request)
     {
-        $role = $this->fetchRoleById($id);
-
-        try {
-            $role->update($request->all());
-            $this->updateAllRolePermissions($role->id, $request);
-
-        } catch (\Exception $e) {
-
-            $this->logError('RolesController::update failed with message ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/roles')->setError('Problem updating role ID: ' . $id);
-        }
-
-        return redirect()->back()->with('success', 'Roles and role permissions were successfully updated');
+        $rtn = $this->updateModel((new Role()), $id, 'role', '/roles', $request);
+        $this->updateAllRolePermissions($id, $request);
+        return $rtn;
     }
 
     /**
