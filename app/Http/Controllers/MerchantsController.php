@@ -13,7 +13,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**

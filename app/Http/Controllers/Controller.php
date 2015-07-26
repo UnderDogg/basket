@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\RedirectException;
