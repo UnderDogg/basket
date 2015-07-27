@@ -152,17 +152,6 @@ class InstallationsController extends Controller
      */
     private function fetchInstallation($id)
     {
-        try {
-            return Installation::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not find installation with ID: [' . $id . ']; installation does not exist: ' . $e->getMessage()
-            );
-            throw (new RedirectException())
-                ->setTarget('/installations')
-                ->setError('Could not find installation with ID: ' . $id . '.');
-        }
+        return $this->fetchModelById((new Installation()), $id, 'installation', '/installations');
     }
 }

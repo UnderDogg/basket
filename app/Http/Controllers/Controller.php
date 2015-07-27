@@ -9,11 +9,14 @@
  */
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Request;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Exceptions\RedirectException;
 
 /**
  * Class Controller
@@ -99,5 +102,31 @@ abstract class Controller extends BaseController
         }
 
         return false;
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelById(Model $model, $id, $modelName, $redirect)
+    {
+        try {
+            return $model->findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get ' . $modelName . ' with ID [' . $id . ']; ' .
+                ucwords($modelName) . ' does not exist: ' . $e->getMessage()
+            );
+            throw (new RedirectException())
+                ->setTarget($redirect)
+                ->setError('Could not found ' . ucwords($modelName) . ' with ID:' . $id);
+        }
     }
 }

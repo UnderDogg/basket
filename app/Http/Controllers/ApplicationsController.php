@@ -9,11 +9,13 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ApplicationsController
@@ -153,17 +155,6 @@ class ApplicationsController extends Controller
      */
     private function fetchApplicationById($id)
     {
-        try {
-            return Application::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get application with ID [' . $id . ']; Application does not exist: ' . $e->getMessage()
-            );
-            throw (new RedirectException())
-                ->setTarget('/applications')
-                ->setError('Could not found application with ID ' . $id);
-        }
+        return $this->fetchModelById((new Application()), $id, 'application', '/applications');
     }
 }
