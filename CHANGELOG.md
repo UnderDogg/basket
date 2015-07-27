@@ -21,6 +21,7 @@
 - Added `ApplicationEntity`
 - Added `ApplicationGateway`
 - Added `ApplicationSynchronisationService`
+- Refactored Controllers for quality improvements
 
 ## Bug Fixes
 - Code Standards fixes
