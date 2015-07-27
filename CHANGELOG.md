@@ -25,6 +25,7 @@
 - Added live `DBSeeder`
 - Added dev `DevSeeder`
 - Added `role_id` to `User`
+- Added Fulfilment request to applications
 
 ## Bug Fixes
 - Code Standards fixes
