@@ -61,7 +61,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $installation->linked = false;
             $installation->save();
 
-            $this->logError('InstallationSynchronisationService failed ' . $e->getMessage());
+            $this->logError('ApplicationSynchronisationService failed ' . $e->getMessage());
             throw $e;
         }
 
@@ -70,6 +70,27 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         return $application;
 
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return ApplicationEntity
+     * @throws \Exception
+     */
+    public function fulfil($id)
+    {
+        $application = $this->fetchApplicationLocalObject($id);
+        $merchant = $this->fetchMerchantLocalObject($application->installation()->merchant_id);
+
+        try {
+            return $this->applicationGateway->getApplication($application->ext_id, $merchant->token);
+
+        } catch (\Exception $e) {
+
+            $this->logError('ApplicationSynchronisationService failed ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     /**

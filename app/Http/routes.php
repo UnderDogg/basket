@@ -100,5 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'applications/{id}',       'ApplicationsController@show');
     Route::get(   'applications/{id}/edit',  'ApplicationsController@edit');
     Route::patch( 'applications/{id}',       ['before' => 'csrf', 'uses' => 'ApplicationsController@update']);
+    Route::get(   'applications/{id}/fulfil',   'ApplicationsController@confirmFulfilment');
+    Route::post( 'applications/{id}/fulfil',   ['before' => 'csrf', 'uses' => 'ApplicationsController@fulfil']);
 
 });
