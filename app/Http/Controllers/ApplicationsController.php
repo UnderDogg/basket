@@ -79,9 +79,16 @@ class ApplicationsController extends Controller
      */
     public function show($id)
     {
+        $application = $this->fetchApplicationById($id);
+
         return view(
             'applications.show',
-            ['applications' => $this->fetchApplicationById($id), 'messages' => $this->getMessages()]
+            [
+                'applications' => $application,
+                'messages' => $this->getMessages(),
+                'fulfilmentAvailable' => $this->isFulfilable($application),
+                'cancellationAvailable' => $this->isCancellable($application),
+            ]
         );
     }
 
@@ -122,7 +129,7 @@ class ApplicationsController extends Controller
     public function confirmFulfilment($id)
     {
         $application = $this->fetchApplicationById($id);
-        if ($application->ext_current_status !== 'converted') {
+        if (!$this->isFulfilable($application)) {
 
             throw RedirectException::make('/applications/' . $id)
                 ->setError('Application is not allowed to be fulfilled.');
@@ -145,6 +152,41 @@ class ApplicationsController extends Controller
             throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
         }
         return redirect()->back()->with('success', 'Application was fulfilled successfully');
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function confirmCancellation($id)
+    {
+        $application = $this->fetchApplicationById($id);
+        if (!$this->isCancellable($application)) {
+
+            throw RedirectException::make('/applications/' . $id)
+                ->setError('Application is not allowed to request cancellation.');
+        }
+        return view('applications.cancellation', ['application' => $application]);
+    }
+
+    /**
+     * @author WN
+     * @param int  $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function requestCancellation($id, Request $request)
+    {
+        try {
+            $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
+        } catch (\Exception $e) {
+            $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
+            throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
+        }
+        return redirect()->back()->with('success', 'Cancellation requested successfully');
     }
 
     /**
@@ -180,5 +222,25 @@ class ApplicationsController extends Controller
     private function fetchApplicationById($id)
     {
         return $this->fetchModelById((new Application()), $id, 'application', '/applications');
+    }
+
+    /**
+     * @author WN
+     * @param Application $application
+     * @return bool
+     */
+    private function isFulfilable(Application $application)
+    {
+        return $application->ext_current_status === 'converted';
+    }
+
+    /**
+     * @author WN
+     * @param Application $application
+     * @return bool
+     */
+    private function isCancellable(Application $application)
+    {
+        return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
     }
 }

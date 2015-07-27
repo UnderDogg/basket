@@ -5,15 +5,9 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    @if($applications->ext_current_status === 'converted')
-        {{-- */ $fulfil = true; /* --}}
-    @else
-        {{-- */ $fulfil = false; /* --}}
-    @endif
-
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @if($applications !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil'=>$fulfil])
+            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable])
         @endif
     </h2>
     @include('includes.page.breadcrumb')
@@ -36,30 +30,30 @@
                 <div class="panel-body">
                     @if($applications !== null)
                         <ul class="list-group">
-                            <li class="list-group-item">
-                                <strong>Application ID: </strong> {{ $applications->id }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Order Reference: </strong> {{ $applications->ext_order_reference }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Requester: </strong>
-                                <a href="{{Request::segment(0)}}/user/{{$applications->user->id}}">
-                                    {{ $applications->user->name }}
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Installation: </strong>
-                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
-                                    {{ $applications->installation->name }}
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Location: </strong>
-                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
-                                    {{ $applications->location->name }}
-                                </a>
-                            </li>
+                            {{--<li class="list-group-item">--}}
+                                {{--<strong>Application ID: </strong> {{ $applications->id }}--}}
+                            {{--</li>--}}
+                            {{--<li class="list-group-item">--}}
+                                {{--<strong>Order Reference: </strong> {{ $applications->ext_order_reference }}--}}
+                            {{--</li>--}}
+                            {{--<li class="list-group-item">--}}
+                                {{--<strong>Requester: </strong>--}}
+                                {{--<a href="{{Request::segment(0)}}/user/{{$applications->user->id}}">--}}
+                                    {{--{{ $applications->user->name }}--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                            {{--<li class="list-group-item">--}}
+                                {{--<strong>Installation: </strong>--}}
+                                {{--<a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">--}}
+                                    {{--{{ $applications->installation->name }}--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                            {{--<li class="list-group-item">--}}
+                                {{--<strong>Location: </strong>--}}
+                                {{--<a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">--}}
+                                    {{--{{ $applications->location->name }}--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
                         </ul>
                     @endif
                 </div>
