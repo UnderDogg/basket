@@ -12,7 +12,7 @@
         {{--@include('includes.page.breadcrumb', ['override2'=>$object->name])--}}
 
         <p>&nbsp;</p>
-        {!! Form::open( ['method'=>'delete'] ) !!}
+        {!! Form::open( ['method'=>'post'] ) !!}
 
         <div class="form-group">
             <div class="col-sm-8 col-sm-offset-2 jumbotron">

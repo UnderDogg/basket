@@ -9,13 +9,11 @@
  */
 namespace App\Http\Controllers;
 
-use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class ApplicationsController
@@ -25,6 +23,16 @@ use Psr\Log\LoggerInterface;
  */
 class ApplicationsController extends Controller
 {
+    /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
+    private $applicationSynchronisationService;
+
+    public function __construct()
+    {
+        $this->applicationSynchronisationService = \App::make(
+            'App\Basket\Synchronisation\ApplicationSynchronisationService'
+        );
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -121,6 +129,23 @@ class ApplicationsController extends Controller
     public function confirmFulfilment($id)
     {
         return view('applications.fulfilment', ['application' => $this->fetchApplicationById($id)]);
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function fulfil($id)
+    {
+        try {
+            $this->applicationSynchronisationService->fulfil($id);
+        } catch (\Exception $e) {
+            $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/applications/' . $id)->setError('Fulfilment failed');
+        }
+        return redirect()->back()->with('success', 'Application was fulfilled successfully');
     }
 
     /**
