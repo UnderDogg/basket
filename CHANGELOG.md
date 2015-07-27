@@ -22,6 +22,9 @@
 - Added `ApplicationGateway`
 - Added `ApplicationSynchronisationService`
 - Refactored Controllers for quality improvements
+- Added live `DBSeeder`
+- Added dev `DevSeeder`
+- Added `role_id` to `User`
 
 ## Bug Fixes
 - Code Standards fixes
