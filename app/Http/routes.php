@@ -100,5 +100,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'applications/{id}',       'ApplicationsController@show');
     Route::get(   'applications/{id}/edit',  'ApplicationsController@edit');
     Route::patch( 'applications/{id}',       'ApplicationsController@update');
+    Route::get(   'applications/{id}/fulfil',   'ApplicationsController@confirmFulfilment');
 
 });

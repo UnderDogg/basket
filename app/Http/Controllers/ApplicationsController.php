@@ -111,6 +111,17 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * @author WN
+     * @param $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function confirmFulfilment($id)
+    {
+        return view('applications.fulfilment', ['application' => $this->fetchApplicationById($id)]);
+    }
+
+    /**
      * Reformat For Currency
      *
      * @author MS
