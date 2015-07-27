@@ -18,6 +18,9 @@
 - Added pattern for drop downs on edit pages
 - Refactored Role and Users to use plural routing pattern
 - Adjusted navigation menu to reflect all available feature views
+- Added `ApplicationEntity`
+- Added `ApplicationGateway`
+- Added `ApplicationSynchronisationService`
 
 ## Bug Fixes
 - Code Standards fixes
