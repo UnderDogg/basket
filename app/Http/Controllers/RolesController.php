@@ -189,9 +189,9 @@ class RolesController extends Controller
     {
         $message = ['success', 'Roles and role permissions were successfully updated'];
 
-        try {
+        $role = $this->fetchRoleById($id);
 
-            $role = Role::findOrFail($id);
+        try {
             $role->update($request->all());
             $this->updateAllRolePermissions($role->id, $request);
 
@@ -212,25 +212,13 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @author MS
+     * @author WN
      * @param  int  $id
      * @return Response
      */
     public function destroy($id)
     {
-        $message = ['success','Role was successfully deleted'];
-        try {
-
-            Role::destroy($id);
-            RolePermissions::where('role_id', '=', $id)->delete();
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('roles')->with($message[0], $message[1]);
+        return $this->destroyModel((new Role()), $id, 'role', '/roles');
     }
 
     /**
@@ -346,5 +334,10 @@ class RolesController extends Controller
         }
 
         return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $messages]);
+    }
+
+    private function fetchRoleById($id)
+    {
+        return $this->fetchModelById((new Role()), $id, 'role', '/roles');
     }
 }

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\RedirectException;
@@ -52,8 +52,8 @@ abstract class Controller extends BaseController
      */
     protected function getPageLimit()
     {
-        if (Request::get('limit') && is_int(Request::get('limit'))) {
-            return Request::get('limit');
+        if (Request::capture()->get('limit') && is_int(Request::capture()->get('limit'))) {
+            return Request::capture()->get('limit');
         }
         return self::DEFAULT_PAGE_LIMIT;
     }
@@ -65,7 +65,7 @@ abstract class Controller extends BaseController
      */
     protected function getTableFilter()
     {
-        return Request::except('limit', 'page');
+        return Request::capture()->except(['limit', 'page']);
     }
 
     /**
@@ -128,5 +128,53 @@ abstract class Controller extends BaseController
                 ->setTarget($redirect)
                 ->setError('Could not found ' . ucwords($modelName) . ' with ID:' . $id);
         }
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    protected function destroyModel(Model $model, $id, $modelName, $redirect)
+    {
+        try {
+            $model->destroy($id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
+            throw (new RedirectException())
+                ->setTarget($redirect)
+                ->setError('Deletion of this record did not complete successfully');
+        }
+
+        return redirect('locations')->with('success', ucwords($modelName) . ' was successfully deleted');
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
+    {
+        $model = $this->fetchModelById($model, $id, $modelName, $redirect);
+
+        try{
+            $model->update($request->all());
+        } catch (\Exception $e) {
+
+            throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
+        }
+        return redirect()->back()->with('success', ucwords($modelName) .' details were successfully updated');
     }
 }

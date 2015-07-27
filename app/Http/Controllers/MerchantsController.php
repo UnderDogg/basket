@@ -129,6 +129,7 @@ class MerchantsController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @author WN
      * @param  int $id
      * @param Request $request
      * @return Response
@@ -136,37 +137,19 @@ class MerchantsController extends Controller
      */
     public function update($id, Request $request)
     {
-        $merchants = $this->fetchMerchantById($id);
-        try {
-            $merchants->update($request->all());
-        } catch (\Exception $e) {
-            $this->logError('Can not update merchant [' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/merchants/' . $id . '/edit')->setError($e->getMessage());
-        }
-
-        return redirect()->back()->with('success', 'Merchant details were successfully updated');
+        return $this->updateModel((new Merchant()), $id, 'merchant', '/merchants', $request);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @author WN
      * @param  int  $id
      * @return Response
      */
     public function destroy($id)
     {
-        $message = ['success','Merchant was successfully deleted'];
-        try {
-
-            Merchant::destroy($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('merchants')->with($message[0], $message[1]);
+        return $this->destroyModel((new Merchant()), $id, 'merchant', '/merchants');
     }
 
     /**

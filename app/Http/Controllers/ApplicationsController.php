@@ -9,7 +9,6 @@
  */
 namespace App\Http\Controllers;
 
-use App\Basket\Entities\Application\ApplicantEntity;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
@@ -93,6 +92,7 @@ class ApplicationsController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @author WN
      * @param int     $id
      * @param Request $request
      * @return Response
@@ -100,15 +100,7 @@ class ApplicationsController extends Controller
      */
     public function update($id, Request $request)
     {
-        $applications = $this->fetchApplicationById($id);
-
-        try{
-            $applications->update($request->all());
-        } catch (\Exception $e) {
-
-            throw (new RedirectException())->setTarget('/applications/' . $id . '/edit')->setError($e->getMessage());
-        }
-        return redirect()->back()->with('success', 'Application details were successfully updated');
+        return $this->updateModel((new Application()), $id, 'application', '/applications', $request);
     }
 
     /**
