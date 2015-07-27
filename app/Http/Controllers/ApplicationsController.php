@@ -128,7 +128,13 @@ class ApplicationsController extends Controller
      */
     public function confirmFulfilment($id)
     {
-        return view('applications.fulfilment', ['application' => $this->fetchApplicationById($id)]);
+        $application = $this->fetchApplicationById($id);
+        if ($application->ext_current_status !== 'converted') {
+
+            throw RedirectException::make('/applications/' . $id)
+                ->setError('Application is not allowed to be fulfilled.');
+        }
+        return view('applications.fulfilment', ['application' => $application]);
     }
 
     /**
@@ -143,7 +149,7 @@ class ApplicationsController extends Controller
             $this->applicationSynchronisationService->fulfil($id);
         } catch (\Exception $e) {
             $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/applications/' . $id)->setError('Fulfilment failed');
+            throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
         }
         return redirect()->back()->with('success', 'Application was fulfilled successfully');
     }

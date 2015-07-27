@@ -25,6 +25,16 @@ class RedirectException extends \Exception
 
     /**
      * @author WN
+     * @param string $target
+     * @return $this
+     */
+    public static function make($target)
+    {
+        return (new self())->setTarget($target);
+    }
+
+    /**
+     * @author WN
      * @return string
      */
     public function getTarget()

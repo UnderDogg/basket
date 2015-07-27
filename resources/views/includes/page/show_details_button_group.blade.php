@@ -14,5 +14,10 @@
             <span class="glyphicon glyphicon-remove-circle"></span> Delete
         </a>
     @endif
+    @if(isset($fulfil))
+        <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/fulfil" class="btn btn-info{{ $fulfil == true ? ' ' : ' disabled' }}">
+            <span class="glyphicon glyphicon-gift"></span> Fulfil
+        </a>
+    @endif
 </div>
 
