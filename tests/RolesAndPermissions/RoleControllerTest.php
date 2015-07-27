@@ -19,7 +19,7 @@ class RolesControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed');
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = new User(['name' => 'dev']);
         $this->be($user);
