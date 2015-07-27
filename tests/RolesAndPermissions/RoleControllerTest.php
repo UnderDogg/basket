@@ -19,7 +19,7 @@ class RolesControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed');
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = new User(['name' => 'dev']);
         $this->be($user);
@@ -103,16 +103,12 @@ class RolesControllerTest extends TestCase
         // Load view data and test variable data exists
         $view = $response->original;
         $roleVar = $view['role'];
-        $permissionVar = $view['role']['permissionsAvailable'][0];
+
 
         $this->assertNotEmpty( $roleVar['id']                   );
         $this->assertNotEmpty( $roleVar['name']                 );
         $this->assertNotEmpty( $roleVar['display_name']         );
         $this->assertNotEmpty( $roleVar['description']          );
-        $this->assertNotEmpty( $permissionVar['id']             );
-        $this->assertNotEmpty( $permissionVar['name']           );
-        $this->assertNotEmpty( $permissionVar['display_name']   );
-        $this->assertNotEmpty( $permissionVar['description']    );
     }
 
     /**
@@ -161,16 +157,11 @@ class RolesControllerTest extends TestCase
         // Load view data and test variable data exists
         $view = $response->original;
         $roleVar = $view['role'];
-        $permissionVar = $view['role']['permissionsAvailable'][0];
 
         $this->assertNotEmpty( $roleVar['id']                   );
         $this->assertNotEmpty( $roleVar['name']                 );
         $this->assertNotEmpty( $roleVar['display_name']         );
         $this->assertNotEmpty( $roleVar['description']          );
-        $this->assertNotEmpty( $permissionVar['id']             );
-        $this->assertNotEmpty( $permissionVar['name']           );
-        $this->assertNotEmpty( $permissionVar['display_name']   );
-        $this->assertNotEmpty( $permissionVar['description']    );
 
     }
 

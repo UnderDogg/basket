@@ -40,7 +40,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'merchant_id', 'locations'];
+    protected $fillable = ['name', 'email', 'password', 'merchant_id', 'locations', 'role_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -50,10 +50,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * Get the phone record associated with the user.
+     * Get the merchant record associated with the user.
+     * @author MS
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function merchant()
     {
         return $this->belongsTo('App\Basket\Merchant');
+    }
+
+    /**
+     * Get the role record associated with the user.
+     * @author MS
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
     }
 }
