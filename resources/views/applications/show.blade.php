@@ -30,30 +30,30 @@
                 <div class="panel-body">
                     @if($applications !== null)
                         <ul class="list-group">
-                            {{--<li class="list-group-item">--}}
-                                {{--<strong>Application ID: </strong> {{ $applications->id }}--}}
-                            {{--</li>--}}
-                            {{--<li class="list-group-item">--}}
-                                {{--<strong>Order Reference: </strong> {{ $applications->ext_order_reference }}--}}
-                            {{--</li>--}}
-                            {{--<li class="list-group-item">--}}
-                                {{--<strong>Requester: </strong>--}}
-                                {{--<a href="{{Request::segment(0)}}/user/{{$applications->user->id}}">--}}
-                                    {{--{{ $applications->user->name }}--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
-                            {{--<li class="list-group-item">--}}
-                                {{--<strong>Installation: </strong>--}}
-                                {{--<a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">--}}
-                                    {{--{{ $applications->installation->name }}--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
-                            {{--<li class="list-group-item">--}}
-                                {{--<strong>Location: </strong>--}}
-                                {{--<a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">--}}
-                                    {{--{{ $applications->location->name }}--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
+                            <li class="list-group-item">
+                                <strong>Application ID: </strong> {{ $applications->id }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Order Reference: </strong> {{ $applications->ext_order_reference }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Requester: </strong>
+                                <a href="{{Request::segment(0)}}/user/{{$applications->user->id}}">
+                                    {{ $applications->user->name }}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Installation: </strong>
+                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
+                                    {{ $applications->installation->name }}
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Location: </strong>
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
+                                    {{ $applications->location->name }}
+                                </a>
+                            </li>
                         </ul>
                     @endif
                 </div>
