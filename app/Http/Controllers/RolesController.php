@@ -33,16 +33,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $role = Role::query();
-        $this->processFilters($role);
-
-        return View(
-            'role.index',
-            [
-                'messages' => $this->prepareMessagesForIndexAction($role),
-                'role' => $role->paginate($this->getPageLimit()),
-            ]
-        );
+        return $this->standardIndexAction(Role::query(), 'role.index', 'role');
     }
 
     /**

@@ -45,16 +45,8 @@ class InstallationsController extends Controller
     public function index()
     {
         $installations = Installation::query();
-        $this->processFilters($installations);
         $this->limitToMerchant($installations);
-
-        return View(
-            'installations.index',
-            [
-                'messages' => $this->prepareMessagesForIndexAction($installations),
-                'installations' => $installations->paginate($this->getPageLimit()),
-            ]
-        );
+        return $this->standardIndexAction($installations, 'installations.index', 'installations');
     }
 
     /**

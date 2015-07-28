@@ -209,4 +209,23 @@ abstract class Controller extends BaseController
 
         return $messages;
     }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @param string $view
+     * @return \Illuminate\View\View
+     */
+    protected function standardIndexAction(Builder $query, $view, $modelName)
+    {
+        $this->processFilters($query);
+
+        return View(
+            $view,
+            [
+                'messages' => $this->prepareMessagesForIndexAction($query),
+                $modelName => $query->paginate($this->getPageLimit()),
+            ]
+        );
+    }
 }

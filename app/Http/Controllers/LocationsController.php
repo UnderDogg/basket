@@ -33,16 +33,7 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        $locations = Location::query();
-        $this->processFilters($locations);
-
-        return View(
-            'locations.index',
-            [
-                'messages' => $this->prepareMessagesForIndexAction($locations),
-                'locations' => $locations->paginate($this->getPageLimit()),
-            ]
-        );
+        return $this->standardIndexAction(Location::query(), 'locations.index', 'locations');
     }
 
     /**

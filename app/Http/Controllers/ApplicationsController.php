@@ -41,16 +41,7 @@ class ApplicationsController extends Controller
      */
     public function index()
     {
-        $applications = Application::query();
-        $this->processFilters($applications);
-
-        return View(
-            'applications.index',
-            [
-                'messages' => $this->prepareMessagesForIndexAction($applications),
-                'applications' => $applications->paginate($this->getPageLimit()),
-            ]
-        );
+        return $this->standardIndexAction(Application::query(), 'applications.index', 'applications');
     }
 
     /**

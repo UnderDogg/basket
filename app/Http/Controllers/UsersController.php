@@ -32,16 +32,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $user = User::query();
-        $this->processFilters($user);
-
-        return View(
-            'user.index',
-            [
-                'messages' => $this->prepareMessagesForIndexAction($user),
-                'user' => $user->paginate($this->getPageLimit()),
-            ]
-        );
+        return $this->standardIndexAction(User::query(), 'user.index', 'user');
     }
 
     /**

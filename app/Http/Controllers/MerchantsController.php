@@ -40,16 +40,7 @@ class MerchantsController extends Controller
      */
     public function index()
     {
-        $merchants = Merchant::query();
-        $this->processFilters($merchants);
-
-        return View(
-            'merchants.index',
-            [
-                'messages' => $this->prepareMessagesForIndexAction($merchants),
-                'merchants' => $merchants->paginate($this->getPageLimit()),
-            ]
-        );
+        return $this->standardIndexAction(Merchant::query(), 'merchants.index', 'merchants');
     }
 
     /**
