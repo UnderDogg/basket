@@ -89,12 +89,15 @@ class DBSeeder extends Seeder
             $permissionObject->save();
         }
 
+        $roles = [];
+
         foreach ($this->roles as $rolesToAdd) {
             $roleObject = new Role();
             $roleObject->name = $rolesToAdd[1];
             $roleObject->display_name = $rolesToAdd[0];
             $roleObject->description  = $rolesToAdd[2];
             $roleObject->save();
+            $roles[] = $roleObject;
         }
 
         foreach ($this->rolesPermissions as $role => $permissionsToAdd) {
@@ -114,6 +117,8 @@ class DBSeeder extends Seeder
             $userObject->merchant_id = $user[3];
             $userObject->role_id = $user[4];
             $userObject->save();
+
+            $userObject->attachRole($roles[$user[4]-1]);
         }
 
         Model::reguard();
