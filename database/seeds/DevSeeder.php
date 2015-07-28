@@ -28,17 +28,20 @@ class DevSeeder extends DBSeeder
         // SET LOCATIONS            | reference | installation_id | bool active | name | email | address
         $locations[] = ['HIGHLOC', 1, 1, 'Higher Location', 'kira@highloc.com', 'Higher Location City'];
 
+        $this->roles[] = ['Administrator', 'administrator', 'Merchant Administrator'];
         $this->roles[] = ['Report Role', 'report', 'run reports'];
         $this->roles[] = ['Manager Role', 'manager', 'run reports and perform cancellations'];
         $this->roles[] = ['In-Store Role', 'instore', 'access in-store finance page and in-store details'];
 
-        $this->rolesPermissions[] = [1, 2];
-        $this->rolesPermissions[] = [1, 2, 3];
-        $this->rolesPermissions[] = [4, 5];
+        $this->rolesPermissions[] = [3, 4, 5, 6, 7, 8];
+        $this->rolesPermissions[] = [5, 6, 7, 8];
+        $this->rolesPermissions[] = [5, 6, 7, 8];
+        $this->rolesPermissions[] = [5, 6, 7, 8];
 
-        $this->users[] = ['Dev Reporter', 'report@paybreak.com', 'password', 1, 1];
-        $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 2];
-        $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 3];
+        $this->users[] = ['Administrator', 'it@paybreak.com', 'password', 1, 2];
+        $this->users[] = ['Dev Reporter', 'report@paybreak.com', 'password', 1, 3];
+        $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 3];
+        $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 4];
 
         DB::insert('INSERT INTO merchants (id, name, token, created_at, updated_at) VALUES (?, ?, ?, ?, ?)', [
             1,

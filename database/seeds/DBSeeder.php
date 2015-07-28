@@ -32,12 +32,15 @@ class DBSeeder extends Seeder
         /*
          * PERMISSIONS   |  Nice Name    |  Name     |  Description
          */
+        $this->permissions[] = ['Merchants Management', 'merchants-management', 'merchants management'];
+        $this->permissions[] = ['Roles Management', 'roles-management', 'roles management'];
+        $this->permissions[] = ['User Management', 'user-management', 'user management'];
+        $this->permissions[] = ['Merchant Management', 'merchant-management', 'merchant management'];
         $this->permissions[] = ['Read Applications', 'read-applications', 'read applications'];
         $this->permissions[] = ['Read Settlements', 'read-settlements', 'read settlements'];
         $this->permissions[] = ['Cancel Applications', 'cancel-applications', 'cancel applications'];
         $this->permissions[] = ['Access In-Store Finance Page', 'access-in-store-finance-page', 'access in-store finance page'];
         $this->permissions[] = ['Access In-Store Details', 'access-in-store-details', 'access in-store details'];
-
 
         /*
          * ROLES         |  Nice Name    |  Name     |  Description
@@ -48,7 +51,7 @@ class DBSeeder extends Seeder
          * PERMISSIONS FOR ROLE
          * RoleID = array PermissionsID
          */
-        $this->rolesPermissions[] = [1, 2, 3, 4, 5];
+        $this->rolesPermissions[] = [1, 2, 3];
 
         /*
          * USERS         |  Name        |  Email     |  Password     |  Merchant ID   |  Role ID
