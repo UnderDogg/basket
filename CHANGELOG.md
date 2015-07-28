@@ -26,6 +26,7 @@
 - Added dev `DevSeeder`
 - Added `role_id` to `User`
 - Added Fulfilment request to applications
+- Request Application Cancellation
 
 ## Bug Fixes
 - Code Standards fixes
