@@ -5,15 +5,9 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    @if($applications->ext_current_status === 'converted')
-        {{-- */ $fulfil = true; /* --}}
-    @else
-        {{-- */ $fulfil = false; /* --}}
-    @endif
-
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @if($applications !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil'=>$fulfil])
+            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable])
         @endif
     </h2>
     @include('includes.page.breadcrumb')

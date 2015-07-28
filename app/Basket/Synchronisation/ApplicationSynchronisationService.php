@@ -81,14 +81,36 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     public function fulfil($id)
     {
         $application = $this->fetchApplicationLocalObject($id);
-        $merchant = $this->fetchMerchantLocalObject($application->installation()->merchant_id);
+        $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         try {
-            return $this->applicationGateway->getApplication($application->ext_id, $merchant->token);
+            return $this->applicationGateway->fulfilApplication($application->ext_id, $merchant->token);
 
         } catch (\Exception $e) {
 
-            $this->logError('ApplicationSynchronisationService failed ' . $e->getMessage());
+            $this->logError('ApplicationSynchronisationService: Fulfilment failed ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * @author WN
+     * @param $id
+     * @param $description
+     * @return bool
+     * @throws \Exception
+     */
+    public function requestCancellation($id, $description)
+    {
+        $application = $this->fetchApplicationLocalObject($id);
+        $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
+
+        try {
+            return $this->applicationGateway->cancelApplication($application->ext_id, $description, $merchant->token);
+
+        } catch (\Exception $e) {
+
+            $this->logError('ApplicationSynchronisationService: CancellationRequest failed ' . $e->getMessage());
             throw $e;
         }
     }

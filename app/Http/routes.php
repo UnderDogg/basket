@@ -102,5 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch( 'applications/{id}',       ['before' => 'csrf', 'uses' => 'ApplicationsController@update']);
     Route::get(   'applications/{id}/fulfil',   'ApplicationsController@confirmFulfilment');
     Route::post( 'applications/{id}/fulfil',   ['before' => 'csrf', 'uses' => 'ApplicationsController@fulfil']);
+    Route::get(   'applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
+    Route::post(  'applications/{id}/request-cancellation', ['before' => 'csrf', 'uses' => 'ApplicationsController@requestCancellation']);
 
 });

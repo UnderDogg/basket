@@ -19,5 +19,10 @@
             <span class="glyphicon glyphicon-gift"></span> Fulfil
         </a>
     @endif
+    @if(isset($cancel))
+        <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/request-cancellation" class="btn btn-danger{{ $cancel == true ? ' ' : ' disabled' }}">
+            <span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation
+        </a>
+    @endif
 </div>
 
