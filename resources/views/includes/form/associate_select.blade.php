@@ -1,7 +1,7 @@
 @if(isset($associateField)){{-- */$itemProperty=$associateField;/* --}} @else {{-- */$itemProperty=$field;/* --}}@endif
 @if($object->count())
     @foreach($object as $item)
-        {{-- */$selects[$item->{$associate}->id]=$item->{$associate}->{$itemProperty};/* --}}
+        {{-- */ if($item->{$associate} !== null) $selects[$item->{$associate}->id]=$item->{$associate}->{$itemProperty};/* --}}
     @endforeach
 @endif
 
