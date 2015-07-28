@@ -43,5 +43,9 @@ class AppServiceProvider extends ServiceProvider
             'App\Basket\Synchronisation\ApplicationSynchronisationService',
             'App\Basket\Synchronisation\ApplicationSynchronisationService'
         );
+        $this->app->bind(
+            'App\Basket\Synchronisation\NotificationCatcherService',
+            'App\Basket\Synchronisation\NotificationCatcherService'
+        );
     }
 }

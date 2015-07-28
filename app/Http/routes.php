@@ -104,3 +104,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post( 'applications/{id}/fulfil',   ['before' => 'csrf', 'uses' => 'ApplicationsController@fulfil']);
 
 });
+
+Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
