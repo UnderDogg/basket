@@ -18,6 +18,7 @@ use App\Basket\Entities\Application\FinanceEntity;
 use App\Basket\Entities\Application\OrderEntity;
 use App\Basket\Entities\ApplicationEntity;
 use App\Basket\Gateways\ApplicationGateway;
+use App\Exceptions\Exception;
 use Psr\Log\LoggerInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -43,7 +44,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author WN
-     * @param $id
+     * @param int $id Internal application ID
      * @return Application
      * @throws \Exception
      */
@@ -57,10 +58,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $applicationEntity = $this->applicationGateway->getApplication($application->ext_id, $merchant->token);
 
         } catch (\Exception $e) {
-
-            $installation->linked = false;
-            $installation->save();
-
             $this->logError('ApplicationSynchronisationService failed ' . $e->getMessage());
             throw $e;
         }
@@ -69,7 +66,51 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $application->save();
 
         return $application;
+    }
 
+    /**
+     * @author WN
+     * @param int $applicationId External Application ID
+     * @param string $installationId External Installation ID
+     * @return Application
+     * @throws \Exception
+     */
+    public function linkApplication($applicationId, $installationId)
+    {
+        try {
+            return $this->fetchApplicationByExternalId($applicationId);
+        } catch (ModelNotFoundException $e) {
+            // nothing to do
+        }
+
+        try {
+            $installation = $this->fetchInstallationByExternalId($installationId);
+        } catch (\Exception $e) {
+            $this->logError('linkApplication: Installation not found for ID[' . $installationId . ']');
+            throw new Exception('Installation not found');
+        }
+
+        try {
+            $applicationEntity = $this->applicationGateway
+                ->getApplication($applicationId, $installation->merchant->token);
+
+        } catch (\Exception $e) {
+            $this->logError('Link Application failed ' . $e->getMessage());
+            throw $e;
+        }
+
+        $app = new Application();
+        $app->installation_id = $installation->id;
+        $app->ext_id = $applicationEntity->getId();
+
+        $this->mapApplication($applicationEntity, $app);
+
+        if ($app->save()) {
+            return $app;
+        }
+
+        $this->logError('LinkApplication: Problem saving Application[' . $installationId . ']');
+        throw new Exception('Problem saving Application');
     }
 
     /**
