@@ -12,8 +12,8 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class InstallationController
@@ -39,37 +39,22 @@ class InstallationsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $installations = null;
+        $installations = Installation::query();
+        $this->processFilters($installations);
+        $this->limitToMerchant($installations);
 
-        try {
-
-            $installations = Installation::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $installations->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$installations->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $installations = $installations->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting installations: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting installations';
-
-        }
-
-        return View('installations.index', ['installations' => $installations, 'messages' => $messages]);
+        return View(
+            'installations.index',
+            [
+                'messages' => $this->prepareMessagesForIndexAction($installations),
+                'installations' => $installations->paginate($this->getPageLimit()),
+            ]
+        );
     }
 
     /**
@@ -145,6 +130,23 @@ class InstallationsController extends Controller
      */
     private function fetchInstallation($id)
     {
-        return $this->fetchModelById((new Installation()), $id, 'installation', '/installations');
+        $installation =  $this->fetchModelById((new Installation()), $id, 'installation', '/installations');
+
+        if (\Auth::user()->merchant_id == null || \Auth::user()->merchant_id == $installation->merchant_id) {
+            return $installation;
+        }
+        throw RedirectException::make('/installations')
+            ->setError('You are not allowed to take any action on this Installation');
+    }
+
+    /**
+     * @author WN
+     * @param Builder $installation
+     */
+    private function limitToMerchant(Builder $installation)
+    {
+        if (\Auth::user()->merchant_id) {
+            $installation->where('merchant_id', \Auth::user()->merchant_id);
+        }
     }
 }

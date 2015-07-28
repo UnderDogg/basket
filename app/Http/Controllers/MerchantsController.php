@@ -35,26 +35,21 @@ class MerchantsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $merchants = null;
+        $merchants = Merchant::query();
+        $this->processFilters($merchants);
 
-        try {
-
-            $merchants = Merchant::query();
-            $merchants = $merchants->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting merchants: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting merchants';
-
-        }
-
-        return View('merchants.index', ['merchants' => $merchants, 'messages' => $messages]);
+        return View(
+            'merchants.index',
+            [
+                'messages' => $this->prepareMessagesForIndexAction($merchants),
+                'merchants' => $merchants->paginate($this->getPageLimit()),
+            ]
+        );
     }
 
     /**

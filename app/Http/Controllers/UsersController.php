@@ -32,33 +32,16 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $user = null;
+        $user = User::query();
+        $this->processFilters($user);
 
-        try {
-
-            $user = User::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $user->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$user->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $user = $user->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting locations: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting locations';
-
-        }
-
-        return View('user.index', ['user' => $user, 'messages' => $messages]);
+        return View(
+            'user.index',
+            [
+                'messages' => $this->prepareMessagesForIndexAction($user),
+                'user' => $user->paginate($this->getPageLimit()),
+            ]
+        );
     }
 
     /**

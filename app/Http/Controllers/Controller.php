@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\RedirectException;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Controller
@@ -176,5 +177,36 @@ abstract class Controller extends BaseController
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
         return redirect()->back()->with('success', ucwords($modelName) .' details were successfully updated');
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    protected function processFilters(Builder $query)
+    {
+        $filter = $this->getTableFilter();
+        if (count($filter) > 0) {
+            foreach ($filter as $field => $query) {
+
+                $query->where($field, 'like', '%' . $query . '%');
+            }
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @return array
+     */
+    protected function prepareMessagesForIndexAction(Builder $query)
+    {
+        $messages = $this->getMessages();
+
+        if (!$query->count()) {
+            $messages['info'] = 'No records were found that matched your filter';
+        }
+
+        return $messages;
     }
 }

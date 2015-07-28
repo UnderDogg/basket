@@ -28,37 +28,21 @@ class LocationsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $locations = null;
+        $locations = Location::query();
+        $this->processFilters($locations);
 
-        try {
-
-            $locations = Location::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $locations->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$locations->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $locations = $locations->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting locations: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting locations';
-
-        }
-
-        return View('locations.index', ['locations' => $locations, 'messages' => $messages]);
+        return View(
+            'locations.index',
+            [
+                'messages' => $this->prepareMessagesForIndexAction($locations),
+                'locations' => $locations->paginate($this->getPageLimit()),
+            ]
+        );
     }
 
     /**
