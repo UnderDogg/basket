@@ -9,11 +9,12 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class UsersController
@@ -45,14 +46,24 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('user.create', ['messages' => $this->getMessages()]);
+        $merchants = Merchant::query();
+        $this->limitToMerchant($merchants, 'id');
+        return view(
+            'user.create',
+            [
+                'messages' => $this->getMessages(),
+                'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @author MS
+     * @param Request $request
      * @return \Illuminate\View\View
+     * @throws RedirectException
      */
     public function store(Request $request)
     {
@@ -60,24 +71,27 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
+            'merchant_id' => 'required',
         ]);
 
-        $message = ['success','New User has been successfully created'];
+        $array = $request->all();
 
-        try {
+        if (!$this->isMerchantAllowedForUser($array['merchant_id'])) {
 
-            $array = $request->all();
-            $array['merchant_id'] = $this->getAuthenticatedUser()->merchant_id;
-            $array['password'] = bcrypt($array['password']);
-            User::create($array);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Could not successfully create new User' . $e->getMessage());
-            $message = ['error','Could not successfully create new User'];
+            throw RedirectException::make('/users')
+                ->setError('You are not allowed to create User for this Merchant');
         }
 
-        return redirect('users')->with($message[0], $message[1]);
+        $array['password'] = bcrypt($array['password']);
+
+        try {
+            User::create($array);
+        } catch (QueryException $e) {
+            throw RedirectException::make('/users/create')
+                ->setError('Can\'t create User');
+        }
+
+        return redirect('users')->with('success', 'New User has been successfully created');
     }
 
     /**
@@ -101,7 +115,16 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        return view('user.edit', ['user' => $this->fetchUserById($id), 'messages' => $this->getMessages()]);
+        $merchants = Merchant::query();
+        $this->limitToMerchant($merchants, 'id');
+        return view(
+            'user.edit',
+            [
+                'user' => $this->fetchUserById($id),
+                'messages' => $this->getMessages(),
+                'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
+            ]
+        );
     }
 
     /**
@@ -117,13 +140,21 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'password' => 'required',
+            'email' => 'required|email',
+            'merchant_id' => 'required',
         ]);
 
         $user = $this->fetchUserById($id);
 
+        $input = $request->all();
+
+        if (!$this->isMerchantAllowedForUser($input['merchant_id'])) {
+
+            throw RedirectException::make('/users')
+                ->setError('You are not allowed to create User for this Merchant');
+        }
+
         try {
-            $input = $request->all();
             $input['password'] = bcrypt($input['password']);
             $user->update($input);
         } catch (\Exception $e) {

@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -247,11 +248,12 @@ abstract class Controller extends BaseController
     /**
      * @author WN
      * @param Builder $query
+     * @param string $fieldName
      */
-    protected function limitToMerchant(Builder $query)
+    protected function limitToMerchant(Builder $query, $fieldName = 'merchant_id')
     {
         if (\Auth::user()->merchant_id) {
-            $query->where('merchant_id', \Auth::user()->merchant_id);
+            $query->where($fieldName, \Auth::user()->merchant_id);
         }
     }
 
@@ -304,7 +306,7 @@ abstract class Controller extends BaseController
      */
     protected function checkModelForMerchantLimit(Model $entity, $merchantId, $modelName, $redirect)
     {
-        if (\Auth::user()->merchant_id && $merchantId != \Auth::user()->merchant_id) {
+        if (!$this->isMerchantAllowedForUser($merchantId)) {
             throw RedirectException::make($redirect)
                 ->setError('You are not allowed to take any action on this' . ucwords($modelName));
         }
