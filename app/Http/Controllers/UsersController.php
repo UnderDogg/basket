@@ -32,7 +32,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return $this->standardIndexAction(User::query(), 'user.index', 'user');
+        $users = User::query();
+        $this->limitToMerchant($users);
+        return $this->standardIndexAction($users, 'user.index', 'user');
     }
 
     /**
@@ -168,6 +170,12 @@ class UsersController extends Controller
      */
     private function fetchUserById($id)
     {
-        return $this->fetchModelById((new User()), $id, 'user', '/users');
+        $user = $this->fetchModelById((new User()), $id, 'user', '/users');
+        if (\Auth::user()->merchant_id == null || \Auth::user()->merchant_id == $user->merchant_id) {
+            return $user;
+        }
+        throw RedirectException::make('/users')
+            ->setError('You are not allowed to take any action on this Users');
+
     }
 }

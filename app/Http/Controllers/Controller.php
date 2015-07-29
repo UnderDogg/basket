@@ -243,4 +243,15 @@ abstract class Controller extends BaseController
             );
         }
     }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    protected function limitToMerchant(Builder $query)
+    {
+        if (\Auth::user()->merchant_id) {
+            $query->where('merchant_id', \Auth::user()->merchant_id);
+        }
+    }
 }

@@ -130,15 +130,4 @@ class InstallationsController extends Controller
         throw RedirectException::make('/installations')
             ->setError('You are not allowed to take any action on this Installation');
     }
-
-    /**
-     * @author WN
-     * @param Builder $installation
-     */
-    private function limitToMerchant(Builder $installation)
-    {
-        if (\Auth::user()->merchant_id) {
-            $installation->where('merchant_id', \Auth::user()->merchant_id);
-        }
-    }
 }
