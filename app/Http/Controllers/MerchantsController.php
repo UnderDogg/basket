@@ -42,7 +42,7 @@ class MerchantsController extends Controller
     public function index()
     {
         $merchants = Merchant::query();
-        $this->limitToMerchant($merchants);
+        $this->limitToMerchant($merchants, 'id');
         return $this->standardIndexAction($merchants, 'merchants.index', 'merchants');
     }
 
@@ -171,16 +171,5 @@ class MerchantsController extends Controller
             'merchant',
             '/merchants'
         );
-    }
-
-    /**
-     * @author WN
-     * @param Builder $query
-     */
-    protected function limitToMerchant(Builder $query)
-    {
-        if (\Auth::user()->merchant_id) {
-            $query->where('id', \Auth::user()->merchant_id);
-        }
     }
 }
