@@ -8,7 +8,7 @@
     <h2>
         {{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @if($user !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'sync'=>true,'delete'=>true])
+            @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true])
         @endif
     </h2>
     @include('includes.page.breadcrumb', ['override2'=>$user->name])
@@ -27,25 +27,25 @@
                     <h3 class="panel-title">Key information</h3>
                 </div>
                 <div class="panel-body">
-                    @if($user !== null)
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <strong>Name: </strong> {{ $user->name  }}
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Email: </strong> {{ $user->email  }}
-                            </li>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Name: </strong> {{ $user->name  }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Email: </strong> {{ $user->email  }}
+                        </li>
+                        @if($user->merchant !== null)
                             <li class="list-group-item">
                                 <strong>Merchant: </strong>
                                 <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
                                     {{ $user->merchant->name }}
                                 </a>
                             </li>
-                            <li class="list-group-item">
-                                <strong>Locations: </strong> {{ 'To Be Defined'  }}
-                            </li>
-                        </ul>
-                    @endif
+                        @endif
+                        <li class="list-group-item">
+                            <strong>Locations: </strong> {{ 'To Be Defined'  }}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
