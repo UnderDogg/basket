@@ -229,4 +229,18 @@ abstract class Controller extends BaseController
             ]
         );
     }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    protected function limitToInstallationOnMerchant(Builder $query)
+    {
+        if (\Auth::user()->merchant_id) {
+            $query->where(
+                'installation_id',
+                implode(', ', Installation::where('merchant_id', \Auth::user()->merchant_id)->get()->pluck('id')->all())
+            );
+        }
+    }
 }

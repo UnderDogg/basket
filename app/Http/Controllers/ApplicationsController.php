@@ -13,6 +13,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ApplicationsController
@@ -40,7 +41,9 @@ class ApplicationsController extends Controller
      */
     public function index()
     {
-        return $this->standardIndexAction(Application::query(), 'applications.index', 'applications');
+        $application = Application::query();
+        $this->limitToInstallationOnMerchant($application);
+        return $this->standardIndexAction($application, 'applications.index', 'applications');
     }
 
     /**
@@ -193,7 +196,12 @@ class ApplicationsController extends Controller
      */
     private function fetchApplicationById($id)
     {
-        return $this->fetchModelById((new Application()), $id, 'application', '/applications');
+        $application = $this->fetchModelById((new Application()), $id, 'application', '/applications');
+        if (\Auth::user()->merchant_id && $application->installation->merchant->id != \Auth::user()->merchant_id) {
+            throw RedirectException::make('/applications')
+                ->setError('You are not allowed to take any action on this Application');
+        }
+        return $application;
     }
 
     /**
