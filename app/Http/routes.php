@@ -34,14 +34,16 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Users
      */
-    Route::get(   'users',             'UsersController@index');
-    Route::get(   'users/create',      'UsersController@create');
-    Route::get(   'users/{id}/delete', 'UsersController@delete');
-    Route::post(  'users',             ['before' => 'csrf', 'uses' => 'UsersController@store']);
-    Route::get(   'users/{id}',        'UsersController@show');
-    Route::delete('users/{id}',        ['before' => 'csrf', 'uses' => 'UsersController@destroy']);
-    Route::get(   'users/{id}/edit',   'UsersController@edit');
-    Route::patch( 'users/{id}',        ['before' => 'csrf', 'uses' => 'UsersController@update']);
+    Route::group(['middleware' => 'permission:user-management'], function () {
+        Route::get(   'users',             'UsersController@index');
+        Route::get(   'users/create',      'UsersController@create');
+        Route::get(   'users/{id}/delete', 'UsersController@delete');
+        Route::post(  'users',             ['before' => 'csrf', 'uses' => 'UsersController@store']);
+        Route::get(   'users/{id}',        'UsersController@show');
+        Route::delete('users/{id}',        ['before' => 'csrf', 'uses' => 'UsersController@destroy']);
+        Route::get(   'users/{id}/edit',   'UsersController@edit');
+        Route::patch( 'users/{id}',        ['before' => 'csrf', 'uses' => 'UsersController@update']);
+    });
 
     /*
      * Roles
@@ -102,6 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch( 'applications/{id}',       ['before' => 'csrf', 'uses' => 'ApplicationsController@update']);
     Route::get(   'applications/{id}/fulfil',   'ApplicationsController@confirmFulfilment');
     Route::post( 'applications/{id}/fulfil',   ['before' => 'csrf', 'uses' => 'ApplicationsController@fulfil']);
+    Route::get(   'applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
+    Route::post(  'applications/{id}/request-cancellation', ['before' => 'csrf', 'uses' => 'ApplicationsController@requestCancellation']);
 
     /*
      * Settlements
@@ -110,3 +114,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('settlements/{id}', 'SettlementsController@settlementReport');
 
 });
+
+Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');

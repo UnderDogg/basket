@@ -30,5 +30,6 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'userActionMerchant' => \App\Http\Middleware\UserActionMerchant::class,
+        'permission' => \App\Http\Middleware\AuthorisePermission::class,
     ];
 }
