@@ -22,70 +22,94 @@ use Carbon\Carbon;
  */
 class SettlementsController extends Controller
 {
+    /** @var SettlementGateway $settlementGateway */
     protected $settlementGateway;
 
+    /**
+     * @author MS
+     * @param SettlementGateway $settlementGateway
+     */
     public function __construct(SettlementGateway $settlementGateway)
     {
         $this->settlementGateway = $settlementGateway;
     }
 
     /**
-     * Display a listing of the resource.
+     * Index
      *
-     * @return Response
+     * @author MS
+     * @return \Illuminate\View\View
+     * @throws \App\Exceptions\RedirectException
      */
     public function index()
     {
         $messages = $this->getMessages();
 
-        $date_to = Carbon::now();
-        $date_from = new Carbon('last month');
+        $settlement_reports = $this
+            ->settlementGateway
+            ->getSettlementReports($this->getMerchantToken(), $this->getDateRange());
 
-        $default_dates = [$date_from, $date_to];
-
-        if (!empty($filter = $this->getTableFilter())) {
-
-            foreach ($filter as $field => $query) {
-
-                $date_from = ($field == 'date_from') ? $query : $date_from;
-                $date_to = ($field == 'date_to') ? $query : $date_to;
-            }
-        }
-
-        $settlement_reports = $this->settlementGateway->getSettlementReports(
-            '76d45dd6e7a543cba86116ead84911f4',
-            [$date_from, $date_to]
-        );
-
-        if (!empty($filter)) {
-            foreach ($filter as $field => $query) {
-                if ($field !== 'date_from' && $field !== 'date_to') {
-                    $this->filterArrayByValue($settlement_reports, $field, $query);
-                }
-            }
-        }
+        $this->applyStandardFilters($settlement_reports);
 
         foreach ($settlement_reports as $key => $report) {
             $settlement_reports[$key] = (object) $report;
         }
 
-        return View('settlements.index', ['settlement_reports' => (object) $settlement_reports, 'default_dates' => $default_dates, 'messages' => $messages]);
+        return View('settlements.index', [
+            'settlement_reports' => (object) $settlement_reports,
+            'default_dates' => $this->getDateRange(),
+            'messages' => $messages
+        ]);
     }
 
     /**
      * Settlement Report
      *
-     * @param $id
+     * @author MS
+     * @param int $id
+     * @return \Illuminate\View\View
      */
     public function settlementReport($id)
     {
         $messages = $this->getMessages();
 
-        $settlementReport = $this->settlementGateway->getSingleSettlementReport(
-            '76d45dd6e7a543cba86116ead84911f4',
-            $id
-        );
+        $settlementReport = $this
+            ->settlementGateway
+            ->getSingleSettlementReport($this->getMerchantToken(), $id);
 
+        $this->applySettlementAmounts($settlementReport);
+
+        return View('settlements.settlement_report', [
+            'settlementReport' => $settlementReport,
+            'messages' => $messages
+        ]);
+    }
+
+    /**
+     * Apply Standard Filters
+     *
+     * @author MS
+     * @param array $settlements
+     */
+    private function applyStandardFilters(&$settlements)
+    {
+        if (!empty($filter = $this->getTableFilter())) {
+            foreach ($filter as $field => $query) {
+                if ($field !== 'date_from' && $field !== 'date_to') {
+                    $this->filterArrayByValue($settlements, $field, $query);
+                }
+            }
+        }
+    }
+
+    /**
+     * Apply SettlementAmounts
+     *
+     * @author MS
+     * @param $settlementReport
+     */
+    private function applySettlementAmounts(&$settlementReport)
+    {
         $settlementReport['sum_order_amount'] =
         $settlementReport['sum_subsidy'] =
         $settlementReport['sum_adjustment'] =
@@ -132,17 +156,39 @@ class SettlementsController extends Controller
             $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
         }
-
-        return View('settlements.settlement_report', ['settlementReport' => $settlementReport, 'messages' => $messages]);
     }
 
+    /**
+     * Get Date Range
+     *
+     * @author MS
+     * @return array
+     */
+    private function getDateRange()
+    {
+        $date_to = Carbon::now();
+        $date_from = new Carbon('last month');
 
+        $default_dates = [$date_from, $date_to];
+
+        if (!empty($filter = $this->getTableFilter())) {
+
+            foreach ($filter as $field => $query) {
+
+                $default_dates[0] = ($field == 'date_from') ? $query : $default_dates[0];
+                $default_dates[1] = ($field == 'date_to') ? $query : $default_dates[1];
+            }
+        }
+        return $default_dates;
+    }
 
     /**
      * Filter Array By Value
      *
-     * @todo Move to helper
-     *
+     * @author MS
+     * @param array $array
+     * @param $index
+     * @param $value
      */
     private function filterArrayByValue(&$array, $index, $value)
     {
