@@ -108,3 +108,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post(  'applications/{id}/request-cancellation', ['before' => 'csrf', 'uses' => 'ApplicationsController@requestCancellation']);
 
 });
+
+Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');

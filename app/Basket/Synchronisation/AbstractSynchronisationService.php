@@ -12,6 +12,7 @@ namespace App\Basket\Synchronisation;
 
 use Illuminate\Database\Eloquent\Model;
 use Psr\Log\LoggerInterface;
+use App\Basket\Application;
 use App\Basket\Merchant;
 use App\Basket\Installation;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -55,6 +56,40 @@ class AbstractSynchronisationService {
     protected function fetchInstallationLocalObject($id)
     {
         return $this->fetchLocalObject((new Installation()), $id, 'installation');
+    }
+
+    /**
+     * @author WN
+     * @param $installation
+     * @return Installation
+     */
+    protected function fetchInstallationByExternalId($installation)
+    {
+        $inst = Installation::where('ext_id', $installation)->get();
+
+        if (count($inst) == 1) {
+
+            return $inst[0];
+        }
+
+        throw new ModelNotFoundException('Installation ' . $installation . ' not found.');
+    }
+
+    /**
+     * @author WN
+     * @param $application
+     * @return Application
+     */
+    protected function fetchApplicationByExternalId($application)
+    {
+        $app = Application::where('ext_id', $application)->get();
+
+        if (count($app) == 1) {
+
+            return $app[0];
+        }
+
+        throw new ModelNotFoundException('Application ' . $application . ' not found.');
     }
 
     /**

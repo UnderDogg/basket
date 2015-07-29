@@ -27,10 +27,15 @@
 - Added `role_id` to `User`
 - Added Fulfilment request to applications
 - Request Application Cancellation
+- Added Method to Link External Application
+- Added A Notification Catcher
+- Added AuthorisePermission
+
 
 ## Bug Fixes
 - Code Standards fixes
 - Fixed user migration for `merchant_id` `nullable()`
+- Seeder fixes
 
 # 0.2.0
 2015-07-17

@@ -52,6 +52,10 @@ class Installation extends Model
         'ext_default_product'
     ];
 
+    /**
+     * @author WN
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function merchant()
     {
         return $this->belongsTo('App\Basket\Merchant');

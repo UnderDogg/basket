@@ -59,7 +59,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  * @property string $last_sync_at
- * 
+ * @property Installation $installation
+ *
  * @author MS
  * @package App\Basket
  */
