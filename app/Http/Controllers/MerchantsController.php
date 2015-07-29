@@ -14,6 +14,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -40,7 +41,9 @@ class MerchantsController extends Controller
      */
     public function index()
     {
-        return $this->standardIndexAction(Merchant::query(), 'merchants.index', 'merchants');
+        $merchants = Merchant::query();
+        $this->limitToMerchant($merchants);
+        return $this->standardIndexAction($merchants, 'merchants.index', 'merchants');
     }
 
     /**
@@ -162,6 +165,23 @@ class MerchantsController extends Controller
      */
     private function fetchMerchantById($id)
     {
+        if (\Auth::user()->merchant_id && \Auth::user()->merchant_id != $id) {
+
+            throw RedirectException::make('/merchants')
+                ->setError('You are not allowed to take any action on this Merchant');
+        }
+
         return $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants');
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    protected function limitToMerchant(Builder $query)
+    {
+        if (\Auth::user()->merchant_id) {
+            $query->where('id', \Auth::user()->merchant_id);
+        }
     }
 }

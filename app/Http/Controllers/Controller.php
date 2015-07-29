@@ -187,9 +187,9 @@ abstract class Controller extends BaseController
     {
         $filter = $this->getTableFilter();
         if (count($filter) > 0) {
-            foreach ($filter as $field => $query) {
+            foreach ($filter as $field => $value) {
 
-                $query->where($field, 'like', '%' . $query . '%');
+                $query->where($field, 'like', '%' . $value . '%');
             }
         }
     }
@@ -214,6 +214,7 @@ abstract class Controller extends BaseController
      * @author WN
      * @param Builder $query
      * @param string $view
+     * @param string $modelName
      * @return \Illuminate\View\View
      */
     protected function standardIndexAction(Builder $query, $view, $modelName)
