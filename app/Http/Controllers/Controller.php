@@ -266,14 +266,12 @@ abstract class Controller extends BaseController
      */
     protected function fetchModelByIdWithMerchantLimit(Model $model, $id, $modelName, $redirect)
     {
-        $entity = $this->fetchModelById($model, $id, $modelName, $redirect);
-
-        if (\Auth::user()->merchant_id && $entity->merchant->id != \Auth::user()->merchant_id) {
-            throw RedirectException::make($redirect)
-                ->setError('You are not allowed to take any action on this ' . ucwords($modelName));
-        }
-
-        return $entity;
+        return $this->checkModelForMerchantLimit(
+            ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
+            $entity->merchant->id,
+            $modelName,
+            $redirect
+        );
     }
 
     /**
@@ -287,9 +285,26 @@ abstract class Controller extends BaseController
      */
     protected function fetchModelByIdWithInstallationLimit(Model $model, $id, $modelName, $redirect)
     {
-        $entity = $this->fetchModelById($model, $id, $modelName, $redirect);
+        return $this->checkModelForMerchantLimit(
+            ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
+            $entity->installation->merchant->id,
+            $modelName,
+            $redirect
+        );
+    }
 
-        if (\Auth::user()->merchant_id && $entity->installation->merchant->id != \Auth::user()->merchant_id) {
+    /**
+     * @author WN
+     * @param Model $entity
+     * @param int $merchantId
+     * @param string $redirect
+     * @param string $modelName
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function checkModelForMerchantLimit(Model $entity, $merchantId, $modelName, $redirect)
+    {
+        if (\Auth::user()->merchant_id && $merchantId != \Auth::user()->merchant_id) {
             throw RedirectException::make($redirect)
                 ->setError('You are not allowed to take any action on this' . ucwords($modelName));
         }
