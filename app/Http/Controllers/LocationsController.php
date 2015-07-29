@@ -176,15 +176,6 @@ class LocationsController extends Controller
      */
     private function fetchLocationById($id)
     {
-        $location = $this->fetchModelById((new Location()), $id, 'location', '/locations');
-
-        if (\Auth::user()->merchant_id) {
-            if ($location->installation->merchant->id != \Auth::user()->merchant_id) {
-                throw RedirectException::make('/locations')
-                    ->setError('You are not allowed to take any action on this Location');
-            }
-        }
-
-        return $location;
+        return $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
     }
 }

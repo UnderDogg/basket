@@ -13,7 +13,6 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ApplicationsController
@@ -196,12 +195,7 @@ class ApplicationsController extends Controller
      */
     private function fetchApplicationById($id)
     {
-        $application = $this->fetchModelById((new Application()), $id, 'application', '/applications');
-        if (\Auth::user()->merchant_id && $application->installation->merchant->id != \Auth::user()->merchant_id) {
-            throw RedirectException::make('/applications')
-                ->setError('You are not allowed to take any action on this Application');
-        }
-        return $application;
+        return $this->fetchModelByIdWithInstallationLimit((new Application()), $id, 'application', '/applications');
     }
 
     /**

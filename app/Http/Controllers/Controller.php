@@ -275,4 +275,25 @@ abstract class Controller extends BaseController
 
         return $entity;
     }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param $id
+     * @param $modelName
+     * @param $redirect
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelByIdWithInstallationLimit(Model $model, $id, $modelName, $redirect)
+    {
+        $entity = $this->fetchModelById($model, $id, $modelName, $redirect);
+
+        if (\Auth::user()->merchant_id && $entity->installation->merchant->id != \Auth::user()->merchant_id) {
+            throw RedirectException::make($redirect)
+                ->setError('You are not allowed to take any action on this' . ucwords($modelName));
+        }
+
+        return $entity;
+    }
 }
