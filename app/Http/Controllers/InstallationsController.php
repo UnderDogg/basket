@@ -122,12 +122,6 @@ class InstallationsController extends Controller
      */
     private function fetchInstallation($id)
     {
-        $installation =  $this->fetchModelById((new Installation()), $id, 'installation', '/installations');
-
-        if (\Auth::user()->merchant_id == null || \Auth::user()->merchant_id == $installation->merchant_id) {
-            return $installation;
-        }
-        throw RedirectException::make('/installations')
-            ->setError('You are not allowed to take any action on this Installation');
+        return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 }

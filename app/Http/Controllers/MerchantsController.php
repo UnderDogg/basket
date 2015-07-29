@@ -166,7 +166,6 @@ class MerchantsController extends Controller
     private function fetchMerchantById($id)
     {
         if (\Auth::user()->merchant_id && \Auth::user()->merchant_id != $id) {
-
             throw RedirectException::make('/merchants')
                 ->setError('You are not allowed to take any action on this Merchant');
         }

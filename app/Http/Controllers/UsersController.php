@@ -170,12 +170,6 @@ class UsersController extends Controller
      */
     private function fetchUserById($id)
     {
-        $user = $this->fetchModelById((new User()), $id, 'user', '/users');
-        if (\Auth::user()->merchant_id == null || \Auth::user()->merchant_id == $user->merchant_id) {
-            return $user;
-        }
-        throw RedirectException::make('/users')
-            ->setError('You are not allowed to take any action on this Users');
-
+        return $this->fetchModelByIdWithMerchantLimit((new User()), $id, 'user', '/users');
     }
 }
