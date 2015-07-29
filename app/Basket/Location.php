@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
+ * @property Installation $installation
  * @package App\Basket
  */
 class Location extends Model

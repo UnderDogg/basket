@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $ext_default_product
  * @property        $created_at
  * @property        $updated_at
+ * @property Merchant $merchant
  * @package App\Basket
  */
 class Installation extends Model
@@ -50,4 +51,9 @@ class Installation extends Model
         'ext_notification_url',
         'ext_default_product'
     ];
+
+    public function merchant()
+    {
+        return $this->belongsTo('App\Basket\Merchant');
+    }
 }
