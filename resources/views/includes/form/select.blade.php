@@ -1,4 +1,4 @@
-@if($object->count())
+@if(count($object))
     @foreach($object as $item)
         {{-- */$selects[]=$item->{$field};/* --}}
     @endforeach
@@ -6,7 +6,7 @@
 
 <select class="filter form-control" name="{{ $field }}" value="{!! Request::only($field)[$field] !!}">
     <option value="">All</option>
-    @if($object->count())
+    @if(count($object))
         @foreach(array_unique($selects) as $option)
             <option
                 @if(Request::only($field)[$field] == $option)

@@ -103,4 +103,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'applications/{id}/fulfil',   'ApplicationsController@confirmFulfilment');
     Route::post( 'applications/{id}/fulfil',   ['before' => 'csrf', 'uses' => 'ApplicationsController@fulfil']);
 
+    /*
+     * Settlements
+     */
+    Route::get('settlements', 'SettlementsController@index');
+    Route::get('settlements/{id}', 'SettlementsController@settlementReport');
+
 });
