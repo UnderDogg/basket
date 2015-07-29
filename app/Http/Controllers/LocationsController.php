@@ -14,6 +14,7 @@ use App\Basket\Installation;
 use App\Http\Requests;
 use App\Basket\Location;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -33,7 +34,9 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        return $this->standardIndexAction(Location::query(), 'locations.index', 'locations');
+        $locations = Location::query();
+        $this->limitToMerchant($locations);
+        return $this->standardIndexAction($locations, 'locations.index', 'locations');
     }
 
     /**
@@ -174,6 +177,29 @@ class LocationsController extends Controller
      */
     private function fetchLocationById($id)
     {
-        return $this->fetchModelById((new Location()), $id, 'location', '/locations');
+        $location = $this->fetchModelById((new Location()), $id, 'location', '/locations');
+
+        if (\Auth::user()->merchant_id) {
+            if ($location->installation->merchant->id != \Auth::user()->merchant_id) {
+                throw RedirectException::make('/locations')
+                    ->setError('You are not allowed to take any action on this Location');
+            }
+        }
+
+        return $location;
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    private function limitToMerchant(Builder $query)
+    {
+        if (\Auth::user()->merchant_id) {
+            $query->where(
+                'installation_id',
+                implode(', ', Installation::where('merchant_id', \Auth::user()->merchant_id)->get()->pluck('id')->all())
+            );
+        }
     }
 }
