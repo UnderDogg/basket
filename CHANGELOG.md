@@ -27,6 +27,9 @@
 - Added `role_id` to `User`
 - Added Fulfilment request to applications
 - Request Application Cancellation
+- Added Method to Link External Application
+- Added A Notification Catcher
+
 
 ## Bug Fixes
 - Code Standards fixes
