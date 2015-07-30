@@ -28,38 +28,12 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @author MS
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $role = null;
-
-        try {
-
-            $role = Role::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $role->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$role->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $role = $role->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting roles: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting roles';
-
-        }
-
-        return View('role.index', ['role' => $role, 'messages' => $messages]);
+        return $this->standardIndexAction(Role::query(), 'role.index', 'role');
     }
 
     /**

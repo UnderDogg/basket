@@ -63,17 +63,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'merchants',                          'MerchantsController@index');
     Route::get(   'merchants/create',                   'MerchantsController@create');
     Route::post(  'merchants',                          ['before' => 'csrf', 'uses' => 'MerchantsController@store']);
-
-    Route::group(['middleware' => 'userActionMerchant'], function () {
-
-        Route::get('merchants/{id}',                    'MerchantsController@show');
-        Route::delete('merchants/{id}',                 ['before' => 'csrf', 'uses' => 'MerchantsController@destroy']);
-        Route::get('merchants/{id}/edit',               'MerchantsController@edit');
-        Route::patch('merchants/{id}',                  ['before' => 'csrf', 'uses' => 'MerchantsController@update']);
-        Route::get('merchants/{id}/synchronise',        'MerchantsController@synchronise');
-        Route::get('merchants/{id}/installations/synchronise',  'InstallationsController@synchroniseAllForMerchant');
-
-    });
+    Route::get('merchants/{id}',                    'MerchantsController@show');
+    Route::delete('merchants/{id}',                 ['before' => 'csrf', 'uses' => 'MerchantsController@destroy']);
+    Route::get('merchants/{id}/edit',               'MerchantsController@edit');
+    Route::patch('merchants/{id}',                  ['before' => 'csrf', 'uses' => 'MerchantsController@update']);
+    Route::get('merchants/{id}/synchronise',        'MerchantsController@synchronise');
+    Route::get('merchants/{id}/installations/synchronise',  'InstallationsController@synchroniseAllForMerchant');
 
     /*
      * Locations

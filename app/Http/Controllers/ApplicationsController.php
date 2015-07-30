@@ -13,7 +13,6 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class ApplicationsController
@@ -36,39 +35,14 @@ class ApplicationsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $applications = null;
-
-        try {
-
-            $applications = Application::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    if (is_numeric($query)) {
-                        $query = $this->reformatForCurrency($field, $query);
-                    }
-                    $applications->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$applications->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $applications = $applications->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting applications: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting applications';
-
-        }
-        return View('applications.index', ['applications' => $applications, 'messages' => $messages]);
+        $application = Application::query();
+        $this->limitToInstallationOnMerchant($application);
+        return $this->standardIndexAction($application, 'applications.index', 'applications');
     }
 
     /**
@@ -221,7 +195,7 @@ class ApplicationsController extends Controller
      */
     private function fetchApplicationById($id)
     {
-        return $this->fetchModelById((new Application()), $id, 'application', '/applications');
+        return $this->fetchModelByIdWithInstallationLimit((new Application()), $id, 'application', '/applications');
     }
 
     /**

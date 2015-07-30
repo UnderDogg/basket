@@ -12,8 +12,8 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class InstallationController
@@ -39,37 +39,14 @@ class InstallationsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $installations = null;
-
-        try {
-
-            $installations = Installation::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $installations->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$installations->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $installations = $installations->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting installations: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting installations';
-
-        }
-
-        return View('installations.index', ['installations' => $installations, 'messages' => $messages]);
+        $installations = Installation::query();
+        $this->limitToMerchant($installations);
+        return $this->standardIndexAction($installations, 'installations.index', 'installations');
     }
 
     /**
@@ -145,6 +122,6 @@ class InstallationsController extends Controller
      */
     private function fetchInstallation($id)
     {
-        return $this->fetchModelById((new Installation()), $id, 'installation', '/installations');
+        return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 }

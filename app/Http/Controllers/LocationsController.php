@@ -28,37 +28,14 @@ class LocationsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $locations = null;
-
-        try {
-
-            $locations = Location::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $locations->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$locations->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $locations = $locations->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting locations: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting locations';
-
-        }
-
-        return View('locations.index', ['locations' => $locations, 'messages' => $messages]);
+        $locations = Location::query();
+        $this->limitToInstallationOnMerchant($locations);
+        return $this->standardIndexAction($locations, 'locations.index', 'locations');
     }
 
     /**
@@ -199,6 +176,6 @@ class LocationsController extends Controller
      */
     private function fetchLocationById($id)
     {
-        return $this->fetchModelById((new Location()), $id, 'location', '/locations');
+        return $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
     }
 }

@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\RedirectException;
+use Illuminate\Database\Eloquent\Builder;
 use App\Basket\Merchant;
 
 /**
@@ -191,5 +193,139 @@ abstract class Controller extends BaseController
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
         return redirect()->back()->with('success', ucwords($modelName) .' details were successfully updated');
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    protected function processFilters(Builder $query)
+    {
+        $filter = $this->getTableFilter();
+        if (count($filter) > 0) {
+            foreach ($filter as $field => $value) {
+
+                $query->where($field, 'like', '%' . $value . '%');
+            }
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @return array
+     */
+    protected function prepareMessagesForIndexAction(Builder $query)
+    {
+        $messages = $this->getMessages();
+
+        if (!$query->count()) {
+            $messages['info'] = 'No records were found that matched your filter';
+        }
+
+        return $messages;
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @param string $view
+     * @param string $modelName
+     * @return \Illuminate\View\View
+     */
+    protected function standardIndexAction(Builder $query, $view, $modelName)
+    {
+        $this->processFilters($query);
+
+        return View(
+            $view,
+            [
+                'messages' => $this->prepareMessagesForIndexAction($query),
+                $modelName => $query->paginate($this->getPageLimit()),
+            ]
+        );
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     */
+    protected function limitToInstallationOnMerchant(Builder $query)
+    {
+        if (\Auth::user()->merchant_id) {
+            $query->where(
+                'installation_id',
+                implode(', ', Installation::where('merchant_id', \Auth::user()->merchant_id)->get()->pluck('id')->all())
+            );
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @param string $fieldName
+     */
+    protected function limitToMerchant(Builder $query, $fieldName = 'merchant_id')
+    {
+        if (\Auth::user()->merchant_id) {
+            $query->where($fieldName, \Auth::user()->merchant_id);
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelByIdWithMerchantLimit(Model $model, $id, $modelName, $redirect)
+    {
+        return $this->checkModelForMerchantLimit(
+            ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
+            $entity->merchant->id,
+            $modelName,
+            $redirect
+        );
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param $id
+     * @param $modelName
+     * @param $redirect
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelByIdWithInstallationLimit(Model $model, $id, $modelName, $redirect)
+    {
+        return $this->checkModelForMerchantLimit(
+            ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
+            $entity->installation->merchant->id,
+            $modelName,
+            $redirect
+        );
+    }
+
+    /**
+     * @author WN
+     * @param Model $entity
+     * @param int $merchantId
+     * @param string $redirect
+     * @param string $modelName
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function checkModelForMerchantLimit(Model $entity, $merchantId, $modelName, $redirect)
+    {
+        if (!$this->isMerchantAllowedForUser($merchantId)) {
+            throw RedirectException::make($redirect)
+                ->setError('You are not allowed to take any action on this' . ucwords($modelName));
+        }
+
+        return $entity;
     }
 }

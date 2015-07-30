@@ -25,14 +25,18 @@
         </div><div class="form-group">
             {!! Form::label('password', 'Password: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::password('password', null, ['class' => 'form-control col-sm-6']) !!}
+                {!! Form::password('password', ['class' => 'form-control']) !!}
             </div>
-        </div><div class="form-group">
-            {!! Form::label('merchant_id', 'Merchant Id: ', ['class' => 'col-sm-3 control-label']) !!}
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('merchant', 'Merchant: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('merchant_id', null, ['class' => 'form-control']) !!}
+                {!! Form::select('merchant_id', $merchants, null, ['class' => 'form-control']) !!}
             </div>
-        </div><div class="form-group">
+        </div>
+
+        <div class="form-group">
             {!! Form::label('locations', 'Locations: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
                 {!! Form::text('locations', null, ['class' => 'form-control']) !!}

@@ -14,6 +14,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -35,26 +36,14 @@ class MerchantsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $merchants = null;
-
-        try {
-
-            $merchants = Merchant::query();
-            $merchants = $merchants->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting merchants: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting merchants';
-
-        }
-
-        return View('merchants.index', ['merchants' => $merchants, 'messages' => $messages]);
+        $merchants = Merchant::query();
+        $this->limitToMerchant($merchants, 'id');
+        return $this->standardIndexAction($merchants, 'merchants.index', 'merchants');
     }
 
     /**
@@ -176,6 +165,11 @@ class MerchantsController extends Controller
      */
     private function fetchMerchantById($id)
     {
-        return $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants');
+        return $this->checkModelForMerchantLimit(
+            $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants'),
+            $id,
+            'merchant',
+            '/merchants'
+        );
     }
 }
