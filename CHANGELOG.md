@@ -31,7 +31,7 @@
 - Added A Notification Catcher
 - Added AuthorisePermission
 - Settlement Report Views
-
+- Limited actions and views to Merchant which User is assigned to
 
 ## Bug Fixes
 - Code Standards fixes
