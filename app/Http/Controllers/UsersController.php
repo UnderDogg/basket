@@ -46,15 +46,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $merchants = Merchant::query();
-        $this->limitToMerchant($merchants, 'id');
-        return view(
-            'user.create',
-            [
-                'messages' => $this->getMessages(),
-                'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
-            ]
-        );
+        return $this->renderFormPage('user.create');
     }
 
     /**
@@ -115,16 +107,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $merchants = Merchant::query();
-        $this->limitToMerchant($merchants, 'id');
-        return view(
-            'user.edit',
-            [
-                'user' => $this->fetchUserById($id),
-                'messages' => $this->getMessages(),
-                'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
-            ]
-        );
+        return $this->renderFormPage('user.edit', $id);
     }
 
     /**
@@ -202,5 +185,19 @@ class UsersController extends Controller
     private function fetchUserById($id)
     {
         return $this->fetchModelByIdWithMerchantLimit((new User()), $id, 'user', '/users');
+    }
+
+    private function renderFormPage($view, $userId = null)
+    {
+        $merchants = Merchant::query();
+        $this->limitToMerchant($merchants, 'id');
+        return view(
+            $view,
+            [
+                'user' => $userId !== null?$this->fetchUserById($userId):null,
+                'messages' => $this->getMessages(),
+                'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
+            ]
+        );
     }
 }
