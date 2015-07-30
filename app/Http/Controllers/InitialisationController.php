@@ -30,6 +30,11 @@ class InitialisationController extends Controller
         return view('initialise.main');
     }
 
+    public function initialise($locationId, Request $request)
+    {
+
+    }
+
     /**
      * @author WN
      * @param int $locationId

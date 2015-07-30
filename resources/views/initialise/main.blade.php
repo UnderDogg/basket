@@ -3,7 +3,7 @@
 @section('content')
 
     <h1>Make Application</h1>
-    <form>
+    {!! Form::open(['id' => 'order-form']) !!}
         <div class="form-group">
             <label>Price</label>
 
@@ -28,6 +28,19 @@
 
         </div>
 
-    </form>
+        <button type="submit" class="btn btn-default">Submit</button>
+
+    {!! Form::close() !!}
+
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#order-form').submit( function(e) {
+                e.preventDefault();
+
+                return false;
+            });
+        }, false);
+    </script>
 
 @endsection
