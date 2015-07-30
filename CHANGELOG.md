@@ -30,6 +30,7 @@
 - Added Method to Link External Application
 - Added A Notification Catcher
 - Added AuthorisePermission
+- Settlement Report Views
 
 
 ## Bug Fixes
