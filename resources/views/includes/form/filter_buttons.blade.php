@@ -7,6 +7,5 @@
     <ul class="dropdown-menu dropdown-menu-right">
         <li><a href="{{ Request::url() }}" onclick="">Clear All Filters</a></li>
         <li><a href="{{ URL::full() }}">Reset Current Changes</a></li>
-        <li role="separator" class="divider"></li>
     </ul>
 </div>

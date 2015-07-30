@@ -30,4 +30,22 @@ use Illuminate\Database\Eloquent\Model;
 class Merchant extends Model
 {
     protected $table = 'merchants';
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'token',
+        'linked',
+        'ext_company_name',
+        'ext_minimum_amount_settled',
+        'ext_address',
+        'ext_processing_days',
+        'ext_address_on_agreements',
+        'updated_at',
+        'created_at',
+    ];
 }

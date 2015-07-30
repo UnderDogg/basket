@@ -12,10 +12,8 @@ namespace App\Basket\Synchronisation;
 
 use App\Basket\Entities\MerchantEntity;
 use App\Basket\Gateways\MerchantGateway;
-use App\Basket\Merchant;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Log\LoggerInterface;
-use WNowicki\Generic\Logger\PsrLoggerTrait;
+use App\Basket\Merchant;
 
 /**
  * Merchant Synchronisation Service
@@ -23,28 +21,37 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author WN
  * @package App\Basket\Synchronisation
  */
-class MerchantSynchronisationService
+class MerchantSynchronisationService extends AbstractSynchronisationService
 {
-    use PsrLoggerTrait;
-
     private $gateway;
-    private $logger;
+    private $installationSynchronisationService;
 
-    public function __construct(MerchantGateway $gateway, LoggerInterface $logger)
-    {
+    /**
+     * @author WN
+     * @param MerchantGateway $gateway
+     * @param InstallationSynchronisationService $installationSynchronisationService
+     * @param LoggerInterface $logger
+     */
+    public function __construct(
+        MerchantGateway $gateway,
+        InstallationSynchronisationService $installationSynchronisationService,
+        LoggerInterface $logger = null
+    ) {
         $this->gateway = $gateway;
-        $this->logger = $logger;
+        $this->installationSynchronisationService = $installationSynchronisationService;
+        parent::__construct($logger);
     }
 
     /**
      * @author WN
      * @param int $id
+     * @param bool $withInstallations
      * @return Merchant
      * @throws \Exception
      */
-    public function synchroniseMerchant($id)
+    public function synchroniseMerchant($id, $withInstallations = false)
     {
-        $merchant = $this->fetchLocalObject($id);
+        $merchant = $this->fetchMerchantLocalObject($id);
 
         try {
             $merchantEntity = $this->gateway->getMerchant($id, $merchant->token);
@@ -52,38 +59,21 @@ class MerchantSynchronisationService
         } catch (\Exception $e) {
 
             $merchant->linked = false;
-
             $merchant->save();
 
             $this->logError('MerchantSynchronisationService failed ' . $e->getMessage());
-
             throw $e;
         }
 
         $this->mapMerchant($merchantEntity, $merchant);
-
         $merchant->linked = true;
-
         $merchant->save();
 
-        return $merchant;
-    }
-
-    /**
-     * @param $id
-     * @return Merchant
-     */
-    private function fetchLocalObject($id)
-    {
-        try {
-
-            return Merchant::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-            $this->logError('MerchantSynchronisationService: Failed fetching local object: ' . $e->getMessage());
-
-            throw $e;
+        if ($withInstallations) {
+            $this->installationSynchronisationService->synchroniseAllInstallations($merchant->id);
         }
+
+        return $merchant;
     }
 
     /**
@@ -98,13 +88,5 @@ class MerchantSynchronisationService
         $internalData->ext_processing_days = $externalEntity->getProcessingDays();
         $internalData->ext_minimum_amount_settled = $externalEntity->getMinimumAmountSettled();
         $internalData->ext_address_on_agreements = $externalEntity->getAddressOnAgreements();
-    }
-
-    /**
-     * @return \Psr\Log\LoggerInterface|null
-     */
-    protected function getLogger()
-    {
-        return $this->logger;
     }
 }

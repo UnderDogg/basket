@@ -25,9 +25,32 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
+ * @property Installation $installation
  * @package App\Basket
  */
 class Location extends Model
 {
     protected $table = 'locations';
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'reference',
+        'installation_id',
+        'active',
+        'name',
+        'email',
+        'address',
+    ];
+
+    /**
+     * Get the installation record for the application
+     */
+    public function installation()
+    {
+        return $this->belongsTo('App\Basket\Installation');
+    }
 }

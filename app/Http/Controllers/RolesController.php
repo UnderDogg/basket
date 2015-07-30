@@ -17,49 +17,23 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
- * Class RoleController
+ * Class RolesController
  *
  * @author MS
  * @package App\Http\Controllers
  */
-class RoleController extends Controller
+class RolesController extends Controller
 {
 
     /**
      * Display a listing of the resource.
      *
-     * @author MS
+     * @author WN, MS
      * @return Response
      */
     public function index()
     {
-        $messages = $this->getMessages();
-        $role = null;
-
-        try {
-
-            $role = Role::query();
-
-            if (!empty($filter = $this->getTableFilter())) {
-                foreach ($filter as $field => $query) {
-
-                    $role->where($field, 'like', '%' . $query . '%');
-                }
-                if (!$role->count()) {
-                    $messages['info'] = 'No records were found that matched your filter';
-                }
-            }
-
-            $role = $role->paginate($this->getPageLimit());
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting roles: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting roles';
-
-        }
-
-        return View('role.index', ['role' => $role, 'messages' => $messages]);
+        return $this->standardIndexAction(Role::query(), 'role.index', 'role');
     }
 
     /**
@@ -121,7 +95,7 @@ class RoleController extends Controller
             $message = ['error','Could not successfully create new Role'];
         }
 
-        return redirect('role')->with($message[0], $message[1]);
+        return redirect('roles')->with($message[0], $message[1]);
     }
 
     /**
@@ -189,9 +163,9 @@ class RoleController extends Controller
     {
         $message = ['success', 'Roles and role permissions were successfully updated'];
 
-        try {
+        $role = $this->fetchRoleById($id);
 
-            $role = Role::findOrFail($id);
+        try {
             $role->update($request->all());
             $this->updateAllRolePermissions($role->id, $request);
 
@@ -212,25 +186,13 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @author MS
+     * @author WN
      * @param  int  $id
      * @return Response
      */
     public function destroy($id)
     {
-        $message = ['success','Role was successfully deleted'];
-        try {
-
-            Role::destroy($id);
-            RolePermissions::where('role_id', '=', $id)->delete();
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            $message = ['error', 'Deletion of this record did not complete successfully'];
-        }
-
-        return redirect('role')->with($message[0], $message[1]);
+        return $this->destroyModel((new Role()), $id, 'role', '/roles');
     }
 
     /**
@@ -317,5 +279,39 @@ class RoleController extends Controller
             $role->permissionsAvailable = Permission::whereNotIn('id', $permissionIds)->get();
         }
         return $role;
+    }
+
+    /**
+     * Delete
+     *
+     * @author MS
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function delete($id)
+    {
+        $role = null;
+        $messages = $this->getMessages();
+
+        try {
+
+            $role = Role::findOrFail($id);
+            $role->type = 'roles';
+            $role->controller = 'Roles';
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get role with ID: [' . $id . ']; Role does not exist: ' . $e->getMessage()
+            );
+            $messages['error'] = 'Could not get role with ID: [' . $id . ']; Role does not exist';
+        }
+
+        return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $messages]);
+    }
+
+    private function fetchRoleById($id)
+    {
+        return $this->fetchModelById((new Role()), $id, 'role', '/roles');
     }
 }

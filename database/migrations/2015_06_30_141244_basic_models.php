@@ -21,11 +21,11 @@ class BasicModels extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
-            $table->string('ext_company_name');
-            $table->string('ext_address');
-            $table->string('ext_processing_days');
-            $table->string('ext_minimum_amount_settled');
-            $table->string('ext_address_on_agreements');
+            $table->string('ext_company_name')->nullable();
+            $table->string('ext_address')->nullable();
+            $table->string('ext_processing_days')->nullable();
+            $table->string('ext_minimum_amount_settled')->nullable();
+            $table->string('ext_address_on_agreements')->nullable();
         });
 
         Schema::create('installations', function (Blueprint $table) {
@@ -38,11 +38,11 @@ class BasicModels extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
-            $table->string('ext_id');
-            $table->string('ext_name');
-            $table->string('ext_return_url');
-            $table->string('ext_notification_url');
-            $table->string('ext_default_product');
+            $table->string('ext_id')->nullable();
+            $table->string('ext_name')->nullable();
+            $table->string('ext_return_url')->nullable();
+            $table->string('ext_notification_url')->nullable();
+            $table->string('ext_default_product')->nullable();
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
@@ -63,10 +63,66 @@ class BasicModels extends Migration
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('merchant_id')->unsigned()->after('password')->default(0); // Added defaults: fix for sqlite
+            $table->integer('merchant_id')->unsigned()->after('password')->default(null)->nullable(); // Added defaults: fix for sqlite
             $table->string('locations')->after('merchant_id')->default(''); // Added defaults: fix for sqlite
+            $table->integer('role_id')->unsigned()->default(null)->nullable();
 
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('merchant_id')->references('id')->on('merchants');
+        });
+
+        Schema::create('applications', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('installation_id')->unsigned();
+            $table->integer('location_id')->unsigned()->nullable();
+            $table->integer('ext_id')->nullable();
+            $table->string('ext_current_status')->nullable();
+            $table->string('ext_order_reference')->nullable();
+            $table->integer('ext_order_amount')->nullable();
+            $table->string('ext_order_description')->nullable();
+            $table->string('ext_order_validity')->nullable();
+            $table->string('ext_products_groups')->nullable();
+            $table->json('ext_products_options')->nullable();
+            $table->string('ext_products_default')->nullable();
+            $table->string('ext_fulfilment_method')->nullable();
+            $table->string('ext_fulfilment_location')->nullable();
+            $table->string('ext_customer_title')->nullable();
+            $table->string('ext_customer_first_name')->nullable();
+            $table->string('ext_customer_last_name')->nullable();
+            $table->string('ext_customer_email_address')->nullable();
+            $table->string('ext_customer_phone_home')->nullable();
+            $table->string('ext_customer_phone_mobile')->nullable();
+            $table->string('ext_customer_postcode')->nullable();
+            $table->string('ext_application_address_abode')->nullable();
+            $table->string('ext_application_address_building_name')->nullable();
+            $table->string('ext_application_address_building_number')->nullable();
+            $table->string('ext_application_address_street')->nullable();
+            $table->string('ext_application_address_locality')->nullable();
+            $table->string('ext_application_address_town')->nullable();
+            $table->string('ext_application_address_postcode');
+            $table->string('ext_applicant_title')->nullable();
+            $table->string('ext_applicant_first_name')->nullable();
+            $table->string('ext_applicant_last_name')->nullable();
+            $table->string('ext_applicant_date_of_birth')->nullable();
+            $table->string('ext_applicant_email_address')->nullable();
+            $table->string('ext_applicant_phone_home')->nullable();
+            $table->string('ext_applicant_phone_mobile')->nullable();
+            $table->string('ext_applicant_postcode')->nullable();
+            $table->integer('ext_finance_order_amount')->nullable();
+            $table->integer('ext_finance_loan_amount')->nullable();
+            $table->integer('ext_finance_deposit')->nullable();
+            $table->integer('ext_finance_subsidy')->nullable();
+            $table->integer('ext_finance_net_settlement')->nullable();
+            $table->json('ext_metadata')->nullable();
+
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('last_sync_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('installation_id')->references('id')->on('installations');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

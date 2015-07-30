@@ -7,6 +7,7 @@ filter:
         - resources/*
         - app/Exceptions/Handler.php
         - app/Http/Controllers/Auth/AuthController.php
+        - app/Providers/*
 
 checks:
     php:
