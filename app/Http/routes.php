@@ -107,6 +107,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
     Route::post(  'applications/{id}/request-cancellation', ['before' => 'csrf', 'uses' => 'ApplicationsController@requestCancellation']);
 
+    /*
+     * Settlements
+     */
+    Route::get('settlements', 'SettlementsController@index');
+    Route::get('settlements/{id}', 'SettlementsController@settlementReport');
+
 });
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');

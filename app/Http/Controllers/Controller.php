@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\RedirectException;
+use App\Basket\Merchant;
 
 /**
  * Class Controller
@@ -43,6 +44,20 @@ abstract class Controller extends BaseController
             'info'      => session()->get('info'),
             'error'     => session()->get('error'),
         ];
+    }
+
+    /**
+     * Get Merchant Token
+     *
+     * @author MS
+     * @return string
+     * @throws RedirectException
+     */
+    protected function getMerchantToken()
+    {
+        $merchant = $this
+            ->fetchModelById((new Merchant()), $this->getAuthenticatedUser()->merchant_id, 'merchant', '/');
+        return $merchant->token;
     }
 
     /**

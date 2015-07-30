@@ -47,6 +47,18 @@ $(function() {
         newContainerHidden.val(newContainerHidden.val() + ':' + permissionId);
     });
 });
+// START - Date picker range defaults at 1 month ago
+$(function() {
+    var dateFromSelector = $("#datepicker_from");
+    var dateToSelector = $("#datepicker_to");
+    var dateFrom = (dateFromSelector.val()) ? dateFromSelector.val() : "-1m";
+    var dateTo = (dateToSelector.val()) ? dateToSelector.val() : "+0d";
+
+    dateFromSelector.datepicker({ dateFormat: 'yy/mm/dd' });
+    dateFromSelector.datepicker( "setDate", dateFrom);
+    dateToSelector.datepicker({ dateFormat: 'yy/mm/dd'});
+    dateToSelector.datepicker( "setDate", dateTo);
+});
 
 /* ==========================================================================
  STANDARD FUNCTIONS
