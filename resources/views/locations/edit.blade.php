@@ -8,8 +8,10 @@
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['override2'=>$location->name])
 
+
     <p>&nbsp;</p>
     @if($location !== null && $installations !== null)
+
         {!! Form::model($location, [
             'method' => 'PATCH',
             'action' => ['LocationsController@update', $location->id],
@@ -24,11 +26,7 @@
             </div><div class="form-group">
                 {!! Form::label('installation_id', 'Installation Id: ', ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
-                    @include('includes.form.id_as_value_select', [
-                        'select_id' => $location->installation_id,
-                        'field' => 'installation_id',
-                        'object' => $installations
-                    ])
+                    {!! Form::select('installation_id', $installations, null, ['class' => 'form-control']) !!}
                 </div>
             </div><div class="form-group">
                 {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}

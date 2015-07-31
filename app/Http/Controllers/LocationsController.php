@@ -45,7 +45,13 @@ class LocationsController extends Controller
      */
     public function create()
     {
-        return view('locations.create', ['messages' => $this->getMessages()]);
+        $installations = Installation::query();
+        return view('locations.create',
+            [
+                'messages' => $this->getMessages(),
+                'installations' => $installations->get()->pluck('name', 'id')->toArray()
+            ]
+        );
     }
 
     /**
@@ -61,14 +67,16 @@ class LocationsController extends Controller
             'address' => 'required',
             'reference' => 'required',
             'installation_id' => 'required',
+            'active' => 'required'
 
         ]);
 
         $message = ['success','New Location has been successfully created'];
 
         try {
-
-            Location::create($request->all());
+            $toCreate = $request->all();
+            $toCreate['active'] = ($request->has('active')) ? 1 : 0;
+            Location::create($toCreate);
 
         } catch (ModelNotFoundException $e) {
 
@@ -101,11 +109,12 @@ class LocationsController extends Controller
      */
     public function edit($id)
     {
+        $installations = Installation::query();
         return view(
             'locations.edit',
             [
                 'location' => $this->fetchLocationById($id),
-                'installations' => Installation::query()->get(),
+                'installations' => $installations->get()->pluck('name', 'id')->toArray(),
                 'messages' => $this->getMessages()
             ]
         );

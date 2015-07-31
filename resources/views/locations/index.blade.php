@@ -28,7 +28,9 @@
             </tr>
             <tr>
                 {{--FILTERS--}}
-                <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'reference'])</th>
+                {{--Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down'])--}}
+                {{-- @include('includes.form.input', ['field' => 'reference']) --}}
+                <th class="hidden-xs hidden-sm">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
                 <th>@include('includes.form.input', ['field' => 'name'])</th>
                 <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
                     'field' => 'installation_id',
