@@ -4,7 +4,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Basket\Installation;
 use App\Role;
 use App\Permission;
-use App\RolePermissions;
 use App\Basket\Location;
 
 class DevSeeder extends DBSeeder
