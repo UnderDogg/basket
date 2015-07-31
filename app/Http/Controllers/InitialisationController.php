@@ -41,7 +41,7 @@ class InitialisationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function creditInfo($locationId, Request $request)
+    public function choseProduct($locationId, Request $request)
     {
         $this->validate($request, ['amount' => 'required']);
 
@@ -50,13 +50,16 @@ class InitialisationController extends Controller
         /** @var \App\Basket\Gateways\CreditInfoGateway $gateway */
         $gateway = \App::make('App\Basket\Gateways\CreditInfoGateway');
 
-        return response()->json(
-            $gateway->getCreditInfo(
-                $location->installation->ext_id,
-                $request->get('amount'),
-                $location->installation->merchant->token
-            ),
-            200
+        return view(
+            'initialise.main',
+            [
+                'options' => $gateway->getCreditInfo(
+                    $location->installation->ext_id,
+                    $request->get('amount') * 100,
+                    $location->installation->merchant->token
+                ),
+                'amount' => $request->get('amount') * 100
+            ]
         );
     }
 }
