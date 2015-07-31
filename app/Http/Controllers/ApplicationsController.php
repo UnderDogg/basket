@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -40,9 +41,31 @@ class ApplicationsController extends Controller
      */
     public function index()
     {
+        $filterDates = $this->getDateRange();
+        //dd($filterDates);
         $application = Application::query();
         $this->limitToInstallationOnMerchant($application);
-        return $this->standardIndexAction($application, 'applications.index', 'applications');
+        return $this->filterDateIndexAction($application, 'applications.index', 'applications', $filterDates);
+    }
+
+    private function getDateRange() {
+        $date_to = Carbon::now();
+        $date_from = new Carbon('last month');
+
+        $default_dates[0] = $date_to;
+        $default_dates[1] = $date_from;
+
+        if(!empty($filter = $this->getTableFilter())) {
+
+            foreach ($filter as $field => $query) {
+                print_r($field . "hi");
+                print_r($query);
+                echo Carbon::createFromFormat('Y/m/d', $query);
+                if($field == 'date_from') $default_dates[0] = Carbon::createFromFormat('Y/m/d', $query);
+                if($field == 'date_to') $default_dates[1] = Carbon::createFromFormat('Y/m/d', $query);
+            }
+        }
+        return $default_dates;
     }
 
     /**

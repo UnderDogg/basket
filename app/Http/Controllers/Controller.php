@@ -247,6 +247,26 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * @author EB
+     * @param Builder $query
+     * @param string $view
+     * @param string $modelName
+     * @return \Illuminate\View\View
+     */
+    protected function filterDateIndexAction(Builder $query, $view, $modelName, $filterDates) {
+        $this->processFilters($query);
+
+        return View(
+            $view,
+            [
+                'messages' => $this->prepareMessagesForIndexAction($query),
+                $modelName => $query->paginate($this->getPageLimit()),
+                'default_dates' => $filterDates,
+            ]
+        );
+    }
+
+    /**
      * @author WN
      * @param Builder $query
      */
