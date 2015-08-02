@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace App\Basket\Gateways;
+namespace PayBreak\Sdk\Gateways;
 
 use App\Exceptions\Exception;
 
@@ -16,7 +16,7 @@ use App\Exceptions\Exception;
  * Application Gateway
  *
  * @author MS
- * @package App\Basket\Gateways
+ * @package PayBreak\Sdk\Gateways
  */
 class SettlementGateway extends AbstractGateway
 {

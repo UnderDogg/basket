@@ -10,8 +10,8 @@
 
 namespace Tests\Basket\Entities;
 
-use App\Basket\Entities\ApplicationEntity;
-use App\Basket\Entities\InstallationEntity;
+use PayBreak\Sdk\Entities\ApplicationEntity;
+use PayBreak\Sdk\Entities\InstallationEntity;
 
 /**
  * Installation Entity Test
@@ -26,13 +26,13 @@ class InstallationEntityTest extends \TestCase
         $entity = new InstallationEntity();
 
         $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', $entity);
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity);
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $entity);
     }
 
     public function testMakeEmpty()
     {
         $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', InstallationEntity::make([]));
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', InstallationEntity::make([]));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', InstallationEntity::make([]));
     }
 
     public function testToArray()
@@ -44,7 +44,7 @@ class InstallationEntityTest extends \TestCase
     {
         $entity = new InstallationEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity->setId('Test Name'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $entity->setId('Test Name'));
     }
 
     public function testGetId()
@@ -60,7 +60,7 @@ class InstallationEntityTest extends \TestCase
     {
         $entity = new InstallationEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity->setName('Test Name'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $entity->setName('Test Name'));
     }
 
     public function testGetName()
@@ -76,7 +76,7 @@ class InstallationEntityTest extends \TestCase
     {
         $entity = new InstallationEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity->setReturnUrl('Test Name'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $entity->setReturnUrl('Test Name'));
     }
 
     public function testGetReturnUrl()
@@ -92,7 +92,7 @@ class InstallationEntityTest extends \TestCase
     {
         $entity = new InstallationEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity->setNotificationUrl('Test Name'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $entity->setNotificationUrl('Test Name'));
     }
 
     public function testGetNotificationUrl()
@@ -108,7 +108,7 @@ class InstallationEntityTest extends \TestCase
     {
         $entity = new InstallationEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $entity->setDefaultProduct('Test Name'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $entity->setDefaultProduct('Test Name'));
     }
 
     public function testGetDefaultProduct()

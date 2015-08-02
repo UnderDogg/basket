@@ -8,9 +8,9 @@
 * file that was distributed with this source code.
 */
 
-namespace App\Basket\Gateways;
+namespace PayBreak\Sdk\Gateways;
 
-use App\Basket\Entities\ApplicationEntity;
+use PayBreak\Sdk\Entities\ApplicationEntity;
 use App\Exceptions\Exception;
 use WNowicki\Generic\ApiClient\ErrorResponseException;
 
@@ -18,7 +18,7 @@ use WNowicki\Generic\ApiClient\ErrorResponseException;
  * Application Gateway
  *
  * @author WN
- * @package App\Basket\Gateways
+ * @package PayBreak\Sdk\Gateways
  */
 class ApplicationGateway extends AbstractGateway
 {

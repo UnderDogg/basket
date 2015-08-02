@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities;
+namespace PayBreak\Sdk\Entities;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -26,7 +26,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method string|null getNotificationUrl()
  * @method $this setDefaultProduct(string $id)
  * @method string|null getDefaultProduct()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class InstallationEntity extends AbstractEntity
 {
