@@ -1,3 +1,7 @@
+## Features
+- Assign locations to users
+- Refactoring
+
 # 0.3.0
 2015-07-30
 
