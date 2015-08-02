@@ -133,14 +133,21 @@ class BasicModels extends Migration
      */
     public function down()
     {
-        Schema::drop('merchants');
-        Schema::drop('installations');
-        Schema::drop('locations');
+        Schema::drop('applications');
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->dropColumn('merchant_id');
+            $table->dropForeign('users_merchant_id_foreign');
+            $table->dropForeign('users_role_id_foreign');
+
+            $table->dropColumn('role_id');
             $table->dropColumn('locations');
+            $table->dropColumn('merchant_id');
+
         });
+
+        Schema::drop('locations');
+        Schema::drop('installations');
+        Schema::drop('merchants');
     }
 }

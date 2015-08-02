@@ -43,7 +43,10 @@
                             </li>
                         @endif
                         <li class="list-group-item">
-                            <strong>Locations: </strong> {{ 'To Be Defined'  }}
+                            <strong>Locations: </strong><br />
+                            @foreach ($user->locations as $location)
+                                {{ $location->name }}<br />
+                            @endforeach
                         </li>
                     </ul>
                 </div>

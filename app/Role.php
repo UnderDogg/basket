@@ -44,4 +44,9 @@ class Role extends EntrustRole
      * @var array
      */
     protected $hidden = [];
+
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Permission');
+    }
 }
