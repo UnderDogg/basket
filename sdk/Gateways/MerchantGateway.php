@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Gateways;
+namespace PayBreak\Sdk\Gateways;
 
-use App\Basket\Entities\MerchantEntity;
+use PayBreak\Sdk\Entities\MerchantEntity;
 use App\Exceptions\Exception;
 
 /**

@@ -10,8 +10,8 @@
 
 namespace App\Basket\Synchronisation;
 
-use App\Basket\Entities\InstallationEntity;
-use App\Basket\Gateways\InstallationGateway;
+use PayBreak\Sdk\Entities\InstallationEntity;
+use PayBreak\Sdk\Gateways\InstallationGateway;
 use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
 use Psr\Log\LoggerInterface;

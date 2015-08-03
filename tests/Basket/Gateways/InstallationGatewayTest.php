@@ -10,7 +10,7 @@
 
 namespace Tests\Basket\Gateways;
 
-use App\Basket\Gateways\InstallationGateway;
+use PayBreak\Sdk\Gateways\InstallationGateway;
 use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 class InstallationGatewayTest extends \TestCase
@@ -20,7 +20,7 @@ class InstallationGatewayTest extends \TestCase
         /** @var \App\Gateways\ApiClientFactory $mock */
         $mock = $this->getMock('App\Gateways\ApiClientFactory');
 
-        $this->assertInstanceOf('App\Basket\Gateways\InstallationGateway', new InstallationGateway($mock));
+        $this->assertInstanceOf('PayBreak\Sdk\Gateways\InstallationGateway', new InstallationGateway($mock));
     }
 
     public function testGetInstallation()
@@ -36,7 +36,7 @@ class InstallationGatewayTest extends \TestCase
         $installationGateway = new InstallationGateway($mock);
 
         $this->assertInstanceOf(
-            'App\Basket\Entities\InstallationEntity',
+            'PayBreak\Sdk\Entities\InstallationEntity',
             $installationGateway->getInstallation(1, 'xxxx')
         );
     }
@@ -112,6 +112,6 @@ class InstallationGatewayTest extends \TestCase
 
         $this->assertInternalType('array', $response);
         $this->assertCount(1, $response);
-        $this->assertInstanceOf('App\Basket\Entities\InstallationEntity', $response[0]);
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\InstallationEntity', $response[0]);
     }
 }

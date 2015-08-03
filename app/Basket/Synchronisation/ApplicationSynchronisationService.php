@@ -11,13 +11,13 @@
 namespace App\Basket\Synchronisation;
 
 use App\Basket\Application;
-use App\Basket\Entities\Application\AddressEntity;
-use App\Basket\Entities\Application\ApplicantEntity;
-use App\Basket\Entities\Application\CustomerEntity;
-use App\Basket\Entities\Application\FinanceEntity;
-use App\Basket\Entities\Application\OrderEntity;
-use App\Basket\Entities\ApplicationEntity;
-use App\Basket\Gateways\ApplicationGateway;
+use PayBreak\Sdk\Entities\Application\AddressEntity;
+use PayBreak\Sdk\Entities\Application\ApplicantEntity;
+use PayBreak\Sdk\Entities\Application\CustomerEntity;
+use PayBreak\Sdk\Entities\Application\FinanceEntity;
+use PayBreak\Sdk\Entities\Application\OrderEntity;
+use PayBreak\Sdk\Entities\ApplicationEntity;
+use PayBreak\Sdk\Gateways\ApplicationGateway;
 use App\Exceptions\Exception;
 use Psr\Log\LoggerInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

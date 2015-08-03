@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities\Application;
+namespace PayBreak\Sdk\Entities\Application;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -24,7 +24,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method string|null getDescription()
  * @method $this setValidity(string $validity)
  * @method string|null getValidity()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class OrderEntity extends AbstractEntity
 {

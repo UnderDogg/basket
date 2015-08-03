@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities;
+namespace PayBreak\Sdk\Entities;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -42,7 +42,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method array|null getMetadata()
  * @method $this setResumeUrl(string $resumeUrl)
  * @method string|null getResumeUrl()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class ApplicationEntity extends AbstractEntity
 {
@@ -50,14 +50,14 @@ class ApplicationEntity extends AbstractEntity
         'id' => self::TYPE_INT,
         'posted_date' => self::TYPE_STRING,
         'current_status' => self::TYPE_STRING,
-        'customer' => 'App\Basket\Entities\Application\CustomerEntity',
-        'application_address' => 'App\Basket\Entities\Application\AddressEntity',
+        'customer' => 'PayBreak\Sdk\Entities\Application\CustomerEntity',
+        'application_address' => 'PayBreak\Sdk\Entities\Application\AddressEntity',
         'installation' => self::TYPE_STRING,
-        'order' => 'App\Basket\Entities\Application\OrderEntity',
-        'products' => 'App\Basket\Entities\Application\ProductsEntity',
-        'fulfilment' => 'App\Basket\Entities\Application\FulfilmentEntity',
-        'applicant' => 'App\Basket\Entities\Application\ApplicantEntity',
-        'finance' => 'App\Basket\Entities\Application\FinanceEntity',
+        'order' => 'PayBreak\Sdk\Entities\Application\OrderEntity',
+        'products' => 'PayBreak\Sdk\Entities\Application\ProductsEntity',
+        'fulfilment' => 'PayBreak\Sdk\Entities\Application\FulfilmentEntity',
+        'applicant' => 'PayBreak\Sdk\Entities\Application\ApplicantEntity',
+        'finance' => 'PayBreak\Sdk\Entities\Application\FinanceEntity',
         'metadata' => self::TYPE_ARRAY,
         'resume_url' => self::TYPE_STRING,
     ];

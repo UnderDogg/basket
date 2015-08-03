@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities\Application;
+namespace PayBreak\Sdk\Entities\Application;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -20,7 +20,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method string|null getMethod()
  * @method $this setLocation(string $location)
  * @method string|null getLocation()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class FulfilmentEntity extends AbstractEntity
 {

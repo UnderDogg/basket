@@ -10,8 +10,8 @@
 
 namespace App\Basket\Synchronisation;
 
-use App\Basket\Entities\MerchantEntity;
-use App\Basket\Gateways\MerchantGateway;
+use PayBreak\Sdk\Entities\MerchantEntity;
+use PayBreak\Sdk\Gateways\MerchantGateway;
 use Psr\Log\LoggerInterface;
 use App\Basket\Merchant;
 
