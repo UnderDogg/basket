@@ -10,7 +10,9 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Location;
+use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
+use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
  * Initialisation Controller
@@ -30,12 +32,89 @@ class InitialisationController extends Controller
         return view('initialise.main');
     }
 
+    /**
+     * @author WN
+     * @param $locationId
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function confirm($locationId, Request $request)
     {
+        $this->validate(
+            $request,
+            [
+                'amount' => 'required|integer',
+                'group' => 'required',
+                'product' => 'required',
+            ]
+        );
 
+        list($timeMid, $timeLow) = explode(' ', microtime());
+        $reference = sprintf('%08x', $timeLow) . '-' . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
 
+        return view(
+            'initialise.confirm',
+            [
+                'amount' => $request->get('amount'),
+                'group' => $request->get('group'),
+                'product' => $request->get('product'),
+                'reference' => $reference,
+                'location' => $locationId,
+            ]
+        );
+    }
 
-        return response()->json($request->all(), 200);
+    /**
+     * @author WN
+     * @param $locationId
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws RedirectException
+     */
+    public function request($locationId, Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'amount' => 'required',
+                'group' => 'required',
+                'product' => 'required',
+                'description' => 'required',
+                'reference' => 'required',
+            ]
+        );
+
+        /** @var \PayBreak\Sdk\Gateways\ApplicationGateway $gateway */
+        $gateway = \App::make('PayBreak\Sdk\Gateways\ApplicationGateway');
+
+        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $locationId, 'location', '/locations');
+
+        $application = ApplicationEntity::make(
+            [
+                'installation' => $location->installation->ext_id,
+                'order' => [
+                    'reference' => $request->get('reference'),
+                    'amount' => (int) $request->get('amount'),
+                    'description' => $request->get('description'),
+                    'validity' => 'tomorrow 18:00',
+                ],
+                'products' => [
+                    'group' => $request->get('group'),
+                    'options' => [$request->get('product')],
+                ],
+            ]
+        );
+
+        try {
+            $application = $gateway->initialiseApplication($application, $location->installation->merchant->token);
+
+            return redirect($application->getResumeUrl());
+
+        } catch (\Exception $e) {
+
+            throw RedirectException::make('/locations/' . $locationId . '/applications/make')
+                ->setError($e->getMessage());
+        }
     }
 
     /**
