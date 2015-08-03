@@ -30,9 +30,12 @@ class InitialisationController extends Controller
         return view('initialise.main');
     }
 
-    public function initialise($locationId, Request $request)
+    public function confirm($locationId, Request $request)
     {
 
+
+
+        return response()->json($request->all(), 200);
     }
 
     /**
@@ -58,7 +61,8 @@ class InitialisationController extends Controller
                     $request->get('amount') * 100,
                     $location->installation->merchant->token
                 ),
-                'amount' => $request->get('amount') * 100
+                'amount' => $request->get('amount') * 100,
+                'location' => $locationId,
             ]
         );
     }

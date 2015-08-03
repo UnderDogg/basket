@@ -84,6 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get(   'locations/{id}/applications/make',   'InitialisationController@prepare');
     Route::post(  'locations/{id}/applications/make',   'InitialisationController@choseProduct');
+    Route::post(  'locations/{id}/applications/confirm',   'InitialisationController@confirm');
 
     /*
      * Installations

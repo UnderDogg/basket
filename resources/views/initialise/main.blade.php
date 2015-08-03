@@ -44,7 +44,7 @@
                         @foreach($group['products'] as $l => $product)
 
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
-                                {!! Form::open(['url' => '../confirm']) !!}
+                                {!! Form::open(['action' => ['InitialisationController@confirm', $location]]) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group">
                                         <div class="row container text-center">
