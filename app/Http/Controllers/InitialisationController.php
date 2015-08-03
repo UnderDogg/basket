@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
-use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
  * Initialisation Controller
@@ -39,6 +38,8 @@ class InitialisationController extends Controller
      */
     public function prepare($locationId)
     {
+        $this->fetchLocation($locationId);
+
         return view('initialise.main');
     }
 
@@ -58,6 +59,8 @@ class InitialisationController extends Controller
                 'product' => 'required',
             ]
         );
+
+        $this->fetchLocation($locationId);
 
         list($timeMid, $timeLow) = explode(' ', microtime());
         $reference = sprintf('%08x', $timeLow) . '-' . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
@@ -94,7 +97,7 @@ class InitialisationController extends Controller
             ]
         );
 
-        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $locationId, 'location', '/locations');
+        $location = $this->fetchLocation($locationId);
 
         try {
             return redirect($this->applicationSynchronisationService->initialiseApplication(
@@ -123,7 +126,7 @@ class InitialisationController extends Controller
     {
         $this->validate($request, ['amount' => 'required']);
 
-        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $locationId, 'location', '/locations');
+        $location = $this->fetchLocation($locationId);
 
         /** @var \PayBreak\Sdk\Gateways\CreditInfoGateway $gateway */
         $gateway = \App::make('PayBreak\Sdk\Gateways\CreditInfoGateway');
@@ -140,5 +143,23 @@ class InitialisationController extends Controller
                 'location' => $locationId,
             ]
         );
+    }
+
+    /**
+     * @author WN
+     * @param $id
+     * @return Location
+     * @throws RedirectException
+     */
+    private function fetchLocation($id)
+    {
+        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
+
+        if (!in_array($id,  $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
+
+            throw RedirectException::make('/')->setError('You don\'t have permissions to access this Location');
+        }
+
+        return $location;
     }
 }
