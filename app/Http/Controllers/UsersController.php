@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Location;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
@@ -77,7 +78,15 @@ class UsersController extends Controller
         $array['password'] = bcrypt($array['password']);
 
         try {
-            User::create($array);
+            $user = User::create($array);
+
+            $input = $request->all();
+            if (isset($input['locationsApplied'])) {
+                $ids = explode(':', $input['locationsApplied']);
+                array_shift($ids);
+                $user->locations()->sync($ids);
+            }
+
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
                 ->setError('Can\'t create User');
@@ -138,6 +147,13 @@ class UsersController extends Controller
         }
 
         try {
+
+            if (isset($input['locationsApplied'])) {
+                $ids = explode(':', $input['locationsApplied']);
+                array_shift($ids);
+                $user->locations()->sync($ids);
+            }
+
             $input['password'] = bcrypt($input['password']);
             $user->update($input);
         } catch (\Exception $e) {
@@ -189,14 +205,36 @@ class UsersController extends Controller
 
     private function renderFormPage($view, $userId = null)
     {
+        $allLocations = Location::all();
+        $user = ($userId !== null ? $this->fetchUserById($userId) : null);
+
+        if ($user !== null) {
+
+            $locationsApplied = $user->locations;
+            $locationsAvailable = $allLocations->keyBy('id');
+
+            foreach ($locationsApplied as $location) {
+                $locationsAvailable->pull($location->id);
+            }
+
+            $locationsAvailable->all();
+
+        } else {
+            $locationsApplied = collect([]);
+            $locationsAvailable = $allLocations;
+        }
+
         $merchants = Merchant::query();
         $this->limitToMerchant($merchants, 'id');
+
         return view(
             $view,
             [
-                'user' => $userId !== null?$this->fetchUserById($userId):null,
+                'user' => $user,
                 'messages' => $this->getMessages(),
                 'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
+                'locationsApplied' => $locationsApplied,
+                'locationsAvailable' => $locationsAvailable,
             ]
         );
     }

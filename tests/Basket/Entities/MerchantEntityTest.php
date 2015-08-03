@@ -10,7 +10,7 @@
 
 namespace Tests\Basket\Entities;
 
-use App\Basket\Entities\MerchantEntity;
+use PayBreak\Sdk\Entities\MerchantEntity;
 
 /**
  * Merchant Entity Test
@@ -25,13 +25,13 @@ class MerchantEntityTest extends \TestCase
         $entity = new MerchantEntity();
 
         $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', $entity);
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity);
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity);
     }
 
     public function testMakeEmpty()
     {
         $this->assertInstanceOf('WNowicki\Generic\Contracts\Entity', MerchantEntity::make([]));
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', MerchantEntity::make([]));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', MerchantEntity::make([]));
     }
 
     public function testToArray()
@@ -43,7 +43,7 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity->setId(2));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity->setId(2));
     }
 
     public function testGetId()
@@ -59,7 +59,7 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity->setCompanyName('Test Name'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity->setCompanyName('Test Name'));
     }
 
     public function testGetCompanyName()
@@ -75,7 +75,7 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity->setAddress('Address'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity->setAddress('Address'));
     }
 
     public function testGetAddress()
@@ -91,7 +91,7 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity->setProcessingDays(2));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity->setProcessingDays(2));
     }
 
     public function testGetProcessingDays()
@@ -107,7 +107,7 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity->setMinimumAmountSettled(2));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity->setMinimumAmountSettled(2));
     }
 
     public function testGetMinimumAmountSettled()
@@ -123,7 +123,7 @@ class MerchantEntityTest extends \TestCase
     {
         $entity = new MerchantEntity();
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $entity->setAddressOnAgreements(2));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $entity->setAddressOnAgreements(2));
     }
 
     public function testGetAddressOnAgreement()

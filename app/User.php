@@ -40,7 +40,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'merchant_id', 'locations', 'role_id'];
+    protected $fillable = ['name', 'email', 'password', 'merchant_id', 'role_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -67,5 +67,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function role()
     {
         return $this->belongsTo('App\Role');
+    }
+
+    public function locations()
+    {
+        return $this->belongsToMany('App\Basket\Location');
     }
 }

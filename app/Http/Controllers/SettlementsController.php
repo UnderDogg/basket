@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Http\Requests;
-use App\Basket\Gateways\SettlementGateway;
+use PayBreak\Sdk\Gateways\SettlementGateway;
 use Carbon\Carbon;
 
 /**

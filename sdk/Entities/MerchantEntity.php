@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities;
+namespace PayBreak\Sdk\Entities;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -27,7 +27,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method int|null getMinimumAmountSettled()
  * @method $this setAddressOnAgreements(string $id)
  * @method string|null getAddressOnAgreements()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class MerchantEntity extends AbstractEntity
 {
