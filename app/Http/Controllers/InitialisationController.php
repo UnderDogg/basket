@@ -60,10 +60,12 @@ class InitialisationController extends Controller
             ]
         );
 
-        $this->fetchLocation($locationId);
+        $location = $this->fetchLocation($locationId);
 
         list($timeMid, $timeLow) = explode(' ', microtime());
-        $reference = sprintf('%08x', $timeLow) . '-' . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
+        $reference = sprintf('%08x', $timeLow) . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
+
+        $reference = $location->reference . '-' . $reference;
 
         return view(
             'initialise.confirm',
@@ -107,7 +109,8 @@ class InitialisationController extends Controller
                 $request->get('description'),
                 'tomorrow 18:00',
                 $request->get('group'),
-                [$request->get('product')]
+                [$request->get('product')],
+                $location->reference
             ));
         } catch (\Exception $e) {
 

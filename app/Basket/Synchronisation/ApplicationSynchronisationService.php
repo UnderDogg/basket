@@ -159,6 +159,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param string $validity
      * @param string $productGroup
      * @param array $productOptions
+     * @param string $location
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws Exception
      */
@@ -169,7 +170,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $description,
         $validity,
         $productGroup,
-        array $productOptions
+        array $productOptions,
+        $location
     ) {
         $installation = $this->fetchInstallationLocalObject($installationId);
 
@@ -185,6 +187,10 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 'products' => [
                     'group' => $productGroup,
                     'options' => $productOptions,
+                ],
+                'fulfilment' => [
+                    'method' => 'collection',
+                    'location' => $location,
                 ],
             ]
         );
@@ -217,7 +223,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         } catch (\Exception $e) {
 
-            $this->logError('');
+            $this->logError('IniApp: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
     }
