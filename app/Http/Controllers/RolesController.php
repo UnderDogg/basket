@@ -11,7 +11,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Role;
-use App\RolePermissions;
 use App\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -206,56 +205,16 @@ class RolesController extends Controller
      */
     private function updateAllRolePermissions($id, $request)
     {
-        if (empty($id) || !is_int($id)) {
-            throw new \App\Exceptions\Exception(
-                'Could not update Permissions; ID [' . $id . '] does not exist or is malformed'
-            );
-        }
-        if (empty($request)) {
-            throw new \App\Exceptions\Exception(
-                'Could not update Role Permission for Role with ID [' . $id . ']; Request empty of malformed'
-            );
+        $role = $this->fetchRoleById($id);
+        $input = $request->all();
+
+        if (isset($input['permissionsApplied'])) {
+            $ids = explode(':', $input['permissionsApplied']);
+            array_shift($ids);
+            $role->permissions()->sync($ids);
         }
 
-        $rolePermissionsToUpdate = explode(':', $request['permissionsApplied']);
-        unset($rolePermissionsToUpdate[0]);
-
-        $rolePermissions = RolePermissions::where('role_id', '=', $id)->get();
-
-        foreach ($rolePermissions as $permission) {
-            if (!in_array($permission['permission_id'], $rolePermissionsToUpdate)) {
-
-                try {
-
-                    RolePermissions::where('role_id', '=', $id)
-                        ->where('permission_id', '=', $permission['permission_id'])
-                        ->delete();
-
-                } catch (ModelNotFoundException $e) {
-
-                    throw $e;
-                }
-            }
-            if(($key = array_search($permission['permission_id'], $rolePermissionsToUpdate)) !== false) {
-                unset($rolePermissionsToUpdate[$key]);
-            }
-        }
-
-        if (count($rolePermissionsToUpdate) > 0) {
-            foreach ($rolePermissionsToUpdate as $permission) {
-
-                try {
-
-                    RolePermissions::create(['permission_id' => $permission, 'role_id' => $id]);
-
-                } catch (ModelNotFoundException $e) {
-
-                    throw $e;
-                }
-            }
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -267,17 +226,17 @@ class RolesController extends Controller
      */
     private function fetchPermissionsToRole($role)
     {
-        if (!empty($role)) {
-            $role->permissionsAssociation = RolePermissions::where('role_id', '=', $role->id)->get();
+        $allPermissions = \App\Permission::all();
 
-            $permissionIds = [];
-            foreach ($role->permissionsAssociation as $association) {
-                $permissionIds[] = $association->permission_id;
-            }
+        $applied = $role->permissions;
+        $available = $allPermissions->keyBy('id');
 
-            $role->permissions = Permission::whereIn('id', $permissionIds)->get();
-            $role->permissionsAvailable = Permission::whereNotIn('id', $permissionIds)->get();
+        foreach ($applied as $permission) {
+            $available->pull($permission->id);
         }
+
+        $role->permissionsAvailable = $available->all();
+
         return $role;
     }
 

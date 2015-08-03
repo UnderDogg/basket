@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Gateways;
+namespace PayBreak\Sdk\Gateways;
 
 use App\Gateways\ApiClientFactory;
 use Psr\Log\LoggerInterface;
@@ -20,7 +20,7 @@ use WNowicki\Generic\ApiClient\ErrorResponseException;
  * Abstract Gateway
  *
  * @author WN
- * @package App\Basket\Gateways
+ * @package PayBreak\Sdk\Gateways
  */
 abstract class AbstractGateway
 {

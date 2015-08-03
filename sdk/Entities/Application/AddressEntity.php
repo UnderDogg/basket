@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities\Application;
+namespace PayBreak\Sdk\Entities\Application;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -30,7 +30,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method string|null getTown()
  * @method $this setPostcode(string $postcode)
  * @method string|null getPostcode()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class AddressEntity extends AbstractEntity
 {

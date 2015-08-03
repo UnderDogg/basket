@@ -10,7 +10,7 @@
 
 namespace Tests\Basket\Gateways;
 
-use App\Basket\Gateways\MerchantGateway;
+use PayBreak\Sdk\Gateways\MerchantGateway;
 use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
@@ -29,7 +29,7 @@ class MerchantGatewayTest extends \TestCase
         /** @var \App\Gateways\ApiClientFactory $mock */
         $mock = $this->getMock('App\Gateways\ApiClientFactory');
 
-        $this->assertInstanceOf('App\Basket\Gateways\MerchantGateway', new MerchantGateway($mock));
+        $this->assertInstanceOf('PayBreak\Sdk\Gateways\MerchantGateway', new MerchantGateway($mock));
     }
 
     public function testGetMerchant()
@@ -44,7 +44,7 @@ class MerchantGatewayTest extends \TestCase
 
         $merchantGateway = new MerchantGateway($mock);
 
-        $this->assertInstanceOf('App\Basket\Entities\MerchantEntity', $merchant = $merchantGateway->getMerchant(1, 'xxxx'));
+        $this->assertInstanceOf('PayBreak\Sdk\Entities\MerchantEntity', $merchant = $merchantGateway->getMerchant(1, 'xxxx'));
 
         $this->assertSame(1, $merchant->getId());
     }

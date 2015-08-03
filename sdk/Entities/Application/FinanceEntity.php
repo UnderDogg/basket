@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Basket\Entities\Application;
+namespace PayBreak\Sdk\Entities\Application;
 
 use WNowicki\Generic\AbstractEntity;
 
@@ -26,7 +26,7 @@ use WNowicki\Generic\AbstractEntity;
  * @method int|null getSubsidyAmount()
  * @method $this setSettlementNetAmount(int $settlementNetAmount)
  * @method int|null getSettlementNetAmount()
- * @package App\Basket\Entities
+ * @package PayBreak\Sdk\Entities
  */
 class FinanceEntity extends AbstractEntity
 {

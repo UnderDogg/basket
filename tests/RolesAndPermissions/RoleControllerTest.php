@@ -3,7 +3,6 @@
 use App\User;
 use App\Http\Controllers;
 use App\Role;
-use App\RolePermissions;
 
 class RolesControllerTest extends TestCase
 {
@@ -131,7 +130,7 @@ class RolesControllerTest extends TestCase
         $this->assertEquals( 'UnitTest', $roleData->name                                    );
         $this->assertEquals( 'Unit Test', $roleData->display_name                           );
         $this->assertEquals( 'Unit Test Description', $roleData->description                );
-        $this->assertEmpty(  RolePermissions::where('role_id', '=', $roleData->id)->get()   );
+        $this->assertEmpty($roleData->permissions);
     }
 
     /**
