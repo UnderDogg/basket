@@ -42,8 +42,7 @@ class ApplicationsController extends Controller
     public function index()
     {
         $filterDates = $this->getDateRange();
-        //dd($filterDates);
-        $application = Application::query();
+        $application = Application::query()->where('created_at', '>', $filterDates[1])->where('created_at', '<', $filterDates[0]);
         $this->limitToInstallationOnMerchant($application);
         return $this->filterDateIndexAction($application, 'applications.index', 'applications', $filterDates);
     }
@@ -58,11 +57,10 @@ class ApplicationsController extends Controller
         if(!empty($filter = $this->getTableFilter())) {
 
             foreach ($filter as $field => $query) {
-                print_r($field . "hi");
-                print_r($query);
-                echo Carbon::createFromFormat('Y/m/d', $query);
-                if($field == 'date_from') $default_dates[0] = Carbon::createFromFormat('Y/m/d', $query);
-                if($field == 'date_to') $default_dates[1] = Carbon::createFromFormat('Y/m/d', $query);
+                $newDate = Carbon::createFromFormat('Y/m/d', $query);
+                $newDate->hour = 23; $newDate->minute = 59; $newDate->second = 59;
+                $default_dates[0] = ($field == 'date_to') ? $newDate : $default_dates[0];
+                $default_dates[1] = ($field == 'date_from') ? $newDate : $default_dates[1];
             }
         }
         return $default_dates;

@@ -10,7 +10,6 @@
     @include('includes.page.breadcrumb')
 
     <div class="panel panel-default">
-        <?php print_r($applications); ?>
         @include('includes.form.record_counter', ['object' => $applications])
 
         <div class="panel-heading"><h4>Locations</h4></div>

@@ -254,7 +254,6 @@ abstract class Controller extends BaseController
      * @return \Illuminate\View\View
      */
     protected function filterDateIndexAction(Builder $query, $view, $modelName, $filterDates) {
-        $this->processFilters($query);
 
         return View(
             $view,
