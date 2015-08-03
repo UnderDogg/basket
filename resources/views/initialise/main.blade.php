@@ -4,7 +4,6 @@
 
     <h1>Make Application</h1>
 
-
     <div class="col-md-12">
 
         <div class="col-md-12 well">
