@@ -22,6 +22,16 @@ use PayBreak\Sdk\Entities\ApplicationEntity;
  */
 class InitialisationController extends Controller
 {
+    /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
+    private $applicationSynchronisationService;
+
+    public function __construct()
+    {
+        $this->applicationSynchronisationService = \App::make(
+            'App\Basket\Synchronisation\ApplicationSynchronisationService'
+        );
+    }
+
     /**
      * @author WN
      * @param int $locationId
@@ -84,32 +94,18 @@ class InitialisationController extends Controller
             ]
         );
 
-        /** @var \PayBreak\Sdk\Gateways\ApplicationGateway $gateway */
-        $gateway = \App::make('PayBreak\Sdk\Gateways\ApplicationGateway');
-
         $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $locationId, 'location', '/locations');
 
-        $application = ApplicationEntity::make(
-            [
-                'installation' => $location->installation->ext_id,
-                'order' => [
-                    'reference' => $request->get('reference'),
-                    'amount' => (int) $request->get('amount'),
-                    'description' => $request->get('description'),
-                    'validity' => 'tomorrow 18:00',
-                ],
-                'products' => [
-                    'group' => $request->get('group'),
-                    'options' => [$request->get('product')],
-                ],
-            ]
-        );
-
         try {
-            $application = $gateway->initialiseApplication($application, $location->installation->merchant->token);
-
-            return redirect($application->getResumeUrl());
-
+            return redirect($this->applicationSynchronisationService->initialiseApplication(
+                $location->installation->id,
+                $request->get('reference'),
+                $request->get('amount'),
+                $request->get('description'),
+                'tomorrow 18:00',
+                $request->get('group'),
+                [$request->get('product')]
+            ));
         } catch (\Exception $e) {
 
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
