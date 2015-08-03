@@ -50,8 +50,8 @@ class InitialisationController extends Controller
 
         $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $locationId, 'location', '/locations');
 
-        /** @var \App\Basket\Gateways\CreditInfoGateway $gateway */
-        $gateway = \App::make('App\Basket\Gateways\CreditInfoGateway');
+        /** @var \PayBreak\Sdk\Gateways\CreditInfoGateway $gateway */
+        $gateway = \App::make('PayBreak\Sdk\Gateways\CreditInfoGateway');
 
         return view(
             'initialise.main',

@@ -10,7 +10,7 @@
 
 namespace Tests\Basket\Gateways;
 
-use App\Basket\Gateways\CreditInfoGateway;
+use PayBreak\Sdk\Gateways\CreditInfoGateway;
 
 /**
  * Credit Information Test
@@ -25,7 +25,7 @@ class CreditInformationTest extends \TestCase
         /** @var \App\Gateways\ApiClientFactory $mock */
         $mock = $this->getMock('App\Gateways\ApiClientFactory');
 
-        $this->assertInstanceOf('App\Basket\Gateways\CreditInfoGateway', new CreditInfoGateway($mock));
+        $this->assertInstanceOf('PayBreak\Sdk\Gateways\CreditInfoGateway', new CreditInfoGateway($mock));
     }
 
     public function testGetInstallation()

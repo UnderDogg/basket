@@ -49,8 +49,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'App\Basket\Gateways\CreditInfoGateway',
-            'App\Basket\Gateways\CreditInfoGateway'
+            'PayBreak\Sdk\Gateways\CreditInfoGateway',
+            'PayBreak\Sdk\Gateways\CreditInfoGateway'
         );
     }
 }
