@@ -6,9 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' view ' . Request::segment(1)) }}
-        @if($role !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$role->id,'edit'=>true,'sync'=>true,'delete'=>true])
-        @endif
+        @include('includes.page.show_details_button_group', ['id'=>$role->id,'edit'=>true,'sync'=>true,'delete'=>true])
     </h2>
     @include('includes.page.breadcrumb')
 
@@ -22,55 +20,45 @@
         {{--FIRST PANEL: ROLE DETAILS--}}
 
         <div id="fragment-1">
-
             <div class="col-md-6">
-
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Key information</h3>
                     </div>
                     <div class="panel-body">
-                        @if($role !== null)
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <strong>Role ID: </strong> {{ $role->id  }}
-                                </li>
-                                <li class="list-group-item">
-                                    <strong>Role Code: </strong> {{ $role->name  }}
-                                </li>
-                                <li class="list-group-item">
-                                    <strong>Display Name: </strong> {{ $role->display_name  }}
-                                </li>
-                            </ul>
-                        @endif
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Role ID: </strong> {{ $role->id  }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Role Code: </strong> {{ $role->name  }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Display Name: </strong> {{ $role->display_name  }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
             </div>
             <div class="col-md-6">
-
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Description</h3>
                     </div>
                     <div class="panel-body">
-                        @if($role !== null)
-                            <ul class="list-group">
-                                <li style="min-height: 127px" class="list-group-item">
-                                    {{ $role->description  }}
-                                </li>
-                            </ul>
-                        @endif
+                        <ul class="list-group">
+                            <li style="min-height: 127px" class="list-group-item">
+                                {{ $role->description  }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
             </div>
         </div>
 
         {{--SECOND PANEL: ACTIVE PERMISSIONS--}}
 
         <div id="fragment-2">
-
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Permissions Of Role</h4></div>
                 <table class="table">
@@ -80,7 +68,7 @@
                         <th>Display Name</th>
                         <th class="hidden-xs hidden-sm">Description</th>
                     </tr>
-                    @if($role !== null)
+                    @if($role->permissions !== null)
                         @foreach ($role->permissions as $permission)
                             <tr>
                                 <td>{{ $permission->id }}</td>
@@ -92,7 +80,6 @@
                     @endif
                 </table>
             </div>
-
         </div>
     </div>
 

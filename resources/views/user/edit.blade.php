@@ -9,7 +9,6 @@
     @include('includes.page.breadcrumb', ['override2'=>$user->name])
 
     <p>&nbsp;</p>
-    @if($user !== null)
     {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'class' => 'form-horizontal']) !!}
 
     <div>
@@ -87,6 +86,5 @@
     <input id="permissionsApplied" name="locationsApplied" type="hidden" value="@foreach ($locationsApplied as $location){{ ':'.$location->id  }}@endforeach">
     <input id="permissionsAvailable" name="locationsAvailable" type="hidden" value="">
     {!! Form::close() !!}
-    @endif
 
 @endsection
