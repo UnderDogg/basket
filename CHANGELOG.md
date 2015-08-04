@@ -2,6 +2,10 @@
 - Assign locations to users
 - Refactoring
 
+## Bug Fixes
+- Removed unnecessary object checks in views
+- Added some *'secondary'* object checks to views such as `Roles & Permissions`
+
 # 0.3.0
 2015-07-30
 
