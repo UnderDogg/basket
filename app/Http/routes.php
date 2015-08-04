@@ -69,6 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('merchants/{id}',                  ['before' => 'csrf', 'uses' => 'MerchantsController@update']);
     Route::get('merchants/{id}/synchronise',        'MerchantsController@synchronise');
     Route::get('merchants/{id}/installations/synchronise',  'InstallationsController@synchroniseAllForMerchant');
+    Route::get('merchants/{id}/ips',                'IpsController@index');
+    Route::get('merchants/{id}/ips/{ip}/delete',    'IpsController@delete');
 
     /*
      * Locations

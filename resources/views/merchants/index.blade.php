@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>MERCHANTS
-        <a href="{{ url('/merchants/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Merchant</a>
+        <a href="{{ url('/merchants/create') }}" name="addNewButton" class="btwwn btn-info pull-right">Add New Merchant</a>
     </h1>
     @include('includes.page.breadcrumb')
     <div class="panel panel-default">
