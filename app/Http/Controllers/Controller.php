@@ -10,18 +10,18 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Installation;
+use App\Basket\Merchant;
+use App\Exceptions\RedirectException;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\RedirectException;
-use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
-use App\Basket\Merchant;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Controller

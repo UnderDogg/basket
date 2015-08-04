@@ -10,10 +10,8 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
-use App\Http\Requests;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
-use Carbon\Carbon;
 
 /**
  * Class SettlementsController

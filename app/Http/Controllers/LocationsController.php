@@ -9,11 +9,11 @@
  */
 namespace App\Http\Controllers;
 
-use App\Exceptions\RedirectException;
 use App\Basket\Installation;
 use App\Basket\Location;
-use Illuminate\Http\Request;
+use App\Exceptions\RedirectException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 /**
  * Class LocationsController
@@ -28,7 +28,7 @@ class LocationsController extends Controller
      * Display a listing of the resource.
      *
      * @author WN, MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -40,7 +40,7 @@ class LocationsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -50,7 +50,7 @@ class LocationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -84,7 +84,7 @@ class LocationsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -98,7 +98,7 @@ class LocationsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -110,7 +110,7 @@ class LocationsController extends Controller
      *
      * @param  int $id
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update($id, Request $request)
@@ -141,7 +141,7 @@ class LocationsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -176,7 +176,7 @@ class LocationsController extends Controller
     /**
      * @author WN
      * @param string $template
-     * @param null|null $id
+     * @param integer $id
      * @return \Illuminate\View\View
      */
     private function renderForm($template, $id = null)
