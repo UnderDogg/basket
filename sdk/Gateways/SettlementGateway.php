@@ -29,7 +29,7 @@ class SettlementGateway extends AbstractGateway
     public function getSettlementReports($token, array $date_range)
     {
         return $this->fetchDocument(
-            '/v4/settlement-reports?since=' . $date_range[0] . '&until=' . $date_range[1],
+            '/v4/settlement-reports?since=' . $date_range['date_from'] . '&until=' . $date_range['date_to'],
             $token,
             'Settlement'
         );
