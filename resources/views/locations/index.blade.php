@@ -48,7 +48,7 @@
                 <tr>
                     <td class="hidden-xs hidden-sm">{{ $item->reference }}</td>
                     <td>{{ $item->name }}</td>
-                    <td class="hidden-xs hidden-sm">{{ $item->installation->name }}</td>
+                    <td class="hidden-xs hidden-sm">@if($item->installation !== null){{ $item->installation->name }} @endif</td>
                     <td class="col-sm-2 col-md-1">
                         @if( $item->active == 0 )
                             <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
