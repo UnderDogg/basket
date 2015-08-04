@@ -45,13 +45,7 @@ class LocationsController extends Controller
      */
     public function create()
     {
-        $installations = Installation::query();
-        return view('locations.create',
-            [
-                'messages' => $this->getMessages(),
-                'installations' => $installations->get()->pluck('name', 'id')->toArray()
-            ]
-        );
+        return $this->renderForm('create');
     }
 
     /**
@@ -109,15 +103,7 @@ class LocationsController extends Controller
      */
     public function edit($id)
     {
-        $installations = Installation::query();
-        return view(
-            'locations.edit',
-            [
-                'location' => $this->fetchLocationById($id),
-                'installations' => $installations->get()->pluck('name', 'id')->toArray(),
-                'messages' => $this->getMessages()
-            ]
-        );
+        return $this->renderForm('edit', $id);
     }
 
     /**
@@ -186,5 +172,23 @@ class LocationsController extends Controller
     private function fetchLocationById($id)
     {
         return $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
+    }
+
+    /**
+     * @author WN
+     * @param $template
+     * @param null $id
+     * @return \Illuminate\View\View
+     */
+    private function renderForm($template, $id = null)
+    {
+        return view(
+            'locations.' . $template,
+            [
+                'location' => $id !== null?$this->fetchLocationById($id):null,
+                'installations' => Installation::query()->get()->pluck('name', 'id')->toArray(),
+                'messages' => $this->getMessages()
+            ]
+        );
     }
 }

@@ -253,8 +253,8 @@ abstract class Controller extends BaseController
      * @param string $modelName
      * @return \Illuminate\View\View
      */
-    protected function filterDateIndexAction(Builder $query, $view, $modelName, $filterDates) {
-
+    protected function filterDateIndexAction(Builder $query, $view, $modelName, $filterDates)
+    {
         return View(
             $view,
             [
