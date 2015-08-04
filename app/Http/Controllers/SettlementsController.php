@@ -51,7 +51,6 @@ class SettlementsController extends Controller
                 ->settlementGateway
                 ->getSettlementReports($this->getMerchantToken(), $this->getDateRange())
         );
-        //$this->applyStandardFilters($settlement_reports);
 
         $filter = $this->getFilters();
 

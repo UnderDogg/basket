@@ -11,7 +11,6 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
 use App\Basket\Installation;
-use App\Http\Requests;
 use App\Basket\Location;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -176,8 +175,8 @@ class LocationsController extends Controller
 
     /**
      * @author WN
-     * @param $template
-     * @param null $id
+     * @param string $template
+     * @param null|null $id
      * @return \Illuminate\View\View
      */
     private function renderForm($template, $id = null)
