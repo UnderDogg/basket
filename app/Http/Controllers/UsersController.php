@@ -120,6 +120,16 @@ class UsersController extends Controller
     }
 
     /**
+     * @author WN
+     * @param $id
+     * @return \Illuminate\View\View
+     */
+    public function editLocations($id)
+    {
+        return $this->renderFormPage('user.locations', $id);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @author MS
@@ -140,12 +150,6 @@ class UsersController extends Controller
 
         $input = $request->all();
 
-        if (!$this->isMerchantAllowedForUser($input['merchant_id'])) {
-
-            throw RedirectException::make('/users')
-                ->setError('You are not allowed to create User for this Merchant');
-        }
-
         try {
 
             if (isset($input['locationsApplied'])) {
@@ -158,6 +162,38 @@ class UsersController extends Controller
             $user->update($input);
         } catch (\Exception $e) {
             $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
+        }
+
+
+        return redirect()->back()->with('success', 'User details were successfully updated');
+    }
+
+    /**
+     * @author WN
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function updateLocations($id, Request $request)
+    {
+        $input = $request->all();
+
+        $user = $this->fetchUserById($id);
+
+        try {
+
+            if (isset($input['locationsApplied'])) {
+                $ids = explode(':', $input['locationsApplied']);
+                array_shift($ids);
+                $user->locations()->sync($ids);
+            }
+
+            $user->update();
+
+        } catch (\Exception $e) {
+            $this->logError('Can not update user [' . $id . '] locations: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 

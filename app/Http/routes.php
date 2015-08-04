@@ -35,14 +35,16 @@ Route::group(['middleware' => 'auth'], function () {
      * Users
      */
     Route::group(['middleware' => 'permission:user-management'], function () {
-        Route::get(   'users',             'UsersController@index');
-        Route::get(   'users/create',      'UsersController@create');
-        Route::get(   'users/{id}/delete', 'UsersController@delete');
-        Route::post(  'users',             'UsersController@store');
-        Route::get(   'users/{id}',        'UsersController@show');
-        Route::delete('users/{id}',        'UsersController@destroy');
-        Route::get(   'users/{id}/edit',   'UsersController@edit');
-        Route::patch( 'users/{id}',        'UsersController@update');
+        Route::get(   'users',                  'UsersController@index');
+        Route::get(   'users/create',           'UsersController@create');
+        Route::get(   'users/{id}/delete',      'UsersController@delete');
+        Route::post(  'users',                  'UsersController@store');
+        Route::get(   'users/{id}',             'UsersController@show');
+        Route::delete('users/{id}',             'UsersController@destroy');
+        Route::get(   'users/{id}/edit',        'UsersController@edit');
+        Route::patch( 'users/{id}',             'UsersController@update');
+        Route::get(   'users/{id}/locations',   'UsersController@editLocations');
+        Route::patch( 'users/{id}',             'UsersController@updateLocations');
     });
 
     /*
