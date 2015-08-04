@@ -93,7 +93,7 @@ class SettlementsController extends Controller
      */
     private function applyStandardFilters(&$settlements)
     {
-        if (!empty($filter = $this->getTableFilter())) {
+        if (!empty($filter = $this->getFilters())) {
             foreach ($filter as $field => $query) {
                 if ($field !== 'date_from' && $field !== 'date_to') {
                     $this->filterArrayByValue($settlements, $field, $query);
@@ -171,7 +171,7 @@ class SettlementsController extends Controller
 
         $default_dates = [$date_from, $date_to];
 
-        if (!empty($filter = $this->getTableFilter())) {
+        if (!empty($filter = $this->getFilters())) {
 
             foreach ($filter as $field => $query) {
 

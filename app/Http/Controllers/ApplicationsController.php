@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
-use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 /**
@@ -42,28 +42,22 @@ class ApplicationsController extends Controller
     public function index()
     {
         $filterDates = $this->getDateRange();
-        $application = Application::query()->where('created_at', '>', $filterDates[1])->where('created_at', '<', $filterDates[0]);
+
+        $application = $this->processDateFilters(
+            Application::query(),
+            'created_at',
+            $filterDates['date_from'],
+            $filterDates['date_to']
+        );
+
         $this->limitToInstallationOnMerchant($application);
-        return $this->filterDateIndexAction($application, 'applications.index', 'applications', $filterDates);
-    }
 
-    private function getDateRange() {
-        $date_to = Carbon::now();
-        $date_from = new Carbon('last month');
-
-        $default_dates[0] = $date_to;
-        $default_dates[1] = $date_from;
-
-        if(!empty($filter = $this->getTableFilter())) {
-
-            foreach ($filter as $field => $query) {
-                $newDate = Carbon::createFromFormat('Y/m/d', $query);
-                $newDate->hour = 23; $newDate->minute = 59; $newDate->second = 59;
-                $default_dates[0] = ($field == 'date_to') ? $newDate : $default_dates[0];
-                $default_dates[1] = ($field == 'date_from') ? $newDate : $default_dates[1];
-            }
-        }
-        return $default_dates;
+        return $this->standardIndexAction(
+            $application,
+            'applications.index',
+            'applications',
+            ['default_dates' => $filterDates]
+        );
     }
 
     /**

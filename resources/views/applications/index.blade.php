@@ -34,7 +34,7 @@
         <tr>
             {{--FILTERS--}}
             <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">@include('includes.form.input', ['field' => 'ext_id'])</th>
-            <th class="col-xs-4 col-sm-4 col-md-3 col-lg-2">@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates[0])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates[1]))])</th>
+            <th class="col-xs-4 col-sm-4 col-md-3 col-lg-2">@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates['date_to']))])</th>
             <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.select', ['field' => 'ext_current_status', 'object' => $applications])</th>
             <th class="hidden-xs hidden-xs hidden-md col-lg-1">@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
             <th class="col-xs-2 col-sm-3 col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_order_amount', 'symbol' => '£'])</th>

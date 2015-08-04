@@ -19,7 +19,9 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\RedirectException;
 use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use App\Basket\Merchant;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Controller
@@ -33,6 +35,7 @@ abstract class Controller extends BaseController
 
     // Default Pagination Record Limit
     const DEFAULT_PAGE_LIMIT = 15;
+    private $filters;
 
     /**
      * Make Message Object
@@ -78,11 +81,17 @@ abstract class Controller extends BaseController
     /**
      * Get Table Filter
      *
-     * @author MS
+     * @author WN
+     * @return Collection
      */
-    protected function getTableFilter()
+    protected function getFilters()
     {
-        return Request::capture()->except(['limit', 'page']);
+        if (!$this->filters) {
+
+            $this->filters = Collection::make(Request::capture()->except(['limit', 'page']));
+        }
+
+        return $this->filters;
     }
 
     /**
@@ -201,7 +210,7 @@ abstract class Controller extends BaseController
      */
     protected function processFilters(Builder $query)
     {
-        $filter = $this->getTableFilter();
+        $filter = $this->getFilters();
         if (count($filter) > 0) {
             foreach ($filter as $field => $value) {
 
@@ -231,37 +240,26 @@ abstract class Controller extends BaseController
      * @param Builder $query
      * @param string $view
      * @param string $modelName
+     * @param array $additionalProperties View properties
      * @return \Illuminate\View\View
      */
-    protected function standardIndexAction(Builder $query, $view, $modelName)
-    {
+    protected function standardIndexAction(
+        Builder $query,
+        $view,
+        $modelName,
+        array $additionalProperties = []
+    ) {
         $this->processFilters($query);
 
         return View(
             $view,
-            [
-                'messages' => $this->prepareMessagesForIndexAction($query),
-                $modelName => $query->paginate($this->getPageLimit()),
-            ]
-        );
-    }
-
-    /**
-     * @author EB
-     * @param Builder $query
-     * @param string $view
-     * @param string $modelName
-     * @return \Illuminate\View\View
-     */
-    protected function filterDateIndexAction(Builder $query, $view, $modelName, $filterDates)
-    {
-        return View(
-            $view,
-            [
-                'messages' => $this->prepareMessagesForIndexAction($query),
-                $modelName => $query->paginate($this->getPageLimit()),
-                'default_dates' => $filterDates,
-            ]
+            array_merge(
+                [
+                    'messages' => $this->prepareMessagesForIndexAction($query),
+                    $modelName => $query->paginate($this->getPageLimit()),
+                ],
+                $additionalProperties
+            )
         );
     }
 
@@ -346,5 +344,43 @@ abstract class Controller extends BaseController
         }
 
         return $entity;
+    }
+
+    /**
+     * @author EB
+     * @return Carbon[]
+     */
+    protected function getDateRange()
+    {
+        $defaultDates = [
+            'date_to' => Carbon::now(),
+            'date_from' => new Carbon('last month')
+        ];
+
+        $filters = $this->getFilters();
+
+        if($filters->has('date_to')) {
+            $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->hour(23)->minute(59)->second(59);
+            $filters->forget('date_to');
+        }
+
+        if($filters->has('date_from')) {
+            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from']);
+            $filters->forget('date_from');
+        }
+
+        return $defaultDates;
+    }
+
+    /**
+     * @param Builder $model
+     * @param string $field
+     * @param Carbon $after
+     * @param Carbon $before
+     * @return Builder
+     */
+    protected function processDateFilters(Builder $model, $field, Carbon $after, Carbon $before)
+    {
+        return $model->where($field, '>', $after)->where($field, '<', $before);
     }
 }
