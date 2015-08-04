@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get(   'users/{id}/edit',        'UsersController@edit');
         Route::patch( 'users/{id}',             'UsersController@update');
         Route::get(   'users/{id}/locations',   'UsersController@editLocations');
-        Route::patch( 'users/{id}',             'UsersController@updateLocations');
+        Route::patch( 'users/{id}/locations',    'UsersController@updateLocations');
     });
 
     /*

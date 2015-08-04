@@ -42,10 +42,22 @@
                         </li>
                         <li class="list-group-item">
                             @if($user->locations !== null)
-                                <strong>Locations: </strong><br />
+                                <strong>Locations: </strong>
+                                <ul>
                                 @foreach ($user->locations as $location)
-                                    {{ $location->name }}<br />
+                                    <li>{{ $location->name }}</li>
                                 @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                        <li class="list-group-item">
+                            @if($user->roles !== null)
+                                <strong>Roles: </strong>
+                                <ul>
+                                @foreach ($user->roles as $role)
+                                    <li>{{ $role->display_name }}</li>
+                                @endforeach
+                                </ul>
                             @endif
                         </li>
                     </ul>

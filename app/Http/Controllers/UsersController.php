@@ -13,6 +13,7 @@ use App\Basket\Location;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
+use App\Role;
 use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -152,10 +153,10 @@ class UsersController extends Controller
 
         try {
 
-            if (isset($input['locationsApplied'])) {
-                $ids = explode(':', $input['locationsApplied']);
+            if (isset($input['rolesApplied'])) {
+                $ids = explode(':', $input['rolesApplied']);
                 array_shift($ids);
-                $user->locations()->sync($ids);
+                $user->roles()->sync($ids);
             }
 
             $input['password'] = bcrypt($input['password']);
@@ -239,25 +240,33 @@ class UsersController extends Controller
         return $this->fetchModelByIdWithMerchantLimit((new User()), $id, 'user', '/users');
     }
 
+    /**
+     * @author WN
+     * @param string $view
+     * @param int|null $userId
+     * @return \Illuminate\View\View
+     */
     private function renderFormPage($view, $userId = null)
     {
-        $allLocations = Location::all();
         $user = ($userId !== null ? $this->fetchUserById($userId) : null);
 
+        $locations = Location::all();
+
         if ($user !== null) {
-
             $locationsApplied = $user->locations;
-            $locationsAvailable = $allLocations->keyBy('id');
-
-            foreach ($locationsApplied as $location) {
-                $locationsAvailable->pull($location->id);
-            }
-
-            $locationsAvailable->all();
-
+            $locationsAvailable = $locations->diff($locationsApplied)->keyBy('id');
         } else {
             $locationsApplied = collect([]);
-            $locationsAvailable = $allLocations;
+            $locationsAvailable = $locations->keyBy('id');
+        }
+
+        $roles = $this->fetchAvailableRoles();
+        if ($user !== null) {
+            $rolesApplied = $user->roles;
+            $rolesAvailable = $roles->diff($rolesApplied)->keyBy('id');
+        } else {
+            $rolesApplied = collect([]);
+            $rolesAvailable = $roles->keyBy('id');
         }
 
         $merchants = Merchant::query();
@@ -271,7 +280,25 @@ class UsersController extends Controller
                 'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
                 'locationsApplied' => $locationsApplied,
                 'locationsAvailable' => $locationsAvailable,
+                'rolesApplied' => $rolesApplied,
+                'rolesAvailable' => $rolesAvailable,
             ]
         );
+    }
+
+    /**
+     * @author WN
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function fetchAvailableRoles()
+    {
+        $roles = Role::all();
+
+        if (array_search(1, $this->getAuthenticatedUser()->roles->pluck('id')->toArray()) === false) {
+
+            $roles->forget(0);
+        }
+
+        return $roles;
     }
 }
