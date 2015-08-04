@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Http\Requests;
+use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 use Carbon\Carbon;
 
@@ -45,18 +46,29 @@ class SettlementsController extends Controller
     {
         $messages = $this->getMessages();
 
-        $settlement_reports = $this
-            ->settlementGateway
-            ->getSettlementReports($this->getMerchantToken(), $this->getDateRange());
+        $settlementReports = Collection::make(
+            $this
+                ->settlementGateway
+                ->getSettlementReports($this->getMerchantToken(), $this->getDateRange())
+        );
+        //$this->applyStandardFilters($settlement_reports);
 
-        $this->applyStandardFilters($settlement_reports);
+        $filter = $this->getFilters();
 
-        foreach ($settlement_reports as $key => $report) {
-            $settlement_reports[$key] = (object) $report;
+        if(!$filter->isEmpty()) {
+            $settlementReports = $settlementReports->filter(function($settlement_reports) use ($filter) {
+                if($settlement_reports['provider'] == $filter['provider']) {
+                    return true;
+                }
+            });
+        }
+
+        foreach ($settlementReports as $key => $report) {
+            $settlementReports[$key] = (object) $report;
         }
 
         return View('settlements.index', [
-            'settlement_reports' => (object) $settlement_reports,
+            'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
             'messages' => $messages
         ]);
@@ -156,30 +168,6 @@ class SettlementsController extends Controller
             $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
         }
-    }
-
-    /**
-     * Get Date Range
-     *
-     * @author MS
-     * @return array
-     */
-    private function getDateRange()
-    {
-        $date_to = Carbon::now();
-        $date_from = new Carbon('last month');
-
-        $default_dates = [$date_from, $date_to];
-
-        if (!empty($filter = $this->getFilters())) {
-
-            foreach ($filter as $field => $query) {
-
-                $default_dates[0] = ($field == 'date_from') ? $query : $default_dates[0];
-                $default_dates[1] = ($field == 'date_to') ? $query : $default_dates[1];
-            }
-        }
-        return $default_dates;
     }
 
     /**
