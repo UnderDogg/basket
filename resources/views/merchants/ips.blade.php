@@ -16,7 +16,13 @@
             </span>
         </div>
     {!! Form::close() !!}
-    <span class="help-inline hidden">Please enter a valid IP address</span>
+    <div class="has-error">
+        <div class="span hidden">
+            <label>
+                <span class="help-inline text-danger">Please enter a valid IP address</span>
+            </label>
+        </div>
+    </div>
 
     <div class="panel-heading"><h4>IP Address Management</h4></div>
     <table class="table table-bordered table-striped table-hover">
@@ -26,22 +32,28 @@
             <th>Active</th>
             <th>Actions</th>
         </tr>
-        @foreach($ips as $ip)
+        @if($ips != null)
+            @foreach($ips as $ip)
+                <tr>
+                    <td>{{$ip->getId()}}</td>
+                    <td>{{$ip->getIp()}}</td>
+                    <td>
+                        @if($ip->getActive() == 1) <span class="label label-success">Active</span>
+                        @elseif($ip->getActive() == 0) <span class="label label-danger">Inactive</span>
+                        @endif
+                    </td>
+                    <td class="text-right">
+                    {!! Form::open(array('url' => Request::URL() .'/'. $ip->getId(), 'method' => 'delete', 'class' => 'form-inline')) !!}
+                        {!! Form::button('<i class="icon-remove icon-white"></i> Delete', array('type' => 'submit', 'class' => 'btn btn-xs btn-danger')) !!}
+                    {!! Form::close() !!}
+                    </td>
+                </tr>
+            @endforeach
+        @else
             <tr>
-                <td>{{$ip->getId()}}</td>
-                <td>{{$ip->getIp()}}</td>
-                <td>
-                    @if($ip->getActive() == 1) <span class="label label-success">Active</span>
-                    @elseif($ip->getActive() == 0) <span class="label label-danger">Inactive</span>
-                    @endif
-                </td>
-                <td class="text-right">
-                {!! Form::open(array('url' => Request::URL() .'/'. $ip->getId(), 'method' => 'delete', 'class' => 'form-inline')) !!}
-                    {!! Form::button('<i class="icon-remove icon-white"></i> Delete', array('type' => 'submit', 'class' => 'btn btn-xs btn-danger')) !!}
-                {!! Form::close() !!}
-                </td>
+                <td colspan=11>No IP addresses have been found.</td>
             </tr>
-        @endforeach
+        @endif
     </table>
 @endsection
 
@@ -53,9 +65,7 @@
             if (ip.val().match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)) return true;
 
             ip.parents(".input-group").addClass("error");
-            $("span.help-inline").removeClass("hidden");
-
-            //alert("Please correct the error(s) shown.");
+            $("div.span").removeClass("hidden");
             e.preventDefault();
 
         });
