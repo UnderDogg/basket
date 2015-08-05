@@ -5,10 +5,16 @@
 - Changed filter on locations to a select instead of a text search
 - Refactored `SettlementsController`
 - Initialise Application
+- Assign `User` to `Roles`
+- Special case for *Super User*
+- Moved `Locations` assignment on `User` to separate screen
 
 ## Bug Fixes
 - Removed unnecessary object checks in views
 - Added some *'secondary'* object checks to views such as `Roles & Permissions`
+- `User` edit password fix
+- Routes fix for `csrf`
+- *DocBlocks* improvements 
 
 # 0.3.0
 2015-07-30
