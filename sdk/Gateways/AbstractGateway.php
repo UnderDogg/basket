@@ -67,18 +67,11 @@ abstract class AbstractGateway
         $documentName,
         array $query,
         array $body = []
-    )
-    {
-        $api = $this->getApiFactory()->makeApiClient($token);
+    ) {
+
         try {
-            switch($type) {
-                case 'post':
-                    return $api->post($documentPath, $body, $query);
-                case 'delete':
-                    return $api->delete($documentPath, $query);
-                default:
-                    return $api->get($documentPath, $query);
-            }
+            return $this->makeRequest($type, $documentPath, $token, $query, $body);
+
         } catch (ErrorResponseException $e) {
 
             throw new Exception($e->getMessage());
@@ -89,6 +82,34 @@ abstract class AbstractGateway
                 $documentName . 'Gateway::' . $type .' '. $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
             );
             throw new Exception('Problem with '.$type. ': ' . $documentName . ' data form Provider API');
+        }
+    }
+
+    /**
+     * @author EB
+     * @param $type
+     * @param $documentPath
+     * @param $token
+     * @param array $query
+     * @param array $body
+     * @return array
+     */
+    private function makeRequest(
+        $type,
+        $documentPath,
+        $token,
+        array $query,
+        array $body = []
+    ) {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        switch($type) {
+            case 'post':
+                return $api->post($documentPath, $body, $query);
+            case 'delete':
+                return $api->delete($documentPath, $query);
+            default:
+                return $api->get($documentPath, $query);
         }
     }
 

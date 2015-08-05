@@ -22,7 +22,7 @@ class IpsGateway extends AbstractGateway
 {
     /**
      * @author EB
-     * @param $token
+     * @param string $token
      * @return IpsEntity[]
      * @throws Exception
      */
@@ -40,7 +40,7 @@ class IpsGateway extends AbstractGateway
 
     /**
      * @author EB
-     * @param $token
+     * @param string $token
      * @param $ip
      * @return array
      * @throws Exception
@@ -52,7 +52,7 @@ class IpsGateway extends AbstractGateway
 
     /**
      * @author EB
-     * @param $token
+     * @param string $token
      * @param $merchantId
      * @param $ip
      * @return array
