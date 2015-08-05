@@ -57,7 +57,7 @@ class UsersController extends Controller
      *
      * @author MS
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return  \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function store(Request $request)
@@ -129,10 +129,10 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @author MS
+     * @author WN
      * @param  int $id
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return  \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update($id, Request $request)
@@ -179,25 +179,17 @@ class UsersController extends Controller
      */
     public function updateLocations($id, Request $request)
     {
-        $input = $request->all();
-
-        $user = $this->fetchUserById($id);
-
         try {
+            $user = $this->fetchUserById($id);
 
-            if (isset($input['locationsApplied'])) {
-                $ids = explode(':', $input['locationsApplied']);
-                array_shift($ids);
-                $user->locations()->sync($ids);
-            }
-
-            $user->update();
+            $ids = explode(':', $request->get('locationsApplied'));
+            array_shift($ids);
+            $user->locations()->sync($ids);
 
         } catch (\Exception $e) {
             $this->logError('Can not update user [' . $id . '] locations: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
-
 
         return redirect()->back()->with('success', 'User details were successfully updated');
     }
@@ -207,7 +199,7 @@ class UsersController extends Controller
      *
      * @author WN
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
