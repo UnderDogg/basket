@@ -27,8 +27,8 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @author WN, MS
-     * @return Response
+     * @author WN
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -38,34 +38,25 @@ class RolesController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @author MS
-     * @return Response
+     * @author WN
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        $permissionsAvailable = null;
-        $messages = $this->getMessages();
-
-        try {
-
-            $permissionsAvailable = Permission::all();
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Error occurred getting available permissions: ' . $e->getMessage());
-            $messages['error'] = 'Error occurred getting available permissions';
-        }
-
-        return view('role.create', [
-            'permissionsAvailable' => $permissionsAvailable,
-            'messages' => $messages
-        ]);
+        return view(
+            'role.create',
+            [
+                'permissionsAvailable' => Permission::all(),
+                'messages' => $this->getMessages(),
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @author MS
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -102,7 +93,7 @@ class RolesController extends Controller
      *
      * @author MS
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -126,29 +117,22 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @author MS
+     * @author WN
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
-        $role = null;
-        $messages = $this->getMessages();
+        $role = $this->fetchRoleById($id);
 
-        try {
-
-            $role = Role::findOrFail($id);
-            $role = $this->fetchPermissionsToRole($role);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get Role with ID [' . $id . '] for editing; Role does not exist:' . $e->getMessage()
-            );
-            $messages['error'] = 'Could not get Role with ID [' . $id . '] for editing; Role does not exist';
-        }
-
-        return view('role.edit', ['role' => $role, 'messages' => $messages]);
+        return view(
+            'role.edit',
+            [
+                'role' => $role,
+                'permissionsAvailable' => Permission::all()->diff($role->permissions),
+                'messages' => $this->getMessages(),
+            ]
+        );
     }
 
     /**
@@ -156,7 +140,8 @@ class RolesController extends Controller
      *
      * @author MS
      * @param  int  $id
-     * @return Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update($id, Request $request)
     {
@@ -226,7 +211,7 @@ class RolesController extends Controller
      */
     private function fetchPermissionsToRole($role)
     {
-        $allPermissions = \App\Permission::all();
+        $allPermissions = Permission::all();
 
         $applied = $role->permissions;
         $available = $allPermissions->keyBy('id');
@@ -269,6 +254,12 @@ class RolesController extends Controller
         return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $messages]);
     }
 
+    /**
+     * @author WN
+     * @param int $id
+     * @return Role
+     * @throws \App\Exceptions\RedirectException
+     */
     private function fetchRoleById($id)
     {
         return $this->fetchModelById((new Role()), $id, 'role', '/roles');
