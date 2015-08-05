@@ -10,11 +10,9 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use App\Http\Requests;
 use App\Role;
 use App\Permission;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class RolesController
@@ -56,9 +54,9 @@ class RolesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @author MS
+     * @author WN, MS
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function store(Request $request)
@@ -152,7 +150,7 @@ class RolesController extends Controller
      *
      * @author WN
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
