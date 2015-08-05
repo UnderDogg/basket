@@ -281,12 +281,24 @@ abstract class Controller extends BaseController
      * @author WN
      * @param Builder $query
      * @param string $fieldName
+     * @return Builder
      */
     protected function limitToMerchant(Builder $query, $fieldName = 'merchant_id')
     {
         if (\Auth::user()->merchant_id) {
             $query->where($fieldName, \Auth::user()->merchant_id);
         }
+        return $query;
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @return $this
+     */
+    protected function limitToActive(Builder $query)
+    {
+        return $query->where('active', true);
     }
 
     /**
