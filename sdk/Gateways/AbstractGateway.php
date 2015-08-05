@@ -50,6 +50,49 @@ abstract class AbstractGateway
     }
 
     /**
+     * @author EB
+     * @param $type
+     * @param $documentPath
+     * @param $token
+     * @param $documentName
+     * @param array $query
+     * @param array $body
+     * @return array
+     * @throws Exception
+     */
+    private function makeRequestForDocument(
+        $type,
+        $documentPath,
+        $token,
+        $documentName,
+        array $query,
+        array $body = []
+    )
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+        try {
+            switch($type) {
+                case 'post':
+                    return $api->post($documentPath, $body, $query);
+                case 'delete':
+                    return $api->delete($documentPath, $query);
+                default:
+                    return $api->get($documentPath, $query);
+            }
+        } catch (ErrorResponseException $e) {
+
+            throw new Exception($e->getMessage());
+
+        } catch (\Exception $e) {
+
+            $this->logError(
+                $documentName . 'Gateway::' . $type .' '. $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
+            );
+            throw new Exception('Problem with '.$type. ': ' . $documentName . ' data form Provider API');
+        }
+    }
+
+    /**
      * @author WN
      * @param $documentPath
      * @param $token
@@ -60,34 +103,21 @@ abstract class AbstractGateway
      */
     protected function fetchDocument($documentPath, $token, $documentName, array $query = [])
     {
-        $api = $this->getApiFactory()->makeApiClient($token);
-
-        try {
-            return $api->get($documentPath, $query);
-
-        } catch (ErrorResponseException $e) {
-
-            throw new Exception($e->getMessage());
-
-        } catch (\Exception $e) {
-
-            $this->logError(
-                $documentName . 'Gateway::get' . $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
-            );
-            throw new Exception('Problem fetching ' . $documentName . ' data form Provider API');
-        }
+        return $this->makeRequestForDocument('get', $documentPath, $token, $documentName, $query);
     }
 
+    /**
+     * @author EB
+     * @param $documentPath
+     * @param array $body
+     * @param $token
+     * @param $documentName
+     * @return array
+     * @throws Exception
+     */
     protected function storeDocument($documentPath, array $body = [], $token, $documentName)
     {
-        $api = $this->getApiFactory()->makeApiClient($token);
-
-        try {
-            return $api->post($documentPath, $body);
-
-        } catch (ErrorResponseException $e) {
-            throw new Exception($e->getMessage());
-        }
+        return $this->makeRequestForDocument('post', $documentPath, $token, $documentName, [], $body);
     }
 
     /**
@@ -100,20 +130,7 @@ abstract class AbstractGateway
      */
     protected function deleteDocument($documentPath, $token, $documentName)
     {
-        $api = $this->getApiFactory()->makeApiClient($token);
-
-        try {
-            return $api->delete($documentPath);
-
-        } catch (ErrorResponseException $e) {
-            throw new Exception($e->getMessage());
-
-        } catch (\Exception $e) {
-            $this->logError(
-                $documentName . 'Gateway::get' . $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
-            );
-            throw new Exception('Problem deleting ' . $documentName . ' data form Provider API');
-        }
+        return $this->makeRequestForDocument('delete', $documentPath, $token, $documentName, $query = []);
     }
 
     /**
