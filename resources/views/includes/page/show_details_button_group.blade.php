@@ -4,6 +4,11 @@
             <span class="glyphicon glyphicon-edit"></span> Edit
         </a>
     @endif
+    @if(isset($locations))
+        <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/locations" class="btn btn-default">
+            <span class="glyphicon glyphicon-map-marker"></span> Locations
+        </a>
+    @endif
     @if(isset($sync))
         <a class="btn btn-default">
             <span class="glyphicon glyphicon-refresh"></span> Sync
