@@ -156,10 +156,23 @@ class UsersController extends Controller
             if (isset($input['rolesApplied'])) {
                 $ids = explode(':', $input['rolesApplied']);
                 array_shift($ids);
+
+                if (array_search('1', $ids) !== false) {
+
+                    $user->merchant_id = null;
+                    unset($input['merchant_id']);
+                    $ids = [1];
+
+                }
+
                 $user->roles()->sync($ids);
             }
 
-            $input['password'] = bcrypt($input['password']);
+            if ($input['password']) {
+                $user->password = bcrypt($input['password']);
+            }
+            unset($input['password']);
+
             $user->update($input);
         } catch (\Exception $e) {
             $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
@@ -232,7 +245,7 @@ class UsersController extends Controller
     /**
      * @author WN
      * @param $id
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return User
      * @throws \App\Exceptions\RedirectException
      */
     private function fetchUserById($id)

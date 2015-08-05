@@ -302,7 +302,7 @@ abstract class Controller extends BaseController
     {
         return $this->checkModelForMerchantLimit(
             ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
-            $entity->merchant->id,
+            $entity->merchant?$entity->merchant->id:null,
             $modelName,
             $redirect
         );
