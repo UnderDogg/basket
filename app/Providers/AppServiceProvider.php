@@ -48,5 +48,10 @@ class AppServiceProvider extends ServiceProvider
             'App\Basket\Synchronisation\NotificationCatcherService',
             'App\Basket\Synchronisation\NotificationCatcherService'
         );
+
+        $this->app->bind(
+            'PayBreak\Sdk\Gateways\CreditInfoGateway',
+            'PayBreak\Sdk\Gateways\CreditInfoGateway'
+        );
     }
 }

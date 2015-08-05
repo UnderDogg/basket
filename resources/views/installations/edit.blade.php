@@ -9,22 +9,22 @@
     @include('includes.page.breadcrumb', ['override2'=>$installations->name])
 
     <p>&nbsp;</p>
-    @if($installations !== null)
-        {!! Form::model($installations, ['method' => 'PATCH', 'action' => ['InstallationsController@update', $installations->id], 'class' => 'form-horizontal']) !!}
-        <div class="col-xs-12">
-            <div class="form-group">
-                {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-        </div>
-        <p>&nbsp;</p>
+
+    {!! Form::model($installations, ['method' => 'PATCH', 'action' => ['InstallationsController@update', $installations->id], 'class' => 'form-horizontal']) !!}
+    <div class="col-xs-12">
         <div class="form-group">
-            <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-                {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
+            {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
+            <div class="col-sm-6">
+                {!! Form::text('name', null, ['class' => 'form-control']) !!}
             </div>
         </div>
-        {!! Form::close() !!}
-    @endif
+    </div>
+    <p>&nbsp;</p>
+    <div class="form-group">
+        <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
+            {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
+        </div>
+    </div>
+    {!! Form::close() !!}
+
 @endsection

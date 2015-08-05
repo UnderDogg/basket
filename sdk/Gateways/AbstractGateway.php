@@ -54,15 +54,16 @@ abstract class AbstractGateway
      * @param $documentPath
      * @param $token
      * @param $documentName
+     * @param array $query
      * @return array
      * @throws Exception
      */
-    protected function fetchDocument($documentPath, $token, $documentName)
+    protected function fetchDocument($documentPath, $token, $documentName, array $query = [])
     {
         $api = $this->getApiFactory()->makeApiClient($token);
 
         try {
-            return $api->get($documentPath);
+            return $api->get($documentPath, $query);
 
         } catch (ErrorResponseException $e) {
 

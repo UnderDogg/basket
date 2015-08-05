@@ -9,12 +9,11 @@
  */
 namespace App\Http\Controllers;
 
-use App\Exceptions\RedirectException;
 use App\Basket\Installation;
-use App\Http\Requests;
 use App\Basket\Location;
-use Illuminate\Http\Request;
+use App\Exceptions\RedirectException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 /**
  * Class LocationsController
@@ -29,7 +28,7 @@ class LocationsController extends Controller
      * Display a listing of the resource.
      *
      * @author WN, MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -41,17 +40,17 @@ class LocationsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        return view('locations.create', ['messages' => $this->getMessages()]);
+        return $this->renderForm('create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -61,14 +60,16 @@ class LocationsController extends Controller
             'address' => 'required',
             'reference' => 'required',
             'installation_id' => 'required',
+            'active' => 'required'
 
         ]);
 
         $message = ['success','New Location has been successfully created'];
 
         try {
-
-            Location::create($request->all());
+            $toCreate = $request->all();
+            $toCreate['active'] = ($request->has('active')) ? 1 : 0;
+            Location::create($toCreate);
 
         } catch (ModelNotFoundException $e) {
 
@@ -83,7 +84,7 @@ class LocationsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -97,18 +98,11 @@ class LocationsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
-        return view(
-            'locations.edit',
-            [
-                'location' => $this->fetchLocationById($id),
-                'installations' => Installation::query()->get(),
-                'messages' => $this->getMessages()
-            ]
-        );
+        return $this->renderForm('edit', $id);
     }
 
     /**
@@ -116,7 +110,7 @@ class LocationsController extends Controller
      *
      * @param  int $id
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update($id, Request $request)
@@ -147,7 +141,7 @@ class LocationsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -177,5 +171,23 @@ class LocationsController extends Controller
     private function fetchLocationById($id)
     {
         return $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
+    }
+
+    /**
+     * @author WN
+     * @param string $template
+     * @param integer $id
+     * @return \Illuminate\View\View
+     */
+    private function renderForm($template, $id = null)
+    {
+        return view(
+            'locations.' . $template,
+            [
+                'location' => $id !== null?$this->fetchLocationById($id):null,
+                'installations' => Installation::query()->get()->pluck('name', 'id')->toArray(),
+                'messages' => $this->getMessages()
+            ]
+        );
     }
 }
