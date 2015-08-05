@@ -1,19 +1,28 @@
 <?php
-
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace App\Http\Controllers;
 
-use App\Basket\Application;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use PayBreak\Sdk\Gateways\IpsGateway;
 
-class IpsController extends Controller {
-
-    /**
-     * @var IpsGateway
-     */
+/**
+ * Class IpsController
+ *
+ * @author EB
+ * @package App\Http\Controllers
+ */
+class IpsController extends Controller
+{
     protected $ipsGateway;
 
     /**

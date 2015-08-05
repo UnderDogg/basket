@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace PayBreak\Sdk\Entities;
 
 use WNowicki\Generic\AbstractEntity;
@@ -15,6 +14,7 @@ use WNowicki\Generic\AbstractEntity;
 /**
  * Class IpsEntity
  *
+ * @author EB
  * @method string|null getId()
  * @method $this setId(string $id)
  * @method string|null getIp()

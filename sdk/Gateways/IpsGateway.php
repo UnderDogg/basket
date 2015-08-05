@@ -1,15 +1,27 @@
 <?php
-
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Paybreak\Sdk\Gateways;
 
 use App\Exceptions\Exception;
-use PayBreak\Sdk\Gateways\AbstractGateway;
 use PayBreak\Sdk\Entities\IpsEntity;
-use WNowicki\Generic\ApiClient\ErrorResponseException;
 
+/**
+ * Class IpsGateway
+ *
+ * @author EB
+ * @package Paybreak\Sdk\Gateways
+ */
 class IpsGateway extends AbstractGateway
 {
     /**
+     * @author EB
      * @param $token
      * @return IpsEntity[]
      * @throws Exception
@@ -27,6 +39,13 @@ class IpsGateway extends AbstractGateway
         return $rtn;
     }
 
+    /**
+     * @author EB
+     * @param $token
+     * @param $ip
+     * @return array
+     * @throws Exception
+     */
     public function storeIpAddress($token, $ip) {
         return $this->storeDocument('/v4/ip-addresses', ['ip' => $ip], $token, 'ips');
     }
@@ -47,5 +66,4 @@ class IpsGateway extends AbstractGateway
             die('Exception');
         }
     }
-
 }
