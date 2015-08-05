@@ -125,7 +125,7 @@ class InitialisationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function choseProduct($locationId, Request $request)
+    public function chooseProduct($locationId, Request $request)
     {
         $this->validate($request, ['amount' => 'required']);
 

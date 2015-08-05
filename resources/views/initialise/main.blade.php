@@ -12,13 +12,13 @@
                 <label>Price</label>
 
                 <div class="input-group">
-                    <div class="input-group-addon">£</div>
+                    <div class="input-group-addon">&pound;</div>
                     {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control', 'maxlength' => 10]) !!}
                 </div>
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Show Finance Ooptions</button>
+            <button type="submit" class="btn btn-primary">Show Finance Options</button>
             {!! Form::close() !!}
         </div>
 
@@ -49,10 +49,10 @@
                                         <div class="row container text-center">
 
                                             <div class="col-md-3 col-xs-6" style="background-color: #29abe1; color: white;">
-                                                <h2 id="loan-amount">£{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
+                                                <h2 id="loan-amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6" style="background-color: #39b549; color: white;">
-                                                <h2>£{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
+                                                <h2>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6" style="background-color: #aaa; color: white;">
                                                 <h2>{{ $product['payments'] }}</h2> <p>payments</p>
@@ -75,15 +75,15 @@
                                             </tr>
                                             <tr>
                                                 <th>Deposit</th>
-                                                <td>£{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Minimum Deposit</th>
-                                                <td>£{{ number_format($product['credit_info']['deposit_range']['minimum_amount']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['deposit_range']['minimum_amount']/100, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Maximum Deposit</th>
-                                                <td>£{{ number_format($product['credit_info']['deposit_range']['maximum_amount']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['deposit_range']['maximum_amount']/100, 2) }}</td>
                                             </tr>
                                             </tbody></table>
                                     </div>
@@ -92,23 +92,23 @@
                                             <tbody>
                                             <tr>
                                                 <th>Payment Final</th>
-                                                <td>£{{ number_format($product['credit_info']['payment_final']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['payment_final']/100, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Service Payment</th>
-                                                <td>£{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total Cost of Credit</th>
-                                                <td>£{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total Cost</th>
-                                                <td>£{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total Amount Payable</th>
-                                                <td>£{{ number_format($product['credit_info']['total_repayment']/100, 2) }}</td>
+                                                <td>&pound;{{ number_format($product['credit_info']['total_repayment']/100, 2) }}</td>
                                             </tr>
                                             </tbody></table>
                                     </div>

@@ -8,7 +8,7 @@
         <label class="col-sm-2 control-label">Order Amount</label>
         <div class="col-sm-4">
             <div class="input-group">
-                <div class="input-group-addon">£</div>
+                <div class="input-group-addon">&pound;</div>
                 {!! Form::text('amount_order', number_format($amount/100,2), ['class' => 'form-control', 'readonly' => true]) !!}
                 {!! Form::hidden('amount', $amount) !!}
             </div>
