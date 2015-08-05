@@ -28,7 +28,9 @@
             </tr>
             <tr>
                 {{--FILTERS--}}
-                <th class="hidden-xs hidden-sm">@include('includes.form.input', ['field' => 'reference'])</th>
+                {{--Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down'])--}}
+                {{-- @include('includes.form.input', ['field' => 'reference']) --}}
+                <th class="hidden-xs hidden-sm">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
                 <th>@include('includes.form.input', ['field' => 'name'])</th>
                 <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
                     'field' => 'installation_id',
@@ -46,7 +48,7 @@
                 <tr>
                     <td class="hidden-xs hidden-sm">{{ $item->reference }}</td>
                     <td>{{ $item->name }}</td>
-                    <td class="hidden-xs hidden-sm">{{ $item->installation->name }}</td>
+                    <td class="hidden-xs hidden-sm">@if($item->installation !== null){{ $item->installation->name }} @endif</td>
                     <td class="col-sm-2 col-md-1">
                         @if( $item->active == 0 )
                             <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>

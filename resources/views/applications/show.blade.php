@@ -6,9 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        @if($applications !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable])
-        @endif
+        @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable])
     </h2>
     @include('includes.page.breadcrumb')
 
@@ -38,23 +36,25 @@
                         <li class="list-group-item">
                             <strong>Requester: </strong>
                             @if($applications->user !== null)
-                            <a href="{{Request::segment(0)}}/user/{{$applications->user->id}}">
-                                {{ $applications->user->name }}
-                            </a>
+                                <a href="{{Request::segment(0)}}/user/{{$applications->user->id}}">
+                                    {{ $applications->user->name }}
+                                </a>
                             @endif
                         </li>
                         <li class="list-group-item">
-                            <strong>Installation: </strong>
-                            <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
-                                {{ $applications->installation->name }}
-                            </a>
+                            @if($applications->installation !== null)
+                                <strong>Installation: </strong>
+                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
+                                    {{ $applications->installation->name }}
+                                </a>
+                            @endif
                         </li>
                         <li class="list-group-item">
                             <strong>Location: </strong>
                             @if($applications->location !== null)
-                            <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
-                                {{ $applications->location->name }}
-                            </a>
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
+                                    {{ $applications->location->name }}
+                                </a>
                             @endif
                         </li>
                     </ul>
@@ -102,13 +102,11 @@
                     <h3 class="panel-title">Metadata</h3>
                 </div>
                 <div class="panel-body">
-                    @if($applications !== null)
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <strong>Product Group: </strong> {{ $applications->ext_metadata }}
-                            </li>
-                        </ul>
-                    @endif
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Product Group: </strong> {{ $applications->ext_metadata }}
+                        </li>
+                    </ul>
                 </div>
             </div>
             @endif

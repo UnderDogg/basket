@@ -7,9 +7,7 @@
 
     <h2>
         {{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        @if($user !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true])
-        @endif
+        @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true])
     </h2>
     @include('includes.page.breadcrumb', ['override2'=>$user->name])
 
@@ -34,19 +32,21 @@
                         <li class="list-group-item">
                             <strong>Email: </strong> {{ $user->email  }}
                         </li>
-                        @if($user->merchant !== null)
-                            <li class="list-group-item">
+                        <li class="list-group-item">
+                            @if($user->merchant !== null)
                                 <strong>Merchant: </strong>
                                 <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
                                     {{ $user->merchant->name }}
                                 </a>
-                            </li>
-                        @endif
+                            @endif
+                        </li>
                         <li class="list-group-item">
-                            <strong>Locations: </strong><br />
-                            @foreach ($user->locations as $location)
-                                {{ $location->name }}<br />
-                            @endforeach
+                            @if($user->locations !== null)
+                                <strong>Locations: </strong><br />
+                                @foreach ($user->locations as $location)
+                                    {{ $location->name }}<br />
+                                @endforeach
+                            @endif
                         </li>
                     </ul>
                 </div>

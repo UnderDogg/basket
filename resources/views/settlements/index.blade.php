@@ -28,7 +28,7 @@
         <tr>
             {{--FILTERS--}}
             <th class="hidden-sm hidden-xs col-xs-3 col-sm-3 col-md-2 col-lg-1"></th>
-            <th class="col-xs-6 col-sm-6 col-md-5 col-lg-4">@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates[0])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates[1]))])</th>
+            <th class="col-xs-6 col-sm-6 col-md-5 col-lg-4">@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates['date_to']))])</th>
             <th class="hidden-sm hidden-xs col-md-3 col-lg-3">@include('includes.form.select', ['field' => 'provider', 'object' => $settlement_reports])</th>
             <th></th>
             <th class="col-xs-3 col-sm-3 col-md-2 col-lg-1">@include('includes.form.filter_buttons')</th>
