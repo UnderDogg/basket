@@ -179,30 +179,6 @@ class ApplicationsController extends Controller
     }
 
     /**
-     * Reformat For Currency
-     *
-     * @author MS
-     * @param string $field
-     * @param int|float $integer
-     * @return int
-     */
-    private function reformatForCurrency($field, $integer)
-    {
-        if (
-            !($field === 'ext_order_amount') &&
-            !($field === 'ext_finance_order_amount') &&
-            !($field === 'ext_finance_loan_amount') &&
-            !($field === 'ext_finance_deposit') &&
-            !($field === 'ext_finance_subsidy') &&
-            !($field === 'ext_finance_net_settlement')
-        ) {
-
-            return $integer;
-        }
-        return round($integer * 100);
-    }
-
-    /**
      * @author WN
      * @param int $id
      * @return Application
