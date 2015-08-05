@@ -12,8 +12,8 @@ namespace App\Gateways;
 
 use Psr\Http\Message\ResponseInterface;
 use WNowicki\Generic\ApiClient\AbstractApiClient;
-use WNowicki\Generic\ApiClient\BadResponseException;
 use WNowicki\Generic\ApiClient\ErrorResponseException;
+use WNowicki\Generic\ApiClient\WrongResponseException;
 
 /**
  * Class ProviderApiClient
@@ -56,14 +56,16 @@ class ProviderApiClient extends AbstractApiClient
      * @author WN
      * @param ResponseInterface $response
      * @return array
-     * @throws BadResponseException
+     * @throws WrongResponseException
      */
     protected function processResponse(ResponseInterface $response)
     {
-        if ($responseBody = json_decode($response->getBody()->getContents(), true)) {
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+
+        if ($responseBody !== null) {
             return $responseBody;
         }
-        throw new BadResponseException('Response body was malformed JSON', $response->getStatusCode());
+        throw new WrongResponseException('Response body was malformed JSON', $response->getStatusCode());
     }
 
     /**

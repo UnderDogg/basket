@@ -77,6 +77,44 @@ abstract class AbstractGateway
         }
     }
 
+    protected function storeDocument($documentPath, array $body = [], $token, $documentName)
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        try {
+            return $api->post($documentPath, $body);
+
+        } catch (ErrorResponseException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @author EB
+     * @param $documentPath
+     * @param $token
+     * @param $documentName
+     * @return array
+     * @throws Exception
+     */
+    protected function deleteDocument($documentPath, $token, $documentName)
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        try {
+            return $api->delete($documentPath);
+
+        } catch (ErrorResponseException $e) {
+            throw new Exception($e->getMessage());
+
+        } catch (\Exception $e) {
+            $this->logError(
+                $documentName . 'Gateway::get' . $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
+            );
+            throw new Exception('Problem deleting ' . $documentName . ' data form Provider API');
+        }
+    }
+
     /**
      * @author WN
      * @return \Psr\Log\LoggerInterface|null

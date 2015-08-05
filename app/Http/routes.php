@@ -70,7 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('merchants/{id}/synchronise',        'MerchantsController@synchronise');
     Route::get('merchants/{id}/installations/synchronise',  'InstallationsController@synchroniseAllForMerchant');
     Route::get('merchants/{id}/ips',                'IpsController@index');
-    Route::get('merchants/{id}/ips/{ip}/delete',    'IpsController@delete');
+    Route::post('merchants/{id}/ips/',    ['id' => 'id', 'uses' => 'IpsController@store']);
+    Route::delete('merchants/{id}/ips/{ip}',    ['id' => 'id', 'ip' => 'ip', 'uses' => 'IpsController@delete']);
 
     /*
      * Locations
