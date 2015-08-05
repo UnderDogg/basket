@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 /**
@@ -40,9 +41,23 @@ class ApplicationsController extends Controller
      */
     public function index()
     {
-        $application = Application::query();
+        $filterDates = $this->getDateRange();
+
+        $application = $this->processDateFilters(
+            Application::query(),
+            'created_at',
+            $filterDates['date_from'],
+            $filterDates['date_to']
+        );
+
         $this->limitToInstallationOnMerchant($application);
-        return $this->standardIndexAction($application, 'applications.index', 'applications');
+
+        return $this->standardIndexAction(
+            $application,
+            'applications.index',
+            'applications',
+            ['default_dates' => $filterDates]
+        );
     }
 
     /**

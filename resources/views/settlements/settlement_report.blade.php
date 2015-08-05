@@ -8,7 +8,7 @@
 
     <h1>SETTLEMENT REPORT</h1>
     @include('includes.page.breadcrumb')
-    <h3><span>Amount: {{ '£' . number_format($settlementReport['amount']/100, 2) }}</span></h3>
+    <h3><span>Amount: {{ '&pound;' . number_format($settlementReport['amount']/100, 2) }}</span></h3>
     <h5>
         <span>Date: {{ date('d/m/Y', strtotime($settlementReport['settlement_date'])) }}</span> |
         <span>Provider: {{ ucwords($settlementReport['provider']) }}</span>
@@ -46,12 +46,12 @@
                 <td>{{ $item['application_data']['ext_customer_title'] . ' ' . $item['application_data']['ext_customer_first_name'] . ' ' . $item['application_data']['ext_customer_last_name'] }}</td>
                 <td>{{ $item['application_data']['ext_customer_postcode'] }}</td>
                 <td>{{ $item['application_data']['ext_order_reference'] }}</td>
-                <td>{{ '£' . number_format($item['application_data']['ext_finance_loan_ammount']/100, 2) }}</td>
-                <td>{{ '£' . number_format($item['application_data']['ext_finance_deposit']/100, 2) }}</td>
-                <td>{{ '£' . number_format($item['order_amount']/100, 2) }}</td>
-                <td>{{ '£' . number_format($item['subsidy']/100, 2) }}</td>
-                <td>{{ '£' . number_format($item['adjustment']/100, 2) }}</td>
-                <td>{{ '£' . number_format($item['net']/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_loan_ammount']/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_deposit']/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item['order_amount']/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item['subsidy']/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item['adjustment']/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item['net']/100, 2) }}</td>
 
                  {{--ACTION BUTTONS --}}
                 {{--<td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">--}}
@@ -62,10 +62,10 @@
         </tr>
         <tr>
             <td colspan="6"></td>
-            <td><strong>{{ '£' . number_format($settlementReport['sum_order_amount']/100, 2) }}</strong></td>
-            <td><strong>{{ '£' . number_format($settlementReport['sum_subsidy']/100, 2) }}</strong></td>
-            <td><strong>{{ '£' . number_format($settlementReport['sum_adjustment']/100, 2) }}</strong></td>
-            <td><strong>{{ '£' . number_format($settlementReport['sum_net']/100, 2) }}</strong></td>
+            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_order_amount']/100, 2) }}</strong></td>
+            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_subsidy']/100, 2) }}</strong></td>
+            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_adjustment']/100, 2) }}</strong></td>
+            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_net']/100, 2) }}</strong></td>
         </tr>
     </table>
     </div>

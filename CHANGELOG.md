@@ -1,6 +1,10 @@
 ## Features
 - Assign locations to users
 - Refactoring
+- Added date filter to applications view and changed styling of the page to work on different screen sizes
+- Changed filter on locations to a select instead of a text search
+- Refactored `SettlementsController`
+- Initialise Application
 
 ## Bug Fixes
 - Removed unnecessary object checks in views
