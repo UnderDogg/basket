@@ -42,7 +42,7 @@
                 <td class="hidden-sm hidden-xs">{{ $item->id }}</td>
                 <td>{{ date('d/m/Y', strtotime($item->settlement_date)) }}</td>
                 <td class="hidden-sm hidden-xs">{{ $item->provider }}</td>
-                <td>{{ '£' . number_format($item->amount/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->amount/100, 2) }}</td>
 
                  {{--ACTION BUTTONS --}}
                 <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">

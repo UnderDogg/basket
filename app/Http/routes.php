@@ -82,6 +82,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'locations/{id}/edit',   'LocationsController@edit');
     Route::patch( 'locations/{id}',        ['before' => 'csrf', 'uses' => 'LocationsController@update']);
 
+    Route::get(   'locations/{id}/applications/make',   'InitialisationController@prepare');
+    Route::post(  'locations/{id}/applications/make',   'InitialisationController@chooseProduct');
+    Route::post(  'locations/{id}/applications/confirm',   'InitialisationController@confirm');
+    Route::post(  'locations/{id}/applications/request',   'InitialisationController@request');
+
     /*
      * Installations
      */

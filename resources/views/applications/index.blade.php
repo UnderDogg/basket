@@ -37,11 +37,11 @@
             <th class="col-xs-4 col-sm-4 col-md-3 col-lg-2">@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates['date_to']))])</th>
             <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.select', ['field' => 'ext_current_status', 'object' => $applications])</th>
             <th class="hidden-xs hidden-xs hidden-md col-lg-1">@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
-            <th class="col-xs-2 col-sm-3 col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_order_amount', 'symbol' => '£'])</th>
-            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_loan_amount', 'symbol' => '£'])</th>
-            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_deposit', 'symbol' => '£'])</th>
-            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_subsidy', 'symbol' => '£'])</th>
-            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_net_settlement', 'symbol' => '£'])</th>
+            <th class="col-xs-2 col-sm-3 col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_order_amount', 'symbol' => '&pound;'])</th>
+            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_loan_amount', 'symbol' => '&pound;'])</th>
+            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_deposit', 'symbol' => '&pound;'])</th>
+            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_subsidy', 'symbol' => '&pound;'])</th>
+            <th class="hidden-xs hidden-sm col-md-1 col-lg-1">@include('includes.form.input_with_symbol', ['field' => 'ext_finance_net_settlement', 'symbol' => '&pound;'])</th>
             <th class="hidden-xs hidden-sm hidden-md col-lg-1">@include('includes.form.input', ['field' => 'ext_fulfilment_location'])</th>
             <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-right">@include('includes.form.filter_buttons')</th>
         </tr>
@@ -54,11 +54,11 @@
                 <td class="col-xs-4 col-sm-4 col-md-3 col-lg-2">{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
                 <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ ucwords($item->ext_current_status) }}</td>
                 <td class="hidden-xs hidden-xs hidden-md col-lg-1">{{ $item->ext_order_reference }}</td>
-                <td class="col-xs-2 col-sm-3 col-md-1 col-lg-1">{{ '£' . number_format($item->ext_finance_order_amount/100, 2) }}</td>
-                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '£' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
-                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '£' . number_format($item->ext_finance_deposit/100, 2) }}</td>
-                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '£' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
-                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '£' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
+                <td class="col-xs-2 col-sm-3 col-md-1 col-lg-1">{{ '&pound;' . number_format($item->ext_finance_order_amount/100, 2) }}</td>
+                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
+                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
+                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
+                <td class="hidden-xs hidden-sm col-md-1 col-lg-1">{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap class="hidden-xs hidden-sm hidden-md col-lg-1">{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
 
 
