@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Location;
 use App\Basket\Merchant;
+use App\Exceptions\Exception;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Role;
@@ -81,12 +82,7 @@ class UsersController extends Controller
         try {
             $user = User::create($array);
 
-            $input = $request->all();
-            if (isset($input['locationsApplied'])) {
-                $ids = explode(':', $input['locationsApplied']);
-                array_shift($ids);
-                $user->locations()->sync($ids);
-            }
+            $this->processRoles($user, $array);
 
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
@@ -153,27 +149,18 @@ class UsersController extends Controller
 
         try {
 
-            if (isset($input['rolesApplied'])) {
-                $ids = explode(':', $input['rolesApplied']);
-                array_shift($ids);
-
-                if (array_search('1', $ids) !== false) {
-
-                    $user->merchant_id = null;
-                    unset($input['merchant_id']);
-                    $ids = [1];
-
-                }
-
-                $user->roles()->sync($ids);
-            }
-
             if ($input['password']) {
                 $user->password = bcrypt($input['password']);
             }
             unset($input['password']);
 
-            $user->update($input);
+            if (!$user->update($input)) {
+
+                throw new Exception('Problem saving object');
+            }
+
+            $this->processRoles($user, $input);
+
         } catch (\Exception $e) {
             $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
@@ -313,5 +300,42 @@ class UsersController extends Controller
         }
 
         return $roles;
+    }
+
+    /**
+     * @author WN
+     * @param User $user
+     * @param array $input
+     * @throws Exception
+     */
+    private function processRoles(User $user, array $input)
+    {
+        if (isset($input['rolesApplied'])) {
+            $ids = explode(':', $input['rolesApplied']);
+            array_shift($ids);
+
+            $this->applyRoles($user, $ids);
+        }
+    }
+
+
+    /**
+     * @author WN
+     * @param User $user
+     * @param $roles
+     * @throws Exception
+     */
+    private function applyRoles(User $user, array $roles)
+    {
+        if (array_search('1', $roles) !== false) {
+
+            $user->merchant_id = null;
+            if (!$user->save()) {
+                throw new Exception('Can\'t remove Merchant form Super User');
+            }
+            $roles = [1];
+        }
+
+        $user->roles()->sync($roles);
     }
 }
