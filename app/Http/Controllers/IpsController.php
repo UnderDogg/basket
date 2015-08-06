@@ -69,8 +69,8 @@ class IpsController extends Controller
 
     /**
      * @author EB
-     * @param $id
-     * @param $ip
+     * @param int $id
+     * @param int $ip IP address ID
      * @return mixed
      */
     public function delete($id, $ip)
