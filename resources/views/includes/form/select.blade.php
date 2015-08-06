@@ -12,10 +12,10 @@
                 @if(Request::only($field)[$field] == $option)
                     selected="selected"
                 @endif
-                    name="{{ $option }}">{{ ucwords($option) }}</option>
+                    value="{{ $option }}">{{ ucwords($option) }}</option>
         @endforeach
     @else()
-        <option selected="selected" name="{{ Request::only($field)[$field] }}">
+        <option selected="selected" value="{{ Request::only($field)[$field] }}">
             {{ Request::only($field)[$field] }}
         </option>
     @endif

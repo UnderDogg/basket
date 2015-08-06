@@ -4,7 +4,7 @@
         @if(!Request::segment(2)) {{-- */$last=true;/* --}} @else {{-- */$last=false;/* --}} @endif
         @if($last == true) <li class="active"> @else <li><a href="/{{ Request::segment(1) }}"> @endif
 
-            @if(isset($override1)) {{ $override1 }} @else All {{ str_plural(ucwords(Request::segment(1))) }} @endif
+            @if(isset($override1)) {{ $override1 }} @else All {{ str_plural(ucwords(str_replace('-', ' ', Request::segment(1)))) }} @endif
 
         @if($last == false) </a> @endif </li>
     @endif
