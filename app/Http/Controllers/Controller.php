@@ -294,7 +294,7 @@ abstract class Controller extends BaseController
     /**
      * @author WN
      * @param Builder $query
-     * @return $this
+     * @return Builder
      */
     protected function limitToActive(Builder $query)
     {
@@ -323,9 +323,9 @@ abstract class Controller extends BaseController
     /**
      * @author WN
      * @param Model $model
-     * @param $id
-     * @param $modelName
-     * @param $redirect
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
      * @return Model
      * @throws RedirectException
      */
