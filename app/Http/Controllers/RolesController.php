@@ -10,8 +10,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use App\Role;
 use App\Permission;
+use App\Role;
 use Illuminate\Http\Request;
 
 /**
