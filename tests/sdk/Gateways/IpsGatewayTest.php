@@ -58,4 +58,18 @@ class IpsGatewayTest extends \TestCase
 
         $this->assertInternalType('array', $ips = $ipsGateway->storeIpAddress('xxxx', '123.123'));
     }
+
+    public function testDeleteIpAddresses()
+    {
+        $mockApiClient = $this->getMock('App\Gateways\ProviderApiClient');
+
+        $mockApiClient->expects($this->any())->method('delete')->willReturn([]);
+        $mock = $this->getMock('App\Gateways\ApiClientFactory');
+
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $ipsGateway = new IpsGateway($mock);
+
+        $this->assertInternalType('array', $ips = $ipsGateway->deleteIpAddress('xxxx', 34));
+    }
 }
