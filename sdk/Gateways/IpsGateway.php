@@ -47,7 +47,7 @@ class IpsGateway extends AbstractGateway
      */
     public function storeIpAddress($token, $ip)
     {
-        return $this->storeDocument('/v4/ip-addresses', ['ip' => $ip], $token, 'ips');
+        return $this->postDocument('/v4/ip-addresses', ['ip' => $ip], $token, 'ips');
     }
 
     /**

@@ -74,7 +74,7 @@ class ApplicationGateway extends AbstractGateway
      */
     public function fulfilApplication($id, $token)
     {
-        return $this->requestAction('/v4/applications/' . $id . '/fulfil', [], $token, 'Fulfilling');
+        return $this->requestAction('/v4/applications/' . $id . '/fulfil', [], $token);
     }
 
     /**
@@ -89,8 +89,7 @@ class ApplicationGateway extends AbstractGateway
         return $this->requestAction(
             '/v4/applications/' . $id . '/request-cancellation',
             ['description' => $description],
-            $token,
-            'Cancellation'
+            $token
         );
     }
 
@@ -99,31 +98,12 @@ class ApplicationGateway extends AbstractGateway
      * @param string $action
      * @param array $data
      * @param string $token
-     * @param string $actionName
      * @return bool
      * @throws Exception
      */
-    private function requestAction($action, $data, $token, $actionName)
+    private function requestAction($action, $data, $token)
     {
-        $api = $this->getApiFactory()->makeApiClient($token);
-
-        try {
-            $api->post($action, $data);
-            return true;
-
-        } catch (ErrorResponseException $e) {
-
-            $this->logWarning(
-                'ApplicationGateway ' . $actionName . ' Application[' . $e->getCode() . ']: ' . $e->getMessage()
-            );
-            throw new Exception($e->getMessage());
-
-        } catch (\Exception $e) {
-
-            $this->logError(
-                'ApplicationGateway ' . $actionName . ' Application[' . $e->getCode() . ']: ' . $e->getMessage()
-            );
-            throw new Exception('Problem ' . $actionName . ' Application on Provider API');
-        }
+        $this->postDocument($action, $data, $token, 'Application');
+        return true;
     }
 }
