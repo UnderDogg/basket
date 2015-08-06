@@ -117,13 +117,7 @@ class ApplicationsController extends Controller
      */
     public function confirmFulfilment($id)
     {
-        $application = $this->fetchApplicationById($id);
-        if (!$this->isFulfilable($application)) {
-
-            throw RedirectException::make('/applications/' . $id)
-                ->setError('Application is not allowed to be fulfilled.');
-        }
-        return view('applications.fulfilment', ['application' => $application]);
+        return $this->renderConfirmationScreen('fulfilment', $id);
     }
 
     /**
@@ -151,13 +145,7 @@ class ApplicationsController extends Controller
      */
     public function confirmCancellation($id)
     {
-        $application = $this->fetchApplicationById($id);
-        if (!$this->isCancellable($application)) {
-
-            throw RedirectException::make('/applications/' . $id)
-                ->setError('Application is not allowed to request cancellation.');
-        }
-        return view('applications.cancellation', ['application' => $application]);
+        return $this->renderConfirmationScreen('cancellation', $id);
     }
 
     /**
@@ -176,30 +164,6 @@ class ApplicationsController extends Controller
             throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
         }
         return redirect()->back()->with('success', 'Cancellation requested successfully');
-    }
-
-    /**
-     * Reformat For Currency
-     *
-     * @author MS
-     * @param string $field
-     * @param int|float $integer
-     * @return int
-     */
-    private function reformatForCurrency($field, $integer)
-    {
-        if (
-            !($field === 'ext_order_amount') &&
-            !($field === 'ext_finance_order_amount') &&
-            !($field === 'ext_finance_loan_amount') &&
-            !($field === 'ext_finance_deposit') &&
-            !($field === 'ext_finance_subsidy') &&
-            !($field === 'ext_finance_net_settlement')
-        ) {
-
-            return $integer;
-        }
-        return round($integer * 100);
     }
 
     /**
@@ -231,5 +195,25 @@ class ApplicationsController extends Controller
     private function isCancellable(Application $application)
     {
         return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+    }
+
+    /**
+     * @author WN
+     * @param $action
+     * @param $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    private function renderConfirmationScreen($action, $id)
+    {
+        $application = $this->fetchApplicationById($id);
+
+        if (((!$this->isCancellable($application)) && $action == 'cancellation') ||
+            ((!$this->isFulfilable($application)) && $action == 'fulfilment')
+        ) {
+            throw RedirectException::make('/applications/' . $id)
+                ->setError('Application is not allowed to request ' . $action);
+        }
+        return view('applications.' . $action, ['application' => $application]);
     }
 }
