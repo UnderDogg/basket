@@ -108,6 +108,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('settlements', 'SettlementsController@index');
     Route::get('settlements/{id}', 'SettlementsController@settlementReport');
 
+    /*
+     * Partial Refunds
+     */
+    Route::resource('partial-refunds', 'PartialRefundsController', [
+        'only' => ['index', 'show'],
+    ]);
+
 });
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
