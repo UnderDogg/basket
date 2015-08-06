@@ -9,6 +9,7 @@
  */
 
 namespace Tests\Basket\Gateways;
+
 use PayBreak\Sdk\Gateways\IpsGateway;
 
 /**

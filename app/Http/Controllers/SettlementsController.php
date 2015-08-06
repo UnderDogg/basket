@@ -43,11 +43,11 @@ class SettlementsController extends Controller
     public function index()
     {
         $messages = $this->getMessages();
-
+        $dateRange = $this->getDateRange();
         $settlementReports = Collection::make(
             $this
                 ->settlementGateway
-                ->getSettlementReports($this->getMerchantToken(), $this->getDateRange())
+                ->getSettlementReports($this->getMerchantToken(), $dateRange['date_from'], $dateRange['date_to'])
         );
 
         $filter = $this->getFilters();
