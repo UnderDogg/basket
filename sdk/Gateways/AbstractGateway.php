@@ -60,24 +60,15 @@ abstract class AbstractGateway
      * @return array
      * @throws Exception
      */
-    private function makeRequestForDocument(
-        $type,
-        $documentPath,
-        $token,
-        $documentName,
-        array $query,
-        array $body = []
-    ) {
-
+    private function makeRequestForDocument($type, $documentPath, $token, $documentName, array $query, array $body = [])
+    {
         try {
             return $this->makeRequest($type, $documentPath, $token, $query, $body);
 
         } catch (ErrorResponseException $e) {
-
             throw new Exception($e->getMessage());
 
         } catch (\Exception $e) {
-
             $this->logError(
                 $documentName . 'Gateway::' . $type .' '. $documentName . '[' . $e->getCode() . ']: ' . $e->getMessage()
             );
@@ -94,13 +85,8 @@ abstract class AbstractGateway
      * @param array $body
      * @return array
      */
-    private function makeRequest(
-        $type,
-        $documentPath,
-        $token,
-        array $query,
-        array $body = []
-    ) {
+    private function makeRequest($type, $documentPath, $token, array $query, array $body = [])
+    {
         $api = $this->getApiFactory()->makeApiClient($token);
 
         switch($type) {
