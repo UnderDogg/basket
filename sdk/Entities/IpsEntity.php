@@ -15,8 +15,8 @@ use WNowicki\Generic\AbstractEntity;
  * Class IpsEntity
  *
  * @author EB
- * @method string|null getId()
- * @method $this setId(string $id)
+ * @method int|null getId()
+ * @method $this setId(int $id)
  * @method string|null getIp()
  * @method $this setIp(string $ip)
  * @method bool|null getActive()
@@ -27,7 +27,7 @@ use WNowicki\Generic\AbstractEntity;
 class IpsEntity extends AbstractEntity
 {
     protected $properties = [
-        'id' => self::TYPE_STRING,
+        'id' => self::TYPE_INT,
         'ip' => self::TYPE_STRING,
         'active' => self::TYPE_BOOL,
     ];

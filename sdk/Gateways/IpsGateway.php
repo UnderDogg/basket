@@ -53,11 +53,10 @@ class IpsGateway extends AbstractGateway
     /**
      * @author EB
      * @param string $token
-     * @param $merchantId
-     * @param $ip
+     * @param string $ip
      * @return array
      */
-    public function deleteIpAddress($token, $merchantId, $ip)
+    public function deleteIpAddress($token, $ip)
     {
         return $this->deleteDocument('/v4/ip-addresses/' . $ip, $token, 'ips');
     }
