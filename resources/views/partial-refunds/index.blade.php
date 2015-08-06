@@ -38,29 +38,27 @@
                 <th class="col-xs-3 col-sm-3 col-md-2 col-lg-1">@include('includes.form.filter_buttons')</th>
             </tr>
             {!! Form::close() !!}
-            <tr>
-                {{-- */$x=0;/* --}}
-                @foreach($settlement_reports as $item)
-                    {{-- */$x++;/* --}}
-            <tr>
-                <td class="hidden-sm hidden-xs">{{ $item->id }}</td>
-                <td>{{ $item->application }}</td>
-                <td>{{ $item->status }}</td>
-                <td class="text-right">{{ money_format('%.2n', $item->refund_amount/100) }}</td>
-                <td>{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
-                <td>{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
 
-                {{--ACTION BUTTONS --}}
-                <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                    @include('includes.form.record_actions', ['id' => $item->id])
-                </td>
-            </tr>
+            {{-- */$x=0;/* --}}
+            @foreach($settlement_reports as $item)
+                {{-- */$x++;/* --}}
+                <tr>
+                    <td class="hidden-sm hidden-xs">{{ $item->id }}</td>
+                    <td>{{ $item->application }}</td>
+                    <td>{{ $item->status }}</td>
+                    <td class="text-right">{{ money_format('%.2n', $item->refund_amount/100) }}</td>
+                    <td>{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
+                    <td>{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
+
+                    {{--ACTION BUTTONS --}}
+                    <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
+                        @include('includes.form.record_actions', ['id' => $item->id])
+                    </td>
+                </tr>
             @endforeach
-            @if($x == 0) <td colspan="7"><em>0 Partial Refunds</em></td> @endif
-            </tr>
+            @if($x == 0)<tr><td colspan="7"><em>0 Partial Refunds</em></td></tr>@endif
+
         </table>
     </div>
-    {{-- PAGINATION BUTTONS ON RENDER() --}}
-    {{--{!! $applications->appends(Request::except('page'))->render() !!}--}}
 
 @endsection

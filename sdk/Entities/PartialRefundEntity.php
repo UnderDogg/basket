@@ -17,16 +17,31 @@ use WNowicki\Generic\AbstractEntity;
  *
  * @author LH
  * @package PayBreak\Sdk\Entities
+ *
+ * @method $this setId(int $id)
+ * @method int|null getId()
+ * @method $this setApplication(int $application)
+ * @method int|null getApplication()
+ * @method $this setStatus(string $status)
+ * @method string|null getStatus()
+ * @method $this setRefundAmount(int $refundAmount)
+ * @method int|null getRefundAmount()
+ * @method $this setEffectiveDate(string $effectiveDate)
+ * @method string|null getEffectiveDate()
+ * @method $this setRequestedDate(string $requestedDate)
+ * @method string|null getRequestedDate()
+ * @method $this setDescription(string $description)
+ * @method string|null getDescription()
  */
 class PartialRefundEntity extends AbstractEntity
 {
     protected $properties = [
-        'id',
-        'application',
-        'status',
-        'refund_amount',
-        'effective_date',
-        'requested_date',
-        'description',
+        'id' => self::TYPE_INT,
+        'application' => self::TYPE_INT,
+        'status' => self::TYPE_STRING,
+        'refund_amount' => self::TYPE_INT,
+        'effective_date' => self::TYPE_STRING,
+        'requested_date' => self::TYPE_STRING,
+        'description' => self::TYPE_STRING,
     ];
 }
