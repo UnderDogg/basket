@@ -44,7 +44,7 @@
         {{--NAVIGATION BAR--}}
         <div id="navbar" class="navbar-collapse collapse">
             @if ( \Auth::check())
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -65,6 +65,12 @@
                             <li><a href="/roles">Roles & Permissions</a></li>
                         </ul>
                     </li>
+                </ul>
+                <ul class="nav navbar-right">
+                    <p class="navbar-text">
+                        Signed in as <a href="{{URL::to('/account')}}" class="navbar-link">{!! Auth::user()->name !!} <img src="{{ 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20' }}"/></a>
+                    </p>
+
                 </ul>
             @endif
             {{--<form class="navbar-form navbar-right" role="form">

@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Paybreak\Sdk\Gateways;
+namespace PayBreak\Sdk\Gateways;
 
 use App\Exceptions\Exception;
 use PayBreak\Sdk\Entities\IpsEntity;
