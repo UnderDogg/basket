@@ -10,6 +10,8 @@
 - Moved `Locations` assignment on `User` to separate screen
 - Added view, delete and store methods for merchants IP address management
 - Created links to view IP address management page inside of merchants view
+- Assign Location to Installation
+- Refactored RolesController
 
 ## Bug Fixes
 - Removed unnecessary object checks in views
