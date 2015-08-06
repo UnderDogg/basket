@@ -44,7 +44,8 @@
                             'actions' => [
                                 'edit' => 'Edit',
                                 'synchronise' => 'Synchronise',
-                                'installations/synchronise' => 'Synchronise Installations'
+                                'installations/synchronise' => 'Synchronise Installations',
+                                'ips' => "View IP's",
                             ]
                         ])
                     </td>
