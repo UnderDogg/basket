@@ -53,7 +53,7 @@ class InstallationGatewayTest extends \TestCase
 
         $installationGateway = new InstallationGateway($mock);
 
-        $this->setExpectedException('App\Exceptions\Exception', 'Problem fetching Installation data form Provider API');
+        $this->setExpectedException('App\Exceptions\Exception', 'Problem with get: Installation data form Provider API');
 
         $installationGateway->getInstallation(1, 'xxx');
     }

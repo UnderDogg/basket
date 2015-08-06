@@ -26,9 +26,6 @@
 
             @if(isset($override3)) {{ $override3 }} @else
                 {{ ucwords(Request::segment(3)) }}
-                @if(is_string(Request::segment(2)))
-                    {{ str_singular(ucwords(Request::segment(1))) }}
-                @endif
             @endif
         @if($last == false) </a> @endif </li>
     @endif

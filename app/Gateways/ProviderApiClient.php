@@ -62,7 +62,8 @@ class ProviderApiClient extends AbstractApiClient
     {
         $responseBody = json_decode($response->getBody()->getContents(), true);
 
-        if ($responseBody !== false) {
+        if ($responseBody !== null) {
+
             return $responseBody;
         }
         throw new WrongResponseException('Response body was malformed JSON', $response->getStatusCode());
