@@ -60,7 +60,8 @@ class ProviderApiClient extends AbstractApiClient
      */
     protected function processResponse(ResponseInterface $response)
     {
-        if ($responseBody = json_decode($response->getBody()->getContents(), true)) {
+        // json_decode returns null if the json can not be decoded, but will also return null is the json is null
+        if (($responseBody = json_decode($response->getBody()->getContents(), true)) !== null) {
             return $responseBody;
         }
         throw new BadResponseException('Response body was malformed JSON', $response->getStatusCode());
