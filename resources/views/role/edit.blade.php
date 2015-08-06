@@ -71,7 +71,7 @@
                             </div>
                             <div class="panel-body panel-tight-space">
                                 <div style="height: 340px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
-                                    @foreach ($role->permissionsAvailable as $permission)
+                                    @foreach ($permissionsAvailable as $permission)
                                         <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
                                     @endforeach
                                 </div>
@@ -89,9 +89,7 @@
         </div>
     </div>
 
-    @if($role->permissions !== null)
-        <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="@foreach ($role->permissions as $permission){{ ':'.$permission->id  }}@endforeach">
-    @endif
+    <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="@foreach ($role->permissions as $permission){{ ':'.$permission->id  }}@endforeach">
     <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="">
     {!! Form::close() !!}
 @endsection
