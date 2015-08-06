@@ -50,6 +50,7 @@ class LocationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -185,7 +186,8 @@ class LocationsController extends Controller
             'locations.' . $template,
             [
                 'location' => $id !== null?$this->fetchLocationById($id):null,
-                'installations' => Installation::query()->get()->pluck('name', 'id')->toArray(),
+                'installations' => $this->limitToActive($this->limitToMerchant(Installation::query()))
+                    ->get()->pluck('name', 'id')->toArray(),
                 'messages' => $this->getMessages()
             ]
         );

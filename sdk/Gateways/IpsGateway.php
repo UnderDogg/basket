@@ -22,14 +22,13 @@ class IpsGateway extends AbstractGateway
 {
     /**
      * @author EB
-     * @param $token
+     * @param string $token
      * @return IpsEntity[]
      * @throws Exception
      */
     public function listIpAddresses($token)
     {
         $response = $this->fetchDocument('/v4/ip-addresses',$token, 'ips');
-
         $rtn = [];
 
         foreach ($response as $ip) {
@@ -41,29 +40,25 @@ class IpsGateway extends AbstractGateway
 
     /**
      * @author EB
-     * @param $token
+     * @param string $token
      * @param $ip
      * @return array
      * @throws Exception
      */
-    public function storeIpAddress($token, $ip) {
+    public function storeIpAddress($token, $ip)
+    {
         return $this->storeDocument('/v4/ip-addresses', ['ip' => $ip], $token, 'ips');
     }
 
     /**
      * @author EB
-     * @param $token
+     * @param string $token
      * @param $merchantId
      * @param $ip
      * @return array
      */
     public function deleteIpAddress($token, $merchantId, $ip)
     {
-        try{
-            return $this->deleteDocument('/v4/ip-addresses/' . $ip, $token, 'ips');
-        } catch (\Exception $e) {
-            var_dump('Merchant with ID '.$merchantId.' could not complete process',$e->getMessage(), $e->getCode());
-            die('Exception');
-        }
+        return $this->deleteDocument('/v4/ip-addresses/' . $ip, $token, 'ips');
     }
 }

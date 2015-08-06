@@ -29,8 +29,8 @@ class IpsController extends Controller
      * @author EB
      * @param IpsGateway $ipsGateway
      */
-    public function __construct(IpsGateway $ipsGateway) {
-
+    public function __construct(IpsGateway $ipsGateway)
+    {
         $this->ipsGateway = $ipsGateway;
     }
 
@@ -38,8 +38,8 @@ class IpsController extends Controller
      * @author EB
      * @return \Illuminate\View\View
      */
-    public function index() {
-
+    public function index()
+    {
         $messages = $this->getMessages();
         $ips = $this
             ->ipsGateway
@@ -56,8 +56,8 @@ class IpsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function store(Request $request) {
-
+    public function store(Request $request)
+    {
         if(Validator::make($request->all(), ['ip' => 'ip'])->fails()) {
             return Redirect::back()->with(['error' => 'The IP address given is not a valid IP address']);
         }
@@ -73,8 +73,8 @@ class IpsController extends Controller
      * @param $ip
      * @return mixed
      */
-    public function delete($id, $ip) {
-
+    public function delete($id, $ip)
+    {
         $this->ipsGateway
             ->deleteIpAddress($this->getMerchantToken(), $id, $ip);
         return Redirect::back()->with(['success' => 'The IP address has been successfully deleted']);

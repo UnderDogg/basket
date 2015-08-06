@@ -178,7 +178,7 @@ abstract class Controller extends BaseController
                 ->setError('Deletion of this record did not complete successfully');
         }
 
-        return redirect('locations')->with('success', ucwords($modelName) . ' was successfully deleted');
+        return redirect($redirect)->with('success', ucwords($modelName) . ' was successfully deleted');
     }
 
     /**
@@ -281,12 +281,24 @@ abstract class Controller extends BaseController
      * @author WN
      * @param Builder $query
      * @param string $fieldName
+     * @return Builder
      */
     protected function limitToMerchant(Builder $query, $fieldName = 'merchant_id')
     {
         if (\Auth::user()->merchant_id) {
             $query->where($fieldName, \Auth::user()->merchant_id);
         }
+        return $query;
+    }
+
+    /**
+     * @author WN
+     * @param Builder $query
+     * @return Builder
+     */
+    protected function limitToActive(Builder $query)
+    {
+        return $query->where('active', true);
     }
 
     /**
@@ -302,7 +314,7 @@ abstract class Controller extends BaseController
     {
         return $this->checkModelForMerchantLimit(
             ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
-            $entity->merchant->id,
+            $entity->merchant?$entity->merchant->id:null,
             $modelName,
             $redirect
         );
@@ -311,9 +323,9 @@ abstract class Controller extends BaseController
     /**
      * @author WN
      * @param Model $model
-     * @param $id
-     * @param $modelName
-     * @param $redirect
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
      * @return Model
      * @throws RedirectException
      */
