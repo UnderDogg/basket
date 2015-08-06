@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        @include('includes.page.show_details_button_group', ['id'=>$merchants->id,'edit'=>true,'sync'=>true])
+        @include('includes.page.show_details_button_group', ['id'=>$merchants->id,'edit'=>true,'sync'=>true, 'ip'=>true])
     </h2>
     @include('includes.page.breadcrumb', ['override2'=>$merchants->name])
 

@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('App\Gateways\ApiClientFactory', 'App\Gateways\ApiClientFactory');
         $this->app->bind('PayBreak\Sdk\Gateways\MerchantGateway', 'PayBreak\Sdk\Gateways\MerchantGateway');
+        $this->app->bind('PayBreak\Sdk\Gateways\IpsGateway', 'PayBreak\Sdk\Gateways\IpsGateway');
         $this->app->bind(
             'App\Basket\Synchronisation\MerchantSynchronisationService',
             'App\Basket\Synchronisation\MerchantSynchronisationService'
@@ -46,6 +47,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Basket\Synchronisation\NotificationCatcherService',
             'App\Basket\Synchronisation\NotificationCatcherService'
+        );
+
+        $this->app->bind(
+            'PayBreak\Sdk\Gateways\CreditInfoGateway',
+            'PayBreak\Sdk\Gateways\CreditInfoGateway'
         );
     }
 }

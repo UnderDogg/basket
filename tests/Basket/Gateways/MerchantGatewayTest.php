@@ -61,7 +61,7 @@ class MerchantGatewayTest extends \TestCase
 
         $merchantGateway = new MerchantGateway($mock);
 
-        $this->setExpectedException('App\Exceptions\Exception', 'Problem fetching Merchant data form Provider API');
+        $this->setExpectedException('App\Exceptions\Exception', 'Problem with get: Merchant data form Provider API');
 
         $merchantGateway->getMerchant(1, 'xxx');
     }

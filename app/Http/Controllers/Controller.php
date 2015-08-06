@@ -178,7 +178,7 @@ abstract class Controller extends BaseController
                 ->setError('Deletion of this record did not complete successfully');
         }
 
-        return redirect('locations')->with('success', ucwords($modelName) . ' was successfully deleted');
+        return redirect($redirect)->with('success', ucwords($modelName) . ' was successfully deleted');
     }
 
     /**
@@ -302,7 +302,7 @@ abstract class Controller extends BaseController
     {
         return $this->checkModelForMerchantLimit(
             ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
-            $entity->merchant->id,
+            $entity->merchant?$entity->merchant->id:null,
             $modelName,
             $redirect
         );
