@@ -12,7 +12,7 @@
     <div class="panel panel-default">
         @include('includes.form.record_counter', ['object' => $applications])
 
-        <div class="panel-heading"><h4>Locations</h4></div>
+        <div class="panel-heading"><h4>Applications</h4></div>
         <table class="table table-bordered table-striped table-hover">
         {{-- TABLE HEADER WITH FILTERS --}}
         {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
