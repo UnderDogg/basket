@@ -11,7 +11,6 @@
     </h2>
     @include('includes.page.breadcrumb', ['override2'=>$user->name])
 
-    <div id="basketTabs">
         <ul class="nav nav-tabs">
             <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>User Details</h5></a></li>
         </ul>
@@ -64,6 +63,5 @@
                 </div>
             </div>
         </div>
-    </div>
 
 @endsection

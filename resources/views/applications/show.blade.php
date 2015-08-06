@@ -4,12 +4,102 @@
 
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
+    <div class="container">
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable])
     </h2>
     @include('includes.page.breadcrumb')
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
+            <li><a data-toggle="tab" href="#part2">Order Details</a></li>
+            <li><a data-toggle="tab" href="#part3">Customer Details</a></li>
+        </ul>
 
+        <div class="tab-content">
+            <div id="part1" class="tab-pane fade in active">
+                <h3>Key information</h3>
+                <dl class="dl-horizontal">
+                    <dt>Application ID</dt>
+                    <dd>{!! $applications->id !!}</dd>
+                    <dt>Order Reference</dt>
+                    <dd>{!! $applications->ext_order_reference !!}</dd>
+                    <dt>Requester</dt>
+                    @if($applications->user !== null)
+                        <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
+                            <dd>{!! $applications->user->name !!}</dd>
+                        </a>
+                    @else
+                        <dd></dd>
+                    @endif
+                    <dt>Installation</dt>
+                    @if($applications->installation !== null)
+                        <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
+                            <dd>{!! $applications->installation->name !!}</dd>
+                        </a>
+                    @else
+                        <dd></dd>
+                    @endif
+                    <dt>Location</dt>
+                    @if($applications->location !== null)
+                        <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
+                            <dd>{!! $applications->location->name !!}</dd>
+                        </a>
+                    @else
+                        <dd></dd>
+                    @endif
+                </dl>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>Product information</h4></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Product Group</dt>
+                            <dd>{!! $applications->ext_products_groups !!}</dd>
+                            <dt>Product Options</dt>
+                            <dd>{!! $applications->ext_products_options !!}</dd>
+                            <dt>Product Default</dt>
+                            <dd>{!! $applications->ext_products_default !!}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Fulfilment Details</div>
+                    <div class="panel-body">
+                        <li class="list-group-item">
+                            Fulfilment Method: {{ $applications->ext_fulfilment_method }}
+                        </li>
+                        <li class="list-group-item">
+                            Fulfilment Location: {{ $applications->ext_fulfilment_location }}
+                        </li>
+                    </div>
+                </div>
+                @if(isset($applications->ext_metadata) && !empty($applications->ext_metadata))
+                <div class="panel panel-default">
+                    <table class="table table-bordered table-striped table-hover">
+                        <tr>
+                            <th class="col-sm-12 col-md-12 col-lg-12" colspan=12><h5>Metadata</h5></th>
+                        </tr>
+                        <tr>
+                            <th class="col-sm-4 col-md-3 col-lg-3">Metadata</th>
+                            <td class="col-sm-8 col-md-9 col-lg-9">Here is some text which wouldn't go over, just to see what it looks like</td>
+                        </tr>
+                        <tr>
+                            <th class="col-sm-4 col-md-3 col-lg-3">Metadata2</th>
+                            <td class="col-sm-8 col-md-9 col-lg-9">www</td>
+                        </tr>
+                    </table>
+                </div>
+                @endif
+            </div>
+            <div id="part2" class="tab-pane fade">
+                <h3>Menu 1</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="part3" class="tab-pane fade">
+                <h3>Menu 2</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+        </div>
+    </div>
     <div id="basketTabs">
         <ul class="nav nav-tabs">
             <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>Application Details</h5></a></li>
@@ -221,5 +311,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection
