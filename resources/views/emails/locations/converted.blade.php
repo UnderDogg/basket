@@ -40,4 +40,4 @@
 <hr>
 @endif
 
-If you experience any difficulties or need more information please email hello@paybreak.com or phone us on 033 33 444 226.
+If you experience any difficulties or need more information please email <a href="mailto:hello@paybreak.com">hello@paybreak.com</a> or phone us on <strong>033 33 444 226</strong>.

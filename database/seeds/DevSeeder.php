@@ -60,6 +60,7 @@ class DevSeeder extends DBSeeder
             $installationObject->name = $installation[1];
             $installationObject->active = $installation[2];
             $installationObject->linked = $installation[3];
+            $installationObject->location_instruction = '';
             $installationObject->save();
         }
 
