@@ -21,17 +21,21 @@ use App\Exceptions\Exception;
 class SettlementGateway extends AbstractGateway
 {
     /**
-     * @param $token
-     * @param array $date_range
+     * @param string $token
+     * @param string|null $since
+     * @param string|null $until
      * @return array
-     * @throws Exception
      */
-    public function getSettlementReports($token, array $date_range)
+    public function getSettlementReports($token, $since = null, $until = null)
     {
         return $this->fetchDocument(
-            '/v4/settlement-reports?since=' . $date_range['date_from'] . '&until=' . $date_range['date_to'],
+            '/v4/settlement-reports',
             $token,
-            'Settlement'
+            'Settlement',
+            [
+                'since' => $since,
+                'until' => $until,
+            ]
         );
     }
 

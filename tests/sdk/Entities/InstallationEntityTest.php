@@ -10,7 +10,6 @@
 
 namespace Tests\Basket\Entities;
 
-use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\InstallationEntity;
 
 /**
