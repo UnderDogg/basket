@@ -43,6 +43,7 @@ class BasicModels extends Migration
             $table->string('ext_return_url')->nullable();
             $table->string('ext_notification_url')->nullable();
             $table->string('ext_default_product')->nullable();
+            $table->text('location_instruction');
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });

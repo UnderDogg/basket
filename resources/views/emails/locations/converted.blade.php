@@ -34,11 +34,10 @@
     <li>Net Settlement Amount: {{ money_format('%.2n', $application->ext_finance_net_settlementy/100) }}</li>
 </ul>
 
+@if($location->installation->location_instruction)
 <h2>Additional Instructions</h2>
-<p>
-
-</p>
-
+<pre>{{ $location->installation->location_instruction }}</pre>
 <hr>
+@endif
 
 If you experience any difficulties or need more information please email hello@paybreak.com or phone us on 033 33 444 226.

@@ -44,7 +44,7 @@ class EmailLocationNotificationService implements LocationNotificationService
             'emails.locations.converted',
             [
                 'application' => $application,
-                'locations' => $location,
+                'location' => $location,
             ],
             function ($message) use ($location) {
                 $message->to('dev@paybreak.com')->subject('Application Converted');

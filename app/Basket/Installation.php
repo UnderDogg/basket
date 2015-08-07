@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property        $created_at
  * @property        $updated_at
  * @property Merchant $merchant
+ * @property string $location_instruction
  * @package App\Basket
  */
 class Installation extends Model
@@ -49,7 +50,8 @@ class Installation extends Model
         'ext_name',
         'ext_return_url',
         'ext_notification_url',
-        'ext_default_product'
+        'ext_default_product',
+        'location_instruction',
     ];
 
     /**

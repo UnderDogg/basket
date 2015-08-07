@@ -72,7 +72,20 @@
                     </ul>
                 </div>
             </div>
+
+            @if($installations->location_instruction)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Location Additional Instructions</h3>
+                </div>
+                <div class="panel-body">
+                    <pre>{{ $installations->location_instruction }}</pre>
+                </div>
+            </div>
+            @endif
+
         </div>
+
     </div>
 
 @endsection
