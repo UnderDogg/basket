@@ -121,6 +121,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('settlements/{id}', 'SettlementsController@settlementReport');
 
     /*
+     * Account
+     */
+    Route::get('account', 'AccountController@show');
+    Route::get('account/edit', 'AccountController@edit');
+    Route::post('account/edit', 'AccountController@update');
+    Route::post('account/edit/password', 'AccountController@changePassword');
+
+    /*
      * Partial Refunds
      */
     Route::resource('partial-refunds', 'PartialRefundsController', [
