@@ -66,18 +66,20 @@
                             <li><a href="/roles">Roles & Permissions</a></li>
                         </ul>
                     </li>
+                    <li><a href="/partial-refunds">Partial Refunds</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown pull-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!} <img src="{{ 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20' }}"/><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{URL::to('/account')}}">Account</a></li>
+                            <li><a href="{{URL::to('/account/edit')}}">Edit Account</a></li>
+                            <li><a href="{{URL::to('/logout')}}">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
             @endif
-            {{--<form class="navbar-form navbar-right" role="form">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>--}}
-        </div><!--/.navbar-collapse -->
+        </div>
     </div>
 </nav>
 
@@ -94,7 +96,7 @@
         <p>&copy; PayBreak 2015</p>
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+<script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>

@@ -12,7 +12,6 @@ namespace PayBreak\Sdk\Gateways;
 
 use PayBreak\Sdk\Entities\InstallationEntity;
 use App\Exceptions\Exception;
-use WNowicki\Generic\ApiClient\ErrorResponseException;
 
 /**
  * Installation Gateway
@@ -41,14 +40,10 @@ class InstallationGateway extends AbstractGateway
      */
     public function getInstallations($token)
     {
-        $installations = $this->fetchDocument('/v4/installations', $token, 'installations');
-
-        $rtn = [];
-
-        foreach ($installations as $installation) {
-            $rtn[] = InstallationEntity::make($installation);
-        }
-
-        return $rtn;
+        return $this->fetchCollection(
+            $token,
+            '/v4/installations',
+            '\PayBreak\Sdk\Entities\InstallationEntity'
+        );
     }
 }

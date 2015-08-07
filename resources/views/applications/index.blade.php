@@ -65,7 +65,7 @@
                 {{-- ACTION BUTTONS --}}
                 <td class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-right">
                     @include('includes.form.record_actions', ['id' => $item->id,
-                        'actions' => ['edit' => 'Edit', 'fulfil' => 'Fulfil', 'request-cancellation' => 'Request Cancellation']
+                        'actions' => ['edit' => 'Edit', 'fulfil' => 'Fulfil', 'request-cancellation' => 'Request Cancellation', 'partial-refund' => 'Partial Refund']
                     ])
                 </td>
             </tr>

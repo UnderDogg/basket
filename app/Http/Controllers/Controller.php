@@ -251,7 +251,7 @@ abstract class Controller extends BaseController
     ) {
         $this->processFilters($query);
 
-        return View(
+        return view(
             $view,
             array_merge(
                 [
@@ -270,9 +270,9 @@ abstract class Controller extends BaseController
     protected function limitToInstallationOnMerchant(Builder $query)
     {
         if (\Auth::user()->merchant_id) {
-            $query->where(
+            $query->whereIn(
                 'installation_id',
-                implode(', ', Installation::where('merchant_id', \Auth::user()->merchant_id)->get()->pluck('id')->all())
+                Installation::where('merchant_id', \Auth::user()->merchant_id)->get()->pluck('id')->all()
             );
         }
     }
