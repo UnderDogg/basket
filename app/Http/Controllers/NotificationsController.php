@@ -9,6 +9,8 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Notifications\LocationNotificationService;
+use App\Basket\Synchronisation\NotificationCatcherService;
 use Illuminate\Http\Request;
 
 /**
@@ -19,6 +21,17 @@ use Illuminate\Http\Request;
  */
 class NotificationsController extends Controller
 {
+    private $notificationCatcherService;
+    private $locationNotificationService;
+
+    public function __construct(
+        NotificationCatcherService $notificationCatcherService,
+        LocationNotificationService $locationNotificationService
+    ) {
+        $this->notificationCatcherService = $notificationCatcherService;
+        $this->locationNotificationService = $locationNotificationService;
+    }
+
     /**
      * @author WN
      * @param $installation
@@ -27,11 +40,14 @@ class NotificationsController extends Controller
      */
     public function catchNotification($installation, Request $request)
     {
-        /** @var \App\Basket\Synchronisation\NotificationCatcherService $service */
-        $service = \App::make('App\Basket\Synchronisation\NotificationCatcherService');
-
         try {
-            $application = $service->catchNotification($request->json('application'), $installation);
+            $application = $this->notificationCatcherService
+                ->catchNotification($request->json('application'), $installation);
+
+            if ($application->location_id && $application->ext_current_status = 'converted') {
+
+                $this->locationNotificationService->convertedNotification($application, $application->location);
+            }
 
             return response()->json(
                 ['local_id' => $application->id, 'current_status' => $application->ext_current_status],

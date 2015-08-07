@@ -10,6 +10,7 @@
 namespace App\Basket;
 
 use Illuminate\Database\Eloquent\Model;
+
 /**
  * Class Application
  *
@@ -60,6 +61,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property string $last_sync_at
  * @property Installation $installation
+ * @property Location|null $location
  *
  * @author MS
  * @package App\Basket

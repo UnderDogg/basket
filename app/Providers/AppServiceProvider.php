@@ -53,5 +53,10 @@ class AppServiceProvider extends ServiceProvider
             'PayBreak\Sdk\Gateways\CreditInfoGateway',
             'PayBreak\Sdk\Gateways\CreditInfoGateway'
         );
+
+        $this->app->bind(
+            'App\Basket\Notifications\LocationNotificationService',
+            'App\Basket\Notifications\EmailLocationNotificationService'
+        );
     }
 }
