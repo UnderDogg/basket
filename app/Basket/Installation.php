@@ -71,6 +71,6 @@ class Installation extends Model
      */
     public function getLocationInstructionAsHtml()
     {
-        return (htmlspecialchars(new \Parsedown())->text($this->location_instruction));
+        return ((new \Parsedown())->text(htmlspecialchars($this->location_instruction)));
     }
 }
