@@ -12,7 +12,9 @@
 - Created links to view IP address management page inside of merchants view
 - Assign Location to Installation
 - Refactored RolesController
-- Partial Refund request, index and show.
+- Partial Refund request, index and show
+- Added account management pages so users can edit or view their account details
+- Changed master view to include gravatar and login / logout features
 
 ## Bug Fixes
 - Removed unnecessary object checks in views
