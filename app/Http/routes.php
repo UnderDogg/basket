@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Applications
      */
+    Route::get(   'applications/pending-cancellations', 'ApplicationsController@pendingCancellations');
     Route::get(   'applications',            'ApplicationsController@index');
     Route::get(   'applications/{id}',       'ApplicationsController@show');
     Route::get(   'applications/{id}/edit',  'ApplicationsController@edit');

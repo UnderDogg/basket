@@ -50,6 +50,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Make Application</a></li>
                             <li><a href="/applications">Applications List</a></li>
+                            <li><a href="/applications/pending-cancellations">Pending Cancellation List</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
