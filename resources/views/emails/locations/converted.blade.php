@@ -36,7 +36,7 @@
 
 @if($location->installation->location_instruction)
 <h2>Additional Instructions</h2>
-<pre>{{ $location->installation->location_instruction }}</pre>
+{!! $location->installation->getLocationInstructionAsHtml() !!}
 <hr>
 @endif
 

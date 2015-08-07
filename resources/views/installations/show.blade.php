@@ -79,7 +79,7 @@
                     <h3 class="panel-title">Location Additional Instructions</h3>
                 </div>
                 <div class="panel-body">
-                    <pre>{{ $installations->location_instruction }}</pre>
+                    {!! $installations->getLocationInstructionAsHtml() !!}
                 </div>
             </div>
             @endif

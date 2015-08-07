@@ -62,4 +62,15 @@ class Installation extends Model
     {
         return $this->belongsTo('App\Basket\Merchant');
     }
+
+    /**
+     * Returning HTML for Parsed Markdown
+     *
+     * @author WN
+     * @return string
+     */
+    public function getLocationInstructionAsHtml()
+    {
+        return (htmlspecialchars(new \Parsedown())->text($this->location_instruction));
+    }
 }
