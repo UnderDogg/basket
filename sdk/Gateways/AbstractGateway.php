@@ -128,6 +128,39 @@ abstract class AbstractGateway
     }
 
     /**
+     * @author LH
+     * @param $token
+     * @param $url
+     * @param $entity
+     * @return array
+     * @throws Exception
+     */
+    public function fetchCollection($token, $url, $entity)
+    {
+        $api = $this->getApiFactory()->makeApiClient($token);
+
+        try {
+            $data = $api->get($url);
+            $rtn = [];
+
+            foreach ($data as $item) {
+                $rtn[] = $entity::make($item);
+            }
+
+            return $rtn;
+
+        } catch (ErrorResponseException $e) {
+
+            throw new Exception($e->getMessage());
+
+        } catch (\Exception $e) {
+
+            $this->logError('Couldn\'t fetch collection of [' . $entity . ']: [' . $e->getCode() . ']: ' . $e->getMessage());
+            throw new Exception('Problem fetching collection of [' . $entity . '] form Provider API');
+        }
+    }
+
+    /**
      * @author EB
      * @param $documentPath
      * @param $token

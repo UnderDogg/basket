@@ -111,6 +111,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post( 'applications/{id}/fulfil',   'ApplicationsController@fulfil');
     Route::get(   'applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
     Route::post(  'applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
+    Route::get(  'applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
+    Route::post(  'applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
 
     /*
      * Settlements
@@ -125,6 +127,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('account/edit', 'AccountController@edit');
     Route::post('account/edit', 'AccountController@update');
     Route::post('account/edit/password', 'AccountController@changePassword');
+
+    /*
+     * Partial Refunds
+     */
+    Route::resource('partial-refunds', 'PartialRefundsController', [
+        'only' => ['index', 'show'],
+    ]);
 
 });
 

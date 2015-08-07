@@ -5,7 +5,7 @@
     @endforeach
 @endif
 
-<select class="filter form-control" name="{{ $field }}" value="{!! Request::only($field)[$field] !!}">
+<select class="filter form-control" name="{{ $field }}">
     <option value="">All</option>
     @if($object->count())
         @foreach(array_unique($selects) as $key => $option)
@@ -16,8 +16,8 @@
                 value="{{ $key }}">{{ $option }}</option>
         @endforeach
     @else()
-        <option selected="selected" name="{!! Request::only($field)[$field] !!}">
-            {!! Request::only($field)[$field] !!}
+        <option selected="selected" name="{{ Request::only($field)[$field] }}">
+            {{ Request::only($field)[$field] }}
         </option>
     @endif
 </select>
