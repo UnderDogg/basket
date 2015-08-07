@@ -65,6 +65,7 @@
                             <li><a href="/roles">Roles & Permissions</a></li>
                         </ul>
                     </li>
+                    <li><a href="/partial-refunds">Partial Refunds</a></li>
                 </ul>
             @endif
             {{--<form class="navbar-form navbar-right" role="form">

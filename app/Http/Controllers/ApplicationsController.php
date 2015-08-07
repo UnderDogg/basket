@@ -77,6 +77,7 @@ class ApplicationsController extends Controller
                 'messages' => $this->getMessages(),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
+                'partialRefundAvailable' => $this->canPartiallyRefund($application),
             ]
         );
     }
@@ -167,6 +168,59 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * @author LH
+     * @param $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function confirmPartialRefund($id)
+    {
+        $application = $this->fetchApplicationById($id);
+        if (!$this->canPartiallyRefund($application)) {
+
+            throw RedirectException::make('/applications/' . $id)
+                ->setError('You may not partially refund this application.');
+        }
+        return view('applications.partial-refund', ['application' => $application, 'messages' => $this->getMessages()]);
+    }
+
+    /**
+     * @author LH
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function requestPartialRefund(Request $request, $id)
+    {
+        $this->validate($request, [
+            'refund_amount' => 'required|numeric',
+            'effective_date' => 'required|date_format:Y/m/d',
+            'description' => 'required',
+        ]);
+
+        $effectiveDate = \DateTime::createFromFormat('Y/m/d', $request->get('effective_date'))->format('Y-m-d');
+
+        try {
+
+            $this->applicationSynchronisationService->requestPartialRefund(
+                $id,
+                ($request->get('refund_amount') * 100),
+                $effectiveDate,
+                $request->get('description')
+            );
+
+        } catch (\Exception $e) {
+            $this->logError('Error while trying to request a partial refund for application [' . $id . ']: ' . $e->getMessage());
+            throw RedirectException::make('/applications/' . $id)->setError('Requesting a partial refund failed');
+        }
+
+        return redirect()
+            ->action('ApplicationsController@show', $id)
+            ->with('success', 'Partial refund has been successfully requested');
+    }
+
+    /**
      * @author WN
      * @param int $id
      * @return Application
@@ -193,6 +247,16 @@ class ApplicationsController extends Controller
      * @return bool
      */
     private function isCancellable(Application $application)
+    {
+        return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+    }
+
+    /**
+     * @author LH
+     * @param Application $application
+     * @return bool
+     */
+    private function canPartiallyRefund(Application $application)
     {
         return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
     }

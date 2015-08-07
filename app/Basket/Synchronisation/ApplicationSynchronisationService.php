@@ -152,6 +152,39 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     }
 
     /**
+     * @author LH
+     * @param $id
+     * @param $refundAmount
+     * @param $effectiveDate
+     * @param $description
+     * @return mixed
+     * @throws \Exception
+     */
+    public function requestPartialRefund($id, $refundAmount, $effectiveDate, $description)
+    {
+        $application = $this->fetchApplicationLocalObject($id);
+        $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
+
+        try {
+
+            $partialRefundGateway = \App::make('\PayBreak\Sdk\Gateways\PartialRefundGateway');
+
+            return $partialRefundGateway->requestPartialRefund(
+                $merchant->token,
+                $application->ext_id,
+                $refundAmount,
+                $effectiveDate,
+                $description
+            );
+
+        } catch (\Exception $e) {
+
+            $this->logError('ApplicationSynchronisationService: RequestPartialRefund failed ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
      * @param int $installationId
      * @param string $reference
      * @param int $amount
