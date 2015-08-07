@@ -13,11 +13,19 @@
     <li>
         Address:
         <address>
+            @if($application->ext_application_address_abode)
             {{ $application->ext_application_address_abode }}<br>
+            @endif
+            @if($application->ext_application_address_building_name)
             {{ $application->ext_application_address_building_name }}<br>
+            @endif
             {{ $application->ext_application_address_building_number }} {{ $application->ext_application_address_street }}<br>
+            @if($application->ext_application_address_locality)
             {{ $application->ext_application_address_locality }}<br>
+            @endif
+            @if($application->ext_application_address_town)
             {{ $application->ext_application_address_town }}<br>
+            @endif
             {{ $application->ext_application_address_postcode }}<br>
         </address>
     </li>
