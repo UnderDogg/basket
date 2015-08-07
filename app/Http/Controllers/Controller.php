@@ -251,7 +251,7 @@ abstract class Controller extends BaseController
     ) {
         $this->processFilters($query);
 
-        return View(
+        return view(
             $view,
             array_merge(
                 [
