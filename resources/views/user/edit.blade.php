@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb', ['override2'=>$user->name])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
 
     <p>&nbsp;</p>
     {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'class' => 'form-horizontal']) !!}

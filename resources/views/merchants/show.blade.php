@@ -8,7 +8,7 @@
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @include('includes.page.show_details_button_group', ['id'=>$merchants->id,'edit'=>true,'sync'=>true, 'ip'=>true])
     </h2>
-    @include('includes.page.breadcrumb', ['override2'=>$merchants->name])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $merchants->name]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Merchant Details</a></li>
     </ul>
