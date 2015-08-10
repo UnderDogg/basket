@@ -8,7 +8,7 @@
     <h1>LOCATIONS
         <a href="{{ url('/locations/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Location</a>
     </h1>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">
 

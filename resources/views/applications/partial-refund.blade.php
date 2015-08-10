@@ -7,7 +7,7 @@
 
     <h2>Partial Refund</h2>
 
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <p>&nbsp;</p>
     {!! Form::open( ['method'=>'post'] ) !!}

@@ -8,7 +8,7 @@
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable, 'partialRefund' => $partialRefundAvailable])
     </h2>
-    @include('includes.page.breadcrumb')
+        @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
             <li><a data-toggle="tab" href="#part2">Order Details</a></li>

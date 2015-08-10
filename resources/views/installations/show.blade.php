@@ -8,7 +8,7 @@
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @include('includes.page.show_details_button_group', ['id'=>$installations->id,'edit'=>true,'sync'=>true])
     </h2>
-    @include('includes.page.breadcrumb', ['override2'=>$installations->name])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Installation Details</a></li>

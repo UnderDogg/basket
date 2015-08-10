@@ -7,7 +7,7 @@
 
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $location->name]])
-    
+
     <p>&nbsp;</p>
     {!! Form::model($location, [
         'method' => 'PATCH',

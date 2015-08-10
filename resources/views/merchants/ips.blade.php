@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>MERCHANTS</h1>
-    @include('includes.page.breadcrumb')
+@include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <div class="panel-heading"><h4>Create a new IP address</h4></div>
     {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'addIp')) !!}
         <div class="input-group">
