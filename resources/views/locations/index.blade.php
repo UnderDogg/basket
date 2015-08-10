@@ -51,9 +51,9 @@
                     <td class="hidden-xs hidden-sm">@if($item->installation !== null){{ $item->installation->name }} @endif</td>
                     <td class="col-sm-2 col-md-1">
                         @if( $item->active == 0 )
-                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                         @elseif( $item->active == 1 )
-                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Active</span>
                         @endif
                     </td>
 

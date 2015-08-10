@@ -9,7 +9,7 @@
     <title>Basket</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/icon" href="http://www.afforditnow.com/wp-content/themes/ain/assets/xfavicon-64.ico.pagespeed.ic.w5mJPa9jXS.png" sizes="64x64">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     {{--<link rel="stylesheet" href="/css/bootstrap.min.css">--}}
@@ -38,7 +38,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Basket</a>
+            <a class="navbar-brand" href="/">
+                <img src="/ain-logo-standard-medium.svg" style='height: 28px;' alt="afforditNOW"/>
+            </a>
         </div>
 
         {{--NAVIGATION BAR--}}
@@ -82,15 +84,11 @@
 </nav>
 
 <div class="container">
-
     <div class="row">
-
         @yield('content')
-
     </div>
-
-    <hr>
-    <footer>
+    <footer class="container">
+        <hr>
         <p>&copy; PayBreak 2015</p>
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

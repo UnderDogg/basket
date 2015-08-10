@@ -11,57 +11,48 @@
     </h2>
     @include('includes.page.breadcrumb', ['override2'=>$user->name])
 
-        <ul class="nav nav-tabs">
-            <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>User Details</h5></a></li>
-        </ul>
-        <div class="col-xs-12">&nbsp;</div>
-        <hr>
-        {{--FIRST PANEL: USER DETAILS--}}
-
-        <div id="fragment-1">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
+    </ul>
+    <br/>
+    <div class="tab-content">
+        <div id="part1" class="tab-pane fade in active">
+            <br/>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Key information</h3>
-                </div>
+                <div class="panel-heading"><strong>Key Information</strong></div>
                 <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Name: </strong> {{ $user->name  }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Email: </strong> {{ $user->email  }}
-                        </li>
-                        <li class="list-group-item">
-                            @if($user->merchant !== null)
-                                <strong>Merchant: </strong>
-                                <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
-                                    {{ $user->merchant->name }}
-                                </a>
-                            @endif
-                        </li>
-                        <li class="list-group-item">
-                            @if($user->locations !== null)
-                                <strong>Locations: </strong>
-                                <ul>
-                                @foreach ($user->locations as $location)
-                                    <li>{{ $location->name }}</li>
-                                @endforeach
-                                </ul>
-                            @endif
-                        </li>
-                        <li class="list-group-item">
-                            @if($user->roles !== null)
-                                <strong>Roles: </strong>
-                                <ul>
-                                @foreach ($user->roles as $role)
-                                    <li>{{ $role->display_name }}</li>
-                                @endforeach
-                                </ul>
-                            @endif
-                        </li>
-                    </ul>
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd>{!! $user->name !!}</dd>
+                        <dt>Email</dt>
+                        <dd>{!! $user->email !!}</dd>
+                        <dt>Merchant</dt>
+                        @if($user->merchant !== null)
+                            <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
+                                <dd>{!! $user->merchant->name !!}</dd>
+                            </a>
+                        @else
+                            <dd></dd>
+                        @endif
+                        @if($user->locations != null )
+                            <dt>Locations</dt>
+                            @foreach ($user->locations as $location)
+                                <dd>{!! $location->name !!}</dd>
+                            @endforeach
+                            <dd></dd>
+                        @endif
+                        <dt>Roles</dt>
+                        @if($user->roles !== null)
+                            @foreach ($user->roles as $role)
+                                <dd>{!! $role->display_name !!}</dd>
+                            @endforeach
+                            <dd></dd>
+                        @else
+                            <dd></dd>
+                        @endif
+                    </dl>
                 </div>
             </div>
         </div>
-
+    </div>
 @endsection
