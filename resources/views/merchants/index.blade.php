@@ -31,9 +31,9 @@
                     <td class="hidden-xs hidden-sm">{{ $item->ext_minimum_amount_settled }}</td>
                     <td class="col-sm-2 col-md-1">
                         @if( $item->linked == 0 )
-                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Unlinked</span>
                         @elseif( $item->linked == 1 )
-                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Linked</span>
                         @endif
                     </td>
 

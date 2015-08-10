@@ -10,69 +10,54 @@
     </h2>
     @include('includes.page.breadcrumb', ['override2'=>$installations->name])
 
-    <div id="basketTabs">
-        <ul class="nav nav-tabs">
-            <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>Installation Details</h5></a></li>
-        </ul>
-        <div class="col-xs-12">&nbsp;</div>
-        <hr>
-        {{--FIRST PANEL: ROLE DETAILS--}}
-
-        <div id="fragment-1">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#part1">Installation Details</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="part1" class="tab-pane fade in active">
+            <br/>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Key information</h3>
-                </div>
+                <div class="panel-heading"><strong>Key Information</strong></div>
                 <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Name: </strong> {{ $installations->name }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Active Status: </strong>
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd>{!! $installations->name !!}</dd>
+                        <dt>Active Status</dt>
+                        <dd>
                             @if( $installations->active == 0 )
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                             @elseif( $installations->active == 1 )
-                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
                             @endif
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Linked Status: </strong>
+                        </dd>
+                        <dt>Linked Status</dt>
+                        <dd>
                             @if( $installations->linked == 0 )
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Unlinked</span>
                             @elseif( $installations->linked == 1 )
-                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Linked</span>
                             @endif
-                        </li>
-                    </ul>
+                        </dd>
+                    </dl>
                 </div>
             </div>
-
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">External Information</h3>
-                </div>
+                <div class="panel-heading"><strong>External Information</strong></div>
                 <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Installation ID: </strong> {{ $installations->ext_id }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Installation Name: </strong> {{ $installations->ext_name }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Return URL: </strong> {{ $installations->ext_return_url }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Notification URL: </strong> {{ $installations->ext_notification_url }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Default Product: </strong> {{ $installations->ext_default_product }}
-                        </li>
-                    </ul>
+                    <dl class="dl-horizontal">
+                        <dt>Installation ID</dt>
+                        <dd>{!! $installations->ext_id !!}</dd>
+                        <dt>Installation Name</dt>
+                        <dd>{!! $installations->ext_name !!}</dd>
+                        <dt>Return URL</dt>
+                        <dd>{!! $installations->ext_return_url !!}</dd>
+                        <dt>Notification URL</dt>
+                        <dd>{!! $installations->ext_notification_url !!}</dd>
+                        <dt>Default Product</dt>
+                        <dd>{!! $installations->ext_default_product !!}</dd>
+                    </dl>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
