@@ -7,11 +7,9 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>Pending Cancellations</h1>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">
-        {{-- @include('includes.form.record_counter', ['object' => $applications]) --}}
-
         <div class="panel-heading"><h4>Pending Cancellations</h4></div>
         <table class="table table-bordered table-striped table-hover">
         {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
