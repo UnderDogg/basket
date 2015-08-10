@@ -103,7 +103,6 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Applications
      */
-    Route::get(   'applications/pending-cancellations', 'ApplicationsController@pendingCancellations');
     Route::get(   'applications',            'ApplicationsController@index');
     Route::get(   'applications/{id}',       'ApplicationsController@show');
     Route::get(   'applications/{id}/edit',  'ApplicationsController@edit');
@@ -114,6 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post(  'applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
     Route::get(  'applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
     Route::post(  'applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
+    Route::get(   'installations/{id}/applications/pending-cancellations', 'ApplicationsController@pendingCancellations');
 
     /*
      * Settlements
