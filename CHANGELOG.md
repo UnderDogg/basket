@@ -18,6 +18,8 @@
 - Added logo and changed favicon
 - Changed tabs so they look less 'bulky' and changed the format of the forms to match this
 - Changed glyphicons and added 'scripts' section to master
+- Email Notification to Location for converted Application
+- Email configuration
 
 ## Bug Fixes
 - Removed unnecessary object checks in views
