@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>View Partial Refund</h2>
-    @include('includes.page.breadcrumb', ['override2'=>'#'.$partialRefund->id])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => '#'.$partialRefund->id]])
 
     <div id="basketTabs">
         <ul class="nav nav-tabs">

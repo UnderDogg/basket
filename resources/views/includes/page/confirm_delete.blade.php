@@ -9,7 +9,7 @@
 
     @if($object !== null)
 
-        @include('includes.page.breadcrumb', ['override2'=>$object->name])
+        @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $object->name]])
 
         <p>&nbsp;</p>
         {!! Form::open( ['method'=>'delete','action'=>[

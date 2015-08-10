@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>Edit account details</h2>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title">USER DETAILS</h3></div>
         <div class="panel-body">

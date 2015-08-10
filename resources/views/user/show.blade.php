@@ -9,7 +9,7 @@
         {{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true, 'locations'=>true])
     </h2>
-    @include('includes.page.breadcrumb', ['override2'=>$user->name])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>

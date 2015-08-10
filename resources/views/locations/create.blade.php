@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     {!! Form::open(['url' => 'locations', 'class' => 'form-horizontal']) !!}
     <p>&nbsp;</p>
