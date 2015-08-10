@@ -26,7 +26,7 @@
                 <p>&nbsp;</p>
                 <div class="form-group">
                     <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-                        {!! Form::submit('Confirm Delete', [
+                        {!! Form::submit('Confirm', [
                             'class' => 'btn btn-danger form-control',
                             'name' => 'confirmDelete'
                         ]) !!}

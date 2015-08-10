@@ -9,7 +9,7 @@
     <title>Basket</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/icon" href="{!! asset('/image/xfavicon-64.ico.pagespeed.ic.w5mJPa9jXS.png') !!}" sizes="64x64">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     {{--<link rel="stylesheet" href="/css/bootstrap.min.css">--}}
@@ -38,9 +38,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Basket</a>
+            <a class="navbar-brand" href="/">
+                {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW', array('style' => 'height: 28px;')) !!}
+            </a>
         </div>
-
         {{--NAVIGATION BAR--}}
         <div id="navbar" class="navbar-collapse collapse">
             @if ( \Auth::check())
@@ -70,7 +71,9 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown pull-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!} <img src="{{ 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20' }}"/><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!}
+                            {!! HTML::image('http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{URL::to('/account')}}">Account</a></li>
                             <li><a href="{{URL::to('/account/edit')}}">Edit Account</a></li>
@@ -84,15 +87,11 @@
 </nav>
 
 <div class="container">
-
     <div class="row">
-
         @yield('content')
+    </div><hr/>
+    <footer class="container">
 
-    </div>
-
-    <hr>
-    <footer>
         <p>&copy; PayBreak 2015</p>
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

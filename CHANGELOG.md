@@ -15,6 +15,11 @@
 - Partial Refund request, index and show
 - Added account management pages so users can edit or view their account details
 - Changed master view to include gravatar and login / logout features
+- Added logo and changed favicon
+- Changed tabs so they look less 'bulky' and changed the format of the forms to match this
+- Changed glyphicons and added 'scripts' section to master
+- Email Notification to Location for converted Application
+- Email configuration
 
 ## Bug Fixes
 - Removed unnecessary object checks in views

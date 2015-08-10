@@ -13,7 +13,7 @@
     <div>
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">ROLE DETAILS</h3></div>
+                <div class="panel-heading"><strong>Role Details</strong></div>
                 <div class="panel-body">
 
                     <div class="form-group">
@@ -42,9 +42,7 @@
 
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div style="height: 100%;" class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">ROLE PERMISSIONS</h3>
-                </div>
+                <div class="panel-heading"><strong>Role Permissions</strong></div>
                 <div class="panel-body panel-tight-space">
                     <div style="padding-right:0px;" class="col-xs-6">
                         <div class="panel rolePanel">

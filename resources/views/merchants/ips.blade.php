@@ -38,8 +38,10 @@
                     <td>{{$ip->getId()}}</td>
                     <td>{{$ip->getIp()}}</td>
                     <td>
-                        @if($ip->getActive() == 1) <span class="label label-success">Active</span>
-                        @elseif($ip->getActive() == 0) <span class="label label-danger">Inactive</span>
+                        @if($ip->getActive() == 0 )
+                            <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Active</span>
+                        @elseif($ip->getActive() == 1  )
+                            <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Inactive</span>
                         @endif
                     </td>
                     <td class="text-right">

@@ -18,6 +18,12 @@
                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
             </div>
         </div>
+        <div class="form-group">
+            {!! Form::label('location_instruction', 'Additional Instruction: ', ['class' => 'col-sm-3 control-label']) !!}
+            <div class="col-sm-6">
+                {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
+            </div>
+        </div>
     </div>
     <p>&nbsp;</p>
     <div class="form-group">
