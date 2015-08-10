@@ -86,9 +86,9 @@
 <div class="container">
     <div class="row">
         @yield('content')
-    </div>
+    </div><hr/>
     <footer class="container">
-        <hr>
+
         <p>&copy; PayBreak 2015</p>
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
