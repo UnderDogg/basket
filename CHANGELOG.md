@@ -20,6 +20,8 @@
 - Changed glyphicons and added 'scripts' section to master
 - Email Notification to Location for converted Application
 - Email configuration
+- Breadcrumbs has been hardened
+- Changed the include of breadcrumbs throughout basket
 
 ## Bug Fixes
 - Removed unnecessary object checks in views
