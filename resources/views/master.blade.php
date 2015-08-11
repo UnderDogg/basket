@@ -49,9 +49,20 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Make Application</a></li>
-                            <li><a href="/applications">Applications List</a></li>
-                            <li><a href="/installations/{id}/applications/pending-cancellations">Pending Cancellation List</a></li>
+                            @foreach($available_installations as $installation)
+                            <li class="dropdown-header">{{ $installation->name }}</li>
+                            <li><a href="/installations/{{ $installation->id }}/applications">Applications List</a></li>
+                            <li><a href="/installations/{{ $installation->id }}/applications/pending-cancellations">Pending Cancellation List</a></li>
+                            <li role="separator" class="divider"></li>
+                            @endforeach
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/settlements">Settlements</a></li>
+                            <li><a href="/partial-refunds">Partial Refunds</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -67,7 +78,7 @@
                             <li><a href="/roles">Roles & Permissions</a></li>
                         </ul>
                     </li>
-                    <li><a href="/partial-refunds">Partial Refunds</a></li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown pull-right">
