@@ -9,7 +9,7 @@
     @if(count($user->locations) > 0)
         <h2>Make Application</h2>
         <ul>
-            @foreach($user->location as $location)
+            @foreach($user->locations as $location)
                 <li><strong><a href="/locations/{{ $location->id }}/applications/make">{{ $location->name }}</a></strong> <em>{{ $location->address }}</em></li>
             @endforeach
         </ul>
