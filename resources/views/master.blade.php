@@ -9,7 +9,7 @@
     <title>Basket</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/icon" href="{!! asset('/image/xfavicon-64.ico.pagespeed.ic.w5mJPa9jXS.png') !!}" sizes="64x64">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     {{--<link rel="stylesheet" href="/css/bootstrap.min.css">--}}
@@ -38,9 +38,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Basket</a>
+            <a class="navbar-brand" href="/">
+                {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW', array('style' => 'height: 28px;')) !!}
+            </a>
         </div>
-
         {{--NAVIGATION BAR--}}
         <div id="navbar" class="navbar-collapse collapse">
             @if ( \Auth::check())
@@ -50,6 +51,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Make Application</a></li>
                             <li><a href="/applications">Applications List</a></li>
+                            <li><a href="/installations/{id}/applications/pending-cancellations">Pending Cancellation List</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -65,35 +67,35 @@
                             <li><a href="/roles">Roles & Permissions</a></li>
                         </ul>
                     </li>
+                    <li><a href="/partial-refunds">Partial Refunds</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown pull-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!}
+                            {!! HTML::image('http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{URL::to('/account')}}">Account</a></li>
+                            <li><a href="{{URL::to('/account/edit')}}">Edit Account</a></li>
+                            <li><a href="{{URL::to('/logout')}}">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
             @endif
-            {{--<form class="navbar-form navbar-right" role="form">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>--}}
-        </div><!--/.navbar-collapse -->
+        </div>
     </div>
 </nav>
 
 <div class="container">
-
     <div class="row">
-
         @yield('content')
+    </div><hr/>
+    <footer class="container">
 
-    </div>
-
-    <hr>
-    <footer>
         <p>&copy; PayBreak 2015</p>
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+<script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
@@ -107,5 +109,6 @@
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
     ga('create','UA-XXXXX-X','auto');ga('send','pageview');
 </script>
+@yield('scripts')
 </body>
 </html>

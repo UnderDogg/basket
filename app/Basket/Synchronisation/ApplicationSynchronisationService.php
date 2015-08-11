@@ -11,13 +11,13 @@
 namespace App\Basket\Synchronisation;
 
 use App\Basket\Application;
-use App\Basket\Entities\Application\AddressEntity;
-use App\Basket\Entities\Application\ApplicantEntity;
-use App\Basket\Entities\Application\CustomerEntity;
-use App\Basket\Entities\Application\FinanceEntity;
-use App\Basket\Entities\Application\OrderEntity;
-use App\Basket\Entities\ApplicationEntity;
-use App\Basket\Gateways\ApplicationGateway;
+use PayBreak\Sdk\Entities\Application\AddressEntity;
+use PayBreak\Sdk\Entities\Application\ApplicantEntity;
+use PayBreak\Sdk\Entities\Application\CustomerEntity;
+use PayBreak\Sdk\Entities\Application\FinanceEntity;
+use PayBreak\Sdk\Entities\Application\OrderEntity;
+use PayBreak\Sdk\Entities\ApplicationEntity;
+use PayBreak\Sdk\Gateways\ApplicationGateway;
 use App\Exceptions\Exception;
 use Psr\Log\LoggerInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -99,18 +99,13 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             throw $e;
         }
 
-        $app = new Application();
-        $app->installation_id = $installation->id;
-        $app->ext_id = $applicationEntity->getId();
+        try {
+            return $this->createNewLocal($applicationEntity, $installation->id);
+        } catch (\Exception $e) {
 
-        $this->mapApplication($applicationEntity, $app);
-
-        if ($app->save()) {
-            return $app;
+            $this->logError('LinkApplication: Problem saving Application[' . $installationId . ']');
+            throw $e;
         }
-
-        $this->logError('LinkApplication: Problem saving Application[' . $installationId . ']');
-        throw new Exception('Problem saving Application');
     }
 
     /**
@@ -154,6 +149,138 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $this->logError('ApplicationSynchronisationService: CancellationRequest failed ' . $e->getMessage());
             throw $e;
         }
+    }
+
+    /**
+     * @author LH
+     * @param $id
+     * @param $refundAmount
+     * @param $effectiveDate
+     * @param $description
+     * @return mixed
+     * @throws \Exception
+     */
+    public function requestPartialRefund($id, $refundAmount, $effectiveDate, $description)
+    {
+        $application = $this->fetchApplicationLocalObject($id);
+        $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
+
+        try {
+
+            $partialRefundGateway = \App::make('\PayBreak\Sdk\Gateways\PartialRefundGateway');
+
+            return $partialRefundGateway->requestPartialRefund(
+                $merchant->token,
+                $application->ext_id,
+                $refundAmount,
+                $effectiveDate,
+                $description
+            );
+
+        } catch (\Exception $e) {
+
+            $this->logError('ApplicationSynchronisationService: RequestPartialRefund failed ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * @param int $installationId
+     * @param string $reference
+     * @param int $amount
+     * @param string $description
+     * @param string $validity
+     * @param string $productGroup
+     * @param array $productOptions
+     * @param string $location
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws Exception
+     */
+    public function initialiseApplication(
+        $installationId,
+        $reference,
+        $amount,
+        $description,
+        $validity,
+        $productGroup,
+        array $productOptions,
+        $location
+    ) {
+        $installation = $this->fetchInstallationLocalObject($installationId);
+
+        $application = ApplicationEntity::make(
+            [
+                'installation' => $installation->ext_id,
+                'order' => [
+                    'reference' => $reference,
+                    'amount' => (int) $amount,
+                    'description' => $description,
+                    'validity' => $validity,
+                ],
+                'products' => [
+                    'group' => $productGroup,
+                    'options' => $productOptions,
+                ],
+                'fulfilment' => [
+                    'method' => 'collection',
+                    'location' => $location,
+                ],
+            ]
+        );
+
+        $this->logInfo(
+            'IniApp: Application reference[' . $reference . '] ready to be initialised',
+            ['application' => $application->toArray()]
+        );
+
+        try {
+            $newApplication = $this->applicationGateway->initialiseApplication(
+                $application,
+                $installation->merchant->token
+            );
+
+            $this->logInfo(
+                'IniApp: Application reference[' . $reference . '] successfully initialised at provider with ID[' .
+                $newApplication->getId() . ']'
+            );
+
+            $this->createNewLocal($newApplication, $installation->id);
+
+            $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
+            $this->logInfo(
+                'IniApp: Application reference[' . $reference . '] redirecting to: [' .
+                $newApplication->getResumeUrl() . ']'
+            );
+
+            return $newApplication->getResumeUrl();
+
+        } catch (\Exception $e) {
+
+            $this->logError('IniApp: ' . $e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @author WN
+     * @param ApplicationEntity $applicationEntity
+     * @param $installationId
+     * @return Application
+     * @throws Exception
+     */
+    private function createNewLocal(ApplicationEntity $applicationEntity, $installationId)
+    {
+        $app = new Application();
+        $app->installation_id = $installationId;
+        $app->ext_id = $applicationEntity->getId();
+
+        $this->mapApplication($applicationEntity, $app);
+
+        if ($app->save()) {
+            return $app;
+        }
+
+        throw new Exception('Problem saving Application');
     }
 
     /**

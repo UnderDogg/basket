@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' create a new ' . Request::segment(1)) }}</h2>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     {!! Form::open(['url' => 'roles', 'class' => 'form-horizontal']) !!}
 
@@ -63,11 +63,9 @@
                             </div>
                             <div class="panel-body panel-tight-space">
                                 <div style="height: 365px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
-                                    @if($permissionsAvailable !== null)
-                                        @foreach ($permissionsAvailable as $permission)
-                                            <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
-                                        @endforeach
-                                    @endif
+                                    @foreach ($permissionsAvailable as $permission)
+                                        <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -83,9 +81,7 @@
         </div>
     </div>
 
-    @if($permissionsAvailable !== null)
-        <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="@foreach ($permissionsAvailable as $permission){{ ':'.$permission->id  }}@endforeach">
-    @endif
+    <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="@foreach ($permissionsAvailable as $permission){{ ':'.$permission->id  }}@endforeach">
     <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="">
     {!! Form::close() !!}
 

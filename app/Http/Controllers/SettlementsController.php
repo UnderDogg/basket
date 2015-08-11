@@ -10,9 +10,8 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
-use App\Http\Requests;
-use App\Basket\Gateways\SettlementGateway;
-use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use PayBreak\Sdk\Gateways\SettlementGateway;
 
 /**
  * Class SettlementsController
@@ -44,19 +43,29 @@ class SettlementsController extends Controller
     public function index()
     {
         $messages = $this->getMessages();
+        $dateRange = $this->getDateRange();
+        $settlementReports = Collection::make(
+            $this
+                ->settlementGateway
+                ->getSettlementReports($this->getMerchantToken(), $dateRange['date_from'], $dateRange['date_to'])
+        );
 
-        $settlement_reports = $this
-            ->settlementGateway
-            ->getSettlementReports($this->getMerchantToken(), $this->getDateRange());
+        $filter = $this->getFilters();
 
-        $this->applyStandardFilters($settlement_reports);
+        if(!$filter->isEmpty()) {
+            $settlementReports = $settlementReports->filter(function($settlement_reports) use ($filter) {
+                if($settlement_reports['provider'] == $filter['provider']) {
+                    return true;
+                }
+            });
+        }
 
-        foreach ($settlement_reports as $key => $report) {
-            $settlement_reports[$key] = (object) $report;
+        foreach ($settlementReports as $key => $report) {
+            $settlementReports[$key] = (object) $report;
         }
 
         return View('settlements.index', [
-            'settlement_reports' => (object) $settlement_reports,
+            'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
             'messages' => $messages
         ]);
@@ -93,7 +102,7 @@ class SettlementsController extends Controller
      */
     private function applyStandardFilters(&$settlements)
     {
-        if (!empty($filter = $this->getTableFilter())) {
+        if (!empty($filter = $this->getFilters())) {
             foreach ($filter as $field => $query) {
                 if ($field !== 'date_from' && $field !== 'date_to') {
                     $this->filterArrayByValue($settlements, $field, $query);
@@ -156,30 +165,6 @@ class SettlementsController extends Controller
             $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
         }
-    }
-
-    /**
-     * Get Date Range
-     *
-     * @author MS
-     * @return array
-     */
-    private function getDateRange()
-    {
-        $date_to = Carbon::now();
-        $date_from = new Carbon('last month');
-
-        $default_dates = [$date_from, $date_to];
-
-        if (!empty($filter = $this->getTableFilter())) {
-
-            foreach ($filter as $field => $query) {
-
-                $default_dates[0] = ($field == 'date_from') ? $query : $default_dates[0];
-                $default_dates[1] = ($field == 'date_to') ? $query : $default_dates[1];
-            }
-        }
-        return $default_dates;
     }
 
     /**

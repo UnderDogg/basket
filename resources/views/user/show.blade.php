@@ -7,48 +7,52 @@
 
     <h2>
         {{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        @if($user !== null)
-            @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true])
-        @endif
+        @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true, 'locations'=>true])
     </h2>
-    @include('includes.page.breadcrumb', ['override2'=>$user->name])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
 
-    <div id="basketTabs">
-        <ul class="nav nav-tabs">
-            <li role="presentation" class="tabbutton active"><a href="#fragment-1"><h5>User Details</h5></a></li>
-        </ul>
-        <div class="col-xs-12">&nbsp;</div>
-        <hr>
-        {{--FIRST PANEL: USER DETAILS--}}
-
-        <div id="fragment-1">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
+    </ul>
+    <br/>
+    <div class="tab-content">
+        <div id="part1" class="tab-pane fade in active">
+            <br/>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Key information</h3>
-                </div>
+                <div class="panel-heading"><strong>Key Information</strong></div>
                 <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Name: </strong> {{ $user->name  }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Email: </strong> {{ $user->email  }}
-                        </li>
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd>{!! $user->name !!}</dd>
+                        <dt>Email</dt>
+                        <dd>{!! $user->email !!}</dd>
+                        <dt>Merchant</dt>
                         @if($user->merchant !== null)
-                            <li class="list-group-item">
-                                <strong>Merchant: </strong>
-                                <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
-                                    {{ $user->merchant->name }}
-                                </a>
-                            </li>
+                            <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
+                                <dd>{!! $user->merchant->name !!}</dd>
+                            </a>
+                        @else
+                            <dd></dd>
                         @endif
-                        <li class="list-group-item">
-                            <strong>Locations: </strong> {{ 'To Be Defined'  }}
-                        </li>
-                    </ul>
+                        @if($user->locations != null )
+                            <dt>Locations</dt>
+                            @foreach ($user->locations as $location)
+                                <dd>{!! $location->name !!}</dd>
+                            @endforeach
+                            <dd></dd>
+                        @endif
+                        <dt>Roles</dt>
+                        @if($user->roles !== null)
+                            @foreach ($user->roles as $role)
+                                <dd>{!! $role->display_name !!}</dd>
+                            @endforeach
+                            <dd></dd>
+                        @else
+                            <dd></dd>
+                        @endif
+                    </dl>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection

@@ -17,10 +17,12 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property string $email
  * @property string $password
  * @property int    $merchant_id
- * @property string $locations
  * @property string $remember_token
  * @property        $created_at
  * @property        $updated_at
+ * @property Role[]             $roles
+ * @property Basket\Location[]  $locations
+ *
  * @package App
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
@@ -40,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'merchant_id', 'locations', 'role_id'];
+    protected $fillable = ['name', 'email', 'password', 'merchant_id', 'role_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -61,11 +63,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     /**
      * Get the role record associated with the user.
+     *
+     * TODO To remove! ~WN
+     *
+     * @deprecated
      * @author MS
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function role()
     {
         return $this->belongsTo('App\Role');
+    }
+
+    public function locations()
+    {
+        return $this->belongsToMany('App\Basket\Location');
     }
 }

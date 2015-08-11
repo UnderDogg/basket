@@ -8,7 +8,7 @@
     <h1>USERS
         <a href="{{ url('/users/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New User</a>
     </h1>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">
 
@@ -46,7 +46,7 @@
                     {{-- ACTION BUTTONS --}}
                     <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
                         @include('includes.form.record_actions', ['id' => $item->id,
-                            'actions' => ['edit' => 'Edit', 'delete' => 'Delete']
+                            'actions' => ['edit' => 'Edit', 'locations' => 'Locations', 'delete' => 'Delete']
                         ])
                     </td>
                 </tr>

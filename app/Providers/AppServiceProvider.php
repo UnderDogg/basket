@@ -26,19 +26,20 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('Psr\Log\LoggerInterface', function () { return \Log::getMonolog(); });
 
         $this->app->bind('App\Gateways\ApiClientFactory', 'App\Gateways\ApiClientFactory');
-        $this->app->bind('App\Basket\Gateways\MerchantGateway', 'App\Basket\Gateways\MerchantGateway');
+        $this->app->bind('PayBreak\Sdk\Gateways\MerchantGateway', 'PayBreak\Sdk\Gateways\MerchantGateway');
+        $this->app->bind('PayBreak\Sdk\Gateways\IpsGateway', 'PayBreak\Sdk\Gateways\IpsGateway');
         $this->app->bind(
             'App\Basket\Synchronisation\MerchantSynchronisationService',
             'App\Basket\Synchronisation\MerchantSynchronisationService'
         );
 
-        $this->app->bind('App\Basket\Gateways\InstallationGateway', 'App\Basket\Gateways\InstallationGateway');
+        $this->app->bind('PayBreak\Sdk\Gateways\InstallationGateway', 'PayBreak\Sdk\Gateways\InstallationGateway');
         $this->app->bind(
             'App\Basket\Synchronisation\InstallationSynchronisationService',
             'App\Basket\Synchronisation\InstallationSynchronisationService'
         );
 
-        $this->app->bind('App\Basket\Gateways\ApplicationGateway', 'App\Basket\Gateways\ApplicationGateway');
+        $this->app->bind('PayBreak\Sdk\Gateways\ApplicationGateway', 'PayBreak\Sdk\Gateways\ApplicationGateway');
         $this->app->bind(
             'App\Basket\Synchronisation\ApplicationSynchronisationService',
             'App\Basket\Synchronisation\ApplicationSynchronisationService'
@@ -46,6 +47,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Basket\Synchronisation\NotificationCatcherService',
             'App\Basket\Synchronisation\NotificationCatcherService'
+        );
+
+        $this->app->bind(
+            'PayBreak\Sdk\Gateways\CreditInfoGateway',
+            'PayBreak\Sdk\Gateways\CreditInfoGateway'
+        );
+
+        $this->app->bind(
+            'App\Basket\Notifications\LocationNotificationService',
+            'App\Basket\Notifications\EmailLocationNotificationService'
         );
     }
 }

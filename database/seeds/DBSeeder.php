@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Role;
 use App\Permission;
-use App\RolePermissions;
 use App\User;
 
 class DBSeeder extends Seeder
@@ -102,10 +101,8 @@ class DBSeeder extends Seeder
 
         foreach ($this->rolesPermissions as $role => $permissionsToAdd) {
             foreach ($permissionsToAdd as $permission) {
-                $rolePermissionObject = new RolePermissions();
-                $rolePermissionObject->role_id = $role + 1;
-                $rolePermissionObject->permission_id = $permission;
-                $rolePermissionObject->save();
+                $role1 = Role::findOrFail($role + 1);
+                $role1->permissions()->attach($permission);
             }
         }
 

@@ -9,10 +9,13 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use PayBreak\Sdk\Gateways\ApplicationGateway;
 
 /**
  * Class ApplicationsController
@@ -25,11 +28,16 @@ class ApplicationsController extends Controller
     /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
     private $applicationSynchronisationService;
 
-    public function __construct()
+    /** @var ApplicationGateway $applicationGateway */
+    private $applicationGateway;
+
+    public function __construct(ApplicationGateway $applicationGateway)
     {
         $this->applicationSynchronisationService = \App::make(
             'App\Basket\Synchronisation\ApplicationSynchronisationService'
         );
+
+        $this->applicationGateway = $applicationGateway;
     }
 
     /**
@@ -40,9 +48,23 @@ class ApplicationsController extends Controller
      */
     public function index()
     {
-        $application = Application::query();
+        $filterDates = $this->getDateRange();
+
+        $application = $this->processDateFilters(
+            Application::query(),
+            'created_at',
+            $filterDates['date_from'],
+            $filterDates['date_to']
+        );
+
         $this->limitToInstallationOnMerchant($application);
-        return $this->standardIndexAction($application, 'applications.index', 'applications');
+
+        return $this->standardIndexAction(
+            $application,
+            'applications.index',
+            'applications',
+            ['default_dates' => $filterDates]
+        );
     }
 
     /**
@@ -62,6 +84,7 @@ class ApplicationsController extends Controller
                 'messages' => $this->getMessages(),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
+                'partialRefundAvailable' => $this->canPartiallyRefund($application),
             ]
         );
     }
@@ -102,13 +125,7 @@ class ApplicationsController extends Controller
      */
     public function confirmFulfilment($id)
     {
-        $application = $this->fetchApplicationById($id);
-        if (!$this->isFulfilable($application)) {
-
-            throw RedirectException::make('/applications/' . $id)
-                ->setError('Application is not allowed to be fulfilled.');
-        }
-        return view('applications.fulfilment', ['application' => $application]);
+        return $this->renderConfirmationScreen('fulfilment', $id);
     }
 
     /**
@@ -136,13 +153,7 @@ class ApplicationsController extends Controller
      */
     public function confirmCancellation($id)
     {
-        $application = $this->fetchApplicationById($id);
-        if (!$this->isCancellable($application)) {
-
-            throw RedirectException::make('/applications/' . $id)
-                ->setError('Application is not allowed to request cancellation.');
-        }
-        return view('applications.cancellation', ['application' => $application]);
+        return $this->renderConfirmationScreen('cancellation', $id);
     }
 
     /**
@@ -164,27 +175,87 @@ class ApplicationsController extends Controller
     }
 
     /**
-     * Reformat For Currency
+     * Display pending cancellation list.
      *
-     * @author MS
-     * @param string $field
-     * @param int|float $integer
-     * @return int
+     * @author SD
+     * @return \Illuminate\View\View
+     * @throws \App\Exceptions\RedirectException
      */
-    private function reformatForCurrency($field, $integer)
+    public function pendingCancellations($installationId)
     {
-        if (
-            !($field === 'ext_order_amount') &&
-            !($field === 'ext_finance_order_amount') &&
-            !($field === 'ext_finance_loan_amount') &&
-            !($field === 'ext_finance_deposit') &&
-            !($field === 'ext_finance_subsidy') &&
-            !($field === 'ext_finance_net_settlement')
-        ) {
+        $messages = $this->getMessages();
 
-            return $integer;
+        $installation = $this->fetchModelByIdWithMerchantLimit((new Installation()), $installationId, 'installation', '/');
+
+        $pendingCancellations = Collection::make(
+            $this
+                ->applicationGateway
+                ->getPendingCancellations($installation->ext_id, $this->getMerchantToken())
+        );
+
+        // Shouldn't need to do this but leaving for refactoring as this
+        // is done across all code base
+        foreach ($pendingCancellations as $key => $pendingCancellation) {
+            $pendingCancellations[$key] = (object) $pendingCancellation;
         }
-        return round($integer * 100);
+
+        return View('applications.pending-cancellation', [
+            'applications' => $pendingCancellations,
+            'messages' => $messages
+        ]);
+    }
+
+    /**
+     * @author LH
+     * @param $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function confirmPartialRefund($id)
+    {
+        $application = $this->fetchApplicationById($id);
+        if (!$this->canPartiallyRefund($application)) {
+
+            throw RedirectException::make('/applications/' . $id)
+                ->setError('You may not partially refund this application.');
+        }
+        return view('applications.partial-refund', ['application' => $application, 'messages' => $this->getMessages()]);
+    }
+
+    /**
+     * @author LH
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function requestPartialRefund(Request $request, $id)
+    {
+        $this->validate($request, [
+            'refund_amount' => 'required|numeric',
+            'effective_date' => 'required|date_format:Y/m/d',
+            'description' => 'required',
+        ]);
+
+        $effectiveDate = \DateTime::createFromFormat('Y/m/d', $request->get('effective_date'))->format('Y-m-d');
+
+        try {
+
+            $this->applicationSynchronisationService->requestPartialRefund(
+                $id,
+                ($request->get('refund_amount') * 100),
+                $effectiveDate,
+                $request->get('description')
+            );
+
+        } catch (\Exception $e) {
+            $this->logError('Error while trying to request a partial refund for application [' . $id . ']: ' . $e->getMessage());
+            throw RedirectException::make('/applications/' . $id)->setError('Requesting a partial refund failed');
+        }
+
+        return redirect()
+            ->action('ApplicationsController@show', $id)
+            ->with('success', 'Partial refund has been successfully requested');
     }
 
     /**
@@ -216,5 +287,35 @@ class ApplicationsController extends Controller
     private function isCancellable(Application $application)
     {
         return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+    }
+
+    /**
+     * @author LH
+     * @param Application $application
+     * @return bool
+     */
+    private function canPartiallyRefund(Application $application)
+    {
+        return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+    }
+
+    /**
+     * @author WN
+     * @param $action
+     * @param $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    private function renderConfirmationScreen($action, $id)
+    {
+        $application = $this->fetchApplicationById($id);
+
+        if (((!$this->isCancellable($application)) && $action == 'cancellation') ||
+            ((!$this->isFulfilable($application)) && $action == 'fulfilment')
+        ) {
+            throw RedirectException::make('/applications/' . $id)
+                ->setError('Application is not allowed to request ' . $action);
+        }
+        return view('applications.' . $action, ['application' => $application]);
     }
 }

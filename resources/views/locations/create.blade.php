@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     {!! Form::open(['url' => 'locations', 'class' => 'form-horizontal']) !!}
     <p>&nbsp;</p>
@@ -19,12 +19,12 @@
         </div><div class="form-group">
             {!! Form::label('installation_id', 'Installation ID: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('installation_id', null, ['class' => 'form-control']) !!}
+                {!! Form::select('installation_id', $installations, null, ['class' => 'form-control']) !!}
             </div>
         </div><div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('active', null, ['class' => 'form-control']) !!}
+                {!! Form::checkbox('active', null, ['class' => 'form-control']) !!}
             </div>
         </div><div class="form-group">
             {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}

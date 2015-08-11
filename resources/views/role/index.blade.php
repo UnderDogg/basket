@@ -8,7 +8,7 @@
     <h1>ROLES
         <a href="{{ url('/roles/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Role</a>
     </h1>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <div class="panel panel-default">
 
         @include('includes.form.record_counter', ['object' => $role])

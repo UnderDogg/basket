@@ -3,8 +3,7 @@
 @section('content')
 
     <h2>Request Cancellation</h2>
-
-        @include('includes.page.breadcrumb', ['override2'=>'Request Cancellation'])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => 'Request Cancellation']])
 
         <p>&nbsp;</p>
         {!! Form::open( ['method'=>'post'] ) !!}

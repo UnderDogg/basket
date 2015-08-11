@@ -4,6 +4,11 @@
             <span class="glyphicon glyphicon-edit"></span> Edit
         </a>
     @endif
+    @if(isset($locations))
+        <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/locations" class="btn btn-default">
+            <span class="glyphicon glyphicon-map-marker"></span> Locations
+        </a>
+    @endif
     @if(isset($sync))
         <a class="btn btn-default">
             <span class="glyphicon glyphicon-refresh"></span> Sync
@@ -23,6 +28,16 @@
         <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/request-cancellation" class="btn btn-danger{{ $cancel == true ? ' ' : ' disabled' }}">
             <span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation
         </a>
+    @endif
+    @if(isset($partialRefund))
+        <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/partial-refund" class="btn btn-warning{{ $partialRefund == true ? '' : ' disabled' }}">
+            <span class="glyphicon glyphicon-adjust"></span> Partial Refund
+        </a>
+    @endif
+    @if(isset($ip))
+            <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/{{$id}}/ips" class="btn btn-default">
+                <span class="glyphicon glyphicon-list-alt"></span> View IP's
+            </a>
     @endif
 </div>
 

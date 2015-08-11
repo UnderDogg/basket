@@ -1,3 +1,37 @@
+## Features
+- Assign locations to users
+- Refactoring
+- Added date filter to applications view and changed styling of the page to work on different screen sizes
+- Changed filter on locations to a select instead of a text search
+- Refactored `SettlementsController`
+- Initialise Application
+- Assign `User` to `Roles`
+- Special case for *Super User*
+- Moved `Locations` assignment on `User` to separate screen
+- Added view, delete and store methods for merchants IP address management
+- Created links to view IP address management page inside of merchants view
+- Assign Location to Installation
+- Refactored RolesController
+- Partial Refund request, index and show
+- Added account management pages so users can edit or view their account details
+- Changed master view to include gravatar and login / logout features
+- Added logo and changed favicon
+- Changed tabs so they look less 'bulky' and changed the format of the forms to match this
+- Changed glyphicons and added 'scripts' section to master
+- Email Notification to Location for converted Application
+- Email configuration
+- Breadcrumbs has been hardened
+- Changed the include of breadcrumbs throughout basket
+
+## Bug Fixes
+- Removed unnecessary object checks in views
+- Added some *'secondary'* object checks to views such as `Roles & Permissions`
+- `User` edit password fix
+- Routes fix for `csrf`
+- *DocBlocks* improvements 
+- Applications index view has been changed to display a title of 'applications' instead of 'locations'
+- `ProviderApiClient` no longer throws exception if a delete request returns null `JSON` as it is expected to
+
 # 0.3.0
 2015-07-30
 

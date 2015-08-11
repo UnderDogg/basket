@@ -9,9 +9,12 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Location;
 use App\Basket\Merchant;
+use App\Exceptions\Exception;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
+use App\Role;
 use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -54,7 +57,7 @@ class UsersController extends Controller
      *
      * @author MS
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return  \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function store(Request $request)
@@ -77,7 +80,10 @@ class UsersController extends Controller
         $array['password'] = bcrypt($array['password']);
 
         try {
-            User::create($array);
+            $user = User::create($array);
+
+            $this->processRoles($user, $array);
+
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
                 ->setError('Can\'t create User');
@@ -111,12 +117,22 @@ class UsersController extends Controller
     }
 
     /**
+     * @author WN
+     * @param $id
+     * @return \Illuminate\View\View
+     */
+    public function editLocations($id)
+    {
+        return $this->renderFormPage('user.locations', $id);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
-     * @author MS
+     * @author WN
      * @param  int $id
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return  \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update($id, Request $request)
@@ -131,15 +147,20 @@ class UsersController extends Controller
 
         $input = $request->all();
 
-        if (!$this->isMerchantAllowedForUser($input['merchant_id'])) {
-
-            throw RedirectException::make('/users')
-                ->setError('You are not allowed to create User for this Merchant');
-        }
-
         try {
-            $input['password'] = bcrypt($input['password']);
-            $user->update($input);
+
+            if ($input['password']) {
+                $user->password = bcrypt($input['password']);
+            }
+            unset($input['password']);
+
+            if (!$user->update($input)) {
+
+                throw new Exception('Problem saving object');
+            }
+
+            $this->processRoles($user, $input);
+
         } catch (\Exception $e) {
             $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
@@ -150,11 +171,35 @@ class UsersController extends Controller
     }
 
     /**
+     * @author WN
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function updateLocations($id, Request $request)
+    {
+        try {
+            $user = $this->fetchUserById($id);
+
+            $ids = explode(':', $request->get('locationsApplied'));
+            array_shift($ids);
+            $user->locations()->sync($ids);
+
+        } catch (\Exception $e) {
+            $this->logError('Can not update user [' . $id . '] locations: ' . $e->getMessage());
+            throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'User details were successfully updated');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @author WN
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -179,7 +224,7 @@ class UsersController extends Controller
     /**
      * @author WN
      * @param $id
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return User
      * @throws \App\Exceptions\RedirectException
      */
     private function fetchUserById($id)
@@ -187,17 +232,102 @@ class UsersController extends Controller
         return $this->fetchModelByIdWithMerchantLimit((new User()), $id, 'user', '/users');
     }
 
+    /**
+     * @author WN
+     * @param string $view
+     * @param int|null $userId
+     * @return \Illuminate\View\View
+     */
     private function renderFormPage($view, $userId = null)
     {
+        $user = ($userId !== null ? $this->fetchUserById($userId) : null);
+
+        $locations = Location::all();
+
+        if ($user !== null) {
+            $locationsApplied = $user->locations;
+            $locationsAvailable = $locations->diff($locationsApplied)->keyBy('id');
+        } else {
+            $locationsApplied = collect([]);
+            $locationsAvailable = $locations->keyBy('id');
+        }
+
+        $roles = $this->fetchAvailableRoles();
+        if ($user !== null) {
+            $rolesApplied = $user->roles;
+            $rolesAvailable = $roles->diff($rolesApplied)->keyBy('id');
+        } else {
+            $rolesApplied = collect([]);
+            $rolesAvailable = $roles->keyBy('id');
+        }
+
         $merchants = Merchant::query();
         $this->limitToMerchant($merchants, 'id');
+
         return view(
             $view,
             [
-                'user' => $userId !== null?$this->fetchUserById($userId):null,
+                'user' => $user,
                 'messages' => $this->getMessages(),
                 'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
+                'locationsApplied' => $locationsApplied,
+                'locationsAvailable' => $locationsAvailable,
+                'rolesApplied' => $rolesApplied,
+                'rolesAvailable' => $rolesAvailable,
             ]
         );
+    }
+
+    /**
+     * @author WN
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function fetchAvailableRoles()
+    {
+        $roles = Role::all();
+
+        if (array_search(1, $this->getAuthenticatedUser()->roles->pluck('id')->toArray()) === false) {
+
+            $roles->forget(0);
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @author WN
+     * @param User $user
+     * @param array $input
+     * @throws Exception
+     */
+    private function processRoles(User $user, array $input)
+    {
+        if (isset($input['rolesApplied'])) {
+            $ids = explode(':', $input['rolesApplied']);
+            array_shift($ids);
+
+            $this->applyRoles($user, $ids);
+        }
+    }
+
+
+    /**
+     * @author WN
+     * @param User $user
+     * @param $roles
+     * @throws Exception
+     */
+    private function applyRoles(User $user, array $roles)
+    {
+        if (array_search('1', $roles) !== false) {
+
+            $user->merchant_id = null;
+            if (!$user->save()) {
+                throw new Exception('Can\'t remove Merchant form Super User');
+            }
+            $roles = [1];
+        }
+
+        $user->roles()->sync($roles);
     }
 }

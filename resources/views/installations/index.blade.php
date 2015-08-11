@@ -6,7 +6,7 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h1>INSTALLATIONS</h1>
-    @include('includes.page.breadcrumb')
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">
 
@@ -38,16 +38,16 @@
                     <td>{{ $item->name }}</td>
                     <td class="col-sm-2 col-md-1">
                         @if( $item->active == 0 )
-                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                         @elseif( $item->active == 1 )
-                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Active</span>
                         @endif
                     </td>
                     <td class="col-xs-2 col-md-1">
                         @if( $item->linked == 0 )
-                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Unlinked</span>
                         @elseif( $item->linked == 1 )
-                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Linked</span>
                         @endif
                     </td>
 

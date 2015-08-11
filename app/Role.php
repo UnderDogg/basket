@@ -7,10 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace App;
 
 use Zizaco\Entrust\EntrustRole;
 use Zizaco\Entrust\Traits\EntrustRoleTrait;
+
 /**
  * Class Role
  *
@@ -19,6 +21,7 @@ use Zizaco\Entrust\Traits\EntrustRoleTrait;
  * @property string $name
  * @property string $display_name
  * @property string $description
+ * @property Permission[] $permissions
  * @package App
  */
 class Role extends EntrustRole
@@ -44,4 +47,9 @@ class Role extends EntrustRole
      * @var array
      */
     protected $hidden = [];
+
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Permission');
+    }
 }

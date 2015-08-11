@@ -43,6 +43,7 @@ class BasicModels extends Migration
             $table->string('ext_return_url')->nullable();
             $table->string('ext_notification_url')->nullable();
             $table->string('ext_default_product')->nullable();
+            $table->text('location_instruction');
 
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
@@ -133,14 +134,21 @@ class BasicModels extends Migration
      */
     public function down()
     {
-        Schema::drop('merchants');
-        Schema::drop('installations');
-        Schema::drop('locations');
+        Schema::drop('applications');
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->dropColumn('merchant_id');
+            $table->dropForeign('users_merchant_id_foreign');
+            $table->dropForeign('users_role_id_foreign');
+
+            $table->dropColumn('role_id');
             $table->dropColumn('locations');
+            $table->dropColumn('merchant_id');
+
         });
+
+        Schema::drop('locations');
+        Schema::drop('installations');
+        Schema::drop('merchants');
     }
 }

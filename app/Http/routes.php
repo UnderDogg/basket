@@ -35,14 +35,16 @@ Route::group(['middleware' => 'auth'], function () {
      * Users
      */
     Route::group(['middleware' => 'permission:user-management'], function () {
-        Route::get(   'users',             'UsersController@index');
-        Route::get(   'users/create',      'UsersController@create');
-        Route::get(   'users/{id}/delete', 'UsersController@delete');
-        Route::post(  'users',             ['before' => 'csrf', 'uses' => 'UsersController@store']);
-        Route::get(   'users/{id}',        'UsersController@show');
-        Route::delete('users/{id}',        ['before' => 'csrf', 'uses' => 'UsersController@destroy']);
-        Route::get(   'users/{id}/edit',   'UsersController@edit');
-        Route::patch( 'users/{id}',        ['before' => 'csrf', 'uses' => 'UsersController@update']);
+        Route::get(   'users',                  'UsersController@index');
+        Route::get(   'users/create',           'UsersController@create');
+        Route::get(   'users/{id}/delete',      'UsersController@delete');
+        Route::post(  'users',                  'UsersController@store');
+        Route::get(   'users/{id}',             'UsersController@show');
+        Route::delete('users/{id}',             'UsersController@destroy');
+        Route::get(   'users/{id}/edit',        'UsersController@edit');
+        Route::patch( 'users/{id}',             'UsersController@update');
+        Route::get(   'users/{id}/locations',   'UsersController@editLocations');
+        Route::patch( 'users/{id}/locations',    'UsersController@updateLocations');
     });
 
     /*
@@ -51,24 +53,27 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'roles',             'RolesController@index');
     Route::get(   'roles/{id}/delete', 'RolesController@delete');
     Route::get(   'roles/create',      'RolesController@create');
-    Route::post(  'roles',             ['before' => 'csrf', 'uses' => 'RolesController@store']);
+    Route::post(  'roles',             'RolesController@store');
     Route::get(   'roles/{id}',        'RolesController@show');
-    Route::delete('roles/{id}',        ['before' => 'csrf', 'uses' => 'RolesController@destroy']);
+    Route::delete('roles/{id}',        'RolesController@destroy');
     Route::get(   'roles/{id}/edit',   'RolesController@edit');
-    Route::patch( 'roles/{id}',        ['before' => 'csrf', 'uses' => 'RolesController@update']);
+    Route::patch( 'roles/{id}',        'RolesController@update');
 
     /*
      * Merchants
      */
     Route::get(   'merchants',                          'MerchantsController@index');
     Route::get(   'merchants/create',                   'MerchantsController@create');
-    Route::post(  'merchants',                          ['before' => 'csrf', 'uses' => 'MerchantsController@store']);
+    Route::post(  'merchants',                          'MerchantsController@store');
     Route::get('merchants/{id}',                    'MerchantsController@show');
-    Route::delete('merchants/{id}',                 ['before' => 'csrf', 'uses' => 'MerchantsController@destroy']);
+    Route::delete('merchants/{id}',                 'MerchantsController@destroy');
     Route::get('merchants/{id}/edit',               'MerchantsController@edit');
-    Route::patch('merchants/{id}',                  ['before' => 'csrf', 'uses' => 'MerchantsController@update']);
+    Route::patch('merchants/{id}',                  'MerchantsController@update');
     Route::get('merchants/{id}/synchronise',        'MerchantsController@synchronise');
     Route::get('merchants/{id}/installations/synchronise',  'InstallationsController@synchroniseAllForMerchant');
+    Route::get('merchants/{id}/ips',                'IpsController@index');
+    Route::post('merchants/{id}/ips/',    ['id' => 'id', 'uses' => 'IpsController@store']);
+    Route::delete('merchants/{id}/ips/{ip}',    ['id' => 'id', 'ip' => 'ip', 'uses' => 'IpsController@delete']);
 
     /*
      * Locations
@@ -76,11 +81,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'locations',             'LocationsController@index');
     Route::get(   'locations/{id}/delete', 'LocationsController@delete');
     Route::get(   'locations/create',      'LocationsController@create');
-    Route::post(  'locations',             ['before' => 'csrf', 'uses' => 'LocationsController@store']);
+    Route::post(  'locations',             'LocationsController@store');
     Route::get(   'locations/{id}',        'LocationsController@show');
-    Route::delete('locations/{id}',        ['before' => 'csrf', 'uses' => 'LocationsController@destroy']);
+    Route::delete('locations/{id}',        'LocationsController@destroy');
     Route::get(   'locations/{id}/edit',   'LocationsController@edit');
-    Route::patch( 'locations/{id}',        ['before' => 'csrf', 'uses' => 'LocationsController@update']);
+    Route::patch( 'locations/{id}',        'LocationsController@update');
+
+    Route::get(   'locations/{id}/applications/make',   'InitialisationController@prepare');
+    Route::post(  'locations/{id}/applications/make',   'InitialisationController@chooseProduct');
+    Route::post(  'locations/{id}/applications/confirm',   'InitialisationController@confirm');
+    Route::post(  'locations/{id}/applications/request',   'InitialisationController@request');
 
     /*
      * Installations
@@ -88,7 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'installations',            'InstallationsController@index');
     Route::get(   'installations/{id}',       'InstallationsController@show');
     Route::get(   'installations/{id}/edit',  'InstallationsController@edit');
-    Route::patch( 'installations/{id}',       ['before' => 'csrf', 'uses' => 'InstallationsController@update']);
+    Route::patch( 'installations/{id}',       'InstallationsController@update');
 
     /*
      * Applications
@@ -96,17 +106,35 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(   'applications',            'ApplicationsController@index');
     Route::get(   'applications/{id}',       'ApplicationsController@show');
     Route::get(   'applications/{id}/edit',  'ApplicationsController@edit');
-    Route::patch( 'applications/{id}',       ['before' => 'csrf', 'uses' => 'ApplicationsController@update']);
+    Route::patch( 'applications/{id}',       'ApplicationsController@update');
     Route::get(   'applications/{id}/fulfil',   'ApplicationsController@confirmFulfilment');
-    Route::post( 'applications/{id}/fulfil',   ['before' => 'csrf', 'uses' => 'ApplicationsController@fulfil']);
+    Route::post( 'applications/{id}/fulfil',   'ApplicationsController@fulfil');
     Route::get(   'applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
-    Route::post(  'applications/{id}/request-cancellation', ['before' => 'csrf', 'uses' => 'ApplicationsController@requestCancellation']);
+    Route::post(  'applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
+    Route::get(  'applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
+    Route::post(  'applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
+    Route::get(   'installations/{id}/applications/pending-cancellations', 'ApplicationsController@pendingCancellations');
 
     /*
      * Settlements
      */
     Route::get('settlements', 'SettlementsController@index');
     Route::get('settlements/{id}', 'SettlementsController@settlementReport');
+
+    /*
+     * Account
+     */
+    Route::get('account', 'AccountController@show');
+    Route::get('account/edit', 'AccountController@edit');
+    Route::post('account/edit', 'AccountController@update');
+    Route::post('account/edit/password', 'AccountController@changePassword');
+
+    /*
+     * Partial Refunds
+     */
+    Route::resource('partial-refunds', 'PartialRefundsController', [
+        'only' => ['index', 'show'],
+    ]);
 
 });
 
