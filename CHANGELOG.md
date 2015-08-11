@@ -1,3 +1,6 @@
+# 0.4.0
+2015-08-11
+
 ## Features
 - Assign locations to users
 - Refactoring
