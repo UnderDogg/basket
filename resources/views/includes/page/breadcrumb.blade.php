@@ -4,10 +4,12 @@
     @foreach($crumbs as $k => $v)
 
         {{-- */$url.='/'.$v;/* --}}
+        <li>
         @if(end($crumbs) == $v)
-            <li>{!! ucwords(isset($over[$k])?$over[$k]:$v) !!}</li>
+            {!! ucwords(str_replace('-', ' ', isset($over[$k])?$over[$k]:$v)) !!}
         @else
-        <li><a href="{!!$url!!}">{!! ucwords(isset($over[$k])?$over[$k]:$v) !!}</a></li>
+        <a href="{!!$url!!}">{!! ucwords(str_replace('-', ' ', isset($over[$k])?$over[$k]:$v)) !!}</a>
         @endif
+        </li>
     @endforeach
 </ol>
