@@ -21,8 +21,8 @@ class DevSeeder extends DBSeeder
         parent::applySeederData();
 
         // SET INSTALLATIONS        | merchant_ID | name | bool active | bool linked
-        $installations[] = [1, 'Test Installation', 1, 1];
-        $installations[] = [1, 'Unlinked Installation', 1, 0];
+        $installations[] = [1, 'Test Installation', 1, 1, 'TestInstall'];
+        $installations[] = [1, 'Unlinked Installation', 0, 0, ''];
 
         // SET LOCATIONS            | reference | installation_id | bool active | name | email | address
         $locations[] = ['HIGHLOC', 1, 1, 'Higher Location', 'kira@highloc.com', 'Higher Location City'];
@@ -60,6 +60,7 @@ class DevSeeder extends DBSeeder
             $installationObject->name = $installation[1];
             $installationObject->active = $installation[2];
             $installationObject->linked = $installation[3];
+            $installationObject->ext_id = $installation[4];
             $installationObject->location_instruction = '';
             $installationObject->save();
         }
