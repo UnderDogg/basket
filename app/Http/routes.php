@@ -113,6 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post(  'applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
     Route::get(  'applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
     Route::post(  'applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
+    Route::get(   'installations/{id}/applications/pending-cancellations', 'ApplicationsController@pendingCancellations');
 
     /*
      * Settlements

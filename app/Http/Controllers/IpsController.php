@@ -69,14 +69,14 @@ class IpsController extends Controller
 
     /**
      * @author EB
-     * @param $id
-     * @param $ip
+     * @param int $id
+     * @param int $ip IP address ID
      * @return mixed
      */
     public function delete($id, $ip)
     {
         $this->ipsGateway
-            ->deleteIpAddress($this->getMerchantToken(), $id, $ip);
+            ->deleteIpAddress($this->getMerchantToken(), $ip);
         return Redirect::back()->with(['success' => 'The IP address has been successfully deleted']);
     }
 }

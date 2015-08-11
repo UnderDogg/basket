@@ -9,11 +9,13 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Application;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use PayBreak\Sdk\Gateways\ApplicationGateway;
 
 /**
  * Class ApplicationsController
@@ -26,11 +28,16 @@ class ApplicationsController extends Controller
     /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
     private $applicationSynchronisationService;
 
-    public function __construct()
+    /** @var ApplicationGateway $applicationGateway */
+    private $applicationGateway;
+
+    public function __construct(ApplicationGateway $applicationGateway)
     {
         $this->applicationSynchronisationService = \App::make(
             'App\Basket\Synchronisation\ApplicationSynchronisationService'
         );
+
+        $this->applicationGateway = $applicationGateway;
     }
 
     /**
@@ -165,6 +172,37 @@ class ApplicationsController extends Controller
             throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
         }
         return redirect()->back()->with('success', 'Cancellation requested successfully');
+    }
+
+    /**
+     * Display pending cancellation list.
+     *
+     * @author SD
+     * @return \Illuminate\View\View
+     * @throws \App\Exceptions\RedirectException
+     */
+    public function pendingCancellations($installationId)
+    {
+        $messages = $this->getMessages();
+
+        $installation = $this->fetchModelByIdWithMerchantLimit((new Installation()), $installationId, 'installation', '/');
+
+        $pendingCancellations = Collection::make(
+            $this
+                ->applicationGateway
+                ->getPendingCancellations($installation->ext_id, $this->getMerchantToken())
+        );
+
+        // Shouldn't need to do this but leaving for refactoring as this
+        // is done across all code base
+        foreach ($pendingCancellations as $key => $pendingCancellation) {
+            $pendingCancellations[$key] = (object) $pendingCancellation;
+        }
+
+        return View('applications.pending-cancellation', [
+            'applications' => $pendingCancellations,
+            'messages' => $messages
+        ]);
     }
 
     /**

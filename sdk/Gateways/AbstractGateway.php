@@ -122,7 +122,7 @@ abstract class AbstractGateway
      * @return array
      * @throws Exception
      */
-    protected function storeDocument($documentPath, array $body = [], $token, $documentName)
+    protected function postDocument($documentPath, array $body = [], $token, $documentName)
     {
         return $this->makeRequestForDocument('post', $documentPath, $token, $documentName, [], $body);
     }

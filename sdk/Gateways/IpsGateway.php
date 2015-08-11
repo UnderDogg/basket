@@ -47,18 +47,17 @@ class IpsGateway extends AbstractGateway
      */
     public function storeIpAddress($token, $ip)
     {
-        return $this->storeDocument('/v4/ip-addresses', ['ip' => $ip], $token, 'ips');
+        return $this->postDocument('/v4/ip-addresses', ['ip' => $ip], $token, 'ips');
     }
 
     /**
      * @author EB
      * @param string $token
-     * @param $merchantId
-     * @param $ip
+     * @param int $id
      * @return array
      */
-    public function deleteIpAddress($token, $merchantId, $ip)
+    public function deleteIpAddress($token, $id)
     {
-        return $this->deleteDocument('/v4/ip-addresses/' . $ip, $token, 'ips');
+        return $this->deleteDocument('/v4/ip-addresses/' . $id, $token, 'ips');
     }
 }
