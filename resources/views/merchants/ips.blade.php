@@ -39,9 +39,9 @@
                     <td>{{$ip->getIp()}}</td>
                     <td>
                         @if($ip->getActive() == 0 )
-                            <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Active</span>
+                            <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                         @elseif($ip->getActive() == 1  )
-                            <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Inactive</span>
+                            <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
                         @endif
                     </td>
                     <td class="text-right">

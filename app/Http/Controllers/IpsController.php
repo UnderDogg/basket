@@ -38,12 +38,12 @@ class IpsController extends Controller
      * @author EB
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index($id)
     {
         $messages = $this->getMessages();
         $ips = $this
             ->ipsGateway
-            ->listIpAddresses($this->getMerchantToken());
+            ->listIpAddresses($this->fetchMerchantById($id)->token);
 
         return view('merchants.ips', [
             'ips' => $ips,
@@ -63,7 +63,7 @@ class IpsController extends Controller
         }
 
         $response= $this->ipsGateway
-            ->storeIpAddress($this->getMerchantToken(), $request->ip);
+            ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
         return Redirect::back()->with(['success' => 'The IP address ' . $response['ip'] . ' has been created.']);
     }
 
@@ -76,7 +76,7 @@ class IpsController extends Controller
     public function delete($id, $ip)
     {
         $this->ipsGateway
-            ->deleteIpAddress($this->getMerchantToken(), $ip);
+            ->deleteIpAddress($this->fetchMerchantById($id)->token, $ip);
         return Redirect::back()->with(['success' => 'The IP address has been successfully deleted']);
     }
 }
