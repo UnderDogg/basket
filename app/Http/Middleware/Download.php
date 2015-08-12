@@ -10,7 +10,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\RedirectException;
 use Closure;
+use League\Csv\Writer;
 
 /**
  * Download
@@ -26,6 +28,7 @@ class Download
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
+     * @throws RedirectException
      */
     public function handle($request, Closure $next)
     {
@@ -33,7 +36,31 @@ class Download
 
         if ($request->get('download') && array_key_exists('api_data', $response->original->getData())) {
 
-            return response()->json($response->original->getData()['api_data']);
+            switch ($request->get('download')) {
+                case 'json':
+                    return response()->json($response->original->getData()['api_data'], 200, ['Content-Disposition' => 'attachment; filename="ExportFileName.json"']);
+                case 'csv':
+
+                    $writer = Writer::createFromFileObject(new \SplTempFileObject());
+
+                    $writer->setDelimiter(',');
+                    $writer->setNewline("\r\n");
+                    $writer->setEncodingFrom("utf-8");
+
+                    $headers = [
+                        'Content-Type' => 'text/csv',
+                        'Content-Disposition' => 'attachment; filename="ExportFileName.csv"',
+                    ];
+
+                    foreach ($response->original->getData()['api_data'] as $data) {
+
+                        $writer->insertOne($data->toArray());
+                    }
+
+                    return response()->make($writer, 200, $headers);
+                default:
+                    throw RedirectException::make('/')->setError('Unrecognised type to download');
+            }
         }
 
         return $response;
