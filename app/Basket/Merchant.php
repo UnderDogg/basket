@@ -47,5 +47,6 @@ class Merchant extends Model
         'ext_address_on_agreements',
         'updated_at',
         'created_at',
+        'active',
     ];
 }
