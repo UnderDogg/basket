@@ -198,11 +198,16 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @author WN
-     * @param  int  $id
-     * @return  \Illuminate\Http\RedirectResponse
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function destroy($id)
     {
+        if ($id == $this->getAuthenticatedUser()->id) {
+            throw RedirectException::make('/')->setError('You can not delete yourself!');
+        }
+
         return $this->destroyModel((new User()), $id, 'user', '/users');
     }
 
