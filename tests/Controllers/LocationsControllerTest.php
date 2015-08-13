@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 use App\User;
 use App\Http\Controllers;
@@ -14,9 +22,9 @@ class LocationsControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
-        $user = User::find(1);
+        $user = User::find(2);
         $this->be($user);
     }
 

@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 use App\User;
 use App\Http\Controllers;
@@ -27,14 +35,10 @@ class ApplicationsControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_index_page()
+    public function testMake()
     {
         // Test page gives 200 response
-        $this->visit('/applications')
+        $this->visit('/locations/1/applications/make')
             ->seeStatusCode(200);
-
-        // Test $merchants variable is available for use
-        $this->call('GET', '/applications');
-        $this->assertViewHas('applications');
     }
 }

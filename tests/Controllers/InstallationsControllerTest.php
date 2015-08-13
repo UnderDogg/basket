@@ -1,10 +1,18 @@
 <?php
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 use App\User;
 use App\Http\Controllers;
-use App\Merchants;
+use App\Basket\Installation;
 
-class MerchantsControllerTest extends TestCase
+class InstallationsControllerTest extends TestCase
 {
     /**
      * @author WN, MS
@@ -21,30 +29,6 @@ class MerchantsControllerTest extends TestCase
     }
 
     /**
-     * Tear Down
-     *
-     * Required for using Mockery
-     *
-     * @author MS
-     */
-    public function tearDown()
-    {
-        Mockery::close();
-    }
-
-    /**
-     * Test Add New Merchants Form
-     *
-     * @author MS
-     */
-    public function test_add_new_merchants_form()
-    {
-        // Test page gives 200 response
-        $this->visit('/merchants/create')
-            ->seeStatusCode(200);
-    }
-
-    /**
      * Test Index Page
      *
      * Basic Functionality Tests on Merchant Page
@@ -54,15 +38,12 @@ class MerchantsControllerTest extends TestCase
     public function test_index_page()
     {
         // Test page gives 200 response
-        $this->visit('/merchants')
-            ->seeStatusCode(200)
-            // Test clicking 'New Merchant' button links correctly
-            ->click('addNewButton')
+        $this->visit('/installations')
             ->seeStatusCode(200);
 
         // Test $merchants variable is available for use
-        $this->call('GET', '/merchants');
-        $this->assertViewHas('merchants');
+        $this->call('GET', '/installations');
+        $this->assertViewHas('installations');
     }
 
     /**
@@ -71,7 +52,7 @@ class MerchantsControllerTest extends TestCase
     public function testShow()
     {
         // Test page gives 200 response
-        $this->visit('/merchants/1')
+        $this->visit('/installations/1')
             ->seeStatusCode(200);
     }
 
@@ -81,7 +62,7 @@ class MerchantsControllerTest extends TestCase
     public function testEdit()
     {
         // Test page gives 200 response
-        $this->visit('/merchants/1/edit')
+        $this->visit('/installations/1/edit')
             ->seeStatusCode(200);
     }
 }
