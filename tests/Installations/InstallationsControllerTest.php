@@ -37,4 +37,24 @@ class InstallationsControllerTest extends TestCase
         $this->call('GET', '/installations');
         $this->assertViewHas('installations');
     }
+
+    /**
+     * @author WN
+     */
+    public function testShow()
+    {
+        // Test page gives 200 response
+        $this->visit('/installations/1')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testEdit()
+    {
+        // Test page gives 200 response
+        $this->visit('/installations/1/edit')
+            ->seeStatusCode(200);
+    }
 }

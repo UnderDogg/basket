@@ -64,4 +64,24 @@ class MerchantsControllerTest extends TestCase
         $this->call('GET', '/merchants');
         $this->assertViewHas('merchants');
     }
+
+    /**
+     * @author WN
+     */
+    public function testShow()
+    {
+        // Test page gives 200 response
+        $this->visit('/merchants/1')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testEdit()
+    {
+        // Test page gives 200 response
+        $this->visit('/merchants/1/edit')
+            ->seeStatusCode(200);
+    }
 }

@@ -44,12 +44,41 @@ class LocationsControllerTest extends TestCase
      * Basic Functionality Tests on Locations Page
      *
      * @author MS
-     * @todo Solution needed to persist min 1 record accross tests - either physical DB or trigger DevSeeder on testing
      */
-    public function test_create_and_edit()
+    public function test_create()
     {
         // Test page gives 200 response
         $this->visit('/locations/create')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testShow()
+    {
+        // Test page gives 200 response
+        $this->visit('/locations/1')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testEdit()
+    {
+        // Test page gives 200 response
+        $this->visit('/locations/1/edit')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author WN
+     */
+    public function testDelete()
+    {
+        // Test page gives 200 response
+        $this->visit('/locations/1/delete')
             ->seeStatusCode(200);
     }
 }
