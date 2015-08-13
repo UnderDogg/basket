@@ -22,7 +22,6 @@ use Illuminate\Http\Request;
  */
 class RolesController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -151,9 +150,14 @@ class RolesController extends Controller
      * @author WN
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function destroy($id)
     {
+        if ($id == 1) {
+            throw RedirectException::make('/')->setError('Can not delete Super Administrator it\'s a special role!');
+        }
+
         return $this->destroyModel((new Role()), $id, 'role', '/roles');
     }
 
