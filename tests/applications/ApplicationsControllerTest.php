@@ -7,20 +7,16 @@ use App\Basket\Application;
 class ApplicationsControllerTest extends TestCase
 {
     /**
-     * Setup
-     *
-     * Runs before test to ensure we have a user logged in to gain access to the Merchants CRUD
-     *
-     * @author MS
+     * @author WN, MS
      */
     public function setUp()
     {
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed');
+        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
 
-        $user = new User(['name' => 'dev']);
+        $user = User::find(1);
         $this->be($user);
     }
 
