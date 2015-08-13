@@ -39,7 +39,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">
-                {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW', array('style' => 'height: 28px;')) !!}
+                {!! HTML::image('image/ain-logo-dark-large.png', 'afforditNOW', array('style' => 'height: 28px;')) !!}
             </a>
         </div>
         {{--NAVIGATION BAR--}}
