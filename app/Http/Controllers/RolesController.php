@@ -155,7 +155,7 @@ class RolesController extends Controller
     public function destroy($id)
     {
         if ($id == 1) {
-            throw RedirectException::make('/')->setError('Can not delete Super Administrator it\'s a special role!');
+            throw RedirectException::make('/')->setError('Cannot delete Super Administrator it\'s a special role!');
         }
 
         return $this->destroyModel((new Role()), $id, 'role', '/roles');
