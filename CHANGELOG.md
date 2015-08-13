@@ -1,3 +1,6 @@
+## Features
+- Changed layout of dashboard
+
 # 0.4.0
 2015-08-11
 

@@ -32,5 +32,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'userActionMerchant' => \App\Http\Middleware\UserActionMerchant::class,
         'permission' => \App\Http\Middleware\AuthorisePermission::class,
+        'role' => \App\Http\Middleware\AuthoriseRole::class,
     ];
 }
