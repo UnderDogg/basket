@@ -116,8 +116,8 @@ Route::group(['middleware' => 'auth'], function () {
      * Applications
      */
     Route::group(['middleware' => 'permission:applications-view'], function () {
-        Route::get('applications', 'ApplicationsController@index');
-        Route::get('applications/{id}', 'ApplicationsController@show');
+        Route::get('installations/{installation}/applications', 'ApplicationsController@index');
+        Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
         Route::get(
             'installations/{id}/applications/pending-cancellations',
             'ApplicationsController@pendingCancellations'
@@ -125,18 +125,21 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
-        Route::get('applications/{id}/fulfil', 'ApplicationsController@confirmFulfilment');
-        Route::post('applications/{id}/fulfil', 'ApplicationsController@fulfil');
+        Route::get(
+            'installations/{installation}/applications/{id}/fulfil',
+            'ApplicationsController@confirmFulfilment'
+        );
+        Route::post('installations/{installation}/applications/{id}/fulfil', 'ApplicationsController@fulfil');
     });
 
     Route::group(['middleware' => 'permission:applications-cancel'], function () {
-        Route::get('applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
-        Route::post('applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
+        Route::get('installations/{installation}/applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
+        Route::post('installations/{installation}/applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
     });
 
     Route::group(['middleware' => 'permission:applications-refund'], function () {
-        Route::get('applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
-        Route::post('applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
+        Route::get('installations/{installation}/applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
+        Route::post('installations/{installation}/applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
     });
 
     Route::group(['middleware' => 'permission:applications-make'], function () {
