@@ -8,6 +8,7 @@
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $location->name]])
 
+
     <p>&nbsp;</p>
     {!! Form::model($location, [
         'method' => 'PATCH',
@@ -33,7 +34,10 @@
         <div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::checkbox('active', null, ['class' => 'form-control']) !!}
+                {{-- Form::checkbox('active', null, ['class' => 'form-control']) --}}
+                <label class="checkbox-inline">
+                    {!! Form::input('checkbox', 'active', null, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                </label>
             </div>
         </div>
 
@@ -67,4 +71,9 @@
     </div>
     {!! Form::close() !!}
 
+@endsection
+
+@section('scripts')
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 @endsection
