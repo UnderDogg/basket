@@ -7,7 +7,7 @@
 
     <h2>Account management
         <div class="btn-group pull-right">
-            <a href="{{Request::segment(0)}}/{{Request::segment(1)}}/edit" class="btn btn-default">
+            <a href="{{Request::url()}}/edit" class="btn btn-default">
                 <span class="glyphicon glyphicon-edit"></span> Edit
             </a>
         </div>
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-xs-2 col-sm-4 col-md-2 col-lg-2">
                     <div class="thumbnail">
-                        <img src="{{ 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?size=200' }}" alt="...">
+                        <img src="{{ '//www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?size=200' }}" alt="...">
                     </div>
                 </div>
                 <div class="col-xs-10 col-sm-8 col-md-10 col-lg-10">

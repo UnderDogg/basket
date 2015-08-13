@@ -20,17 +20,17 @@
                     <div class="form-group">
                         {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-6">
-                            {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name of user']) !!}
                         </div>
                     </div><div class="form-group">
                         {!! Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-6">
-                            {!! Form::text('email', null, ['class' => 'form-control']) !!}
+                            {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'User&#39;s email address']) !!}
                         </div>
                     </div><div class="form-group">
                         {!! Form::label('password', 'Password: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-6">
-                            {!! Form::password('password', ['class' => 'form-control'], null) !!}
+                            {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password'], null) !!}
                         </div>
                     </div>
 

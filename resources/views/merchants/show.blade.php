@@ -6,7 +6,12 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        @include('includes.page.show_details_button_group', ['id'=>$merchants->id,'edit'=>true,'sync'=>true, 'ip'=>true])
+        <div class="btn-group pull-right">
+            <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <a href="{{Request::url()}}/synchronise" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Sync</a>
+            <a href="/installations/?merchant_id={{Request::segment(2)}}" class="btn btn-default"><span class="glyphicon glyphicon-hdd"></span> Installations</a>
+            <a href="{{Request::url()}}/ips" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> View IP's</a>
+        </div>
     </h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $merchants->name]])
     <ul class="nav nav-tabs">

@@ -25,8 +25,8 @@
                 <th><span class="pull-right">Actions</span></th>
             </tr>
             <tr>
-                <th>@include('includes.form.input', ['field' => 'name'])</th>
-                <th>@include('includes.form.input', ['field' => 'email'])</th>
+                <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Name of user']) !!}</th>
+                <th>{!! Form::text('email', Request::only('email')['email'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'User&#39;s email']) !!}</th>
                 <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
                     'field' => 'merchant_id',
                     'object' => $user,

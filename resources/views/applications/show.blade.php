@@ -6,7 +6,12 @@
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
     <div class="container">
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        @include('includes.page.show_details_button_group', ['id'=>$applications->id,'edit'=>true, 'fulfil' => $fulfilmentAvailable, 'cancel' => $cancellationAvailable, 'partialRefund' => $partialRefundAvailable])
+        <div class="btn-group pull-right">
+            <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
+            <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
+            <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
+        </div>
     </h2>
         @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
         <ul class="nav nav-tabs">
@@ -26,25 +31,21 @@
                             <dd>{!! $applications->id !!}</dd>
                             <dt>Order Reference</dt>
                             <dd>{!! $applications->ext_order_reference !!}</dd>
-                            <dt>Requester</dt>
                             @if($applications->user !== null)
+                                <dt>Requester</dt>
                                 <dd>{!! $applications->user->name !!}</dd>
-                            @else
-                                <dd></dd>
                             @endif
-                            <dt>Installations</dt>
                             @if($applications->installation !== null)
+                                <dt>Installations</dt>
                                 <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
                                     <dd>{!! $applications->installation->name !!}</dd>
                                 </a>
-                            @else
-                                <dd></dd>
                             @endif
-                            <dt>Location</dt>
                             @if($applications->location !== null)
-                                <dd>{!! $applications->location->name !!}</dd>
-                            @else
-                                <dd></dd>
+                                <dt>Location</dt>
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
+                                    <dd>{!! $applications->location->name !!}</dd>
+                                </a>
                             @endif
                         </dl>
                     </div>

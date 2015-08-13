@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 {{--FILTERS--}}
-                <th>@include('includes.form.input', ['field' => 'name'])</th>
+                <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
                 <th>@include('includes.form.bool_select', ['field' => 'active', 'object' => $installations,'false'=>'Inactive','true'=>'Active'])</th>
                 <th>@include('includes.form.bool_select', ['field' => 'linked', 'object' => $installations,'false'=>'Unlinked','true'=>'Linked'])</th>
                 <th>@include('includes.form.filter_buttons')</th>

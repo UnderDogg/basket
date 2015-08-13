@@ -72,7 +72,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!}
-                            {!! HTML::image('http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
+                            {!! HTML::image('//www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{URL::to('/account')}}">Account</a></li>
