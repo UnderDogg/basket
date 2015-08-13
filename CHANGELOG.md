@@ -1,5 +1,10 @@
 ## Features
 - Changed layout of dashboard
+- Set `Permissions`. Attach `Permissions` to `Routes`
+- `AuthoriseRole` middleware
+- Protect *Super Administrator* role
+- Protect against user self delete
+- Test improvements
 
 # 0.4.0
 2015-08-11
