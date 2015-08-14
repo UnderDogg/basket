@@ -71,7 +71,6 @@ class AccountController extends Controller
         return Redirect::back()->with(['success' => 'Your details have successfully been changed']);
     }
 
-
     /**
      * @author EB
      * @param Request $request

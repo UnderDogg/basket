@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 use App\User;
 use App\Http\Controllers;
@@ -7,20 +15,16 @@ use App\Role;
 class RolesControllerTest extends TestCase
 {
     /**
-     * Setup
-     *
-     * Runs before test to ensure we have a user logged in to gain access to the role CRUD
-     *
-     * @author MS
+     * @author WN, MS
      */
     public function setUp()
     {
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
 
-        $user = new User(['name' => 'dev']);
+        $user = User::find(1);
         $this->be($user);
     }
 

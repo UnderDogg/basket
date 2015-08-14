@@ -1,4 +1,15 @@
 ## Features
+- Changed layout of dashboard
+- Set `Permissions`. Attach `Permissions` to `Routes`
+- `AuthoriseRole` middleware
+- Protect *Super Administrator* role
+- Protect against user self delete
+- Test improvements
+
+# 0.4.0
+2015-08-11
+
+## Features
 - Assign locations to users
 - Refactoring
 - Added date filter to applications view and changed styling of the page to work on different screen sizes

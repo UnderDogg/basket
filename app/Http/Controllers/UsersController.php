@@ -86,7 +86,7 @@ class UsersController extends Controller
 
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
-                ->setError('Can\'t create User');
+                ->setError('Cannot create User');
         }
 
         return redirect('users')->with('success', 'New User has been successfully created');
@@ -162,7 +162,7 @@ class UsersController extends Controller
             $this->processRoles($user, $input);
 
         } catch (\Exception $e) {
-            $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
+            $this->logError('Cannot update user [' . $id . ']: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
@@ -187,7 +187,7 @@ class UsersController extends Controller
             $user->locations()->sync($ids);
 
         } catch (\Exception $e) {
-            $this->logError('Can not update user [' . $id . '] locations: ' . $e->getMessage());
+            $this->logError('Cannot update user [' . $id . '] locations: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
@@ -198,11 +198,16 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @author WN
-     * @param  int  $id
-     * @return  \Illuminate\Http\RedirectResponse
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function destroy($id)
     {
+        if ($id == $this->getAuthenticatedUser()->id) {
+            throw RedirectException::make('/')->setError('You cannot delete yourself!');
+        }
+
         return $this->destroyModel((new User()), $id, 'user', '/users');
     }
 
@@ -322,7 +327,7 @@ class UsersController extends Controller
 
             $user->merchant_id = null;
             if (!$user->save()) {
-                throw new Exception('Can\'t remove Merchant form Super User');
+                throw new Exception('Cannot remove Merchant form Super User');
             }
             $roles = [1];
         }
