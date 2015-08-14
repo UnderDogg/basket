@@ -42,7 +42,6 @@ class SettlementsController extends Controller
      */
     public function index()
     {
-        $messages = $this->getMessages();
         $dateRange = $this->getDateRange();
         $settlementReports = Collection::make(
             $this
@@ -67,7 +66,6 @@ class SettlementsController extends Controller
         return View('settlements.index', [
             'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
-            'messages' => $messages
         ]);
     }
 
@@ -80,8 +78,6 @@ class SettlementsController extends Controller
      */
     public function settlementReport($id)
     {
-        $messages = $this->getMessages();
-
         $settlementReport = $this
             ->settlementGateway
             ->getSingleSettlementReport($this->getMerchantToken(), $id);
@@ -90,7 +86,6 @@ class SettlementsController extends Controller
 
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
-            'messages' => $messages
         ]);
     }
 

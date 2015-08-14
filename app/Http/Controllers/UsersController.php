@@ -101,7 +101,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return view('user.show', ['user' => $this->fetchUserById($id), 'messages' => $this->getMessages()]);
+        return view('user.show', ['user' => $this->fetchUserById($id)]);
     }
 
     /**
@@ -218,7 +218,7 @@ class UsersController extends Controller
         $user = $this->fetchUserById($id);
         $user->type = 'users';
         $user->controller = 'Users';
-        return view('includes.page.confirm_delete', ['object' => $user, 'messages' => $this->getMessages()]);
+        return view('includes.page.confirm_delete', ['object' => $user]);
     }
 
     /**
@@ -268,7 +268,6 @@ class UsersController extends Controller
             $view,
             [
                 'user' => $user,
-                'messages' => $this->getMessages(),
                 'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
                 'locationsApplied' => $locationsApplied,
                 'locationsAvailable' => $locationsAvailable,

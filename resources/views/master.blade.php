@@ -88,7 +88,18 @@
 
 <div class="container">
     <div class="row">
-        @include('includes.message.action_response', ['messages' => $messages])
+        <br>
+        {{--CUSTOM ASSIGNED ERRORS--}}
+        @foreach($messages as $k => $v)
+            <div id="actionMessage" hidden="hidden">
+                <div class="alert alert-{{ ($k == 'error')?'danger':$k }} alert-dismissible" role="alert">
+                    <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ $v }}</p>
+                </div>
+            </div>
+        @endforeach
         @yield('content')
     </div><hr/>
     <footer class="container">

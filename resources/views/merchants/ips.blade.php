@@ -2,10 +2,7 @@
 
 @section('content')
 
-{{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
-    <h1>MERCHANTS</h1>
+    <h2>MERCHANTS</h2>
 @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <div class="panel-heading"><h4>Create a new IP address</h4></div>
     {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'addIp')) !!}

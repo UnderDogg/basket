@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h1>LOCATIONS
         <div class="btn-group pull-right">
             <a href="{{ Request::url() }}/create" class="btn btn-info">Add New Location</a>

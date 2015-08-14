@@ -40,7 +40,6 @@ class Handler extends ExceptionHandler
     public function render($request, \Exception $e)
     {
         if ($e instanceof RedirectException) {
-            //dd($e->toArray());
             return redirect($e->getTarget())->with('messages', $e->toArray());
         }
 

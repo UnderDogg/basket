@@ -114,6 +114,7 @@ class RedirectException extends \Exception
     }
 
     /**
+     * @author WN
      * @return array
      */
     public function toArray()

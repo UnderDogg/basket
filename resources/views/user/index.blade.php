@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h1>USERS
         <a href="{{ url('/users/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New User</a>
     </h1>

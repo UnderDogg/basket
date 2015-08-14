@@ -40,14 +40,12 @@ class IpsController extends Controller
      */
     public function index($id)
     {
-        $messages = $this->getMessages();
         $ips = $this
             ->ipsGateway
             ->listIpAddresses($this->fetchMerchantById($id)->token);
 
         return view('merchants.ips', [
             'ips' => $ips,
-            'messages' => $messages
         ]);
     }
 

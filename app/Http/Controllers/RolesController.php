@@ -46,7 +46,6 @@ class RolesController extends Controller
             'role.create',
             [
                 'permissionsAvailable' => Permission::all(),
-                'messages' => $this->getMessages(),
             ]
         );
     }
@@ -91,7 +90,6 @@ class RolesController extends Controller
             'role.show',
             [
                 'role' => $this->fetchRoleById($id),
-                'messages' => $this->getMessages(),
             ]
         );
     }
@@ -112,7 +110,6 @@ class RolesController extends Controller
             [
                 'role' => $role,
                 'permissionsAvailable' => Permission::all()->diff($role->permissions),
-                'messages' => $this->getMessages(),
             ]
         );
     }
@@ -170,7 +167,7 @@ class RolesController extends Controller
         $role->type = 'roles';
         $role->controller = 'Roles';
 
-        return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $this->getMessages()]);
+        return view('includes.page.confirm_delete', ['object' => $role]);
     }
 
     /**

@@ -50,7 +50,6 @@ class AccountController extends Controller
     {
         return view('account.' . $view,
             [
-                'messages' => $this->getMessages(),
                 'user' => $this->getAuthenticatedUser(),
             ]
         );

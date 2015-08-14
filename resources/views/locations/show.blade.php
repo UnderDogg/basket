@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>

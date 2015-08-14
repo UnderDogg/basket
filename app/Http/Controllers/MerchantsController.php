@@ -53,7 +53,7 @@ class MerchantsController extends Controller
      */
     public function create()
     {
-        return view('merchants.create', ['messages' => $this->getMessages()]);
+        return view('merchants.create');
     }
 
     /**
@@ -97,7 +97,7 @@ class MerchantsController extends Controller
     {
         return view(
             'merchants.show',
-            ['merchants' => $this->fetchMerchantById($id), 'messages' => $this->getMessages()]
+            ['merchants' => $this->fetchMerchantById($id)]
         );
     }
 
@@ -111,7 +111,7 @@ class MerchantsController extends Controller
     {
         return view(
             'merchants.edit',
-            ['merchants' => $this->fetchMerchantById($id), 'messages' => $this->getMessages()]
+            ['merchants' => $this->fetchMerchantById($id)]
         );
     }
 

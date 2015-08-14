@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h2>Account management
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default">

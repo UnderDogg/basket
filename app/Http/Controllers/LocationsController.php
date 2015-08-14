@@ -91,7 +91,7 @@ class LocationsController extends Controller
     {
         return view(
             'locations.show',
-            ['location' => $this->fetchLocationById($id), 'messages' => $this->getMessages()]
+            ['location' => $this->fetchLocationById($id)]
         );
     }
 
@@ -161,7 +161,7 @@ class LocationsController extends Controller
         $location = $this->fetchLocationById($id);
         $location->type = 'location';
         $location->controller = 'Locations';
-        return view('includes.page.confirm_delete', ['object' => $location, 'messages' => $this->getMessages()]);
+        return view('includes.page.confirm_delete', ['object' => $location]);
     }
 
     /**
@@ -188,7 +188,6 @@ class LocationsController extends Controller
                 'location' => $id !== null?$this->fetchLocationById($id):null,
                 'installations' => $this->limitToActive($this->limitToMerchant(Installation::query()))
                     ->get()->pluck('name', 'id')->toArray(),
-                'messages' => $this->getMessages()
             ]
         );
     }

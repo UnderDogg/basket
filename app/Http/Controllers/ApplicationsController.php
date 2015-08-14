@@ -82,7 +82,6 @@ class ApplicationsController extends Controller
             'applications.show',
             [
                 'applications' => $application,
-//                'messages' => $this->getMessages(),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
@@ -100,7 +99,7 @@ class ApplicationsController extends Controller
     {
         return view(
             'applications.edit',
-            ['applications' => $this->fetchApplicationById($id), 'messages' => $this->getMessages()]
+            ['applications' => $this->fetchApplicationById($id)]
         );
     }
 
@@ -184,8 +183,6 @@ class ApplicationsController extends Controller
      */
     public function pendingCancellations($installationId)
     {
-        $messages = $this->getMessages();
-
         $installation = $this->fetchModelByIdWithMerchantLimit((new Installation()), $installationId, 'installation', '/');
 
         $pendingCancellations = Collection::make(
@@ -202,7 +199,6 @@ class ApplicationsController extends Controller
 
         return View('applications.pending-cancellation', [
             'applications' => $pendingCancellations,
-            'messages' => $messages
         ]);
     }
 
@@ -220,7 +216,7 @@ class ApplicationsController extends Controller
             throw RedirectException::make('/applications/' . $id)
                 ->setError('You may not partially refund this application.');
         }
-        return view('applications.partial-refund', ['application' => $application, 'messages' => $this->getMessages()]);
+        return view('applications.partial-refund', ['application' => $application]);
     }
 
     /**

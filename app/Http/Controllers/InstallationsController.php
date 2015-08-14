@@ -59,7 +59,7 @@ class InstallationsController extends Controller
     {
         return view(
             'installations.show',
-            ['installations' => $this->fetchInstallation($id), 'messages' => $this->getMessages()]
+            ['installations' => $this->fetchInstallation($id)]
         );
     }
 
@@ -73,7 +73,7 @@ class InstallationsController extends Controller
     {
         return view(
             'installations.edit',
-            ['installations' => $this->fetchInstallation($id), 'messages' => $this->getMessages()]
+            ['installations' => $this->fetchInstallation($id)]
         );
     }
 

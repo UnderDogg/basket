@@ -222,22 +222,6 @@ abstract class Controller extends BaseController
     /**
      * @author WN
      * @param Builder $query
-     * @return array
-     */
-    protected function prepareMessagesForIndexAction(Builder $query)
-    {
-        $messages = $this->getMessages();
-
-        if (!$query->count()) {
-            $messages['info'] = 'No records were found that matched your filter';
-        }
-
-        return $messages;
-    }
-
-    /**
-     * @author WN
-     * @param Builder $query
      * @param string $view
      * @param string $modelName
      * @param array $additionalProperties View properties
@@ -255,7 +239,6 @@ abstract class Controller extends BaseController
             $view,
             array_merge(
                 [
-                    'messages' => $this->prepareMessagesForIndexAction($query),
                     $modelName => $query->paginate($this->getPageLimit()),
                 ],
                 $additionalProperties
