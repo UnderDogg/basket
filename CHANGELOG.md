@@ -1,3 +1,6 @@
+# 0.5.0
+2015-08-14
+
 ## Features
 - Changed layout of dashboard
 - Set `Permissions`. Attach `Permissions` to `Routes`
