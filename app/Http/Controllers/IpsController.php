@@ -54,11 +54,9 @@ class IpsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
-        if(Validator::make($request->all(), ['ip' => 'ip'])->fails()) {
-            return Redirect::back()->with(['error' => 'The IP address given is not a valid IP address']);
-        }
+        $this->validate($request, ['ip' => 'required|ip']);
 
         $response= $this->ipsGateway
             ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);

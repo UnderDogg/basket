@@ -57,17 +57,17 @@
 @endsection
 
 @section('scripts')
-<script>
-    $(document).ready(function() {
-        $("form.addIp").submit(function (e) {
-            var ip = $(this).find("input[name=ip]");
-            if (ip.val().match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)) return true;
+    <script>
+        $(document).ready(function() {
+            $("form.addIp").submit(function (e) {
+                var ip = $(this).find("input[name=ip]");
+                if (ip.val().match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)) return true;
 
-            ip.parents(".input-group").addClass("error");
-            $("div.span").removeClass("hidden");
-            e.preventDefault();
+                ip.parents(".input-group").addClass("error");
+                $("div.span").removeClass("hidden");
+                e.preventDefault();
 
+            });
         });
-    });
-</script>
+    </script>
 @endsection

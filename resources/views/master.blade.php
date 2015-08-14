@@ -89,6 +89,16 @@
 <div class="container">
     <div class="row">
         <br>
+        @if( $errors->any())
+            <div id="actionMessage" hidden="hidden">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    @foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+                </div>
+            </div>
+        @endif
         {{--CUSTOM ASSIGNED ERRORS--}}
         @foreach($messages as $k => $v)
             <div id="actionMessage" hidden="hidden">
