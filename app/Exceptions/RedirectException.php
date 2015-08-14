@@ -112,4 +112,16 @@ class RedirectException extends \Exception
         $this->information = $information;
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rtn = [];
+        if ($this->getError()) {
+            $rtn['error'] = $this->getError();
+        }
+        return $rtn;
+    }
 }

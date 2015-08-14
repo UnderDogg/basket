@@ -88,6 +88,7 @@
 
 <div class="container">
     <div class="row">
+        @include('includes.message.action_response', ['messages' => $messages])
         @yield('content')
     </div><hr/>
     <footer class="container">

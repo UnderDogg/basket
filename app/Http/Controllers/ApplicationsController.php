@@ -16,6 +16,7 @@ use App\Basket\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ApplicationsController
@@ -81,7 +82,7 @@ class ApplicationsController extends Controller
             'applications.show',
             [
                 'applications' => $application,
-                'messages' => $this->getMessages(),
+//                'messages' => $this->getMessages(),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
@@ -313,6 +314,7 @@ class ApplicationsController extends Controller
         if (((!$this->isCancellable($application)) && $action == 'cancellation') ||
             ((!$this->isFulfilable($application)) && $action == 'fulfilment')
         ) {
+            Log::error('Application is not allowed to request ' . $action);
             throw RedirectException::make('/applications/' . $id)
                 ->setError('Application is not allowed to request ' . $action);
         }

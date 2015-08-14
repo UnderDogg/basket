@@ -4,6 +4,7 @@
 
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+    <?php var_dump($errors->getMessageBag(), $messages, $errors); ?>
     <div class="container">
     <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
         <div class="btn-group pull-right">

@@ -4,7 +4,6 @@
 
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <div class="container">
         <h1>DASHBOARD</h1>
         @if(count($user->locations) > 0)
