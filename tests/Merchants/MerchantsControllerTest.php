@@ -68,4 +68,5 @@ class MerchantsControllerTest extends TestCase
         $this->call('GET', '/merchants');
         $this->assertViewHas('merchants');
     }
+
 }

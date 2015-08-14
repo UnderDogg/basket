@@ -41,4 +41,19 @@ class ApplicationsControllerTest extends TestCase
         $this->call('GET', '/applications');
         $this->assertViewHas('applications');
     }
+
+    /**
+     * Test Show Page
+     *
+     * Check page exists
+     *
+     * @author EB
+     */
+    public function testShowPage()
+    {
+        // Test page gives 200 response
+        $this->visit('applications/show')
+            ->seeStatusCode(200);
+    }
+
 }
