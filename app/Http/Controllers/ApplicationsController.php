@@ -142,7 +142,7 @@ class ApplicationsController extends Controller
             $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
         }
-        return redirect()->back()->with('success', 'Application was fulfilled successfully');
+        return redirect()->back()->with('messages', ['success', 'Application was fulfilled successfully']);
     }
 
     /**
@@ -171,7 +171,7 @@ class ApplicationsController extends Controller
             $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
         }
-        return redirect()->back()->with('success', 'Cancellation requested successfully');
+        return redirect()->back()->with('messages', ['success', 'Cancellation requested successfully']);
     }
 
     /**
@@ -252,7 +252,7 @@ class ApplicationsController extends Controller
 
         return redirect()
             ->action('ApplicationsController@show', $id)
-            ->with('success', 'Partial refund has been successfully requested');
+            ->with('messages', ['success' => 'Partial refund has been successfully requested']);
     }
 
     /**

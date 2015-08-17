@@ -16,6 +16,7 @@ use App\Basket\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class MerchantController
@@ -68,23 +69,18 @@ class MerchantsController extends Controller
             'token' => 'required',
         ]);
 
-        $message = ['success','New Merchant has been successfully created'];
-
         try {
-
             $merchant = Merchant::create($request->all());
-
             $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
+            return redirect('/merchants/' . $merchant->id)
+                ->with('messages', ['success' => 'New Merchant has been successfully created']);
 
-            return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
-
-        } catch (ModelNotFoundException $e) {
-
+        } catch (\Exception $e) {
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
-            $message = ['error','Could not successfully create new Merchant'];
-        }
+            throw RedirectException::make('/merchants/')
+                ->with('messages', ['error' => 'Could not successfully create a new Merchant']);
 
-        return redirect('merchants')->with($message[0], $message[1]);
+        }
     }
 
     /**
@@ -149,11 +145,11 @@ class MerchantsController extends Controller
     {
         try {
             $this->merchantSynchronisationService->synchroniseMerchant($id);
-            $message = ['success', 'Synchronisation complete successfully'];
+            return redirect('/merchants/'.$id)->with('messages', ['success' => 'Synchronisation complete successfully']);
         } catch (\Exception $e) {
             $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
-            $message = ['error', 'Synchronisation not complete successfully'];
+            throw RedirectException::make('/merchants/'.$id)
+                ->with('messages', ['error' => 'Synchronisation not complete successfully']);
         }
-        return redirect('merchants/' . $id)->with($message[0], $message[1]);
     }
 }

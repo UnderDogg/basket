@@ -38,20 +38,6 @@ abstract class Controller extends BaseController
     private $filters;
 
     /**
-     * Make Message Object
-     *
-     * @author MS
-     */
-    protected function getMessages()
-    {
-        return [
-            'success'   => session()->get('success'),
-            'info'      => session()->get('info'),
-            'error'     => session()->get('error'),
-        ];
-    }
-
-    /**
      * Get Merchant Token
      *
      * @author MS
@@ -178,7 +164,7 @@ abstract class Controller extends BaseController
                 ->setError('Deletion of this record did not complete successfully');
         }
 
-        return redirect($redirect)->with('success', ucwords($modelName) . ' was successfully deleted');
+        return redirect($redirect)->with('messages', ['success', ucwords($modelName) . ' was successfully deleted']);
     }
 
     /**
@@ -201,7 +187,7 @@ abstract class Controller extends BaseController
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('success', ucwords($modelName) .' details were successfully updated');
+        return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
     }
 
     /**

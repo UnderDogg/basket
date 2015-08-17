@@ -65,7 +65,6 @@
             <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
         </div>
         {!! Form::close() !!}
-
     {{--@endif--}}
 
 @endsection

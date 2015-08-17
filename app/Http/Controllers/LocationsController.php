@@ -65,20 +65,16 @@ class LocationsController extends Controller
 
         ]);
 
-        $message = ['success','New Location has been successfully created'];
-
         try {
             $toCreate = $request->all();
             $toCreate['active'] = ($request->has('active')) ? 1 : 0;
             Location::create($toCreate);
+            return redirect()->back()->with('messages', ['success' => 'New Locations has been successfully created']);
 
-        } catch (ModelNotFoundException $e) {
-
+        } catch (\Exception $e) {
             $this->logError('Could not successfully create new Location' . $e->getMessage());
-            $message = ['error','Could not successfully create new Location'];
+            throw RedirectException::make('/locations/')->with('messages', ['error' => 'Could not successfully create new location']);
         }
-
-        return redirect('locations')->with($message[0], $message[1]);
     }
 
     /**
@@ -132,10 +128,9 @@ class LocationsController extends Controller
             $locations->update($toUpdate);
         } catch (\Exception $e) {
             $this->logError('Can not update location [' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/locations/' . $id . '/edit')->setError($e->getMessage());
+            throw RedirectException::make('/locations/' . $id . '/edit')->setError($e->getMessage());
         }
-
-        return redirect()->back()->with('success', 'Location details were successfully updated');
+        return redirect('/locations/'.$id.'/edit')->with('messages', ['success' => 'Location details were successfully updated']);
     }
 
     /**

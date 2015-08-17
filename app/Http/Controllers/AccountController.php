@@ -9,11 +9,10 @@
  */
 
 namespace App\Http\Controllers;
+use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Class AccountController
@@ -59,6 +58,7 @@ class AccountController extends Controller
      * @author EB
      * @param Request $request
      * @return mixed
+     * @throws RedirectException
      */
     public function update(Request $request)
     {
@@ -67,14 +67,20 @@ class AccountController extends Controller
             'name' => 'required',
             'email' => 'required|email',
         ]);
-        $user->update($request->all());
-        return Redirect::back()->with(['success' => 'Your details have successfully been changed']);
+        try {
+            $user->update($request->all());
+            return redirect()->back()->with('messages', ['success' => 'Your details have successfully been changed']);
+        } catch(\Exception $e) {
+            $this->logError('AccountController: Error while trying to update: ' . $e->getMessage());
+            throw RedirectException::make('/account/edit')->setError($e->getMessage());
+        }
     }
 
     /**
      * @author EB
      * @param Request $request
      * @return mixed
+     * @throws RedirectException
      */
     public function changePassword(Request $request)
     {
@@ -86,11 +92,16 @@ class AccountController extends Controller
         ]);
 
         if(!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
-            return Redirect::back()->withInput()->with(['error' => 'The password entered does not match our records']);
+            return Redirect::back()->withInput()->with('messages', ['error' => 'The password entered does not match our records']);
         }
 
-        $user->password = Hash::make($request['new_password']);
-        $user->save();
-        return Redirect::back()->with(['success' => 'Your password has successfully been changed']);
+        try {
+            $user->password = Hash::make($request['new_password']);
+            $user->save();
+            return Redirect::back()->with(['success' => 'Your password has successfully been changed']);
+        } catch(\Exception $e) {
+            $this->logError('AccountController: Error while trying to change password: ' . $e->getMessage());
+            throw RedirectException::make('/account/edit')->setError($e->getMessage());
+        }
     }
 }

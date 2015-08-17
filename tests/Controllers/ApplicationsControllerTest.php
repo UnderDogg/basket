@@ -41,19 +41,4 @@ class ApplicationsControllerTest extends TestCase
         $this->visit('/locations/1/applications/make')
             ->seeStatusCode(200);
     }
-
-    /**
-     * Test Show Page
-     *
-     * Check page exists
-     *
-     * @author EB
-     */
-    public function testShowPage()
-    {
-        // Test page gives 200 response
-        $this->visit('applications/show')
-            ->seeStatusCode(200);
-    }
-
 }

@@ -95,23 +95,21 @@ class InstallationsController extends Controller
      * @author WN
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function synchroniseAllForMerchant($id)
     {
         try {
             $this->installationSynchronisationService->synchroniseAllInstallations($id);
-            $message = ['success', 'Synchronisation complete successfully'];
+            return redirect()->back()->with('messages', ['success', 'Synchronisation complete successfully']);
 
         } catch (\Exception $e) {
-
             $this->logError(
                 'Error while trying to synchronise Installations for Merchant[' .
                 $id . ']: ' . $e->getMessage()
             );
-            $message = ['error', 'Synchronisation not complete successfully'];
+            throw RedirectException::make('/merchants/' . $id)->setError('Error while trying to sync installations for Merchant');
         }
-
-        return redirect('merchants/' . $id)->with($message[0], $message[1]);
     }
 
     /**

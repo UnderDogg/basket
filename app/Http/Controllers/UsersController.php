@@ -72,7 +72,6 @@ class UsersController extends Controller
         $array = $request->all();
 
         if (!$this->isMerchantAllowedForUser($array['merchant_id'])) {
-
             throw RedirectException::make('/users')
                 ->setError('You are not allowed to create User for this Merchant');
         }
@@ -81,15 +80,13 @@ class UsersController extends Controller
 
         try {
             $user = User::create($array);
-
             $this->processRoles($user, $array);
 
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
                 ->setError('Cannot create User');
         }
-
-        return redirect('users')->with('success', 'New User has been successfully created');
+        return redirect('users')->with('messages', ['success' => 'New user has been successfully created']);
     }
 
     /**
@@ -167,7 +164,7 @@ class UsersController extends Controller
         }
 
 
-        return redirect()->back()->with('success', 'User details were successfully updated');
+        return redirect()->back()->with('messages', ['success' => 'User details were successfully updated']);
     }
 
     /**
@@ -191,7 +188,7 @@ class UsersController extends Controller
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return redirect()->back()->with('success', 'User details were successfully updated');
+        return redirect()->back()->with('messages', ['success' => 'User details were successfully updated']);
     }
 
     /**

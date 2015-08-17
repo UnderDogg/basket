@@ -89,7 +89,7 @@
 <div class="container">
     <div class="row">
         <br>
-        @if( $errors->any())
+        @if($errors->any())
             <div id="actionMessage" hidden="hidden">
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
