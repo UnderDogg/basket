@@ -37,17 +37,21 @@ class SettlementsController extends Controller
      * Index
      *
      * @author MS
+     * @param int $id
      * @return \Illuminate\View\View
      * @throws \App\Exceptions\RedirectException
      */
-    public function index()
+    public function index($id)
     {
         $messages = $this->getMessages();
         $dateRange = $this->getDateRange();
+
         $settlementReports = Collection::make(
             $this
                 ->settlementGateway
-                ->getSettlementReports($this->getMerchantToken(), $dateRange['date_from'], $dateRange['date_to'])
+                ->getSettlementReports(
+                    $this->fetchMerchantById($id)->token, $dateRange['date_from'], $dateRange['date_to']
+                )
         );
 
         $filter = $this->getFilters();
