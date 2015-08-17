@@ -68,8 +68,8 @@ class IpsController extends Controller
         try {
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
-            return redirect()->back()
-                ->with('messages', ['success' => 'The IP address \'' . $response['ip'] . '\' has been created.']);
+            return $this->redirectWithSuccessMessage('/merchants/'.$id.'/ips',
+                'IP address \'' . $response['ip'] . '\' created.');
         } catch(\Exception $e) {
             $this->logError('IpsController: Error while trying to create a new IP: ' . $e->getMessage());
             throw RedirectException::make('/merchants/'.$id.'/ips')->setError($e->getMessage());
@@ -88,8 +88,7 @@ class IpsController extends Controller
         try {
             $this->ipsGateway
                 ->deleteIpAddress($this->fetchMerchantById($id)->token, $ip);
-            return redirect()->back()
-                ->with('messages', ['success' => 'The IP address has been successfully deleted']);
+            return $this->redirectWithSuccessMessage('merchants/'.$id.'ips', 'IP address successfully deleted');
         } catch(\Exception $e) {
             $this->logError("IpsController: Error while trying to delete an IP address: " . $e->getMessage());
             throw RedirectException::make('/merchants/'.$id.'/ips')->setError($e->getMessage());

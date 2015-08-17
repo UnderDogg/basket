@@ -138,11 +138,11 @@ class ApplicationsController extends Controller
     {
         try {
             $this->applicationSynchronisationService->fulfil($id);
+            return $this->redirectWithSuccessMessage('/applications/'.$id, 'Application was fulfilled successfully');
         } catch (\Exception $e) {
             $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
         }
-        return redirect()->back()->with('messages', ['success', 'Application was fulfilled successfully']);
     }
 
     /**
@@ -167,11 +167,11 @@ class ApplicationsController extends Controller
     {
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
+            return $this->redirectWithSuccessMessage('/applications', 'Cancellation requested successfully');
         } catch (\Exception $e) {
             $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
         }
-        return redirect()->back()->with('messages', ['success', 'Cancellation requested successfully']);
     }
 
     /**
@@ -246,13 +246,11 @@ class ApplicationsController extends Controller
             );
 
         } catch (\Exception $e) {
-            $this->logError('Error while trying to request a partial refund for application [' . $id . ']: ' . $e->getMessage());
+            $this->logError('Error while trying to request a partial refund for application [' . $id . ']: '
+                . $e->getMessage());
             throw RedirectException::make('/applications/' . $id)->setError('Requesting a partial refund failed');
         }
-
-        return redirect()
-            ->action('ApplicationsController@show', $id)
-            ->with('messages', ['success' => 'Partial refund has been successfully requested']);
+        return $this->redirectWithSuccessMessage('/applications', 'Partial refund has been successfully requested');
     }
 
     /**

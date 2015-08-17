@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
@@ -379,5 +380,11 @@ abstract class Controller extends BaseController
             'merchant',
             '/merchants'
         );
+    }
+
+    protected function redirectWithSuccessMessage($target, $message)
+    {
+        return redirect($target)
+            ->with('messages', ['success' => $message]);
     }
 }

@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 /**
@@ -101,14 +100,14 @@ class InstallationsController extends Controller
     {
         try {
             $this->installationSynchronisationService->synchroniseAllInstallations($id);
-            return redirect()->back()->with('messages', ['success', 'Synchronisation complete successfully']);
-
+            return $this->redirectWithSuccessMessage('/merchants/'.$id, 'Synchronisation complete successfully');
         } catch (\Exception $e) {
             $this->logError(
                 'Error while trying to synchronise Installations for Merchant[' .
                 $id . ']: ' . $e->getMessage()
             );
-            throw RedirectException::make('/merchants/' . $id)->setError('Error while trying to sync installations for Merchant');
+            throw RedirectException::make('/merchants/' . $id)
+                ->setError('Error while trying to sync installations for Merchant');
         }
     }
 

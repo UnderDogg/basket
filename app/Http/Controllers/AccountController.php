@@ -69,7 +69,7 @@ class AccountController extends Controller
         ]);
         try {
             $user->update($request->all());
-            return redirect()->back()->with('messages', ['success' => 'Your details have successfully been changed']);
+            return $this->redirectWithSuccessMessage('/account/edit', 'Your details have successfully been changed');
         } catch(\Exception $e) {
             $this->logError('AccountController: Error while trying to update: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());
@@ -92,13 +92,13 @@ class AccountController extends Controller
         ]);
 
         if(!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
-            return Redirect::back()->withInput()->with('messages', ['error' => 'The password entered does not match our records']);
+            throw RedirectException::make('account/edit')->setError($e->getMessage());
         }
 
         try {
             $user->password = Hash::make($request['new_password']);
             $user->save();
-            return Redirect::back()->with(['success' => 'Your password has successfully been changed']);
+            return $this->redirectWithSuccessMessage('/account/edit', 'Your password has successfully been changed');
         } catch(\Exception $e) {
             $this->logError('AccountController: Error while trying to change password: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());
