@@ -395,4 +395,20 @@ abstract class Controller extends BaseController
     {
         return $model->where($field, '>', $after)->where($field, '<', $before);
     }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Merchant
+     * @throws RedirectException
+     */
+    protected function fetchMerchantById($id)
+    {
+        return $this->checkModelForMerchantLimit(
+            $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants'),
+            $id,
+            'merchant',
+            '/merchants'
+        );
+    }
 }

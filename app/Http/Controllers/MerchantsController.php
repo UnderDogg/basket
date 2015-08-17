@@ -156,20 +156,4 @@ class MerchantsController extends Controller
         }
         return redirect('merchants/' . $id)->with($message[0], $message[1]);
     }
-
-    /**
-     * @author WN
-     * @param int $id
-     * @return Merchant
-     * @throws RedirectException
-     */
-    private function fetchMerchantById($id)
-    {
-        return $this->checkModelForMerchantLimit(
-            $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants'),
-            $id,
-            'merchant',
-            '/merchants'
-        );
-    }
 }
