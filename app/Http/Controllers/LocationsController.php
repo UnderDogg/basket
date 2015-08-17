@@ -52,6 +52,7 @@ class LocationsController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function store(Request $request)
     {
@@ -73,7 +74,7 @@ class LocationsController extends Controller
 
         } catch (\Exception $e) {
             $this->logError('Could not successfully create new Location' . $e->getMessage());
-            throw RedirectException::make('/locations/')->with('messages', ['error' => 'Could not successfully create new location']);
+            throw RedirectException::make('/locations/')->setError($e->getMessage());
         }
     }
 

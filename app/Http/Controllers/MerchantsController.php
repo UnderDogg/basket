@@ -14,9 +14,6 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class MerchantController
@@ -58,9 +55,11 @@ class MerchantsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage
      *
-     * @return Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function store(Request $request)
     {
@@ -77,9 +76,7 @@ class MerchantsController extends Controller
 
         } catch (\Exception $e) {
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
-            throw RedirectException::make('/merchants/')
-                ->with('messages', ['error' => 'Could not successfully create a new Merchant']);
-
+            throw RedirectException::make('/merchants/')->setError($e->getMessage());
         }
     }
 
@@ -138,8 +135,9 @@ class MerchantsController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function synchronise($id)
     {
@@ -148,8 +146,7 @@ class MerchantsController extends Controller
             return redirect('/merchants/'.$id)->with('messages', ['success' => 'Synchronisation complete successfully']);
         } catch (\Exception $e) {
             $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/merchants/'.$id)
-                ->with('messages', ['error' => 'Synchronisation not complete successfully']);
+            throw RedirectException::make('/merchants/'.$id)->setError($e->getMessage());
         }
     }
 }
