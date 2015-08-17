@@ -58,8 +58,8 @@ class IpsController extends Controller
      * @author EB
      * @param $id
      * @param Request $request
-     * @return mixed
-     * @throws RedirectException
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws IpsController
      */
     public function store($id, Request $request)
     {
@@ -68,8 +68,7 @@ class IpsController extends Controller
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
         } catch(\Exception $e) {
-            $this->logError('IpsController: Error while trying to create a new IP: ' . $e->getMessage());
-            throw RedirectException::make('/merchants/'.$id.'/ips')->setError($e->getMessage());
+            throw $this->redirectWithException('/merchants/'.$id.'/ips', 'Error while trying to create a new IP', $e);
         }
         return $this->redirectWithSuccessMessage(
             '/merchants/'.$id.'/ips',
@@ -82,7 +81,7 @@ class IpsController extends Controller
      * @param $id
      * @param $ip
      * @return mixed
-     * @throws RedirectException
+     * @throws IpsController
      */
     public function delete($id, $ip)
     {
@@ -90,8 +89,11 @@ class IpsController extends Controller
             $this->ipsGateway
                 ->deleteIpAddress($this->fetchMerchantById($id)->token, $ip);
         } catch(\Exception $e) {
-            $this->logError("IpsController: Error while trying to delete an IP address: " . $e->getMessage());
-            throw RedirectException::make('/merchants/'.$id.'/ips')->setError($e->getMessage());
+            throw $this->redirectWithException(
+                '/merchants/'.$id.'/ips',
+                'Error while trying to delete an IP address',
+                $e)
+            ;
         }
         return $this->redirectWithSuccessMessage(
             'merchants/'.$id.'ips',

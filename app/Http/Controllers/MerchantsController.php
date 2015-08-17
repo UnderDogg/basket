@@ -138,15 +138,18 @@ class MerchantsController extends Controller
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
+     * @throws MerchantsController
      */
     public function synchronise($id)
     {
         try {
             $this->merchantSynchronisationService->synchroniseMerchant($id);
         } catch (\Exception $e) {
-            $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/merchants/'.$id)->setError($e->getMessage());
+            throw $this->redirectWithException(
+                '/merchants/'.$id,
+                'Error while trying to synchronise Merchant[' . $id . ']',
+                $e)
+            ;
         }
         return $this->redirectWithSuccessMessage(
             '/merchants/'.$id,
