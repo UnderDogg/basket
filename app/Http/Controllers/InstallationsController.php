@@ -100,7 +100,10 @@ class InstallationsController extends Controller
     {
         try {
             $this->installationSynchronisationService->synchroniseAllInstallations($id);
-            return $this->redirectWithSuccessMessage('/merchants/'.$id, 'Synchronisation complete successfully');
+            return $this->redirectWithSuccessMessage(
+                '/merchants/'.$id,
+                'Synchronisation complete successfully'
+            );
         } catch (\Exception $e) {
             $this->logError(
                 'Error while trying to synchronise Installations for Merchant[' .

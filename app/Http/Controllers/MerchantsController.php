@@ -71,7 +71,10 @@ class MerchantsController extends Controller
         try {
             $merchant = Merchant::create($request->all());
             $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
-            return $this->redirectWithSuccessMessage('/merchants/'.$id, 'New merchant has been successfully created');
+            return $this->redirectWithSuccessMessage(
+                '/merchants/'.$id,
+                'New merchant has been successfully created'
+            );
         } catch (\Exception $e) {
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
             throw RedirectException::make('/merchants/')->setError($e->getMessage());
@@ -141,7 +144,10 @@ class MerchantsController extends Controller
     {
         try {
             $this->merchantSynchronisationService->synchroniseMerchant($id);
-            return $this->redirectWithSuccessMessage('/merchants/'.$id, 'Synchronisation complete successfully');
+            return $this->redirectWithSuccessMessage(
+                '/merchants/'.$id,
+                'Synchronisation complete successfully'
+            );
         } catch (\Exception $e) {
             $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/merchants/'.$id)->setError($e->getMessage());

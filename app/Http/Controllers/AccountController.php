@@ -69,7 +69,10 @@ class AccountController extends Controller
         ]);
         try {
             $user->update($request->all());
-            return $this->redirectWithSuccessMessage('/account/edit', 'Your details have successfully been changed');
+            return $this->redirectWithSuccessMessage(
+                '/account/edit',
+                'Your details have successfully been changed'
+            );
         } catch(\Exception $e) {
             $this->logError('AccountController: Error while trying to update: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());
@@ -98,7 +101,10 @@ class AccountController extends Controller
         try {
             $user->password = Hash::make($request['new_password']);
             $user->save();
-            return $this->redirectWithSuccessMessage('/account/edit', 'Your password has successfully been changed');
+            return $this->redirectWithSuccessMessage(
+                '/account/edit',
+                'Your password has successfully been changed'
+            );
         } catch(\Exception $e) {
             $this->logError('AccountController: Error while trying to change password: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());

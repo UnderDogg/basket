@@ -87,7 +87,10 @@ class UsersController extends Controller
                 ->setError('Cannot create User');
         }
 
-        return $this->redirectWithSuccessMessage('/users', 'New user has been successfully created');
+        return $this->redirectWithSuccessMessage(
+            '/users',
+            'New user has been successfully created'
+        );
     }
 
     /**
@@ -164,7 +167,10 @@ class UsersController extends Controller
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return $this->redirectWithSuccessMessage('/users', 'User details were successfully updated');
+        return $this->redirectWithSuccessMessage(
+            '/users',
+            'User details were successfully updated'
+        );
     }
 
     /**
@@ -188,7 +194,10 @@ class UsersController extends Controller
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return $this->redirectWithSuccessMessage('/users', 'User details were successfully updated');
+        return $this->redirectWithSuccessMessage(
+            '/users',
+            'User details were successfully updated'
+        );
     }
 
     /**

@@ -69,7 +69,10 @@ class LocationsController extends Controller
             $toCreate = $request->all();
             $toCreate['active'] = ($request->has('active')) ? 1 : 0;
             Location::create($toCreate);
-            return $this->redirectWithSuccessMessage('locations', 'New location has been successfully created');
+            return $this->redirectWithSuccessMessage(
+                'locations',
+                'New location has been successfully created'
+            );
         } catch (\Exception $e) {
             $this->logError('Could not successfully create new Location' . $e->getMessage());
             throw RedirectException::make('/locations/')->setError($e->getMessage());
@@ -129,7 +132,10 @@ class LocationsController extends Controller
             $this->logError('Can not update location [' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $id . '/edit')->setError($e->getMessage());
         }
-        return $this->redirectWithSuccessMessage('/locations/'.$id.'/edit', 'Location details have been updated');
+        return $this->redirectWithSuccessMessage(
+            '/locations/'.$id.'/edit',
+            'Location details have been updated'
+        );
     }
 
     /**
