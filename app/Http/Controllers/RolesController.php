@@ -68,8 +68,7 @@ class RolesController extends Controller
             $role = Role::create($request->all());
             $this->applyPermissions($role, $request);
         } catch (\Exception $e) {
-            $this->logError('RolesController: Failed while storing new: ' . $e->getMessage());
-            throw RedirectException::make('/roles')->setError('Could not save role');
+            return $this->redirectWithException('/roles/', 'Failed while storing new', $e);
         }
         return $this
             ->redirectWithSuccessMessage(

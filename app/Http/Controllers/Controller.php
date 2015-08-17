@@ -393,16 +393,28 @@ abstract class Controller extends BaseController
             ->with('messages', ['success' => $message]);
     }
 
-    protected function applicationSynchronisationServiceMethod($id, $errorMessage, $successMessage)
+    /**
+     * @param $target
+     * @param $message
+     * @param \Exception $e
+     * @return $this
+     */
+    protected function redirectWithException($target, $message, \Exception $e)
     {
-        try {
-            return $this->redirectWithSuccessMessage(
-                '/applications/'.$id,
-                $successMessage
-            );
-        } catch(\Exception $e) {
-            $this->logError($errorMessage .':' .$e->getMessage());
-            throw RedirectException::make('/applications/' . $id)->setError($errorMessage);
-        }
+        $this->logError($message .':' .$e->getMessage());
+        return RedirectException::make($target)->setError($message);
     }
+
+//    protected function redirectOrException($target, $errorMessage, $successMessage)
+//    {
+//        try {
+//            return $this->redirectWithSuccessMessage(
+//                $target,
+//                $successMessage
+//            );
+//        } catch(\Exception $e) {
+//            $this->logError($errorMessage .':' .$e->getMessage());
+//            throw RedirectException::make($target)->setError($errorMessage);
+//        }
+//    }
 }

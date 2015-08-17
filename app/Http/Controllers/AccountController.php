@@ -69,8 +69,11 @@ class AccountController extends Controller
         try {
             $user->update($request->all());
         } catch(\Exception $e) {
-            $this->logError('AccountController: Error while trying to update: ' . $e->getMessage());
-            throw RedirectException::make('/account/edit')->setError($e->getMessage());
+            $this->redirectWithException(
+                '/account/edit',
+                'Error while trying to update',
+                $e
+            );
         }
         return $this->redirectWithSuccessMessage(
             '/account/edit',
