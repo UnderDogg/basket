@@ -170,14 +170,14 @@ class ApplicationsController extends Controller
     {
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
-            return $this->redirectWithSuccessMessage(
-                '/applications',
-                'Cancellation requested successfully'
-            );
         } catch (\Exception $e) {
             $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
         }
+        return $this->redirectWithSuccessMessage(
+            '/applications',
+            'Cancellation requested successfully'
+        );
     }
 
     /**

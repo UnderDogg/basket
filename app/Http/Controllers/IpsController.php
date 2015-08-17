@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use PayBreak\Sdk\Gateways\IpsGateway;
 
 /**
@@ -68,14 +67,14 @@ class IpsController extends Controller
         try {
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
-            return $this->redirectWithSuccessMessage(
-                '/merchants/'.$id.'/ips',
-                'IP address \'' . $response['ip'] . '\' created.'
-            );
         } catch(\Exception $e) {
             $this->logError('IpsController: Error while trying to create a new IP: ' . $e->getMessage());
             throw RedirectException::make('/merchants/'.$id.'/ips')->setError($e->getMessage());
         }
+        return $this->redirectWithSuccessMessage(
+            '/merchants/'.$id.'/ips',
+            'IP address \'' . $response['ip'] . '\' created.'
+        );
     }
 
     /**
@@ -90,13 +89,13 @@ class IpsController extends Controller
         try {
             $this->ipsGateway
                 ->deleteIpAddress($this->fetchMerchantById($id)->token, $ip);
-            return $this->redirectWithSuccessMessage(
-                'merchants/'.$id.'ips',
-                'IP address successfully deleted'
-            );
         } catch(\Exception $e) {
             $this->logError("IpsController: Error while trying to delete an IP address: " . $e->getMessage());
             throw RedirectException::make('/merchants/'.$id.'/ips')->setError($e->getMessage());
         }
+        return $this->redirectWithSuccessMessage(
+            'merchants/'.$id.'ips',
+            'IP address successfully deleted'
+        );
     }
 }

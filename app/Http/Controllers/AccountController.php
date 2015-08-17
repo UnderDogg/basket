@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class AccountController
@@ -69,14 +68,14 @@ class AccountController extends Controller
         ]);
         try {
             $user->update($request->all());
-            return $this->redirectWithSuccessMessage(
-                '/account/edit',
-                'Your details have successfully been changed'
-            );
         } catch(\Exception $e) {
             $this->logError('AccountController: Error while trying to update: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());
         }
+        return $this->redirectWithSuccessMessage(
+            '/account/edit',
+            'Your details have successfully been changed'
+        );
     }
 
     /**
@@ -101,13 +100,13 @@ class AccountController extends Controller
         try {
             $user->password = Hash::make($request['new_password']);
             $user->save();
-            return $this->redirectWithSuccessMessage(
-                '/account/edit',
-                'Your password has successfully been changed'
-            );
         } catch(\Exception $e) {
             $this->logError('AccountController: Error while trying to change password: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());
         }
+        return $this->redirectWithSuccessMessage(
+            '/account/edit',
+            'Your password has successfully been changed'
+        );
     }
 }

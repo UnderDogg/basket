@@ -382,6 +382,11 @@ abstract class Controller extends BaseController
         );
     }
 
+    /**
+     * @param $target
+     * @param $message
+     * @return RedirectResponse
+     */
     protected function redirectWithSuccessMessage($target, $message)
     {
         return redirect($target)

@@ -67,15 +67,15 @@ class RolesController extends Controller
         try {
             $role = Role::create($request->all());
             $this->applyPermissions($role, $request);
-            return $this
-                ->redirectWithSuccessMessage(
-                    'roles',
-                    'New roles and role permissions were successfully created'
-                );
         } catch (\Exception $e) {
             $this->logError('RolesController: Failed while storing new: ' . $e->getMessage());
             throw RedirectException::make('/roles')->setError('Could not save role');
         }
+        return $this
+            ->redirectWithSuccessMessage(
+                'roles',
+                'New roles and role permissions were successfully created'
+            );
     }
 
     /**
@@ -135,14 +135,14 @@ class RolesController extends Controller
             $role = $this->fetchRoleById($id);
             $role->update($request->all());
             $this->applyPermissions($role, $request);
-            return $this->redirectWithSuccessMessage(
-                'roles',
-                'Roles and permissions were successfully updated'
-            );
         } catch (\Exception $e) {
             $this->logError('Could not update Role with ID [' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/roles')->setError('Could not update Role');
         }
+        return $this->redirectWithSuccessMessage(
+            'roles',
+            'Roles and permissions were successfully updated'
+        );
     }
 
     /**
