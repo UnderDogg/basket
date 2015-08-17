@@ -136,16 +136,22 @@ class ApplicationsController extends Controller
      */
     public function fulfil($id)
     {
-        try {
-            $this->applicationSynchronisationService->fulfil($id);
-            return $this->redirectWithSuccessMessage(
-                '/applications/'.$id,
-                'Application was fulfilled successfully'
-            );
-        } catch (\Exception $e) {
-            $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
-        }
+        $this->applicationSynchronisationService->fulfil($id);
+        return $this->applicationSynchronisationServiceMethod(
+            $id,
+            'Error while trying to fulfil Application[' . $id . ']',
+            'Application was fulfilled successfully'
+        );
+//        try {
+//            $this->applicationSynchronisationService->fulfil($id);
+//            return $this->redirectWithSuccessMessage(
+//                '/applications/'.$id,
+//                'Application was fulfilled successfully'
+//            );
+//        } catch (\Exception $e) {
+//            $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
+//            throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
+//        }
     }
 
     /**
@@ -168,16 +174,22 @@ class ApplicationsController extends Controller
      */
     public function requestCancellation($id, Request $request)
     {
-        try {
-            $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
-        } catch (\Exception $e) {
-            $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
-        }
-        return $this->redirectWithSuccessMessage(
-            '/applications',
+        $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
+        return $this->applicationSynchronisationServiceMethod(
+            $id,
+            'Error while trying to request cancellation Application[' . $id . ']',
             'Cancellation requested successfully'
         );
+//        try {
+//            $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
+//        } catch (\Exception $e) {
+//            $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
+//            throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
+//        }
+//        return $this->redirectWithSuccessMessage(
+//            '/applications',
+//            'Cancellation requested successfully'
+//        );
     }
 
     /**
