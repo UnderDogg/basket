@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 /**

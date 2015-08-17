@@ -35,7 +35,7 @@ class MerchantsController extends Controller
      * Display a listing of the resource.
      *
      * @author WN, MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -47,7 +47,7 @@ class MerchantsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -84,7 +84,7 @@ class MerchantsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -98,7 +98,7 @@ class MerchantsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -114,7 +114,7 @@ class MerchantsController extends Controller
      * @author WN
      * @param  int $id
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update($id, Request $request)
@@ -127,7 +127,7 @@ class MerchantsController extends Controller
      *
      * @author WN
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
