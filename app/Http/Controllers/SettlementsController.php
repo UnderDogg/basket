@@ -90,23 +90,6 @@ class SettlementsController extends Controller
     }
 
     /**
-     * Apply Standard Filters
-     *
-     * @author MS
-     * @param array $settlements
-     */
-    private function applyStandardFilters(&$settlements)
-    {
-        if (!empty($filter = $this->getFilters())) {
-            foreach ($filter as $field => $query) {
-                if ($field !== 'date_from' && $field !== 'date_to') {
-                    $this->filterArrayByValue($settlements, $field, $query);
-                }
-            }
-        }
-    }
-
-    /**
      * Apply SettlementAmounts
      *
      * @author MS
@@ -159,29 +142,6 @@ class SettlementsController extends Controller
             $settlementReport['sum_subsidy'] = $settlementReport['sum_subsidy'] + $settlement['subsidy'];
             $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
-        }
-    }
-
-    /**
-     * Filter Array By Value
-     *
-     * @author MS
-     * @param array $array
-     * @param $index
-     * @param $value
-     */
-    private function filterArrayByValue(&$array, $index, $value)
-    {
-        if(is_array($array) && count($array)>0)
-        {
-            foreach(array_keys($array) as $key){
-                $temp[$key] = $array[$key][$index];
-
-                if ($temp[$key] !== $value){
-
-                    unset($array[$key]);
-                }
-            }
         }
     }
 }
