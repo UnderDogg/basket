@@ -15,9 +15,13 @@
 - Validity period of application is dependent on the validity period in installations
 - Requester and location added to application
 - Return page
+- Menu structure changed
+- Menu items now have a scope depending on a users permissions
+- Middleware for available installation
 
 ## Bug Fixes
 - 'Gravatar' bug fixed
+- `SettlementGateway` fixes
 
 # 0.4.0
 2015-08-11
