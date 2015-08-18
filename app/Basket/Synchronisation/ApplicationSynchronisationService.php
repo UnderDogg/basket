@@ -283,7 +283,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $app->installation_id = $installationId;
         $app->ext_id = $applicationEntity->getId();
         $app->user_id = $requester;
-        $app->location_id = 1;
+        $app->location_id = $location;
 
         $this->mapApplication($applicationEntity, $app);
 
