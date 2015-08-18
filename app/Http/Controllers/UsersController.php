@@ -72,7 +72,6 @@ class UsersController extends Controller
         $array = $request->all();
 
         if (!$this->isMerchantAllowedForUser($array['merchant_id'])) {
-
             throw RedirectException::make('/users')
                 ->setError('You are not allowed to create User for this Merchant');
         }
@@ -81,7 +80,6 @@ class UsersController extends Controller
 
         try {
             $user = User::create($array);
-
             $this->processRoles($user, $array);
 
         } catch (QueryException $e) {
@@ -89,7 +87,10 @@ class UsersController extends Controller
                 ->setError('Cannot create User');
         }
 
-        return redirect('users')->with('success', 'New User has been successfully created');
+        return $this->redirectWithSuccessMessage(
+            '/users',
+            'New user has been successfully created'
+        );
     }
 
     /**
@@ -101,7 +102,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return view('user.show', ['user' => $this->fetchUserById($id), 'messages' => $this->getMessages()]);
+        return view('user.show', ['user' => $this->fetchUserById($id)]);
     }
 
     /**
@@ -166,8 +167,10 @@ class UsersController extends Controller
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-
-        return redirect()->back()->with('success', 'User details were successfully updated');
+        return $this->redirectWithSuccessMessage(
+            '/users',
+            'User details were successfully updated'
+        );
     }
 
     /**
@@ -191,7 +194,10 @@ class UsersController extends Controller
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return redirect()->back()->with('success', 'User details were successfully updated');
+        return $this->redirectWithSuccessMessage(
+            '/users',
+            'User details were successfully updated'
+        );
     }
 
     /**
@@ -223,7 +229,7 @@ class UsersController extends Controller
         $user = $this->fetchUserById($id);
         $user->type = 'users';
         $user->controller = 'Users';
-        return view('includes.page.confirm_delete', ['object' => $user, 'messages' => $this->getMessages()]);
+        return view('includes.page.confirm_delete', ['object' => $user]);
     }
 
     /**
@@ -273,7 +279,6 @@ class UsersController extends Controller
             $view,
             [
                 'user' => $user,
-                'messages' => $this->getMessages(),
                 'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
                 'locationsApplied' => $locationsApplied,
                 'locationsAvailable' => $locationsAvailable,

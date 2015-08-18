@@ -3,37 +3,62 @@
 @section('content')
 
     <h2>Request Cancellation</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => 'Request Cancellation']])
+    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [2  => 'Request Cancellation']])
 
-        <p>&nbsp;</p>
-        {!! Form::open( ['method'=>'post'] ) !!}
-
-        <div class="form-group">
-            <div class="col-sm-8 col-sm-offset-2 jumbotron">
-                <p style="font-size: 18px;">
-                    Please confirm that you would like to request cancellation of this application.<br />
-                    Please note that you will not be able to reverse this later.
-                </p>
-
-                <div class="form-group">
-                    <label>Description</label>
-                    <input name="description" type="text" class="form-control">
-                </div>
-
-                <p>&nbsp;</p>
-                <div class="form-group">
-                    <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-                        {!! Form::submit('Request', [
-                        'class' => 'btn btn-danger form-control',
-                        'name' => 'confirmRequest'
-                        ]) !!}
-                    </div>
-                    <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-                        <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info form-control">Cancel</a>
-                    </div>
-                </div>
-            </div>
+    <p>&nbsp;</p>
+    {!! Form::open( ['method'=>'post', 'class' => 'form-horizontal'] ) !!}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Key Information</strong></div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                @if(isset($application->ext_id))
+                    <dt>Order ID</dt>
+                    <dd>{{$application->ext_id}}</dd>
+                @endif
+                @if(isset($application->ext_order_reference))
+                    <dt>Reference</dt>
+                    <dd>{{$application->ext_order_reference}}</dd>
+                @endif
+                @if(isset($application->ext_order_amount))
+                    <dt>Order Amount</dt>
+                    <dd>{{'&pound;' . number_format($application->ext_order_amount/100,2)}}</dd>
+                @endif
+                @if(isset($application->ext_order_description))
+                    <dt>Order Description</dt>
+                    <dd>{{$application->ext_order_description}}</dd>
+                @endif
+                @if(isset($application->ext_fulfilment_location))
+                    <dt>Fulfilment Location</dt>
+                    <dd>{{$application->ext_fulfilment_location}}</dd>
+                @endif
+                @if(isset($application->ext_customer_title))
+                    <dt>Customer Title</dt>
+                    <dd>{{$application->ext_customer_title}}</dd>
+                @endif
+                @if(isset($application->ext_customer_first_name))
+                    <dt>Customer First Name</dt>
+                    <dd>{{$application->ext_customer_first_name}}</dd>
+                @endif
+                @if(isset($application->ext_customer_last_name))
+                    <dt>Customer Surname</dt>
+                    <dd>{{$application->ext_customer_last_name}}</dd>
+                @endif
+            </dl>
         </div>
-        {!! Form::close() !!}
+    </div>
+    <div class="alert alert-warning">
+        <p>Please enter why you are requesting a cancellation, and confirm that you want to request a cancellation</p>
+    </div>
+    <div class="form-group">
+        {!! Form::label('description', 'Description') !!}
+        {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
+    </div>
+    <div class="form-group pull-right">
+        {!! Form::submit('Request', [
+                                    'class' => 'btn btn-success',
+                                    ]) !!}
+        <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
+    </div>
+    {!! Form::close() !!}
 
 @endsection

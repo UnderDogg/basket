@@ -2,11 +2,34 @@
 2015-08-14
 
 ## Features
+- Actions on view pages have been changed to be included inside views
+- Models linked to each other
+- Active flag has been changed to a slider on edit page
+- Confirmation screens have been made 'pretty'
+- Messages moved to master
+- Logo has been changed
+- Validity period has been added to installation. Can be changed on edit page.
+- Validity period of application is dependent on the validity period in installations
+- Requester and location added to application
+- Return page
+- Menu structure changed
+- Menu items now have a scope depending on a users permissions
+- Middleware for available installation
+- Added columns & filters for applications list.
+
+## Bug Fixes
+- 'Gravatar' bug fixed
+- `SettlementGateway` fixes
+
+# 0.5.0
+2015-08-14
+
+## Features
 - Changed layout of dashboard
 - Set `Permissions`. Attach `Permissions` to `Routes`
 - `AuthoriseRole` middleware
 - Protect *Super Administrator* role
-- Protect against user self delete
+- Protect against `user` self delete
 - Test improvements
 
 # 0.4.0

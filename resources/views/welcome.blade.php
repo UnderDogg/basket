@@ -2,13 +2,10 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <div class="container">
         <h1>DASHBOARD</h1>
         @if(count($user->locations) > 0)
-            <h2>Make Application</h2>
+            <h2>Apply for Finance</h2>
             <hr/>
             <ul>
                 @foreach($user->locations as $location)

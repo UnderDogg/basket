@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $applications->name]])
 

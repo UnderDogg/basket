@@ -39,8 +39,6 @@ class PartialRefundsController extends Controller
      */
     public function index()
     {
-        $messages = $this->getMessages();
-
         $settlementReports = Collection::make(
             $this->partialRefundGateway->listPartialRefunds($this->getMerchantToken())
         );
@@ -68,7 +66,6 @@ class PartialRefundsController extends Controller
 
         return View('partial-refunds.index', [
             'settlement_reports' => $settlementReports,
-            'messages' => $messages,
             'statuses' => $statuses,
         ]);
     }
@@ -82,11 +79,9 @@ class PartialRefundsController extends Controller
      */
     public function show($partialRefundId)
     {
-        $messages = $this->getMessages();
         $partialRefund = $this->partialRefundGateway->getPartialRefund($this->getMerchantToken(), $partialRefundId);
         return View('partial-refunds.show', [
             'partialRefund' => (object) $partialRefund->toArray(),
-            'messages' => $messages,
         ]);
     }
 }

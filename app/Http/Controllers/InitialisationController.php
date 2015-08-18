@@ -9,6 +9,8 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
+use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
@@ -74,7 +76,7 @@ class InitialisationController extends Controller
                 'group' => $request->get('group'),
                 'product' => $request->get('product'),
                 'reference' => $reference,
-                'location' => $locationId,
+                'location' => $location,
             ]
         );
     }
@@ -99,6 +101,7 @@ class InitialisationController extends Controller
             ]
         );
 
+        $requester = Auth::user()->id;
         $location = $this->fetchLocation($locationId);
 
         try {
@@ -107,10 +110,11 @@ class InitialisationController extends Controller
                 $request->get('reference'),
                 $request->get('amount'),
                 $request->get('description'),
-                'tomorrow 18:00',
+                $location->installation->validity,
                 $request->get('group'),
                 [$request->get('product')],
-                $location->reference
+                $location,
+                $requester
             ));
         } catch (\Exception $e) {
 
@@ -146,6 +150,15 @@ class InitialisationController extends Controller
                 'location' => $locationId,
             ]
         );
+    }
+
+    /**
+     * @author SD
+     * @return \Illuminate\View\View
+     */
+    public function returnBack()
+    {
+         return view('initialise.returnBack');
     }
 
     /**

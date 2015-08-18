@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h2>Edit account details</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <div class="panel panel-default">
@@ -14,7 +11,7 @@
                 {!! Form::model($user, array('method' => 'post')) !!}
                 <div class="col-xs-2 col-sm-4 col-md-2 col-lg-2">
                     <div class="thumbnail">
-                        <img src="{{ 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?size=200' }}" alt="...">
+                        <img src="{{ '//www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?size=200' }}" alt="...">
                     </div>
                 </div>
                 <div class="col-xs-10 col-sm-8 col-md-10 col-lg-10">

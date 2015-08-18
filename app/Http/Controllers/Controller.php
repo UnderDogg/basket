@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
@@ -36,20 +37,6 @@ abstract class Controller extends BaseController
     // Default Pagination Record Limit
     const DEFAULT_PAGE_LIMIT = 15;
     private $filters;
-
-    /**
-     * Make Message Object
-     *
-     * @author MS
-     */
-    protected function getMessages()
-    {
-        return [
-            'success'   => session()->get('success'),
-            'info'      => session()->get('info'),
-            'error'     => session()->get('error'),
-        ];
-    }
 
     /**
      * Get Merchant Token
@@ -178,7 +165,7 @@ abstract class Controller extends BaseController
                 ->setError('Deletion of this record did not complete successfully');
         }
 
-        return redirect($redirect)->with('success', ucwords($modelName) . ' was successfully deleted');
+        return redirect($redirect)->with('messages', ['success', ucwords($modelName) . ' was successfully deleted']);
     }
 
     /**
@@ -201,7 +188,7 @@ abstract class Controller extends BaseController
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('success', ucwords($modelName) .' details were successfully updated');
+        return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
     }
 
     /**
@@ -217,22 +204,6 @@ abstract class Controller extends BaseController
                 $query->where($field, 'like', '%' . $value . '%');
             }
         }
-    }
-
-    /**
-     * @author WN
-     * @param Builder $query
-     * @return array
-     */
-    protected function prepareMessagesForIndexAction(Builder $query)
-    {
-        $messages = $this->getMessages();
-
-        if (!$query->count()) {
-            $messages['info'] = 'No records were found that matched your filter';
-        }
-
-        return $messages;
     }
 
     /**
@@ -255,7 +226,6 @@ abstract class Controller extends BaseController
             $view,
             array_merge(
                 [
-                    'messages' => $this->prepareMessagesForIndexAction($query),
                     $modelName => $query->paginate($this->getPageLimit()),
                 ],
                 $additionalProperties
@@ -394,5 +364,44 @@ abstract class Controller extends BaseController
     protected function processDateFilters(Builder $model, $field, Carbon $after, Carbon $before)
     {
         return $model->where($field, '>', $after)->where($field, '<', $before);
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Merchant
+     * @throws RedirectException
+     */
+    protected function fetchMerchantById($id)
+    {
+        return $this->checkModelForMerchantLimit(
+            $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants'),
+            $id,
+            'merchant',
+            '/merchants'
+        );
+    }
+
+    /**
+     * @param $target
+     * @param $message
+     * @return RedirectResponse
+     */
+    protected function redirectWithSuccessMessage($target, $message)
+    {
+        return redirect($target)
+            ->with('messages', ['success' => $message]);
+    }
+
+    /**
+     * @param $target
+     * @param $message
+     * @param \Exception $e
+     * @return $this
+     */
+    protected function redirectWithException($target, $message, \Exception $e)
+    {
+        $this->logError($message .':' .$e->getMessage());
+        return RedirectException::make($target)->setError($message);
     }
 }
