@@ -37,7 +37,7 @@ class IpsController extends Controller
      * @author EB
      * @param $id
      * @return \Illuminate\View\View
-     * @throws RedirectException
+     * @throws IpsController
      */
     public function index($id)
     {
@@ -49,8 +49,7 @@ class IpsController extends Controller
                 'ips' => $ips,
             ]);
         } catch(\Exception $e) {
-            $this->logError('IpsController: Trying to get IP\'s failed: ' . $e->getMessage());
-            throw RedirectException::make('/merchants/')->setError($e->getMessage());
+            throw $this->redirectWithException('/merchants/','Trying to get IP\'s failed', $e);
         }
     }
 

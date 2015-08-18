@@ -151,6 +151,7 @@ class MerchantsController extends Controller
                 $e)
             ;
         }
+
         return $this->redirectWithSuccessMessage(
             '/merchants/'.$id,
             'Synchronisation complete successfully'

@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Exceptions\RedirectException;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
@@ -37,17 +38,26 @@ class SettlementsController extends Controller
      * Index
      *
      * @author MS
+     * @param int $id
      * @return \Illuminate\View\View
      * @throws \App\Exceptions\RedirectException
      */
-    public function index()
+    public function index($id)
     {
         $dateRange = $this->getDateRange();
-        $settlementReports = Collection::make(
-            $this
-                ->settlementGateway
-                ->getSettlementReports($this->getMerchantToken(), $dateRange['date_from'], $dateRange['date_to'])
-        );
+
+        try {
+            $settlementReports = Collection::make(
+                $this
+                    ->settlementGateway
+                    ->getSettlementReports(
+                        $this->fetchMerchantById($id)->token, $dateRange['date_from'], $dateRange['date_to']
+                    )
+            );
+        } catch (\Exception $e) {
+            $this->logError('SettlementsController: failed fetching settlements' . $e->getMessage());
+            throw RedirectException::make('/')->setError('Problem fetching Settlements.');
+        }
 
         $filter = $this->getFilters();
 
@@ -73,14 +83,20 @@ class SettlementsController extends Controller
      * Settlement Report
      *
      * @author MS
+     * @param int $merchant
      * @param int $id
      * @return \Illuminate\View\View
+     * @throws SettlementsController
      */
-    public function settlementReport($id)
+    public function settlementReport($merchant, $id)
     {
-        $settlementReport = $this
-            ->settlementGateway
-            ->getSingleSettlementReport($this->getMerchantToken(), $id);
+        try {
+            $settlementReport = $this
+                ->settlementGateway
+                ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
+        }
 
         $this->applySettlementAmounts($settlementReport);
 
@@ -88,6 +104,8 @@ class SettlementsController extends Controller
             'settlementReport' => $settlementReport,
         ]);
     }
+
+
 
     /**
      * Apply SettlementAmounts
