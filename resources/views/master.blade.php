@@ -46,37 +46,69 @@
         <div id="navbar" class="navbar-collapse collapse">
             @if ( \Auth::check())
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Make Application</a></li>
-                            <li><a href="/applications">Applications List</a></li>
-                            <li><a href="/installations/{id}/applications/pending-cancellations">Pending Cancellation List</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-header">Manager</li>
-                            <li><a href="/installations">Installations</a></li>
-                            <li><a href="/locations">Locations</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Administrator</li>
-                            <li><a href="/users">Users</a></li>
-                            <li><a href="/merchants">Merchants</a></li>
-                            <li><a href="/roles">Roles & Permissions</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="/partial-refunds">Partial Refunds</a></li>
+                    @if(Auth::user()->can('applications-view'))
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach($available_installations as $id => $installation)
+                                    <li class="dropdown-header">{{ $installation->name }}</li>
+                                    <li><a href="/installations/{{ $installation->id }}/applications">Applications List</a></li>
+                                    <li><a href="/installations/{{ $installation->id }}/applications/pending-cancellations">Pending Cancellation List</a></li>
+                                    @if(count($available_installations) != ($id+1))
+                                            <li role="separator" class="divider"></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                    @if(Auth::user()->can('reports-view'))
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/merchants/{{ Auth::user()->merchant_id?Auth::user()->merchant_id:1 }}/settlements">Settlements</a></li>
+                                <li><a href="/merchants/{{ Auth::user()->merchant_id?Auth::user()->merchant_id:1 }}/partial-refunds">Partial Refunds</a></li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    @if(Auth::user()->can('merchants-view') || Auth::user()->can('locations-view') ||Auth::user()->can('users-view') || Auth::user()->can('roles-view'))
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+                            <ul class="dropdown-menu">
+                                @if(Auth::user()->can('merchants-view') || Auth::user()->can('locations-view'))
+                                    <li class="dropdown-header">Manager</li>
+                                    @if(Auth::user()->can('merchants-view'))
+                                        <li><a href="/installations">Installations</a></li>
+                                    @endif
+                                    @if(Auth::user()->can('locations-view'))
+                                        <li><a href="/locations">Locations</a></li>
+                                    @endif
+                                    @if(Auth::user()->can('users-view') || Auth::user()->can('roles-view'))
+                                        <li role="separator" class="divider"></li>
+                                    @endif
+                                @endif
+                                @if(Auth::user()->can('users-view') || Auth::user()->can('merchants-view') || Auth::user()->can('roles-view'))
+                                    <li class="dropdown-header">Administrator</li>
+                                    @if(Auth::user()->can('users-view'))
+                                        <li><a href="/users">Users</a></li>
+                                    @endif
+                                    @if(Auth::user()->can('merchants-view'))
+                                        <li><a href="/merchants">Merchants</a></li>
+                                    @endif
+                                    @if(Auth::user()->can('roles-view'))
+                                        <li><a href="/roles">Roles & Permissions</a></li>
+                                    @endif
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
                     <li class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!}
                             {!! HTML::image('//www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{URL::to('/account')}}">Account</a></li>
-                            <li><a href="{{URL::to('/account/edit')}}">Edit Account</a></li>
                             <li><a href="{{URL::to('/logout')}}">Logout</a></li>
                         </ul>
                     </li>

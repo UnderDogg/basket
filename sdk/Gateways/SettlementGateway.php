@@ -11,6 +11,7 @@
 namespace PayBreak\Sdk\Gateways;
 
 use App\Exceptions\Exception;
+use Carbon\Carbon;
 
 /**
  * Application Gateway
@@ -21,27 +22,28 @@ use App\Exceptions\Exception;
 class SettlementGateway extends AbstractGateway
 {
     /**
+     * @author WN, MS
      * @param string $token
-     * @param string|null $since
-     * @param string|null $until
+     * @param Carbon|null $since
+     * @param Carbon|null $until
      * @return array
      */
-    public function getSettlementReports($token, $since = null, $until = null)
+    public function getSettlementReports($token, Carbon $since = null, Carbon $until = null)
     {
         return $this->fetchDocument(
             '/v4/settlement-reports',
             $token,
             'Settlement',
             [
-                'since' => $since,
-                'until' => $until,
+                'since' => $since !== null?$since->format('Y-m-d'):null,
+                'until' => $until !== null?$until->format('Y-m-d'):null,
             ]
         );
     }
 
     /**
-     * @param $token
-     * @param $settlementId
+     * @param string $token
+     * @param int $settlementId
      * @return array
      * @throws Exception
      */

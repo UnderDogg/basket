@@ -34,13 +34,13 @@ class PartialRefundsController extends Controller
      * Index Partial Refunds
      *
      * @author LH
+     * @param int $id
      * @return \Illuminate\View\View
-     * @throws \App\Exceptions\Exception
      */
-    public function index()
+    public function index($id)
     {
         $settlementReports = Collection::make(
-            $this->partialRefundGateway->listPartialRefunds($this->getMerchantToken())
+            $this->partialRefundGateway->listPartialRefunds($this->fetchMerchantById($id)->token)
         );
 
         foreach ($settlementReports as $key => $report) {
@@ -74,12 +74,14 @@ class PartialRefundsController extends Controller
      * Show a Partial Refund
      *
      * @author LH
-     * @param $partialRefundId
+     * @param int $merchant
+     * @param int $partialRefundId
      * @return \Illuminate\View\View
      */
-    public function show($partialRefundId)
+    public function show($merchant, $partialRefundId)
     {
-        $partialRefund = $this->partialRefundGateway->getPartialRefund($this->getMerchantToken(), $partialRefundId);
+        $partialRefund = $this->partialRefundGateway
+            ->getPartialRefund($this->fetchMerchantById($merchant)->token, $partialRefundId);
         return View('partial-refunds.show', [
             'partialRefund' => (object) $partialRefund->toArray(),
         ]);
