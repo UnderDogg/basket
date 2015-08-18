@@ -1,3 +1,4 @@
+## Features
 - Actions on view pages have been changed to be included inside views
 - Models linked to each other
 - Active flag has been changed to a slider on edit page
@@ -11,6 +12,7 @@
 - Menu structure changed
 - Menu items now have a scope depending on a users permissions
 - Middleware for available installation
+- Added columns & filters for applications list.
 
 ## Bug Fixes
 - 'Gravatar' bug fixed
