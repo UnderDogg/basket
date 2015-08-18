@@ -2,9 +2,6 @@
 
 @section('content')
 
-    {{-- OVERLAY MESSAGES --}}
-    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
-
     <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
@@ -14,7 +11,7 @@
         <div class="form-group">
             {!! Form::label('reference', 'Reference: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('reference', null, ['class' => 'form-control']) !!}
+                {!! Form::text('reference', null, ['class' => 'form-control', 'placeholder' => 'Location Reference']) !!}
             </div>
         </div><div class="form-group">
             {!! Form::label('installation_id', 'Installation ID: ', ['class' => 'col-sm-3 control-label']) !!}
@@ -29,17 +26,17 @@
         </div><div class="form-group">
             {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name of location']) !!}
             </div>
         </div><div class="form-group">
             {!! Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('email', null, ['class' => 'form-control']) !!}
+                {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Email Address of Location']) !!}
             </div>
         </div><div class="form-group">
             {!! Form::label('address', 'Address: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {!! Form::text('address', null, ['class' => 'form-control']) !!}
+                {!! Form::text('address', null, ['class' => 'form-control', 'placeholder' => 'Location Address']) !!}
             </div>
         </div>
     </div>

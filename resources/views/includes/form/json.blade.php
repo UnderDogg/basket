@@ -1,5 +1,9 @@
 <?php
-    echo formatNice($json);
+    if($json != null) {
+        echo formatNice($json);
+    } else {
+        echo "<dl></dl>";
+    }
 
     function formatNice(array $data)
     {

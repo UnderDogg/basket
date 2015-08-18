@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 /**
@@ -52,6 +51,7 @@ class LocationsController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function store(Request $request)
     {
@@ -65,20 +65,18 @@ class LocationsController extends Controller
 
         ]);
 
-        $message = ['success','New Location has been successfully created'];
-
         try {
             $toCreate = $request->all();
             $toCreate['active'] = ($request->has('active')) ? 1 : 0;
             Location::create($toCreate);
-
-        } catch (ModelNotFoundException $e) {
-
+        } catch (\Exception $e) {
             $this->logError('Could not successfully create new Location' . $e->getMessage());
-            $message = ['error','Could not successfully create new Location'];
+            throw RedirectException::make('/locations/')->setError($e->getMessage());
         }
-
-        return redirect('locations')->with($message[0], $message[1]);
+        return $this->redirectWithSuccessMessage(
+            'locations',
+            'New location has been successfully created'
+        );
     }
 
     /**
@@ -91,7 +89,7 @@ class LocationsController extends Controller
     {
         return view(
             'locations.show',
-            ['location' => $this->fetchLocationById($id), 'messages' => $this->getMessages()]
+            ['location' => $this->fetchLocationById($id)]
         );
     }
 
@@ -132,10 +130,12 @@ class LocationsController extends Controller
             $locations->update($toUpdate);
         } catch (\Exception $e) {
             $this->logError('Can not update location [' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/locations/' . $id . '/edit')->setError($e->getMessage());
+            throw RedirectException::make('/locations/' . $id . '/edit')->setError($e->getMessage());
         }
-
-        return redirect()->back()->with('success', 'Location details were successfully updated');
+        return $this->redirectWithSuccessMessage(
+            '/locations/'.$id.'/edit',
+            'Location details have been updated'
+        );
     }
 
     /**
@@ -161,7 +161,7 @@ class LocationsController extends Controller
         $location = $this->fetchLocationById($id);
         $location->type = 'location';
         $location->controller = 'Locations';
-        return view('includes.page.confirm_delete', ['object' => $location, 'messages' => $this->getMessages()]);
+        return view('includes.page.confirm_delete', ['object' => $location]);
     }
 
     /**
@@ -188,7 +188,6 @@ class LocationsController extends Controller
                 'location' => $id !== null?$this->fetchLocationById($id):null,
                 'installations' => $this->limitToActive($this->limitToMerchant(Installation::query()))
                     ->get()->pluck('name', 'id')->toArray(),
-                'messages' => $this->getMessages()
             ]
         );
     }

@@ -44,7 +44,6 @@ class SettlementsController extends Controller
      */
     public function index($id)
     {
-        $messages = $this->getMessages();
         $dateRange = $this->getDateRange();
 
         try {
@@ -77,7 +76,6 @@ class SettlementsController extends Controller
         return View('settlements.index', [
             'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
-            'messages' => $messages
         ]);
     }
 
@@ -92,12 +90,10 @@ class SettlementsController extends Controller
      */
     public function settlementReport($merchant, $id)
     {
-        $messages = $this->getMessages();
-
         try {
             $settlementReport = $this
                 ->settlementGateway
-                ->getSingleSettlementReport($this->getMerchantToken(), $id);
+                ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
         } catch (\Exception $e) {
             $this->logError('SettlementsController: failed fetching settlements' . $e->getMessage());
             throw RedirectException::make('/')->setError('Problem fetching Settlements.');
@@ -107,25 +103,7 @@ class SettlementsController extends Controller
 
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
-            'messages' => $messages
         ]);
-    }
-
-    /**
-     * Apply Standard Filters
-     *
-     * @author MS
-     * @param array $settlements
-     */
-    private function applyStandardFilters(&$settlements)
-    {
-        if (!empty($filter = $this->getFilters())) {
-            foreach ($filter as $field => $query) {
-                if ($field !== 'date_from' && $field !== 'date_to') {
-                    $this->filterArrayByValue($settlements, $field, $query);
-                }
-            }
-        }
     }
 
     /**
@@ -181,29 +159,6 @@ class SettlementsController extends Controller
             $settlementReport['sum_subsidy'] = $settlementReport['sum_subsidy'] + $settlement['subsidy'];
             $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
-        }
-    }
-
-    /**
-     * Filter Array By Value
-     *
-     * @author MS
-     * @param array $array
-     * @param $index
-     * @param $value
-     */
-    private function filterArrayByValue(&$array, $index, $value)
-    {
-        if(is_array($array) && count($array)>0)
-        {
-            foreach(array_keys($array) as $key){
-                $temp[$key] = $array[$key][$index];
-
-                if ($temp[$key] !== $value){
-
-                    unset($array[$key]);
-                }
-            }
         }
     }
 }

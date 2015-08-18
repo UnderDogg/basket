@@ -39,7 +39,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">
-                {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW', array('style' => 'height: 28px;')) !!}
+                {!! HTML::image('image/ain-logo-dark-large.png', 'afforditNOW', array('style' => 'height: 28px;')) !!}
             </a>
         </div>
         {{--NAVIGATION BAR--}}
@@ -85,7 +85,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name !!}
-                            {!! HTML::image('http://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
+                            {!! HTML::image('//www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?size=20', Auth::user()->name) !!}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{URL::to('/account')}}">Account</a></li>
@@ -101,6 +101,28 @@
 
 <div class="container">
     <div class="row">
+        <br>
+        @if($errors->any())
+            <div id="actionMessage" hidden="hidden">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    @foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+                </div>
+            </div>
+        @endif
+        {{--CUSTOM ASSIGNED ERRORS--}}
+        @foreach($messages as $k => $v)
+            <div id="actionMessage" hidden="hidden">
+                <div class="alert alert-{{ ($k == 'error')?'danger':$k }} alert-dismissible" role="alert">
+                    <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ $v }}</p>
+                </div>
+            </div>
+        @endforeach
         @yield('content')
     </div><hr/>
     <footer class="container">

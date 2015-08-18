@@ -1,5 +1,17 @@
 ## Features
 - Changed layout of dashboard
+- Set `Permissions`. Attach `Permissions` to `Routes`
+- `AuthoriseRole` middleware
+- Protect *Super Administrator* role
+- Protect against user self delete
+- Test improvements
+- Actions on view pages have been changed to be included inside views
+- Models linked to each other
+- Active flag has been changed to a slider on edit page
+- Confirmation screens have been made 'pretty'
+- Messages moved to master
+- Logo has been changed
+- 'Gravatar' bug fixed
 
 # 0.4.0
 2015-08-11

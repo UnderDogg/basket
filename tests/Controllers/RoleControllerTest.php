@@ -181,7 +181,7 @@ class RolesControllerTest extends TestCase
             ->type('Unit Test', 'display_name')
             ->type('Unit Test Description', 'description')
             ->press('saveChanges')
-            ->seePageIs('/roles/1/edit');
+            ->seePageIs('/roles');
 
         // Test new Role has been added to mock database
         $roleData = Role::find(1);
