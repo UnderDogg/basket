@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property        $updated_at
  * @property Merchant $merchant
  * @property string $location_instruction
+ * @property int    $validity
  * @package App\Basket
  */
 class Installation extends Model
