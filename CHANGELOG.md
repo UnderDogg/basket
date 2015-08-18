@@ -1,5 +1,5 @@
-# 0.5.0
-2015-08-14
+# 0.6.0
+2015-08-18
 
 ## Features
 - Actions on view pages have been changed to be included inside views
