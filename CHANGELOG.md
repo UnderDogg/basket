@@ -14,6 +14,7 @@
 - Validity period has been added to installation. Can be changed on edit page.
 - Validity period of application is dependent on the validity period in installations
 - Requester and location added to application
+- Return page
 
 ## Bug Fixes
 - 'Gravatar' bug fixed
