@@ -1,10 +1,3 @@
-## Features
-- Changed layout of dashboard
-- Set `Permissions`. Attach `Permissions` to `Routes`
-- `AuthoriseRole` middleware
-- Protect *Super Administrator* role
-- Protect against `user` self delete
-- Test improvements
 - Actions on view pages have been changed to be included inside views
 - Models linked to each other
 - Active flag has been changed to a slider on edit page
@@ -22,6 +15,17 @@
 ## Bug Fixes
 - 'Gravatar' bug fixed
 - `SettlementGateway` fixes
+
+# 0.5.0
+2015-08-14
+
+## Features
+- Changed layout of dashboard
+- Set `Permissions`. Attach `Permissions` to `Routes`
+- `AuthoriseRole` middleware
+- Protect *Super Administrator* role
+- Protect against `user` self delete
+- Test improvements
 
 # 0.4.0
 2015-08-11
