@@ -86,7 +86,7 @@ class SettlementsController extends Controller
      * @param int $merchant
      * @param int $id
      * @return \Illuminate\View\View
-     * @throws RedirectException
+     * @throws SettlementsController
      */
     public function settlementReport($merchant, $id)
     {
@@ -95,8 +95,7 @@ class SettlementsController extends Controller
                 ->settlementGateway
                 ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
         } catch (\Exception $e) {
-            $this->logError('SettlementsController: failed fetching settlements' . $e->getMessage());
-            throw RedirectException::make('/')->setError('Problem fetching Settlements.');
+            throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
         }
 
         $this->applySettlementAmounts($settlementReport);
@@ -105,6 +104,8 @@ class SettlementsController extends Controller
             'settlementReport' => $settlementReport,
         ]);
     }
+
+
 
     /**
      * Apply SettlementAmounts
