@@ -42,7 +42,7 @@ class BasicModels extends Migration
             $table->string('ext_notification_url')->nullable();
             $table->string('ext_default_product')->nullable();
             $table->text('location_instruction');
-            $table->integer('validity')->nullable();
+            $table->integer('validity')->default(7200);
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

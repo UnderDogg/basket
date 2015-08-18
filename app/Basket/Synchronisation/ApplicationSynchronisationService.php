@@ -194,6 +194,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param string $productGroup
      * @param array $productOptions
      * @param string $location
+     * @param int $requester
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws Exception
      */
