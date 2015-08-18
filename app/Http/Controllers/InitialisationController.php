@@ -149,6 +149,15 @@ class InitialisationController extends Controller
     }
 
     /**
+     * @author SD
+     * @return \Illuminate\View\View
+     */
+    public function returnBack()
+    {
+         return view('initialise.returnBack');
+    }
+
+    /**
      * @author WN
      * @param $id
      * @return Location

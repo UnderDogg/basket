@@ -141,6 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'permission:applications-make'], function () {
+        Route::get('return-back', 'InitialisationController@returnBack');
         Route::get('locations/{id}/applications/make', 'InitialisationController@prepare');
         Route::post('locations/{id}/applications/make', 'InitialisationController@chooseProduct');
         Route::post('locations/{id}/applications/confirm', 'InitialisationController@confirm');
