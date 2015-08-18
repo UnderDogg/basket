@@ -404,17 +404,4 @@ abstract class Controller extends BaseController
         $this->logError($message .':' .$e->getMessage());
         return RedirectException::make($target)->setError($message);
     }
-
-    protected function redirectOrException($target, $errorMessage, $successMessage)
-    {
-        try {
-            return $this->redirectWithSuccessMessage(
-                $target,
-                $successMessage
-            );
-        } catch(\Exception $e) {
-            $this->logError($errorMessage .':' .$e->getMessage());
-            throw RedirectException::make($target)->setError($errorMessage);
-        }
-    }
 }

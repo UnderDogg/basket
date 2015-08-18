@@ -87,6 +87,9 @@ class InstallationsController extends Controller
      */
     public function update($id, Request $request)
     {
+        $this->validate($request, [
+            'validity' => 'required|integer|between:7200,604800'
+        ]);
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
     }
 

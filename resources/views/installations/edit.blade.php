@@ -21,6 +21,12 @@
                 {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
             </div>
         </div>
+        <div class="form-group">
+            {!! Form::label('validity', 'Validity Period (in seconds)', ['class' => 'col-sm-3 control-label']) !!}
+            <div class="col-sm-6">
+                {!! Form::text('validity', $installations->validity, ['class' => 'form-control']) !!}
+            </div>
+        </div>
     </div>
     <p>&nbsp;</p>
     <div class="form-group">
