@@ -1,3 +1,6 @@
+# 0.6.0
+2015-08-18
+
 ## Features
 - Actions on view pages have been changed to be included inside views
 - Models linked to each other
