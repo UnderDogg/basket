@@ -117,12 +117,12 @@ Route::group(['middleware' => 'auth'], function () {
      * Applications
      */
     Route::group(['middleware' => 'permission:applications-view'], function () {
-        Route::get('installations/{installation}/applications', 'ApplicationsController@index');
-        Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
         Route::get(
             'installations/{id}/applications/pending-cancellations',
             'ApplicationsController@pendingCancellations'
         );
+        Route::get('installations/{installation}/applications', 'ApplicationsController@index');
+        Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
