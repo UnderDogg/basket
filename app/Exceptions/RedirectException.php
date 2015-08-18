@@ -123,6 +123,12 @@ class RedirectException extends \Exception
         if ($this->getError()) {
             $rtn['error'] = $this->getError();
         }
+        if ($this->getInformation()) {
+            $rtn['info'] = $this->getInformation();
+        }
+        if ($this->getConfirmation()) {
+            $rtn['success'] = $this->getConfirmation();
+        }
         return $rtn;
     }
 }
