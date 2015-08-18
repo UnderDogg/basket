@@ -3,7 +3,7 @@
 - Set `Permissions`. Attach `Permissions` to `Routes`
 - `AuthoriseRole` middleware
 - Protect *Super Administrator* role
-- Protect against user self delete
+- Protect against `user` self delete
 - Test improvements
 - Actions on view pages have been changed to be included inside views
 - Models linked to each other
@@ -11,6 +11,11 @@
 - Confirmation screens have been made 'pretty'
 - Messages moved to master
 - Logo has been changed
+- Validity period has been added to installation. Can be changed on edit page.
+- Validity period of application is dependent on the validity period in installations
+- Requester and location added to application
+
+## Bug Fixes
 - 'Gravatar' bug fixed
 
 # 0.4.0
