@@ -153,9 +153,9 @@ Route::group(['middleware' => 'auth'], function () {
      * Reports
      */
     Route::group(['middleware' => 'permission:reports-view'], function () {
-        Route::get('settlements', 'SettlementsController@index');
-        Route::get('settlements/{id}', 'SettlementsController@settlementReport');
-        Route::resource('partial-refunds', 'PartialRefundsController', [
+        Route::get('merchants/{merchant}/settlements', 'SettlementsController@index');
+        Route::get('merchants{merchant}/settlements/{id}', 'SettlementsController@settlementReport');
+        Route::resource('merchants/{merchant}/partial-refunds', 'PartialRefundsController', [
             'only' => ['index', 'show'],
         ]);
     });

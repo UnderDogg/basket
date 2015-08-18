@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Exceptions\RedirectException;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
@@ -46,13 +47,18 @@ class SettlementsController extends Controller
         $messages = $this->getMessages();
         $dateRange = $this->getDateRange();
 
-        $settlementReports = Collection::make(
-            $this
-                ->settlementGateway
-                ->getSettlementReports(
-                    $this->fetchMerchantById($id)->token, $dateRange['date_from'], $dateRange['date_to']
-                )
-        );
+        try {
+            $settlementReports = Collection::make(
+                $this
+                    ->settlementGateway
+                    ->getSettlementReports(
+                        $this->fetchMerchantById($id)->token, $dateRange['date_from'], $dateRange['date_to']
+                    )
+            );
+        } catch (\Exception $e) {
+            $this->logError('SettlementsController: failed fetching settlements' . $e->getMessage());
+            throw RedirectException::make('/')->setError('Problem fetching Settlements.');
+        }
 
         $filter = $this->getFilters();
 
@@ -79,16 +85,23 @@ class SettlementsController extends Controller
      * Settlement Report
      *
      * @author MS
+     * @param int $merchant
      * @param int $id
      * @return \Illuminate\View\View
+     * @throws RedirectException
      */
-    public function settlementReport($id)
+    public function settlementReport($merchant, $id)
     {
         $messages = $this->getMessages();
 
-        $settlementReport = $this
-            ->settlementGateway
-            ->getSingleSettlementReport($this->getMerchantToken(), $id);
+        try {
+            $settlementReport = $this
+                ->settlementGateway
+                ->getSingleSettlementReport($this->getMerchantToken(), $id);
+        } catch (\Exception $e) {
+            $this->logError('SettlementsController: failed fetching settlements' . $e->getMessage());
+            throw RedirectException::make('/')->setError('Problem fetching Settlements.');
+        }
 
         $this->applySettlementAmounts($settlementReport);
 

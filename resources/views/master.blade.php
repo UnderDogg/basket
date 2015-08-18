@@ -63,8 +63,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/settlements">Settlements</a></li>
-                            <li><a href="/partial-refunds">Partial Refunds</a></li>
+                            <li><a href="/merchants/{{ Auth::user()->merchant_id?Auth::user()->merchant_id:1 }}/settlements">Settlements</a></li>
+                            <li><a href="/merchants/{{ Auth::user()->merchant_id?Auth::user()->merchant_id:1 }}/partial-refunds">Partial Refunds</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
