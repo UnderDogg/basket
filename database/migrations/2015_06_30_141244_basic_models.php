@@ -36,16 +36,16 @@ class BasicModels extends Migration
             $table->boolean('active')->default(false);
             $table->boolean('linked')->default(false);
 
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
             $table->string('ext_id')->nullable()->unique();
             $table->string('ext_name')->nullable();
             $table->string('ext_return_url')->nullable();
             $table->string('ext_notification_url')->nullable();
             $table->string('ext_default_product')->nullable();
             $table->text('location_instruction');
+            $table->integer('validity')->nullable();
 
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
 

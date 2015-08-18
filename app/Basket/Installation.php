@@ -52,6 +52,7 @@ class Installation extends Model
         'ext_notification_url',
         'ext_default_product',
         'location_instruction',
+        'validity',
     ];
 
     /**

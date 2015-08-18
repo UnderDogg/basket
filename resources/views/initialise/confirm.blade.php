@@ -3,7 +3,7 @@
 @section('content')
     <h1>Confirm Application</h1>
 
-    {!! Form::open(['action' => ['InitialisationController@request', $location], 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'method' => 'POST', 'class' => 'form-horizontal']) !!}
     <div class="form-group">
         <label class="col-sm-2 control-label">Order Amount</label>
         <div class="col-sm-4">
@@ -29,14 +29,21 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Order Reference</label>
         <div class="col-sm-4">
-            {!! Form::text('reference', $reference, ['class' => 'form-control']) !!}
+            {!! Form::text('reference', $reference, ['class' => 'form-control', 'readonly' => true]) !!}
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">Order Description</label>
         <div class="col-sm-4">
-            {!! Form::text('description', 'Goods & Services', ['class' => 'form-control']) !!}
+            {!! Form::text('description', 'Goods & Services', ['class' => 'form-control', 'readonly' => true]) !!}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Location name</label>
+        <div class="col-sm-4">
+            {!! Form::text('location_name', $location->name, ['class' => 'form-control', 'readonly' => true]) !!}
         </div>
     </div>
 
