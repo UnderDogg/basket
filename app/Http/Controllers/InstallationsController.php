@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 /**
@@ -59,7 +58,7 @@ class InstallationsController extends Controller
     {
         return view(
             'installations.show',
-            ['installations' => $this->fetchInstallation($id), 'messages' => $this->getMessages()]
+            ['installations' => $this->fetchInstallation($id)]
         );
     }
 
@@ -73,7 +72,7 @@ class InstallationsController extends Controller
     {
         return view(
             'installations.edit',
-            ['installations' => $this->fetchInstallation($id), 'messages' => $this->getMessages()]
+            ['installations' => $this->fetchInstallation($id)]
         );
     }
 
@@ -95,23 +94,23 @@ class InstallationsController extends Controller
      * @author WN
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws InstallationsController
      */
     public function synchroniseAllForMerchant($id)
     {
         try {
             $this->installationSynchronisationService->synchroniseAllInstallations($id);
-            $message = ['success', 'Synchronisation complete successfully'];
-
         } catch (\Exception $e) {
-
-            $this->logError(
-                'Error while trying to synchronise Installations for Merchant[' .
-                $id . ']: ' . $e->getMessage()
+            throw $this->redirectWithException(
+                '/merchants/'.$id,
+                'Error while trying to sync installations for merchant['.$id.']',
+                $e
             );
-            $message = ['error', 'Synchronisation not complete successfully'];
         }
-
-        return redirect('merchants/' . $id)->with($message[0], $message[1]);
+        return $this->redirectWithSuccessMessage(
+            '/merchants/'.$id,
+            'Synchronisation complete successfully'
+        );
     }
 
     /**

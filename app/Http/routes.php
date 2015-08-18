@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Merchants & Installations
      */
+
     Route::group(['middleware' => 'role:su'], function () {
         Route::get('merchants/create', 'MerchantsController@create');
         Route::post('merchants', 'MerchantsController@store');
@@ -89,8 +90,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('merchants/{id}/synchronise', 'MerchantsController@synchronise');
         Route::get('merchants/{id}/installations/synchronise', 'InstallationsController@synchroniseAllForMerchant');
         Route::get('merchants/{id}/ips', 'IpsController@index');
-        Route::post('merchants/{id}/ips/', ['id' => 'id', 'uses' => 'IpsController@store']);
-        Route::delete('merchants/{id}/ips/{ip}', ['id' => 'id', 'ip' => 'ip', 'uses' => 'IpsController@delete']);
+        Route::post('merchants/{id}/ips/', 'IpsController@store');
+        Route::delete('merchants/{id}/ips/{ip}', 'IpsController@delete');
         Route::get('installations/{id}/edit',  'InstallationsController@edit');
         Route::patch('installations/{id}',       'InstallationsController@update');
     });
