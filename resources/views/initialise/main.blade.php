@@ -25,17 +25,20 @@
         @if(isset($options))
 
             @if(count($options) > 0)
-                <ul class="nav nav-tabs" role="tablist">
-                @foreach($options as $k => $group)
 
-                    @foreach($group['products'] as $l => $product)
+                @if(count($options) != 1)
+                    <ul class="nav nav-tabs" role="tablist">
+                    @foreach($options as $k => $group)
 
-                            <li role="presentation"{{ ($k == 0 && $l == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
+                        @foreach($group['products'] as $l => $product)
+
+                                <li role="presentation"{{ ($k == 0 && $l == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
+
+                        @endforeach
 
                     @endforeach
-
-                @endforeach
-                </ul>
+                    </ul>
+                @endif
 
                 <div class="tab-content">
                     @foreach($options as $k => $group)
@@ -127,7 +130,7 @@
 
                 @endforeach
             @else
-                <div class="alert alert-warning" role="alert">No available products for this amount!</div>
+                <div class="alert alert-warning col-md-12" role="alert">No available products for this amount!</div>
             @endif
 
         @endif
