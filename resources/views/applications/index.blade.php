@@ -3,7 +3,6 @@
 @section('content')
 
     <h1>APPLICATIONS</h1>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">
         @include('includes.form.record_counter', ['object' => $applications])
@@ -64,9 +63,9 @@
                 {{-- ADDED COLUMNS --}}
                 <td>{{ $item->ext_customer_first_name }}</td>
                 <td>{{ $item->ext_customer_last_name }}</td>
-                <td>{{ $item->ext_customer_postcode }}</td>
+                <td>{{ $item->ext_application_address_postcode }}</td>
 
-                <td>{{ '&pound;' . number_format($item->ext_finance_order_amount/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
