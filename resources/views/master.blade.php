@@ -143,10 +143,10 @@
             </div>
         @endforeach
         @yield('content')
-    </div><hr/>
-    <footer class="container">
+    </div>
 
-        <p>&copy; PayBreak 2015</p>
+    <footer class="container">
+        &nbsp;
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
