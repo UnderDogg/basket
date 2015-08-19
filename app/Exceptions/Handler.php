@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
             return redirect($e->getTarget())->with('messages', $e->toArray());
         }
 
-        if (! $this->isHttpException($e) && ! config('app.debug')) {
+        if (!$this->isHttpException($e) && !config('app.debug')) {
             return response()->view('errors.500', [], 500);
         }
 
