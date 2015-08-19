@@ -29,6 +29,6 @@ class AuthoriseRole
             return $next($request);
         }
 
-        abort(403, 'No valid permissions');
+        throw HttpException(403, 'No valid permissions');
     }
 }

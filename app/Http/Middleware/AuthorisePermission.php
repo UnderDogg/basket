@@ -29,6 +29,6 @@ class AuthorisePermission
             return $next($request);
         }
 
-        throw HttpException(403, '');
+        throw HttpException(403, 'No valid permissions');
     }
 }
