@@ -29,6 +29,6 @@ class AuthorisePermission
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'You don\'t have enough permission to access this area.');
+        abort(403, 'No valid permissions');
     }
 }
