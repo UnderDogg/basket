@@ -30,7 +30,7 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -118,35 +118,37 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <br>
-        @if($errors->any())
-            <div id="actionMessage" hidden="hidden">
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    @foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+        <div class="col-md-12">
+            <br>
+            @if($errors->any())
+                <div id="actionMessage" hidden="hidden">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        @foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+                    </div>
                 </div>
-            </div>
-        @endif
-        {{--CUSTOM ASSIGNED ERRORS--}}
-        @foreach($messages as $k => $v)
-            <div id="actionMessage" hidden="hidden">
-                <div class="alert alert-{{ ($k == 'error')?'danger':$k }} alert-dismissible" role="alert">
-                    <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <p>{{ $v }}</p>
+            @endif
+            {{--CUSTOM ASSIGNED ERRORS--}}
+            @foreach($messages as $k => $v)
+                <div id="actionMessage" hidden="hidden">
+                    <div class="alert alert-{{ ($k == 'error')?'danger':$k }} alert-dismissible" role="alert">
+                        <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p>{{ $v }}</p>
+                    </div>
                 </div>
-            </div>
-        @endforeach
-        @yield('content')
-    </div><hr/>
-    <footer class="container">
+            @endforeach
+            @yield('content')
+        </div>
+    </div>
 
-        <p>&copy; PayBreak 2015</p>
+    <footer class="container">
+        &nbsp;
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
