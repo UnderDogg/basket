@@ -1,3 +1,12 @@
+## Features
+- Removed footer contents
+- Redeveloped Application Process
+- Change layout to fluid
+
+## Bug Fixes
+- Login page errors
+- Minor fixes in view
+
 # 0.6.0
 2015-08-18
 
