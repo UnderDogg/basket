@@ -3,17 +3,36 @@
 @section('content')
 
     <div class="container">
+
         <h1>DASHBOARD</h1>
+        <hr>
+
         @if(count($user->locations) > 0)
             <h2>Apply for Finance</h2>
-            <hr/>
-            <ul>
+
+            <table class="table table-striped table-hover">
+
+                <tr>
+                    <th>Reference</th>
+                    <th>Name</th>
+                    <th class="hidden-xs hidden-sm">Address</th>
+                    <th class="hidden-xs hidden-sm">Email Address</th>
+                    <th>&nbsp;</th>
+                </tr>
+
                 @foreach($user->locations as $location)
-                    <li><strong><a href="/locations/{{ $location->id }}/applications/make">{{ $location->name }}</a></strong> <em>{{ $location->address }}</em></li>
+                    <tr>
+                        <td>{{ $location->reference }}</td>
+                        <td>{{ $location->name }}</td>
+                        <td class="hidden-xs hidden-sm">{{ $location->address }}</td>
+                        <td class="hidden-xs hidden-sm">{{ $location->email }}</td>
+                        <td class="text-right"><a href="/locations/{{ $location->id }}/applications/make" class="btn btn-success btn-xs">Make Application</a></td>
+                    </tr>
+
                 @endforeach
-            </ul>
+            </table>
         @endif
-        <hr/>
+
         <h2>Support Details</h2>
 
         <div class="col-md-6">
