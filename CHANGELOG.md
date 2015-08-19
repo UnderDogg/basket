@@ -1,3 +1,16 @@
+# 0.7.0
+2015-08-19
+
+## Features
+- Removed footer contents
+- Redeveloped Application Process
+- Change layout to fluid
+- Error pages for 404 and 50X
+
+## Bug Fixes
+- Login page errors
+- Minor fixes in view
+
 # 0.6.1
 2015-08-18
 
