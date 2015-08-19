@@ -19,8 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $id
  * @property int    $merchant_id
  * @property string $name
- * @property true   $active
- * @property true   $linked
+ * @property bool   $active
+ * @property bool   $linked
  * @property string $ext_id
  * @property string $ext_name
  * @property string $ext_return_url

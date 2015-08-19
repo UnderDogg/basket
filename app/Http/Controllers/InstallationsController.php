@@ -90,6 +90,7 @@ class InstallationsController extends Controller
         $this->validate($request, [
             'validity' => 'required|integer|between:7200,604800'
         ]);
+        $request['active'] = ($request->has('active')) ? 1 : 0;
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
     }
 
