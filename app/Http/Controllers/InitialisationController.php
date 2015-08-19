@@ -75,6 +75,7 @@ class InitialisationController extends Controller
                 'amount' => $request->get('amount'),
                 'group' => $request->get('group'),
                 'product' => $request->get('product'),
+                'product_name' => $request->get('product_name'),
                 'reference' => $reference,
                 'location' => $location,
             ]

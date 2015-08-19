@@ -121,6 +121,7 @@
 
                                     {!! Form::hidden('amount', $amount) !!}
                                     {!! Form::hidden('product', $product['id']) !!}
+                                    {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
 
                                 {!! Form::close() !!}
