@@ -192,6 +192,19 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * @author CS
+     * @param $field, $value
+     */
+    protected function processMoneyFilters($field, $value)
+    {
+        $pos = stripos($field, 'ext_finance_');
+
+        if ($pos !== false) $value = bcmul($value, 100);
+
+        return $value;
+    }
+
+    /**
      * @author WN
      * @param Builder $query
      */
@@ -200,7 +213,7 @@ abstract class Controller extends BaseController
         $filter = $this->getFilters();
         if (count($filter) > 0) {
             foreach ($filter as $field => $value) {
-
+                $value = $this->processMoneyFilters($field, $value);
                 $query->where($field, 'like', '%' . $value . '%');
             }
         }
