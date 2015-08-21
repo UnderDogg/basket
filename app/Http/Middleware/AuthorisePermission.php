@@ -12,6 +12,7 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AuthorisePermission
 {
@@ -22,6 +23,7 @@ class AuthorisePermission
      * @param  \Closure  $next
      * @param  string  $permission
      * @return mixed
+     * @throws HttpException
      */
     public function handle($request, Closure $next, $permission)
     {
@@ -29,6 +31,6 @@ class AuthorisePermission
             return $next($request);
         }
 
-        throw HttpException(403, 'No valid permissions');
+        throw new HttpException(403, 'No valid permissions');
     }
 }
