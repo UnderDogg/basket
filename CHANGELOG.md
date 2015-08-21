@@ -1,10 +1,12 @@
 ## Features
--Limit actions on Applications List
--Middleware test
+- Limit actions on *Applications List*
+- Middleware test
 
 ##Bug Fixes
--Removed non working links
--Fixed two middleware
+- Removed non working links
+- Fixed two middleware
+- Postcode filter on *Applications List*
+- Currency filters on *Applications List*
 
 # 0.7.0
 2015-08-19
