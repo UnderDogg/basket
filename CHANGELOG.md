@@ -1,3 +1,11 @@
+## Features
+-Limit actions on Applications List
+-Middleware test
+
+##Bug Fixes
+-Removed non working links
+-Fixed two middleware
+
 # 0.7.0
 2015-08-19
 
