@@ -1,3 +1,6 @@
+# 0.8.0
+2015-08-21
+
 ## Features
 - Limit actions on *Applications List*
 - Middleware test
