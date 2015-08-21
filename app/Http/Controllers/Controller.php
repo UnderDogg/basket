@@ -38,6 +38,15 @@ abstract class Controller extends BaseController
     const DEFAULT_PAGE_LIMIT = 15;
     private $filters;
 
+    /** @var array of money filters $moneyFilters */
+    private $moneyFilters = array(
+        'ext_order_amount',
+        'ext_finance_loan_amount',
+        'ext_finance_deposit',
+        'ext_finance_subsidy',
+        'ext_finance_net_settlement'
+    );
+
     /**
      * Get Merchant Token
      *
@@ -197,9 +206,7 @@ abstract class Controller extends BaseController
      */
     protected function processMoneyFilters($field, $value)
     {
-        $pos = stripos($field, 'ext_finance_');
-
-        if ($pos !== false) $value = bcmul($value, 100);
+        if (in_array($field, $this->moneyFilters)) $value = floor($value * 100);
 
         return $value;
     }

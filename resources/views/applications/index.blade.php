@@ -42,7 +42,7 @@
             <th>@include('includes.form.input', ['field' => 'ext_customer_last_name'])</th>
             <th>@include('includes.form.input', ['field' => 'ext_application_address_postcode'])</th>
 
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_order_amount', 'symbol' => '&pound;'])</th>
+            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_order_amount', 'symbol' => '&pound;'])</th>
             <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_loan_amount', 'symbol' => '&pound;'])</th>
             <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_deposit', 'symbol' => '&pound;'])</th>
             <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_subsidy', 'symbol' => '&pound;'])</th>
@@ -65,7 +65,7 @@
                 <td>{{ $item->ext_customer_last_name }}</td>
                 <td>{{ $item->ext_application_address_postcode }}</td>
 
-                <td>{{ '&pound;' . number_format($item->ext_finance_order_amount/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
