@@ -207,7 +207,7 @@ abstract class Controller extends BaseController
     protected function processMoneyFilters($field, $value)
     {
         if (in_array($field, $this->moneyFilters)) {
-            $value = floor($value * 100);
+            return floor($value * 100);
         }
 
         return $value;
