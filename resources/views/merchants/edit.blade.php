@@ -22,7 +22,6 @@
         <div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {{-- Form::checkbox('active', null, ['class' => 'form-control']) --}}
                 <label class="checkbox-inline">
                     @if($merchants->active == 1)
                         {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}

@@ -88,9 +88,23 @@ class InstallationsController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'validity' => 'required|integer|between:7200,604800'
+            'validity' => 'required|integer|between:7200,604800',
         ]);
+
         $request['active'] = ($request->has('active')) ? 1 : 0;
+        $installation = Installation::findOrFail($id);
+//        try {
+//            $installation->update($request->all());
+//            if($request->active == 0) {
+//                $this->updateActiveInstallation($id);
+//            }
+//        } catch (\Exception $e) {
+//            $this->redirectWithException('/installations', 'Cannot update location', $e);
+//        }
+//        return $this->redirectWithSuccessMessage(
+//            'installations/'.$id.'/edit',
+//            'Installation details have been updated'
+//        );
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
     }
 

@@ -49,4 +49,16 @@ class Merchant extends Model
         'created_at',
         'active',
     ];
+
+    public function installation()
+    {
+        return $this->hasMany('App\Basket\Installation');
+    }
+
+    public function activeFalse($id) {
+        $this->findOrFail($id)->installation()->update(['active' => 0]);
+        $model = new Installation();
+        $model->where('merchant_id','=',$id);
+        $model->multiActiveFalse($id);
+    }
 }

@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $id
  * @property int    $merchant_id
  * @property string $name
- * @property bool   $active
  * @property bool   $linked
  * @property string $ext_id
  * @property string $ext_name
@@ -65,6 +64,33 @@ class Installation extends Model
         return $this->belongsTo('App\Basket\Merchant');
     }
 
+    public function locations()
+    {
+        return $this->hasMany('App\Basket\Location');
+    }
+
+    public function setActiveAttributeOnLocations($id,$value)
+    {
+        $this->locations()->where('installation_id', '=', $id);
+    }
+
+    public function activeFalse($id) {
+        $this->findOrFail($id)->locations()->update(['active' => 0]);
+    }
+
+    public function multiActiveFalse($merchId) {
+        $inst = $this->where('merchant_id','=',$merchId)->get();
+        foreach($inst as $install=>$val) {
+            $this->activeFalse($val->id);
+        }
+    }
+
+    public function activeTrue($id) {
+        $merchant = $this->findOrFail($id)->merchant()->get();
+        $this->active = ($merchant['0']->active == 1) ? 1 : 0;
+        $this->save();
+    }
+
     /**
      * Returning HTML for Parsed Markdown
      *
@@ -75,4 +101,6 @@ class Installation extends Model
     {
         return ((new \Parsedown())->text(htmlspecialchars($this->location_instruction)));
     }
+
+
 }

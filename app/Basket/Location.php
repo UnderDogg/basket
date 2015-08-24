@@ -48,9 +48,22 @@ class Location extends Model
 
     /**
      * Get the installation record for the application
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function installation()
     {
         return $this->belongsTo('App\Basket\Installation');
+    }
+
+    /**
+     * Checks related installation, makes sure active is true
+     *
+     * @param $id
+     */
+    public function activeTrue($id) {
+        $installation = $this->findOrFail($id)->installation()->get();
+        $this->active = ($installation['0']->active == 1) ? 1 : 0;
+        $this->save();
     }
 }

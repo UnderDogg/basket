@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Installation;
 use App\Basket\Merchant;
+use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -181,14 +182,42 @@ abstract class Controller extends BaseController
     protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
     {
         $model = $this->fetchModelById($model, $id, $modelName, $redirect);
-
         try{
             $model->update($request->all());
+            $active = $this->updateActiveField($id, $model, $request->active);
         } catch (\Exception $e) {
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
         return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
+    }
+
+    protected function updateActiveInstallation($id) {
+        $model = new Installation();
+        $model->neigh($id);
+//        $model = new Installation();
+//        $model->where('merchant_id', '=', $id);
+//        $model->setActiveAttributeOnLocations($id,['active' => 0]);
+//        $model->where('id','=',$id)->update(['active' => 0]);
+    }
+
+    //I believe we want installations id
+    protected function updateLocationsActiveFromInstallations($id) {
+        $model = new Installation();
+        $model->where('id','=',$id);
+        $model->setActiveAttributeOnLocations($id,['active' => 0]);
+
+        //Sets installation to inactive, already done in request
+        //$model->where('id','=',$id)->update(['active' => 0]);
+    }
+
+    protected function updateActiveField($id, $model, $active) {
+        if($active == 0) {
+            $model->activeFalse($id);
+        } else {
+            $model->activeTrue($id);
+        }
+
     }
 
     /**
