@@ -3,14 +3,14 @@
 @section('content')
 
     <h1>APPLICATIONS</h1>
-        <div class="scroll-x-overflow">
-        @include('includes.form.record_counter', ['object' => $applications])
-        <table class="table table-bordered table-striped table-hover table-fixed-layout-large">
+    <div class="container-fluid scroll-x-overflow">
+    @include('includes.form.record_counter', ['object' => $applications])
+    {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
+
+    <table class="table table-bordered table-striped table-hover table-fixed-layout-large">
         {{-- TABLE HEADER WITH FILTERS --}}
-        {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
         <tr>
             {{--TITLES--}}
-
             <th>ID</th>
             <th>Received</th>
             <th>Current Status</th>
@@ -46,34 +46,35 @@
             <th>@include('includes.form.input', ['field' => 'ext_fulfilment_location'])</th>
             <th class="text-right">@include('includes.form.filter_buttons')</th>
         </tr>
-        {!! Form::close() !!}
-            @forelse($applications as $item)
-                <tr>
-                    <td>{{ $item->ext_id }}</td>
-                    <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
-                    <td>{{ ucwords($item->ext_current_status) }}</td>
-                    <td>{{ $item->ext_order_reference }}</td>
-                    <td>{{ $item->ext_customer_first_name }}</td>
-                    <td>{{ $item->ext_customer_last_name }}</td>
-                    <td>{{ $item->ext_application_address_postcode }}</td>
-                    <td>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</td>
-                    <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
-                    <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
-                    <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
-                    <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
-                    <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
+        @forelse($applications as $item)
+            <tr>
+                <td>{{ $item->ext_id }}</td>
+                <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
+                <td>{{ ucwords($item->ext_current_status) }}</td>
+                <td>{{ $item->ext_order_reference }}</td>
+                <td>{{ $item->ext_customer_first_name }}</td>
+                <td>{{ $item->ext_customer_last_name }}</td>
+                <td>{{ $item->ext_application_address_postcode }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
+                <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
 
-                    {{-- ACTION BUTTONS --}}
-                    <td class="text-right">
-                        @include('includes.form.record_actions', ['id' => $item->id,
-                            'actions' => ['edit' => 'Edit', 'fulfil' => 'Fulfil', 'request-cancellation' => 'Request Cancellation', 'partial-refund' => 'Partial Refund']
-                        ])
-                    </td>
-                </tr>
-            @empty
-                <td colspan="14"><em>0 Applications</em></td>
-            @endforelse
-        </table>
+                {{-- ACTION BUTTONS --}}
+                <td class="text-right">
+                    @include('includes.form.record_actions', ['id' => $item->id,
+                        'actions' => ['edit' => 'Edit', 'fulfil' => 'Fulfil', 'request-cancellation' => 'Request Cancellation', 'partial-refund' => 'Partial Refund']
+                    ])
+                </td>
+            </tr>
+        @empty
+            <tr><td colspan="14"><em>0 Applications</em></td></tr>
+        @endforelse
+    </table>
+    {!! Form::close() !!}
+    </div>
     {{-- PAGINATION BUTTONS ON RENDER() --}}
     {!! $applications->appends(Request::except('page'))->render() !!}
 
