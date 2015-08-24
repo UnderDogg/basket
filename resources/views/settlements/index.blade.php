@@ -19,12 +19,12 @@
         <tr>
             {{-- FILTERS --}}
             <th></th>
-            <th>@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($defaultDates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($defaultDates['date_to']))])</th>
-            <th>@include('includes.form.select', ['field' => 'provider', 'object' => $settlementReports])</th>
+            <th>@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates['date_to']))])</th>
+            <th>@include('includes.form.select', ['field' => 'provider', 'object' => $settlement_reports])</th>
             <th></th>
             <th>@include('includes.form.filter_buttons')</th>
         </tr>
-        @forelse($settlementReports as $item)
+        @forelse($settlement_reports as $item)
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ date('d/m/Y', strtotime($item->settlement_date)) }}</td>

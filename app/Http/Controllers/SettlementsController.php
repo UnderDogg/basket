@@ -74,8 +74,8 @@ class SettlementsController extends Controller
         }
 
         return View('settlements.index', [
-            'settlementReports' => $settlementReports,
-            'defaultDates' => $this->getDateRange(),
+            'settlement_reports' => $settlementReports,
+            'default_dates' => $this->getDateRange(),
         ]);
     }
 

@@ -22,13 +22,13 @@
             {{-- FILTERS --}}
             <th></th>
             <th></th>
-            <th>@include('includes.form.select', ['field' => 'status', 'object' => $partialRefunds])</th>
+            <th>@include('includes.form.select', ['field' => 'status', 'object' => $partial_refunds])</th>
             <th></th>
             <th></th>
             <th></th>
             <th>@include('includes.form.filter_buttons')</th>
         </tr>
-        @forelse($partialRefunds as $item)
+        @forelse(partial_refunds as $item)
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->application }}</td>

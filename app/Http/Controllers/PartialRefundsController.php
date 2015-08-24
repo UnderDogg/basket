@@ -65,7 +65,7 @@ class PartialRefundsController extends Controller
         }
 
         return View('partial-refunds.index', [
-            'partialRefunds' => $partialRefunds,
+            'partial_refunds' => $partialRefunds,
             'statuses' => $statuses,
         ]);
     }

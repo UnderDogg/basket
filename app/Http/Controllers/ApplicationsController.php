@@ -67,7 +67,7 @@ class ApplicationsController extends Controller
             $applications,
             'applications.index',
             'applications',
-            ['defaultDates' => $filterDates]
+            ['default_dates' => $filterDates]
         );
     }
 
