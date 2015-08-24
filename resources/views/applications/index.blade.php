@@ -3,7 +3,7 @@
 @section('content')
 
     <h1>APPLICATIONS</h1>
-    <div class="container-fluid scroll-x-overflow">
+
     @include('includes.form.record_counter', ['object' => $applications])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
@@ -29,7 +29,7 @@
         <tr>
             {{--FILTERS--}}
             <th>@include('includes.form.input', ['field' => 'ext_id'])</th>
-            <th>@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates['date_to']))])</th>
+            <th>@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($defaultDates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($defaultDates['date_to']))])</th>
             <th>@include('includes.form.select', ['field' => 'ext_current_status', 'object' => $applications])</th>
             <th>@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
 
@@ -96,7 +96,7 @@
         @endforelse
     </table>
     {!! Form::close() !!}
-    </div>
+
     {{-- PAGINATION BUTTONS ON RENDER() --}}
     {!! $applications->appends(Request::except('page'))->render() !!}
 

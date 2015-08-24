@@ -52,22 +52,22 @@ class ApplicationsController extends Controller
     {
         $filterDates = $this->getDateRange();
 
-        $application = $this->processDateFilters(
+        $applications = $this->processDateFilters(
             Application::query(),
             'created_at',
             $filterDates['date_from'],
             $filterDates['date_to']
         );
 
-        $application->where('installation_id', $installation);
+        $applications->where('installation_id', $installation);
 
-        $this->limitToInstallationOnMerchant($application);
+        $this->limitToInstallationOnMerchant($applications);
 
         return $this->standardIndexAction(
-            $application,
+            $applications,
             'applications.index',
             'applications',
-            ['default_dates' => $filterDates]
+            ['defaultDates' => $filterDates]
         );
     }
 

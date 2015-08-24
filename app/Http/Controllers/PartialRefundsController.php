@@ -39,15 +39,15 @@ class PartialRefundsController extends Controller
      */
     public function index($id)
     {
-        $settlementReports = Collection::make(
+        $partialRefunds = Collection::make(
             $this->partialRefundGateway->listPartialRefunds($this->fetchMerchantById($id)->token)
         );
 
-        foreach ($settlementReports as $key => $report) {
-            $settlementReports[$key] = (object) $report->toArray();
+        foreach ($partialRefunds as $key => $report) {
+            $partialRefunds[$key] = (object) $report->toArray();
         }
 
-        $statuses = $settlementReports->pluck('status')->unique()->flip();
+        $statuses = $partialRefunds->pluck('status')->unique()->flip();
         foreach ($statuses as $key => $value) {
             $statuses[$key] = ucfirst($key);
         }
@@ -56,8 +56,8 @@ class PartialRefundsController extends Controller
 
         if (!$filter->isEmpty()) {
             if (isset($filter['status'])) {
-                $settlementReports = $settlementReports->filter(function ($settlement_reports) use ($filter) {
-                    if ($settlement_reports->status == $filter['status']) {
+                $partialRefunds = $partialRefunds->filter(function ($partialRefunds) use ($filter) {
+                    if ($partialRefunds->status == $filter['status']) {
                         return true;
                     }
                 });
@@ -65,7 +65,7 @@ class PartialRefundsController extends Controller
         }
 
         return View('partial-refunds.index', [
-            'settlement_reports' => $settlementReports,
+            'partialRefunds' => $partialRefunds,
             'statuses' => $statuses,
         ]);
     }
