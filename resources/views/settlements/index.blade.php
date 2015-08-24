@@ -38,7 +38,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="5"><em>0 Settlement Reports</em></td></tr>
+            <tr><td colspan="5"><em>No records found</em></td></tr>
         @endforelse
     </table>
 

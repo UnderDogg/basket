@@ -92,7 +92,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="14"><em>0 Applications</em></td></tr>
+            <tr><td colspan="14"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}

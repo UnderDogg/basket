@@ -44,7 +44,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="7"><em>0 Partial Refunds</em></td></tr>
+            <tr><td colspan="7"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}
