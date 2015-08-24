@@ -37,7 +37,6 @@ class SaveTagVersion extends Command
 
     /**
      * Create a new command instance.
-     *
      */
     public function __construct()
     {
@@ -55,8 +54,10 @@ class SaveTagVersion extends Command
         $branch = trim(`git rev-parse --abbrev-ref HEAD`);
         if ($branch == 'master') {
             $tag = trim(`git describe --abbrev=0 --t`);
+            $stable = true;
         } else {
             $tag = 'beta ' . trim(`git describe --abbrev=1 --t`) . ' (' . $branch . ')';
+            $stable = false;
         }
 
         $versionFile = base_path() . '/version.json';
@@ -66,8 +67,9 @@ class SaveTagVersion extends Command
         $json = [
             'release' => [
                 'version' => $tag,
-                'fileGenerated' => $time
-            ]
+                'file_generated' => $time,
+                'stable' => $stable,
+            ],
         ];
 
         $content = json_encode($json, JSON_PRETTY_PRINT);
@@ -79,13 +81,12 @@ class SaveTagVersion extends Command
                 . $e->getMessage());
         }
 
-        $content = '{{--GENERATED: ' . $time . '--}}' . PHP_EOL . 'version: ' . $tag;
+        $content = '{{--GENERATED: ' . $time . '--}}' . PHP_EOL . 'version: ' . $tag . PHP_EOL;
 
         try {
-            $this->filesystem->put($includeFile,$content);
+            $this->filesystem->put($includeFile, $content);
         } catch (\Exception $e) {
-            Log::error('Error while trying to create blade version file: '
-                . $e->getMessage());
+            Log::error('Error while trying to create blade version file: ' . $e->getMessage());
         }
     }
 }

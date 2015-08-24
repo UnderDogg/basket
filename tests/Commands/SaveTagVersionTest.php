@@ -32,5 +32,4 @@ class SaveTagVersionTest extends TestCase
         $versionFile = base_path() . '/version.json';
         $this->assertFileExists($versionFile);
     }
-
 }
