@@ -59,9 +59,11 @@ class Location extends Model
     /**
      * Checks related installation, makes sure active is true
      *
-     * @param $id
+     * @author EB
+     * @param int $id
      */
-    public function activeTrue($id) {
+    public function activeTrue($id)
+    {
         $installation = $this->findOrFail($id)->installation()->get();
         $this->active = ($installation['0']->active == 1) ? 1 : 0;
         $this->save();

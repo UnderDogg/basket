@@ -192,32 +192,19 @@ abstract class Controller extends BaseController
         return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
     }
 
-    protected function updateActiveInstallation($id) {
-        $model = new Installation();
-        $model->neigh($id);
-//        $model = new Installation();
-//        $model->where('merchant_id', '=', $id);
-//        $model->setActiveAttributeOnLocations($id,['active' => 0]);
-//        $model->where('id','=',$id)->update(['active' => 0]);
-    }
-
-    //I believe we want installations id
-    protected function updateLocationsActiveFromInstallations($id) {
-        $model = new Installation();
-        $model->where('id','=',$id);
-        $model->setActiveAttributeOnLocations($id,['active' => 0]);
-
-        //Sets installation to inactive, already done in request
-        //$model->where('id','=',$id)->update(['active' => 0]);
-    }
-
-    protected function updateActiveField($id, $model, $active) {
+    /**
+     * @author EB
+     * @param int $id
+     * @param Model $model
+     * @param $active
+     */
+    protected function updateActiveField($id, $model, $active)
+    {
         if($active == 0) {
             $model->activeFalse($id);
         } else {
             $model->activeTrue($id);
         }
-
     }
 
     /**

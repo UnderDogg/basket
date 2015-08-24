@@ -50,12 +50,21 @@ class Merchant extends Model
         'active',
     ];
 
+    /**
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function installation()
     {
         return $this->hasMany('App\Basket\Installation');
     }
 
-    public function activeFalse($id) {
+    /**
+     * @author EB
+     * @param $id
+     */
+    public function activeFalse($id)
+    {
         $this->findOrFail($id)->installation()->update(['active' => 0]);
         $model = new Installation();
         $model->where('merchant_id','=',$id);

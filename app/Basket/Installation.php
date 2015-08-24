@@ -64,28 +64,42 @@ class Installation extends Model
         return $this->belongsTo('App\Basket\Merchant');
     }
 
+    /**
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function locations()
     {
         return $this->hasMany('App\Basket\Location');
     }
 
-    public function setActiveAttributeOnLocations($id,$value)
+    /**
+     * @author EB
+     * @param int $id
+     */
+    public function activeFalse($id)
     {
-        $this->locations()->where('installation_id', '=', $id);
-    }
-
-    public function activeFalse($id) {
         $this->findOrFail($id)->locations()->update(['active' => 0]);
     }
 
-    public function multiActiveFalse($merchId) {
-        $inst = $this->where('merchant_id','=',$merchId)->get();
+    /**
+     * @author EB
+     * @param int $merchantId
+     */
+    public function multiActiveFalse($merchantId)
+    {
+        $inst = $this->where('merchant_id','=',$merchantId)->get();
         foreach($inst as $install=>$val) {
             $this->activeFalse($val->id);
         }
     }
 
-    public function activeTrue($id) {
+    /**
+     * @author EB
+     * @param int $id
+     */
+    public function activeTrue($id)
+    {
         $merchant = $this->findOrFail($id)->merchant()->get();
         $this->active = ($merchant['0']->active == 1) ? 1 : 0;
         $this->save();
