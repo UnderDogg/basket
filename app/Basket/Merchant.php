@@ -62,6 +62,8 @@ class Merchant extends Model
     /**
      * @author EB
      * @param $id
+     * @method findOrFail(integer $id)
+     * @method where()
      */
     public function activeFalse($id)
     {
@@ -69,5 +71,15 @@ class Merchant extends Model
         $model = new Installation();
         $model->where('merchant_id','=',$id);
         $model->multiActiveFalse($id);
+    }
+
+    /**
+     * @author EB
+     * @param $id
+     * @method findOrFail(integer $id)
+     */
+    public function activeTrue($id)
+    {
+        $this->findOrFail($id)->update(['active' => 1]);
     }
 }

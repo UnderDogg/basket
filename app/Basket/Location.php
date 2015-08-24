@@ -61,11 +61,24 @@ class Location extends Model
      *
      * @author EB
      * @param int $id
+     * @method findOrFail(integer $id)
      */
     public function activeTrue($id)
     {
         $installation = $this->findOrFail($id)->installation()->get();
         $this->active = ($installation['0']->active == 1) ? 1 : 0;
         $this->save();
+    }
+
+    /**
+     * Sets active to false on locations
+     *
+     * @author EB
+     * @param $id
+     * @method findOrFail(integer $id)
+     */
+    public function activeFalse($id)
+    {
+        $this->findOrFail($id)->update(['active' => 0]);
     }
 }

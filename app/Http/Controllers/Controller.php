@@ -11,7 +11,6 @@ namespace App\Http\Controllers;
 
 use App\Basket\Installation;
 use App\Basket\Merchant;
-use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -184,7 +183,7 @@ abstract class Controller extends BaseController
         $model = $this->fetchModelById($model, $id, $modelName, $redirect);
         try{
             $model->update($request->all());
-            $active = $this->updateActiveField($id, $model, $request->active);
+            $this->updateActiveField($id, $model, $request->active);
         } catch (\Exception $e) {
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());

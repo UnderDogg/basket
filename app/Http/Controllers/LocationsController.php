@@ -122,20 +122,9 @@ class LocationsController extends Controller
             'installation_id' => 'required',
 
         ]);
+        $request['active'] = ($request->has('active')) ? 1 : 0;
 
-        $locations = $this->fetchLocationById($id);
-        try {
-            $toUpdate = $request->all();
-            $toUpdate['active'] = ($request->has('active')) ? 1 : 0;
-            $locations->update($toUpdate);
-        } catch (\Exception $e) {
-            $this->logError('Can not update location [' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/locations/' . $id . '/edit')->setError($e->getMessage());
-        }
-        return $this->redirectWithSuccessMessage(
-            '/locations/'.$id.'/edit',
-            'Location details have been updated'
-        );
+        return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
     }
 
     /**

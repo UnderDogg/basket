@@ -76,6 +76,7 @@ class Installation extends Model
     /**
      * @author EB
      * @param int $id
+     * @method findOrFail(integer $id)
      */
     public function activeFalse($id)
     {
@@ -85,6 +86,7 @@ class Installation extends Model
     /**
      * @author EB
      * @param int $merchantId
+     * @method where()
      */
     public function multiActiveFalse($merchantId)
     {
@@ -97,6 +99,8 @@ class Installation extends Model
     /**
      * @author EB
      * @param int $id
+     * @property active
+     * @method findOrFail(integer $id)
      */
     public function activeTrue($id)
     {
