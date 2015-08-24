@@ -53,26 +53,34 @@ class SaveTagVersion extends Command
      */
     public function handle()
     {
-        $tag = trim(`git describe --abbrev=0 --t`);
-        $versionFile = base_path().'/version.json';
-        $includeFile = base_path('resources/views/includes/page').'/version.blade.php';
+        $branch = trim(`git rev-parse --abbrev-ref HEAD`);
+        if ($branch == 'master') {
+            $tag = trim(`git describe --abbrev=0 --t`);
+        } else {
+            $tag = 'beta ' . trim(`git describe --abbrev=1 --t`) . ' (' . $branch . ')';
+        }
+
+        $versionFile = base_path() . '/version.json';
+        $includeFile = base_path('resources/views/includes/page') . '/version.blade.php';
         $time = date('Y-m-d H:i:s');
 
-        $json = '{'.PHP_EOL
-            . "\t".'"release": {'.PHP_EOL.
-            "\t\t".'"version": "'.$tag.'",'.PHP_EOL.
-            "\t\t".'"fileGenerated": "'.$time.'"'.PHP_EOL.
-            "\t".'}'.PHP_EOL.
-            '}';
+        $json = [
+            'release' => [
+                'version' => $tag,
+                'fileGenerated' => $time
+            ]
+        ];
+
+        $content = json_encode($json, JSON_PRETTY_PRINT);
 
         try {
-            $this->filesystem->put($versionFile,$json);
+            $this->filesystem->put($versionFile,$content);
          } catch (\Exception $e) {
             Log::error('Error while trying to create json version file: '
                 . $e->getMessage());
         }
 
-        $content = '{{--GENERATED: '.$time.'--}}'.PHP_EOL.'version: '.$tag;
+        $content = '{{--GENERATED: ' . $time . '--}}' . PHP_EOL . 'version: ' . $tag;
 
         try {
             $this->filesystem->put($includeFile,$content);

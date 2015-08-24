@@ -148,14 +148,12 @@
     </div>
 
     <footer class="container-fluid">
-        @if (view()->exists('includes.page.version'))
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    {{--SHOW VERSION IF AVAILABLE--}}
-                    @include('includes.page.version')
-                </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                {{--SHOW VERSION IF AVAILABLE--}}
+                @include('includes.page.version')
             </div>
-        @endif
+        </div>
     </footer>
 </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
