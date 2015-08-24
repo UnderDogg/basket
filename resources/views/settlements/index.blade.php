@@ -4,7 +4,6 @@
 
     <h1>SETTLEMENT REPORTS</h1>
 
-    @include('includes.form.record_counter', ['object' => $settlementReports])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
     <table class="table table-bordered table-striped table-hover">

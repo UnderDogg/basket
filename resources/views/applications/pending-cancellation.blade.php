@@ -4,7 +4,6 @@
 
     <h2>Pending Cancellations</h2>
 
-    @include('includes.form.record_counter', ['object' => $applications])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
     <table class="table table-bordered table-striped table-hover">
