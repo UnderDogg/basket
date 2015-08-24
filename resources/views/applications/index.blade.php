@@ -3,7 +3,6 @@
 @section('content')
 
     <h1>APPLICATIONS</h1>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">
         @include('includes.form.record_counter', ['object' => $applications])
@@ -41,9 +40,9 @@
             {{--ADDED COLUMNS --}}
             <th>@include('includes.form.input', ['field' => 'ext_customer_first_name'])</th>
             <th>@include('includes.form.input', ['field' => 'ext_customer_last_name'])</th>
-            <th>@include('includes.form.input', ['field' => 'ext_customer_postcode'])</th>
+            <th>@include('includes.form.input', ['field' => 'ext_application_address_postcode'])</th>
 
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_order_amount', 'symbol' => '&pound;'])</th>
+            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_order_amount', 'symbol' => '&pound;'])</th>
             <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_loan_amount', 'symbol' => '&pound;'])</th>
             <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_deposit', 'symbol' => '&pound;'])</th>
             <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_subsidy', 'symbol' => '&pound;'])</th>
@@ -64,9 +63,9 @@
                 {{-- ADDED COLUMNS --}}
                 <td>{{ $item->ext_customer_first_name }}</td>
                 <td>{{ $item->ext_customer_last_name }}</td>
-                <td>{{ $item->ext_customer_postcode }}</td>
+                <td>{{ $item->ext_application_address_postcode }}</td>
 
-                <td>{{ '&pound;' . number_format($item->ext_finance_order_amount/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
@@ -76,9 +75,31 @@
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
-                    @include('includes.form.record_actions', ['id' => $item->id,
-                        'actions' => ['edit' => 'Edit', 'fulfil' => 'Fulfil', 'request-cancellation' => 'Request Cancellation', 'partial-refund' => 'Partial Refund']
-                    ])
+
+                    <div class="btn-group">
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
+
+                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {!! in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete'])?'':'disabled="disabled"' !!}>
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+
+                                @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
+                                @endif
+
+                                @if(Auth::user()->can('applications-cancel') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></li>
+                                @endif
+
+                                @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></li>
+                                @endif
+
+                            </ul>
+                    </div>
+
                 </td>
             </tr>
         @endforeach

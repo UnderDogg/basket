@@ -1,3 +1,35 @@
+## Features
+- Release version in footer
+
+# 0.8.0
+2015-08-21
+
+## Features
+- Limit actions on *Applications List*
+- Middleware test
+
+##Bug Fixes
+- Removed non working links
+- Fixed two middleware
+- Postcode filter on *Applications List*
+- Currency filters on *Applications List*
+
+# 0.7.0
+2015-08-19
+
+## Features
+- Removed footer contents
+- Redeveloped Application Process
+- Change layout to fluid
+- Error pages for 404 and 50X
+
+## Bug Fixes
+- Login page errors
+- Minor fixes in view
+
+# 0.6.1
+2015-08-18
+
 # 0.6.0
 2015-08-18
 

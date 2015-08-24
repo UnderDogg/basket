@@ -75,6 +75,7 @@ class InitialisationController extends Controller
                 'amount' => $request->get('amount'),
                 'group' => $request->get('group'),
                 'product' => $request->get('product'),
+                'product_name' => $request->get('product_name'),
                 'reference' => $reference,
                 'location' => $location,
             ]
@@ -131,7 +132,7 @@ class InitialisationController extends Controller
      */
     public function chooseProduct($locationId, Request $request)
     {
-        $this->validate($request, ['amount' => 'required']);
+        $this->validate($request, ['amount' => 'required|numeric']);
 
         $location = $this->fetchLocation($locationId);
 
@@ -143,7 +144,7 @@ class InitialisationController extends Controller
             [
                 'options' => $gateway->getCreditInfo(
                     $location->installation->ext_id,
-                    $request->get('amount') * 100,
+                    floor($request->get('amount') * 100),
                     $location->installation->merchant->token
                 ),
                 'amount' => $request->get('amount') * 100,

@@ -38,6 +38,15 @@ abstract class Controller extends BaseController
     const DEFAULT_PAGE_LIMIT = 15;
     private $filters;
 
+    /** @var array of money filters $moneyFilters */
+    private $moneyFilters = [
+        'ext_order_amount',
+        'ext_finance_loan_amount',
+        'ext_finance_deposit',
+        'ext_finance_subsidy',
+        'ext_finance_net_settlement'
+    ];
+
     /**
      * Get Merchant Token
      *
@@ -199,11 +208,23 @@ abstract class Controller extends BaseController
      */
     protected function updateActiveField($id, $model, $active)
     {
-        if($active == 0) {
+        if ($active == 0) {
             $model->activeFalse($id);
         } else {
             $model->activeTrue($id);
         }
+    }
+    /**
+     * @author CS
+     * @param $field, $value
+     */
+    protected function processMoneyFilters($field, $value)
+    {
+        if (in_array($field, $this->moneyFilters)) {
+            return floor($value * 100);
+        }
+
+        return $value;
     }
 
     /**
@@ -215,7 +236,7 @@ abstract class Controller extends BaseController
         $filter = $this->getFilters();
         if (count($filter) > 0) {
             foreach ($filter as $field => $value) {
-
+                $value = $this->processMoneyFilters($field, $value);
                 $query->where($field, 'like', '%' . $value . '%');
             }
         }
