@@ -22,10 +22,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Basket\Application::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => $faker->numberBetween($min = 1, $max = 100),
+        'user_id' => $faker->numberBetween($min = 1, $max = 3),
         'installation_id' => 1,
         'location_id' => 1,
-        'ext_id' => $faker->numberBetween($min = 1, $max = 1000),
+        'ext_id' => $faker->unique()->numberBetween(1000),
         'ext_current_status' => 'Converted',
         'ext_order_reference' => str_random(16),
         'ext_order_amount' => $faker->numberBetween($min = 1000, $max = 10000),

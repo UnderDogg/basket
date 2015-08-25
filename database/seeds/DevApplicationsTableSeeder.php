@@ -14,8 +14,7 @@ class DevApplicationsTableSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call(DevSeeder::class);
-        factory(App\Basket\Application::class, 50)->make();
+        factory(App\Basket\Application::class, 50)->create();
 
         Model::reguard();
     }
