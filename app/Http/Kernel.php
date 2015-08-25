@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\VerifyCsrfToken::class,
         \App\Http\Middleware\AvailableInstallations::class,
         \App\Http\Middleware\Messages::class,
+        \App\Http\Middleware\Download::class,
     ];
 
     /**
