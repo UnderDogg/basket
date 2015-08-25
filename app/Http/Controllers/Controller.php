@@ -197,7 +197,7 @@ abstract class Controller extends BaseController
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
+        return redirect()->back()->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
     }
 
     /**
