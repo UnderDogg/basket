@@ -1,6 +1,9 @@
 ## Features
 - Release version in footer
 - Download feature on Applications list
+- Merchants, Installations and Locations active flags have been added and are functional
+- Inactive flag will cascade downwards when made inactive
+- Active flag will check parents to see if it is able to become active
 
 ## Bug Fixes
 - Email notifications for converted application
