@@ -119,8 +119,6 @@ class LocationsController extends Controller
             'email' => 'required:email',
             'address' => 'required',
             'reference' => 'required',
-            'installation_id' => 'required',
-
         ]);
         $request['active'] = ($request->has('active')) ? 1 : 0;
 
