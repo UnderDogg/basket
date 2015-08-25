@@ -85,7 +85,7 @@ class RolesControllerTest extends TestCase
 
         // Test $role variable is available for use
         $this->call('GET', '/roles');
-        $this->assertViewHas('role');
+        $this->assertViewHas('roles');
     }
 
     /**

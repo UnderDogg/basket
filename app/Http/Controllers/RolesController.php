@@ -30,7 +30,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        return $this->standardIndexAction(Role::query(), 'role.index', 'role');
+        return $this->standardIndexAction(Role::query(), 'role.index', 'roles');
     }
 
     /**
