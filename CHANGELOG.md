@@ -1,6 +1,9 @@
 ## Features
 - Release version in footer
 
+## Bug Fixes
+- Email notifications for converted application
+
 # 0.8.0
 2015-08-21
 
