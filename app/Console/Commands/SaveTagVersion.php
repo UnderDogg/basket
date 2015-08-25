@@ -52,7 +52,7 @@ class SaveTagVersion extends Command
     public function handle()
     {
         $branch = trim(`git rev-parse --abbrev-ref HEAD`);
-        if ($branch == 'master') {
+        if ($branch == 'HEAD') {
             $tag = trim(`git describe --abbrev=0 --t`);
             $stable = true;
         } else {
