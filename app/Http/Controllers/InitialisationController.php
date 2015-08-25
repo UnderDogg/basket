@@ -9,6 +9,8 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Installation;
+use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
@@ -73,8 +75,9 @@ class InitialisationController extends Controller
                 'amount' => $request->get('amount'),
                 'group' => $request->get('group'),
                 'product' => $request->get('product'),
+                'product_name' => $request->get('product_name'),
                 'reference' => $reference,
-                'location' => $locationId,
+                'location' => $location,
             ]
         );
     }
@@ -99,6 +102,7 @@ class InitialisationController extends Controller
             ]
         );
 
+        $requester = Auth::user()->id;
         $location = $this->fetchLocation($locationId);
 
         try {
@@ -107,10 +111,11 @@ class InitialisationController extends Controller
                 $request->get('reference'),
                 $request->get('amount'),
                 $request->get('description'),
-                'tomorrow 18:00',
+                $location->installation->validity,
                 $request->get('group'),
                 [$request->get('product')],
-                $location->reference
+                $location,
+                $requester
             ));
         } catch (\Exception $e) {
 
@@ -127,7 +132,7 @@ class InitialisationController extends Controller
      */
     public function chooseProduct($locationId, Request $request)
     {
-        $this->validate($request, ['amount' => 'required']);
+        $this->validate($request, ['amount' => 'required|numeric']);
 
         $location = $this->fetchLocation($locationId);
 
@@ -139,13 +144,22 @@ class InitialisationController extends Controller
             [
                 'options' => $gateway->getCreditInfo(
                     $location->installation->ext_id,
-                    $request->get('amount') * 100,
+                    floor($request->get('amount') * 100),
                     $location->installation->merchant->token
                 ),
                 'amount' => $request->get('amount') * 100,
                 'location' => $locationId,
             ]
         );
+    }
+
+    /**
+     * @author SD
+     * @return \Illuminate\View\View
+     */
+    public function returnBack()
+    {
+         return view('initialise.returnBack');
     }
 
     /**

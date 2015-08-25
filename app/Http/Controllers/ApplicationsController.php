@@ -16,6 +16,7 @@ use App\Basket\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ApplicationsController
@@ -44,9 +45,10 @@ class ApplicationsController extends Controller
      * Display a listing of the resource.
      *
      * @author WN, MS
+     * @param int $installation
      * @return Response
      */
-    public function index()
+    public function index($installation)
     {
         $filterDates = $this->getDateRange();
 
@@ -56,6 +58,8 @@ class ApplicationsController extends Controller
             $filterDates['date_from'],
             $filterDates['date_to']
         );
+
+        $application->where('installation_id', $installation);
 
         $this->limitToInstallationOnMerchant($application);
 
@@ -70,18 +74,18 @@ class ApplicationsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $installation
+     * @param  int $id
      * @return Response
      */
-    public function show($id)
+    public function show($installation, $id)
     {
-        $application = $this->fetchApplicationById($id);
+        $application = $this->fetchApplicationById($id, $installation);
 
         return view(
             'applications.show',
             [
                 'applications' => $application,
-                'messages' => $this->getMessages(),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
@@ -92,14 +96,15 @@ class ApplicationsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param $installation
+     * @param  int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit($installation, $id)
     {
         return view(
             'applications.edit',
-            ['applications' => $this->fetchApplicationById($id), 'messages' => $this->getMessages()]
+            ['applications' => $this->fetchApplicationById($id)]
         );
     }
 
@@ -107,71 +112,89 @@ class ApplicationsController extends Controller
      * Update the specified resource in storage.
      *
      * @author WN
-     * @param int     $id
+     * @param $installation
+     * @param int $id
      * @param Request $request
      * @return Response
      * @throws RedirectException
      */
-    public function update($id, Request $request)
+    public function update($installation, $id, Request $request)
     {
-        return $this->updateModel((new Application()), $id, 'application', '/applications', $request);
+        return $this->updateModel(
+            (new Application()),
+            $id,
+            'application',
+            '/installations/' . $installation . '/applications', $request
+        );
     }
 
     /**
      * @author WN
+     * @param $installation
      * @param $id
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function confirmFulfilment($id)
+    public function confirmFulfilment($installation, $id)
     {
-        return $this->renderConfirmationScreen('fulfilment', $id);
+        return $this->renderConfirmationScreen('fulfilment', $id, $installation);
     }
 
     /**
      * @author WN
+     * @param $installation
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
+     * @throws ApplicationsController
      */
-    public function fulfil($id)
+    public function fulfil($installation, $id)
     {
         try {
             $this->applicationSynchronisationService->fulfil($id);
         } catch (\Exception $e) {
-            $this->logError('Error while trying to fulfil Application[' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/applications/' . $id)->setError('Fulfilment failed');
+            throw $this->redirectWithException(
+                '/installations/' . $installation . '/applications/' . $id,
+                'Error while trying to fulfil Application[' . $id . ']',
+                $e
+            );
         }
-        return redirect()->back()->with('success', 'Application was fulfilled successfully');
+        return $this->redirectWithSuccessMessage(
+            '/installations/' . $installation . '/applications/' . $id,
+            'Application was fulfilled successfully'
+        );
     }
 
     /**
      * @author WN
+     * @param $installation
      * @param int $id
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function confirmCancellation($id)
+    public function confirmCancellation($installation, $id)
     {
-        return $this->renderConfirmationScreen('cancellation', $id);
+        return $this->renderConfirmationScreen('cancellation', $id, $installation);
     }
 
     /**
      * @author WN
-     * @param int  $id
+     * @param int $installation
+     * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
+     * @throws ApplicationsController
      */
-    public function requestCancellation($id, Request $request)
+    public function requestCancellation($installation, $id, Request $request)
     {
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
-        } catch (\Exception $e) {
-            $this->logError('Error while trying to request cancellation Application[' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/applications/' . $id)->setError('Request cancellation failed');
+        } catch(\Exception $e) {
+            throw $this->redirectWithException('/installations/' . $installation . '/applications','Hello', $e);
         }
-        return redirect()->back()->with('success', 'Cancellation requested successfully');
+        return $this->redirectWithSuccessMessage(
+            '/installations/' . $installation . '/applications',
+            'Cancellation requested successfully'
+        );
     }
 
     /**
@@ -183,8 +206,6 @@ class ApplicationsController extends Controller
      */
     public function pendingCancellations($installationId)
     {
-        $messages = $this->getMessages();
-
         $installation = $this->fetchModelByIdWithMerchantLimit((new Installation()), $installationId, 'installation', '/');
 
         $pendingCancellations = Collection::make(
@@ -201,7 +222,6 @@ class ApplicationsController extends Controller
 
         return View('applications.pending-cancellation', [
             'applications' => $pendingCancellations,
-            'messages' => $messages
         ]);
     }
 
@@ -211,15 +231,15 @@ class ApplicationsController extends Controller
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function confirmPartialRefund($id)
+    public function confirmPartialRefund($installation, $id)
     {
-        $application = $this->fetchApplicationById($id);
+        $application = $this->fetchApplicationById($id, $installation);
         if (!$this->canPartiallyRefund($application)) {
 
-            throw RedirectException::make('/applications/' . $id)
+            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
                 ->setError('You may not partially refund this application.');
         }
-        return view('applications.partial-refund', ['application' => $application, 'messages' => $this->getMessages()]);
+        return view('applications.partial-refund', ['application' => $application]);
     }
 
     /**
@@ -229,7 +249,7 @@ class ApplicationsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function requestPartialRefund(Request $request, $id)
+    public function requestPartialRefund(Request $request, $installation, $id)
     {
         $this->validate($request, [
             'refund_amount' => 'required|numeric',
@@ -249,13 +269,15 @@ class ApplicationsController extends Controller
             );
 
         } catch (\Exception $e) {
-            $this->logError('Error while trying to request a partial refund for application [' . $id . ']: ' . $e->getMessage());
-            throw RedirectException::make('/applications/' . $id)->setError('Requesting a partial refund failed');
+            $this->logError('Error while trying to request a partial refund for application [' . $id . ']: '
+                . $e->getMessage());
+            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
+                ->setError('Requesting a partial refund failed');
         }
-
-        return redirect()
-            ->action('ApplicationsController@show', $id)
-            ->with('success', 'Partial refund has been successfully requested');
+        return $this->redirectWithSuccessMessage(
+            '/applications',
+            'Partial refund has been successfully requested'
+        );
     }
 
     /**
@@ -264,9 +286,11 @@ class ApplicationsController extends Controller
      * @return Application
      * @throws RedirectException
      */
-    private function fetchApplicationById($id)
+    private function fetchApplicationById($id, $installation)
     {
-        return $this->fetchModelByIdWithInstallationLimit((new Application()), $id, 'application', '/applications');
+        return $this->fetchModelByIdWithInstallationLimit(
+            (new Application()), $id, 'application', 'installations/' . $installation . '/applications'
+        );
     }
 
     /**
@@ -306,14 +330,15 @@ class ApplicationsController extends Controller
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    private function renderConfirmationScreen($action, $id)
+    private function renderConfirmationScreen($action, $id, $installation)
     {
-        $application = $this->fetchApplicationById($id);
+        $application = $this->fetchApplicationById($id, $installation);
 
         if (((!$this->isCancellable($application)) && $action == 'cancellation') ||
             ((!$this->isFulfilable($application)) && $action == 'fulfilment')
         ) {
-            throw RedirectException::make('/applications/' . $id)
+            Log::error('Application is not allowed to request ' . $action);
+            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
                 ->setError('Application is not allowed to request ' . $action);
         }
         return view('applications.' . $action, ['application' => $application]);

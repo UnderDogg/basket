@@ -22,7 +22,6 @@ use Illuminate\Http\Request;
  */
 class RolesController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +45,6 @@ class RolesController extends Controller
             'role.create',
             [
                 'permissionsAvailable' => Permission::all(),
-                'messages' => $this->getMessages(),
             ]
         );
     }
@@ -70,12 +68,13 @@ class RolesController extends Controller
             $role = Role::create($request->all());
             $this->applyPermissions($role, $request);
         } catch (\Exception $e) {
-
-            $this->logError('RolesController: Failed while storing new: ' . $e->getMessage());
-            throw RedirectException::make('/roles')->setError('Could not save role');
+            return $this->redirectWithException('/roles/', 'Failed while storing new', $e);
         }
-
-        return redirect('roles')->with('success', 'New role and role permissions were successfully created');
+        return $this
+            ->redirectWithSuccessMessage(
+                'roles',
+                'New roles and role permissions were successfully created'
+            );
     }
 
     /**
@@ -91,7 +90,6 @@ class RolesController extends Controller
             'role.show',
             [
                 'role' => $this->fetchRoleById($id),
-                'messages' => $this->getMessages(),
             ]
         );
     }
@@ -112,7 +110,6 @@ class RolesController extends Controller
             [
                 'role' => $role,
                 'permissionsAvailable' => Permission::all()->diff($role->permissions),
-                'messages' => $this->getMessages(),
             ]
         );
     }
@@ -141,8 +138,10 @@ class RolesController extends Controller
             $this->logError('Could not update Role with ID [' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/roles')->setError('Could not update Role');
         }
-
-        return redirect()->back()->with('success', 'Roles and role permissions were successfully updated');
+        return $this->redirectWithSuccessMessage(
+            'roles',
+            'Roles and permissions were successfully updated'
+        );
     }
 
     /**
@@ -151,9 +150,14 @@ class RolesController extends Controller
      * @author WN
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
     public function destroy($id)
     {
+        if ($id == 1) {
+            throw RedirectException::make('/')->setError('Cannot delete Super Administrator it\'s a special role!');
+        }
+
         return $this->destroyModel((new Role()), $id, 'role', '/roles');
     }
 
@@ -170,7 +174,7 @@ class RolesController extends Controller
         $role->type = 'roles';
         $role->controller = 'Roles';
 
-        return view('includes.page.confirm_delete', ['object' => $role, 'messages' => $this->getMessages()]);
+        return view('includes.page.confirm_delete', ['object' => $role]);
     }
 
     /**

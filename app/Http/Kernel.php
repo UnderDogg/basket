@@ -18,6 +18,8 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\AvailableInstallations::class,
+        \App\Http\Middleware\Messages::class,
         \App\Http\Middleware\Download::class,
     ];
 
@@ -32,5 +34,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'userActionMerchant' => \App\Http\Middleware\UserActionMerchant::class,
         'permission' => \App\Http\Middleware\AuthorisePermission::class,
+        'role' => \App\Http\Middleware\AuthoriseRole::class,
     ];
 }
