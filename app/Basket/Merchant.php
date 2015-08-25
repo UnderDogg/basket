@@ -55,7 +55,7 @@ class Merchant extends Model
      * @author EB
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function installation()
+    public function installations()
     {
         return $this->hasMany('App\Basket\Installation');
     }
@@ -74,7 +74,7 @@ class Merchant extends Model
         $this->active = false;
 
         if ($this->save()) {
-            foreach($this->installation()->get() as $inst) {
+            foreach($this->installations()->get() as $inst) {
                 $inactive = new Installation();
                 $inactive->findOrFail($inst->id)->deactivate();
             }
