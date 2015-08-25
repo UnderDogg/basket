@@ -1,3 +1,6 @@
+## Features
+- Release version in footer
+
 # 0.8.0
 2015-08-21
 
