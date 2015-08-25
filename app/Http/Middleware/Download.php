@@ -38,7 +38,10 @@ class Download
 
             switch ($request->get('download')) {
                 case 'json':
-                    return response()->json($response->original->getData()['api_data'], 200, ['Content-Disposition' => 'attachment; filename="ExportFileName.json"']);
+                    return response()->json(
+                        $response->original->getData()['api_data'], 200,
+                        ['Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.json"']
+                    );
                 case 'csv':
 
                     $writer = Writer::createFromFileObject(new \SplTempFileObject());
@@ -49,7 +52,7 @@ class Download
 
                     $headers = [
                         'Content-Type' => 'text/csv',
-                        'Content-Disposition' => 'attachment; filename="ExportFileName.csv"',
+                        'Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.csv"',
                     ];
 
                     foreach ($response->original->getData()['api_data'] as $data) {

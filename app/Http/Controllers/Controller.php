@@ -68,7 +68,7 @@ abstract class Controller extends BaseController
      */
     protected function getPageLimit()
     {
-        if (Request::capture()->get('limit') && is_int(Request::capture()->get('limit'))) {
+        if (Request::capture()->get('limit') && is_numeric(Request::capture()->get('limit'))) {
             return Request::capture()->get('limit');
         }
         return self::DEFAULT_PAGE_LIMIT;
