@@ -1,5 +1,6 @@
 ## Features
 - Release version in footer
+- Download feature on Applications list
 
 ## Bug Fixes
 - Email notifications for converted application
