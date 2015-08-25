@@ -120,6 +120,11 @@ class MerchantsController extends Controller
      */
     public function update($id, Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'token' => 'required'
+        ]);
+
         return $this->updateModel((new Merchant()), $id, 'merchant', '/merchants', $request);
     }
 

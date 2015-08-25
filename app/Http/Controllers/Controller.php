@@ -190,16 +190,38 @@ abstract class Controller extends BaseController
     protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
     {
         $model = $this->fetchModelById($model, $id, $modelName, $redirect);
-
         try{
+            $this->updateActiveField($model, $request->has('active'));
             $model->update($request->all());
         } catch (\Exception $e) {
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
+        return redirect()->back()->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
     }
 
+    /**
+     * @author EB, WN
+     * @param Model $model
+     * @param bool $active
+     * @return Model
+     */
+    protected function updateActiveField($model, $active)
+    {
+        if ($model->active xor $active) {
+            if ($active) {
+                if (method_exists($model, 'activate')) {
+                    $model->activate();
+                }
+            } else {
+                if (method_exists($model, 'deactivate')) {
+                    $model->deactivate();
+                }
+            }
+        }
+
+        return $model;
+    }
     /**
      * @author CS
      * @param $field, $value

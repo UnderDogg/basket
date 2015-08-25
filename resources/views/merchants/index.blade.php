@@ -16,6 +16,7 @@
                 <th>Name</th>
                 <th class="hidden-xs hidden-sm">Company Name</th>
                 <th class="hidden-xs hidden-sm">Min. Amount Settled</th>
+                <th class="col-sm-2 col-md-1">Active</th>
                 <th class="col-sm-2 col-md-1">Linked</th>
                 <th>Actions</th>
             </tr>
@@ -26,6 +27,13 @@
                     <td>{{ $item->name }}</td>
                     <td class="hidden-xs hidden-sm">{{ $item->ext_company_name }}</td>
                     <td class="hidden-xs hidden-sm">{{ $item->ext_minimum_amount_settled }}</td>
+                    <td class="col-sm-2 col-md-1">
+                        @if( $item->active == 0 )
+                            <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                        @elseif( $item->active == 1 )
+                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                        @endif
+                    </td>
                     <td class="col-sm-2 col-md-1">
                         @if( $item->linked == 0 )
                             <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Unlinked</span>
