@@ -120,7 +120,6 @@ class LocationsController extends Controller
             'address' => 'required',
             'reference' => 'required',
         ]);
-        $request['active'] = ($request->has('active')) ? 1 : 0;
 
         return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
     }

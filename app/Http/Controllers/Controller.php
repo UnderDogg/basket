@@ -191,8 +191,8 @@ abstract class Controller extends BaseController
     {
         $model = $this->fetchModelById($model, $id, $modelName, $redirect);
         try{
+            $this->updateActiveField($model, $request->has('active'));
             $model->update($request->all());
-            $this->updateActiveField($model, $request->active);
         } catch (\Exception $e) {
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
@@ -201,17 +201,26 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @author EB
+     * @author EB, WN
      * @param Model $model
-     * @param $active
+     * @param bool $active
+     * @return Model
      */
     protected function updateActiveField($model, $active)
     {
-        if ($active == 0) {
-            $model->deactivate();
-        } else {
-            $model->activate();
+        if ($model->active xor $active) {
+            if ($active) {
+                if (method_exists($model, 'activate')) {
+                    $model->activate();
+                }
+            } else {
+                if (method_exists($model, 'deactivate')) {
+                    $model->deactivate();
+                }
+            }
         }
+
+        return $model;
     }
     /**
      * @author CS
