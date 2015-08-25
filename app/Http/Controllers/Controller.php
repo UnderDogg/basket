@@ -68,7 +68,7 @@ abstract class Controller extends BaseController
      */
     protected function getPageLimit()
     {
-        if (Request::capture()->get('limit') && is_int(Request::capture()->get('limit'))) {
+        if (Request::capture()->get('limit') && is_numeric(Request::capture()->get('limit'))) {
             return Request::capture()->get('limit');
         }
         return self::DEFAULT_PAGE_LIMIT;
@@ -84,7 +84,7 @@ abstract class Controller extends BaseController
     {
         if (!$this->filters) {
 
-            $this->filters = Collection::make(Request::capture()->except(['limit', 'page']));
+            $this->filters = Collection::make(Request::capture()->except(['limit', 'page', 'download']));
         }
 
         return $this->filters;
@@ -244,11 +244,14 @@ abstract class Controller extends BaseController
     ) {
         $this->processFilters($query);
 
+        $data = $query->paginate($this->getPageLimit());
+
         return view(
             $view,
             array_merge(
                 [
-                    $modelName => $query->paginate($this->getPageLimit()),
+                    $modelName => $data,
+                    'api_data' => $data->items(),
                 ],
                 $additionalProperties
             )
