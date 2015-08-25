@@ -8,6 +8,8 @@
 - Standardise no records
 - Consistent use of of @forelse & @empty
 - Removal of panels around tables
+- Login page cleaned up
+- Forgot password cleaned up
 
 ## Bug Fixes
 - Email notifications for converted application
