@@ -24,12 +24,13 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
     <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    @yield('stylesheets')
 </head>
+@if(Auth::check())
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-@if(Auth::check())
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -118,7 +119,6 @@
         </div>
     </div>
 </nav>
-@endif
 
 <div class="container-fluid">
     <div class="row">
@@ -174,4 +174,5 @@ ga('create','UA-XXXXX-X','auto');ga('send','pageview');
 </script>
 @yield('scripts')
 </body>
+@else @yield('content') @endif
 </html>
