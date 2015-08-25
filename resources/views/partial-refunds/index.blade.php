@@ -27,7 +27,7 @@
             <th></th>
             <th>@include('includes.form.filter_buttons')</th>
         </tr>
-        @forelse(partial_refunds as $item)
+        @forelse($partial_refunds as $item)
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->application }}</td>
