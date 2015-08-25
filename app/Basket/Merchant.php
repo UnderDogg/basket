@@ -10,6 +10,7 @@
 
 namespace App\Basket;
 
+use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $token
  * @property bool   $linked
+ * @property bool   $active
  * @property string $ext_company_name
  * @property string $ext_address
  * @property string $ext_processing_days
@@ -47,6 +49,55 @@ class Merchant extends Model
         'ext_address_on_agreements',
         'updated_at',
         'created_at',
-        'active',
     ];
+
+    /**
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function installations()
+    {
+        return $this->hasMany('App\Basket\Installation');
+    }
+
+    /**
+     * @author EB
+     * @return $this
+     * @throws Exception
+     */
+    public function deactivate()
+    {
+        if(!$this->exists) {
+            throw new Exception('Trying to deactivate none existing Merchant');
+        }
+        $this->active = false;
+
+        if ($this->save()) {
+            foreach($this->installations()->get() as $inst) {
+                $inst->deactivate();
+            }
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
+    }
+
+    /**
+     * @author EB
+     * @return $this
+     * @throws Exception
+     */
+    public function activate()
+    {
+        if(!$this->exists) {
+            throw new Exception('Trying to activate none existing Merchant');
+        }
+        $this->active = true;
+
+        if($this->save()) {
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
+    }
 }

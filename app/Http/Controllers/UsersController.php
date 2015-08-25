@@ -38,7 +38,7 @@ class UsersController extends Controller
     {
         $users = User::query();
         $this->limitToMerchant($users);
-        return $this->standardIndexAction($users, 'user.index', 'user');
+        return $this->standardIndexAction($users, 'user.index', 'users');
     }
 
     /**

@@ -48,7 +48,6 @@ Icon
 
 # Version files
 version.json
-/resources/views/includes/page/version.blade.php
 
 # Files that might appear on external disk
 .Spotlight-V100

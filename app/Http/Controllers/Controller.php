@@ -68,7 +68,7 @@ abstract class Controller extends BaseController
      */
     protected function getPageLimit()
     {
-        if (Request::capture()->get('limit') && is_int(Request::capture()->get('limit'))) {
+        if (Request::capture()->get('limit') && is_numeric(Request::capture()->get('limit'))) {
             return Request::capture()->get('limit');
         }
         return self::DEFAULT_PAGE_LIMIT;
@@ -84,7 +84,7 @@ abstract class Controller extends BaseController
     {
         if (!$this->filters) {
 
-            $this->filters = Collection::make(Request::capture()->except(['limit', 'page']));
+            $this->filters = Collection::make(Request::capture()->except(['limit', 'page', 'download']));
         }
 
         return $this->filters;
@@ -190,16 +190,38 @@ abstract class Controller extends BaseController
     protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
     {
         $model = $this->fetchModelById($model, $id, $modelName, $redirect);
-
         try{
+            $this->updateActiveField($model, $request->has('active'));
             $model->update($request->all());
         } catch (\Exception $e) {
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('messages', ['success', ucwords($modelName) .' details were successfully updated']);
+        return redirect()->back()->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
     }
 
+    /**
+     * @author EB, WN
+     * @param Model $model
+     * @param bool $active
+     * @return Model
+     */
+    protected function updateActiveField($model, $active)
+    {
+        if ($model->active xor $active) {
+            if ($active) {
+                if (method_exists($model, 'activate')) {
+                    $model->activate();
+                }
+            } else {
+                if (method_exists($model, 'deactivate')) {
+                    $model->deactivate();
+                }
+            }
+        }
+
+        return $model;
+    }
     /**
      * @author CS
      * @param $field, $value
@@ -244,11 +266,14 @@ abstract class Controller extends BaseController
     ) {
         $this->processFilters($query);
 
+        $data = $query->orderBy('created_at', 'DESC')->paginate($this->getPageLimit());
+
         return view(
             $view,
             array_merge(
                 [
-                    $modelName => $query->orderBy('created_at', 'DESC')->paginate($this->getPageLimit()),
+                    $modelName => $data,
+                    'api_data' => $data->items(),
                 ],
                 $additionalProperties
             )

@@ -149,6 +149,8 @@
         </div>
     </div>
 
+    <hr>
+
     <footer class="container-fluid">
         <div class="row">
             <div class="col-md-12 text-right">
@@ -157,7 +159,8 @@
             </div>
         </div>
     </footer>
-</div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</div> <!-- /container -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

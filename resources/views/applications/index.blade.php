@@ -2,25 +2,26 @@
 
 @section('content')
 
-    <h1>APPLICATIONS</h1>
+    <h1>
+        APPLICATIONS
+        <div class="btn-group pull-right">
+            <a href="{!! Request::url() !!}/?@foreach(Request::all() as $key=>$val){{$key}}={{$val}}&@endforeach download=csv&limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
+        </div>
+    </h1>
 
-    <div class="panel panel-default">
-        @include('includes.form.record_counter', ['object' => $applications])
+    @include('includes.form.record_counter', ['object' => $applications])
+    {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
-        <div class="panel-heading"><h4>Applications</h4></div>
-        <div class="scroll-x-overflow">
-        <table class="table-condensed table-bordered table-striped table-hover table-fixed-layout-large">
+    <table class="table table-bordered table-striped table-hover table-fixed-layout-large">
         {{-- TABLE HEADER WITH FILTERS --}}
-        {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
         <tr>
             {{--TITLES--}}
-
             <th>ID</th>
             <th>Received</th>
             <th>Current Status</th>
             <th>Retailer Reference</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Postcode</th>
             <th>Order Amount</th>
             <th>Loan Amount</th>
@@ -50,28 +51,21 @@
             <th>@include('includes.form.input', ['field' => 'ext_fulfilment_location'])</th>
             <th class="text-right">@include('includes.form.filter_buttons')</th>
         </tr>
-        {!! Form::close() !!}
-        {{-- */$x=0;/* --}}
-        @foreach($applications as $item)
-            {{-- */$x++;/* --}}
+        @forelse($applications as $item)
             <tr>
                 <td>{{ $item->ext_id }}</td>
                 <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
                 <td>{{ ucwords($item->ext_current_status) }}</td>
                 <td>{{ $item->ext_order_reference }}</td>
-
-                {{-- ADDED COLUMNS --}}
                 <td>{{ $item->ext_customer_first_name }}</td>
                 <td>{{ $item->ext_customer_last_name }}</td>
                 <td>{{ $item->ext_application_address_postcode }}</td>
-
                 <td>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
-
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
@@ -102,10 +96,12 @@
 
                 </td>
             </tr>
-        @endforeach
-        @if($x == 0) <td colspan="14"><em>0 Applications</em></td> @endif
+        @empty
+            <tr><td colspan="14"><em>No records found</em></td></tr>
+        @endforelse
     </table>
-            </div>
+    {!! Form::close() !!}
+
     {{-- PAGINATION BUTTONS ON RENDER() --}}
     {!! $applications->appends(Request::except('page'))->render() !!}
 

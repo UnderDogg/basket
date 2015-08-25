@@ -22,13 +22,6 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('installation_id', 'Installation Id: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
-                {!! Form::select('installation_id', $installations, null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
                 {{-- Form::checkbox('active', null, ['class' => 'form-control']) --}}
