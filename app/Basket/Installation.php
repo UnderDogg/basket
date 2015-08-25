@@ -10,6 +10,7 @@
 
 namespace App\Basket;
 
+use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,8 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $id
  * @property int    $merchant_id
  * @property string $name
- * @property true   $active
- * @property true   $linked
+ * @property bool   $linked
+ * @property bool   $active
  * @property string $ext_id
  * @property string $ext_name
  * @property string $ext_return_url
@@ -45,7 +46,6 @@ class Installation extends Model
     protected $fillable = [
         'name',
         'merchant_id',
-        'active',
         'linked',
         'ext_id',
         'ext_name',
@@ -63,6 +63,61 @@ class Installation extends Model
     public function merchant()
     {
         return $this->belongsTo('App\Basket\Merchant');
+    }
+
+    /**
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function locations()
+    {
+        return $this->hasMany('App\Basket\Location');
+    }
+
+    /**
+     * @author EB
+     * @return $this
+     * @throws Exception
+     */
+    public function deactivate()
+    {
+        if(!$this->exists) {
+            throw new Exception('Trying to deactivate none existing Installation');
+        }
+        $this->active = false;
+
+        if ($this->save()) {
+            foreach($this->locations()->get() as $loc) {
+                $loc->deactivate();
+            }
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
+    }
+
+    /**
+     * @author EB
+     * @return $this
+     * @throws Exception
+     */
+    public function activate()
+    {
+        if(!$this->exists) {
+            throw new Exception('Trying to activate none existing Installation');
+        }
+
+        if (!$this->merchant()->get()[0]->active) {
+            throw new Exception('Can\'t activate Installation because Merchant is not active.');
+        }
+
+        $this->active = true;
+
+        if($this->save()) {
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
     }
 
     /**

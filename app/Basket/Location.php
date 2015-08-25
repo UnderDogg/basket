@@ -10,6 +10,7 @@
 
 namespace App\Basket;
 
+use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -40,7 +41,6 @@ class Location extends Model
     protected $fillable = [
         'reference',
         'installation_id',
-        'active',
         'name',
         'email',
         'address',
@@ -48,9 +48,56 @@ class Location extends Model
 
     /**
      * Get the installation record for the application
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function installation()
     {
         return $this->belongsTo('App\Basket\Installation');
+    }
+
+    /**
+     * Checks related installation, makes sure active is true
+     *
+     * @author EB
+     * @return $this
+     * @throws Exception
+     */
+    public function activate()
+    {
+        if(!$this->exists()) {
+            throw new Exception('Trying to deactivate none existing Location');
+        }
+
+        if (!$this->installation()->get()[0]->active) {
+            throw new Exception('Can\'t activate Location because Installation is not active.');
+        }
+
+        $this->active = true;
+
+        if($this->save()) {
+            return $this;
+        }
+        throw new Exception('Problem saving details');
+    }
+
+    /**
+     * Sets active to false on locations
+     *
+     * @author EB
+     * @return $this
+     * @throws Exception
+     */
+    public function deactivate()
+    {
+        if(!$this->exists()) {
+            throw new Exception('Trying to activate none existing Location');
+        }
+        $this->active = false;
+
+        if($this->save()) {
+            return $this;
+        }
+        throw new Exception('Problem saving details');
     }
 }

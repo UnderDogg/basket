@@ -1,4 +1,23 @@
 ## Features
+- Release version in footer
+- Download feature on Applications list
+- Merchants, Installations and Locations active flags have been added and are functional
+- Inactive flag will cascade downwards when made inactive
+- Active flag will check parents to see if it is able to become active
+- Standardise table in list view
+- Standardise no records
+- Consistent use of of @forelse & @empty
+- Removal of panels around tables
+- Login page cleaned up
+- Forgot password cleaned up
+
+## Bug Fixes
+- Email notifications for converted application
+
+# 0.8.0
+2015-08-21
+
+## Features
 - Limit actions on *Applications List*
 - Middleware test
 
