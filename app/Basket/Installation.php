@@ -76,21 +76,19 @@ class Installation extends Model
 
     /**
      * @author EB
-     * @method exists()
-     * @property $active
+     * @return $this
+     * @throws Exception
      */
     public function deactivate()
     {
-        if(!$this->exists()) {
+        if(!$this->exists) {
             throw new Exception('Trying to deactivate none existing Installation');
         }
         $this->active = false;
 
         if ($this->save()) {
-            $this->locations()->update(['active' => false]);
             foreach($this->locations()->get() as $loc) {
-                $inactive = new Location();
-                $inactive->findOrFail($loc->id)->deactivate();
+                $loc->deactivate();
             }
             return $this;
         }
@@ -100,17 +98,20 @@ class Installation extends Model
 
     /**
      * @author EB
-     * @method exists()
-     * @method get()
-     * @property $active
+     * @return $this
+     * @throws Exception
      */
     public function activate()
     {
-        if(!$this->exists()) {
+        if(!$this->exists) {
             throw new Exception('Trying to activate none existing Installation');
         }
-        $merchant = $this->merchant()->get();
-        $this->active = ($merchant['0']->active == 1) ? true : false;
+
+        if (!$this->merchant()->get()[0]->active) {
+            throw new Exception('Can\'t activate Installation because Merchant is not active.');
+        }
+
+        $this->active = true;
 
         if($this->save()) {
             return $this;

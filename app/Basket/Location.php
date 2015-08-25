@@ -60,17 +60,20 @@ class Location extends Model
      * Checks related installation, makes sure active is true
      *
      * @author EB
-     * @method exists()
-     * @method get()
-     * @property $active
+     * @return $this
+     * @throws Exception
      */
     public function activate()
     {
         if(!$this->exists()) {
             throw new Exception('Trying to deactivate none existing Location');
         }
-        $installation = $this->installation()->get();
-        $this->active = ($installation['0']->active == 1) ? true : false;
+
+        if (!$this->installation()->get()[0]->active) {
+            throw new Exception('Can\'t activate Location because Installation is not active.');
+        }
+
+        $this->active = true;
 
         if($this->save()) {
             return $this;
@@ -82,8 +85,8 @@ class Location extends Model
      * Sets active to false on locations
      *
      * @author EB
-     * @method exists()
-     * @property $active
+     * @return $this
+     * @throws Exception
      */
     public function deactivate()
     {

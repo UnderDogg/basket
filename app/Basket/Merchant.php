@@ -62,21 +62,19 @@ class Merchant extends Model
 
     /**
      * @author EB
-     * @method exists()
-     * @method findOrFail()
-     * @property $active
+     * @return $this
+     * @throws Exception
      */
     public function deactivate()
     {
-        if(!$this->exists()) {
+        if(!$this->exists) {
             throw new Exception('Trying to deactivate none existing Merchant');
         }
         $this->active = false;
 
         if ($this->save()) {
             foreach($this->installations()->get() as $inst) {
-                $inactive = new Installation();
-                $inactive->findOrFail($inst->id)->deactivate();
+                $inst->deactivate();
             }
             return $this;
         }
@@ -86,13 +84,13 @@ class Merchant extends Model
 
     /**
      * @author EB
-     * @method exists()
-     * @property $active
+     * @return $this
+     * @throws Exception
      */
     public function activate()
     {
-        if(!$this->exists()) {
-            throw new Exception('Trying to deactivate none existing Merchant');
+        if(!$this->exists) {
+            throw new Exception('Trying to activate none existing Merchant');
         }
         $this->active = true;
 
