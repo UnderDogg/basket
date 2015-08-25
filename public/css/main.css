@@ -129,3 +129,9 @@ input.filter, select.filter {
     width: 100vw;
     margin-top: 25vh;
 }
+.soft-color {
+    color: #666;
+}
+.center-login {
+    height: 100vh;
+}

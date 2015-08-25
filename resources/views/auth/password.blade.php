@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-<body style="height: 100vh;">
+<body class="center-login">
 <div class="form-group panel-heading center-box">
     <form method="POST" action="/password/email">
         {!! csrf_field() !!}
@@ -27,19 +27,9 @@
                 </div> @endif
 
                 {{-- END OUTPUT RESPONSE --}}
-                <h5 style="color: #666666">
+                <h5 class="soft-color">
                     <span aria-hidden="true">Forgot your password?</span>
                 </h5>
-
-                <div class="alert alert-info more_info_box" role="alert" style="display: none">
-
-                    <button type="button" class="close more_info_close">&times;</button>
-                    <h4>Email Address</h4>
-                    Please provide the email address that is used for your account.  We will then send you an email
-                    to that address containing further instructions for, safely and securely, resetting your
-                    password.
-
-                </div>
                 <div class="inner-addon left-addon">
                     <i class="glyphicon glyphicon-envelope"></i>
                     <input name="email" type="email" class="form-control" id="inputEmail3" value="{{ old('email') }}" aria-describedby="basic-addon3" placeholder="Email address">
@@ -54,5 +44,7 @@
         </div>
     </form>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 @endsection

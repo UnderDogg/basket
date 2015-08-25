@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-<body style="height: 100vh;">
+<body class="center-login">
     <div class="form-group panel-heading center-box">
         <form method="POST">
             {!! csrf_field() !!}
@@ -32,5 +32,7 @@
             </div>
         </form>
     </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 @endsection
