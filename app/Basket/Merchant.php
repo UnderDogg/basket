@@ -10,6 +10,7 @@
 
 namespace App\Basket;
 
+use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $token
  * @property bool   $linked
+ * @property bool   $active
  * @property string $ext_company_name
  * @property string $ext_address
  * @property string $ext_processing_days
@@ -47,7 +49,6 @@ class Merchant extends Model
         'ext_address_on_agreements',
         'updated_at',
         'created_at',
-        'active',
     ];
 
     /**
@@ -61,25 +62,44 @@ class Merchant extends Model
 
     /**
      * @author EB
-     * @param $id
-     * @method findOrFail(integer $id)
-     * @method where()
+     * @method exists()
+     * @method findOrFail()
+     * @property $active
      */
-    public function activeFalse($id)
+    public function deactivate()
     {
-        $this->findOrFail($id)->installation()->update(['active' => 0]);
-        $model = new Installation();
-        $model->where('merchant_id','=',$id);
-        $model->multiActiveFalse($id);
+        if(!$this->exists()) {
+            throw new Exception('Trying to deactivate none existing Merchant');
+        }
+        $this->active = false;
+
+        if ($this->save()) {
+            foreach($this->installation()->get() as $inst) {
+                $inactive = new Installation();
+                $inactive->findOrFail($inst->id)->deactivate();
+            }
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
     }
 
     /**
      * @author EB
-     * @param $id
-     * @method findOrFail(integer $id)
+     * @method exists()
+     * @property $active
      */
-    public function activeTrue($id)
+    public function activate()
     {
-        $this->findOrFail($id)->update(['active' => 1]);
+        if(!$this->exists()) {
+            throw new Exception('Trying to deactivate none existing Merchant');
+        }
+        $this->active = true;
+
+        if($this->save()) {
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
     }
 }

@@ -10,6 +10,7 @@
 
 namespace App\Basket;
 
+use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $merchant_id
  * @property string $name
  * @property bool   $linked
+ * @property bool   $active
  * @property string $ext_id
  * @property string $ext_name
  * @property string $ext_return_url
@@ -44,7 +46,6 @@ class Installation extends Model
     protected $fillable = [
         'name',
         'merchant_id',
-        'active',
         'linked',
         'ext_id',
         'ext_name',
@@ -75,38 +76,47 @@ class Installation extends Model
 
     /**
      * @author EB
-     * @param int $id
-     * @method findOrFail(integer $id)
+     * @method exists()
+     * @property $active
      */
-    public function activeFalse($id)
+    public function deactivate()
     {
-        $this->findOrFail($id)->locations()->update(['active' => 0]);
-    }
-
-    /**
-     * @author EB
-     * @param int $merchantId
-     * @method where()
-     */
-    public function multiActiveFalse($merchantId)
-    {
-        $inst = $this->where('merchant_id','=',$merchantId)->get();
-        foreach($inst as $install=>$val) {
-            $this->activeFalse($val->id);
+        if(!$this->exists()) {
+            throw new Exception('Trying to deactivate none existing Installation');
         }
+        $this->active = false;
+
+        if ($this->save()) {
+            $this->locations()->update(['active' => false]);
+            foreach($this->locations()->get() as $loc) {
+                $inactive = new Location();
+                $inactive->findOrFail($loc->id)->deactivate();
+            }
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
     }
 
     /**
      * @author EB
-     * @param int $id
-     * @property active
-     * @method findOrFail(integer $id)
+     * @method exists()
+     * @method get()
+     * @property $active
      */
-    public function activeTrue($id)
+    public function activate()
     {
-        $merchant = $this->findOrFail($id)->merchant()->get();
-        $this->active = ($merchant['0']->active == 1) ? 1 : 0;
-        $this->save();
+        if(!$this->exists()) {
+            throw new Exception('Trying to activate none existing Installation');
+        }
+        $merchant = $this->merchant()->get();
+        $this->active = ($merchant['0']->active == 1) ? true : false;
+
+        if($this->save()) {
+            return $this;
+        }
+
+        throw new Exception('Problem saving details');
     }
 
     /**
@@ -119,6 +129,4 @@ class Installation extends Model
     {
         return ((new \Parsedown())->text(htmlspecialchars($this->location_instruction)));
     }
-
-
 }
