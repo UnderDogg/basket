@@ -2,10 +2,9 @@
 
 @section('content')
 
-    <h1>PARTIAL REFUNDS</h1>
+    <h1>Partial Refunds</h1>
 
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
-
     <table class="table table-bordered table-striped table-hover">
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
