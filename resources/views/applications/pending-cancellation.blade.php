@@ -2,7 +2,11 @@
 
 @section('content')
 
-    <h2>Pending Cancellations</h2>
+
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
+    <h1>Pending Cancellations</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     <div class="panel panel-default">

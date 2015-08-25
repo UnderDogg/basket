@@ -15,8 +15,7 @@ class BasicModels extends Migration
         Schema::create('merchants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('token', 100)->unique();
-            $table->boolean('active')->default(false);
+            $table->string('token', 100);
             $table->boolean('linked')->default(false);
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -33,19 +32,19 @@ class BasicModels extends Migration
             $table->increments('id');
             $table->integer('merchant_id')->unsigned();
             $table->string('name');
-            $table->boolean('active')->default(false);
-            $table->boolean('linked')->default(false);
+            $table->boolean('active');
+            $table->boolean('linked');
 
-            $table->string('ext_id')->nullable()->unique();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->string('ext_id')->nullable();
             $table->string('ext_name')->nullable();
             $table->string('ext_return_url')->nullable();
             $table->string('ext_notification_url')->nullable();
             $table->string('ext_default_product')->nullable();
             $table->text('location_instruction');
-            $table->integer('validity')->default(7200);
 
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('merchant_id')->references('id')->on('merchants');
         });
 
@@ -78,7 +77,7 @@ class BasicModels extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('installation_id')->unsigned();
             $table->integer('location_id')->unsigned()->nullable();
-            $table->integer('ext_id')->nullable()->unique();
+            $table->integer('ext_id')->nullable();
             $table->string('ext_current_status')->nullable();
             $table->string('ext_order_reference')->nullable();
             $table->integer('ext_order_amount')->nullable();

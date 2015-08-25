@@ -1,12 +1,4 @@
 <?php
-/*
- * This file is part of the PayBreak/basket package.
- *
- * (c) PayBreak <dev@paybreak.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 use App\User;
 use App\Http\Controllers;
@@ -15,16 +7,20 @@ use App\Merchants;
 class MerchantsControllerTest extends TestCase
 {
     /**
-     * @author WN, MS
+     * Setup
+     *
+     * Runs before test to ensure we have a user logged in to gain access to the Merchants CRUD
+     *
+     * @author MS
      */
     public function setUp()
     {
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed');
 
-        $user = User::find(1);
+        $user = new User(['name' => 'dev']);
         $this->be($user);
     }
 
@@ -71,25 +67,5 @@ class MerchantsControllerTest extends TestCase
         // Test $merchants variable is available for use
         $this->call('GET', '/merchants');
         $this->assertViewHas('merchants');
-    }
-
-    /**
-     * @author WN
-     */
-    public function testShow()
-    {
-        // Test page gives 200 response
-        $this->visit('/merchants/1')
-            ->seeStatusCode(200);
-    }
-
-    /**
-     * @author WN
-     */
-    public function testEdit()
-    {
-        // Test page gives 200 response
-        $this->visit('/merchants/1/edit')
-            ->seeStatusCode(200);
     }
 }

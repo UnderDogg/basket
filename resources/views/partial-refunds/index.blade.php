@@ -2,6 +2,9 @@
 
 @section('content')
 
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h1>PARTIAL REFUNDS</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 

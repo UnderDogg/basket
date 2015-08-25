@@ -30,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property        $updated_at
  * @property Merchant $merchant
  * @property string $location_instruction
- * @property int    $validity
  * @package App\Basket
  */
 class Installation extends Model
@@ -53,7 +52,6 @@ class Installation extends Model
         'ext_notification_url',
         'ext_default_product',
         'location_instruction',
-        'validity',
     ];
 
     /**

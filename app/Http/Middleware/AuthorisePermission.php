@@ -12,7 +12,6 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AuthorisePermission
 {
@@ -23,7 +22,6 @@ class AuthorisePermission
      * @param  \Closure  $next
      * @param  string  $permission
      * @return mixed
-     * @throws HttpException
      */
     public function handle($request, Closure $next, $permission)
     {
@@ -31,6 +29,6 @@ class AuthorisePermission
             return $next($request);
         }
 
-        throw new HttpException(403, 'No valid permissions');
+        return redirect('/')->with('error', 'You don\'t have enough permission to access this area.');
     }
 }

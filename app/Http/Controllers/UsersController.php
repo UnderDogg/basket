@@ -72,6 +72,7 @@ class UsersController extends Controller
         $array = $request->all();
 
         if (!$this->isMerchantAllowedForUser($array['merchant_id'])) {
+
             throw RedirectException::make('/users')
                 ->setError('You are not allowed to create User for this Merchant');
         }
@@ -80,17 +81,15 @@ class UsersController extends Controller
 
         try {
             $user = User::create($array);
+
             $this->processRoles($user, $array);
 
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
-                ->setError('Cannot create User');
+                ->setError('Can\'t create User');
         }
 
-        return $this->redirectWithSuccessMessage(
-            '/users',
-            'New user has been successfully created'
-        );
+        return redirect('users')->with('success', 'New User has been successfully created');
     }
 
     /**
@@ -102,7 +101,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return view('user.show', ['user' => $this->fetchUserById($id)]);
+        return view('user.show', ['user' => $this->fetchUserById($id), 'messages' => $this->getMessages()]);
     }
 
     /**
@@ -163,14 +162,12 @@ class UsersController extends Controller
             $this->processRoles($user, $input);
 
         } catch (\Exception $e) {
-            $this->logError('Cannot update user [' . $id . ']: ' . $e->getMessage());
+            $this->logError('Can not update user [' . $id . ']: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return $this->redirectWithSuccessMessage(
-            '/users',
-            'User details were successfully updated'
-        );
+
+        return redirect()->back()->with('success', 'User details were successfully updated');
     }
 
     /**
@@ -190,30 +187,22 @@ class UsersController extends Controller
             $user->locations()->sync($ids);
 
         } catch (\Exception $e) {
-            $this->logError('Cannot update user [' . $id . '] locations: ' . $e->getMessage());
+            $this->logError('Can not update user [' . $id . '] locations: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
         }
 
-        return $this->redirectWithSuccessMessage(
-            '/users',
-            'User details were successfully updated'
-        );
+        return redirect()->back()->with('success', 'User details were successfully updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @author WN
-     * @param  int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
+     * @param  int  $id
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        if ($id == $this->getAuthenticatedUser()->id) {
-            throw RedirectException::make('/')->setError('You cannot delete yourself!');
-        }
-
         return $this->destroyModel((new User()), $id, 'user', '/users');
     }
 
@@ -229,7 +218,7 @@ class UsersController extends Controller
         $user = $this->fetchUserById($id);
         $user->type = 'users';
         $user->controller = 'Users';
-        return view('includes.page.confirm_delete', ['object' => $user]);
+        return view('includes.page.confirm_delete', ['object' => $user, 'messages' => $this->getMessages()]);
     }
 
     /**
@@ -279,6 +268,7 @@ class UsersController extends Controller
             $view,
             [
                 'user' => $user,
+                'messages' => $this->getMessages(),
                 'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
                 'locationsApplied' => $locationsApplied,
                 'locationsAvailable' => $locationsAvailable,
@@ -333,7 +323,7 @@ class UsersController extends Controller
 
             $user->merchant_id = null;
             if (!$user->save()) {
-                throw new Exception('Cannot remove Merchant form Super User');
+                throw new Exception('Can\'t remove Merchant form Super User');
             }
             $roles = [1];
         }

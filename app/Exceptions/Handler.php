@@ -40,11 +40,8 @@ class Handler extends ExceptionHandler
     public function render($request, \Exception $e)
     {
         if ($e instanceof RedirectException) {
-            return redirect($e->getTarget())->with('messages', $e->toArray());
-        }
 
-        if (!$this->isHttpException($e) && !config('app.debug')) {
-            return response()->view('errors.500', [], 500);
+            return redirect($e->getTarget())->with('error', $e->getError());
         }
 
         return parent::render($request, $e);

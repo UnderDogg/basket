@@ -2,13 +2,12 @@
 
 @section('content')
 
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h2>
         {{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
-        <div class="btn-group pull-right">
-            <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-            <a href="{{Request::url()}}/locations" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Locations</a>
-            <a href="{{Request::url()}}/delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
-        </div>
+        @include('includes.page.show_details_button_group', ['id'=>$user->id,'edit'=>true,'delete'=>true, 'locations'=>true])
     </h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
 

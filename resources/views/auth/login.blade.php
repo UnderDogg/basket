@@ -11,6 +11,14 @@
         <div class="row ">
             <div class="col-md-8 col-md-offset-2 jumbotron">
 
+                {{-- START OUTPUT RESPONSE --}}
+                @if($errors->any()) <div class="alert alert-danger" data-dismiss="alert">
+                    <button type="button" class="close">&times;</button>
+                    {{$errors->first()}}
+                    Please ensure that the information you have provided is complete and without mistakes.
+                </div> @endif
+                {{-- END OUTPUT RESPONSE --}}
+
                 <h2 style="color: #666666">Login Panel</h2>
 
                 <div>&nbsp;</div>

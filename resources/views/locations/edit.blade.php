@@ -2,9 +2,11 @@
 
 @section('content')
 
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $location->name]])
-
 
     <p>&nbsp;</p>
     {!! Form::model($location, [
@@ -31,14 +33,7 @@
         <div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {{-- Form::checkbox('active', null, ['class' => 'form-control']) --}}
-                <label class="checkbox-inline">
-                    @if($location->active == 1)
-                        {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @else
-                        {!! Form::input('checkbox', 'active', 0, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @endif
-                </label>
+                {!! Form::checkbox('active', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
@@ -72,9 +67,4 @@
     </div>
     {!! Form::close() !!}
 
-@endsection
-
-@section('scripts')
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 @endsection

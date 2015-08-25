@@ -1,12 +1,4 @@
 <?php
-/*
- * This file is part of the PayBreak/basket package.
- *
- * (c) PayBreak <dev@paybreak.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 use App\User;
 use App\Http\Controllers;
@@ -15,16 +7,20 @@ use App\Role;
 class RolesControllerTest extends TestCase
 {
     /**
-     * @author WN, MS
+     * Setup
+     *
+     * Runs before test to ensure we have a user logged in to gain access to the role CRUD
+     *
+     * @author MS
      */
     public function setUp()
     {
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
-        $user = User::find(1);
+        $user = new User(['name' => 'dev']);
         $this->be($user);
     }
 
@@ -181,7 +177,7 @@ class RolesControllerTest extends TestCase
             ->type('Unit Test', 'display_name')
             ->type('Unit Test Description', 'description')
             ->press('saveChanges')
-            ->seePageIs('/roles');
+            ->seePageIs('/roles/1/edit');
 
         // Test new Role has been added to mock database
         $roleData = Role::find(1);

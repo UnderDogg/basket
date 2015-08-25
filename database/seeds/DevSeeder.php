@@ -27,15 +27,15 @@ class DevSeeder extends DBSeeder
         // SET LOCATIONS            | reference | installation_id | bool active | name | email | address
         $locations[] = ['HIGHLOC', 1, 1, 'Higher Location', 'kira@highloc.com', 'Higher Location City'];
 
-        $this->roles[] = ['Merchant Administrator', 'administrator', 'Merchant Administrator'];
+        $this->roles[] = ['Administrator', 'administrator', 'Merchant Administrator'];
         $this->roles[] = ['Report Role', 'report', 'run reports'];
         $this->roles[] = ['Manager Role', 'manager', 'run reports and perform cancellations'];
-        $this->roles[] = ['Sales Role', 'sale', 'access in-store finance page and in-store details'];
+        $this->roles[] = ['In-Store Role', 'instore', 'access in-store finance page and in-store details'];
 
-        $this->rolesPermissions[] = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-        $this->rolesPermissions[] = [7, 9, 14];
-        $this->rolesPermissions[] = [7, 9, 10, 11, 12, 13];
-        $this->rolesPermissions[] = [7, 9];
+        $this->rolesPermissions[] = [3, 4, 5, 6, 7, 8];
+        $this->rolesPermissions[] = [5, 6, 7, 8];
+        $this->rolesPermissions[] = [5, 6, 7, 8];
+        $this->rolesPermissions[] = [5, 6, 7, 8];
 
         $this->users[] = ['Administrator', 'it@paybreak.com', 'password', 1, 2];
         $this->users[] = ['Dev Reporter', 'report@paybreak.com', 'password', 1, 3];

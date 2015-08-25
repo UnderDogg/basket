@@ -2,6 +2,9 @@
 
 @section('content')
 
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
 
@@ -19,12 +22,6 @@
             {!! Form::label('location_instruction', 'Additional Instruction: ', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
                 {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('validity', 'Validity Period (in seconds)', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
-                {!! Form::text('validity', $installations->validity, ['class' => 'form-control']) !!}
             </div>
         </div>
     </div>

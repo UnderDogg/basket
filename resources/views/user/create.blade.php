@@ -2,6 +2,9 @@
 
 @section('content')
 
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
@@ -17,17 +20,17 @@
                     <div class="form-group">
                         {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-6">
-                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name of user']) !!}
+                            {!! Form::text('name', null, ['class' => 'form-control']) !!}
                         </div>
                     </div><div class="form-group">
                         {!! Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-6">
-                            {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'User&#39;s email address']) !!}
+                            {!! Form::text('email', null, ['class' => 'form-control']) !!}
                         </div>
                     </div><div class="form-group">
                         {!! Form::label('password', 'Password: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-6">
-                            {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password'], null) !!}
+                            {!! Form::password('password', ['class' => 'form-control'], null) !!}
                         </div>
                     </div>
 

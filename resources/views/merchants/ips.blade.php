@@ -2,7 +2,10 @@
 
 @section('content')
 
-    <h2>MERCHANTS</h2>
+{{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
+    <h1>MERCHANTS</h1>
 @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <div class="panel-heading"><h4>Create a new IP address</h4></div>
     {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'addIp')) !!}
@@ -36,9 +39,9 @@
                     <td>{{$ip->getIp()}}</td>
                     <td>
                         @if($ip->getActive() == 0 )
-                            <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                            <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Active</span>
                         @elseif($ip->getActive() == 1  )
-                            <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Inactive</span>
                         @endif
                     </td>
                     <td class="text-right">
@@ -57,17 +60,17 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $("form.addIp").submit(function (e) {
-                var ip = $(this).find("input[name=ip]");
-                if (ip.val().match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)) return true;
+<script>
+    $(document).ready(function() {
+        $("form.addIp").submit(function (e) {
+            var ip = $(this).find("input[name=ip]");
+            if (ip.val().match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)) return true;
 
-                ip.parents(".input-group").addClass("error");
-                $("div.span").removeClass("hidden");
-                e.preventDefault();
+            ip.parents(".input-group").addClass("error");
+            $("div.span").removeClass("hidden");
+            e.preventDefault();
 
-            });
         });
-    </script>
+    });
+</script>
 @endsection

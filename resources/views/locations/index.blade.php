@@ -2,10 +2,11 @@
 
 @section('content')
 
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h1>LOCATIONS
-        <div class="btn-group pull-right">
-            <a href="{{ Request::url() }}/create" class="btn btn-info">Add New Location</a>
-        </div>
+        <a href="{{ url('/locations/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Location</a>
     </h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
@@ -27,8 +28,10 @@
             </tr>
             <tr>
                 {{--FILTERS--}}
-                <th class="hidden-xs hidden-sm">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Location Reference']) !!}</th>
-                <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Location Name']) !!}</th>
+                {{--Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down'])--}}
+                {{-- @include('includes.form.input', ['field' => 'reference']) --}}
+                <th class="hidden-xs hidden-sm">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
+                <th>@include('includes.form.input', ['field' => 'name'])</th>
                 <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
                     'field' => 'installation_id',
                     'object' => $locations,

@@ -9,9 +9,10 @@
  */
 namespace App\Http\Controllers;
 
-use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use PayBreak\Sdk\Gateways\IpsGateway;
 
 /**
@@ -35,68 +36,47 @@ class IpsController extends Controller
 
     /**
      * @author EB
-     * @param $id
      * @return \Illuminate\View\View
-     * @throws IpsController
      */
-    public function index($id)
+    public function index()
     {
-        try {
-            $ips = $this
-                ->ipsGateway
-                ->listIpAddresses($this->fetchMerchantById($id)->token);
-            return view('merchants.ips', [
-                'ips' => $ips,
-            ]);
-        } catch(\Exception $e) {
-            throw $this->redirectWithException('/merchants/','Trying to get IP\'s failed', $e);
-        }
+        $messages = $this->getMessages();
+        $ips = $this
+            ->ipsGateway
+            ->listIpAddresses($this->getMerchantToken());
+
+        return view('merchants.ips', [
+            'ips' => $ips,
+            'messages' => $messages
+        ]);
     }
 
     /**
      * @author EB
-     * @param $id
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws IpsController
+     * @return mixed
      */
-    public function store($id, Request $request)
+    public function store(Request $request)
     {
-        $this->validate($request, ['ip' => 'required|ip']);
-        try {
-            $response= $this->ipsGateway
-                ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
-        } catch(\Exception $e) {
-            throw $this->redirectWithException('/merchants/'.$id.'/ips', 'Error while trying to create a new IP', $e);
+        if(Validator::make($request->all(), ['ip' => 'ip'])->fails()) {
+            return Redirect::back()->with(['error' => 'The IP address given is not a valid IP address']);
         }
-        return $this->redirectWithSuccessMessage(
-            '/merchants/'.$id.'/ips',
-            'IP address \'' . $response['ip'] . '\' created.'
-        );
+
+        $response= $this->ipsGateway
+            ->storeIpAddress($this->getMerchantToken(), $request->ip);
+        return Redirect::back()->with(['success' => 'The IP address ' . $response['ip'] . ' has been created.']);
     }
 
     /**
      * @author EB
-     * @param $id
-     * @param $ip
+     * @param int $id
+     * @param int $ip IP address ID
      * @return mixed
-     * @throws IpsController
      */
     public function delete($id, $ip)
     {
-        try {
-            $this->ipsGateway
-                ->deleteIpAddress($this->fetchMerchantById($id)->token, $ip);
-        } catch(\Exception $e) {
-            throw $this->redirectWithException(
-                '/merchants/'.$id.'/ips',
-                'Error while trying to delete an IP address',
-                $e)
-            ;
-        }
-        return $this->redirectWithSuccessMessage(
-            'merchants/'.$id.'ips',
-            'IP address successfully deleted'
-        );
+        $this->ipsGateway
+            ->deleteIpAddress($this->getMerchantToken(), $ip);
+        return Redirect::back()->with(['success' => 'The IP address has been successfully deleted']);
     }
 }

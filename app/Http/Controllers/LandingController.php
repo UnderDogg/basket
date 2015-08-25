@@ -14,6 +14,6 @@ class LandingController extends Controller
      */
     public function index()
     {
-        return view('welcome', ['user' => $this->getAuthenticatedUser()]);
+        return view('welcome', ['messages' => $this->getMessages(), 'user' => $this->getAuthenticatedUser()]);
     }
 }

@@ -2,6 +2,10 @@
 
 @section('content')
 
+
+    {{-- OVERLAY MESSAGES --}}
+    @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
+
     <h1>SETTLEMENT REPORT</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
     <h3><span>Amount: {{ '&pound;' . number_format($settlementReport['amount']/100, 2) }}</span></h3>

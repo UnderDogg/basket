@@ -21,7 +21,6 @@ use PayBreak\Sdk\Gateways\ApplicationGateway;
 use App\Exceptions\Exception;
 use Psr\Log\LoggerInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Carbon\Carbon;
 
 /**
  * Application Synchronisation Service
@@ -194,7 +193,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param string $productGroup
      * @param array $productOptions
      * @param string $location
-     * @param int $requester
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws Exception
      */
@@ -206,8 +204,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $validity,
         $productGroup,
         array $productOptions,
-        $location,
-        $requester
+        $location
     ) {
         $installation = $this->fetchInstallationLocalObject($installationId);
 
@@ -218,7 +215,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                     'reference' => $reference,
                     'amount' => (int) $amount,
                     'description' => $description,
-                    'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
+                    'validity' => $validity,
                 ],
                 'products' => [
                     'group' => $productGroup,
@@ -226,7 +223,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 ],
                 'fulfilment' => [
                     'method' => 'collection',
-                    'location' => $location->reference,
+                    'location' => $location,
                 ],
             ]
         );
@@ -247,7 +244,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 $newApplication->getId() . ']'
             );
 
-            $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
+            $this->createNewLocal($newApplication, $installation->id);
 
             $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
             $this->logInfo(
@@ -268,23 +265,14 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @author WN
      * @param ApplicationEntity $applicationEntity
      * @param $installationId
-     * @param null $requester
-     * @param null $location
      * @return Application
      * @throws Exception
      */
-    private function createNewLocal(
-        ApplicationEntity $applicationEntity,
-        $installationId,
-        $requester = null,
-        $location = null
-    )
+    private function createNewLocal(ApplicationEntity $applicationEntity, $installationId)
     {
         $app = new Application();
         $app->installation_id = $installationId;
         $app->ext_id = $applicationEntity->getId();
-        $app->user_id = $requester;
-        $app->location_id = $location;
 
         $this->mapApplication($applicationEntity, $app);
 

@@ -14,6 +14,8 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class MerchantController
@@ -35,7 +37,7 @@ class MerchantsController extends Controller
      * Display a listing of the resource.
      *
      * @author WN, MS
-     * @return \Illuminate\View\View
+     * @return Response
      */
     public function index()
     {
@@ -47,19 +49,17 @@ class MerchantsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return Response
      */
     public function create()
     {
-        return view('merchants.create');
+        return view('merchants.create', ['messages' => $this->getMessages()]);
     }
 
     /**
-     * Store a newly created resource in storage
+     * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -68,30 +68,36 @@ class MerchantsController extends Controller
             'token' => 'required',
         ]);
 
+        $message = ['success','New Merchant has been successfully created'];
+
         try {
+
             $merchant = Merchant::create($request->all());
+
             $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
-        } catch (\Exception $e) {
+
+            return redirect('merchants/' . $merchant->id)->with($message[0], $message[1]);
+
+        } catch (ModelNotFoundException $e) {
+
             $this->logError('Could not successfully create new Merchant' . $e->getMessage());
-            throw RedirectException::make('/merchants/')->setError($e->getMessage());
+            $message = ['error','Could not successfully create new Merchant'];
         }
-        return $this->redirectWithSuccessMessage(
-            '/merchants/'.$merchant->id,
-            'New merchant has been successfully created'
-        );
+
+        return redirect('merchants')->with($message[0], $message[1]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return Response
      */
     public function show($id)
     {
         return view(
             'merchants.show',
-            ['merchants' => $this->fetchMerchantById($id)]
+            ['merchants' => $this->fetchMerchantById($id), 'messages' => $this->getMessages()]
         );
     }
 
@@ -99,13 +105,13 @@ class MerchantsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return Response
      */
     public function edit($id)
     {
         return view(
             'merchants.edit',
-            ['merchants' => $this->fetchMerchantById($id)]
+            ['merchants' => $this->fetchMerchantById($id), 'messages' => $this->getMessages()]
         );
     }
 
@@ -115,7 +121,7 @@ class MerchantsController extends Controller
      * @author WN
      * @param  int $id
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return Response
      * @throws RedirectException
      */
     public function update($id, Request $request)
@@ -128,7 +134,7 @@ class MerchantsController extends Controller
      *
      * @author WN
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return Response
      */
     public function destroy($id)
     {
@@ -136,25 +142,34 @@ class MerchantsController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws MerchantsController
      */
     public function synchronise($id)
     {
         try {
             $this->merchantSynchronisationService->synchroniseMerchant($id);
+            $message = ['success', 'Synchronisation complete successfully'];
         } catch (\Exception $e) {
-            throw $this->redirectWithException(
-                '/merchants/'.$id,
-                'Error while trying to synchronise Merchant[' . $id . ']',
-                $e)
-            ;
+            $this->logError('Error while trying to synchronise Merchant[' . $id . ']: ' . $e->getMessage());
+            $message = ['error', 'Synchronisation not complete successfully'];
         }
+        return redirect('merchants/' . $id)->with($message[0], $message[1]);
+    }
 
-        return $this->redirectWithSuccessMessage(
-            '/merchants/'.$id,
-            'Synchronisation complete successfully'
+    /**
+     * @author WN
+     * @param int $id
+     * @return Merchant
+     * @throws RedirectException
+     */
+    private function fetchMerchantById($id)
+    {
+        return $this->checkModelForMerchantLimit(
+            $this->fetchModelById((new Merchant()), $id, 'merchant', '/merchants'),
+            $id,
+            'merchant',
+            '/merchants'
         );
     }
 }
