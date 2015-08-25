@@ -1,3 +1,6 @@
+# 0.9.0
+2015-08-25
+
 ## Features
 - Release version in footer
 - Download feature on Applications list
