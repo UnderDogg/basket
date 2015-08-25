@@ -104,3 +104,34 @@ button.dropdown-delete::-moz-focus-inner{
 input.filter, select.filter {
     color: #258cd1 !important;
 }
+.inner-addon {
+    position: relative;
+}
+
+.inner-addon .glyphicon {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+    color: #bbb;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  2.5px;}
+.right-addon a { display: inline-block; position: absolute; right: 5px; padding: 10px;font-size: 11px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  35px; }
+.center-logo {
+    text-align: center;
+}
+.center-box {
+    height: 260px;
+    width: 100vw;
+    margin-top: 25vh;
+}
+.soft-color {
+    color: #666;
+}
+.center-login {
+    height: 100vh;
+}

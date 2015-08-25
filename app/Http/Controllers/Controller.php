@@ -266,7 +266,7 @@ abstract class Controller extends BaseController
     ) {
         $this->processFilters($query);
 
-        $data = $query->paginate($this->getPageLimit());
+        $data = $query->orderBy('created_at', 'DESC')->paginate($this->getPageLimit());
 
         return view(
             $view,
