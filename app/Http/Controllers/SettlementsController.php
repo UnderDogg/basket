@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Exceptions\RedirectException;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
@@ -37,18 +38,26 @@ class SettlementsController extends Controller
      * Index
      *
      * @author MS
+     * @param int $id
      * @return \Illuminate\View\View
      * @throws \App\Exceptions\RedirectException
      */
-    public function index()
+    public function index($id)
     {
-        $messages = $this->getMessages();
         $dateRange = $this->getDateRange();
-        $settlementReports = Collection::make(
-            $this
-                ->settlementGateway
-                ->getSettlementReports($this->getMerchantToken(), $dateRange['date_from'], $dateRange['date_to'])
-        );
+
+        try {
+            $settlementReports = Collection::make(
+                $this
+                    ->settlementGateway
+                    ->getSettlementReports(
+                        $this->fetchMerchantById($id)->token, $dateRange['date_from'], $dateRange['date_to']
+                    )
+            );
+        } catch (\Exception $e) {
+            $this->logError('SettlementsController: failed fetching settlements' . $e->getMessage());
+            throw RedirectException::make('/')->setError('Problem fetching Settlements.');
+        }
 
         $filter = $this->getFilters();
 
@@ -67,7 +76,6 @@ class SettlementsController extends Controller
         return View('settlements.index', [
             'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
-            'messages' => $messages
         ]);
     }
 
@@ -75,41 +83,29 @@ class SettlementsController extends Controller
      * Settlement Report
      *
      * @author MS
+     * @param int $merchant
      * @param int $id
      * @return \Illuminate\View\View
+     * @throws SettlementsController
      */
-    public function settlementReport($id)
+    public function settlementReport($merchant, $id)
     {
-        $messages = $this->getMessages();
-
-        $settlementReport = $this
-            ->settlementGateway
-            ->getSingleSettlementReport($this->getMerchantToken(), $id);
+        try {
+            $settlementReport = $this
+                ->settlementGateway
+                ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
+        }
 
         $this->applySettlementAmounts($settlementReport);
 
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
-            'messages' => $messages
         ]);
     }
 
-    /**
-     * Apply Standard Filters
-     *
-     * @author MS
-     * @param array $settlements
-     */
-    private function applyStandardFilters(&$settlements)
-    {
-        if (!empty($filter = $this->getFilters())) {
-            foreach ($filter as $field => $query) {
-                if ($field !== 'date_from' && $field !== 'date_to') {
-                    $this->filterArrayByValue($settlements, $field, $query);
-                }
-            }
-        }
-    }
+
 
     /**
      * Apply SettlementAmounts
@@ -164,29 +160,6 @@ class SettlementsController extends Controller
             $settlementReport['sum_subsidy'] = $settlementReport['sum_subsidy'] + $settlement['subsidy'];
             $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
-        }
-    }
-
-    /**
-     * Filter Array By Value
-     *
-     * @author MS
-     * @param array $array
-     * @param $index
-     * @param $value
-     */
-    private function filterArrayByValue(&$array, $index, $value)
-    {
-        if(is_array($array) && count($array)>0)
-        {
-            foreach(array_keys($array) as $key){
-                $temp[$key] = $array[$key][$index];
-
-                if ($temp[$key] !== $value){
-
-                    unset($array[$key]);
-                }
-            }
         }
     }
 }
