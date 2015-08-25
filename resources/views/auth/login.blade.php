@@ -1,96 +1,97 @@
-@extends('master')
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Basket</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/icon" href="{!! asset('/image/xfavicon-64.ico.pagespeed.ic.w5mJPa9jXS.png') !!}" sizes="64x64">
 
-@section('content')
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div class="form-group panel-heading">
-    <form method="POST">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .inner-addon {
+            position: relative;
+        }
 
-        {!! csrf_field() !!}
+        .inner-addon .glyphicon {
+            position: absolute;
+            padding: 10px;
+            pointer-events: none;
+            color: #bbb;
+        }
 
-        <div class="row ">
-            <div class="col-md-8 col-md-offset-2 jumbotron">
+        /* align icon */
+        .left-addon .glyphicon  { left:  2.5px;}
+        .right-addon a { display: inline-block; position: absolute; right: 5px; padding: 10px;font-size: 11px;}
 
-                <h2 style="color: #666666">Login Panel</h2>
+        /* add padding  */
+        .left-addon input  { padding-left:  35px; }
+        .center-logo {
+            text-align: center;
+        }
+        .center-box {
+            height: 260px;
+            width: 100vw;
+            margin-top: 25vh;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
-                <div>&nbsp;</div>
-                <h4 class="fieldLabel">
-                    Email Address
-                </h4>
-                <div class="input-group">
-                    <input name="email" type="email" class="form-control" id="inputEmail3" value="{{ old('email') }}" aria-describedby="basic-addon3">
-                        <span class="input-group-addon" id="basic-addon3">
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                        </span>
-                </div>
-                <h4 class="fieldLabel">
-                    Password
-                </h4>
-                <div class="input-group">
-                    <input class="form-control" type="password" name="password" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">
-                            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
-                        </span>
-                </div>
-                <div>&nbsp;</div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" aria-label="...">
-                    </span>
-                    <label class="form-control">Remember Me</label>
-                    <span class="input-group-btn">
-                        <a href="/password/email">
-                            <button class="btn form-control input-group-addon" type="button">Forgot Your Password?</button>
-                        </a>
-                    </span>
-                </div>
+    <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+</head>
+<body style="height: 100vh;">
+<div class="form-group panel-heading center-box">
+        <form method="POST">
 
-                <div>&nbsp;</div>
-                <div>
-                    <button type="submit" class="btn btn-info btn-md pull-right">
-                        Login To Basket
-                    </button>
-                </div>
-                <div>&nbsp;</div><div>&nbsp;</div>
+            {!! csrf_field() !!}
 
+            <div class="row ">
+                <div class="col-xs-8 col-sm-6 col-md-4 col-xs-offset-2 col-sm-offset-3 col-md-offset-4">
 
-        {{--<fieldset>--}}
-            {{--<legend>Login</legend>--}}
+                    <div class="center-logo">
+                        {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                    </div>
+                    <br/>
+                    <div></div>
 
-            {{--<div class="form-group">--}}
-                {{--<label for="inputEmail3" class="col-sm-2 control-label">Email</label>--}}
-                {{--<div class="col-sm-10">--}}
-                    {{--<input name="email" type="email" class="form-control" id="inputEmail3" placeholder="Email" value="{{ old('email') }}">--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="form-group">--}}
-                {{--<label for="inputPassword3" class="col-sm-2 control-label">Password</label>--}}
-                {{--<div class="col-sm-10">--}}
-                    {{--<input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password">--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="form-group">--}}
-                {{--<div class="col-sm-offset-2 col-sm-10">--}}
-                    {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                            {{--<input name="remember" type="checkbox"> Remember me--}}
-                        {{--</label>--}}
+                    <div class="inner-addon left-addon">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <input name="email" type="email" class="form-control" id="inputEmail3" value="{{ old('email') }}" aria-describedby="basic-addon3" placeholder="Email address">
+                    </div>
+                    <br/>
+                    <div class="inner-addon left-addon right-addon">
+                        <a href="/password/email">Forgot?</a>
+                        <i class="glyphicon glyphicon-asterisk"></i>
+                        <input class="form-control" type="password" name="password" aria-describedby="basic-addon2" placeholder="Password">
+                    </div>
+                    <br/>
+                    {{--<div>&nbsp;</div>--}}
+                    {{--<div class="input-group">--}}
+                        {{--<span class="input-group-addon">--}}
+                            {{--<input type="checkbox" aria-label="...">--}}
+                        {{--</span>--}}
+                        {{--<label class="form-control">Remember Me</label>--}}
+                        {{--<span class="input-group-btn">--}}
+                            {{--<a href="/password/email">--}}
+                                {{--<button class="btn form-control input-group-addon" type="button">Forgot Your Password?</button>--}}
+                            {{--</a>--}}
+                        {{--</span>--}}
                     {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="form-group">--}}
-                {{--<div class="col-sm-offset-2 col-sm-10">--}}
 
-                        {{--<a href="/password/email">Forgotten Your Password?</a>--}}
-
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="form-group">--}}
-                {{--<div class="col-sm-offset-2 col-sm-10">--}}
-                    {{--<button type="submit" class="btn btn-default">Login</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</fieldset>--}}
-    </form>
+                    {{--<div>&nbsp;</div>--}}
+                    <div>
+                        <button type="submit" class="btn btn-info form-control">
+                            Sign In
+                        </button>
+                    </div>
+                    <div>&nbsp;</div><div>&nbsp;</div>
+        </form>
 </div>
-@endsection
+</body>
+</html>

@@ -248,7 +248,7 @@ abstract class Controller extends BaseController
             $view,
             array_merge(
                 [
-                    $modelName => $query->paginate($this->getPageLimit()),
+                    $modelName => $query->orderBy('created_at', 'DESC')->paginate($this->getPageLimit()),
                 ],
                 $additionalProperties
             )
