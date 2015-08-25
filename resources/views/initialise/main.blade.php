@@ -43,7 +43,7 @@
                 <div class="tab-content">
                     @foreach($options as $k => $group)
 
-                        @foreach($group['products'] as $l => $product) <?php var_dump($product); ?>
+                        @foreach($group['products'] as $l => $product)
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
                                 {!! Form::open(['action' => ['InitialisationController@confirm', $location]]) !!}
                                     <h2>{{$product['name']}}</h2>
