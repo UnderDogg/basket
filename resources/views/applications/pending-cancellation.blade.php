@@ -3,6 +3,7 @@
 @section('content')
 
     <h2>Pending Cancellations</h2>
+    @include('includes.page.breadcrumb', ['over' => [1 => isset($application[0]->installation->name) ? $application[0]->installation->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 

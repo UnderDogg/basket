@@ -1,5 +1,6 @@
 <ol class="breadcrumb">
     {{-- */$url='';/* --}}
+    {{-- */$crumbs=Request::segments();/* --}}
     <li><a href="/"{!! $crumbs[0] !!}>Dashboard</a></li>
     @foreach($crumbs as $k => $v)
 

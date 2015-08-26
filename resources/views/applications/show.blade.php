@@ -10,7 +10,7 @@
             <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
     </h2>
-        @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+        @include('includes.page.breadcrumb', ['over' => [1 => $applications->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
             <li><a data-toggle="tab" href="#part2">Order Details</a></li>

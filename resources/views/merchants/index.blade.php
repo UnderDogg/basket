@@ -5,7 +5,7 @@
     <h1>Merchants
         <a href="{{ url('/merchants/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Merchant</a>
     </h1>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb')
     @include('includes.form.record_counter', ['object' => $merchants])
 
     <table class="table table-bordered table-striped table-hover">

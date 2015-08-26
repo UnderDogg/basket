@@ -9,7 +9,7 @@
             <a href="/merchants/{{$installations->merchant_id}}" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Merchant</a>
         </div>
     </h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
+    @include('includes.page.breadcrumb', ['over' => [1  => $installations->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Installation Details</a></li>
