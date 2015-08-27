@@ -1,3 +1,6 @@
+## Features
+- Removed Confirm step on MAP
+
 # 0.9.0
 2015-08-25
 
