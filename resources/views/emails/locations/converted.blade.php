@@ -1,9 +1,9 @@
-<h1>Application {{ $application->ext_id }} Converted</h1>
+<h1>Finance Application {{ $application->ext_id }} has been Approved</h1>
 
 <h2>Application Details</h2>
 <ul>
     <li>Order Reference: <strong>{{ $application->ext_order_reference }}</strong></li>
-    <li>Broker Reference: <strong>{{ $application->ext_id }}</strong></li>
+    <li>Application/Payment Reference: <strong>{{ $application->ext_id }}</strong></li>
 </ul>
 
 <h2>Customer Details</h2>
@@ -29,8 +29,8 @@
             {{ $application->ext_application_address_postcode }}<br>
         </address>
     </li>
-    <li>Phone number: <strong>{{ $application->ext_customer_phone_home }}</strong></li>
-    <li>Phone number: <strong>{{ $application->ext_customer_phone_mobile }}</strong></li>
+    <li>Home Phone number: <strong>{{ $application->ext_customer_phone_home }}</strong></li>
+    <li>Mobile Phone number: <strong>{{ $application->ext_customer_phone_mobile }}</strong></li>
 </ul>
 
 <h2>Credit Details</h2>
