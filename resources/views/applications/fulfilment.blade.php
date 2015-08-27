@@ -4,9 +4,9 @@
 
     <h2>Fulfil Application</h2>
 
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb', ['over' => [1 => $application->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
-        <p>&nbsp;</p>
+    <p>&nbsp;</p>
         {!! Form::open( ['method'=>'post'] ) !!}
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Key Information</strong></div>

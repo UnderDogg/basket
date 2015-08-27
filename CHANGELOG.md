@@ -1,4 +1,17 @@
 ## Features
+- Removed Confirm step on MAP
+- Breadcrumbs updated around Basket
+- Permissions added to breadcrumbs, so you cannot click long breadcrumb parent links if you cannot visit them
+- Breadcrumbs added back into applications views
+
+## Bug Fixes
+- Applications view now ordered by newest to oldest
+- Changed way of getting token for pending cancellations
+
+# 0.9.0
+2015-08-25
+
+## Features
 - Release version in footer
 - Download feature on Applications list
 - Merchants, Installations and Locations active flags have been added and are functional

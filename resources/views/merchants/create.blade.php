@@ -3,7 +3,7 @@
 @section('content')
 
     <h2>{{ Str::upper(' create a new ' . Request::segment(1)) }}</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb')
 
     {!! Form::open(['url' => 'merchants', 'class' => 'form-horizontal']) !!}
     <p>&nbsp;</p>

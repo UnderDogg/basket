@@ -3,7 +3,7 @@
 @section('content')
 
     <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $merchants->name]])
+    @include('includes.page.breadcrumb', ['over' => [1  => $merchants->name]])
 
     <p>&nbsp;</p>
     {!! Form::model($merchants, ['method' => 'PATCH', 'action' => ['MerchantsController@update', $merchants->id], 'class' => 'form-horizontal']) !!}
