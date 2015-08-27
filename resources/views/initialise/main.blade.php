@@ -1,10 +1,23 @@
-@extends('main')
+@extends('master')
 
-@section('content')
-
-
-
+@section('page')
+<body>
+<div class="container-fluid">
     <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pull-left">
+                    {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                </div>
+            </div>
+        </div>
+        <br/>
+
         <h1>Interested In Finance?</h1>
         <div class="col-md-12 well">
             {!! Form::open(['class' => 'form-inline']) !!}
@@ -159,5 +172,6 @@
         @endif
 
     </div>
-
+</div>
+</body>
 @endsection
