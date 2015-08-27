@@ -213,8 +213,12 @@ class ApplicationsController extends Controller
                 ->applicationGateway
                 ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
-
-
+        
+        // Shouldn't need to do this but leaving for refactoring as this
+        // is done across all code base
+        foreach ($pendingCancellations as $key => $pendingCancellation) {
+            $pendingCancellations[$key] = (object) $pendingCancellation;
+        }
 
         return View('applications.pending-cancellation', [
             'applications' => $pendingCancellations,
