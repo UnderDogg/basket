@@ -211,7 +211,7 @@ class ApplicationsController extends Controller
         $pendingCancellations = Collection::make(
             $this
                 ->applicationGateway
-                ->getPendingCancellations($installation->ext_id, $this->getMerchantToken())
+                ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
 
 
