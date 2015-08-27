@@ -46,7 +46,9 @@
                             @endif
                             <dt>Location</dt>
                             @if($applications->location !== null)
-                                <dd>{!! $applications->location->name !!}</dd>
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
+                                    <dd>{!! $applications->location->name !!}</dd>
+                                </a>
                             @else
                                 <dd></dd>
                             @endif
