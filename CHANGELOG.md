@@ -14,6 +14,12 @@
 - Changed way of getting token for pending cancellations
 - Fixed converted email recipients
 
+# 0.9.1
+2015-08-27
+
+## Bug Fixes
+- Fixed version on release
+
 # 0.9.0
 2015-08-25
 
