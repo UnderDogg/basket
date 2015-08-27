@@ -1,4 +1,4 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
@@ -18,12 +18,12 @@
                         {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-9">
                             {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                        </div>    
+                        </div>
                     </div><div class="form-group">
                         {!! Form::label('display_name', 'Display Name: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-9">
                             {!! Form::text('display_name', null, ['class' => 'form-control']) !!}
-                        </div>    
+                        </div>
                     </div><div class="form-group">
                         {!! Form::label('description', 'Description: ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class="col-sm-9">
