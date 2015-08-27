@@ -1,3 +1,6 @@
+# 0.10.0
+2015-08-27
+
 ## Features
 - Removed Confirm step on MAP
 - Breadcrumbs updated around Basket
