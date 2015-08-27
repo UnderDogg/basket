@@ -26,17 +26,17 @@
                         <dl class="dl-horizontal">
 
                             <dt>Application ID</dt>
-                            <dd>{!! $applications->ext_id !!}</dd>
+                            <dd>{{ $applications->ext_id }}</dd>
 
                             <dt>Current Status</dt>
-                            <dd>{!! $applications->ext_current_status !!}</dd>
+                            <dd>{{ $applications->ext_current_status }}</dd>
 
                             <dt>Order Reference</dt>
-                            <dd>{!! $applications->ext_order_reference !!}</dd>
+                            <dd>{{ $applications->ext_order_reference }}</dd>
 
                             @if($applications->user !== null)
                                 <dt>Requester</dt>
-                                <dd>{!! $applications->user->name !!}</dd>
+                                <dd>{{ $applications->user->name }}</dd>
                             @endif
 
                             <dt>Installations</dt>
@@ -65,11 +65,11 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             <dt>Product Group</dt>
-                            <dd>{!! $applications->ext_products_groups !!}</dd>
+                            <dd>{{ $applications->ext_products_groups }}</dd>
                             <dt>Product Options</dt>
-                            <dd>{!! $applications->ext_products_options !!}</dd>
+                            <dd>{{ $applications->ext_products_options }}</dd>
                             <dt>Product Default</dt>
-                            <dd>{!! $applications->ext_products_default !!}</dd>
+                            <dd>{{ $applications->ext_products_default }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -78,9 +78,9 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             <dt>Fulfilment Method</dt>
-                            <dd>{!! $applications->ext_fulfilment_method !!}</dd>
+                            <dd>{{ $applications->ext_fulfilment_method }}</dd>
                             <dt>Fulfilment Location</dt>
-                            <dd>{!! $applications->ext_fulfilment_location !!}</dd>
+                            <dd>{{ $applications->ext_fulfilment_location }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -100,23 +100,23 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             <dt>PayBreak App ID</dt>
-                            <dd>{!! $applications->ext_id !!}</dd>
+                            <dd>{{ $applications->ext_id }}</dd>
                             <dt>Current Status</dt>
-                            <dd>{!! $applications->ext_current_status !!}</dd>
+                            <dd>{{ $applications->ext_current_status }}</dd>
                             <dt>Order Description</dt>
-                            <dd>{!! $applications->ext_order_description !!}</dd>
+                            <dd>{{ $applications->ext_order_description }}</dd>
                             <dt>Order Amount</dt>
-                            <dd>{!! '&pound;' . number_format($applications->ext_finance_order_amount/100, 2) !!}</dd>
+                            <dd>{{ '&pound;' . number_format($applications->ext_finance_order_amount/100, 2) }}</dd>
                             <dt>Loan Amount</dt>
-                            <dd>{!! '&pound;' . number_format($applications->ext_finance_loan_amount/100, 2) !!}</dd>
+                            <dd>{{ '&pound;' . number_format($applications->ext_finance_loan_amount/100, 2) }}</dd>
                             <dt>Deposit</dt>
-                            <dd>{!! '&pound;' . number_format($applications->ext_finance_deposit/100, 2) !!}</dd>
+                            <dd>{{ '&pound;' . number_format($applications->ext_finance_deposit/100, 2) }}</dd>
                             <dt>Subsidy</dt>
-                            <dd>{!! '&pound;' . number_format($applications->ext_finance_subsidy/100, 2) !!}</dd>
+                            <dd>{{ '&pound;' . number_format($applications->ext_finance_subsidy/100, 2) }}</dd>
                             <dt>Net Settle Amount</dt>
-                            <dd>{!! '&pound;' . number_format($applications->ext_finance_net_settlement/100, 2) !!}</dd>
+                            <dd>{{ '&pound;' . number_format($applications->ext_finance_net_settlement/100, 2) }}</dd>
                             <dt>Validity</dt>
-                            <dd>{!! $applications->ext_validity !!}</dd>
+                            <dd>{{ $applications->ext_validity }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -128,19 +128,19 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             <dt>Title</dt>
-                            <dd>{!! $applications->ext_customer_title !!}</dd>
+                            <dd>{{ $applications->ext_customer_title }}</dd>
                             <dt>First Name</dt>
-                            <dd>{!! $applications->ext_customer_first_name !!}</dd>
+                            <dd>{{ $applications->ext_customer_first_name }}</dd>
                             <dt>Last Name</dt>
-                            <dd>{!! $applications->ext_customer_last_name !!}</dd>
+                            <dd>{{ $applications->ext_customer_last_name }}</dd>
                             <dt>Email Address</dt>
-                            <dd>{!! $applications->ext_customer_email_address !!}</dd>
+                            <dd>{{ $applications->ext_customer_email_address }}</dd>
                             <dt>Home Phone Number</dt>
-                            <dd>{!! $applications->ext_customer_phone_home !!}</dd>
+                            <dd>{{ $applications->ext_customer_phone_home }}</dd>
                             <dt>Mobile Phone Number</dt>
-                            <dd>{!! $applications->ext_customer_phone_mobile !!}</dd>
+                            <dd>{{ $applications->ext_customer_phone_mobile }}</dd>
                             <dt>Postcode</dt>
-                            <dd>{!! $applications->ext_customer_postcode !!}</dd>
+                            <dd>{{ $applications->ext_customer_postcode }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -150,30 +150,30 @@
                         <dl class="dl-horizontal">
                             <dt>Abode</dt>
                             @if(isset($applications->ext_application_address_abode) && !empty($applications->ext_application_address_abode))
-                                <dd>{!! $applications->ext_application_address_abode !!}</dd>
+                                <dd>{{ $applications->ext_application_address_abode }}</dd>
                             @else
                                 <dd></dd>
                             @endif
                             <dt>Building Name</dt>
                             @if(isset($applications->ext_application_address_building_name) && !empty($applications->ext_application_address_building_name))
-                                <dd>{!! $applications->ext_application_address_building_name !!}</dd>
+                                <dd>{{ $applications->ext_application_address_building_name }}</dd>
                             @else
                                 <dd></dd>
                             @endif
                             <dt>Building Number</dt>
                             @if(isset($applications->ext_application_address_building_number) && !empty($applications->ext_application_address_building_number))
-                                <dd>{!! $applications->ext_application_address_building_number !!}</dd>
+                                <dd>{{ $applications->ext_application_address_building_number }}</dd>
                             @else
                                 <dd></dd>
                             @endif
                             <dt>Street</dt>
-                            <dd>{!! $applications->ext_application_address_street !!}</dd>
+                            <dd>{{ $applications->ext_application_address_street }}</dd>
                             <dt>Locality</dt>
-                            <dd>{!! $applications->ext_application_address_locality !!}</dd>
+                            <dd>{{ $applications->ext_application_address_locality }}</dd>
                             <dt>Town / City</dt>
-                            <dd>{!! $applications->ext_application_address_town !!}</dd>
+                            <dd>{{ $applications->ext_application_address_town }}</dd>
                             <dt>Postcode</dt>
-                            <dd>{!! $applications->ext_application_address_postcode !!}</dd>
+                            <dd>{{ $applications->ext_application_address_postcode }}</dd>
                         </dl>
                     </div>
                 </div>
