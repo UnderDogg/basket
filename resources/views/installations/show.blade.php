@@ -1,4 +1,4 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
@@ -69,6 +69,28 @@
                     {!! $installations->getLocationInstructionAsHtml() !!}
                 </div>
             </div>
+            @endif
+
+            @if($installations->disclosure)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">In Store Disclosure</h3>
+                </div>
+                <div class="panel-body">
+                    {!! $installations->getDisclosureAsHtml() !!}
+                </div>
+            </div>
+            @endif
+
+            @if($installations->custom_logo_url)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Custom Logo</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img src="{{ $installations->custom_logo_url }}" />
+                    </div>
+                </div>
             @endif
 
         </div>
