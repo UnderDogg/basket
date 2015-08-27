@@ -1,9 +1,9 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
     <h1>SETTLEMENT REPORT</h1>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     <h3><span>Amount: {{ '&pound;' . number_format($settlementReport['amount']/100, 2) }}</span></h3>
     <h5>
         <span>Date: {{ date('d/m/Y', strtotime($settlementReport['settlement_date'])) }}</span> |

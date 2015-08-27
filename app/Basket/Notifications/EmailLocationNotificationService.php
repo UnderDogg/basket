@@ -46,8 +46,9 @@ class EmailLocationNotificationService implements LocationNotificationService
                 'application' => $application,
                 'location' => $location,
             ],
-            function ($message) use ($location) {
-                $message->to('dev@paybreak.com')->subject('Application Converted');
+            function ($message) use ($location, $application) {
+                $message->to($location->email)
+                    ->subject('Customer Finance Application ' . $application->ext_id .' has been Approved');
 
             }
         );

@@ -1,9 +1,9 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
     <h1>SETTLEMENT REPORTS</h1>
-
+    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
     <table class="table table-bordered table-striped table-hover">

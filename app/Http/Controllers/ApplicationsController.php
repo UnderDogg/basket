@@ -64,7 +64,7 @@ class ApplicationsController extends Controller
         $this->limitToInstallationOnMerchant($applications);
 
         return $this->standardIndexAction(
-            $applications,
+            $applications->orderBy('created_at', 'DESC'),
             'applications.index',
             'applications',
             ['default_dates' => $filterDates]
@@ -189,7 +189,7 @@ class ApplicationsController extends Controller
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
         } catch(\Exception $e) {
-            throw $this->redirectWithException('/installations/' . $installation . '/applications','Hello', $e);
+            throw $this->redirectWithException('/installations/' . $installation . '/applications','Failed to request cancellation', $e);
         }
         return $this->redirectWithSuccessMessage(
             '/installations/' . $installation . '/applications',
@@ -211,9 +211,9 @@ class ApplicationsController extends Controller
         $pendingCancellations = Collection::make(
             $this
                 ->applicationGateway
-                ->getPendingCancellations($installation->ext_id, $this->getMerchantToken())
+                ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
-
+        
         // Shouldn't need to do this but leaving for refactoring as this
         // is done across all code base
         foreach ($pendingCancellations as $key => $pendingCancellation) {

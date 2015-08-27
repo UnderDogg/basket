@@ -1,9 +1,9 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
     <h1>Installations</h1>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view')]])
     @include('includes.form.record_counter', ['object' => $installations])
 
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}

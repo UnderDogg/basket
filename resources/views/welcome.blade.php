@@ -1,4 +1,4 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
@@ -10,7 +10,7 @@
         @if(count($user->locations) > 0)
             <h2>Apply for Finance</h2>
 
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover table-va-middle">
 
                 <tr>
                     <th>Reference</th>
@@ -26,7 +26,7 @@
                         <td>{{ $location->name }}</td>
                         <td class="hidden-xs hidden-sm">{{ $location->address }}</td>
                         <td class="hidden-xs hidden-sm">{{ $location->email }}</td>
-                        <td class="text-right"><a href="/locations/{{ $location->id }}/applications/make" class="btn btn-success btn-xs">Make Application</a></td>
+                        <td class="text-right"><a href="/locations/{{ $location->id }}/applications/make" class="btn btn-success">Make Application</a></td>
                     </tr>
 
                 @endforeach

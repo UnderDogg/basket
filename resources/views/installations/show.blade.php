@@ -1,4 +1,4 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
@@ -9,7 +9,7 @@
             <a href="/merchants/{{$installations->merchant_id}}" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Merchant</a>
         </div>
     </h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
+    @include('includes.page.breadcrumb', ['over' => [1  => $installations->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Installation Details</a></li>
@@ -69,6 +69,28 @@
                     {!! $installations->getLocationInstructionAsHtml() !!}
                 </div>
             </div>
+            @endif
+
+            @if($installations->disclosure)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">In Store Disclosure</h3>
+                </div>
+                <div class="panel-body">
+                    {!! $installations->getDisclosureAsHtml() !!}
+                </div>
+            </div>
+            @endif
+
+            @if($installations->custom_logo_url)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Custom Logo</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img src="{{ $installations->custom_logo_url }}" />
+                    </div>
+                </div>
             @endif
 
         </div>

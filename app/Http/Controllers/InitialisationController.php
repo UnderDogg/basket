@@ -40,18 +40,20 @@ class InitialisationController extends Controller
      */
     public function prepare($locationId)
     {
-        $this->fetchLocation($locationId);
-
-        return view('initialise.main');
+        return view('initialise.main', [
+            'location' => $this->fetchLocation($locationId),
+        ]
+        );
     }
 
     /**
      * @author WN
      * @param $locationId
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
      */
-    public function confirm($locationId, Request $request)
+    public function request($locationId, Request $request)
     {
         $this->validate(
             $request,
@@ -69,48 +71,15 @@ class InitialisationController extends Controller
 
         $reference = $location->reference . '-' . $reference;
 
-        return view(
-            'initialise.confirm',
-            [
-                'amount' => $request->get('amount'),
-                'group' => $request->get('group'),
-                'product' => $request->get('product'),
-                'product_name' => $request->get('product_name'),
-                'reference' => $reference,
-                'location' => $location,
-            ]
-        );
-    }
-
-    /**
-     * @author WN
-     * @param $locationId
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws RedirectException
-     */
-    public function request($locationId, Request $request)
-    {
-        $this->validate(
-            $request,
-            [
-                'amount' => 'required',
-                'group' => 'required',
-                'product' => 'required',
-                'description' => 'required',
-                'reference' => 'required',
-            ]
-        );
-
         $requester = Auth::user()->id;
         $location = $this->fetchLocation($locationId);
 
         try {
             return redirect($this->applicationSynchronisationService->initialiseApplication(
                 $location->installation->id,
-                $request->get('reference'),
+                $reference,
                 $request->get('amount'),
-                $request->get('description'),
+                'Goods & Services',
                 $location->installation->validity,
                 $request->get('group'),
                 [$request->get('product')],
@@ -148,7 +117,7 @@ class InitialisationController extends Controller
                     $location->installation->merchant->token
                 ),
                 'amount' => $request->get('amount') * 100,
-                'location' => $locationId,
+                'location' => $location,
             ]
         );
     }

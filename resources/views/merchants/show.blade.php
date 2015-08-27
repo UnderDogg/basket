@@ -1,4 +1,4 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
@@ -10,7 +10,7 @@
             <a href="{{Request::url()}}/ips" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> View IP's</a>
         </div>
     </h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $merchants->name]])
+    @include('includes.page.breadcrumb', ['over' => [1  => $merchants->name]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Merchant Details</a></li>
     </ul>

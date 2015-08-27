@@ -1,9 +1,9 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
     <h2>{{ Str::upper(' edit ' . Request::segment(1)) }}</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb', ['over' => [1 => $role->display_name]])
 
     {!! Form::model($role, ['method' => 'PATCH', 'action' => ['RolesController@update', $role->id], 'class' => 'form-horizontal']) !!}
 

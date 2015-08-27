@@ -1,4 +1,4 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
@@ -8,7 +8,7 @@
             <a href="{{Request::url()}}/delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
         </div>
     </h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    @include('includes.page.breadcrumb', ['over' => [1 => $role->display_name]])
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#part1">Role Details</a></li>
             <li><a data-toggle="tab" href="#part2">Active Permissions</a></li>

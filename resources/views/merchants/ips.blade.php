@@ -1,9 +1,9 @@
-@extends('master')
+@extends('main')
 
 @section('content')
 
     <h2>MERCHANTS</h2>
-@include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+@include('includes.page.breadcrumb')
     <div class="panel-heading"><h4>Create a new IP address</h4></div>
     {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'addIp')) !!}
         <div class="input-group">

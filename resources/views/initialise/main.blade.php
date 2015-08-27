@@ -1,10 +1,27 @@
 @extends('master')
 
-@section('content')
-
-
-
+@section('page')
+<body>
+<div class="container-fluid">
     <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pull-left">
+                    <a href="/">
+                        {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    @if($location->installation->custom_logo_url)
+                        {!! HTML::image($location->installation->custom_logo_url, 'logo') !!}
+                    @endif
+                </div>
+            </div>
+        </div>
+        <br/>
+
         <h1>Interested In Finance?</h1>
         <div class="col-md-12 well">
             {!! Form::open(['class' => 'form-inline']) !!}
@@ -45,7 +62,7 @@
 
                         @foreach($group['products'] as $l => $product)
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
-                                {!! Form::open(['action' => ['InitialisationController@confirm', $location]]) !!}
+                                {!! Form::open(['action' => ['InitialisationController@request', $location->id]]) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
                                         <div class="row text-center">
@@ -137,9 +154,16 @@
                                             </tr>
                                             </tbody></table>
                                     </div>
-
+                                    <div class="col-lg-12 text-center">
+                                        <p>Need more information or have questions? Call us on 0333 444 226</p>
+                                    </div>
                                     <button type="submit" class="btn btn-success btn-lg btn-block">Continue</button>
-
+                                    @if($location->installation->disclosure)
+                                    <br/>
+                                    <div class="col-lg-12">
+                                        {!! $location->installation->getDisclosureAsHtml() !!}
+                                    </div>
+                                    @endif
 
                                     {!! Form::hidden('amount', $amount) !!}
                                     {!! Form::hidden('product', $product['id']) !!}
@@ -159,5 +183,6 @@
         @endif
 
     </div>
-
+</div>
+</body>
 @endsection

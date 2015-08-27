@@ -1,3 +1,19 @@
+## Features
+- Removed Confirm step on MAP
+- Breadcrumbs updated around Basket
+- Permissions added to breadcrumbs, so you cannot click long breadcrumb parent links if you cannot visit them
+- Breadcrumbs added back into applications views
+- Email template changes
+- Few improvements on *Application* view
+- UAT changes added from Kwik Fit
+- Blade templates changed
+- Installations now contains disclosure and custom logo url
+
+## Bug Fixes
+- Applications view now ordered by newest to oldest
+- Changed way of getting token for pending cancellations
+- Fixed converted email recipients
+
 # 0.9.1
 2015-08-27
 
