@@ -24,34 +24,39 @@
                     <div class="panel-heading"><strong>Key Information</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
+
                             <dt>Application ID</dt>
                             <dd>{!! $applications->ext_id !!}</dd>
+
                             <dt>Current Status</dt>
                             <dd>{!! $applications->ext_current_status !!}</dd>
+
                             <dt>Order Reference</dt>
                             <dd>{!! $applications->ext_order_reference !!}</dd>
-                            <dt>Requester</dt>
+
                             @if($applications->user !== null)
+                                <dt>Requester</dt>
                                 <dd>{!! $applications->user->name !!}</dd>
-                            @else
-                                <dd></dd>
                             @endif
+
                             <dt>Installations</dt>
-                            @if($applications->installation !== null)
-                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">
-                                    <dd>{!! $applications->installation->name !!}</dd>
-                                </a>
-                            @else
-                                <dd></dd>
-                            @endif
-                            <dt>Location</dt>
+                            <dd>
+                                @if(Auth::user()->can('merchants-view'))
+                                    <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
+                                @else
+                                    {{ $applications->installation->name }}
+                                @endif
+                            </dd>
+
                             @if($applications->location !== null)
-                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">
-                                    <dd>{!! $applications->location->name !!}</dd>
-                                </a>
-                            @else
-                                <dd></dd>
+                                <dt>Location</dt>
+                                @if(Auth::user()->can('locations-view'))
+                                    <dd><a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a></dd>
+                                @else
+                                    {{ $applications->location->name }}
+                                @endif
                             @endif
+
                         </dl>
                     </div>
                 </div>
@@ -79,7 +84,7 @@
                         </dl>
                     </div>
                 </div>
-                @if(isset($applications->ext_metadata) && !empty($applications->ext_metadata))
+                @if(isset($applications->ext_metadata) && !is_null($applications->ext_metadata))
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Metadata</strong></div>
                     <div class="panel-body">
