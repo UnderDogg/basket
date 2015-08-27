@@ -143,6 +143,6 @@ class Installation extends Model
      */
     public function getDisclosureAsHtml()
     {
-        return ((new \Parsedown())->text(htmlspecialchars($this->location_instruction)));
+        return ((new \Parsedown())->text(htmlspecialchars($this->disclosure)));
     }
 }
