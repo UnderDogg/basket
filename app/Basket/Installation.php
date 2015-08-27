@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Merchant $merchant
  * @property string $location_instruction
  * @property int    $validity
+ * @property string $custom_logo_url
+ * @property string $disclosure
  * @package App\Basket
  */
 class Installation extends Model
@@ -54,6 +56,8 @@ class Installation extends Model
         'ext_default_product',
         'location_instruction',
         'validity',
+        'custom_logo_url',
+        'disclosure',
     ];
 
     /**
@@ -127,6 +131,17 @@ class Installation extends Model
      * @return string
      */
     public function getLocationInstructionAsHtml()
+    {
+        return ((new \Parsedown())->text(htmlspecialchars($this->location_instruction)));
+    }
+
+    /**
+     * Returning HTML for Parsed Markdown
+     *
+     * @author WN
+     * @return string
+     */
+    public function getDisclosureAsHtml()
     {
         return ((new \Parsedown())->text(htmlspecialchars($this->location_instruction)));
     }
