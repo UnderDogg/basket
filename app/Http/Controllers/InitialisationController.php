@@ -40,9 +40,10 @@ class InitialisationController extends Controller
      */
     public function prepare($locationId)
     {
-        $this->fetchLocation($locationId);
-
-        return view('initialise.main');
+        return view('initialise.main', [
+            'location' => $this->fetchLocation($locationId),
+        ]
+        );
     }
 
     /**
@@ -116,7 +117,7 @@ class InitialisationController extends Controller
                     $location->installation->merchant->token
                 ),
                 'amount' => $request->get('amount') * 100,
-                'location' => $locationId,
+                'location' => $location,
             ]
         );
     }

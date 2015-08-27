@@ -12,7 +12,9 @@
             </div>
             <div class="col-md-6">
                 <div class="pull-right">
-                    {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                    @if($location->installation->custom_logo_url)
+                        {!! HTML::image($location->installation->custom_logo_url, 'logo') !!}
+                    @endif
                 </div>
             </div>
         </div>
@@ -58,7 +60,7 @@
 
                         @foreach($group['products'] as $l => $product)
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
-                                {!! Form::open(['action' => ['InitialisationController@request', $location]]) !!}
+                                {!! Form::open(['action' => ['InitialisationController@request', $location->id]]) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
                                         <div class="row text-center">
@@ -150,9 +152,16 @@
                                             </tr>
                                             </tbody></table>
                                     </div>
-
+                                    <div class="col-lg-12 text-center">
+                                        <p>Need more information or have questions? Call us on 0333 444 226</p>
+                                    </div>
                                     <button type="submit" class="btn btn-success btn-lg btn-block">Continue</button>
-
+                                    @if($location->installation->disclosure)
+                                    <br/>
+                                    <div class="col-lg-12">
+                                        {!! $location->installation->getDisclosureAsHtml() !!}
+                                    </div>
+                                    @endif
 
                                     {!! Form::hidden('amount', $amount) !!}
                                     {!! Form::hidden('product', $product['id']) !!}
