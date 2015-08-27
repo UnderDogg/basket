@@ -5,10 +5,13 @@
     <h1>
         APPLICATIONS
         <div class="btn-group pull-right">
-            <a href="{!! Request::url() !!}/?@foreach(Request::all() as $key=>$val){{$key}}={{$val}}&@endforeach download=csv&limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
+            {{-- */$params='';/* --}}
+            @foreach(Request::all() as $key=>$val) {{-- */$params.="$key=$val&";/*--}} @endforeach
+            <a href="{!! Request::url() !!}/?{{$params}}download=csv&limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
         </div>
     </h1>
 
+    @include('includes.page.breadcrumb', ['over' => [1 => isset($applications[0]->installation->name) ? $applications[0]->installation->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     @include('includes.form.record_counter', ['object' => $applications])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
