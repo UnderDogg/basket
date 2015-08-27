@@ -4,6 +4,7 @@
 - Permissions added to breadcrumbs, so you cannot click long breadcrumb parent links if you cannot visit them
 - Breadcrumbs added back into applications views
 - Email template changes
+- Few improvements on *Application* view
 
 ## Bug Fixes
 - Applications view now ordered by newest to oldest
