@@ -7,7 +7,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pull-left">
-                    {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                    <a href="/">
+                        {!! HTML::image('image/ain-logo-standard-medium.svg', 'afforditNOW') !!}
+                    </a>
                 </div>
             </div>
             <div class="col-md-6">
