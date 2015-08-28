@@ -16,8 +16,8 @@
             </div>
             <br/>
             <div class="col-md-offset-3 col-md-6 well">
-                <h1>Completed</h1>
-                <p>The application process has completed, please hand the device back to the Sales assistant.</p>
+                <h1>Thank you</h1>
+                <p>Please hand the device back to the Sales assistant.</p>
             </div>
         </div>
     </div>
