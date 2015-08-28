@@ -1,3 +1,9 @@
+# 0.10.2
+2015-08-2
+
+## Bug Fixes
+- Version simplification
+
 # 0.10.1
 2015-08-28
 
