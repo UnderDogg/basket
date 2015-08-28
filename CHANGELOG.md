@@ -1,3 +1,9 @@
+# 0.11.2
+2015-08-28
+
+## Bug Fixes
+- Added support for floats
+
 # 0.11.1
 2015-08-28
 
