@@ -1,3 +1,9 @@
+# 0.11.1
+2015-08-28
+
+## Bug Fixes
+- Fixes messages on MAP
+
 # 0.11.0
 2015-08-28
 
