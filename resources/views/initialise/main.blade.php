@@ -3,6 +3,7 @@
 @section('page')
 <body>
 <div class="container-fluid">
+    @include('includes.message.action_response')
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6">
