@@ -3,6 +3,7 @@
 @section('page')
 
     <body>
+    @include('includes.message.action_response')
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="row">
@@ -21,5 +22,10 @@
             </div>
         </div>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
     </body>
 @endsection
