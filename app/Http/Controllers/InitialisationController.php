@@ -116,7 +116,7 @@ class InitialisationController extends Controller
                     floor($request->get('amount') * 100),
                     $location->installation->merchant->token
                 ),
-                'amount' => $request->get('amount') * 100,
+                'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
             ]
         );
