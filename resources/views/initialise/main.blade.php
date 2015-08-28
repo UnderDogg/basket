@@ -243,7 +243,7 @@
                                     @endif
 
                                     <div class="col-lg-12 text-center">
-                                        <p>Need more information or have questions? Call us on 0333 444 226</p>
+                                        <p>Need more information or have questions? Call us on 0333 444 224</p>
                                     </div>
                                     <button type="submit" class="btn btn-success btn-lg btn-block">Continue</button>
                                     @if($location->installation->disclosure)
