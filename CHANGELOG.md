@@ -1,6 +1,20 @@
 ## Features
 - MAP changes for the layouts of different products (BNPL, IFC/IBC and FF)
 
+# 0.10.2
+2015-08-2
+
+## Bug Fixes
+- Version simplification
+
+# 0.10.1
+2015-08-28
+
+## Bug Fixes
+- Fixed version
+- Text change on return page
+- Rename of blade to standards
+
 # 0.10.0
 2015-08-27
 
