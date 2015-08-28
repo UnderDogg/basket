@@ -61,6 +61,7 @@
                     @foreach($options as $k => $group)
 
                         @foreach($group['products'] as $l => $product)
+
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
                                 {!! Form::open(['action' => ['InitialisationController@request', $location->id]]) !!}
                                     <h2>{{$product['name']}}</h2>
@@ -82,78 +83,165 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <table class="table table-condensed" style="font-size: 0.8em;">
-                                            <tbody><tr>
-                                                <th>Payment Starts</th>
-                                                <td style="width: 50%">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y') }}</td>
-                                                {{--<td>{{ $product['credit_info']['payment_start_nice'] }}</td>--}}
-                                            </tr>
-                                            <tr>
-                                                <th>Interest Rate (Fixed)</th>
-                                                <td>{{ number_format($product['credit_info']['offered_rate'], 1) }}%</td>
-                                            </tr>
-                                            @if($product['credit_info']['apr'] !== 0)
-                                            <tr>
-                                                <th>APR</th>
-                                                <td>{{ number_format($product['credit_info']['apr'], 1) }}%</td>
-                                            </tr>
-                                            @endif
-                                            @if($product['credit_info']['deposit_amount'] > 1 && $product['credit_info']['amount_service'] == 0)
-                                            <tr>
-                                                <th>Deposit</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
-                                            </tr>
-                                            @endif
-                                            <tr>
-                                                <th>Loan Amount</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
-                                            </tr>
-                                            {{--<tr>--}}
-                                                {{--<th>Minimum Deposit</th>--}}
-                                                {{--<td>&pound;{{ number_format($product['credit_info']['deposit_range']['minimum_amount']/100, 2) }}</td>--}}
-                                            {{--</tr>--}}
-                                            {{--<tr>--}}
-                                                {{--<th>Maximum Deposit</th>--}}
-                                                {{--<td>&pound;{{ number_format($product['credit_info']['deposit_range']['maximum_amount']/100, 2) }}</td>--}}
-                                            {{--</tr>--}}
-                                            </tbody></table>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <table class="table table-condensed" style="font-size: 0.8em;">
-                                            <tbody>
-                                            <tr>
-                                                <th>Monthly Payment</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Total Months Payable</th>
-                                                <td>{{ ($product['credit_info']['payments'])-1 }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Final Payment</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['payment_final']/100, 2) }}</td>
-                                            </tr>
-                                            @if($product['credit_info']['amount_service'] !== 0 && $product['credit_info']['deposit_amount'] > 1)
-                                            <tr>
-                                                <th>Service Payment</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
-                                            </tr>
-                                            @endif
-                                            <tr>
-                                                <th>Total Cost of Credit</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
-                                            </tr>
-                                            {{--<tr>--}}
-                                                {{--<th>Total Cost</th>--}}
-                                                {{--<td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>--}}
-                                            {{--</tr>--}}
-                                            <tr>
-                                                <th>Total Amount Payable</th>
-                                                <td>&pound;{{ number_format($product['credit_info']['total_repayment']/100, 2) }}</td>
-                                            </tr>
-                                            </tbody></table>
-                                    </div>
+                                    @if($product['product_group'] == 'BNPL')
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <table class="table table-condensed" style="font-size: 0.8em;">
+                                                <tbody>
+                                                <tr>
+                                                    <th style="width: 50%;">Order Value</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['promotional']['order_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Deposit</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['promotional']['deposit_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Loan Amount</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['promotional']['loan_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Pay By</th>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['promotional']['date_end_iso'])->format('D jS M Y')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Settlement Fee</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['customer_settlement_fee']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total Cost</th>
+                                                    <td>&pound;{{ number_format(($product['credit_info']['promotional']['deposit_amount'] + $product['credit_info']['promotional']['loan_amount'] + $product['credit_info']['promotional']['customer_settlement_fee'])/100, 2) }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <table class="table table-condensed" style="font-size: 0.8em;">
+                                                <tbody>
+                                                <tr>
+                                                    <th style="width: 50%;">Order Value</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Loan Amount</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Monthly Payment</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>No of Payments</th>
+                                                    <td>{{ $product['credit_info']['payments'] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment Start</th>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment Ends</th>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->addMonths($product['credit_info']['payments'])->format('D jS M Y')}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <table class="table table-condensed" style="font-size: 0.8em;">
+                                                <tbody>
+                                                <tr>
+                                                    <th>Total Cost of Credit</th>
+                                                    <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total Loan Payable</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Deposit</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total Cost</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Interest Rate</th>
+                                                    <td>{{ number_format($product['credit_info']['offered_rate'], 1) }}%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>APR</th>
+                                                    <td>{{ number_format($product['credit_info']['apr'], 1) }}%</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @else
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <table class="table table-condensed" style="font-size: 0.8em;">
+                                                <tbody>
+                                                <tr>
+                                                    <th style="width: 50%;">Order Value</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Loan Amount</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Monthly Payment</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>No of Payments</th>
+                                                    <td>{{ $product['credit_info']['payments'] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment Start</th>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment Ends</th>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->addMonths($product['credit_info']['payments'])->format('D jS M Y')}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <table class="table table-condensed" style="font-size: 0.8em;">
+                                                <tbody>
+                                                <tr>
+                                                    <th>Total Cost of Credit</th>
+                                                    <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total Loan Payable</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    @if($product['product_group'] == 'FF')
+                                                        <th>Service Fee</th>
+                                                        <td>&pound;{{ number_format($product['credit_info']['service_fee']/100, 2) }}</td>
+                                                    @else
+                                                        <th>Deposit</th>
+                                                        <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                    @endif
+                                                </tr>
+                                                <tr>
+                                                    <th>Total Cost</th>
+                                                    <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Interest Rate</th>
+                                                    <td>{{ number_format($product['credit_info']['offered_rate'], 1) }}%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>APR</th>
+                                                    <td>{{ number_format($product['credit_info']['apr'], 1) }}%</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
+
                                     <div class="col-lg-12 text-center">
                                         <p>Need more information or have questions? Call us on 0333 444 226</p>
                                     </div>
@@ -184,5 +272,10 @@
 
     </div>
 </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 @endsection
