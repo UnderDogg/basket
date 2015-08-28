@@ -1,3 +1,6 @@
+## Bug Fixes
+- Fixed version
+
 # 0.10.0
 2015-08-27
 
