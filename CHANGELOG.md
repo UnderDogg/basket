@@ -1,3 +1,6 @@
+## Features
+- MAP changes for the layouts of different products (BNPL, IFC/IBC and FF)
+
 # 0.10.2
 2015-08-2
 
