@@ -129,8 +129,9 @@
     <footer class="container-fluid">
         <div class="row">
             <div class="col-md-12 text-right">
-                {{--SHOW VERSION IF AVAILABLE--}}
-                @include('includes.page.version')
+                @if (view()->exists('includes.page.version'))
+                    @include('includes.page.version')
+                @endif
             </div>
         </div>
     </footer>
