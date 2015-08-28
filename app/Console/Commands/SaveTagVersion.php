@@ -51,15 +51,7 @@ class SaveTagVersion extends Command
      */
     public function handle()
     {
-        $branch = trim(`git rev-parse --abbrev-ref HEAD`);
-
-        if ($branch == 'HEAD') {
-            $tag = trim(`git describe --abbrev=0 --t`) . '<!-- HEAD -->';
-        } elseif (strpos($branch, ' ') === false) {
-            $tag = 'beta:(' . $branch . ')';
-        } else {
-            $tag = $this->filesystem->get(base_path() . '/VERSION.md');
-        }
+        $tag = $this->filesystem->get(base_path() . '/VERSION.md');
 
         $includeFile = base_path('resources/views/includes/page') . '/version.blade.php';
         $time = date('Y-m-d H:i:s');
