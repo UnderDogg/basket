@@ -64,6 +64,7 @@ class ApplicationsController extends Controller
         $this->limitToInstallationOnMerchant($applications);
 
         //Creating the filter variables in the controller, so it doesn't have to be created on front end (EB)
+        $select = [];
         if($applications) {
             foreach($applications->get() as $item) {
                 $select[strtolower($item->ext_current_status)] = ucwords($item->ext_current_status);
@@ -223,7 +224,7 @@ class ApplicationsController extends Controller
                 ->applicationGateway
                 ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
-        
+
         // Shouldn't need to do this but leaving for refactoring as this
         // is done across all code base
         foreach ($pendingCancellations as $key => $pendingCancellation) {
