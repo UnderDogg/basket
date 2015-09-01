@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <h2>Account management
+    <h1>Account management
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default">
                 <span class="glyphicon glyphicon-edit"></span> Edit
             </a>
         </div>
-    </h2>
+    </h1>
 
     @include('includes.page.breadcrumb')
     <div class="panel panel-default">
@@ -30,13 +30,6 @@
                         {!! Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']) !!}
                         {!! Form::text('email', null, ['class' => 'form-control', 'readonly']) !!}
                     </div>
-                    {{--
-                    <div class="form-group">
-                        <a href="{!! Request::url() . '/edit/' !!}">
-                            {!! Form::button('Edit account', array('class' => 'btn btn-default pull-right')) !!}
-                        </a>
-                    </div>
-                    --}}
                 </div>
             </div>
             {!! Form::close() !!}

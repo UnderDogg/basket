@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Fulfil Application</h2>
+    <h1>Fulfil Application</h1>
 
     @include('includes.page.breadcrumb', ['over' => [1 => $application->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
@@ -65,6 +65,5 @@
             <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
         </div>
         {!! Form::close() !!}
-    {{--@endif--}}
 
 @endsection

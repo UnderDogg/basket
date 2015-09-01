@@ -1,1 +1,1 @@
-<input class="filter col-xs-12 pull-down" name="{{ $field  }}" type="text" value="{{ Request::only($field)[$field] }}">
+{!! Form::text($field, Request::only($field)[$field], ['class' => 'filter col-xs-12 pull-down']) !!}

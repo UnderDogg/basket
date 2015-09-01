@@ -29,7 +29,7 @@
                             <dd>{{ $applications->ext_id }}</dd>
 
                             <dt>Current Status</dt>
-                            <dd>{{ $applications->ext_current_status }}</dd>
+                            <dd>{{ ucwords($applications->ext_current_status) }}</dd>
 
                             <dt>Order Reference</dt>
                             <dd>{{ $applications->ext_order_reference }}</dd>

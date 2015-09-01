@@ -12,7 +12,9 @@
     </h1>
 
     @include('includes.page.breadcrumb', ['over' => [1 => isset($applications[0]->installation->name) ? $applications[0]->installation->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
-    @include('includes.form.record_counter', ['object' => $applications])
+
+    <p><strong>{{ $applications->count() }}</strong> Record(s) / <strong>{{ $applications->total() }}</strong> Total</p>
+
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
     <table class="table table-bordered table-striped table-hover table-fixed-layout-large">
@@ -36,22 +38,19 @@
         </tr>
         <tr>
             {{--FILTERS--}}
-            <th>@include('includes.form.input', ['field' => 'ext_id'])</th>
+            <th>{!! Form::text('ext_id', Request::only('ext_id')['ext_id'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>@include('includes.form.date_range', ['field_start' => 'date_from', 'field_end' => 'date_to', 'placeHolder_from' => date('Y/m/d', strtotime($default_dates['date_from'])), 'placeHolder_to' => date('Y/m/d', strtotime($default_dates['date_to']))])</th>
-            <th>@include('includes.form.select', ['field' => 'ext_current_status', 'object' => $applications])</th>
+            <th>{!! Form::select('ext_current_status', $select, Request::only('ext_current_status')['ext_current_status'], ['class' => 'filter form-control']) !!}</th>
             <th>@include('includes.form.input', ['field' => 'ext_order_reference'])</th>
-
-            {{--ADDED COLUMNS --}}
             <th>@include('includes.form.input', ['field' => 'ext_customer_first_name'])</th>
             <th>@include('includes.form.input', ['field' => 'ext_customer_last_name'])</th>
             <th>@include('includes.form.input', ['field' => 'ext_application_address_postcode'])</th>
-
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_order_amount', 'symbol' => '&pound;'])</th>
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_loan_amount', 'symbol' => '&pound;'])</th>
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_deposit', 'symbol' => '&pound;'])</th>
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_subsidy', 'symbol' => '&pound;'])</th>
-            <th>@include('includes.form.input_with_symbol', ['field' => 'ext_finance_net_settlement', 'symbol' => '&pound;'])</th>
-            <th>@include('includes.form.input', ['field' => 'ext_fulfilment_location'])</th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_order_amount', Request::only('ext_order_amount')['ext_order_amount'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_loan_amount', Request::only('ext_finance_loan_amount')['ext_finance_loan_amount'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_deposit', Request::only('ext_finance_deposit')['ext_finance_deposit'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_subsidy', Request::only('ext_finance_subsidy')['ext_finance_subsidy'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_net_settlement', Request::only('ext_finance_net_settlement')['ext_finance_net_settlement'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th>{!! Form::text('ext_fulfilment_location', Request::only('ext_fulfilment_location')['ext_fulfilment_location'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th class="text-right">@include('includes.form.filter_buttons')</th>
         </tr>
         @forelse($applications as $item)
@@ -106,6 +105,6 @@
     {!! Form::close() !!}
 
     {{-- PAGINATION BUTTONS ON RENDER() --}}
-    {!! $applications->appends(Request::except('page'))->render() !!}
+    {!! $applications->appends(Request::all())->render() !!}
 
 @endsection
