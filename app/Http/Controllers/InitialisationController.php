@@ -128,7 +128,7 @@ class InitialisationController extends Controller
      */
     public function returnBack()
     {
-         return view('initialise.returnBack');
+         return view('initialise.return_back');
     }
 
     /**

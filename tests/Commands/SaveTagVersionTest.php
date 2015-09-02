@@ -29,7 +29,7 @@ class SaveTagVersionTest extends TestCase
      */
     public function testFailure()
     {
-        $versionFile = base_path() . '/version.json';
+        $versionFile = base_path() . '/resources/views/includes/page/version.blade.php';
         $this->assertFileExists($versionFile);
     }
 }

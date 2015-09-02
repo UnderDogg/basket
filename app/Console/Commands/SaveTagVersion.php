@@ -51,35 +51,10 @@ class SaveTagVersion extends Command
      */
     public function handle()
     {
-        $branch = trim(`git rev-parse --abbrev-ref HEAD`);
-        if ($branch == 'HEAD') {
-            $tag = trim(`git describe --abbrev=0 --t`);
-            $stable = true;
-        } else {
-            $tag = 'beta ' . trim(`git describe --abbrev=1 --t`) . ' (' . $branch . ')';
-            $stable = false;
-        }
+        $tag = $this->filesystem->get(base_path() . '/VERSION.md');
 
-        $versionFile = base_path() . '/version.json';
         $includeFile = base_path('resources/views/includes/page') . '/version.blade.php';
         $time = date('Y-m-d H:i:s');
-
-        $json = [
-            'release' => [
-                'version' => $tag,
-                'file_generated' => $time,
-                'stable' => $stable,
-            ],
-        ];
-
-        $content = json_encode($json, JSON_PRETTY_PRINT);
-
-        try {
-            $this->filesystem->put($versionFile,$content);
-         } catch (\Exception $e) {
-            Log::error('Error while trying to create json version file: '
-                . $e->getMessage());
-        }
 
         $content = '{{--GENERATED: ' . $time . '--}}' . PHP_EOL . 'version: ' . $tag . PHP_EOL;
 
