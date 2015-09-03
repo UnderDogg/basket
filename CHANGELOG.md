@@ -1,3 +1,6 @@
+# 0.12.0
+2015-09-03
+
 ## Features
 - Front end forms changed to Laravel instead of html
 - Removed includes for forms
