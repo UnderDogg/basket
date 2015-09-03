@@ -1,3 +1,9 @@
+# 0.12.1
+2015-09-03
+
+## Bug Fixes
+- Changed form layout in `Fulfilment`, `Cancellation` and `Partial Refund` views
+
 # 0.12.0
 2015-09-03
 
