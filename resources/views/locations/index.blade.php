@@ -9,7 +9,7 @@
     </h1>
 
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
-    @include('includes.form.record_counter', ['object' => $locations])
+    <p><strong>{{ $locations->count() }}</strong> Record(s) / <strong>{{ $locations->total() }}</strong> Total</p>
 
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
     <table class="table table-bordered table-striped table-hover">
@@ -26,14 +26,21 @@
             {{-- FILTERS --}}
             <th class="hidden-xs hidden-sm">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Location Reference']) !!}</th>
             <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Location Name']) !!}</th>
-            <th class="hidden-xs hidden-sm">@include('includes.form.associate_select', [
-                'field' => 'installation_id',
-                'object' => $locations,
-                'associate'=>'installation',
-                'associateField'=>'name',
-            ])</th>
-            <th>@include('includes.form.bool_select', ['field' => 'active', 'object' => $locations,'false'=>'Inactive','true'=>'Active'])</th>
-            <th>@include('includes.form.filter_buttons')</th>
+            <th>{!! Form::select('installation_id', $installation_id, Request::only('installation_id')['installation_id'], ['class' => 'filter form-control']) !!}</th>
+            <th>{!! Form::select('active', $active, Request::only('active')['active'], ['class' => 'filter form-control']) !!}</th>
+            <th>
+                <div class="btn-group pull-right">
+                    <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
+                    <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{{ Request::url() }}" onclick="">Clear All Filters</a></li>
+                        <li><a href="{{ URL::full() }}">Reset Current Changes</a></li>
+                    </ul>
+                </div>
+            </th>
         </tr>
 
 
@@ -52,9 +59,18 @@
 
                 {{-- ACTION BUTTONS --}}
                 <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                    @include('includes.form.record_actions', ['id' => $item->id,
-                        'actions' => ['edit' => 'Edit', 'delete' => 'Delete']
-                    ])
+                    <div class="btn-group">
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
+                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/edit">Edit</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/delete">Delete</a></li>
+                            </ul>
+                    </div>
                 </td>
             </tr>
         @empty

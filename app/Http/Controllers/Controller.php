@@ -451,4 +451,68 @@ abstract class Controller extends BaseController
         $this->logError($message .':' .$e->getMessage());
         return RedirectException::make($target)->setError($message);
     }
+
+    /**
+     * @author EB
+     * @param $model
+     * @param $filter
+     * @return array
+     */
+    protected function fetchFilterValues($model, $filter)
+    {
+        $rtn = [];
+        if($model) {
+            //Doing this because of Partial Refunds, needed as we are using a collection, not a builder
+            ($model instanceof Builder) ? $model = $model->get() : $model = $model->all();
+            foreach($model as $item) {
+                $rtn[strtolower($item->{$filter})] = ucwords($item->{$filter});
+            }
+            $rtn = ['' => 'All'] + $rtn;
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @author EB
+     * @param $model
+     * @param $filter
+     * @param $false
+     * @param $true
+     * @return array
+     */
+    protected function fetchBooleanFilterValues($model, $filter, $false, $true)
+    {
+        $rtn = [];
+        if($model) {
+            foreach($model->get() as $item) {
+                ($item->{$filter} == 0) ? $rtn[0] = ucwords($false) : $rtn[1] = ucwords($true);
+            }
+            $rtn = ['' => 'All'] + $rtn;
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * @author EB
+     * @param $model
+     * @param $associate
+     * @return array
+     */
+    protected function fetchAssociateFilterValues($model, $associate)
+    {
+        $rtn = [];
+        if($model) {
+            foreach($model->get() as $item) {
+                //Not null needed, because Users uses this, and a su can have null
+                if($item->{$associate} !== null) {
+                    $rtn[$item->{$associate}->id] = $item->{$associate}->name;
+                }
+            }
+            $rtn = ['' => 'All'] + $rtn;
+        }
+
+        return $rtn;
+    }
 }

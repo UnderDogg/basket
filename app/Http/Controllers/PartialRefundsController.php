@@ -67,6 +67,7 @@ class PartialRefundsController extends Controller
         return View('partial-refunds.index', [
             'partial_refunds' => $partialRefunds,
             'statuses' => $statuses,
+            'status' => $this->fetchFilterValues($partialRefunds, 'status'),
         ]);
     }
 

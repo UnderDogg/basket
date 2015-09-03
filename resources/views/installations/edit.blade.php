@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
+    <h1>Edit Installation</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
 
     <p>&nbsp;</p>

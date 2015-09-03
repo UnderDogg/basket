@@ -45,7 +45,15 @@ class InstallationsController extends Controller
     {
         $installations = Installation::query();
         $this->limitToMerchant($installations);
-        return $this->standardIndexAction($installations, 'installations.index', 'installations');
+        return $this->standardIndexAction(
+            $installations,
+            'installations.index',
+            'installations',
+            [
+                'linked' => $this->fetchBooleanFilterValues($installations, 'linked', 'Unlinked', 'Linked'),
+                'active' => $this->fetchBooleanFilterValues($installations, 'active', 'Inactive', 'Active'),
+            ]
+        );
     }
 
     /**

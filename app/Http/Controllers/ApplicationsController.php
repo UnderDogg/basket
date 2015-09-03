@@ -59,15 +59,16 @@ class ApplicationsController extends Controller
             $filterDates['date_to']
         );
 
-        $applications->where('installation_id', $installation);
-
-        $this->limitToInstallationOnMerchant($applications);
+        $this->limitToInstallationOnMerchant($applications->where('installation_id', $installation));
 
         return $this->standardIndexAction(
             $applications->orderBy('created_at', 'DESC'),
             'applications.index',
             'applications',
-            ['default_dates' => $filterDates]
+            [
+                'default_dates' => $filterDates,
+                'ext_current_status' => $this->fetchFilterValues($applications, 'ext_current_status'),
+            ]
         );
     }
 
@@ -213,7 +214,7 @@ class ApplicationsController extends Controller
                 ->applicationGateway
                 ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
-        
+
         // Shouldn't need to do this but leaving for refactoring as this
         // is done across all code base
         foreach ($pendingCancellations as $key => $pendingCancellation) {

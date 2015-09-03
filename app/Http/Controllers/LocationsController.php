@@ -33,7 +33,15 @@ class LocationsController extends Controller
     {
         $locations = Location::query();
         $this->limitToInstallationOnMerchant($locations);
-        return $this->standardIndexAction($locations, 'locations.index', 'locations');
+        return $this->standardIndexAction(
+            $locations,
+            'locations.index',
+            'locations',
+            [
+                'active' => $this->fetchBooleanFilterValues($locations, 'active', 'Inactive', 'Active'),
+                'installation_id' => $this->fetchAssociateFilterValues($locations, 'installation'),
+            ]
+        );
     }
 
     /**
