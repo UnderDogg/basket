@@ -5,7 +5,6 @@
     <h1>Request Cancellation</h1>
     @include('includes.page.breadcrumb', ['over' => [1 => $application->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
-    <p>&nbsp;</p>
     {!! Form::open( ['method'=>'post', 'class' => 'form-horizontal'] ) !!}
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Key Information</strong></div>
@@ -49,16 +48,19 @@
     <div class="alert alert-warning">
         <p>Please enter why you are requesting a cancellation, and confirm that you want to request a cancellation</p>
     </div>
-    <div class="form-group">
-        {!! Form::label('description', 'Description') !!}
-        {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
+    <div class="container-fluid">
+        <div class="form-group">
+            {!! Form::label('description', 'Description') !!}
+            {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
+        </div>
+        <div class="form-group pull-right">
+            {!! Form::submit('Request', [
+                                        'class' => 'btn btn-success',
+                                        ]) !!}
+            <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
+        </div>
     </div>
-    <div class="form-group pull-right">
-        {!! Form::submit('Request', [
-                                    'class' => 'btn btn-success',
-                                    ]) !!}
-        <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
-    </div>
+
     {!! Form::close() !!}
 
 @endsection
