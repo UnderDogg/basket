@@ -21,24 +21,38 @@
             {{-- FILTERS --}}
             <th></th>
             <th></th>
-            <th>@include('includes.form.select', ['field' => 'status', 'object' => $partial_refunds])</th>
+            <th>{!! Form::select('status', $status, Request::only('status')['status'], ['class' => 'filter form-control']) !!}</th>
             <th></th>
             <th></th>
             <th></th>
-            <th>@include('includes.form.filter_buttons')</th>
+            <th>
+                <div class="btn-group pull-right">
+                    <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
+                    <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{{ Request::url() }}" onclick="">Clear All Filters</a></li>
+                        <li><a href="{{ URL::full() }}">Reset Current Changes</a></li>
+                    </ul>
+                </div>
+            </th>
         </tr>
         @forelse($partial_refunds as $item)
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->application }}</td>
-                <td>{{ $item->status }}</td>
+                <td>{{ ucwords($item->status) }}</td>
                 <td class="text-right">{{ money_format('%.2n', $item->refund_amount/100) }}</td>
                 <td>{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
                 <td>{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
-                    @include('includes.form.record_actions', ['id' => $item->id])
+                    <div class="btn-group">
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs" @if(strtolower($item->status) !== 'converted') disabled @endif> View </a>
+                    </div>
                 </td>
             </tr>
         @empty

@@ -10,7 +10,7 @@
     @if($object->count())
         @foreach(array_unique($selects) as $key => $option)
             <option
-            @if(Request::only($field)[$field] == $key)
+                @if(Request::only($field)[$field] == $key)
                 selected="selected"
                 @endif
                 value="{{ $key }}">{{ $option }}</option>

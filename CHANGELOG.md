@@ -1,3 +1,11 @@
+# 0.12.0
+2015-09-03
+
+## Features
+- Front end forms changed to Laravel instead of html
+- Removed includes for forms
+- Added filter functionality on controller
+
 # 0.11.2
 2015-08-28
 

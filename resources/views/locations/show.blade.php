@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
+    <h1>View Locations
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             @if($location->installation !== null)
@@ -11,7 +11,7 @@
 
             <a href="{{Request::url()}}/delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
         </div>
-    </h2>
+    </h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $location->name]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Location Details</a></li>

@@ -2,14 +2,14 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
+    <h1>View Merchants
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a href="{{Request::url()}}/synchronise" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Sync</a>
             <a href="/installations/?merchant_id={{Request::segment(2)}}" class="btn btn-default"><span class="glyphicon glyphicon-hdd"></span> Installations</a>
             <a href="{{Request::url()}}/ips" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> View IP's</a>
         </div>
-    </h2>
+    </h1>
     @include('includes.page.breadcrumb', ['over' => [1  => $merchants->name]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Merchant Details</a></li>

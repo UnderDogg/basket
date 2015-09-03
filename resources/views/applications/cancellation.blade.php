@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Request Cancellation</h2>
+    <h1>Request Cancellation</h1>
     @include('includes.page.breadcrumb', ['over' => [1 => $application->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     <p>&nbsp;</p>
