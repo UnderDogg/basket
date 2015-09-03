@@ -56,7 +56,7 @@
                 {{-- ACTION BUTTONS --}}
                 <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
                     <div class="btn-group">
-                        <a href="{{Request::URL()}}/{{$id}}" type="button" class="btn btn-default btn-xs"> View </a>
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
                         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
