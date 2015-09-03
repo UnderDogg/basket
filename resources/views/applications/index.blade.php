@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['large' => 'table-fixed-layout-large'])
 
 @section('content')
 
@@ -16,7 +16,7 @@
     <p><strong>{{ $applications->count() }}</strong> Record(s) / <strong>{{ $applications->total() }}</strong> Total</p>
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
-    <table class="table table-bordered table-striped table-hover table-fixed-layout-large">
+    <table class="table table-bordered table-striped table-hover">
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
             {{--TITLES--}}
