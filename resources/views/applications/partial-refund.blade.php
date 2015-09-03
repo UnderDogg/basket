@@ -5,7 +5,6 @@
     <h1>Partial Refund</h1>
     @include('includes.page.breadcrumb', ['over' => [1 => $application->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
-    <p>&nbsp;</p>
     {!! Form::open( ['method'=>'post', 'class' => 'form-horizontal'] ) !!}
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Key Information</strong></div>
@@ -49,7 +48,7 @@
     <div class="alert alert-warning">
         <p>Please confirm that you would like to request a partial refund of this application. Please note that you will not be able to reverse this later.</p>
     </div>
-    <div class="container">
+    <div class="container-fluid">
 
         <div class="form-group">
             {!! Form::label('refund_amount', 'Refund Amount') !!}
