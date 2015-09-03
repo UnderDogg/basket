@@ -2,15 +2,15 @@
 
 @section('content')
 
-    <h2>Update User Locations</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
+    <h1>Update User Locations</h1>
+    @include('includes.page.breadcrumb', ['over' => [1  => $user->name]])
 
     <p>&nbsp;</p>
     {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UsersController@updateLocations', $user->id], 'class' => 'form-horizontal']) !!}
 
     <div style="height: 100%;" class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">USER LOCATIONS</h3>
+            <h3 class="panel-title">User Locations</h3>
         </div>
         <div class="panel-body panel-tight-space">
             <div class="col-xs-6">

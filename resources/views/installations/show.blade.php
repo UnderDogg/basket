@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
+    <h1>View Installations
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a href="/locations/?installation_id={{Request::segment(2)}}" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Locations</a>
             <a href="/merchants/{{$installations->merchant_id}}" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Merchant</a>
         </div>
-    </h2>
+    </h1>
     @include('includes.page.breadcrumb', ['over' => [1  => $installations->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     <ul class="nav nav-tabs">

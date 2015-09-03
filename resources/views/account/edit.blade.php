@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Edit account details</h2>
+    <h1>Edit account details</h1>
     @include('includes.page.breadcrumb')
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title">USER DETAILS</h3></div>

@@ -2,15 +2,15 @@
 
 @section('content')
 
-    <h2>
-        {{ Str::upper(' view ' . str_singular(Request::segment(1))) }}
+    <h1>
+        View User
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a href="{{Request::url()}}/locations" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Locations</a>
             <a href="{{Request::url()}}/delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
         </div>
-    </h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
+    </h1>
+    @include('includes.page.breadcrumb', ['over' => [1  => $user->name]])
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
@@ -29,7 +29,7 @@
                         <dd>{!! $user->email !!}</dd>
                         <dt>Merchant</dt>
                         @if($user->merchant !== null)
-                            <a href="{{Request::segment(0)}}/merchants/{{$user->merchant->id}}">
+                            <a href="/merchants/{{$user->merchant->id}}">
                                 <dd>{!! $user->merchant->name !!}</dd>
                             </a>
                         @else
