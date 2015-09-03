@@ -11,7 +11,7 @@
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div style="height: 100%;" class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">ROLE DETAILS</h3>
+                    <h3 class="panel-title">Role Details</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -37,10 +37,10 @@
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">ROLE PERMISSIONS</h3>
+                    <h3 class="panel-title">Role Permissions</h3>
                 </div>
                 <div class="panel-body panel-tight-space">
-                    <div style="padding-right:0px;" class="col-xs-6">
+                    <div class="col-xs-6">
                         <div class="panel rolePanel">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Applied Permissions</h3>
@@ -52,14 +52,14 @@
                             </div>
                         </div>
                     </div>
-                    <div style="padding-left:0px;" class="col-xs-6">
+                    <div class="col-xs-6">
                         <div class="panel rolePanel">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Permissions Available</h3>
                                 <hr class="hr-tight">
                             </div>
                             <div class="panel-body panel-tight-space">
-                                <div style="height: 365px;" id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
+                                <div id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
                                     @foreach ($permissionsAvailable as $permission)
                                         <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
                                     @endforeach

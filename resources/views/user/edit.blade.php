@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' edit ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $user->name]])
+    <h1>Edit User</h1>
+    @include('includes.page.breadcrumb', ['over' => [1  => $user->name]])
 
     <p>&nbsp;</p>
     {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'class' => 'form-horizontal']) !!}
@@ -11,7 +11,7 @@
     <div>
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">USER DETAILS</h3></div>
+                <div class="panel-heading"><h3 class="panel-title">User Details</h3></div>
                 <div class="panel-body">
 
                     <div class="form-group">
@@ -43,9 +43,9 @@
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6">
-            <div style="height: 100%;" class="panel panel-default">
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">USER ROLES</h3>
+                    <h3 class="panel-title">User Roles</h3>
                 </div>
                 <div class="panel-body panel-tight-space">
                     <div class="col-xs-6">

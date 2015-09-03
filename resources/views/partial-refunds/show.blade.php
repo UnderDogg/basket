@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>View Partial Refund</h2>
+    <h1>View Partial Refund</h1>
     @include('includes.page.breadcrumb', ['over' => [1  => '#'.$partialRefund->id], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     <div id="basketTabs">

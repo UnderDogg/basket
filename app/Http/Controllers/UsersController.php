@@ -38,7 +38,14 @@ class UsersController extends Controller
     {
         $users = User::query();
         $this->limitToMerchant($users);
-        return $this->standardIndexAction($users, 'user.index', 'users');
+        return $this->standardIndexAction(
+            $users,
+            'user.index',
+            'users',
+            [
+                'merchant_id' => $this->fetchAssociateFilterValues($users, 'merchant')
+            ]
+        );
     }
 
     /**

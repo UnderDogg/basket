@@ -76,6 +76,7 @@ class SettlementsController extends Controller
         return View('settlements.index', [
             'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
+            'provider' => $this->fetchFilterValues($settlementReports, 'provider'),
         ]);
     }
 

@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
+    <h1>Create a new User</h1>
+    @include('includes.page.breadcrumb')
 
     {!! Form::open(['url' => 'users', 'class' => 'form-horizontal']) !!}
     <p>&nbsp;</p>
