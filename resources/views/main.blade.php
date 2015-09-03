@@ -2,7 +2,7 @@
 
 @section('page')
 @if(Auth::check())
-@if($large)
+@if(isset($large))
 <body class="layout-large">
 @else
 <body>
