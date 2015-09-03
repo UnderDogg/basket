@@ -1,8 +1,23 @@
+# 0.11.2
+2015-08-28
+
+## Bug Fixes
+- Added support for floats
+
+# 0.11.1
+2015-08-28
+
+## Bug Fixes
+- Fixes messages on MAP
+
+# 0.11.0
+2015-08-28
+
 ## Features
 - MAP changes for the layouts of different products (BNPL, IFC/IBC and FF)
 
 # 0.10.2
-2015-08-2
+2015-08-28
 
 ## Bug Fixes
 - Version simplification
