@@ -59,9 +59,7 @@ class ApplicationsController extends Controller
             $filterDates['date_to']
         );
 
-        $applications->where('installation_id', $installation);
-
-        $this->limitToInstallationOnMerchant($applications);
+        $this->limitToInstallationOnMerchant($applications->where('installation_id', $installation));
 
         return $this->standardIndexAction(
             $applications->orderBy('created_at', 'DESC'),
