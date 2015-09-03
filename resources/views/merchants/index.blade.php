@@ -6,7 +6,9 @@
         <a href="{{ url('/merchants/create') }}" name="addNewButton" class="btn btn-info pull-right">Add New Merchant</a>
     </h1>
     @include('includes.page.breadcrumb')
-    @include('includes.form.record_counter', ['object' => $merchants])
+    <p>
+        <strong>{{ $merchants->count() }}</strong> Record(s) / <strong>{{ $merchants->total() }}</strong> Total
+    </p>
 
     <table class="table table-bordered table-striped table-hover">
         <tr>
@@ -32,15 +34,19 @@
 
                 {{-- ACTION BUTTONS --}}
                 <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-                    @include('includes.form.record_actions', [
-                    'id' => $item->id,
-                        'actions' => [
-                            'edit' => 'Edit',
-                            'synchronise' => 'Synchronise',
-                            'installations/synchronise' => 'Synchronise Installations',
-                            'ips' => "View IP's",
-                        ]
-                    ])
+                    <div class="btn-group">
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
+                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/edit">Edit</a></li>
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/synchronise">Synchronise</a></li>
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/installations/synchronise">Synchronise Installations</a></li>
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/ips">View IP's</a></li>
+                            </ul>
+                    </div>
                 </td>
             </tr>
         @empty

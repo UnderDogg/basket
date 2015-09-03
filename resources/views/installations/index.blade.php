@@ -4,7 +4,7 @@
 
     <h1>Installations</h1>
     @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view')]])
-    @include('includes.form.record_counter', ['object' => $installations])
+    <p><strong>{{ $installations->count() }}</strong> Record(s) / <strong>{{ $installations->total() }}</strong> Total</p>
 
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
     <table class="table table-bordered table-striped table-hover">
@@ -19,9 +19,21 @@
         <tr>
             {{-- FILTERS --}}
             <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
-            <th>@include('includes.form.bool_select', ['field' => 'active', 'object' => $installations,'false'=>'Inactive','true'=>'Active'])</th>
-            <th>@include('includes.form.bool_select', ['field' => 'linked', 'object' => $installations,'false'=>'Unlinked','true'=>'Linked'])</th>
-            <th>@include('includes.form.filter_buttons')</th>
+            <th>{!! Form::select('active', $active, Request::only('active')['active'], ['class' => 'filter form-control']) !!}</th>
+            <th>{!! Form::select('linked', $linked, Request::only('linked')['linked'], ['class' => 'filter form-control']) !!}</th>
+            <th>
+                <div class="btn-group pull-right">
+                    <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
+                    <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{{ Request::url() }}" onclick="">Clear All Filters</a></li>
+                        <li><a href="{{ URL::full() }}">Reset Current Changes</a></li>
+                    </ul>
+                </div>
+            </th>
         </tr>
         @forelse($installations as $item)
             <tr>

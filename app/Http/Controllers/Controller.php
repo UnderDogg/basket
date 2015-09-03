@@ -451,4 +451,43 @@ abstract class Controller extends BaseController
         $this->logError($message .':' .$e->getMessage());
         return RedirectException::make($target)->setError($message);
     }
+
+    protected function fetchFilterValues($model, $filter)
+    {
+        $rtn = [];
+        if($model) {
+            foreach($model->get() as $item) {
+                $rtn[strtolower($item->{$filter})] = ucwords($item->{$filter});
+            }
+            $rtn = ['' => 'All'] + $rtn;
+        }
+
+        return $rtn;
+    }
+
+    protected function fetchBooleanFilterValues($model, $filter, $false, $true)
+    {
+        $rtn = [];
+        if($model) {
+            foreach($model->get() as $item) {
+                ($item->{$filter} == 0) ? $rtn[0] = ucwords($false) : $rtn[1] = ucwords($true);
+            }
+            $rtn = ['' => 'All'] + $rtn;
+        }
+
+        return $rtn;
+    }
+
+    protected function fetchAssociateFilterValues($model, $associate)
+    {
+        $rtn = [];
+        if($model) {
+            foreach($model->get() as $item) {
+                $rtn[$item->{$associate}->id] = $item->{$associate}->name;
+            }
+            $rtn = ['' => 'All'] + $rtn;
+        }
+
+        return $rtn;
+    }
 }

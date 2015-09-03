@@ -63,21 +63,13 @@ class ApplicationsController extends Controller
 
         $this->limitToInstallationOnMerchant($applications);
 
-        //Creating the filter variables in the controller, so it doesn't have to be created on front end (EB)
-        $select = [];
-        if($applications) {
-            foreach($applications->get() as $item) {
-                $select[strtolower($item->ext_current_status)] = ucwords($item->ext_current_status);
-            }
-        }
-
         return $this->standardIndexAction(
             $applications->orderBy('created_at', 'DESC'),
             'applications.index',
             'applications',
             [
                 'default_dates' => $filterDates,
-                'select' => $select,
+                'ext_current_status' => $this->fetchFilterValues($applications, 'ext_current_status'),
             ]
         );
     }

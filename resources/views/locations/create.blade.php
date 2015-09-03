@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>{{ Str::upper(' create a new ' . str_singular(Request::segment(1))) }}</h2>
+    <h1>Create a new Location</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     {!! Form::open(['url' => 'locations', 'class' => 'form-horizontal']) !!}
