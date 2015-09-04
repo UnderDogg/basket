@@ -45,9 +45,10 @@ class PartialRefundsController extends Controller
         );
 
         $local = [];
+
         foreach ($partialRefunds as $key => $report) {
             $partialRefunds[$key] = (object) $report->toArray();
-            $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->firstOrFail();
+            $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->first();
             $local[$partialRefunds[$key]->application] = ['installation' => $temp->installation_id, 'id' => $temp->id];
         }
 
@@ -90,6 +91,7 @@ class PartialRefundsController extends Controller
             ->getPartialRefund($this->fetchMerchantById($merchant)->token, $partialRefundId);
         return View('partial-refunds.show', [
             'partialRefund' => (object) $partialRefund->toArray(),
+            'installation' => Application::where('ext_id', '=', $partialRefund->toArray()['application'])->first(),
         ]);
     }
 }
