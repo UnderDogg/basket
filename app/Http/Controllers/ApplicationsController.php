@@ -221,8 +221,8 @@ class ApplicationsController extends Controller
         // is done across all code base
         foreach ($pendingCancellations as $key => $pendingCancellation) {
             $pendingCancellations[$key] = (object) $pendingCancellation;
-            $temp = Application::where('ext_id', '=', $pendingCancellation['id'])->firstOrFail();
-            $local[$pendingCancellation['id']] = $temp->id;
+            $local[$pendingCancellation['id']] =
+                Application::where('ext_id', '=', $pendingCancellation['id'])->firstOrFail()->id;
         }
 
         return View('applications.pending-cancellation', [
