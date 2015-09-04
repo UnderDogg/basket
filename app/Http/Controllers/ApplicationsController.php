@@ -215,14 +215,19 @@ class ApplicationsController extends Controller
                 ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
 
+        $local = [];
+
         // Shouldn't need to do this but leaving for refactoring as this
         // is done across all code base
         foreach ($pendingCancellations as $key => $pendingCancellation) {
             $pendingCancellations[$key] = (object) $pendingCancellation;
+            $temp = Application::where('ext_id', '=', $pendingCancellation['id'])->firstOrFail();
+            $local[$pendingCancellation['id']] = $temp->id;
         }
 
         return View('applications.pending-cancellation', [
             'applications' => $pendingCancellations,
+            'local' => $local,
         ]);
     }
 
