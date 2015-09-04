@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\PartialRefundGateway;
+use App\Basket\Application;
 
 /**
  * Partial Refunds Controller
@@ -43,8 +44,11 @@ class PartialRefundsController extends Controller
             $this->partialRefundGateway->listPartialRefunds($this->fetchMerchantById($id)->token)
         );
 
+        $local = [];
         foreach ($partialRefunds as $key => $report) {
             $partialRefunds[$key] = (object) $report->toArray();
+            $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->firstOrFail();
+            $local[$partialRefunds[$key]->application] = ['installation' => $temp->installation_id, 'id' => $temp->id];
         }
 
         $statuses = $partialRefunds->pluck('status')->unique()->flip();
@@ -68,6 +72,7 @@ class PartialRefundsController extends Controller
             'partial_refunds' => $partialRefunds,
             'statuses' => $statuses,
             'status' => $this->fetchFilterValues($partialRefunds, 'status'),
+            'local' => $local,
         ]);
     }
 

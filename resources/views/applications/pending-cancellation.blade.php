@@ -12,15 +12,21 @@
             {{-- TITLES --}}
             <th>Retailer Ref.</th>
             <th>Name</th>
-            <th>Cancelled Reason</th>
-            <th>Requested</th>
+            {{--<th>Cancelled Reason</th>--}}
+            {{--<th>Requested</th>--}}
+            <th></th>
         </tr>
     @forelse($applications as $item)
         <tr>
             <td>{{ $item->order['reference'] }}</td>
             <td>{{ trim($item->customer['title'] . ' ' . $item->customer['first_name'] . ' '.  $item->customer['last_name']) }}</td>
-            <td>{{ $item->cancellation['description'] }}</td>
-            <td>{{ date('d/m/Y H:i', strtotime($item->cancellation['requested_date'])) }}</td>
+            {{--<td>{{ $item->cancellation['description'] }}</td>--}}
+            {{--<td>{{ date('d/m/Y H:i', strtotime($item->cancellation['requested_date'])) }}</td>--}}
+            <td class="text-right">
+                <div class="btn-group">
+                    <a href=/installations/{{Request::segment(2)}}/applications/{{$local[$item->id]}} type="button" class="btn btn-default btn-xs"> View </a>
+                </div>
+            </td>
         </tr>
     @empty
         <tr><td colspan="4"><em>No records found</em></td></tr>
