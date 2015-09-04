@@ -1,3 +1,6 @@
+## Bug Fixes
+- Fixed partial refunds record actions
+
 # 0.12.2
 2015-09-04
 
