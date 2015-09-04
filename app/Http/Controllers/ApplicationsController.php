@@ -193,7 +193,7 @@ class ApplicationsController extends Controller
             throw $this->redirectWithException('/installations/' . $installation . '/applications','Failed to request cancellation', $e);
         }
         return $this->redirectWithSuccessMessage(
-            '/installations/' . $installation . '/applications',
+            '/installations/' . $installation . '/applications/' . $id,
             'Cancellation requested successfully'
         );
     }
@@ -276,7 +276,7 @@ class ApplicationsController extends Controller
                 ->setError('Requesting a partial refund failed');
         }
         return $this->redirectWithSuccessMessage(
-            '/applications',
+            '/installations/' . $installation . '/applications/' . $id,
             'Partial refund has been successfully requested'
         );
     }
