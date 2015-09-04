@@ -48,19 +48,11 @@ class PartialRefundsController extends Controller
 
         foreach ($partialRefunds as $key => $report) {
             $partialRefunds[$key] = (object) $report->toArray();
-                $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->first();
-            if(!$temp) {
-                $local[$partialRefunds[$key]->application] = [];
-            } else {
-                $local[$partialRefunds[$key]->application] =
-                    ['installation' => $temp->installation_id, 'id' => $temp->id];
-            }
+            $local[$partialRefunds[$key]->application] = $this
+                ->fetchLocalApplication($partialRefunds[$key]->application);
         }
 
-        $statuses = $partialRefunds->pluck('status')->unique()->flip();
-        foreach ($statuses as $key => $value) {
-            $statuses[$key] = ucfirst($key);
-        }
+        $statuses = $this->processFilter($partialRefunds);
 
         $filter = $this->getFilters();
 
@@ -80,6 +72,34 @@ class PartialRefundsController extends Controller
             'status' => $this->fetchFilterValues($partialRefunds, 'status'),
             'local' => $local,
         ]);
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return array
+     */
+    private function fetchLocalApplication($id)
+    {
+        if($temp = Application::where('ext_id', '=', $id)->first()) {
+            return ['installation' => $temp->installation_id, 'id' => $temp->id];
+        }
+
+        return [];
+    }
+
+    /**
+     * @author WN
+     * @param Collection $partialRefunds
+     * @return Collection
+     */
+    private function processFilter(Collection $partialRefunds)
+    {
+        $statuses = $partialRefunds->pluck('status')->unique()->flip();
+        foreach ($statuses as $key => $value) {
+            $statuses[$key] = ucfirst($key);
+        }
+        return $statuses;
     }
 
     /**
