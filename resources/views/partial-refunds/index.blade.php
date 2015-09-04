@@ -51,7 +51,7 @@
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
                     <div class="btn-group">
-                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs" @if(strtolower($item->status) !== 'converted') disabled @endif> View </a>
+                        <a href="/installations/{{$local[$item->application]['installation']}}/applications/{{$local[$item->application]['id']}}" type="button" class="btn btn-default btn-xs"> View Application </a>
                     </div>
                 </td>
             </tr>

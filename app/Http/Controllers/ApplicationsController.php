@@ -193,7 +193,7 @@ class ApplicationsController extends Controller
             throw $this->redirectWithException('/installations/' . $installation . '/applications','Failed to request cancellation', $e);
         }
         return $this->redirectWithSuccessMessage(
-            '/installations/' . $installation . '/applications',
+            '/installations/' . $installation . '/applications/' . $id,
             'Cancellation requested successfully'
         );
     }
@@ -215,14 +215,19 @@ class ApplicationsController extends Controller
                 ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
         );
 
+        $local = [];
+
         // Shouldn't need to do this but leaving for refactoring as this
         // is done across all code base
         foreach ($pendingCancellations as $key => $pendingCancellation) {
             $pendingCancellations[$key] = (object) $pendingCancellation;
+            $local[$pendingCancellation['id']] =
+                Application::where('ext_id', '=', $pendingCancellation['id'])->firstOrFail()->id;
         }
 
         return View('applications.pending-cancellation', [
             'applications' => $pendingCancellations,
+            'local' => $local,
         ]);
     }
 
@@ -276,7 +281,7 @@ class ApplicationsController extends Controller
                 ->setError('Requesting a partial refund failed');
         }
         return $this->redirectWithSuccessMessage(
-            '/applications',
+            '/installations/' . $installation . '/applications/' . $id,
             'Partial refund has been successfully requested'
         );
     }
