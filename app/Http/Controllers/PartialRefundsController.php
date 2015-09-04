@@ -48,8 +48,13 @@ class PartialRefundsController extends Controller
 
         foreach ($partialRefunds as $key => $report) {
             $partialRefunds[$key] = (object) $report->toArray();
-            $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->first();
-            $local[$partialRefunds[$key]->application] = ['installation' => $temp->installation_id, 'id' => $temp->id];
+                $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->first();
+            if(!$temp) {
+                $local[$partialRefunds[$key]->application] = [];
+            } else {
+                $local[$partialRefunds[$key]->application] =
+                    ['installation' => $temp->installation_id, 'id' => $temp->id];
+            }
         }
 
         $statuses = $partialRefunds->pluck('status')->unique()->flip();
