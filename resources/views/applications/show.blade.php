@@ -2,7 +2,6 @@
 
 @section('content')
 
-    <div class="container">
     <h1>Applications
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
@@ -179,5 +178,4 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection

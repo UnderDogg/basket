@@ -50,8 +50,18 @@
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
+
                     <div class="btn-group">
-                        <a href="/installations/{{$local[$item->application]['installation']}}/applications/{{$local[$item->application]['id']}}" type="button" class="btn btn-default btn-xs"> View Application </a>
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
+                        <button type="button" class="btn btn-default dropdown-toggle btn-xs @if(empty($local[$item->application])) disabled @endif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            @if($local[$item->application])
+                                <li><a href="/installations/{{$local[$item->application]['installation']}}/applications/{{$local[$item->application]['id']}}"> View Application </a></li>
+                            @endif
+                        </ul>
                     </div>
                 </td>
             </tr>

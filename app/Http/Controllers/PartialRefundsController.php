@@ -45,16 +45,14 @@ class PartialRefundsController extends Controller
         );
 
         $local = [];
+
         foreach ($partialRefunds as $key => $report) {
             $partialRefunds[$key] = (object) $report->toArray();
-            $temp = Application::where('ext_id', '=', $partialRefunds[$key]->application)->firstOrFail();
-            $local[$partialRefunds[$key]->application] = ['installation' => $temp->installation_id, 'id' => $temp->id];
+            $local[$partialRefunds[$key]->application] = $this
+                ->fetchLocalApplication($partialRefunds[$key]->application);
         }
 
-        $statuses = $partialRefunds->pluck('status')->unique()->flip();
-        foreach ($statuses as $key => $value) {
-            $statuses[$key] = ucfirst($key);
-        }
+        $statuses = $this->processFilter($partialRefunds);
 
         $filter = $this->getFilters();
 
@@ -77,6 +75,34 @@ class PartialRefundsController extends Controller
     }
 
     /**
+     * @author WN
+     * @param int $id
+     * @return array
+     */
+    private function fetchLocalApplication($id)
+    {
+        if($temp = Application::where('ext_id', '=', $id)->first()) {
+            return ['installation' => $temp->installation_id, 'id' => $temp->id];
+        }
+
+        return [];
+    }
+
+    /**
+     * @author WN
+     * @param Collection $partialRefunds
+     * @return Collection
+     */
+    private function processFilter(Collection $partialRefunds)
+    {
+        $statuses = $partialRefunds->pluck('status')->unique()->flip();
+        foreach ($statuses as $key => $value) {
+            $statuses[$key] = ucfirst($key);
+        }
+        return $statuses;
+    }
+
+    /**
      * Show a Partial Refund
      *
      * @author LH
@@ -90,6 +116,7 @@ class PartialRefundsController extends Controller
             ->getPartialRefund($this->fetchMerchantById($merchant)->token, $partialRefundId);
         return View('partial-refunds.show', [
             'partialRefund' => (object) $partialRefund->toArray(),
+            'installation' => Application::where('ext_id', '=', $partialRefund->toArray()['application'])->first(),
         ]);
     }
 }
