@@ -1,3 +1,11 @@
+# 0.12.2
+2015-09-04
+
+## Bug Fixes
+- Redirect Fixes
+- *Pending Cancellation* fixed
+- *Partial Refunds* fixed
+
 # 0.12.1
 2015-09-03
 
