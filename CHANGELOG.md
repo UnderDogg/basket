@@ -1,5 +1,14 @@
+# 0.12.4
+2015-09-04
+
 ## Bug Fixes
 - Fixed partial refunds record actions
+
+# 0.12.3
+2015-09-04
+
+## Bug Fixes
+- Routes fix
 
 # 0.12.2
 2015-09-04
