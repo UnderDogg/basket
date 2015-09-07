@@ -257,8 +257,13 @@ class ApplicationsController extends Controller
      */
     public function requestPartialRefund(Request $request, $installation, $id)
     {
+        $application = $this->fetchApplicationById($id, $installation);
+        if ($application->ext_order_amount / 100 == $request->refund_amount) {
+            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
+                ->setError('Cannot request partial refund for the full amount, you must request for a cancellation.');
+        }
         $this->validate($request, [
-            'refund_amount' => 'required|numeric',
+            'refund_amount' => 'required|numeric|max:' . $application->ext_order_amount/100,
             'effective_date' => 'required|date_format:Y/m/d',
             'description' => 'required',
         ]);
@@ -266,14 +271,12 @@ class ApplicationsController extends Controller
         $effectiveDate = \DateTime::createFromFormat('Y/m/d', $request->get('effective_date'))->format('Y-m-d');
 
         try {
-
             $this->applicationSynchronisationService->requestPartialRefund(
                 $id,
                 ($request->get('refund_amount') * 100),
                 $effectiveDate,
                 $request->get('description')
             );
-
         } catch (\Exception $e) {
             $this->logError('Error while trying to request a partial refund for application [' . $id . ']: '
                 . $e->getMessage());
