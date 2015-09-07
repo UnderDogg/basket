@@ -83,7 +83,7 @@
                         </dl>
                     </div>
                 </div>
-                @if(isset($applications->ext_metadata) && !is_null($applications->ext_metadata))
+                @if(isset($applications->ext_metadata) && $applications->ext_metadata != "null")
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Metadata</strong></div>
                     <div class="panel-body">
