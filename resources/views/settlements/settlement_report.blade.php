@@ -40,7 +40,7 @@
             <tr>
                 <td class="hidden-sm hidden-xs">{{ date('d/m/Y', strtotime($item['captured_date'])) }}</td>
                 <td>{{ $item['application_data']['ext_customer_title'] . ' ' . $item['application_data']['ext_customer_first_name'] . ' ' . $item['application_data']['ext_customer_last_name'] }}</td>
-                <td>{{ $item['application_data']['ext_customer_postcode'] }}</td>
+                <td>{{ $item['application_data']['ext_application_address_postcode'] }}</td>
                 <td>{{ $item['application_data']['ext_order_reference'] }}</td>
                 <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_loan_ammount']/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_deposit']/100, 2) }}</td>
@@ -55,7 +55,6 @@
                 {{--</td>--}}
             </tr>
         @endforeach
-        </tr>
         <tr>
             <td colspan="6"></td>
             <td><strong>{{ '&pound;' . number_format($settlementReport['sum_order_amount']/100, 2) }}</strong></td>

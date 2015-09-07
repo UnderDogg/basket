@@ -138,8 +138,6 @@
                             <dd>{{ $applications->ext_customer_phone_home }}</dd>
                             <dt>Mobile Phone Number</dt>
                             <dd>{{ $applications->ext_customer_phone_mobile }}</dd>
-                            <dt>Postcode</dt>
-                            <dd>{{ $applications->ext_customer_postcode }}</dd>
                         </dl>
                     </div>
                 </div>
