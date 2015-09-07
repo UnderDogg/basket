@@ -12,7 +12,7 @@
             {{-- TITLES --}}
             <th>Report ID</th>
             <th>Settlement Date</th>
-            <th>Provider</th>
+            <th>Lender</th>
             <th>Amount</th>
             <th><span class="pull-right">Actions</span></th>
         </tr>

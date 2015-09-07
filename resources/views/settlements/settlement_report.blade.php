@@ -7,7 +7,7 @@
     <h3><span>Amount: {{ '&pound;' . number_format($settlementReport['amount']/100, 2) }}</span></h3>
     <h5>
         <span>Date: {{ date('d/m/Y', strtotime($settlementReport['settlement_date'])) }}</span> |
-        <span>Provider: {{ ucwords($settlementReport['provider']) }}</span>
+        <span>Lender: {{ ucwords($settlementReport['provider']) }}</span>
     </h5>
 
     <div class="panel panel-default">
