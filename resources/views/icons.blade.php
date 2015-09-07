@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon-precomposed" sizes="76x76" href="{{asset('image/icons')}}/apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{asset('image/icons')}}/apple-touch-icon-152x152.png" />
 
-<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileColor" content="#000" />
 <meta name="msapplication-TileImage" content="{{asset('image/icons')}}/mstile-144x144.png" />
 <meta name="msapplication-square70x70logo" content="{{asset('image/icons')}}/mstile-70x70.png" />
 <meta name="msapplication-square150x150logo" content="{{asset('image/icons')}}/mstile-150x150.png" />
