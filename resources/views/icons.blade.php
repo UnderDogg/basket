@@ -1,5 +1,3 @@
-<meta name="application-name" content="Retailer Back Office"/>
-
 <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{asset('image/icons')}}/apple-touch-icon-57x57.png" />
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{asset('image/icons')}}/apple-touch-icon-114x114.png" />
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{asset('image/icons')}}/apple-touch-icon-72x72.png" />
