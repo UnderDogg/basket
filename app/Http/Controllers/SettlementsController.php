@@ -68,15 +68,17 @@ class SettlementsController extends Controller
                 }
             });
         }
-
+        $local = [];
         foreach ($settlementReports as $key => $report) {
             $settlementReports[$key] = (object) $report;
+            $local[$report['id']] = Application::where('ext_id', '=', $report['id'])->first();
         }
 
         return View('settlements.index', [
             'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
             'provider' => $this->fetchFilterValues($settlementReports, 'provider'),
+            'local' => $local,
         ]);
     }
 
@@ -103,6 +105,7 @@ class SettlementsController extends Controller
 
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
+            'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
         ]);
     }
 

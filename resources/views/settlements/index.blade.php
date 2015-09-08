@@ -3,7 +3,7 @@
 @section('content')
 
     <h1>Settlement Reports</h1>
-    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 => isset(current($local)->installation->merchant->name) ? current($local)->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
     <table class="table table-bordered table-striped table-hover">
