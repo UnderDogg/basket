@@ -25,17 +25,11 @@
 
             <td class="text-right">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle btn-xs @if(empty($local[$item->id])) disabled @endif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        {{dd($item)}}
-                        @if($local[$item->id])
-                            <li><a href="/installations/{{$local[$item->id]['installation']}}/applications/{{$local[$item->id]['id']}}"> View Application </a></li>
-                        @endif
-                    </ul>
-                    <a href=/installations/{{Request::segment(2)}}/applications/{{$local[$item->id]}} type="button" class="btn btn-default btn-xs"> View </a>
+                    @if($local[$item->id])
+                    <a href="/installations/{{$local[$item->id]['installation']->id}}/applications/{{$local[$item->id]['id']}}" type="button" class="btn btn-default btn-xs"> View </a>
+                    @else
+                    <button type="button" class="btn btn-default dropdown-toggle btn-xs @if(empty($local[$item->id])) disabled @endif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> View </button>
+                    @endif
                 </div>
             </td>
         </tr>
