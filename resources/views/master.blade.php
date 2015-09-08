@@ -6,10 +6,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="application-name" content="Retailer"/>
+
+    @include('icons')
+
     <title>Basket</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/icon" href="{!! asset('/image/xfavicon-64.ico.pagespeed.ic.w5mJPa9jXS.png') !!}" sizes="64x64">
+    <link rel="icon" type="image/icon" href="{!! asset('/image/favicon.png') !!}" sizes="64x64">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     {{--<link rel="stylesheet" href="/css/bootstrap.min.css">--}}
