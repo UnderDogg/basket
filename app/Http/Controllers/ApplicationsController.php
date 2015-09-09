@@ -280,7 +280,7 @@ class ApplicationsController extends Controller
             $this->logError('Error while trying to request a partial refund for application [' . $id . ']: '
                 . $e->getMessage());
             throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
-                ->setError('Requesting a partial refund failed');
+                ->setError(($e->getMessage()) ? $e->getMessage() : 'Requesting a partial refund failed');
         }
         return $this->redirectWithSuccessMessage(
             '/installations/' . $installation . '/applications/' . $id,
