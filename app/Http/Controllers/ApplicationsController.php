@@ -187,6 +187,10 @@ class ApplicationsController extends Controller
      */
     public function requestCancellation($installation, $id, Request $request)
     {
+        $this->validate($request, [
+            'description' => 'required',
+        ]);
+
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
         } catch(\Exception $e) {
