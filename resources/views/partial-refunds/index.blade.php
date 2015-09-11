@@ -12,7 +12,7 @@
             <th>ID</th>
             <th>Application ID</th>
             <th>Status</th>
-            <th class="text-right">Refund Amount</th>
+            <th>Refund Amount</th>
             <th>Effective Date</th>
             <th>Requested Date</th>
             <th><span class="pull-right">Actions</span></th>
@@ -44,7 +44,7 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->application }}</td>
                 <td>{{ ucwords($item->status) }}</td>
-                <td class="text-right">{{ money_format('%.2n', $item->refund_amount/100) }}</td>
+                <td>{{ money_format('%.2n', $item->refund_amount/100) }}</td>
                 <td>{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
                 <td>{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
 
