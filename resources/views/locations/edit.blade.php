@@ -12,19 +12,17 @@
         'action' => ['LocationsController@update', $location->id],
         'class' => 'form-horizontal'
     ]) !!}
-    <div class="col-xs-12">
 
         <div class="form-group">
-            {!! Form::label('reference', 'Reference: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
+            {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-10">
                 {!! Form::text('reference', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('active', 'Active: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
-                {{-- Form::checkbox('active', null, ['class' => 'form-control']) --}}
+            {!! Form::label('active', 'Active:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-10">
                 <label class="checkbox-inline">
                     @if($location->active == 1)
                         {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
@@ -36,33 +34,32 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
+            {!! Form::label('name', 'Name:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-10">
                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
+            {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
                 {!! Form::text('email', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('address', 'Address: ', ['class' => 'col-sm-3 control-label']) !!}
-            <div class="col-sm-6">
+            {!! Form::label('address', 'Address:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
                 {!! Form::text('address', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
-    </div>
-
-    <div class="form-group">
-        <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
-            {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
+            </div>
         </div>
-    </div>
+
     {!! Form::close() !!}
 
 @endsection
