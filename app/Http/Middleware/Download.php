@@ -11,6 +11,8 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\RedirectException;
+use App\ExportableModelInterface;
+use Illuminate\Database\Eloquent\Model;
 use Closure;
 use League\Csv\Writer;
 
@@ -55,8 +57,14 @@ class Download
                         'Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.csv"',
                     ];
 
+                    $csv_headers_set = false;
+
                     foreach ($response->original->getData()['api_data'] as $data) {
-                        $writer->insertOne($this->processData($data->toArray()));
+                        if(!$csv_headers_set){
+                            $writer->insertOne(array_keys($this->getArrayRepresentation($data)));
+                            $csv_headers_set = true;
+                        }
+                        $writer->insertOne($this->processData($this->getArrayRepresentation($data)));
                     }
 
                     return response()->make($writer, 200, $headers);
@@ -93,5 +101,20 @@ class Download
         }
 
         return $data;
+    }
+
+    /**
+     * Returns an array representation of the model passed based on it's implementation.
+     * 
+     * @author SL
+     * @param Model $model
+     * @return array
+     */
+    private function getArrayRepresentation(Model $model){
+        if($model instanceof ExportableModelInterface){
+            return $model->getExportableFields();
+        }
+        return $model->toArray();
+
     }
 }
