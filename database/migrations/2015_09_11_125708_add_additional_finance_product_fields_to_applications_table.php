@@ -18,10 +18,10 @@ class AddAdditionalFinanceProductFieldsToApplicationsTable extends Migration
     public function up()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->string('ext_finance_option')->after('ext_applicant_postcode');
-            $table->integer('ext_finance_holiday')->after('ext_finance_option');
-            $table->integer('ext_finance_payments')->after('ext_finance_holiday');
-            $table->integer('ext_finance_term')->after('ext_finance_payments');
+            $table->string('ext_finance_option')->nullable()->after('ext_applicant_postcode');
+            $table->integer('ext_finance_holiday')->nullable()->after('ext_finance_option');
+            $table->integer('ext_finance_payments')->nullable()->after('ext_finance_holiday');
+            $table->integer('ext_finance_term')->nullable()->after('ext_finance_payments');
         });
     }
 
