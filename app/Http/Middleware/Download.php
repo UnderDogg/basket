@@ -56,8 +56,7 @@ class Download
                     ];
 
                     foreach ($response->original->getData()['api_data'] as $data) {
-
-                        $writer->insertOne($data->toArray());
+                        $writer->insertOne($this->processData($data->toArray()));
                     }
 
                     return response()->make($writer, 200, $headers);
@@ -67,5 +66,32 @@ class Download
         }
 
         return $response;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function processData(array $data)
+    {
+        foreach ($data as &$row) {
+
+            if (is_array($row)) {
+
+                if (isset($row['ext_id'])) {
+                    $row = $row['ext_id'];
+                    continue;
+                }
+
+                if (isset($row['id'])) {
+                    $row = $row['id'];
+                    continue;
+                }
+
+                $row = '';
+            }
+        }
+
+        return $data;
     }
 }
