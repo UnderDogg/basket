@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Installation;
 use App\Basket\Merchant;
+use App\Basket\Application;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -514,5 +515,15 @@ abstract class Controller extends BaseController
         }
 
         return $rtn;
+    }
+
+    /**
+     * @author EB
+     * @param $id
+     * @return mixed
+     */
+    protected function fetchApplicationDetails($id)
+    {
+        return Application::where('ext_id', '=', $id)->first();
     }
 }

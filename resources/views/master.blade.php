@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>afforditNOW Retailer Area</title>
     <meta name="application-name" content="Retailer"/>
 
     @include('icons')
