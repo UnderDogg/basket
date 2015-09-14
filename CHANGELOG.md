@@ -1,7 +1,10 @@
+# 0.13.0
+2015-09-14
+
 ## Features
 - Removed unnecessary bindings in `AppServiceProvider`
 - Added favicons
-- Created blade template to hold the meta directives 
+- Created blade template to hold the meta directives
 - Moved application-title directive into master template
 - Extra validation on request cancellation
 - Extra validation on partial refunds
@@ -220,7 +223,7 @@
 - Added some *'secondary'* object checks to views such as `Roles & Permissions`
 - `User` edit password fix
 - Routes fix for `csrf`
-- *DocBlocks* improvements 
+- *DocBlocks* improvements
 - Applications index view has been changed to display a title of 'applications' instead of 'locations'
 - `ProviderApiClient` no longer throws exception if a delete request returns null `JSON` as it is expected to
 
