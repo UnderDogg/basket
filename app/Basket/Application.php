@@ -159,7 +159,7 @@ class Application extends Model implements ExportableModelInterface  {
      * Get an Export Safe version of the model to generate a CSV/JSON Export.
      */
     public function getExportableFields(){
-        $exportFields = [
+        return [
             'Received' => $this->created_at,
             'ApplicationReference' => $this->ext_id,
             'RetailerReference' => $this->ext_order_reference,
@@ -184,8 +184,6 @@ class Application extends Model implements ExportableModelInterface  {
             'AddrPostcode' => $this->ext_application_address_postcode,
             'OrderDescription' => $this->ext_order_description
         ];
-
-        return $exportFields;
     }
 
 }

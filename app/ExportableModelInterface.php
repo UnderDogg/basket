@@ -9,7 +9,7 @@ namespace App;
 interface ExportableModelInterface
 {
     /**
-     * @return mixed
+     * @return array
      */
     public function getExportableFields();
 }
