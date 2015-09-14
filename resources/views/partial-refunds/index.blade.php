@@ -3,7 +3,7 @@
 @section('content')
 
     <h1>Partial Refunds</h1>
-    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 =>isset(current($local)->installation->merchant->name) ? current($local)->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
     <table class="table table-bordered table-striped table-hover">
         {{-- TABLE HEADER WITH FILTERS --}}
@@ -12,7 +12,7 @@
             <th>ID</th>
             <th>Application ID</th>
             <th>Status</th>
-            <th class="text-right">Refund Amount</th>
+            <th>Refund Amount</th>
             <th>Effective Date</th>
             <th>Requested Date</th>
             <th><span class="pull-right">Actions</span></th>
@@ -44,7 +44,7 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->application }}</td>
                 <td>{{ ucwords($item->status) }}</td>
-                <td class="text-right">{{ money_format('%.2n', $item->refund_amount/100) }}</td>
+                <td>{{ money_format('%.2n', $item->refund_amount/100) }}</td>
                 <td>{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
                 <td>{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
 
@@ -59,7 +59,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
                             @if($local[$item->application])
-                                <li><a href="/installations/{{$local[$item->application]['installation']}}/applications/{{$local[$item->application]['id']}}"> View Application </a></li>
+                                <li><a href="/installations/{{$local[$item->application]->installation_id}}/applications/{{$local[$item->application]->id}}"> View Application </a></li>
                             @endif
                         </ul>
                     </div>

@@ -1,3 +1,19 @@
+## Features
+- Removed unnecessary bindings in `AppServiceProvider`
+- Added favicons
+- Created blade template to hold the meta directives 
+- Moved application-title directive into master template
+- Extra validation on request cancellation
+- Extra validation on partial refunds
+- Settlement changes to show correct data from the API
+- Title changed in master to reflect application name
+- Added git ignore for versioning
+- Added missing fields to CSV Application Export
+
+## Bug Fixes
+- Fixed pending cancellations views
+- Breadcrumb fixes on different views
+
 # 0.12.4
 2015-09-04
 

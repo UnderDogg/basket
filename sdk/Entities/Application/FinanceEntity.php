@@ -26,6 +26,15 @@ use WNowicki\Generic\AbstractEntity;
  * @method int|null getSubsidyAmount()
  * @method $this setSettlementNetAmount(int $settlementNetAmount)
  * @method int|null getSettlementNetAmount()
+ * @method $this setOption(string $option)
+ * @method string|null getOption()
+ * @method $this setHoliday(int $holiday)
+ * @method int|null getHoliday()
+ * @method $this setPayments(int $payments)
+ * @method int|null getPayments()
+ * @method $this setTerm(int $term)
+ * @method int|null getTerm()
+ *
  * @package PayBreak\Sdk\Entities
  */
 class FinanceEntity extends AbstractEntity
@@ -36,5 +45,9 @@ class FinanceEntity extends AbstractEntity
         'deposit_amount'        => self::TYPE_INT,
         'subsidy_amount'        => self::TYPE_INT,
         'settlement_net_amount' => self::TYPE_INT,
+        'option'                => self::TYPE_STRING,
+        'holiday'               => self::TYPE_INT,
+        'payments'              => self::TYPE_INT,
+        'term'                  => self::TYPE_INT,
     ];
 }

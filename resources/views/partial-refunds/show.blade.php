@@ -5,10 +5,12 @@
     <h1>
         View Partial Refund
         <div class="btn-group pull-right">
-            <a href="/installations/{{$installation->installation_id}}/applications/{{$installation->id}}" class="btn btn-default"> View Application </a>
+            @if($installation)
+                <a href="/installations/{{$installation->installation_id}}/applications/{{$installation->id}}" class="btn btn-default"> View Application </a>
+            @endif
         </div>
     </h1>
-    @include('includes.page.breadcrumb', ['over' => [1  => $partialRefund->id], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 =>isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
     </ul>
