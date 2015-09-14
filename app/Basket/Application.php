@@ -10,6 +10,7 @@
 namespace App\Basket;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ExportableModelInterface;
 
 /**
  * Class Application
@@ -62,11 +63,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $last_sync_at
  * @property Installation $installation
  * @property Location|null $location
+ * @property string $ext_finance_option
+ * @property int $ext_finance_holiday
+ * @property int $ext_finance_payments
+ * @property int $ext_finance_term
  *
  * @author MS
  * @package App\Basket
  */
-class Application extends Model  {
+class Application extends Model implements ExportableModelInterface  {
 
     /**
      * The database table used by the model.
@@ -148,6 +153,37 @@ class Application extends Model  {
     public function location()
     {
         return $this->belongsTo('App\Basket\Location');
+    }
+
+    /**
+     * Get an Export Safe version of the model to generate a CSV/JSON Export.
+     */
+    public function getExportableFields(){
+        return [
+            'Received' => $this->created_at,
+            'ApplicationReference' => $this->ext_id,
+            'RetailerReference' => $this->ext_order_reference,
+            'LoanAmount' => $this->ext_finance_loan_amount,
+            'Deposit' => $this->ext_finance_deposit,
+            'Subsidy' => $this->ext_finance_subsidy,
+            'NetSettlement' => $this->ext_finance_net_settlement,
+            'CurrentStatus' => $this->ext_current_status,
+            'OrderAmount' => $this->ext_order_amount,
+            'FinanceProductName' => $this->ext_finance_option,
+            'TermLength' => $this->ext_finance_term,
+            'InstallationName' => $this->installation->name,
+            'FirstName' => $this->ext_customer_first_name,
+            'LastName' => $this->ext_customer_last_name,
+            'Email' => $this->ext_customer_email_address,
+            'PhoneHome' => $this->ext_customer_phone_home,
+            'PhoneMobile' => $this->ext_customer_phone_mobile,
+            'AddrBuildingName' => $this->ext_application_address_building_name,
+            'AddrBuildingNumber' => $this->ext_application_address_building_number,
+            'AddrStreet' => $this->ext_application_address_street,
+            'AddrTown' => $this->ext_application_address_town,
+            'AddrPostcode' => $this->ext_application_address_postcode,
+            'OrderDescription' => $this->ext_order_description
+        ];
     }
 
 }
