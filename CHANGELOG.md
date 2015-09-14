@@ -8,6 +8,7 @@
 - Settlement changes to show correct data from the API
 - Title changed in master to reflect application name
 - Added git ignore for versioning
+- Added missing fields to CSV Application Export
 
 ## Bug Fixes
 - Fixed pending cancellations views
