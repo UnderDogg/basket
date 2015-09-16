@@ -157,6 +157,8 @@ class Application extends Model implements ExportableModelInterface  {
 
     /**
      * Get an Export Safe version of the model to generate a CSV/JSON Export.
+     *
+     * @author SL
      */
     public function getExportableFields(){
         return [
@@ -188,10 +190,12 @@ class Application extends Model implements ExportableModelInterface  {
 
     /**
      * Get a currency formatted version of the passed in amount.
+     *
+     * @author SL
      * @param int $fieldData
-     * @return float 
+     * @return float
      */
-    public function getFormattedCurrency($fieldData){
+    private function getFormattedCurrency($fieldData){
         return $fieldData/100;
     }
 
