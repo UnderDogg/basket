@@ -157,18 +157,20 @@ class Application extends Model implements ExportableModelInterface  {
 
     /**
      * Get an Export Safe version of the model to generate a CSV/JSON Export.
+     *
+     * @author SL
      */
     public function getExportableFields(){
         return [
             'Received' => $this->created_at,
             'ApplicationReference' => $this->ext_id,
             'RetailerReference' => $this->ext_order_reference,
-            'LoanAmount' => $this->ext_finance_loan_amount,
-            'Deposit' => $this->ext_finance_deposit,
-            'Subsidy' => $this->ext_finance_subsidy,
-            'NetSettlement' => $this->ext_finance_net_settlement,
+            'LoanAmount' => $this->getFormattedCurrency($this->ext_finance_loan_amount),
+            'Deposit' => $this->getFormattedCurrency($this->ext_finance_deposit),
+            'Subsidy' => $this->getFormattedCurrency($this->ext_finance_subsidy),
+            'NetSettlement' => $this->getFormattedCurrency($this->ext_finance_net_settlement),
             'CurrentStatus' => $this->ext_current_status,
-            'OrderAmount' => $this->ext_order_amount,
+            'OrderAmount' => $this->getFormattedCurrency($this->ext_order_amount),
             'FinanceProductName' => $this->ext_finance_option,
             'TermLength' => $this->ext_finance_term,
             'InstallationName' => $this->installation->name,
@@ -184,6 +186,17 @@ class Application extends Model implements ExportableModelInterface  {
             'AddrPostcode' => $this->ext_application_address_postcode,
             'OrderDescription' => $this->ext_order_description
         ];
+    }
+
+    /**
+     * Get a currency formatted version of the passed in amount.
+     *
+     * @author SL
+     * @param int $fieldData
+     * @return float
+     */
+    private function getFormattedCurrency($fieldData){
+        return $fieldData/100;
     }
 
 }
