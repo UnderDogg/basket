@@ -5,24 +5,24 @@
     <h1>Edit Location</h1>
     @include('includes.page.breadcrumb', ['over' => [1  => $location->name]])
 
-
     <p>&nbsp;</p>
     {!! Form::model($location, [
         'method' => 'PATCH',
         'action' => ['LocationsController@update', $location->id],
         'class' => 'form-horizontal'
     ]) !!}
+    <div class="col-xs-12">
 
         <div class="form-group">
             {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-10">
+            <div class="col-sm-8">
                 {!! Form::text('reference', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
         <div class="form-group">
             {!! Form::label('active', 'Active:', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-10">
+            <div class="col-sm-8">
                 <label class="checkbox-inline">
                     @if($location->active == 1)
                         {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
@@ -35,7 +35,7 @@
 
         <div class="form-group">
             {!! Form::label('name', 'Name:', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-10">
+            <div class="col-sm-8">
                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
             </div>
         </div>
@@ -55,10 +55,11 @@
         </div>
 
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-offset-2 col-sm-8">
                 {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
             </div>
         </div>
+    </div>
 
     {!! Form::close() !!}
 
