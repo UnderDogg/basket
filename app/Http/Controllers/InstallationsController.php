@@ -103,17 +103,27 @@ class InstallationsController extends Controller
         $this->validate($request, [
             'validity' => 'required|integer|between:7200,604800',
         ]);
+
         $apiValues =
             [
                 'return_url' => $request->ext_return_url,
                 'notification_url' => $request->ext_notification_url,
             ];
-        $this->installationGateway
-            ->patchInstallation(
-                $this->fetchInstallation($id)->ext_id,
-                $apiValues,
-                $this->fetchInstallation($id)->merchant->token
+        try {
+            $this->installationGateway
+                ->patchInstallation(
+                    $this->fetchInstallation($id)->ext_id,
+                    $apiValues,
+                    $this->fetchInstallation($id)->merchant->token
+                );
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                '/installations/'.$id.'/edit',
+                $e->getMessage(),
+                $e
             );
+        }
+
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
     }
 
