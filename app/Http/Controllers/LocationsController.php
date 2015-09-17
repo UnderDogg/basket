@@ -67,7 +67,7 @@ class LocationsController extends Controller
             'name' => 'required',
             'email' => 'required:email',
             'address' => 'required',
-            'reference' => 'required',
+            'reference' => 'required|regex:/^[A-Za-z0-9\-!]+$/',
             'installation_id' => 'required',
             'active' => 'required'
 
@@ -126,7 +126,7 @@ class LocationsController extends Controller
             'name' => 'required',
             'email' => 'required:email',
             'address' => 'required',
-            'reference' => 'required',
+            'reference' => 'required|regex:/^[A-Za-z0-9\-!]+$/',
         ]);
 
         return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
