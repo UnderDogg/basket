@@ -16,17 +16,17 @@
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
             {{-- TITLES --}}
-            <th class="hidden-xs hidden-sm">Reference</th>
+            <th class="hidden-xs">Reference</th>
             <th>Name</th>
-            <th class="hidden-xs hidden-sm">Installation</th>
+            <th class="hidden-xs">Installation</th>
             <th>Active</th>
             <th><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
             {{-- FILTERS --}}
-            <th class="hidden-xs hidden-sm">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Location Reference']) !!}</th>
-            <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Location Name']) !!}</th>
-            <th>{!! Form::select('installation_id', $installation_id, Request::only('installation_id')['installation_id'], ['class' => 'filter form-control']) !!}</th>
+            <th class="hidden-xs">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter pull-down', 'placeholder' => 'Location Reference']) !!}</th>
+            <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter pull-down', 'placeholder' => 'Location Name']) !!}</th>
+            <th class="hidden-xs">{!! Form::select('installation_id', $installation_id, Request::only('installation_id')['installation_id'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::select('active', $active, Request::only('active')['active'], ['class' => 'filter form-control']) !!}</th>
             <th>
                 <div class="btn-group pull-right">
@@ -46,10 +46,10 @@
 
         @forelse($locations as $item)
             <tr>
-                <td class="hidden-xs hidden-sm">{{ $item->reference }}</td>
+                <td class="hidden-xs">{{ $item->reference }}</td>
                 <td>{{ $item->name }}</td>
-                <td class="hidden-xs hidden-sm">@if($item->installation !== null){{ $item->installation->name }} @endif</td>
-                <td class="col-sm-2 col-md-1">
+                <td class="hidden-xs">@if($item->installation !== null){{ $item->installation->name }} @endif</td>
+                <td>
                     @if( $item->active == 0 )
                         <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                     @elseif( $item->active == 1 )
@@ -58,7 +58,7 @@
                 </td>
 
                 {{-- ACTION BUTTONS --}}
-                <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
+                <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-right">
                     <div class="btn-group">
                         <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
                             <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
