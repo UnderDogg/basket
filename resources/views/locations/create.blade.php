@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>Create a new Location</h1>
+    <h1>Create Location</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     {!! Form::open(['url' => 'locations', 'class' => 'form-horizontal']) !!}
