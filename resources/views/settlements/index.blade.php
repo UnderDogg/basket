@@ -3,22 +3,22 @@
 @section('content')
 
     <h1>Settlement Reports</h1>
-    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 => isset(current($local)->installation->merchant->name) ? current($local)->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
     <table class="table table-bordered table-striped table-hover">
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
             {{-- TITLES --}}
-            <th>Report ID</th>
+            <th class="hidden-xs">Report ID</th>
             <th>Settlement Date</th>
-            <th>Provider</th>
+            <th>Lender</th>
             <th>Amount</th>
-            <th><span class="pull-right">Actions</span></th>
+            <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-right"><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
             {{-- FILTERS --}}
-            <th></th>
+            <th class="hidden-xs"></th>
             <th>
                 <div style="padding-right: 0px !important; padding-left: 0px !important;" class="col-md-12">
                     <div style="padding-right: 0px !important; padding-left: 2px !important; padding-bottom: 2px !important;">
@@ -35,7 +35,7 @@
             </th>
             <th>{!! Form::select('provider', $provider, Request::only('provider')['provider'], ['class' => 'filter form-control']) !!}</th>
             <th></th>
-            <th>
+            <th class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-right">
                 <div class="btn-group pull-right">
                     <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
                     <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,7 +51,7 @@
         </tr>
         @forelse($settlement_reports as $item)
             <tr>
-                <td>{{ $item->id }}</td>
+                <td class="hidden-xs">{{ $item->id }}</td>
                 <td>{{ date('d/m/Y', strtotime($item->settlement_date)) }}</td>
                 <td>{{ $item->provider }}</td>
                 <td>{{ '&pound;' . number_format($item->amount/100, 2) }}</td>

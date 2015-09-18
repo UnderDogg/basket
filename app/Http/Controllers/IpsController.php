@@ -67,6 +67,7 @@ class IpsController extends Controller
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
         } catch(\Exception $e) {
+            return RedirectException::make('/merchants/'.$id.'/ips')->setError('hello');
             throw $this->redirectWithException('/merchants/'.$id.'/ips', 'Error while trying to create a new IP', $e);
         }
         return $this->redirectWithSuccessMessage(
@@ -95,7 +96,7 @@ class IpsController extends Controller
             ;
         }
         return $this->redirectWithSuccessMessage(
-            'merchants/'.$id.'ips',
+            'merchants/'.$id.'/ips',
             'IP address successfully deleted'
         );
     }

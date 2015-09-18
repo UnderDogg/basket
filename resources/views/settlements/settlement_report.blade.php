@@ -3,11 +3,11 @@
 @section('content')
 
     <h1>SETTLEMENT REPORT</h1>
-    @include('includes.page.breadcrumb', ['permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 => isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     <h3><span>Amount: {{ '&pound;' . number_format($settlementReport['amount']/100, 2) }}</span></h3>
     <h5>
         <span>Date: {{ date('d/m/Y', strtotime($settlementReport['settlement_date'])) }}</span> |
-        <span>Provider: {{ ucwords($settlementReport['provider']) }}</span>
+        <span>Lender: {{ ucwords($settlementReport['provider']) }}</span>
     </h5>
 
     <div class="panel panel-default">
@@ -40,7 +40,7 @@
             <tr>
                 <td class="hidden-sm hidden-xs">{{ date('d/m/Y', strtotime($item['captured_date'])) }}</td>
                 <td>{{ $item['application_data']['ext_customer_title'] . ' ' . $item['application_data']['ext_customer_first_name'] . ' ' . $item['application_data']['ext_customer_last_name'] }}</td>
-                <td>{{ $item['application_data']['ext_customer_postcode'] }}</td>
+                <td>{{ $item['application_data']['ext_application_address_postcode'] }}</td>
                 <td>{{ $item['application_data']['ext_order_reference'] }}</td>
                 <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_loan_ammount']/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_deposit']/100, 2) }}</td>
@@ -55,7 +55,6 @@
                 {{--</td>--}}
             </tr>
         @endforeach
-        </tr>
         <tr>
             <td colspan="6"></td>
             <td><strong>{{ '&pound;' . number_format($settlementReport['sum_order_amount']/100, 2) }}</strong></td>

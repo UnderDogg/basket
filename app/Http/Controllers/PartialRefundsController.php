@@ -48,8 +48,8 @@ class PartialRefundsController extends Controller
 
         foreach ($partialRefunds as $key => $report) {
             $partialRefunds[$key] = (object) $report->toArray();
-            $local[$partialRefunds[$key]->application] = $this
-                ->fetchLocalApplication($partialRefunds[$key]->application);
+            $local[$partialRefunds[$key]->application] =
+                $this->fetchApplicationDetails($partialRefunds[$key]->application);
         }
 
         $statuses = $this->processFilter($partialRefunds);

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>Create a new Role</h1>
+    <h1>Create Role</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments()])
 
     {!! Form::open(['url' => 'roles', 'class' => 'form-horizontal']) !!}
