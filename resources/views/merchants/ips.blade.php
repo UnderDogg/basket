@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <h1>Merchant IP's</h1>
-    @include('includes.page.breadcrumb')
+    <h1>IP Addresses</h1>
+    @include('includes.page.breadcrumb', ['over' => [2 => 'IP Addresses']])
     <div class="panel-heading"><h4>Create a new IP address</h4></div>
     {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'addIp')) !!}
         <div class="input-group">
