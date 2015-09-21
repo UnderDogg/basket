@@ -96,7 +96,11 @@ class InstallationsController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
+            'name' => 'required',
+            'active' => 'required',
             'validity' => 'required|integer|between:7200,604800',
+            'custom_logo_url' => 'url',
+            'location_instruction' => 'url',
         ]);
 
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
