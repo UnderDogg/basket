@@ -13,6 +13,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Class InstallationController
@@ -118,13 +119,13 @@ class InstallationsController extends Controller
             $this->installationSynchronisationService->synchroniseAllInstallations($id);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
-                '/merchants/'.$id,
+                URL::previous(),
                 'Error while trying to sync installations for merchant['.$id.']',
                 $e
             );
         }
         return $this->redirectWithSuccessMessage(
-            '/merchants/'.$id,
+            URL::previous(),
             'Synchronisation complete successfully'
         );
     }

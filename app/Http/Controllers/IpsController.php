@@ -67,8 +67,7 @@ class IpsController extends Controller
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
         } catch(\Exception $e) {
-            return RedirectException::make('/merchants/'.$id.'/ips')->setError('hello');
-            throw $this->redirectWithException('/merchants/'.$id.'/ips', 'Error while trying to create a new IP', $e);
+            throw $this->redirectWithException('/merchants/'.$id.'/ips', $e->getMessage(), $e);
         }
         return $this->redirectWithSuccessMessage(
             '/merchants/'.$id.'/ips',
