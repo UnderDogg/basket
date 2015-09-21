@@ -2,6 +2,13 @@
 2015-09-14
 
 ## Features
+- Added Currency format helper
+- Re-wrote several items in the applications list to use this for financials
+
+# 0.13.0
+2015-09-14
+
+## Features
 - Removed unnecessary bindings in `AppServiceProvider`
 - Added favicons
 - Created blade template to hold the meta directives
