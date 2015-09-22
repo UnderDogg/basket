@@ -14,6 +14,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Merchant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Class MerchantController
@@ -122,7 +123,8 @@ class MerchantsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'token' => 'required'
+            'token' => 'required',
+            'active' => 'required',
         ]);
 
         return $this->updateModel((new Merchant()), $id, 'merchant', '/merchants', $request);
@@ -151,14 +153,14 @@ class MerchantsController extends Controller
             $this->merchantSynchronisationService->synchroniseMerchant($id);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
-                '/merchants/'.$id,
+                URL::previous(),
                 'Error while trying to synchronise Merchant[' . $id . ']',
                 $e)
             ;
         }
 
         return $this->redirectWithSuccessMessage(
-            '/merchants/'.$id,
+            URL::previous(),
             'Synchronisation complete successfully'
         );
     }

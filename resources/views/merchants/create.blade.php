@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>Create a new Merchant</h1>
+    <h1>Create Merchant</h1>
     @include('includes.page.breadcrumb')
 
     {!! Form::open(['url' => 'merchants', 'class' => 'form-horizontal']) !!}

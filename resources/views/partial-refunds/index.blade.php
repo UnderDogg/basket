@@ -9,23 +9,23 @@
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
             {{-- TITLES --}}
-            <th>ID</th>
+            <th class="hidden-sm visible-md">ID</th>
             <th>Application ID</th>
             <th>Status</th>
             <th>Refund Amount</th>
-            <th>Effective Date</th>
-            <th>Requested Date</th>
-            <th><span class="pull-right">Actions</span></th>
+            <th class="hidden-sm visible-md">Effective Date</th>
+            <th class="hidden-xs visible-sm">Requested Date</th>
+            <th class="col-xs-5 col-sm-3 col-md-2 col-lg-1 text-right"><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
             {{-- FILTERS --}}
-            <th></th>
+            <th class="hidden-sm visible-md"></th>
             <th></th>
             <th>{!! Form::select('status', $status, Request::only('status')['status'], ['class' => 'filter form-control']) !!}</th>
             <th></th>
-            <th></th>
-            <th></th>
-            <th>
+            <th class="hidden-sm visible-md"></th>
+            <th class="hidden-xs visible-sm"></th>
+            <th class="col-xs-5 col-sm-3 col-md-2 col-lg-1 text-right">
                 <div class="btn-group pull-right">
                     <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
                     <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,15 +41,15 @@
         </tr>
         @forelse($partial_refunds as $item)
             <tr>
-                <td>{{ $item->id }}</td>
+                <td class="hidden-sm visible-md">{{ $item->id }}</td>
                 <td>{{ $item->application }}</td>
                 <td>{{ ucwords($item->status) }}</td>
                 <td>{{ money_format('%.2n', $item->refund_amount/100) }}</td>
-                <td>{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
-                <td>{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
+                <td class="hidden-sm visible-md">{{ DateTime::createFromFormat('Y-m-d', $item->effective_date)->format('d/m/Y') }}</td>
+                <td class="hidden-xs visible-sm">{{ DateTime::createFromFormat('Y-m-d', $item->requested_date)->format('d/m/Y') }}</td>
 
                 {{-- ACTION BUTTONS --}}
-                <td class="text-right">
+                <td class="col-xs-5 col-sm-3 col-md-2 col-lg-1 text-right">
 
                     <div class="btn-group">
                         <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>

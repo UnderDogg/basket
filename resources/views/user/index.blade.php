@@ -15,15 +15,15 @@
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
             <th>Name</th>
-            <th>Email</th>
+            <th class="hidden-xs visible-sm">Email</th>
             <th>Merchant</th>
-            <th><span class="pull-right">Actions</span></th>
+            <th class="col-xs-4 col-sm-2"><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
             <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'Name of user']) !!}</th>
-            <th>{!! Form::text('email', Request::only('email')['email'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'User&#39;s email']) !!}</th>
+            <th class="hidden-xs visible-sm">{!! Form::text('email', Request::only('email')['email'], ['class' => 'filter col-xs-12 pull-down', 'placeholder' => 'User&#39;s email']) !!}</th>
             <th>{!! Form::select('merchant_id', $merchant_id, Request::only('merchant_id')['merchant_id'], ['class' => 'filter form-control']) !!}</th>
-            <th>
+            <th class="col-xs-4 col-sm-2">
                 <div class="btn-group pull-right">
                     <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
                     <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,10 +40,10 @@
         @forelse($users as $item)
             <tr>
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->email }}</td>
+                <td class="hidden-xs visible-sm">{{ $item->email }}</td>
                 <td>{{ $item->merchant !== null?$item->merchant->name: '' }}</td>
                 {{-- ACTION BUTTONS --}}
-                <td class="text-right">
+                <td class="col-xs-4 col-sm-2 text-right">
                     <div class="btn-group">
                         <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
                         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
