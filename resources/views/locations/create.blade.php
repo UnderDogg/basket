@@ -49,3 +49,58 @@
     {!! Form::close() !!}
 
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.form-horizontal').formValidation({
+                framework: 'bootstrap',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    reference: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The reference is required'
+                            },
+                        }
+                    },
+                    active: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The active field is required'
+                            },
+                        }
+                    },
+                    name: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The name field is required'
+                            },
+                        }
+                    },
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The email address is required'
+                            },
+                            emailAddress: {
+                                message: 'The input is not a valid email address'
+                            }
+                        }
+                    },
+                    address: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The address is required'
+                            },
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+@endsection

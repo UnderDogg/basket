@@ -145,6 +145,8 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
+<script src={!! asset('/formvalidation/dist/js/formValidation.min.js') !!}></script>
+<script src={!! asset('/formvalidation/dist/js/framework/bootstrap.min.js') !!}></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>

@@ -18,3 +18,32 @@
         </button>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The email address is required'
+                            },
+                            emailAddress: {
+                                message: 'The input is not a valid email address'
+                            }
+                        }
+                    },
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required'
+                            },
+                        }
+                    },
+                }
+            });
+        });
+    </script>
+@endsection
