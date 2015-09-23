@@ -52,56 +52,23 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('.form-horizontal').formValidation({
-                framework: 'bootstrap',
-                icon: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
+        validation = {
+            fields: {
+                email: {
+                    validators: {
+                        emailAddress: {}
+                    }
                 },
-                fields: {
-                    reference: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The reference is required'
-                            },
-                        }
-                    },
-                    active: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The active field is required'
-                            },
-                        }
-                    },
-                    name: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The name field is required'
-                            },
-                        }
-                    },
-                    email: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The email address is required'
-                            },
-                            emailAddress: {
-                                message: 'The input is not a valid email address'
-                            }
-                        }
-                    },
-                    address: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The address is required'
-                            },
+                reference: {
+                    validators: {
+                        regexp: {
+                            regexp: '^[A-Za-z0-9\-]+$',
+                            message: 'The reference can only contain letters, numbers and underscores'
                         }
                     }
                 }
-            });
-        });
+            }
+        };
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
