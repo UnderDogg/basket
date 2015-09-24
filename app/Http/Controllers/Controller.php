@@ -526,20 +526,4 @@ abstract class Controller extends BaseController
     {
         return Application::where('ext_id', '=', $id)->first();
     }
-
-    /**
-     * Removes 'ext_' from local keys, so that you can update ext values
-     *
-     * @author EB
-     * @param array $values
-     * @return array
-     */
-    protected function prepareValuesForApi(array $values)
-    {
-        $apiValues = [];
-        foreach($values as $k=>$v) {
-            $apiValues[str_replace('ext_', '', $k)] = $v;
-        }
-        return $apiValues;
-    }
 }

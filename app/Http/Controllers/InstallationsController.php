@@ -108,7 +108,10 @@ class InstallationsController extends Controller
             $this->installationGateway
                 ->patchInstallation(
                     $this->fetchInstallation($id)->ext_id,
-                    $this->prepareValuesForApi($request->only(['ext_return_url','ext_notification_url'])),
+                    [
+                        'return_url' => $request->ext_return_url,
+                        'ext_notification_url' => $request->ext_notification_url
+                    ],
                     $this->fetchInstallation($id)->merchant->token
                 );
         } catch (\Exception $e) {
