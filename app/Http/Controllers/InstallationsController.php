@@ -25,6 +25,8 @@ class InstallationsController extends Controller
     /** @var \App\Basket\Synchronisation\InstallationSynchronisationService  */
     private $installationSynchronisationService;
 
+    protected $installationGateway;
+
     /**
      * @author WN
      */
@@ -32,6 +34,9 @@ class InstallationsController extends Controller
     {
         $this->installationSynchronisationService = \App::make(
             'App\Basket\Synchronisation\InstallationSynchronisationService'
+        );
+        $this->installationGateway = \App::make(
+            'PayBreak\Sdk\Gateways\InstallationGateway'
         );
     }
 
@@ -98,6 +103,27 @@ class InstallationsController extends Controller
         $this->validate($request, [
             'validity' => 'required|integer|between:7200,604800',
         ]);
+        $old = new Installation();
+        $old = $old->findOrFail($id);
+
+        if($old->ext_notification_url !== $request->ext_notification_url ||
+            $old->ext_return_url !== $request->ext_return_url) {
+
+            try {
+                $this->installationGateway
+                    ->patchInstallation(
+                        $this->fetchInstallation($id)->ext_id,
+                        [
+                            'return_url' => $request->ext_return_url,
+                            'notification_url' => $request->ext_notification_url
+                        ],
+                        $this->fetchInstallation($id)->merchant->token
+                    );
+            } catch (\Exception $e) {
+                dd($e);
+                return RedirectException::make('/installations/' . $id . '/edit')->setError($e->getMessage());
+            }
+        }
 
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
     }
