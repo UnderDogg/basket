@@ -13,7 +13,6 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
 use Illuminate\Http\Request;
-use PayBreak\Sdk\Gateways\InstallationGateway;
 
 /**
  * Class InstallationController
@@ -30,14 +29,15 @@ class InstallationsController extends Controller
 
     /**
      * @author WN
-     * @param InstallationGateway $installationGateway
      */
-    public function __construct(InstallationGateway $installationGateway)
+    public function __construct()
     {
         $this->installationSynchronisationService = \App::make(
             'App\Basket\Synchronisation\InstallationSynchronisationService'
         );
-        $this->installationGateway = $installationGateway;
+        $this->installationGateway = \PayBreak::make(
+            'PayBreak\Sdk\Gateways\InstallationGateway'
+        );
     }
 
     /**
