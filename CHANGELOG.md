@@ -1,6 +1,9 @@
 ## Features
 - Added Currency format helper
 - Re-wrote several items in the applications list to use this for financials
+- Now able to update notification url and return url for an installation
+- Patch to API added to Abstract Gateway
+- Installations edit page now includes notification and return url fields
 
 # 0.13.0
 2015-09-14
