@@ -46,4 +46,16 @@ class InstallationGateway extends AbstractGateway
             '\PayBreak\Sdk\Entities\InstallationEntity'
         );
     }
+
+    /**
+     * @author EB
+     * @param $id
+     * @param $body
+     * @param $token
+     * @return mixed
+     */
+    public function patchInstallation($id, $body, $token)
+    {
+        return $this->patchDocument('/v4/installations/' . $id, $token, 'updateInstallation', $body);
+    }
 }
