@@ -53,7 +53,7 @@ class BasicModels extends Migration
             $table->increments('id');
             $table->string('reference');
             $table->integer('installation_id')->unsigned();
-            $table->boolean('active')->default(true);
+            $table->boolean('active');
             $table->string('name');
             $table->string('email');
             $table->string('address');
