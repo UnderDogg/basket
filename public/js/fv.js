@@ -3,7 +3,6 @@ if($(".form-horizontal")[0] && $(".form-control")[0]) {
     obj['framework'] = 'bootstrap';
     obj['icon'] = {valid: 'glyphicon glyphicon-ok', invalid: 'glyphicon glyphicon-remove', validating: 'glyphicon glyphicon-refresh'};
     obj['fields'] = {};
-    //obj['err'] = {container: 'tooltip'};
     $('.form-control').each(function(i){
         var name = $(this)[0].getAttribute('name');
         obj['fields'][name] = {validators: { notEmpty: { message: 'The '+((name == 'email') ? 'email address' : name.replace(/_/g, ' '))+' field is required'}}};
