@@ -53,7 +53,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <div class="form-group">
         <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">

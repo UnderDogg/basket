@@ -191,10 +191,15 @@ class UsersController extends Controller
     {
         try {
             $user = $this->fetchUserById($id);
-
-            $ids = explode(':', $request->get('locationsApplied'));
-            array_shift($ids);
-            $user->locations()->sync($ids);
+            $user->locations()->sync(
+                $this->updateWithCheckboxes(
+                    $request->except([
+                        '_method',
+                        '_token',
+                        'saveChanges',
+                    ])
+                )
+            );
 
         } catch (\Exception $e) {
             $this->logError('Cannot update user [' . $id . '] locations: ' . $e->getMessage());
