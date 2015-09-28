@@ -1,3 +1,9 @@
+# 0.13.1
+2015-09-28
+
+## Bug Fixes
+- *Make Application* page fixed wrong view variables
+
 # 0.13.0
 2015-09-14
 
