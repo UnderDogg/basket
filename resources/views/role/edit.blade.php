@@ -35,42 +35,32 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Role Permissions</strong></div>
-                <div class="panel-body panel-tight-space">
-                    <div class="col-xs-6">
-                        <div class="panel rolePanel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Applied Permissions</h3>
-                                <hr class="hr-tight">
-                            </div>
-                            <div class="panel-body panel-tight-space">
-                                <div id="permissionsAppliedHolder" class="connectedSortable col-xs-12">
-                                    @if($role->permissions !== null)
-                                        @foreach ($role->permissions as $permission)
-                                            <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
-                                        @endforeach
-                                    @endif
+                    <div class="form-horizontal">
+                        @foreach($role->permissions as $permission)
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-5">
+                                    <div class="checkbox">
+                                        <label>
+                                            {!! Form::checkbox($permission->display_name, $permission->id, true) !!} {{$permission->display_name}}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="panel rolePanel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Permissions Available</h3>
-                                <hr class="hr-tight">
-                            </div>
-                            <div class="panel-body panel-tight-space">
-                                <div id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
-                                    @foreach ($permissionsAvailable as $permission)
-                                        <div name="{{ $permission->id }}" class="draggableItem">{{ $permission->display_name }}</div>
-                                    @endforeach
+                        @endforeach
+                        @foreach($permissionsAvailable as $permission)
+                                <div class="form-group">
+                                    <div class="col-sm-offset-1 col-sm-5">
+                                        <div class="checkbox">
+                                            <label>
+                                                {!! Form::checkbox($permission->display_name, $permission->id, false) !!} {{$permission->display_name}}
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
