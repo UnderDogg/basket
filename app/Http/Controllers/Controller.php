@@ -226,6 +226,7 @@ abstract class Controller extends BaseController
     /**
      * @author CS
      * @param $field, $value
+     * @return string
      */
     protected function processMoneyFilters($field, $value)
     {
@@ -378,7 +379,7 @@ abstract class Controller extends BaseController
 
     /**
      * @author EB
-     * @return Carbon[]
+     * @return integer
      */
     protected function getDateRange()
     {
@@ -432,7 +433,7 @@ abstract class Controller extends BaseController
 
     /**
      * @param $target
-     * @param $message
+     * @param string $message
      * @return RedirectResponse
      */
     protected function redirectWithSuccessMessage($target, $message)
@@ -443,9 +444,9 @@ abstract class Controller extends BaseController
 
     /**
      * @param $target
-     * @param $message
+     * @param string $message
      * @param \Exception $e
-     * @return $this
+     * @return RedirectException
      */
     protected function redirectWithException($target, $message, \Exception $e)
     {
@@ -456,7 +457,7 @@ abstract class Controller extends BaseController
     /**
      * @author EB
      * @param $model
-     * @param $filter
+     * @param string $filter
      * @return array
      */
     protected function fetchFilterValues($model, $filter)
@@ -476,10 +477,10 @@ abstract class Controller extends BaseController
 
     /**
      * @author EB
-     * @param $model
-     * @param $filter
-     * @param $false
-     * @param $true
+     * @param Builder $model
+     * @param string $filter
+     * @param string $false
+     * @param string $true
      * @return array
      */
     protected function fetchBooleanFilterValues($model, $filter, $false, $true)
@@ -497,8 +498,8 @@ abstract class Controller extends BaseController
 
     /**
      * @author EB
-     * @param $model
-     * @param $associate
+     * @param Builder $model
+     * @param string $associate
      * @return array
      */
     protected function fetchAssociateFilterValues($model, $associate)
