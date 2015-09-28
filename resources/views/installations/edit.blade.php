@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('location_instruction', 'Additional Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('location_instruction', 'Additional Email Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
             </div>
@@ -68,6 +68,60 @@
 @endsection
 
 @section('scripts')
+    <script>
+        validation = {
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        }
+                    }
+                },
+                validity: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The validity period cannot be empty'
+                        },
+                        integer: {
+                            message: 'The validity period is not an integer',
+                            thousandsSeparator: '',
+                            decimalSeparator: '.'
+                        },
+                        between: {
+                            min: 7200,
+                            max: 604800,
+                            message: 'The validity period must be between 7200 and 604800'
+                        }
+                    }
+                },
+                custom_logo_url: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The custom logo url is required'
+                        },
+                        uri: {
+                            message: 'The custom logo url must be a valid url'
+                        }
+                    }
+                },
+                location_instruction: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The additional email instructions field cannot be empty'
+                        }
+                    }
+                },
+                disclosure: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The instore disclosure cannot be empty'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 @endsection
