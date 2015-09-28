@@ -14,7 +14,7 @@
                 {!! Form::text('reference', null, ['class' => 'form-control', 'placeholder' => 'Location Reference']) !!}
             </div>
         </div><div class="form-group">
-            {!! Form::label('installation_id', 'Installation ID: ', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('installation_id', 'Installation: ', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::select('installation_id', $installations, null, ['class' => 'form-control']) !!}
             </div>
@@ -54,16 +54,36 @@
     <script>
         validation = {
             fields: {
+                reference: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The location reference cannot be empty'
+                        },
+                        regexp: {
+                            regexp: '^[A-Za-z0-9\-]+$',
+                            message: 'The location reference can only contain letters, numbers and underscores'
+                        }
+                    }
+                },
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        }
+                    }
+                },
                 email: {
                     validators: {
+                        notEmpty: {
+                            message: 'The email address cannot be empty'
+                        },
                         emailAddress: {}
                     }
                 },
-                reference: {
+                address: {
                     validators: {
-                        regexp: {
-                            regexp: '^[A-Za-z0-9\-]+$',
-                            message: 'The reference can only contain letters, numbers and underscores'
+                        notEmpty: {
+                            message: 'The address cannot be empty'
                         }
                     }
                 }
