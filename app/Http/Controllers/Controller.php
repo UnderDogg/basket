@@ -113,7 +113,7 @@ abstract class Controller extends BaseController
 
     /**
      * @author WN
-     * @param $merchantId
+     * @param int $merchantId
      * @return bool
      */
     protected function isMerchantAllowedForUser($merchantId)
@@ -225,7 +225,8 @@ abstract class Controller extends BaseController
     }
     /**
      * @author CS
-     * @param $field, $value
+     * @param string $field
+     * @param string $value
      * @return string
      */
     protected function processMoneyFilters($field, $value)

@@ -66,7 +66,6 @@ class RolesController extends Controller
 
         try {
             $role = Role::create($request->only([
-                '_token',
                 'name',
                 'display_name',
                 'description',
