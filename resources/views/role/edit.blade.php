@@ -72,7 +72,5 @@
         </div>
     </div>
 
-    <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="@foreach ($role->permissions as $permission){{ ':'.$permission->id  }}@endforeach">
-    <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="">
     {!! Form::close() !!}
 @endsection

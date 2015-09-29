@@ -80,8 +80,6 @@ class RolesController extends Controller
                         'display_name',
                         'description',
                         'createRoleButton',
-                        'permissionsAvailable',
-                        'permissionsApplied',
                     ])
                 )
             );
@@ -161,8 +159,6 @@ class RolesController extends Controller
                             'display_name',
                             'description',
                             'saveChanges',
-                            'permissionsApplied',
-                            'permissionsAvailable',
                         ]
                     )
                 )

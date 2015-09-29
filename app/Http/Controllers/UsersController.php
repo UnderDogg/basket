@@ -166,8 +166,11 @@ class UsersController extends Controller
 
                 throw new Exception('Problem saving object');
             }
-
-            $this->processRoles($user, $input);
+            $this->applyRoles($user,
+                $this->updateWithCheckboxes($request->except(
+                    '_method','_token','name','email','password','merchant_id','saveChanges'
+                ))
+            );
 
         } catch (\Exception $e) {
             $this->logError('Cannot update user [' . $id . ']: ' . $e->getMessage());

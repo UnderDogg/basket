@@ -60,8 +60,6 @@
         </div>
     </div>
 
-    <input id="permissionsAvailable" name="permissionsAvailable" type="hidden" value="@foreach ($permissionsAvailable as $permission){{ ':'.$permission->id  }}@endforeach">
-    <input id="permissionsApplied" name="permissionsApplied" type="hidden" value="">
     {!! Form::close() !!}
 
 @endsection
