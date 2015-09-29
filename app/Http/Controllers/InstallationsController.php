@@ -107,7 +107,6 @@ class InstallationsController extends Controller
             'custom_logo_url' => 'url',
             'ext_return_url' => 'url',
             'ext_notification_url' => 'url',
-
         ]);
         $old = new Installation();
         $old = $old->findOrFail($id);

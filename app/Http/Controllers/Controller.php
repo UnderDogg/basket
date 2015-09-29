@@ -379,7 +379,7 @@ abstract class Controller extends BaseController
 
     /**
      * @author EB
-     * @return integer
+     * @return Carbon[]
      */
     protected function getDateRange()
     {
@@ -479,16 +479,16 @@ abstract class Controller extends BaseController
      * @author EB
      * @param Builder $model
      * @param string $filter
-     * @param string $false
-     * @param string $true
+     * @param string $falseLabel
+     * @param string $trueLabel
      * @return array
      */
-    protected function fetchBooleanFilterValues($model, $filter, $false, $true)
+    protected function fetchBooleanFilterValues($model, $filter, $falseLabel, $trueLabel)
     {
         $rtn = [];
         if($model) {
             foreach($model->get() as $item) {
-                ($item->{$filter} == 0) ? $rtn[0] = ucwords($false) : $rtn[1] = ucwords($true);
+                ($item->{$filter} == 0) ? $rtn[0] = ucwords($falseLabel) : $rtn[1] = ucwords($trueLabel);
             }
             $rtn = ['' => 'All'] + $rtn;
         }

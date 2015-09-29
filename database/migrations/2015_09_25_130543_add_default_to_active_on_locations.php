@@ -30,6 +30,8 @@ class AddDefaultToActiveOnLocations extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('locations', function ($table) {
+            $table->boolean('active')->default(false)->change();
+        });
     }
 }
