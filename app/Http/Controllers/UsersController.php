@@ -167,9 +167,11 @@ class UsersController extends Controller
                 throw new Exception('Problem saving object');
             }
             $this->applyRoles($user,
-                array_values($request->except(
-                    '_method','_token','name','email','password','merchant_id','saveChanges'
-                ))
+                array_values(
+                    $request->except(
+                        '_method','_token','name','email','password','merchant_id','saveChanges'
+                    )
+                )
             );
 
         } catch (\Exception $e) {
@@ -196,11 +198,9 @@ class UsersController extends Controller
             $user = $this->fetchUserById($id);
             $user->locations()->sync(
                 array_values(
-                    $request->except([
-                        '_method',
-                        '_token',
-                        'saveChanges',
-                    ])
+                    $request->except(
+                        '_method', '_token', 'saveChanges'
+                    )
                 )
             );
 

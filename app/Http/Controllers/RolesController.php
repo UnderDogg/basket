@@ -65,21 +65,16 @@ class RolesController extends Controller
         ]);
 
         try {
-            $role = Role::create($request->only([
-                'name',
-                'display_name',
-                'description',
-                'createRoleButton',
-            ]));
+            $role = Role::create(
+                $request->only(
+                    'name', 'display_name', 'description'
+                )
+            );
             $role->permissions()->sync(
                 array_values(
-                    $request->except([
-                        '_token',
-                        'name',
-                        'display_name',
-                        'description',
-                        'createRoleButton',
-                    ])
+                    $request->except(
+                        '_token', 'name', 'display_name', 'description', 'createRoleButton'
+                    )
                 )
             );
         } catch (\Exception $e) {
@@ -151,14 +146,7 @@ class RolesController extends Controller
             $role->permissions()->sync(
                 array_values(
                     $request->except(
-                        [
-                            '_method',
-                            '_token',
-                            'name',
-                            'display_name',
-                            'description',
-                            'saveChanges',
-                        ]
+                        '_method', '_token', 'name', 'display_name', 'description', 'saveChanges'
                     )
                 )
             );
