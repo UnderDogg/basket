@@ -65,10 +65,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div style="padding-right: 15px;" class="form-group">
-        <div class="pull-right col-sm-3 col-xs-4">
-            {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
+        <div style="padding-right: 15px;" class="form-group">
+            <div class="pull-right col-sm-3 col-xs-4">
+                {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
+            </div>
         </div>
     </div>
 
