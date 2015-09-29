@@ -72,7 +72,7 @@ class RolesController extends Controller
                 'createRoleButton',
             ]));
             $role->permissions()->sync(
-                $this->updateWithCheckboxes(
+                array_values(
                     $request->except([
                         '_token',
                         'name',
@@ -149,7 +149,7 @@ class RolesController extends Controller
             $role = $this->fetchRoleById($id);
             $role->update($request->all());
             $role->permissions()->sync(
-                $this->updateWithCheckboxes(
+                array_values(
                     $request->except(
                         [
                             '_method',

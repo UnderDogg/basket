@@ -167,7 +167,7 @@ class UsersController extends Controller
                 throw new Exception('Problem saving object');
             }
             $this->applyRoles($user,
-                $this->updateWithCheckboxes($request->except(
+                array_values($request->except(
                     '_method','_token','name','email','password','merchant_id','saveChanges'
                 ))
             );
@@ -195,7 +195,7 @@ class UsersController extends Controller
         try {
             $user = $this->fetchUserById($id);
             $user->locations()->sync(
-                $this->updateWithCheckboxes(
+                array_values(
                     $request->except([
                         '_method',
                         '_token',

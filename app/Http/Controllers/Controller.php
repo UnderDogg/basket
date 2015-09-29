@@ -528,18 +528,4 @@ abstract class Controller extends BaseController
     {
         return Application::where('ext_id', '=', $id)->first();
     }
-
-    /**
-     * @author EB
-     * @param $request
-     * @return array
-     */
-    protected function updateWithCheckboxes($request)
-    {
-        $rtn = [];
-        foreach($request as $k=>$v) {
-            array_push($rtn,$v);
-        }
-        return $rtn;
-    }
 }
