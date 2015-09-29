@@ -75,8 +75,9 @@ class UsersController extends Controller
             'password' => 'required',
             'merchant_id' => 'required',
         ]);
-
-        $array = $request->all();
+        $array = $request->only(
+            'name', 'email', 'password', 'merchant_id'
+        );
 
         if (!$this->isMerchantAllowedForUser($array['merchant_id'])) {
             throw RedirectException::make('/users')
@@ -84,10 +85,15 @@ class UsersController extends Controller
         }
 
         $array['password'] = bcrypt($array['password']);
-
         try {
             $user = User::create($array);
-            $this->processRoles($user, $array);
+            $this->applyRoles($user,
+                array_values(
+                    $request->except(
+                        '_token', 'name', 'email', 'password', 'merchant_id', 'createUserButton'
+                    )
+                )
+            );
 
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
@@ -318,23 +324,6 @@ class UsersController extends Controller
 
         return $roles;
     }
-
-    /**
-     * @author WN
-     * @param User $user
-     * @param array $input
-     * @throws Exception
-     */
-    private function processRoles(User $user, array $input)
-    {
-        if (isset($input['rolesApplied'])) {
-            $ids = explode(':', $input['rolesApplied']);
-            array_shift($ids);
-
-            $this->applyRoles($user, $ids);
-        }
-    }
-
 
     /**
      * @author WN
