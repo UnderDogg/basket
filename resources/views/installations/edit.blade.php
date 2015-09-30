@@ -19,7 +19,7 @@
         <div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-            @if($installations->active == 1)
+                @if($installations->active == 1)
                     {!! Form::input('checkbox', 'active', null, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
                 @else
                     {!! Form::input('checkbox', 'active', null, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
@@ -56,11 +56,23 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('ext_notification_url', 'Notification URL', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
             </div>
         </div>
-
     </div>
 
     {!! Form::close() !!}
@@ -75,6 +87,10 @@
                     validators: {
                         notEmpty: {
                             message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The name must not be greater than 255 characters'
                         }
                     }
                 },
@@ -102,6 +118,10 @@
                         },
                         uri: {
                             message: 'The custom logo url must be a valid url'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The url must not be greater than 255 characters'
                         }
                     }
                 },
@@ -115,7 +135,7 @@
                 disclosure: {
                     validators: {
                         notEmpty: {
-                            message: 'The instore disclosure cannot be empty'
+                            message: 'The in store disclosure cannot be empty'
                         }
                     }
                 }

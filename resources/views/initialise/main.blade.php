@@ -216,15 +216,18 @@
                                                     <th>Total Loan Payable</th>
                                                     <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
-                                                <tr>
-                                                    @if($product['product_group'] == 'FF')
+                                                @if($product['credit_info']['amount_service'] > 0)
+                                                    <tr>
                                                         <th>Service Fee</th>
-                                                        <td>&pound;{{ number_format($product['credit_info']['service_fee']/100, 2) }}</td>
-                                                    @else
+                                                        <td>&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
+                                                    </tr>
+                                                @endif
+                                                @if($product['credit_info']['deposit_amount'] > 0)
+                                                    <tr>
                                                         <th>Deposit</th>
                                                         <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
-                                                    @endif
-                                                </tr>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <th>Total Cost</th>
                                                     <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>

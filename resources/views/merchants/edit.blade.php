@@ -52,7 +52,7 @@
                         },
                         stringLength: {
                             max: 255,
-                            message: 'The full name must not be greater than 255 characters'
+                            message: 'The name must not be greater than 255 characters'
                         }
                     }
                 },
