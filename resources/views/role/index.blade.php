@@ -15,18 +15,18 @@
         {{-- TABLE HEADER WITH FILTERS --}}
         <tr>
             {{-- TITLES --}}
-            <th>ID</th>
+            <th class="hidden-xs">ID</th>
             <th>Display Name</th>
-            <th class="hidden-xs hidden-sm">Role Code</th>
+            <th>Role Code</th>
             <th class="hidden-xs hidden-sm">Description</th>
             <th><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
             {{-- FILTERS --}}
-            <th>{!! Form::text('id', Request::only('id')['id'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
+            <th class="hidden-xs">{!! Form::text('id', Request::only('id')['id'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::text('display_name', Request::only('display_name')['display_name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
-            <th>{!! Form::text('description', Request::only('description')['description'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
+            <th class="hidden-xs hidden-sm">{!! Form::text('description', Request::only('description')['description'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>
                 <div class="btn-group pull-right">
                     <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
@@ -46,13 +46,13 @@
 
         @forelse($roles as $item)
             <tr>
-                <td class="col-xs-1">{{ $item->id }}</td>
+                <td class="hidden-xs">{{ $item->id }}</td>
                 <td>{{ $item->display_name }}</td>
-                <td class="hidden-xs hidden-sm">{{ $item->name }}</td>
+                <td>{{ $item->name }}</td>
                 <td class="hidden-xs hidden-sm">{{ str_limit($item->description, 60) }}</td>
 
                 {{-- ACTION BUTTONS --}}
-                <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
+                <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-right">
                     <div class="btn-group">
                         <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
                         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

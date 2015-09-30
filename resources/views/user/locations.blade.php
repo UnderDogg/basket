@@ -8,30 +8,38 @@
     <p>&nbsp;</p>
     {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UsersController@updateLocations', $user->id], 'class' => 'form-horizontal']) !!}
 
-    <div style="height: 100%;" class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">User Locations</h3>
-        </div>
-        <div class="panel-body panel-tight-space">
-            <div class="col-xs-6">
-                <h3 class="panel-title">Applied Locations</h3>
-                <hr class="hr-tight">
-            </div>
-            <div class="col-xs-6">
-                <h3 class="panel-title">Locations Available</h3>
-                <hr class="hr-tight">
-            </div>
-        </div>
-        <div class="panel-body panel-tight-space" style="display: table; margin-bottom: 20px;">
-            <div style="display: table-cell; float: none;" id="permissionsAppliedHolder" class="connectedSortable col-xs-6">
-                @foreach ($locationsApplied as $location)
-                    <div name="{{ $location->id }}" class="draggableItem">{{ $location->name }}</div>
-                @endforeach
-            </div>
-            <div style="display: table-cell; float: none;" id="permissionsAvailableHolder" class="connectedSortable col-xs-6">
-                @foreach ($locationsAvailable as $location)
-                    <div name="{{ $location->id }}" class="draggableItem">{{ $location->name }}</div>
-                @endforeach
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>Locations</strong></div>
+                <div class="form-horizontal">
+                    @if($locationsApplied !== null)
+                        @foreach ($locationsApplied as $location)
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-5">
+                                    <div class="checkbox">
+                                        <label>
+                                            {!! Form::checkbox($location->name, $location->id, true) !!} {{$location->name}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                    @if($locationsAvailable !== null)
+                        @foreach ($locationsAvailable as $location)
+                                <div class="form-group">
+                                    <div class="col-sm-offset-1 col-sm-5">
+                                        <div class="checkbox">
+                                            <label>
+                                                {!! Form::checkbox($location->name, $location->id, false) !!} {{$location->name}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                        @endforeach
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -42,8 +50,6 @@
         </div>
     </div>
 
-    <input id="permissionsApplied" name="locationsApplied" type="hidden" value="@foreach ($locationsApplied as $location){{ ':'.$location->id  }}@endforeach">
-    <input id="permissionsAvailable" name="locationsAvailable" type="hidden" value="">
     {!! Form::close() !!}
 
 @endsection

@@ -64,13 +64,11 @@ class LocationsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'reference' => 'required|regex:/^[A-Za-z0-9\-]+$/',
+            'installation_id' => 'required',
             'name' => 'required',
             'email' => 'required:email',
             'address' => 'required',
-            'reference' => 'required',
-            'installation_id' => 'required',
-            'active' => 'required'
-
         ]);
 
         try {
@@ -126,7 +124,7 @@ class LocationsController extends Controller
             'name' => 'required',
             'email' => 'required:email',
             'address' => 'required',
-            'reference' => 'required',
+            'active' => 'required',
         ]);
 
         return $this->updateModel((new Location()), $id, 'location', '/locations', $request);

@@ -54,7 +54,7 @@
                 </td>
 
                 {{-- ACTION BUTTONS --}}
-                <td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
+                <td class="col-xs-4 col-sm-2 col-md-2 col-lg-1 text-right">
                     <div class="btn-group">
                         <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
                         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
