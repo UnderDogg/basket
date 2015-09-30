@@ -42,6 +42,35 @@
 @endsection
 
 @section('scripts')
+    <script>
+        validation = {
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The full name must not be greater than 255 characters'
+                        }
+                    }
+                },
+                token: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            min: 32,
+                            max: 32,
+                            message: 'The token must be 32 characters'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 @endsection

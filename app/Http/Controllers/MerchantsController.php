@@ -65,8 +65,8 @@ class MerchantsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'token' => 'required',
+            'name' => 'required|max:255',
+            'token' => 'required|min:32|max:32',
         ]);
 
         try {
@@ -122,8 +122,8 @@ class MerchantsController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'token' => 'required',
+            'name' => 'required|max:255',
+            'token' => 'required|min:32|max:32',
             'active' => 'required',
         ]);
 
