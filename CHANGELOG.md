@@ -1,3 +1,6 @@
+# 0.14.0
+2015-09-30
+
 ## Features
 - Added Currency format helper
 - Re-wrote several items in the applications list to use this for financials
