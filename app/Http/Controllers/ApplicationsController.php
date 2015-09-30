@@ -68,6 +68,7 @@ class ApplicationsController extends Controller
             [
                 'default_dates' => $filterDates,
                 'ext_current_status' => $this->fetchFilterValues($applications, 'ext_current_status'),
+                'ext_products_groups' => $this->fetchFilterValues($applications, 'ext_products_groups'),
             ]
         );
     }
