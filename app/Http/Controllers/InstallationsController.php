@@ -136,7 +136,7 @@ class InstallationsController extends Controller
      * @author WN
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws InstallationsController
+     * @throws RedirectException
      */
     public function synchroniseAllForMerchant($id)
     {
