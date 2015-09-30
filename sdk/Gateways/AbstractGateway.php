@@ -94,6 +94,8 @@ abstract class AbstractGateway
                 return $api->post($documentPath, $body, $query);
             case 'delete':
                 return $api->delete($documentPath, $query);
+            case 'patch':
+                return $api->patch($documentPath, $body, $query);
             default:
                 return $api->get($documentPath, $query);
         }
@@ -125,6 +127,20 @@ abstract class AbstractGateway
     protected function postDocument($documentPath, array $body = [], $token, $documentName)
     {
         return $this->makeRequestForDocument('post', $documentPath, $token, $documentName, [], $body);
+    }
+
+    /**
+     * @author EB
+     * @param $documentPath
+     * @param $token
+     * @param $documentName
+     * @param array $body
+     * @return array
+     * @throws Exception
+     */
+    protected function patchDocument($documentPath, $token, $documentName, array $body = [])
+    {
+        return $this->makeRequestForDocument('patch', $documentPath, $token, $documentName, [], $body);
     }
 
     /**

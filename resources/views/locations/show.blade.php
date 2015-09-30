@@ -12,7 +12,7 @@
             <a href="{{Request::url()}}/delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
         </div>
     </h1>
-    @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $location->name]])
+    @include('includes.page.breadcrumb', ['over' => [1  => $location->name]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#part1">Location Details</a></li>
     </ul>

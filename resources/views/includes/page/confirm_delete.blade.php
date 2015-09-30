@@ -5,7 +5,7 @@
     {{-- OVERLAY MESSAGES --}}
     @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
 
-    <h2>{{ Str::upper(' Delete ' . str_singular(Request::segment(1))) }}</h2>
+    <h2>{{ 'Delete ' . ucfirst(str_singular(Request::segment(1))) }}</h2>
 
     @if($object !== null)
 

@@ -65,8 +65,18 @@ class RolesController extends Controller
         ]);
 
         try {
-            $role = Role::create($request->all());
-            $this->applyPermissions($role, $request);
+            $role = Role::create(
+                $request->only(
+                    'name', 'display_name', 'description'
+                )
+            );
+            $role->permissions()->sync(
+                array_values(
+                    $request->except(
+                        '_token', 'name', 'display_name', 'description', 'createRoleButton'
+                    )
+                )
+            );
         } catch (\Exception $e) {
             return $this->redirectWithException('/roles/', 'Failed while storing new', $e);
         }
@@ -133,7 +143,13 @@ class RolesController extends Controller
         try {
             $role = $this->fetchRoleById($id);
             $role->update($request->all());
-            $this->applyPermissions($role, $request);
+            $role->permissions()->sync(
+                array_values(
+                    $request->except(
+                        '_method', '_token', 'name', 'display_name', 'description', 'saveChanges'
+                    )
+                )
+            );
         } catch (\Exception $e) {
             $this->logError('Could not update Role with ID [' . $id . ']: ' . $e->getMessage());
             throw RedirectException::make('/roles')->setError('Could not update Role');
@@ -186,19 +202,5 @@ class RolesController extends Controller
     private function fetchRoleById($id)
     {
         return $this->fetchModelById((new Role()), $id, 'role', '/roles');
-    }
-
-    /**
-     * @author WN
-     * @param Role $role
-     * @param Request $request
-     */
-    private function applyPermissions(Role $role, Request $request)
-    {
-        if ($request->get('permissionsApplied')) {
-            $ids = explode(':', $request->get('permissionsApplied'));
-            array_shift($ids);
-            $role->permissions()->sync($ids);
-        }
     }
 }
