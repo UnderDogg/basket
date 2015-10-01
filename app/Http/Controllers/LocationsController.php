@@ -66,7 +66,6 @@ class LocationsController extends Controller
         $this->validate($request, [
             'reference' => 'required|regex:/^[A-Za-z0-9\-]+$/',
             'installation_id' => 'required',
-            'active' => 'required',
             'name' => 'required',
             'email' => 'required:email',
             'address' => 'required',

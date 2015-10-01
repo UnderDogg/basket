@@ -115,7 +115,6 @@ class InstallationsController extends Controller
 
         if($old->ext_notification_url !== $request->ext_notification_url ||
             $old->ext_return_url !== $request->ext_return_url) {
-
             try {
                 $this->installationGateway
                     ->patchInstallation(
@@ -139,7 +138,7 @@ class InstallationsController extends Controller
      * @author WN
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws InstallationsController
+     * @throws RedirectException
      */
     public function synchroniseAllForMerchant($id)
     {

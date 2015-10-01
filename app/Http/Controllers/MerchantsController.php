@@ -145,12 +145,12 @@ class MerchantsController extends Controller
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws MerchantsController
+     * @throws RedirectException
      */
     public function synchronise($id)
     {
         try {
-            $this->merchantSynchronisationService->synchroniseMerchant($id);
+            $this->merchantSynchronisationService->synchroniseMerchant($id, true);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 URL::previous(),

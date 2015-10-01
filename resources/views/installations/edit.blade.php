@@ -68,6 +68,7 @@
                 {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control']) !!}
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}

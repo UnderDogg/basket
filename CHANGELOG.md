@@ -1,5 +1,5 @@
-# 0.13.0
-2015-09-14
+# 0.14.0
+2015-09-30
 
 ## Features
 - Added Currency format helper
@@ -7,6 +7,16 @@
 - Now able to update notification url and return url for an installation
 - Patch to API added to Abstract Gateway
 - Installations edit page now includes notification and return url fields
+- Location reference validation added
+- Locations are now added as active initially
+
+## Bug Fixes
+- Edit forms changed to look the same and display correctly
+- Breadcrumbs edited to work on smaller screens
+- Action buttons now go smaller when on smaller devices
+- Active toggle being consistently used
+- Login page tabbing changed to work correctly
+- Navbar fixes
 
 # 0.13.1
 2015-09-28

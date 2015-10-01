@@ -43,7 +43,7 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/edit">Edit</a></li>
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/synchronise">Synchronise</a></li>
-                                <li><a href="{{Request::URL()}}/{{$item->id}}/installations/synchronise">Synchronise Installations</a></li>
+                                <li><a href="/installations/?merchant_id={{$item->id}}">Installations</a></li>
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/ips">View IP's</a></li>
                             </ul>
                     </div>

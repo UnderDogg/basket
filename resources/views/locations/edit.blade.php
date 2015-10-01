@@ -14,26 +14,6 @@
     <div class="col-xs-12">
 
         <div class="form-group">
-            {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('reference', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('active', 'Active:', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                <label class="checkbox-inline">
-                    @if($location->active == 1)
-                        {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @else
-                        {!! Form::input('checkbox', 'active', 0, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @endif
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
             {!! Form::label('name', 'Name:', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
@@ -51,6 +31,19 @@
             {!! Form::label('address', 'Address:', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::text('address', null, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('active', 'Active:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                <label class="checkbox-inline">
+                    @if($location->active == 1)
+                        {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                    @else
+                        {!! Form::input('checkbox', 'active', 0, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                    @endif
+                </label>
             </div>
         </div>
 

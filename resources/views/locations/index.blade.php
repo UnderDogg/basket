@@ -24,8 +24,8 @@
         </tr>
         <tr>
             {{-- FILTERS --}}
-            <th class="hidden-xs">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter pull-down', 'placeholder' => 'Location Reference']) !!}</th>
-            <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter pull-down', 'placeholder' => 'Location Name']) !!}</th>
+            <th class="hidden-xs">{!! Form::text('reference', Request::only('reference')['reference'], ['class' => 'filter pull-down']) !!}</th>
+            <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter pull-down']) !!}</th>
             <th class="hidden-xs">{!! Form::select('installation_id', $installation_id, Request::only('installation_id')['installation_id'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::select('active', $active, Request::only('active')['active'], ['class' => 'filter form-control']) !!}</th>
             <th>

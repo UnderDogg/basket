@@ -40,56 +40,45 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>User Roles</strong></div>
-                <div class="panel-body panel-tight-space">
-                    <div class="col-xs-6">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Applied Roles</h3>
-                                <hr class="hr-tight">
-                            </div>
-                            <div class="panel-body panel-tight-space">
-                                <div id="permissionsAppliedHolder" class="connectedSortable col-xs-12">
-                                    @foreach ($rolesApplied as $location)
-                                        <div name="{{ $location->id }}" class="draggableItem">{{ $location->name }}</div>
-                                    @endforeach
+                <div class="form-horizontal">
+                    @if($rolesApplied !== null)
+                        @foreach ($rolesApplied as $location)
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-5">
+                                    <div class="checkbox">
+                                        <label>
+                                            {!! Form::checkbox($location->name, $location->id, true) !!} {{$location->name}}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Roles Available</h3>
-                                <hr class="hr-tight">
-                            </div>
-                            <div class="panel-body panel-tight-space">
-                                <div id="permissionsAvailableHolder" class="connectedSortable col-xs-12">
-                                    @foreach ($rolesAvailable as $location)
-                                        <div name="{{ $location->id }}" class="draggableItem">{{ $location->name }}</div>
-                                    @endforeach
+                        @endforeach
+                    @endif
+                    @if($rolesAvailable !== null)
+                        @foreach ($rolesAvailable as $location)
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-5">
+                                    <div class="checkbox">
+                                        <label>
+                                            {!! Form::checkbox($location->name, $location->id, false) !!} {{$location->name}}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
-
-    </div>
-
-
     <div class="form-group">
         <div style="right: 15px" class="pull-right col-sm-3 col-xs-4">
             {!! Form::submit('Save Changes', ['class' => 'btn btn-info form-control', 'name' => 'saveChanges']) !!}
         </div>
     </div>
 
-    <input id="permissionsApplied" name="rolesApplied" type="hidden" value="@foreach ($rolesApplied as $location){{ ':'.$location->id  }}@endforeach">
-    <input id="permissionsAvailable" name="rolesAvailable" type="hidden" value="">
     {!! Form::close() !!}
 
 @endsection
