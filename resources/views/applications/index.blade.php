@@ -82,7 +82,7 @@
         @forelse($applications as $item)
             <tr>
                 <td>{{ $item->ext_id }}</td>
-                <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
+                <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
                 <td>{{ ucwords($item->ext_current_status) }}</td>
                 <td>{{ $item->ext_order_reference }}</td>
                 <td>{{ $item->ext_chosen_finance_product_group }}</td>
