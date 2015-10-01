@@ -34,8 +34,8 @@ use WNowicki\Generic\AbstractEntity;
  * @method int|null getPayments()
  * @method $this setTerm(int $term)
  * @method int|null getTerm()
- * @method $this setFinanceGroup(string $financeGroup)
- * @method int|null getFinanceGroup()
+ * @method $this setOptionGroup(string $financeGroup)
+ * @method string getOptionGroup()
  *
  * @package PayBreak\Sdk\Entities
  */
@@ -48,7 +48,7 @@ class FinanceEntity extends AbstractEntity
         'subsidy_amount'        => self::TYPE_INT,
         'settlement_net_amount' => self::TYPE_INT,
         'option'                => self::TYPE_STRING,
-        'finance_group'         => self::TYPE_STRING,
+        'option_group'         => self::TYPE_STRING,
         'holiday'               => self::TYPE_INT,
         'payments'              => self::TYPE_INT,
         'term'                  => self::TYPE_INT,
