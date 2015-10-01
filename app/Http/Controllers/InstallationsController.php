@@ -107,6 +107,8 @@ class InstallationsController extends Controller
             'validity' => 'required|integer|between:7200,604800',
             'custom_logo_url' => 'url|max:255',
             'location_instruction' => 'max:255',
+            'ext_return_url' => 'url|max:255',
+            'ext_notification_url' => 'url|max:255',
         ]);
         $old = new Installation();
         $old = $old->findOrFail($id);

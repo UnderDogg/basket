@@ -121,7 +121,7 @@
                         },
                         stringLength: {
                             max: 255,
-                            message: 'The url must not be greater than 255 characters'
+                            message: 'The custom logo url must not be greater than 255 characters'
                         }
                     }
                 },
@@ -136,6 +136,28 @@
                     validators: {
                         notEmpty: {
                             message: 'The in store disclosure cannot be empty'
+                        }
+                    }
+                },
+                ext_return_url: {
+                    validators: {
+                        uri: {
+                            message: 'The return url must be a valid url'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The return url must not be greater than 255 characters'
+                        }
+                    }
+                },
+                ext_notification_url: {
+                    validators: {
+                        uri: {
+                            message: 'The notification url must be a valid url'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The notification url must not be greater than 255 characters'
                         }
                     }
                 }
