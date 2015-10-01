@@ -128,15 +128,17 @@
                 },
                 location_instruction: {
                     validators: {
-                        notEmpty: {
-                            message: 'The additional email instructions field cannot be empty'
+                        stringLength: {
+                            max: 50000,
+                            message: 'The additional instruction must not be greater than 50000 characters'
                         }
                     }
                 },
                 disclosure: {
                     validators: {
-                        notEmpty: {
-                            message: 'The in store disclosure cannot be empty'
+                        stringLength: {
+                            max: 50000,
+                            message: 'The disclosure must not be greater than 50000 characters'
                         }
                     }
                 },

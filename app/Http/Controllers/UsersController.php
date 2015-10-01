@@ -70,9 +70,9 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|max:255',
             'merchant_id' => 'required',
         ]);
         $array = $request->only(
@@ -152,8 +152,9 @@ class UsersController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'sometimes|max:255',
             'merchant_id' => 'required',
         ]);
 
