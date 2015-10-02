@@ -27,7 +27,7 @@ use App\ExportableModelInterface;
  * @property string $ext_order_validity
  * @property string $ext_products_options
  * @property string $ext_products_groups
- * @property string $ext_chosen_finance_product_group
+ * @property string $ext_finance_option_group
  * @property string $ext_products_default
  * @property string $ext_fulfilment_method
  * @property string $ext_fulfilment_location
@@ -97,7 +97,6 @@ class Application extends Model implements ExportableModelInterface  {
         'ext_order_description',
         'ext_order_validity',
         'ext_products_options',
-        'ext_chosen_finance_product_group',
         'ext_products_groups',
         'ext_products_default',
         'ext_fulfilment_method',
@@ -128,6 +127,7 @@ class Application extends Model implements ExportableModelInterface  {
         'ext_finance_loan_amount',
         'ext_finance_deposit',
         'ext_finance_subsidy',
+        'ext_finance_option_group',
         'ext_finance_net_settlement',
         'ext_metadata',
         'last_sync_at'
@@ -179,7 +179,7 @@ class Application extends Model implements ExportableModelInterface  {
             'NetSettlement' => $this->getFormattedCurrency($this->ext_finance_net_settlement),
             'CurrentStatus' => $this->ext_current_status,
             'OrderAmount' => $this->getFormattedCurrency($this->ext_order_amount),
-            'FinanceGroup' => $this->ext_chosen_finance_product_group,
+            'FinanceGroup' => $this->ext_finance_option_group,
             'FinanceProduct' => $this->ext_finance_option,
             'TermLength' => $this->ext_finance_term,
             'InstallationName' => $this->installation->name,

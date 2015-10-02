@@ -19,7 +19,7 @@ class AddActiveProductGroupToApplicationsTable extends Migration
     public function up()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->string('ext_chosen_finance_product_group')->nullable()->after('ext_order_validity');
+            $table->string('ext_finance_option_group')->nullable()->after('ext_order_validity');
         });
     }
 
@@ -31,7 +31,7 @@ class AddActiveProductGroupToApplicationsTable extends Migration
     public function down()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->dropColumn('ext_chosen_finance_product_group');
+            $table->dropColumn('ext_finance_option_group');
         });
     }
 }
