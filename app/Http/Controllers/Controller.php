@@ -113,7 +113,7 @@ abstract class Controller extends BaseController
 
     /**
      * @author WN
-     * @param $merchantId
+     * @param int $merchantId
      * @return bool
      */
     protected function isMerchantAllowedForUser($merchantId)
@@ -225,7 +225,9 @@ abstract class Controller extends BaseController
     }
     /**
      * @author CS
-     * @param $field, $value
+     * @param string $field
+     * @param string $value
+     * @return string
      */
     protected function processMoneyFilters($field, $value)
     {
@@ -432,7 +434,7 @@ abstract class Controller extends BaseController
 
     /**
      * @param $target
-     * @param $message
+     * @param string $message
      * @return RedirectResponse
      */
     protected function redirectWithSuccessMessage($target, $message)
@@ -443,9 +445,9 @@ abstract class Controller extends BaseController
 
     /**
      * @param $target
-     * @param $message
+     * @param string $message
      * @param \Exception $e
-     * @return $this
+     * @return RedirectException
      */
     protected function redirectWithException($target, $message, \Exception $e)
     {
@@ -456,7 +458,7 @@ abstract class Controller extends BaseController
     /**
      * @author EB
      * @param $model
-     * @param $filter
+     * @param string $filter
      * @return array
      */
     protected function fetchFilterValues($model, $filter)
@@ -476,18 +478,18 @@ abstract class Controller extends BaseController
 
     /**
      * @author EB
-     * @param $model
-     * @param $filter
-     * @param $false
-     * @param $true
+     * @param Builder $model
+     * @param string $filter
+     * @param string $falseLabel
+     * @param string $trueLabel
      * @return array
      */
-    protected function fetchBooleanFilterValues($model, $filter, $false, $true)
+    protected function fetchBooleanFilterValues($model, $filter, $falseLabel, $trueLabel)
     {
         $rtn = [];
         if($model) {
             foreach($model->get() as $item) {
-                ($item->{$filter} == 0) ? $rtn[0] = ucwords($false) : $rtn[1] = ucwords($true);
+                ($item->{$filter} == 0) ? $rtn[0] = ucwords($falseLabel) : $rtn[1] = ucwords($trueLabel);
             }
             $rtn = ['' => 'All'] + $rtn;
         }
@@ -497,8 +499,8 @@ abstract class Controller extends BaseController
 
     /**
      * @author EB
-     * @param $model
-     * @param $associate
+     * @param Builder $model
+     * @param string $associate
      * @return array
      */
     protected function fetchAssociateFilterValues($model, $associate)

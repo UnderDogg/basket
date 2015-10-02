@@ -43,35 +43,34 @@
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6">
-            <div style="height: 100%;" class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">USER ROLES</h3>
-                </div>
-                <div class="panel-body panel-tight-space">
-                    <div class="col-xs-6">
-                        <h3 class="panel-title">Applied Roles</h3>
-                        <hr class="hr-tight">
-                    </div>
-                    <div class="col-xs-6">
-                        <h3 class="panel-title">Roles Available</h3>
-                        <hr class="hr-tight">
-                    </div>
-                </div>
-                <div class="panel-body panel-tight-space" style="display: table; margin-bottom: 20px;">
-                    <div style="display: table-cell; float: none;" id="permissionsAppliedHolder" class="connectedSortable col-xs-6">
-                        @foreach ($rolesApplied as $location)
-                            <div name="{{ $location->id }}" class="draggableItem">{{ $location->name }}</div>
-                        @endforeach
-                    </div>
-                    <div style="display: table-cell; float: none;" id="permissionsAvailableHolder" class="connectedSortable col-xs-6">
-                        @foreach ($rolesAvailable as $location)
-                            <div name="{{ $location->id }}" class="draggableItem">{{ $location->name }}</div>
-                        @endforeach
-                    </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>Role Permissions</strong></div>
+                <div class="form-horizontal">
+                    @foreach($rolesApplied as $role)
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-5">
+                                <div class="checkbox">
+                                    <label>
+                                        {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach($rolesAvailable as $role)
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-5">
+                                <div class="checkbox">
+                                    <label>
+                                        {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-
     </div>
 
     <p>&nbsp;</p>
@@ -81,8 +80,6 @@
         </div>
     </div>
 
-    <input id="permissionsApplied" name="rolesApplied" type="hidden" value="@foreach ($rolesApplied as $location){{ ':'.$location->id  }}@endforeach">
-    <input id="permissionsAvailable" name="rolesAvailable" type="hidden" value="">
     {!! Form::close() !!}
 
 @endsection

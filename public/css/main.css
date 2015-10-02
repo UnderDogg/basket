@@ -138,3 +138,34 @@ input.filter, select.filter {
 .center-login {
     height: 100vh;
 }
+
+ol.breadcrumb {
+    display: inline-table;
+    width: 100%
+}
+
+ol.breadcrumb li {
+    display: inline-flex;
+}
+
+.actions-right {
+    float: right!important;
+    clear: both;
+    margin-bottom: 10px;
+}
+@media screen and (max-width: 480px) {
+    h1 .bnt-group {
+        margin-top: 10px;
+    }
+    h1 .btn-group a {
+        padding: 5px 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+}
+@media screen and (max-width: 768px) {
+    h1 .btn-group a {
+        margin-bottom: 10px;
+    }
+}

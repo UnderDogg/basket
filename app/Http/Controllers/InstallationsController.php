@@ -13,6 +13,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests;
 use App\Basket\Installation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Class InstallationController
@@ -101,14 +102,17 @@ class InstallationsController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
+            'name' => 'required',
             'validity' => 'required|integer|between:7200,604800',
+            'custom_logo_url' => 'url',
+            'ext_return_url' => 'url',
+            'ext_notification_url' => 'url',
         ]);
         $old = new Installation();
         $old = $old->findOrFail($id);
 
         if($old->ext_notification_url !== $request->ext_notification_url ||
             $old->ext_return_url !== $request->ext_return_url) {
-
             try {
                 $this->installationGateway
                     ->patchInstallation(
@@ -132,7 +136,7 @@ class InstallationsController extends Controller
      * @author WN
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws InstallationsController
+     * @throws RedirectException
      */
     public function synchroniseAllForMerchant($id)
     {
@@ -140,13 +144,13 @@ class InstallationsController extends Controller
             $this->installationSynchronisationService->synchroniseAllInstallations($id);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
-                '/merchants/'.$id,
+                URL::previous(),
                 'Error while trying to sync installations for merchant['.$id.']',
                 $e
             );
         }
         return $this->redirectWithSuccessMessage(
-            '/merchants/'.$id,
+            URL::previous(),
             'Synchronisation complete successfully'
         );
     }

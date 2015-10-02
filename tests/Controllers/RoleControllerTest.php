@@ -126,7 +126,7 @@ class RolesControllerTest extends TestCase
             ->type('UnitTest','name')
             ->type('Unit Test', 'display_name')
             ->type('Unit Test Description', 'description')
-            ->press('creatRoleButton');
+            ->press('createRoleButton');
 
         // Test new Role has been added to mock database
         $roleData = Role::all()->last();
