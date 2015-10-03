@@ -1,3 +1,9 @@
+## Features
+- Pull chosen finance group into basket
+- Added finance product to table.
+- Update received col to show time
+- Rename & add fields in CSV.
+
 # 0.14.0
 2015-09-30
 
