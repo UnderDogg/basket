@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "89383eb2e4f41449d76e930b642d89e7",
-    "content-hash": "7d87b29499900d632b0552214742e2bb",
+    "hash": "80999ddc7728f0c93534d8ea1e006f1a",
+    "content-hash": "8b2bed864e1d451dd4ff65bd4fb76b56",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -1194,7 +1194,7 @@
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
@@ -4375,8 +4375,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "appzcoder/crud-generator": 20,
-        "paybreak/paybreak-sdk-php": 20
+        "appzcoder/crud-generator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

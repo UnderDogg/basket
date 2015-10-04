@@ -17,7 +17,7 @@
         "wnowicki/generic": "~0.0",
         "erusev/parsedown": "^1.5",
         "league/csv": "^7.1",
-        "paybreak/paybreak-sdk-php": "4.x-dev"
+        "paybreak/paybreak-sdk-php": "^4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
