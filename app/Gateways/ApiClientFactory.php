@@ -10,17 +10,20 @@
 
 namespace App\Gateways;
 
+use PayBreak\Sdk\ApiClient\ApiClientFactoryInterface;
+use PayBreak\Sdk\ApiClient\ProviderApiClient;
+
 /**
  * Api Client Factory
  *
  * @author WN
  * @package App\Gateways
  */
-class ApiClientFactory
+class ApiClientFactory implements ApiClientFactoryInterface
 {
     /**
      * @author WN
-     * @param $token
+     * @param string $token
      * @return ProviderApiClient
      */
     public function makeApiClient($token)

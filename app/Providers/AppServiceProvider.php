@@ -29,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
             'App\Basket\Notifications\LocationNotificationService',
             'App\Basket\Notifications\EmailLocationNotificationService'
         );
+
+        $this->app->bind('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface', 'App\Gateways\ApiClientFactory');
     }
 }
