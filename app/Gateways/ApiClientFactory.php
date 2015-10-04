@@ -28,6 +28,6 @@ class ApiClientFactory implements ApiClientFactoryInterface
      */
     public function makeApiClient($token)
     {
-        return ProviderApiClient::make(config('basket.providerUrl'), $token);
+        return ProviderApiClient::make(config('basket.providerUrl'), $token, \Log::getMonolog());
     }
 }
