@@ -18,6 +18,6 @@ class ApiClientFactoryTest extends \TestCase
     {
         $factory = new ApiClientFactory();
 
-        $this->assertInstanceOf('App\Gateways\ProviderApiClient', $factory->makeApiClient('testToken'));
+        $this->assertInstanceOf('PayBreak\Sdk\ApiClient\ProviderApiClient', $factory->makeApiClient('testToken'));
     }
 }
