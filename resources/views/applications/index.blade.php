@@ -24,6 +24,7 @@
             <th>Received</th>
             <th>Current Status</th>
             <th>Retailer Reference</th>
+            <th>Finance Group</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Postcode</th>
@@ -54,6 +55,7 @@
             </th>
             <th>{!! Form::select('ext_current_status', $ext_current_status, Request::only('ext_current_status')['ext_current_status'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::text('ext_order_reference', Request::only('ext_order_reference')['ext_order_reference'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
+            <th>{!! Form::select('ext_finance_option_group', $ext_finance_option_group, Request::only('ext_finance_option_group')['ext_finance_option_group'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::text('ext_customer_first_name', Request::only('ext_customer_first_name')['ext_customer_first_name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::text('ext_customer_last_name', Request::only('ext_customer_last_name')['ext_customer_last_name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::text('ext_application_address_postcode', Request::only('ext_application_address_postcode')['ext_application_address_postcode'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
@@ -80,9 +82,10 @@
         @forelse($applications as $item)
             <tr>
                 <td>{{ $item->ext_id }}</td>
-                <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
+                <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
                 <td>{{ ucwords($item->ext_current_status) }}</td>
                 <td>{{ $item->ext_order_reference }}</td>
+                <td>{{ $item->ext_finance_option_group }}</td>
                 <td>{{ $item->ext_customer_first_name }}</td>
                 <td>{{ $item->ext_customer_last_name }}</td>
                 <td>{{ $item->ext_application_address_postcode }}</td>

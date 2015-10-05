@@ -27,6 +27,7 @@ use App\ExportableModelInterface;
  * @property string $ext_order_validity
  * @property string $ext_products_options
  * @property string $ext_products_groups
+ * @property string $ext_finance_option_group
  * @property string $ext_products_default
  * @property string $ext_fulfilment_method
  * @property string $ext_fulfilment_location
@@ -126,6 +127,7 @@ class Application extends Model implements ExportableModelInterface  {
         'ext_finance_loan_amount',
         'ext_finance_deposit',
         'ext_finance_subsidy',
+        'ext_finance_option_group',
         'ext_finance_net_settlement',
         'ext_metadata',
         'last_sync_at'
@@ -177,7 +179,8 @@ class Application extends Model implements ExportableModelInterface  {
             'NetSettlement' => $this->getFormattedCurrency($this->ext_finance_net_settlement),
             'CurrentStatus' => $this->ext_current_status,
             'OrderAmount' => $this->getFormattedCurrency($this->ext_order_amount),
-            'FinanceProductName' => $this->ext_finance_option,
+            'FinanceGroup' => $this->ext_finance_option_group,
+            'FinanceProduct' => $this->ext_finance_option,
             'TermLength' => $this->ext_finance_term,
             'InstallationName' => $this->installation->name,
             'FirstName' => $this->ext_customer_first_name,
