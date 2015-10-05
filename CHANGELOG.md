@@ -4,7 +4,9 @@
 - Update received col to show time
 - Rename & add fields in CSV.
 - Refactored to use SDK
- - Removed all unused code
+- Removed all unused code
+- Added FormValidation
+- Validation added to fields on create, edit and login pages
 
 # 0.14.1
 2015-10-05
