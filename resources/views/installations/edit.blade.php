@@ -19,7 +19,7 @@
         <div class="form-group">
             {!! Form::label('active', 'Active: ', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-            @if($installations->active == 1)
+                @if($installations->active == 1)
                     {!! Form::input('checkbox', 'active', null, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
                 @else
                     {!! Form::input('checkbox', 'active', null, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('location_instruction', 'Additional Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('location_instruction', 'Additional Email Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
             </div>
@@ -74,7 +74,6 @@
                 {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
             </div>
         </div>
-
     </div>
 
     {!! Form::close() !!}
@@ -82,6 +81,92 @@
 @endsection
 
 @section('scripts')
+    <script>
+        validation = {
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The name must not be greater than 255 characters'
+                        }
+                    }
+                },
+                validity: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The validity period cannot be empty'
+                        },
+                        integer: {
+                            message: 'The validity period is not an integer',
+                            thousandsSeparator: '',
+                            decimalSeparator: '.'
+                        },
+                        between: {
+                            min: 7200,
+                            max: 604800,
+                            message: 'The validity period must be between 7200 and 604800'
+                        }
+                    }
+                },
+                custom_logo_url: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The custom logo url is required'
+                        },
+                        uri: {
+                            message: 'The custom logo url must be a valid url'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The custom logo url must not be greater than 255 characters'
+                        }
+                    }
+                },
+                location_instruction: {
+                    validators: {
+                        stringLength: {
+                            max: 50000,
+                            message: 'The additional instruction must not be greater than 50000 characters'
+                        }
+                    }
+                },
+                disclosure: {
+                    validators: {
+                        stringLength: {
+                            max: 50000,
+                            message: 'The disclosure must not be greater than 50000 characters'
+                        }
+                    }
+                },
+                ext_return_url: {
+                    validators: {
+                        uri: {
+                            message: 'The return url must be a valid url'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The return url must not be greater than 255 characters'
+                        }
+                    }
+                },
+                ext_notification_url: {
+                    validators: {
+                        uri: {
+                            message: 'The notification url must be a valid url'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The notification url must not be greater than 255 characters'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 @endsection

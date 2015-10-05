@@ -59,6 +59,61 @@
 @endsection
 
 @section('scripts')
+    <script>
+        validation = {
+            fields: {
+                reference: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The location reference cannot be empty'
+                        },
+                        regexp: {
+                            regexp: '^[A-Za-z0-9\-]+$',
+                            message: 'The location reference can only contain letters, numbers and underscores'
+                        },
+                        stringLength: {
+                            max: 242,
+                            message: 'The location reference must not be greater than 242 characters'
+                        }
+                    }
+                },
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The name must not be greater than 255 characters'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address cannot be empty'
+                        },
+                        emailAddress: {},
+                        stringLength: {
+                            max: 255,
+                            message: 'The email must not be greater than 255 characters'
+                        }
+                    }
+                },
+                address: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The address cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The address must not be greater than 255 characters'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 @endsection
