@@ -4,22 +4,21 @@
 
     <h1>IP Addresses</h1>
     @include('includes.page.breadcrumb', ['over' => [2 => 'IP Addresses']])
-    <div class="panel-heading"><h4>Create a new IP address</h4></div>
-    {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'addIp')) !!}
-        <div class="input-group">
-            {!! Form::text('ip', '', array('placeholder' => 'Add new IP address', 'class' => 'form-control')) !!}
-            <span class="input-group-btn">
-                {!! Form::button('<i class="glyphicon glyphicon-plus"></i>', array('type' => 'submit', 'class' => 'btn btn-success')) !!}
-            </span>
+    <h4>Create a new IP address</h4>
+    &nbsp;
+    {!! Form::open(array('url' => Request::URL() . '/', 'method' => 'post', 'class' => 'form-horizontal')) !!}
+        <div class="form-group">
+            {!! Form::label('ip', 'IP Address: ', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                {!! Form::text('ip', '', ['placeholder' => 'IP Address', 'class' => 'form-control']) !!}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                {!! Form::submit('Add IP Address', ['class' => 'btn btn-info', 'name' => 'createIpAddressButton']) !!}
+            </div>
         </div>
     {!! Form::close() !!}
-    <div class="has-error">
-        <div class="span hidden">
-            <label>
-                <span class="help-inline text-danger">Please enter a valid IP address</span>
-            </label>
-        </div>
-    </div>
 
     <div class="panel-heading"><h4>IP Address Management</h4></div>
     <table class="table table-bordered table-striped table-hover">
@@ -58,16 +57,24 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $("form.addIp").submit(function (e) {
-                var ip = $(this).find("input[name=ip]");
-                if (ip.val().match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)) return true;
-
-                ip.parents(".input-group").addClass("error");
-                $("div.span").removeClass("hidden");
-                e.preventDefault();
-
-            });
-        });
+        validation = {
+            fields: {
+                ip: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The ip address cannot be empty'
+                        },
+                        ip: {
+                            ipv6: false,
+                            message: 'Please enter a valid IP address'
+                        },
+                        stringLength: {
+                            max: 45,
+                            message: 'The ip address must not be greater than 45 characters'
+                        }
+                    }
+                }
+            }
+        };
     </script>
 @endsection
