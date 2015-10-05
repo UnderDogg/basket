@@ -4,6 +4,12 @@
 - Update received col to show time
 - Rename & add fields in CSV.
 
+# 0.14.1
+2015-10-05
+
+## Bug Fixes
+- Fixed *Application* external ID data range issue in DB
+
 # 0.14.0
 2015-09-30
 
