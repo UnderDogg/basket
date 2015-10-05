@@ -3,6 +3,8 @@
 - Added finance product to table.
 - Update received col to show time
 - Rename & add fields in CSV.
+- Refactored to use SDK
+ - Removed all unused code
 
 # 0.14.1
 2015-10-05
