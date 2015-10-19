@@ -162,17 +162,12 @@ class Application extends Model implements ExportableModelInterface  {
      *
      * @author SL
      */
-    public function getExportableFields(){
+    public function getExportableFields()
+    {
         return [
             'Received' => $this->created_at,
             'ApplicationReference' => $this->ext_id,
             'RetailerReference' => $this->ext_order_reference,
-            'LoanAmount' => $this->ext_finance_loan_amount,
-            'Deposit' => $this->ext_finance_deposit,
-            'Subsidy' => $this->ext_finance_subsidy,
-            'NetSettlement' => $this->ext_finance_net_settlement,
-            'CurrentStatus' => $this->ext_current_status,
-            'OrderAmount' => $this->ext_order_amount,
             'LoanAmount' => $this->getFormattedCurrency($this->ext_finance_loan_amount),
             'Deposit' => $this->getFormattedCurrency($this->ext_finance_deposit),
             'Subsidy' => $this->getFormattedCurrency($this->ext_finance_subsidy),
@@ -204,7 +199,8 @@ class Application extends Model implements ExportableModelInterface  {
      * @param int $fieldData
      * @return float
      */
-    private function getFormattedCurrency($fieldData){
+    private function getFormattedCurrency($fieldData)
+    {
         return $fieldData/100;
     }
 }
