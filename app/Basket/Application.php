@@ -68,12 +68,17 @@ use App\ExportableModelInterface;
  * @property int $ext_finance_holiday
  * @property int $ext_finance_payments
  * @property int $ext_finance_term
+ * @property int $ext_cancellation_fee_amount
+ * @property \Carbon\Carbon $ext_cancellation_effective_date
+ * @property \Carbon\Carbon $ext_cancellation_requested_date
+ * @property string $ext_cancellation_description
+ * @property int $ext_cancellation_fee_amount
  *
  * @author MS
  * @package App\Basket
  */
-class Application extends Model implements ExportableModelInterface  {
-
+class Application extends Model implements ExportableModelInterface
+{
     /**
      * The database table used by the model.
      *
@@ -129,8 +134,20 @@ class Application extends Model implements ExportableModelInterface  {
         'ext_finance_subsidy',
         'ext_finance_option_group',
         'ext_finance_net_settlement',
+        'ext_cancellation_requested',
+        'ext_cancellation_effective_date',
+        'ext_cancellation_requested_date',
+        'ext_cancellation_description',
+        'ext_cancellation_fee_amount',
         'ext_metadata',
         'last_sync_at'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'ext_cancellation_effective_date',
+        'ext_cancellation_requested_date',
     ];
 
     /**
