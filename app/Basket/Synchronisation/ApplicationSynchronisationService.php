@@ -13,6 +13,7 @@ namespace App\Basket\Synchronisation;
 use App\Basket\Application;
 use PayBreak\Sdk\Entities\Application\AddressEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
+use PayBreak\Sdk\Entities\Application\CancellationEntity;
 use PayBreak\Sdk\Entities\Application\CustomerEntity;
 use PayBreak\Sdk\Entities\Application\FinanceEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
@@ -321,6 +322,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $this->mapApplicationAddress($application, $applicationEntity->getApplicationAddress());
         $this->mapApplicant($application, $applicationEntity->getApplicant());
         $this->mapFinance($application, $applicationEntity->getFinance());
+        $this->mapCancellation($application, $applicationEntity->getCancellation());
 
         $application->ext_metadata = json_encode($applicationEntity->getMetadata());
     }
@@ -410,6 +412,22 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $application->ext_finance_holiday = $financeEntity->getHoliday();
             $application->ext_finance_payments = $financeEntity->getPayments();
             $application->ext_finance_term = $financeEntity->getTerm();
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Application $application
+     * @param CancellationEntity|null $cancellationEntity
+     */
+    private function mapCancellation(Application $application, CancellationEntity $cancellationEntity = null)
+    {
+        if ($cancellationEntity !== null) {
+            $application->ext_cancellation_requested = $cancellationEntity->getRequested();
+            $application->ext_cancellation_effective_date = $cancellationEntity->getEffectiveDate();
+            $application->ext_cancellation_requested_date = $cancellationEntity->getRequestedDate();
+            $application->ext_cancellation_description = $cancellationEntity->getDescription();
+            $application->ext_cancellation_fee_amount = $cancellationEntity->getFeeAmount();
         }
     }
 

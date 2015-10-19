@@ -68,9 +68,9 @@ use App\ExportableModelInterface;
  * @property int $ext_finance_holiday
  * @property int $ext_finance_payments
  * @property int $ext_finance_term
- * @property int $ext_cancellation_fee_amount
- * @property \Carbon\Carbon $ext_cancellation_effective_date
- * @property \Carbon\Carbon $ext_cancellation_requested_date
+ * @property int $ext_cancellation_requested
+ * @property \Carbon\Carbon|null $ext_cancellation_effective_date
+ * @property \Carbon\Carbon|null $ext_cancellation_requested_date
  * @property string $ext_cancellation_description
  * @property int $ext_cancellation_fee_amount
  *
