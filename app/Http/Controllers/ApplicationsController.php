@@ -211,12 +211,18 @@ class ApplicationsController extends Controller
      */
     public function pendingCancellations($installationId)
     {
+        $installation = Installation::query()->findOrFail($installationId);
+
         $pendingCancellations = Application::query()
             ->where('installation_id', '=', $installationId)
             ->where('ext_current_status', '=', 'pending_cancellation')
             ->get();
 
-        return View('applications.pending-cancellation', ['applications' => $pendingCancellations,]);
+        return View('applications.pending-cancellation',
+            [
+                'applications' => $pendingCancellations,
+                'installation' => $installation,
+            ]);
     }
 
     /**

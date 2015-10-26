@@ -3,7 +3,7 @@
 @section('content')
 
     <h1>Pending Cancellations</h1>
-    @include('includes.page.breadcrumb', ['over' => [1 => isset($applications[0]->installation) ? $applications[0]->installation : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 => $installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
     {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
 
@@ -12,9 +12,7 @@
             {{-- TITLES --}}
             <th>Retailer Ref.</th>
             <th>Name</th>
-            <td>Cancellation Fee</td>
-            {{--<th>Cancelled Reason</th>--}}
-            {{--<th>Requested</th>--}}
+            <th>Cancellation Fee</th>
             <th></th>
         </tr>
     @forelse($applications as $item)
