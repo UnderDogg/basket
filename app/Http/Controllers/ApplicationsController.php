@@ -203,36 +203,20 @@ class ApplicationsController extends Controller
         );
     }
 
-    /**
-     * Display pending cancellation list.
+    /**Display pending cancellation list.
      *
-     * @author SD
+     * @author SD, EB
+     * @param $installationId
      * @return \Illuminate\View\View
-     * @throws \App\Exceptions\RedirectException
      */
     public function pendingCancellations($installationId)
     {
-        $installation = $this->fetchModelByIdWithMerchantLimit((new Installation()), $installationId, 'installation', '/');
+        $pendingCancellations = Application::query()
+            ->where('installation_id', '=', $installationId)
+            ->where('ext_current_status', '=', 'pending_cancellation')
+            ->get();
 
-        $pendingCancellations = Collection::make(
-            $this
-                ->applicationGateway
-                ->getPendingCancellations($installation->ext_id, $installation->merchant->token)
-        );
-
-        $local = [];
-
-        // Shouldn't need to do this but leaving for refactoring as this
-        // is done across all code base
-        foreach ($pendingCancellations as $key => $pendingCancellation) {
-            $pendingCancellations[$key] = (object) $pendingCancellation;
-            $local[$pendingCancellation['id']] = Application::where('ext_id', '=', $pendingCancellation['id'])->first();
-        }
-
-        return View('applications.pending-cancellation', [
-            'applications' => $pendingCancellations,
-            'local' => $local,
-        ]);
+        return View('applications.pending-cancellation', ['applications' => $pendingCancellations,]);
     }
 
     /**
