@@ -424,8 +424,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     {
         if ($cancellationEntity !== null) {
             $application->ext_cancellation_requested = $cancellationEntity->getRequested();
-            $application->ext_cancellation_effective_date = $cancellationEntity->getEffectiveDate();
-            $application->ext_cancellation_requested_date = $cancellationEntity->getRequestedDate();
+            $application->ext_cancellation_effective_date = Carbon::parse($cancellationEntity->getEffectiveDate());
+            $application->ext_cancellation_requested_date = Carbon::parse($cancellationEntity->getRequestedDate());
             $application->ext_cancellation_description = $cancellationEntity->getDescription();
             $application->ext_cancellation_fee_amount = $cancellationEntity->getFeeAmount();
         }
