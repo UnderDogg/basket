@@ -9,14 +9,12 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Application;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
-use App\Http\Requests;
-use App\Basket\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use PayBreak\Sdk\Gateways\ApplicationGateway;
 use Illuminate\Support\Facades\Log;
+use PayBreak\Sdk\Gateways\ApplicationGateway;
 
 /**
  * Class ApplicationsController
@@ -147,7 +145,7 @@ class ApplicationsController extends Controller
      * @param $installation
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws ApplicationsController
+     * @throws RedirectException
      */
     public function fulfil($installation, $id)
     {
