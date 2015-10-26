@@ -10,12 +10,12 @@
 
 namespace App\Basket\Synchronisation;
 
-use Illuminate\Database\Eloquent\Model;
-use Psr\Log\LoggerInterface;
 use App\Basket\Application;
-use App\Basket\Merchant;
 use App\Basket\Installation;
+use App\Basket\Merchant;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
 /**
@@ -50,7 +50,7 @@ class AbstractSynchronisationService {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Installation
      */
     protected function fetchInstallationLocalObject($id)
@@ -60,7 +60,7 @@ class AbstractSynchronisationService {
 
     /**
      * @author WN
-     * @param $installation
+     * @param string $installation
      * @return Installation
      */
     protected function fetchInstallationByExternalId($installation)
@@ -77,7 +77,7 @@ class AbstractSynchronisationService {
 
     /**
      * @author WN
-     * @param $application
+     * @param int $application
      * @return Application
      */
     protected function fetchApplicationByExternalId($application)
@@ -96,7 +96,7 @@ class AbstractSynchronisationService {
      * @author WN
      * @param Model $model
      * @param $id
-     * @param $modelName
+     * @param string $modelName
      * @return Model
      */
     private function fetchLocalObject(Model $model, $id, $modelName)

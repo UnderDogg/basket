@@ -44,7 +44,7 @@ class ApplicationsController extends Controller
      *
      * @author WN, MS
      * @param int $installation
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index($installation)
     {
@@ -76,7 +76,7 @@ class ApplicationsController extends Controller
      *
      * @param int $installation
      * @param  int $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($installation, $id)
     {
@@ -98,7 +98,7 @@ class ApplicationsController extends Controller
      *
      * @param $installation
      * @param  int $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($installation, $id)
     {
@@ -115,7 +115,7 @@ class ApplicationsController extends Controller
      * @param $installation
      * @param int $id
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update($installation, $id, Request $request)
@@ -178,11 +178,11 @@ class ApplicationsController extends Controller
 
     /**
      * @author WN
-     * @param int $installation
-     * @param int $id
+     * @param $installation
+     * @param $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws ApplicationsController
+     * @throws RedirectException
      */
     public function requestCancellation($installation, $id, Request $request)
     {
@@ -326,7 +326,7 @@ class ApplicationsController extends Controller
 
     /**
      * @author WN
-     * @param $action
+     * @param string $action
      * @param $id
      * @return \Illuminate\View\View
      * @throws RedirectException
