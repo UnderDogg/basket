@@ -11,18 +11,18 @@
 namespace App\Basket\Synchronisation;
 
 use App\Basket\Application;
+use App\Exceptions\Exception;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\Application\AddressEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\CancellationEntity;
 use PayBreak\Sdk\Entities\Application\CustomerEntity;
 use PayBreak\Sdk\Entities\Application\FinanceEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
-use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
-use App\Exceptions\Exception;
 use Psr\Log\LoggerInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Carbon\Carbon;
 
 /**
  * Application Synchronisation Service
@@ -113,7 +113,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param int $id
-     * @return ApplicationEntity
+     * @return bool
      * @throws \Exception
      */
     public function fulfil($id)
@@ -133,7 +133,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author WN
-     * @param $id
+     * @param int $id
      * @param $description
      * @return bool
      * @throws \Exception
@@ -196,7 +196,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return null|string
      * @throws Exception
      */
     public function initialiseApplication(
@@ -268,8 +268,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param ApplicationEntity $applicationEntity
-     * @param $installationId
-     * @param null $requester
+     * @param int $installationId
+     * @param int|null $requester
      * @param null $location
      * @return Application
      * @throws Exception
