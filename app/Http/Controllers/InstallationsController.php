@@ -170,6 +170,11 @@ class InstallationsController extends Controller
         return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 
+    /**
+     * @author EB
+     * @param int $id
+     * @return array
+     */
     private function fetchProducts($id)
     {
         $installation = Installation::findOrFail($id);
@@ -185,11 +190,22 @@ class InstallationsController extends Controller
 
     }
 
+    /**
+     * @author EB
+     * @param Installation $installation
+     * @return mixed
+     */
     private function fetchProductGroups($installation)
     {
         return $this->installationGateway->getProductGroups($installation->ext_id, $installation->merchant->token);
     }
 
+    /**
+     * @author EB
+     * @param Installation $installation
+     * @param string $product
+     * @return mixed
+     */
     private function fetchProductsForInstallation($installation, $product)
     {
         return $this->installationGateway
