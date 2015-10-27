@@ -13,6 +13,8 @@
             <th>Retailer Ref.</th>
             <th>Name</th>
             <th>Cancellation Fee</th>
+            <th>Cancelled Reason</th>
+            <th>Requested</th>
             <th></th>
         </tr>
     @forelse($applications as $item)
@@ -20,6 +22,8 @@
             <td>{{ $item->ext_order_reference }}</td>
             <td>{{ trim($item->ext_customer_title . ' ' . $item->ext_customer_first_name . ' '.  $item->ext_customer_last_name) }}</td>
             <td>{{ '&pound;' . number_format($item->ext_cancellation_fee_amount/100, 2) }}</td>
+            <td>{{ $item->ext_cancellation_description }}</td>
+            <td>{{ date('d/m/Y H:i', strtotime($item->ext_cancellation_requested_date)) }}</td>
 
             <td class="text-right">
                 <div class="btn-group">
