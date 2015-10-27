@@ -95,7 +95,7 @@ class AbstractSynchronisationService {
     /**
      * @author WN
      * @param Model $model
-     * @param $id
+     * @param int $id
      * @param string $modelName
      * @return Model
      */
