@@ -72,7 +72,10 @@ class InstallationsController extends Controller
     {
         return view(
             'installations.show',
-            ['installations' => $this->fetchInstallation($id)]
+            [
+                'installations' => $this->fetchInstallation($id),
+                'products' => $this->fetchProducts($id),
+            ]
         );
     }
 
@@ -165,5 +168,31 @@ class InstallationsController extends Controller
     private function fetchInstallation($id)
     {
         return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
+    }
+
+    private function fetchProducts($id)
+    {
+        $installation = Installation::findOrFail($id);
+        $productGroups = $this->fetchProductGroups($installation);
+
+        $rtn = [];
+
+        foreach($productGroups as $product) {
+            $rtn[$product['id']] = $this->fetchProductsForInstallation($installation, $product['id']);
+        }
+
+        return $rtn;
+
+    }
+
+    private function fetchProductGroups($installation)
+    {
+        return $this->installationGateway->getProductGroups($installation->ext_id, $installation->merchant->token);
+    }
+
+    private function fetchProductsForInstallation($installation, $product)
+    {
+        return $this->installationGateway
+            ->listProducts($installation->ext_id, $installation->merchant->token, $product);
     }
 }
