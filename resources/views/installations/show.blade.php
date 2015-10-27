@@ -136,18 +136,18 @@
                                 <td>{{$product['name']}}</td>
                                 <td>{{$product['holidays']}}</td>
                                 <td>{{$product['payments']}}</td>
-                                <td>{{$product['per_annum_interest_rate']}}</td>
-                                <td>{{$product['customer_service_fee']}}</td>
-                                <td>{{$product['order']['minimum_amount']}}</td>
-                                <td>{{$product['order']['maximum_amount']}}</td>
-                                <td>{{$product['deposit']['minimum_percentage']}}</td>
-                                <td>{{$product['deposit']['maximum_percentage']}}</td>
-                                <td>{{$product['deposit']['minimum_amount']}}</td>
-                                <td>{{$product['deposit']['maximum_amount']}}</td>
-                                <td>{{$product['merchant_fees']['percentage']}}</td>
-                                <td>{{$product['merchant_fees']['minimum_amount']}}</td>
-                                <td>{{$product['merchant_fees']['maximum_amount']}}</td>
-                                <td>{{$product['merchant_fees']['cancellation']}}</td>
+                                <td>{{number_format($product['per_annum_interest_rate'], 1)}}%</td>
+                                <td>{{'&pound;' . number_format($product['customer_service_fee']/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($product['order']['minimum_amount']/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($product['order']['maximum_amount']/100, 2)}}</td>
+                                <td>{{number_format($product['deposit']['minimum_percentage'], 2)}}%</td>
+                                <td>{{number_format($product['deposit']['maximum_percentage'], 2)}}%</td>
+                                <td>{{'&pound;' . number_format($product['deposit']['minimum_amount']/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($product['deposit']['maximum_amount']/100, 2)}}</td>
+                                <td>{{number_format($product['merchant_fees']['percentage'], 2)}}%</td>
+                                <td>{{'&pound;' . number_format($product['merchant_fees']['minimum_amount']/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($product['merchant_fees']['maximum_amount']/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($product['merchant_fees']['cancellation']/100, 2)}}</td>
                             <tr>
                         @empty
                             <tr>
@@ -165,8 +165,8 @@
 
 @section('scripts')
     <script>
-        $('tr.clickable').on('click', function (n) {
-            console.log(n);
+        $('tr.clickable').on('click', function () {
+            if()
             $(this).find('span').each(function() {
                 if($(this).hasClass('hidden')) {
                     $(this).removeClass('hidden');
