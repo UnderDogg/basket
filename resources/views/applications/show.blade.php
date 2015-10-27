@@ -83,6 +83,23 @@
                         </dl>
                     </div>
                 </div>
+                @if($applications->ext_current_status == 'pending_cancellation')
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>Cancellation Details</strong></div>
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <dt>Effective Date</dt>
+                                <dd>{{ date('d/m/Y', strtotime($applications->ext_cancellation_effective_date)) }}</dd>
+                                <dt>Requested Date</dt>
+                                <dd>{{ date('d/m/Y H:i', strtotime($applications->ext_cancellation_requested_date)) }}</dd>
+                                <dt>Description</dt>
+                                <dd>{{ $applications->ext_cancellation_description }}</dd>
+                                <dt>Cancellation Fee</dt>
+                                <dd>{{ '&pound;' . number_format($applications->ext_cancellation_fee_amount/100, 2) }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                @endif
                 @if(isset($applications->ext_metadata) && $applications->ext_metadata != "null")
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Metadata</strong></div>
