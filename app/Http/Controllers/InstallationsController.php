@@ -178,37 +178,6 @@ class InstallationsController extends Controller
     private function fetchProducts($id)
     {
         $installation = Installation::findOrFail($id);
-        $productGroups = $this->fetchProductGroups($installation);
-
-        $rtn = [];
-
-        foreach($productGroups as $product) {
-            $rtn[$product['id']] = $this->fetchProductsForInstallation($installation, $product['id']);
-        }
-
-        return $rtn;
-
-    }
-
-    /**
-     * @author EB
-     * @param Installation $installation
-     * @return mixed
-     */
-    private function fetchProductGroups($installation)
-    {
-        return $this->installationGateway->getProductGroups($installation->ext_id, $installation->merchant->token);
-    }
-
-    /**
-     * @author EB
-     * @param Installation $installation
-     * @param string $product
-     * @return mixed
-     */
-    private function fetchProductsForInstallation($installation, $product)
-    {
-        return $this->installationGateway
-            ->listProducts($installation->ext_id, $installation->merchant->token, $product);
+        return $this->installationGateway->getAllProducts($installation->ext_id, $installation->merchant->token);
     }
 }
