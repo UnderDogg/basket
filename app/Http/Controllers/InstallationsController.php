@@ -178,6 +178,6 @@ class InstallationsController extends Controller
     private function fetchProducts($id)
     {
         $installation = Installation::findOrFail($id);
-        return $this->installationGateway->getAllProducts($installation->ext_id, $installation->merchant->token);
+        return $this->installationGateway->getProductGroupsWithProducts($installation->ext_id, $installation->merchant->token);
     }
 }
