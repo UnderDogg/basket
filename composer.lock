@@ -1,11 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "80999ddc7728f0c93534d8ea1e006f1a",
-    "content-hash": "8b2bed864e1d451dd4ff65bd4fb76b56",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -1194,19 +1193,20 @@
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
-                "reference": "d670ea078cf69b0c47ef7042641789593e4c45a4"
+                "reference": "218d86a792008f0c49b8982030085cc2517254f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/d670ea078cf69b0c47ef7042641789593e4c45a4",
-                "reference": "d670ea078cf69b0c47ef7042641789593e4c45a4",
+                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/218d86a792008f0c49b8982030085cc2517254f8",
+                "reference": "218d86a792008f0c49b8982030085cc2517254f8",
                 "shasum": ""
             },
             "require": {
+                "nesbot/carbon": "~1.19",
                 "php": ">=5.5",
                 "psr/log": "~1.0",
                 "wnowicki/generic": "~0.0"
@@ -1230,7 +1230,7 @@
             "keywords": [
                 "paybreak"
             ],
-            "time": "2015-10-03 22:34:25"
+            "time": "2015-11-03 16:02:44"
         },
         {
             "name": "psr/http-message",
