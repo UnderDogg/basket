@@ -11,17 +11,18 @@
 namespace App\Basket\Synchronisation;
 
 use App\Basket\Application;
+use App\Exceptions\Exception;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\Application\AddressEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
+use PayBreak\Sdk\Entities\Application\CancellationEntity;
 use PayBreak\Sdk\Entities\Application\CustomerEntity;
 use PayBreak\Sdk\Entities\Application\FinanceEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
-use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
-use App\Exceptions\Exception;
 use Psr\Log\LoggerInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Carbon\Carbon;
 
 /**
  * Application Synchronisation Service
@@ -112,7 +113,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param int $id
-     * @return ApplicationEntity
+     * @return bool
      * @throws \Exception
      */
     public function fulfil($id)
@@ -132,7 +133,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author WN
-     * @param $id
+     * @param int $id
      * @param $description
      * @return bool
      * @throws \Exception
@@ -195,7 +196,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return null|string
      * @throws Exception
      */
     public function initialiseApplication(
@@ -267,8 +268,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param ApplicationEntity $applicationEntity
-     * @param $installationId
-     * @param null $requester
+     * @param int $installationId
+     * @param int|null $requester
      * @param null $location
      * @return Application
      * @throws Exception
@@ -321,6 +322,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $this->mapApplicationAddress($application, $applicationEntity->getApplicationAddress());
         $this->mapApplicant($application, $applicationEntity->getApplicant());
         $this->mapFinance($application, $applicationEntity->getFinance());
+        $this->mapCancellation($application, $applicationEntity->getCancellation());
 
         $application->ext_metadata = json_encode($applicationEntity->getMetadata());
     }
@@ -406,9 +408,26 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $application->ext_finance_subsidy = $financeEntity->getSubsidyAmount();
             $application->ext_finance_net_settlement = $financeEntity->getSettlementNetAmount();
             $application->ext_finance_option = $financeEntity->getOption();
+            $application->ext_finance_option_group = $financeEntity->getOptionGroup();
             $application->ext_finance_holiday = $financeEntity->getHoliday();
             $application->ext_finance_payments = $financeEntity->getPayments();
             $application->ext_finance_term = $financeEntity->getTerm();
+        }
+    }
+
+    /**
+     * @author WN
+     * @param Application $application
+     * @param CancellationEntity|null $cancellationEntity
+     */
+    private function mapCancellation(Application $application, CancellationEntity $cancellationEntity = null)
+    {
+        if ($cancellationEntity !== null) {
+            $application->ext_cancellation_requested = $cancellationEntity->getRequested();
+            $application->ext_cancellation_effective_date = Carbon::parse($cancellationEntity->getEffectiveDate());
+            $application->ext_cancellation_requested_date = Carbon::parse($cancellationEntity->getRequestedDate());
+            $application->ext_cancellation_description = $cancellationEntity->getDescription();
+            $application->ext_cancellation_fee_amount = $cancellationEntity->getFeeAmount();
         }
     }
 

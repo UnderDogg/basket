@@ -10,10 +10,10 @@
 
 namespace App\Basket\Synchronisation;
 
-use PayBreak\Sdk\Entities\InstallationEntity;
-use PayBreak\Sdk\Gateways\InstallationGateway;
 use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
+use PayBreak\Sdk\Entities\InstallationEntity;
+use PayBreak\Sdk\Gateways\InstallationGateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -102,7 +102,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
     /**
      * @param InstallationEntity[] $externalInstallations
      * @param Collection $localInstallations
-     * @param $merchantId
+     * @param int $merchantId
      * @return Installation[]
      */
     private function synchroniseNewInstallations(array $externalInstallations, Collection $localInstallations, $merchantId)

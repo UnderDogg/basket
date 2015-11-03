@@ -27,6 +27,7 @@ use App\ExportableModelInterface;
  * @property string $ext_order_validity
  * @property string $ext_products_options
  * @property string $ext_products_groups
+ * @property string $ext_finance_option_group
  * @property string $ext_products_default
  * @property string $ext_fulfilment_method
  * @property string $ext_fulfilment_location
@@ -67,12 +68,17 @@ use App\ExportableModelInterface;
  * @property int $ext_finance_holiday
  * @property int $ext_finance_payments
  * @property int $ext_finance_term
+ * @property int $ext_cancellation_requested
+ * @property \Carbon\Carbon|null $ext_cancellation_effective_date
+ * @property \Carbon\Carbon|null $ext_cancellation_requested_date
+ * @property string $ext_cancellation_description
+ * @property int $ext_cancellation_fee_amount
  *
  * @author MS
  * @package App\Basket
  */
-class Application extends Model implements ExportableModelInterface  {
-
+class Application extends Model implements ExportableModelInterface
+{
     /**
      * The database table used by the model.
      *
@@ -126,9 +132,22 @@ class Application extends Model implements ExportableModelInterface  {
         'ext_finance_loan_amount',
         'ext_finance_deposit',
         'ext_finance_subsidy',
+        'ext_finance_option_group',
         'ext_finance_net_settlement',
+        'ext_cancellation_requested',
+        'ext_cancellation_effective_date',
+        'ext_cancellation_requested_date',
+        'ext_cancellation_description',
+        'ext_cancellation_fee_amount',
         'ext_metadata',
         'last_sync_at'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'ext_cancellation_effective_date',
+        'ext_cancellation_requested_date',
     ];
 
     /**
@@ -160,24 +179,20 @@ class Application extends Model implements ExportableModelInterface  {
      *
      * @author SL
      */
-    public function getExportableFields(){
+    public function getExportableFields()
+    {
         return [
             'Received' => $this->created_at,
             'ApplicationReference' => $this->ext_id,
             'RetailerReference' => $this->ext_order_reference,
-            'LoanAmount' => $this->ext_finance_loan_amount,
-            'Deposit' => $this->ext_finance_deposit,
-            'Subsidy' => $this->ext_finance_subsidy,
-            'NetSettlement' => $this->ext_finance_net_settlement,
-            'CurrentStatus' => $this->ext_current_status,
-            'OrderAmount' => $this->ext_order_amount,
             'LoanAmount' => $this->getFormattedCurrency($this->ext_finance_loan_amount),
             'Deposit' => $this->getFormattedCurrency($this->ext_finance_deposit),
             'Subsidy' => $this->getFormattedCurrency($this->ext_finance_subsidy),
             'NetSettlement' => $this->getFormattedCurrency($this->ext_finance_net_settlement),
             'CurrentStatus' => $this->ext_current_status,
             'OrderAmount' => $this->getFormattedCurrency($this->ext_order_amount),
-            'FinanceProductName' => $this->ext_finance_option,
+            'FinanceGroup' => $this->ext_finance_option_group,
+            'FinanceProduct' => $this->ext_finance_option,
             'TermLength' => $this->ext_finance_term,
             'InstallationName' => $this->installation->name,
             'FirstName' => $this->ext_customer_first_name,
@@ -201,7 +216,8 @@ class Application extends Model implements ExportableModelInterface  {
      * @param int $fieldData
      * @return float
      */
-    private function getFormattedCurrency($fieldData){
+    private function getFormattedCurrency($fieldData)
+    {
         return $fieldData/100;
     }
 }

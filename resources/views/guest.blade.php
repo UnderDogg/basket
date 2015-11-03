@@ -3,7 +3,7 @@
 @section('page')
     <body class="center-login">
         <div class="form-group panel-heading center-box">
-            <form method="POST" @if(isset($action))action="{{$action}}" @endif>
+            <form method="POST" @if(isset($action))action="{{$action}}" @endif id="loginForm">
                 {!! csrf_field() !!}
 
                 <div class="row">
@@ -31,5 +31,8 @@
         </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src={!! asset('/formvalidation/dist/js/formValidation.min.js') !!}></script>
+    <script src={!! asset('/formvalidation/dist/js/framework/bootstrap.min.js') !!}></script>
+    @yield('scripts')
     </body>
 @endsection

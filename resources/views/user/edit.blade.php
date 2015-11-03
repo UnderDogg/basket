@@ -82,3 +82,45 @@
     {!! Form::close() !!}
 
 @endsection
+
+@section('scripts')
+    <script>
+        validation = {
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The name must not be greater than 255 characters'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email cannot be empty'
+                        },
+                        emailAddress: {
+                            message: 'The email must be valid'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The email must not be greater than 255 characters'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        stringLength: {
+                            max:255,
+                            message: 'the password must not be greater than 255 characters'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+@endsection

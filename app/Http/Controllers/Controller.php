@@ -9,9 +9,9 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Application;
 use App\Basket\Installation;
 use App\Basket\Merchant;
-use App\Basket\Application;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

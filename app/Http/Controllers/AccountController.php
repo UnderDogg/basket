@@ -94,7 +94,7 @@ class AccountController extends Controller
         ]);
 
         if(!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
-            throw RedirectException::make('account/edit')->setError($e->getMessage());
+            throw RedirectException::make('account/edit')->setError('Old password must match stored password');
         }
 
         try {

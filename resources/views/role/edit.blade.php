@@ -74,3 +74,42 @@
 
     {!! Form::close() !!}
 @endsection
+
+@section('scripts')
+    <script>
+        validation = {
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The name must not be greater than 255 characters'
+                        }
+                    }
+                },
+                display_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The display name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The display name must not be greater than 255 characters'
+                        }
+                    }
+                },
+                description: {
+                    validators: {
+                        stringLength: {
+                            max: 50000,
+                            message: 'The display name must not be greater than 50000 characters'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+@endsection

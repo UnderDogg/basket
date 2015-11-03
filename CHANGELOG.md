@@ -1,3 +1,17 @@
+## Features
+- Pull chosen finance group into basket
+- Added finance product to table.
+- Update received col to show time
+- Rename & add fields in CSV.
+- Refactored to use SDK
+- Removed all unused code
+- Added FormValidation
+- Validation added to fields on create, edit and login pages
+- Added cancellation fields to application
+- Added cancellation fee to pending cancellation list
+- Changed pending cancellations to use local data instead of API data
+- Added available products for an installation tab to installation view
+
 # 0.14.1
 2015-10-05
 
