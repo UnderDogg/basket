@@ -1,3 +1,6 @@
+# 0.15.0
+2015-11-03
+
 ## Features
 - Pull chosen finance group into basket
 - Added finance product to table.
