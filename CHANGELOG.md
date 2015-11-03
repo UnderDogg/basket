@@ -1,3 +1,9 @@
+# 0.15.1
+2015-11-03
+
+## Bug Fixes
+- Removed entity types due to wrong api types
+
 # 0.15.0
 2015-11-03
 
