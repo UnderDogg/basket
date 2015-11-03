@@ -14,6 +14,7 @@ use App\Http\Requests;
 use App\Basket\Installation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use PayBreak\Sdk\Entities\GroupEntity;
 
 /**
  * Class InstallationController
@@ -28,6 +29,8 @@ class InstallationsController extends Controller
 
     protected $installationGateway;
 
+    protected $productGateway;
+
     /**
      * @author WN
      */
@@ -38,6 +41,9 @@ class InstallationsController extends Controller
         );
         $this->installationGateway = \App::make(
             'PayBreak\Sdk\Gateways\InstallationGateway'
+        );
+        $this->productGateway = \App::make(
+            'PayBreak\Sdk\Gateways\ProductGateway'
         );
     }
 
@@ -72,7 +78,10 @@ class InstallationsController extends Controller
     {
         return view(
             'installations.show',
-            ['installations' => $this->fetchInstallation($id)]
+            [
+                'installations' => $this->fetchInstallation($id),
+                'products' => $this->fetchProducts($id),
+            ]
         );
     }
 
@@ -165,5 +174,21 @@ class InstallationsController extends Controller
     private function fetchInstallation($id)
     {
         return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
+    }
+
+    /**
+     * @author EB
+     * @param int $id
+     * @return GroupEntity|array
+     */
+    private function fetchProducts($id)
+    {
+        $installation = Installation::findOrFail($id);
+
+        return $this->productGateway
+            ->getProductGroupsWithProducts(
+                $installation->ext_id,
+                $installation->merchant->token
+            );
     }
 }
