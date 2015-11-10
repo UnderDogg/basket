@@ -1,6 +1,6 @@
-@extends('main')
+@extends('master')
 
-@section('content')
+@section('page')
 
     <div>&nbsp;</div>
     <div class="form-group panel-heading">
