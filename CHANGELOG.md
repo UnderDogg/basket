@@ -1,3 +1,6 @@
+## Bug Fixes
+- Fixed `reset password` bug where page displayed blank screen
+
 # 0.15.1
 2015-11-03
 
