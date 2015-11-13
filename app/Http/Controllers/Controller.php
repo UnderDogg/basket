@@ -386,7 +386,7 @@ abstract class Controller extends BaseController
     {
         $defaultDates = [
             'date_to' => Carbon::now(),
-            'date_from' => new Carbon('last month')
+            'date_from' => Carbon::today(),
         ];
 
         $filters = $this->getFilters();
