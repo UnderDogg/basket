@@ -413,7 +413,7 @@ abstract class Controller extends BaseController
      */
     protected function processDateFilters(Builder $model, $field, Carbon $after, Carbon $before)
     {
-        return $model->where($field, '>', $after)->where($field, '<', $before);
+        return $model->where($field, '>', $after->toDateTimeString())->where($field, '<', $before->toDateTimeString());
     }
 
     /**
