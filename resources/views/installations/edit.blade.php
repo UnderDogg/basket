@@ -114,9 +114,6 @@
                 },
                 custom_logo_url: {
                     validators: {
-                        notEmpty: {
-                            message: 'The custom logo url is required'
-                        },
                         uri: {
                             message: 'The custom logo url must be a valid url'
                         },
