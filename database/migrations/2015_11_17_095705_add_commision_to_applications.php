@@ -13,7 +13,7 @@ class AddCommisionToApplications extends Migration
     public function up()
     {
         Schema::table('applications', function ($table) {
-            $table->integer('ext_finance_commission')->after('ext_finance_subsidy');
+            $table->integer('ext_finance_commission')->nullable()->after('ext_finance_subsidy');
         });
     }
 
