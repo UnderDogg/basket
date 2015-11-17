@@ -40,11 +40,11 @@
         <tr>
             {{--FILTERS--}}
             <th>{!! Form::text('ext_id', Request::only('ext_id')['ext_id'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
-            <th>
+            <th class="datepicker-spacing">
                 <div style="padding-right: 0px !important; padding-left: 0px !important;" class="col-md-12">
                     <div style="padding-right: 0px !important; padding-left: 2px !important; padding-bottom: 2px !important;">
                         <div class="datepicker">
-                            {!! Form::text('date_from', Request::only('date_from')['date_from'], ['id' => 'datepicker_from', 'class' => 'filter form-control', 'placeholder' => date('Y/m/d', strtotime($default_dates['date_from']))]) !!}
+                            {!! Form::text('date_from', Request::only('date_from')['date_from'] ? Request::only('date_from')['date_from'] : \Carbon\Carbon::today()->format('Y/m/d'), ['id' => 'datepicker_from', 'class' => 'filter form-control', 'placeholder' => date('Y/m/d', strtotime($default_dates['date_from']))]) !!}
                         </div>
                     </div>
                     <div style="padding-right: 0px !important; padding-left: 2px !important;" class="col-md-12">

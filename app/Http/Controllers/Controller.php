@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of the PayBreak/basket package.
  *
@@ -397,7 +397,7 @@ abstract class Controller extends BaseController
         }
 
         if($filters->has('date_from')) {
-            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from']);
+            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->hour(00)->minute(00)->second(00);
             $filters->forget('date_from');
         }
 
