@@ -129,6 +129,8 @@
                             <dd>{{ '&pound;' . number_format($applications->ext_finance_deposit/100, 2) }}</dd>
                             <dt>Subsidy</dt>
                             <dd>{{ '&pound;' . number_format($applications->ext_finance_subsidy/100, 2) }}</dd>
+                            <dt>Commission</dt>
+                            <dd>{{ '&pound;' . number_format($applications->ext_finance_commission/100, 2) }}</dd>
                             <dt>Net Settle Amount</dt>
                             <dd>{{ '&pound;' . number_format($applications->ext_finance_net_settlement/100, 2) }}</dd>
                             <dt>Validity</dt>

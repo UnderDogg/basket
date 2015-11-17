@@ -57,6 +57,7 @@ use App\ExportableModelInterface;
  * @property int $ext_finance_loan_amount
  * @property int $ext_finance_deposit
  * @property int $ext_finance_subsidy
+ * @property int $ext_finance_commission
  * @property int $ext_finance_net_settlement
  * @property string $ext_metadata
  * @property string $created_at
@@ -132,6 +133,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_finance_loan_amount',
         'ext_finance_deposit',
         'ext_finance_subsidy',
+        'ext_finance_commission',
         'ext_finance_option_group',
         'ext_finance_net_settlement',
         'ext_cancellation_requested',

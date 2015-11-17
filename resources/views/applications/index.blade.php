@@ -32,6 +32,7 @@
             <th>Loan Amount</th>
             <th>Deposit</th>
             <th>Subsidy</th>
+            <th>Commission</th>
             <th>Net Settlement</th>
             <th>Location</th>
             <th><span class="pull-right">Actions</span></th>
@@ -63,6 +64,7 @@
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_loan_amount', Request::only('ext_finance_loan_amount')['ext_finance_loan_amount'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_deposit', Request::only('ext_finance_deposit')['ext_finance_deposit'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_subsidy', Request::only('ext_finance_subsidy')['ext_finance_subsidy'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_commission', Request::only('ext_finance_commission')['ext_finance_commission'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_net_settlement', Request::only('ext_finance_net_settlement')['ext_finance_net_settlement'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th>{!! Form::text('ext_fulfilment_location', Request::only('ext_fulfilment_location')['ext_fulfilment_location'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th class="text-right">
@@ -93,6 +95,7 @@
                 <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_finance_commission/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
 
@@ -126,7 +129,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="15"><em>No records found</em></td></tr>
+            <tr><td colspan="16"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}

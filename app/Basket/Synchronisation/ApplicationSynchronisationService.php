@@ -406,6 +406,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $application->ext_finance_order_amount = $financeEntity->getOrderAmount();
             $application->ext_finance_deposit = $financeEntity->getDepositAmount();
             $application->ext_finance_subsidy = $financeEntity->getSubsidyAmount();
+            $application->ext_finance_commission = $financeEntity->getCommissionAmount();
             $application->ext_finance_net_settlement = $financeEntity->getSettlementNetAmount();
             $application->ext_finance_option = $financeEntity->getOption();
             $application->ext_finance_option_group = $financeEntity->getOptionGroup();
