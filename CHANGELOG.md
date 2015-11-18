@@ -1,3 +1,9 @@
+# 0.16.2
+2015-11-18
+
+## Bug Fixes
+- Added *Merchant Commission* to download `csv`
+
 # 0.16.1
 2015-11-18
 
