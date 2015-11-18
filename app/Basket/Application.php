@@ -190,6 +190,7 @@ class Application extends Model implements ExportableModelInterface
             'LoanAmount' => $this->getFormattedCurrency($this->ext_finance_loan_amount),
             'Deposit' => $this->getFormattedCurrency($this->ext_finance_deposit),
             'Subsidy' => $this->getFormattedCurrency($this->ext_finance_subsidy),
+            'Commission' => $this->getFormattedCurrency($this->ext_finance_commission),
             'NetSettlement' => $this->getFormattedCurrency($this->ext_finance_net_settlement),
             'CurrentStatus' => $this->ext_current_status,
             'OrderAmount' => $this->getFormattedCurrency($this->ext_order_amount),
