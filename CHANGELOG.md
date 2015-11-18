@@ -2,6 +2,10 @@
 2015-11-11
 
 ## Bug Fixes
+- Fixed application filter date
+- Fixed column display issues
+- Changed defaults dates for applications filter
+- Removed validation on Installation URL so it is no longer required
 - Fixed `reset password` bug where page displayed blank screen
 
 # 0.15.1

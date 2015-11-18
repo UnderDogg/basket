@@ -105,6 +105,7 @@
                         <th colspan="2">Order Range</th>
                         <th colspan="4">Deposit</th>
                         <th colspan="4">Merchant Fees</th>
+                        <th colspan="3">Commission</th>
                     </tr>
                     <tr>
                         <th>Product ID</th>
@@ -123,12 +124,15 @@
                         <th>Min £</th>
                         <th>Max £</th>
                         <th>Cancellation</th>
+                        <th>Min %</th>
+                        <th>Min</th>
+                        <th>Max</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($products as $group)
                         <tr class="clickable" data-toggle="collapse" id="{{$group->getId()}}" data-target=".{{$group->getId()}}collapsed">
-                            <td colspan="16"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-minus hidden"></span> {{$group->getName()}}</td>
+                            <td colspan="19"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-minus hidden"></span> {{$group->getName()}}</td>
                         </tr>
                         @forelse($group->getProducts() as $productData)
                             <tr class="collapse out {{$group->getId()}}collapsed">
@@ -148,6 +152,9 @@
                                 <td>{{'&pound;' . number_format($productData->getMerchantFees()->getMinimumAmount()/100, 2)}}</td>
                                 <td>{{'&pound;' . number_format($productData->getMerchantFees()->getMaximumAmount()/100, 2)}}</td>
                                 <td>{{'&pound;' . number_format($productData->getMerchantFees()->getCancellation()/100, 2)}}</td>
+                                <td>{{number_format($productData->getMerchantCommission()->getPercentage(), 2)}}%</td>
+                                <td>{{'&pound;' . number_format($productData->getMerchantCommission()->getMinimumAmount()/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($productData->getMerchantCommission()->getMaximumAmount()/100, 2)}}</td>
                             <tr>
                         @empty
                             <tr>

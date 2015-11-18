@@ -32,6 +32,7 @@
             <th>Loan Amount</th>
             <th>Deposit</th>
             <th>Subsidy</th>
+            <th>Commission</th>
             <th>Net Settlement</th>
             <th>Location</th>
             <th><span class="pull-right">Actions</span></th>
@@ -39,11 +40,11 @@
         <tr>
             {{--FILTERS--}}
             <th>{!! Form::text('ext_id', Request::only('ext_id')['ext_id'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
-            <th>
+            <th class="datepicker-spacing">
                 <div style="padding-right: 0px !important; padding-left: 0px !important;" class="col-md-12">
                     <div style="padding-right: 0px !important; padding-left: 2px !important; padding-bottom: 2px !important;">
                         <div class="datepicker">
-                            {!! Form::text('date_from', Request::only('date_from')['date_from'], ['id' => 'datepicker_from', 'class' => 'filter form-control', 'placeholder' => date('Y/m/d', strtotime($default_dates['date_from']))]) !!}
+                            {!! Form::text('date_from', Request::only('date_from')['date_from'] ? Request::only('date_from')['date_from'] : \Carbon\Carbon::today()->format('Y/m/d'), ['id' => 'datepicker_from', 'class' => 'filter form-control', 'placeholder' => date('Y/m/d', strtotime($default_dates['date_from']))]) !!}
                         </div>
                     </div>
                     <div style="padding-right: 0px !important; padding-left: 2px !important;" class="col-md-12">
@@ -63,6 +64,7 @@
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_loan_amount', Request::only('ext_finance_loan_amount')['ext_finance_loan_amount'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_deposit', Request::only('ext_finance_deposit')['ext_finance_deposit'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_subsidy', Request::only('ext_finance_subsidy')['ext_finance_subsidy'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
+            <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_commission', Request::only('ext_finance_commission')['ext_finance_commission'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_net_settlement', Request::only('ext_finance_net_settlement')['ext_finance_net_settlement'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th>{!! Form::text('ext_fulfilment_location', Request::only('ext_fulfilment_location')['ext_fulfilment_location'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th class="text-right">
@@ -93,6 +95,7 @@
                 <td>{{ '&pound;' . number_format($item->ext_finance_loan_amount/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_deposit/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_subsidy/100, 2) }}</td>
+                <td>{{ '&pound;' . number_format($item->ext_finance_commission/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
 
@@ -126,7 +129,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="14"><em>No records found</em></td></tr>
+            <tr><td colspan="16"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}
