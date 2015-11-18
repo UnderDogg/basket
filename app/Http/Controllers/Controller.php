@@ -386,18 +386,18 @@ abstract class Controller extends BaseController
     {
         $defaultDates = [
             'date_to' => Carbon::now(),
-            'date_from' => new Carbon('last month')
+            'date_from' => Carbon::today(),
         ];
 
         $filters = $this->getFilters();
 
         if($filters->has('date_to')) {
-            $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->hour(23)->minute(59)->second(59);
+            $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->endOfDay();
             $filters->forget('date_to');
         }
 
         if($filters->has('date_from')) {
-            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from']);
+            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->startOfDay();
             $filters->forget('date_from');
         }
 
@@ -413,7 +413,7 @@ abstract class Controller extends BaseController
      */
     protected function processDateFilters(Builder $model, $field, Carbon $after, Carbon $before)
     {
-        return $model->where($field, '>', $after)->where($field, '<', $before);
+        return $model->where($field, '>', $after->toDateTimeString())->where($field, '<', $before->toDateTimeString());
     }
 
     /**

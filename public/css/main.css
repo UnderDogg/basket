@@ -169,3 +169,6 @@ ol.breadcrumb li {
         margin-bottom: 10px;
     }
 }
+.datepicker-spacing {
+    min-width: 100px;
+}
