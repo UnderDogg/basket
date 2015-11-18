@@ -392,12 +392,12 @@ abstract class Controller extends BaseController
         $filters = $this->getFilters();
 
         if($filters->has('date_to')) {
-            $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->hour(23)->minute(59)->second(59);
+            $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->endOfDay()->toDateTimeString();
             $filters->forget('date_to');
         }
 
         if($filters->has('date_from')) {
-            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->hour(00)->minute(00)->second(00);
+            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->startOfDay()->toDateTimeString();
             $filters->forget('date_from');
         }
 
