@@ -152,9 +152,9 @@
                                 <td>{{'&pound;' . number_format($productData->getMerchantFees()->getMinimumAmount()/100, 2)}}</td>
                                 <td>{{'&pound;' . number_format($productData->getMerchantFees()->getMaximumAmount()/100, 2)}}</td>
                                 <td>{{'&pound;' . number_format($productData->getMerchantFees()->getCancellation()/100, 2)}}</td>
-                                <td>{{number_format($productData->getCommission()->getMerchantCommission()/100, 2)}}%</td>
-                                <td>{{'&pound;' . number_format($productData->getCommission()->getMinMerchantCommission()/100, 2)}}</td>
-                                <td>{{'&pound;' . number_format($productData->getCommission()->getMaxMerchantCommission()/100, 2)}}</td>
+                                <td>{{number_format($productData->getMerchantCommission()->getPercentage(), 2)}}%</td>
+                                <td>{{'&pound;' . number_format($productData->getMerchantCommission()->getMinimumAmount()/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($productData->getMerchantCommission()->getMaximumAmount()/100, 2)}}</td>
                             <tr>
                         @empty
                             <tr>

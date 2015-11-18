@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCommisionToApplications extends Migration
+class AddCommissionToApplications extends Migration
 {
     /**
      * Run the migrations.
