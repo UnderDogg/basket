@@ -1,6 +1,19 @@
+# 0.16.2
+2015-11-18
+
+## Bug Fixes
+- Added *Merchant Commission* to download `csv`
+
+# 0.16.1
+2015-11-18
+
+## Bug Fixes
+- Fixed entities
+
 # 0.16.0
 2015-11-18
 
+## Features
 - Fixed application filter date
 - Fixed column display issues
 - Changed defaults dates for applications filter
