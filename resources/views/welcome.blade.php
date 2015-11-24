@@ -40,7 +40,7 @@
                 <h4>Customer Enquiries</h4>
                 <ul>
                     <li><strong>Tel:</strong> 03333 444 224</li>
-                    <li><strong>Email:</strong> hello@paybreak.com</li>
+                    <li><strong>Email:</strong> hello@afforditnow.com</li>
                 </ul>
             </div>
         </div>
