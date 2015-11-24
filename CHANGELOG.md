@@ -1,3 +1,6 @@
+## Features
+- Content changes for email addresses
+
 # 0.16.2
 2015-11-18
 
