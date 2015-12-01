@@ -1,3 +1,9 @@
+# 0.17.1
+2015-12-01
+
+## Bug Fixes
+- Fixed Initialise page bug where only 1 product was showing
+
 # 0.17.0
 2015-11-24
 
