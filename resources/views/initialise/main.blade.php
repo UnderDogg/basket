@@ -43,17 +43,17 @@
 
             @if(count($options) > 0)
 
-                @if(count($options) != 1)
+                @if(count($options) > 1 || count($options[0]['products']) > 1)
                     <ul class="nav nav-tabs" role="tablist">
-                    @foreach($options as $k => $group)
+                        @foreach($options as $k => $group)
 
-                        @foreach($group['products'] as $l => $product)
+                            @foreach($group['products'] as $l => $product)
 
                                 <li role="presentation"{{ ($k == 0 && $l == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
 
-                        @endforeach
+                            @endforeach
 
-                    @endforeach
+                        @endforeach
                     </ul>
                 @endif
 
