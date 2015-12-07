@@ -528,4 +528,29 @@ abstract class Controller extends BaseController
     {
         return Application::where('ext_id', '=', $id)->first();
     }
+
+    /**
+     * Get the locations assigned to a merchant by getting a merchant's installations then getting those
+     * installations' locations and putting them in a collection.
+     *
+     * @author EA
+     * @param $id the merchant's id
+     * @return Collection containing locations assigned to a merchant's installations
+     */
+    protected function fetchMerchantLocations($id)
+    {
+        $merchant = Merchant::findOrFail($id);
+        $installations = $merchant->installations()->get();
+
+        $merchantLocations = new Collection();
+
+        foreach($installations as $installation) {
+            $installationLocations = $installation->locations()->get();
+            foreach($installationLocations as $location) {
+                $merchantLocations->push($location);
+            }
+        }
+
+        return $merchantLocations;
+    }
 }
