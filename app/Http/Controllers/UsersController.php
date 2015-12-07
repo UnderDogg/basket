@@ -275,7 +275,7 @@ class UsersController extends Controller
     {
         $user = ($userId !== null ? $this->fetchUserById($userId) : null);
 
-        $locations = Location::all();
+        $locations = $this->fetchMerchantLocations($user->merchant_id);
 
         if ($user !== null) {
             $locationsApplied = $user->locations;
