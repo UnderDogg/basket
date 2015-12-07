@@ -9,11 +9,9 @@
  */
 namespace App\Http\Controllers;
 
-use App\Basket\Location;
 use App\Basket\Merchant;
 use App\Exceptions\Exception;
 use App\Exceptions\RedirectException;
-use App\Http\Requests;
 use App\Role;
 use App\User;
 use Illuminate\Database\QueryException;
