@@ -26,16 +26,16 @@
         <div class="col-md-12 well">
             {!! Form::open(['class' => 'form-inline']) !!}
             <div class="form-group">
-                <label>Price</label>
+                <label class="input-lg">Price</label>
 
                 <div class="input-group">
                     <div class="input-group-addon">&pound;</div>
-                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control', 'maxlength' => 10]) !!}
+                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
                 </div>
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Show Finance Options</button>
+            <button type="submit" class="btn btn-primary btn-lg">Show Finance Options</button>
             {!! Form::close() !!}
         </div>
 
