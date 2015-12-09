@@ -35,7 +35,7 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg">Show Finance Options</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="font-size: 24;">Show Finance Options</button>
             {!! Form::close() !!}
         </div>
 
