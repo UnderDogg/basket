@@ -36,6 +36,9 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg">Show Finance Options</button>
+            <div class="form-group" style="padding-left: 10px;">
+                <h4>Pay Today £50.00</h4>
+            </div>
             {!! Form::close() !!}
         </div>
 
@@ -75,10 +78,10 @@
                                                 <h2>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2>{{ $product['payments'] }}</h2> <p>payments</p>
+                                                <h2>&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
-                                                <h2>{{ number_format($product['credit_info']['apr'], 1) }}%</h2> <p>APR</p>
+                                                <h2>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
                                             </div>
 
                                         </div>
@@ -152,7 +155,7 @@
                                                     <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Total Loan Payable</th>
+                                                    <th>Total Repayable</th>
                                                     <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
@@ -213,7 +216,7 @@
                                                     <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Total Loan Payable</th>
+                                                    <th>Total Repayable</th>
                                                     <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 @if($product['credit_info']['amount_service'] > 0)
@@ -248,7 +251,11 @@
                                     <div class="col-lg-12 text-center">
                                         <p>Need more information or have questions? Call us on 0333 444 224</p>
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-lg btn-block">Continue</button>
+                                    @if($product['credit_info']['deposit_amount'] > 0)
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }} deposit today</button>
+                                    @else
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with no deposit today</button>
+                                    @endif
                                     @if($location->installation->disclosure)
                                     <br/>
                                     <div class="col-lg-12">
