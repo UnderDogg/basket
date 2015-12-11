@@ -35,7 +35,7 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg">Show Finance Options</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="font-size: 24px;">Show Finance Options</button>
             <div class="form-group" style="padding-left: 10px;">
                 <h4>Pay Today £50.00</h4>
             </div>
