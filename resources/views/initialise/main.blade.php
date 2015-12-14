@@ -35,9 +35,9 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg" style="font-size: 24px;">Show Finance Options</button>
-            <div class="form-group" style="padding-left: 10px;">
-                <h4>Pay Today £50.00</h4>
+            <button id="finance-options" type="submit" class="btn btn-primary btn-lg lg-font-btn">Show Finance Options</button>
+            <div class="form-group padding-left-form">
+                <h4><strong id="pay-today"></strong></h4>
             </div>
             {!! Form::close() !!}
         </div>
@@ -267,6 +267,7 @@
                                     {!! Form::hidden('product', $product['id']) !!}
                                     {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
+                                    {!! Form::hidden('dep_am', $product['credit_info']['deposit_amount'], ['class' => 'deposit_amount']) !!}
 
                                 {!! Form::close() !!}
                             </div>
@@ -287,5 +288,21 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+        $('li').click(function() {
+            var prod = $(this).find('a').attr('aria-controls');
+            var content = $('div#' + prod);
+            var amount = $(content).find('.deposit_amount').attr('value');
+            document.getElementById('pay-today').innerHTML = 'Pay Today £' + (amount / 100).toFixed(2);
+        });
+        $(window).bind("load", function() {
+            if($('div.tab-pane.active').length > 0) {
+                var div = $('div.tab-pane.active').first();
+                var form = $(div).find('.deposit_amount');
+                document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
+            }
+        });
+    </script>
+</div>
 </body>
 @endsection
