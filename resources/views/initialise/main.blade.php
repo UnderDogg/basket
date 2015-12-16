@@ -26,16 +26,19 @@
         <div class="col-md-12 well">
             {!! Form::open(['class' => 'form-inline']) !!}
             <div class="form-group">
-                <label>Price</label>
+                <label class="input-lg">Price</label>
 
                 <div class="input-group">
                     <div class="input-group-addon">&pound;</div>
-                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control', 'maxlength' => 10]) !!}
+                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
                 </div>
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Show Finance Options</button>
+            <button id="finance-options" type="submit" class="btn btn-primary btn-lg lg-font-btn">Show Finance Options</button>
+            <div class="form-group padding-left-form">
+                <h4><strong id="pay-today"></strong></h4>
+            </div>
             {!! Form::close() !!}
         </div>
 
@@ -75,10 +78,10 @@
                                                 <h2>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2>{{ $product['payments'] }}</h2> <p>payments</p>
+                                                <h2>&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
-                                                <h2>{{ number_format($product['credit_info']['apr'], 1) }}%</h2> <p>APR</p>
+                                                <h2>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
                                             </div>
 
                                         </div>
@@ -152,7 +155,7 @@
                                                     <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Total Loan Payable</th>
+                                                    <th>Total Repayable</th>
                                                     <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
@@ -213,7 +216,7 @@
                                                     <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Total Loan Payable</th>
+                                                    <th>Total Repayable</th>
                                                     <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 @if($product['credit_info']['amount_service'] > 0)
@@ -248,7 +251,11 @@
                                     <div class="col-lg-12 text-center">
                                         <p>Need more information or have questions? Call us on 0333 444 224</p>
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-lg btn-block">Continue</button>
+                                    @if($product['credit_info']['deposit_amount'] > 0)
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }} deposit today</button>
+                                    @else
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with no deposit today</button>
+                                    @endif
                                     @if($location->installation->disclosure)
                                     <br/>
                                     <div class="col-lg-12">
@@ -260,6 +267,7 @@
                                     {!! Form::hidden('product', $product['id']) !!}
                                     {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
+                                    {!! Form::hidden('dep_am', $product['credit_info']['deposit_amount'], ['class' => 'deposit_amount']) !!}
 
                                 {!! Form::close() !!}
                             </div>
@@ -280,5 +288,21 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+        $('li').click(function() {
+            var prod = $(this).find('a').attr('aria-controls');
+            var content = $('div#' + prod);
+            var amount = $(content).find('.deposit_amount').attr('value');
+            document.getElementById('pay-today').innerHTML = 'Pay Today £' + (amount / 100).toFixed(2);
+        });
+        $(window).bind("load", function() {
+            if($('div.tab-pane.active').length > 0) {
+                var div = $('div.tab-pane.active').first();
+                var form = $(div).find('.deposit_amount');
+                document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
+            }
+        });
+    </script>
+</div>
 </body>
 @endsection
