@@ -199,47 +199,49 @@ class UsersController extends Controller
      */
     public function updateLocations($id, Request $request)
     {
-        $user = $this->fetchUserById($id);
-        $this->validateLocations($id,$user,$request->except('_method', '_token', 'saveChanges'));
-
         try {
-            $user->locations()->sync(
-                array_values(
-                    $request->except(
-                        '_method', '_token', 'saveChanges'
-                    )
-                )
-            );
+            $user = $this->fetchUserById($id);
         } catch (\Exception $e) {
-            $this->logError('Cannot update user [' . $id . '] locations: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
+            $this->redirectWithException('/users/' . $id . '/edit', 'Cannot fetch user ' . $id, $e);
         }
 
-        return $this->redirectWithSuccessMessage(
-            '/users',
-            'User details were successfully updated'
-        );
+        return $this->validateLocations($id,$user,$request->except('_method', '_token', 'saveChanges'));
     }
 
     /**
      * * The function validates the user location update request by matching the locations ids that are assigned to the
-     * user's installation  and the locations ids sent by the request. If the number of matches are not equal to the
-     * number of locations ids in the request a invalid location id is present in the request and an exception is thrown
+     * user's installation to the locations ids sent by the request. If the number of matches are not equal to the
+     * number of locations ids in the request a invalid location id is present in the request and an exception is thrown.
+     * If the validation is passed the locations are updated.
      *
      * @author EA
      * @param $id
      * @param $user
      * @param $request
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function validateLocations($id,$user,$request)
+    private function validateLocations($id,$user,$request)
     {
         $locations = $this->fetchMerchantLocations($user->merchant_id);
         if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
-            $this->logError('Cannot update user [' . $id . '] locations: ');
-            throw (new RedirectException())->setTarget('/users/' . $id . '/locations')
-                ->setError('Locations for this user are invalid');
+            $this->logError('Cannot update user [' . $id . '] locations: Locations for the user are invalid ');
+            return redirect('/users/' . $id . '/locations')
+                ->with(['messages' => ['error' => 'Locations for the user are invalid']]);
+
+        } else {
+            try {
+                $user->locations()->sync(array_values($request));
+                return $this->redirectWithSuccessMessage(
+                    '/users',
+                    'User details were successfully updated'
+                );
+            } catch (\Exception $e) {
+                $this->logError('Cannot update user [' . $id . '] locations: ' . $e->getMessage());
+                return RedirectException::make('users' . $id . '/edit')->setError($e->getMessage());
+            }
         }
+
     }
 
     /**
