@@ -210,7 +210,6 @@ class UsersController extends Controller
                     )
                 )
             );
-
         } catch (\Exception $e) {
             $this->logError('Cannot update user [' . $id . '] locations: ' . $e->getMessage());
             throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
@@ -220,6 +219,27 @@ class UsersController extends Controller
             '/users',
             'User details were successfully updated'
         );
+    }
+
+    /**
+     * * The function validates the user location update request by matching the locations ids that are assigned to the
+     * user's installation  and the locations ids sent by the request. If the number of matches are not equal to the
+     * number of locations ids in the request a invalid location id is present in the request and an exception is thrown
+     *
+     * @author EA
+     * @param $id
+     * @param $user
+     * @param $request
+     * @throws RedirectException
+     */
+    public function validateLocations($id,$user,$request)
+    {
+        $locations = $this->fetchMerchantLocations($user->merchant_id);
+        if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
+            $this->logError('Cannot update user [' . $id . '] locations: ');
+            throw (new RedirectException())->setTarget('/users/' . $id . '/locations')
+                ->setError('Locations for this user are invalid');
+        }
     }
 
     /**
