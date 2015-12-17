@@ -199,8 +199,10 @@ class UsersController extends Controller
      */
     public function updateLocations($id, Request $request)
     {
+        $user = $this->fetchUserById($id);
+        $this->validateLocations($id,$user,$request->except('_method', '_token', 'saveChanges'));
+
         try {
-            $user = $this->fetchUserById($id);
             $user->locations()->sync(
                 array_values(
                     $request->except(
