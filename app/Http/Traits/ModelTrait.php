@@ -149,6 +149,44 @@ trait ModelTrait
 
     /**
      * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelByIdWithMerchantLimit(Model $model, $id, $modelName, $redirect)
+    {
+        return $this->checkModelForMerchantLimit(
+            ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
+            $entity->merchant?$entity->merchant->id:null,
+            $modelName,
+            $redirect
+        );
+    }
+
+    /**
+     * @author WN
+     * @param Model $model
+     * @param int $id
+     * @param string $modelName
+     * @param string $redirect
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelByIdWithInstallationLimit(Model $model, $id, $modelName, $redirect)
+    {
+        return $this->checkModelForMerchantLimit(
+            ($entity = $this->fetchModelById($model, $id, $modelName, $redirect)),
+            $entity->installation->merchant->id,
+            $modelName,
+            $redirect
+        );
+    }
+
+    /**
+     * @author WN
      * @param string $message
      * @param array $context
      * @return null
