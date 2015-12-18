@@ -33,7 +33,6 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  */
 abstract class Controller extends BaseController
 {
-    use DispatchesJobs, ValidatesRequests, PsrLoggerTrait;
     use DispatchesJobs, ValidatesRequests, PsrLoggerTrait, ModelTrait;
 
     // Default Pagination Record Limit
@@ -113,21 +112,6 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @author WN
-        if ($model->active xor $active) {
-            if ($active) {
-                if (method_exists($model, 'activate')) {
-                    $model->activate();
-                }
-            } else {
-                if (method_exists($model, 'deactivate')) {
-                }
-            }
-        }
-
-        return $model;
-    }
-    /**
      * @author CS
      * @param string $field
      * @param string $value
@@ -172,7 +156,6 @@ abstract class Controller extends BaseController
         array $additionalProperties = []
     ) {
         $this->processFilters($query);
-
         $data = $query->paginate($this->getPageLimit());
 
         return view(
@@ -261,25 +244,6 @@ abstract class Controller extends BaseController
             $modelName,
             $redirect
         );
-    }
-
-    /**
-     * @author WN
-     * @param Model $entity
-     * @param int $merchantId
-     * @param string $redirect
-     * @param string $modelName
-     * @return Model
-     * @throws RedirectException
-     */
-    protected function checkModelForMerchantLimit(Model $entity, $merchantId, $modelName, $redirect)
-    {
-        if (!$this->isMerchantAllowedForUser($merchantId)) {
-            throw RedirectException::make($redirect)
-                ->setError('You are not allowed to take any action on this' . ucwords($modelName));
-        }
-
-        return $entity;
     }
 
     /**
