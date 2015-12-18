@@ -13,11 +13,11 @@ use App\Basket\Application;
 use App\Basket\Installation;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
+use App\Http\Traits\ModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -34,6 +34,7 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
 abstract class Controller extends BaseController
 {
     use DispatchesJobs, ValidatesRequests, PsrLoggerTrait;
+    use DispatchesJobs, ValidatesRequests, PsrLoggerTrait, ModelTrait;
 
     // Default Pagination Record Limit
     const DEFAULT_PAGE_LIMIT = 15;
@@ -113,102 +114,6 @@ abstract class Controller extends BaseController
 
     /**
      * @author WN
-     * @param int $merchantId
-     * @return bool
-     */
-    protected function isMerchantAllowedForUser($merchantId)
-    {
-        if (empty($this->getAuthenticatedUser()->merchant_id) ||
-            $this->getAuthenticatedUser()->merchant_id == $merchantId
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @author WN
-     * @param Model $model
-     * @param int $id
-     * @param string $modelName
-     * @param string $redirect
-     * @return Model
-     * @throws RedirectException
-     */
-    protected function fetchModelById(Model $model, $id, $modelName, $redirect)
-    {
-        try {
-            return $model->findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError(
-                'Could not get ' . $modelName . ' with ID [' . $id . ']; ' .
-                ucwords($modelName) . ' does not exist: ' . $e->getMessage()
-            );
-            throw (new RedirectException())
-                ->setTarget($redirect)
-                ->setError('Could not found ' . ucwords($modelName) . ' with ID:' . $id);
-        }
-    }
-
-    /**
-     * @author WN
-     * @param Model $model
-     * @param int $id
-     * @param string $modelName
-     * @param string $redirect
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
-     */
-    protected function destroyModel(Model $model, $id, $modelName, $redirect)
-    {
-        try {
-            $model->destroy($id);
-
-        } catch (ModelNotFoundException $e) {
-
-            $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
-            throw (new RedirectException())
-                ->setTarget($redirect)
-                ->setError('Deletion of this record did not complete successfully');
-        }
-
-        return redirect($redirect)->with('messages', ['success', ucwords($modelName) . ' was successfully deleted']);
-    }
-
-    /**
-     * @author WN
-     * @param Model $model
-     * @param int $id
-     * @param string $modelName
-     * @param string $redirect
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
-     */
-    protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
-    {
-        $model = $this->fetchModelById($model, $id, $modelName, $redirect);
-        try{
-            $this->updateActiveField($model, $request->has('active'));
-            $model->update($request->all());
-        } catch (\Exception $e) {
-
-            throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
-        }
-        return redirect()->back()->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
-    }
-
-    /**
-     * @author EB, WN
-     * @param Model $model
-     * @param bool $active
-     * @return Model
-     */
-    protected function updateActiveField($model, $active)
-    {
         if ($model->active xor $active) {
             if ($active) {
                 if (method_exists($model, 'activate')) {
@@ -216,7 +121,6 @@ abstract class Controller extends BaseController
                 }
             } else {
                 if (method_exists($model, 'deactivate')) {
-                    $model->deactivate();
                 }
             }
         }
