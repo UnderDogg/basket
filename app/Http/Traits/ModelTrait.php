@@ -97,7 +97,7 @@ trait ModelTrait
      */
     protected function updateActiveField($model, $active)
     {
-        if ($model->active xor $active) {
+        if ($model->active ^ $active) {
             if ($active) {
                 if (method_exists($model, 'activate')) {
                     $model->activate();
