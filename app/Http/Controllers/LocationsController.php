@@ -121,8 +121,8 @@ class LocationsController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'reference' => 'required|regex:/^[A-Za-z0-9\-]+$/',
-            'active' => 'required',
+            'reference' => 'required|sometimes|regex:/^[A-Za-z0-9\-]+$/',
+            'active' => 'required|sometimes',
             'name' => 'required',
             'email' => 'required:email',
             'address' => 'required',

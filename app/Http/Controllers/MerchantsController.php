@@ -124,7 +124,7 @@ class MerchantsController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'token' => 'required|min:32|max:32',
-            'active' => 'required',
+            'active' => 'required|sometimes',
         ]);
 
         return $this->updateModel((new Merchant()), $id, 'merchant', '/merchants', $request);
