@@ -191,7 +191,7 @@ trait ModelTrait
      * @param array $context
      * @return null
      */
-    abstract function logError($message, array $context = array());
+    abstract protected function logError($message, array $context = array());
 
     /**
      * @author WN
