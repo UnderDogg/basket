@@ -172,3 +172,9 @@ ol.breadcrumb li {
 .datepicker-spacing {
     min-width: 100px;
 }
+.lg-font-btn {
+    font-size: 18px;
+}
+.padding-left-form {
+    padding-left: 10px;
+}

@@ -1,3 +1,9 @@
+## Features
+- Changes to sizing of buttons, font etc on initialise application page
+- jQuery added for deposit amount on initialise application page
+- Deposit added to well and button
+- Locations on the *User Locations Page*  are now restricted to the locations assigned to the user’s *Merchant*
+
 # 0.17.0
 2015-11-24
 

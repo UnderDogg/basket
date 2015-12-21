@@ -227,7 +227,7 @@ class UsersController extends Controller
         if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
             $this->logError('Cannot update user [' . $id . '] locations: Locations for the user are invalid ');
             return redirect('/users/' . $id . '/locations')
-                ->with(['messages' => ['error' => 'Locations for the user are invalid']]);
+                ->with('messages', ['error' => 'Locations for the user are invalid']);
 
         } else {
             try {
