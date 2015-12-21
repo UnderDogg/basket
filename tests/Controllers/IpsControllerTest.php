@@ -49,12 +49,6 @@ class IpsControllerTest extends TestCase
 
         $this->visit('/merchants/1/ips')
             ->seeStatusCode(200);
-
-        // Test page gives 200 response
-        $this->visit('/merchants/1/ips')
-            // Test clicking 'New Merchant' button links correctly
-            ->click('addNewButton')
-            ->seeStatusCode(200);
     }
 
 }
