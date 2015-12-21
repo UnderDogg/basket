@@ -9,9 +9,8 @@
  */
 namespace App\Http\Controllers;
 
-use App\Exceptions\RedirectException;
-use App\Http\Requests;
 use App\Basket\Installation;
+use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Sdk\Entities\GroupEntity;
@@ -51,7 +50,7 @@ class InstallationsController extends Controller
      * Display a listing of the resource.
      *
      * @author WN, MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -72,7 +71,7 @@ class InstallationsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -89,7 +88,7 @@ class InstallationsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -112,7 +111,7 @@ class InstallationsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'active' => 'required',
+            'active' => 'required|sometimes',
             'validity' => 'required|integer|between:7200,604800',
             'custom_logo_url' => 'url|max:255',
             'ext_return_url' => 'url|max:255',

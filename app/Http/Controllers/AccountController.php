@@ -41,7 +41,7 @@ class AccountController extends Controller
 
     /**
      * @author WN
-     * @param $view
+     * @param string $view
      * @return \Illuminate\View\View
      */
     private function renderView($view)
@@ -56,7 +56,7 @@ class AccountController extends Controller
     /**
      * @author EB
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function update(Request $request)
@@ -81,7 +81,7 @@ class AccountController extends Controller
     /**
      * @author EB
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function changePassword(Request $request)
