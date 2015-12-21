@@ -3,6 +3,12 @@
 - jQuery added for deposit amount on initialise application page
 - Deposit added to well and button
 - Locations on the *User Locations Page*  are now restricted to the locations assigned to the user’s *Merchant*
+- Added `FilterTrait`
+- Added `LimitTrait`
+- Added `ModelTrait`
+- Fixed bugs with updating model active flag
+- Minor doc changes to keep **scrutinizer** happy
+- Added more testing for `Merchant`, `Locations` and `Ips`
 
 # 0.17.0
 2015-11-24
