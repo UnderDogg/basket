@@ -89,4 +89,33 @@ class LocationsControllerTest extends TestCase
         $this->visit('/locations/1/delete')
             ->seeStatusCode(200);
     }
+
+    /**
+     * Test new locations button
+     * @author EA
+     */
+    public function test_new_locations_button()
+    {
+        // Test page gives 200 response
+        $this->visit('/locations')
+            ->click('Add New Location')
+            ->see('Create Location');
+    }
+
+
+    /**
+     * Test new locations form
+     * @author EA
+     */
+    public function test_new_locations_form()
+    {
+        $this->visit('/locations/create')
+            ->type('TestLocation1Ref', 'reference')
+            ->type('TestLocation1', 'name')
+            ->type('TestLocation1@email.com', 'email')
+            ->type('TestLocation1 Address', 'address')
+            ->press('Create Location')
+            ->seePageIs('/locations')
+            ->see('TestLocation1Ref');
+    }
 }

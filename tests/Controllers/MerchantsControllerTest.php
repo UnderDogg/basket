@@ -92,4 +92,31 @@ class MerchantsControllerTest extends TestCase
         $this->visit('/merchants/1/edit')
             ->seeStatusCode(200);
     }
+
+    /**
+     * Test new merchants button
+     * @author EA
+     */
+    public function test_new_merchants_button()
+    {
+        // Test page gives 200 response
+        $this->visit('/merchants')
+            ->click('Add New Merchant')
+            ->see('Create Merchant');
+    }
+
+
+    /**
+     * Test new merchant form
+     * @author EA
+     */
+    public function test_new_merchants_form()
+    {
+        $this->visit('/merchants/create')
+            ->type('merchantTest', 'name')
+            ->type('token123434535320909342898943898', 'token')
+            ->press('Create Merchant')
+            ->seePageIs('/merchants')
+            ->see('merchantTest');
+    }
 }
