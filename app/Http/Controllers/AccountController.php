@@ -66,7 +66,6 @@ class AccountController extends Controller
             'name' => 'required',
             'email' => 'required|email',
         ]);
-        $user->update($request->all());
         try {
             $user->update($request->all());
         } catch(\Exception $e) {
