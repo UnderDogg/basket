@@ -120,6 +120,30 @@ class AccountControllerTest extends TestCase
     }
 
     /**
+     * @author EB
+     */
+    public function testOldPasswordStored()
+    {
+        $this->typeEditPasswordDetails('test', 'pass', 'pass');
+        $messages = $this->app['session.store']->get('messages');
+        $this->assertEquals($messages, [
+            'error' => 'Old password must match stored password'
+        ]);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditPasswordWithCorrectData()
+    {
+        $this->typeEditPasswordDetails('password', 'new-password', 'new-password');
+        $messages = $this->app['session.store']->get('messages');
+        $this->assertEquals($messages, [
+            'success' => 'Your password has successfully been changed'
+        ]);
+    }
+
+    /**
      * Used to test all validation on edit password details
      *
      * @author EB
