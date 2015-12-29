@@ -141,6 +141,8 @@ class AccountControllerTest extends TestCase
         $this->assertEquals($messages, [
             'success' => 'Your password has successfully been changed'
         ]);
+        $this->seePageIs('account/edit');
+        $this->see('Your password has successfully been changed');
     }
 
     /**
