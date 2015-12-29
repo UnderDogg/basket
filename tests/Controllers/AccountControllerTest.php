@@ -53,13 +53,7 @@ class AccountControllerTest extends TestCase
      */
     public function testEditWithIncorrectData()
     {
-        $this->visit('account/edit')
-            ->seeStatusCode(200)
-            ->type('', 'name')
-            ->type('NotAnEmail', 'email')
-            ->press('Update details')
-            ->seePageIs('/account/edit')
-            ->assertViewHas('user');
+        $this->typeEditDetails('', 'NotAnEmail');
 
         $this->assertSessionHasErrors(
             [
@@ -67,6 +61,27 @@ class AccountControllerTest extends TestCase
                 'email' => 'The email must be a valid email address.',
             ]
         );
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditRequiredFields()
+    {
+        $this->typeEditDetails('', '');
+
+        $this->see('The name field is required');
+        $this->see('The email field is required');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditDetails()
+    {
+        $this->typeEditDetails('Developer', 'develop@paybreak.com');
+
+        $this->see('Your details have successfully been changed');
     }
 
     /**
@@ -161,6 +176,24 @@ class AccountControllerTest extends TestCase
             ->type($new, 'new_password')
             ->type($confirm, 'new_password_confirmation')
             ->press('Change password')
+            ->seePageIs('/account/edit')
+            ->assertViewHas('user');
+    }
+
+    /**
+     * Used to test all validation on edit details
+     *
+     * @author EB
+     * @param $name
+     * @param $email
+     */
+    private function typeEditDetails($name, $email)
+    {
+        $this->visit('account/edit')
+            ->seeStatusCode(200)
+            ->type($name, 'name')
+            ->type($email, 'email')
+            ->press('Update details')
             ->seePageIs('/account/edit')
             ->assertViewHas('user');
     }
