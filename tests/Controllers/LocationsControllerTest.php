@@ -118,4 +118,23 @@ class LocationsControllerTest extends TestCase
             ->seePageIs('/locations')
             ->see('TestLocation1Ref');
     }
+
+    /**
+     * Used for testing validation on edit location details page
+     *
+     * @author EB
+     * @param string $name
+     * @param string $email
+     * @param string $address
+     */
+    public function typeEditDetails($name, $email, $address)
+    {
+        $this->visit('locations/1/edit')
+            ->seeStatusCode(200)
+            ->type($name, 'name')
+            ->type($email, 'email')
+            ->type($address, 'address')
+            ->press('Save Changes')
+            ->seePageIs('/locations/1/edit');
+    }
 }
