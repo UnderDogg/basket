@@ -206,4 +206,31 @@ class LocationsControllerTest extends TestCase
             ->press('Save Changes')
             ->seePageIs('/locations/1/edit');
     }
+
+    /**
+     * @author EB
+     */
+    public function testDestroy()
+    {
+        $this->withoutMiddleware();
+        $response = $this->action('DELETE', 'LocationsController@destroy', ['id' => 1]);
+        $this->assertEquals(302, $response->getStatusCode());
+
+        $messages = $this->app['session.store']->get('messages');
+
+        $this->assertEquals($messages, [
+            'success' => 'Location was successfully deleted',
+        ]);
+
+        $this->assertRedirectedTo('locations');
+    }
+
+    public function testDestroyFromForm()
+    {
+        $this->visit('locations/1/delete')
+            ->submitForm('Confirm')
+            ->see('Location was successfully deleted')
+            ->seePageIs('locations')
+            ->seeStatusCode(200);
+    }
 }
