@@ -118,4 +118,119 @@ class LocationsControllerTest extends TestCase
             ->seePageIs('/locations')
             ->see('TestLocation1Ref');
     }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateSuccessful()
+    {
+        $this->typeEditDetails('Highest Location', 'High@Location.com', 'Location City');
+
+        $this->see('Location details were successfully updated');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateRequiredFields()
+    {
+        $this->typeEditDetails('', '', '');
+
+        $this->see('The name field is required.');
+        $this->see('The email field is required.');
+        $this->see('The address field is required');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateEmailField()
+    {
+        $this->typeEditDetails('Higher Location', 'NotAnEmailAddress', 'Location City');
+
+        $this->see('The email must be a valid email address.');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateReferenceField()
+    {
+        $this->withoutMiddleware();
+        $this->patch('locations/1', [
+                'reference' => '!@£$%^&*()_-+=',
+                'name' => 'test',
+                'email' => 'High@location.com',
+                'address' => 'Location City',
+            ]
+        );
+
+        $this->assertSessionHasErrors('reference', 'The reference format is invalid.');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateOnInvalidModel()
+    {
+        $this->withoutMiddleware();
+        $this->patch('locations/0', [
+            'reference' => 'Valid-Reference',
+            'name' => 'test',
+            'email' => 'High@location.com',
+            'address' => 'Location City',
+            'fuck' => 'off',
+        ]);
+
+        $messages = $this->app['session.store']->get('messages');
+        $this->assertEquals($messages, [
+            'error' => 'Could not found Location with ID:0',
+        ]);
+    }
+
+    /**
+     * Used for testing validation on edit location details page
+     *
+     * @author EB
+     * @param string $name
+     * @param string $email
+     * @param string $address
+     */
+    public function typeEditDetails($name, $email, $address)
+    {
+        $this->visit('locations/1/edit')
+            ->seeStatusCode(200)
+            ->type($name, 'name')
+            ->type($email, 'email')
+            ->type($address, 'address')
+            ->press('Save Changes')
+            ->seePageIs('/locations/1/edit');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDestroy()
+    {
+        $this->withoutMiddleware();
+        $response = $this->action('DELETE', 'LocationsController@destroy', ['id' => 1]);
+        $this->assertEquals(302, $response->getStatusCode());
+
+        $messages = $this->app['session.store']->get('messages');
+
+        $this->assertEquals($messages, [
+            'success' => 'Location was successfully deleted',
+        ]);
+
+        $this->assertRedirectedTo('locations');
+    }
+
+    public function testDestroyFromForm()
+    {
+        $this->visit('locations/1/delete')
+            ->submitForm('Confirm')
+            ->see('Location was successfully deleted')
+            ->seePageIs('locations')
+            ->seeStatusCode(200);
+    }
 }

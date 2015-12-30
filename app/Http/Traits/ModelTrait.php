@@ -63,7 +63,7 @@ trait ModelTrait
                 ->setError('Deletion of this record did not complete successfully');
         }
 
-        return redirect($redirect)->with('messages', ['success', ucwords($modelName) . ' was successfully deleted']);
+        return redirect($redirect)->with('messages', ['success' => ucwords($modelName) . ' was successfully deleted']);
     }
 
     /**

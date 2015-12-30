@@ -124,7 +124,7 @@ class LocationsController extends Controller
             'reference' => 'required|sometimes|regex:/^[A-Za-z0-9\-]+$/',
             'active' => 'required|sometimes',
             'name' => 'required',
-            'email' => 'required:email',
+            'email' => 'required|email',
             'address' => 'required',
         ]);
 
