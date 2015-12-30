@@ -120,6 +120,75 @@ class LocationsControllerTest extends TestCase
     }
 
     /**
+     * @author EB
+     */
+    public function testUpdateSuccessful()
+    {
+        $this->typeEditDetails('Highest Location', 'High@Location.com', 'Location City');
+
+        $this->see('Location details were successfully updated');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateRequiredFields()
+    {
+        $this->typeEditDetails('', '', '');
+
+        $this->see('The name field is required.');
+        $this->see('The email field is required.');
+        $this->see('The address field is required');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateEmailField()
+    {
+        $this->typeEditDetails('Higher Location', 'NotAnEmailAddress', 'Location City');
+
+        $this->see('The email must be a valid email address.');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateReferenceField()
+    {
+        $this->withoutMiddleware();
+        $this->patch('locations/1', [
+                'reference' => '!@£$%^&*()_-+=',
+                'name' => 'test',
+                'email' => 'High@location.com',
+                'address' => 'Location City',
+            ]
+        );
+
+        $this->assertSessionHasErrors('reference', 'The reference format is invalid.');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateOnInvalidModel()
+    {
+        $this->withoutMiddleware();
+        $this->patch('locations/0', [
+            'reference' => 'Valid-Reference',
+            'name' => 'test',
+            'email' => 'High@location.com',
+            'address' => 'Location City',
+            'fuck' => 'off',
+        ]);
+
+        $messages = $this->app['session.store']->get('messages');
+        $this->assertEquals($messages, [
+            'error' => 'Could not found Location with ID:0',
+        ]);
+    }
+
+    /**
      * Used for testing validation on edit location details page
      *
      * @author EB
