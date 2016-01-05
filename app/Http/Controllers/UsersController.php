@@ -223,7 +223,7 @@ class UsersController extends Controller
      */
     private function validateLocations($id,$user,$request)
     {
-        $locations = $this->fetchMerchantLocations($user->merchant_id);
+        $locations = $this->fetchMerchantLocations($user);
         if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
             $this->logError('Cannot update user [' . $id . '] locations: Locations for the user are invalid ');
             return redirect('/users/' . $id . '/locations')
@@ -297,7 +297,7 @@ class UsersController extends Controller
     {
         $user = ($userId !== null ? $this->fetchUserById($userId) : null);
 
-        $locations = $this->fetchMerchantLocations($user->merchant_id);
+        $locations = $this->fetchMerchantLocations($user);
 
         if ($user !== null) {
             $locationsApplied = $user->locations;

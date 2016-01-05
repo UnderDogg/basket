@@ -16,6 +16,8 @@ use App\Http\Traits\FilterTrait;
 use App\Http\Traits\LimitTrait;
 use App\Http\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -148,18 +150,61 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Get the locations assigned to a merchant by getting a merchant's installations then getting those
-     * installations' locations and putting them in a collection.
+     * Returns all locations from a merchant. If merchant for the user is null (SU), returns all
+     * locations for all merchants
      *
-     * @author EA
-     * @param $id the merchant's id
-     * @return Collection containing locations assigned to a merchant's installations
+     * @author EA, EB
+     * @param $user
+     * @return Collection
+     * @throws RedirectException
      */
-    protected function fetchMerchantLocations($id)
+    protected function fetchMerchantLocations($user)
     {
-        $merchant = Merchant::findOrFail($id);
-        $installations = $merchant->installations()->get();
+        try {
+            $merchant = Merchant::findOrFail($user->merchant_id);
+            $installations = $merchant->installations()->get();
+        } catch (ModelNotFoundException $e) {
+            if($user->id == 1) {
+                $installations = $this->getAllInstallationsForAllMerchants();
+            } else {
+                throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
+            }
+        }
 
+        return $this->getAllLocationsFromInstallations($installations);
+    }
+
+    /**
+     * Returns all Installations for All Merchants (SU)
+     *
+     * $author EB
+     * @return Collection
+     */
+    private function getAllInstallationsForAllMerchants()
+    {
+        $all = Merchant::all();
+
+        $rtn = new Collection();
+
+        foreach($all as $merchant) {
+            $temp = $merchant->installations()->get();
+            foreach($temp as $installation) {
+                $rtn->push($installation);
+            }
+        }
+
+        return $rtn;
+    }
+
+    /**
+     * Returns all locations from installations
+     *
+     * @author EA, EB
+     * @param $installations
+     * @return Collection
+     */
+    private function getAllLocationsFromInstallations($installations)
+    {
         $merchantLocations = new Collection();
 
         foreach($installations as $installation) {
