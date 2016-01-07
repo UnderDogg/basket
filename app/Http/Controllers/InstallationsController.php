@@ -197,7 +197,7 @@ class InstallationsController extends Controller
                 );
         } catch (Exception $e) {
             if ($e->getMessage() !== 'Products are empty') {
-                throw $e;
+                throw $this->redirectWithException(URL::previous(), $e->getMessage(), $e);
             }
 
             return [];
