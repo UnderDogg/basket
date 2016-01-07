@@ -49,4 +49,64 @@ class ModelTraitTest extends TestCase
 
         $this->assertInstanceOf(User::class, $test);
     }
+
+    /**
+     * @author EB
+     */
+    public function testFetchModelByIdWithInvalidData()
+    {
+        try {
+            $this->callProtectedMethodOnAbstractClass(
+                'fetchModelById',
+                [
+                    new User(),
+                    0,
+                    'User',
+                    '/users',
+                ]
+            );
+        } catch (RedirectException $e) {
+            $this->assertEquals('Could not found User with ID:0', $e->getError());
+            $this->assertEquals('/users', $e->getTarget());
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDestroyModel()
+    {
+        $this->callProtectedMethodOnAbstractClass(
+            'destroyModel',
+            [
+                new User(),
+                1,
+                'Location',
+                '/locations',
+            ]
+        );
+
+        $this->assertSessionHas('messages', ['success' => 'Location was successfully deleted']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDestroyModelWithInvalidData()
+    {
+        try {
+            $this->callProtectedMethodOnAbstractClass(
+                'destroyModel',
+                [
+                    new User(),
+                    0,
+                    'Location',
+                    '/locations',
+                ]
+            );
+        } catch (RedirectException $e) {
+            $this->assertEquals('Deletion of this record did not complete successfully', $e->getError());
+            $this->assertEquals('/locations', $e->getTarget());
+        }
+    }
 }
