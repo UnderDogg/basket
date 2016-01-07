@@ -14,6 +14,7 @@ use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Sdk\Entities\GroupEntity;
+use Exception;
 
 /**
  * Class InstallationController
@@ -75,11 +76,21 @@ class InstallationsController extends Controller
      */
     public function show($id)
     {
+        try {
+            $products = $this->fetchProducts($id);
+        } catch (Exception $e) {
+            $this->logWarning(
+                'An exception occurred fetching products for installation [' . $id . ']',
+                [$e->getMessage()]
+            );
+            $products = [];
+        }
+
         return view(
             'installations.show',
             [
                 'installations' => $this->fetchInstallation($id),
-                'products' => $this->fetchProducts($id),
+                'products' => $products,
             ]
         );
     }
