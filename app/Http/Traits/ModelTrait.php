@@ -53,6 +53,7 @@ trait ModelTrait
     protected function destroyModel(Model $model, $id, $modelName, $redirect)
     {
         try {
+            $model->findOrFail($id);
             $model->destroy($id);
 
         } catch (ModelNotFoundException $e) {
@@ -125,7 +126,7 @@ trait ModelTrait
     {
         if (!$this->isMerchantAllowedForUser($merchantId)) {
             throw RedirectException::make($redirect)
-                ->setError('You are not allowed to take any action on this' . ucwords($modelName));
+                ->setError('You are not allowed to take any action on this ' . ucwords($modelName));
         }
 
         return $entity;
