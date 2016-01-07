@@ -81,16 +81,15 @@ class InstallationsController extends Controller
         try {
             $products = $this->fetchProducts($id);
         } catch (Exception $e) {
-            if ($e->getMessage() == 'Products are empty') {
-                $this->logWarning(
-                    'An exception occurred fetching products for installation [' . $id . ']',
-                    [$e->getMessage()]
-                );
-
-                $products = [];
-            }else{
+            if ($e->getMessage() !== 'Products are empty') {
                 throw $e;
             }
+
+            $this->logWarning(
+                'An exception occurred fetching products for installation [' . $id . ']',
+                [$e->getMessage()]
+            );
+            $products = [];
         }
 
         return view(
