@@ -170,4 +170,53 @@ class ModelTraitTest extends TestCase
         $this->assertEquals(1, $new['active']);
         $this->assertNotEquals(0, $new['active']);
     }
+
+    /**
+     * @author EB
+     */
+    public function testCheckForMerchantLimit()
+    {
+        $merchant = new Merchant();
+        $merchant = $merchant->find(1);
+
+        $test = $this->callProtectedMethodOnAbstractClass(
+            'checkModelForMerchantLimit',
+            [
+                $merchant,
+                1,
+                'Merchant',
+                '/',
+            ]
+        );
+
+        $this->assertInstanceOf(Merchant::class, $test);
+        $this->assertEquals(1, $merchant->first()->toArray()['id']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testCheckForMerchantLimitWithInvalidData()
+    {
+        $merchant = new Merchant();
+        $merchant = $merchant->find(2);
+        $user = new User();
+        $user = $user->find(2);
+        $this->be($user);
+
+        try {
+            $this->callProtectedMethodOnAbstractClass(
+                'checkModelForMerchantLimit',
+                [
+                    $merchant,
+                    2,
+                    'Merchant',
+                    '/merchants',
+                ]
+            );
+        } catch(RedirectException $e) {
+            $this->assertEquals('You are not allowed to take any action on this Merchant', $e->getError());
+            $this->assertEquals('/merchants', $e->getTarget());
+        }
+    }
 }
