@@ -109,4 +109,65 @@ class ModelTraitTest extends TestCase
             $this->assertEquals('/locations', $e->getTarget());
         }
     }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateModel()
+    {
+        $details = [
+            'name' => 'Tester',
+            'email' => 'tester@test.com',
+        ];
+        $request = new \Illuminate\Http\Request($details);
+
+        $this->callProtectedMethodOnAbstractClass(
+            'updateModel',
+            [
+                new User(),
+                1,
+                'User',
+                '/user',
+                $request
+            ]
+        );
+        $new = $this->callProtectedMethodOnAbstractClass(
+            'fetchModelById',
+            [
+                new User(),
+                1,
+                'User',
+                '/user',
+            ]
+        )->first()->toArray();
+
+        foreach($details as $k => $v) {
+            $this->assertEquals($details[$k], $new[$k]);
+        }
+
+        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testUpdateActiveField()
+    {
+        $merchant = new Merchant();
+        $merchant = $merchant->find(1);
+
+        $old = $merchant->first()->toArray();
+        $new = $this->callProtectedMethodOnAbstractClass(
+            'updateActiveField',
+            [
+                $merchant,
+                1,
+            ]
+        )->first()->toArray();
+
+        $this->assertEquals(0, $old['active']);
+        $this->assertNotEquals(1, $old['active']);
+        $this->assertEquals(1, $new['active']);
+        $this->assertNotEquals(0, $new['active']);
+    }
 }
