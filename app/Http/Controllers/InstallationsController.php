@@ -71,19 +71,26 @@ class InstallationsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\View\View
+     * @throws Exception
      */
     public function show($id)
     {
         try {
             $products = $this->fetchProducts($id);
         } catch (Exception $e) {
-            $this->logWarning(
-                'An exception occurred fetching products for installation [' . $id . ']',
-                [$e->getMessage()]
-            );
-            $products = [];
+            if ($e->getMessage() == 'Products are empty') {
+                $this->logWarning(
+                    'An exception occurred fetching products for installation [' . $id . ']',
+                    [$e->getMessage()]
+                );
+
+                $products = [];
+            }else{
+                throw $e;
+            }
         }
 
         return view(
