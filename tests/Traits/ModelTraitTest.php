@@ -219,4 +219,59 @@ class ModelTraitTest extends TestCase
             $this->assertEquals('/merchants', $e->getTarget());
         }
     }
+
+    /**
+     * Testing isMerchantAllowedForUser. Asserts true for both merchants as in the test we are
+     * currently user 1, which has no Merchant ID and is allowed for all merchants.
+     *
+     * @author EB
+     */
+    public function testIsMerchantAllowedForUser()
+    {
+        $test = $this->callProtectedMethodOnAbstractClass(
+            'isMerchantAllowedForUser',
+            [
+                1,
+            ]
+        );
+
+        $this->assertTrue($test);
+
+        $test = $this->callProtectedMethodOnAbstractClass(
+            'isMerchantAllowedForUser',
+            [
+                2,
+            ]
+        );
+
+        $this->assertTrue($test);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testIsMerchantAllowedForUserWithNoneSuperUser()
+    {
+        $user = new User();
+        $user = $user->find(2);
+        $this->be($user);
+
+        $test = $this->callProtectedMethodOnAbstractClass(
+            'isMerchantAllowedForUser',
+            [
+                1,
+            ]
+        );
+
+        $this->assertTrue($test);
+
+        $test = $this->callProtectedMethodOnAbstractClass(
+            'isMerchantAllowedForUser',
+            [
+                2,
+            ]
+        );
+
+        $this->assertFalse($test);
+    }
 }
