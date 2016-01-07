@@ -78,25 +78,11 @@ class InstallationsController extends Controller
      */
     public function show($id)
     {
-        try {
-            $products = $this->fetchProducts($id);
-        } catch (Exception $e) {
-            if ($e->getMessage() !== 'Products are empty') {
-                throw $e;
-            }
-
-            $this->logWarning(
-                'An exception occurred fetching products for installation [' . $id . ']',
-                [$e->getMessage()]
-            );
-            $products = [];
-        }
-
         return view(
             'installations.show',
             [
                 'installations' => $this->fetchInstallation($id),
-                'products' => $products,
+                'products' => $this->fetchProducts($id),
             ]
         );
     }
@@ -194,17 +180,27 @@ class InstallationsController extends Controller
 
     /**
      * @author EB
+     *
      * @param int $id
-     * @return GroupEntity|array
+     * @return array|GroupEntity
+     * @throws Exception
      */
     private function fetchProducts($id)
     {
-        $installation = Installation::findOrFail($id);
+        try {
+            $installation = Installation::findOrFail($id);
 
-        return $this->productGateway
-            ->getProductGroupsWithProducts(
-                $installation->ext_id,
-                $installation->merchant->token
-            );
+            return $this->productGateway
+                ->getProductGroupsWithProducts(
+                    $installation->ext_id,
+                    $installation->merchant->token
+                );
+        } catch (Exception $e) {
+            if ($e->getMessage() !== 'Products are empty') {
+                throw $e;
+            }
+
+            return [];
+        }
     }
 }
