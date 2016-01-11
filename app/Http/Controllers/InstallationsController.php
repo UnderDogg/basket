@@ -73,7 +73,7 @@ class InstallationsController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\View\View
-     * @throws \Exception
+     * @throws RedirectException
      */
     public function show($id)
     {
@@ -182,7 +182,7 @@ class InstallationsController extends Controller
      *
      * @param int $id
      * @return GroupEntity
-     * @throws \Exception
+     * @throws RedirectException
      */
     private function fetchProducts($id)
     {
