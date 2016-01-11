@@ -14,7 +14,6 @@ use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Sdk\Entities\GroupEntity;
-use Exception;
 
 /**
  * Class InstallationController
@@ -74,7 +73,7 @@ class InstallationsController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\View\View
-     * @throws Exception
+     * @throws \Exception
      */
     public function show($id)
     {
@@ -179,11 +178,11 @@ class InstallationsController extends Controller
     }
 
     /**
-     * @author EB
+     * @author EB, SL
      *
      * @param int $id
-     * @return array|GroupEntity
-     * @throws Exception
+     * @return GroupEntity
+     * @throws \Exception
      */
     private function fetchProducts($id)
     {
@@ -195,12 +194,12 @@ class InstallationsController extends Controller
                     $installation->ext_id,
                     $installation->merchant->token
                 );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($e->getMessage() !== 'Products are empty') {
                 throw $this->redirectWithException(URL::previous(), $e->getMessage(), $e);
             }
 
-            return [];
+            return GroupEntity::make([]);
         }
     }
 }
