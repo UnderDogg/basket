@@ -69,6 +69,8 @@ class MerchantsController extends Controller
             'token' => 'required|min:32|max:32',
         ]);
 
+
+        $this->validateMerchantToken($request->only(['token'])['token'],$request->only(['name'])['name']);
         try {
             $merchant = Merchant::create($request->all());
             $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
@@ -163,5 +165,25 @@ class MerchantsController extends Controller
             URL::previous(),
             'Synchronisation complete successfully'
         );
+    }
+
+    /**
+     * Checks for token duplication in the database,returns false if there is no duplication detected.
+     *
+     * @author EA
+     * @param $token
+     * @param $merchantName
+     * @return bool
+     * @throws RedirectException
+     */
+    public function validateMerchantToken($token, $merchantName)
+    {
+        $duplicatedTokens = Merchant::all()->where('token', $token);
+        if(!$duplicatedTokens->isEmpty()){
+            $this->logError('Cannot create merchant['.$merchantName.'] merchant:Merchant token already exist in database');
+            throw RedirectException::make('/merchants')
+                ->setError('Invalid merchant token ');
+        }
+        return false;
     }
 }
