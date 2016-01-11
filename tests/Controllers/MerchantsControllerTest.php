@@ -119,11 +119,11 @@ class MerchantsControllerTest extends TestCase
     /**
      * @author EA
      */
-    public function testNewMerchantDuplicationVaildation(){
+    public function testNewMerchantDuplicationValidation(){
         $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
         $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
         $this->seePageIs('/merchants')
-            ->see('Merchant token invalid. Please pick another one.');
+            ->see('Invalid merchant token');
     }
 
 
