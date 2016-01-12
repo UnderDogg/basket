@@ -168,7 +168,7 @@ class MerchantsController extends Controller
     }
 
     /**
-     * Checks for token duplication in the database,returns false if there is no duplication detected.
+     * Checks for token duplication in the database,returns true if there is no duplication detected.
      *
      * @author EA
      * @param $token
@@ -184,6 +184,6 @@ class MerchantsController extends Controller
             throw RedirectException::make('/merchants')
                 ->setError('Invalid merchant token ');
         }
-        return false;
+        return true;
     }
 }
