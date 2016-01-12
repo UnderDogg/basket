@@ -204,7 +204,8 @@ class LocationsControllerTest extends TestCase
             ->type($email, 'email')
             ->type($address, 'address')
             ->press('Save Changes')
-            ->seePageIs('/locations/1/edit');
+            ->seePageIs('/locations/1/edit')
+            ->seeStatusCode(200);
     }
 
     /**
