@@ -15,6 +15,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Traits\FilterTrait;
 use App\Http\Traits\LimitTrait;
 use App\Http\Traits\ModelTrait;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -150,50 +151,28 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Returns all locations from a merchant. If merchant for the user is null (SU), returns all
-     * locations for all merchants
+     * Returns all locations from a merchant. If merchant for the user is null (SU), redirects with error
      *
      * @author EA, EB
-     * @param $user
+     * @param User $user
      * @return Collection
      * @throws RedirectException
      */
-    protected function fetchMerchantLocations($user)
+    protected function fetchMerchantLocationsFromUser($user)
     {
+        if($user->merchant_id == null) {
+            throw RedirectException::make('/users')
+                ->setError('Super Users do not belong to a Merchant, cannot fetch Locations');
+        }
+
         try {
             $merchant = Merchant::findOrFail($user->merchant_id);
             $installations = $merchant->installations()->get();
         } catch (ModelNotFoundException $e) {
-            if($user->id == 1) {
-                $installations = $this->getAllInstallationsForAllMerchants();
-            } else {
-                throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
-            }
+            throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
         }
 
         return $this->getAllLocationsFromInstallations($installations);
-    }
-
-    /**
-     * Returns all Installations for All Merchants (SU)
-     *
-     * $author EB
-     * @return Collection
-     */
-    private function getAllInstallationsForAllMerchants()
-    {
-        $all = Merchant::all();
-
-        $rtn = new Collection();
-
-        foreach($all as $merchant) {
-            $temp = $merchant->installations()->get();
-            foreach($temp as $installation) {
-                $rtn->push($installation);
-            }
-        }
-
-        return $rtn;
     }
 
     /**

@@ -215,15 +215,15 @@ class UsersController extends Controller
      * If the validation is passed the locations are updated.
      *
      * @author EA
-     * @param $id
-     * @param $user
-     * @param $request
+     * @param int $id
+     * @param User $user
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     private function validateLocations($id,$user,$request)
     {
-        $locations = $this->fetchMerchantLocations($user);
+        $locations = $this->fetchMerchantLocationsFromUser($user);
         if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
             $this->logError('Cannot update user [' . $id . '] locations: Locations for the user are invalid ');
             return redirect('/users/' . $id . '/locations')
@@ -321,7 +321,7 @@ class UsersController extends Controller
      */
     private function fetchLocations($user)
     {
-        $locations = $this->fetchMerchantLocations($user);
+        $locations = $this->fetchMerchantLocationsFromUser($user);
 
         if ($user !== null) {
             $locationsApplied = $user->locations;
