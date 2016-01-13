@@ -54,7 +54,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return $this->renderFormPage('user.create');
+        return $this->renderFormPage('user.create', null, $this->fetchRoles(null));
     }
 
     /**
@@ -125,7 +125,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        return $this->renderFormPage('user.edit', $id);
+        return $this->renderFormPage('user.edit', $id, $this->fetchRoles(User::findOrFail($id)));
     }
 
     /**
@@ -135,7 +135,7 @@ class UsersController extends Controller
      */
     public function editLocations($id)
     {
-        return $this->renderFormPage('user.locations', $id);
+        return $this->renderFormPage('user.locations', $id, $this->fetchLocations(User::findOrFail($id)));
     }
 
     /**
@@ -215,15 +215,15 @@ class UsersController extends Controller
      * If the validation is passed the locations are updated.
      *
      * @author EA
-     * @param $id
-     * @param $user
-     * @param $request
+     * @param int $id
+     * @param User $user
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     private function validateLocations($id,$user,$request)
     {
-        $locations = $this->fetchMerchantLocations($user->merchant_id);
+        $locations = $this->fetchMerchantLocationsFromUser($user);
         if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
             $this->logError('Cannot update user [' . $id . '] locations: Locations for the user are invalid ');
             return redirect('/users/' . $id . '/locations')
@@ -291,13 +291,37 @@ class UsersController extends Controller
      * @author WN
      * @param string $view
      * @param int|null $userId
+     * @param array $additionalProperties
      * @return \Illuminate\View\View
      */
-    private function renderFormPage($view, $userId = null)
+    private function renderFormPage($view, $userId = null, array $additionalProperties = [])
     {
         $user = ($userId !== null ? $this->fetchUserById($userId) : null);
 
-        $locations = $this->fetchMerchantLocations($user->merchant_id);
+        $merchants = Merchant::query();
+        $this->limitToMerchant($merchants, 'id');
+
+        return view(
+            $view,
+            array_merge(
+                [
+                    'user' => $user,
+                    'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
+                ],
+                $additionalProperties
+            )
+        );
+    }
+
+    /**
+     * @author EB
+     * @param User $user
+     * @return array
+     * @throws RedirectException
+     */
+    private function fetchLocations($user)
+    {
+        $locations = $this->fetchMerchantLocationsFromUser($user);
 
         if ($user !== null) {
             $locationsApplied = $user->locations;
@@ -307,6 +331,19 @@ class UsersController extends Controller
             $locationsAvailable = $locations->keyBy('id');
         }
 
+        return [
+            'locationsApplied' => $locationsApplied,
+            'locationsAvailable' => $locationsAvailable,
+        ];
+    }
+
+    /**
+     * @author EB
+     * @param User $user
+     * @return array
+     */
+    private function fetchRoles($user)
+    {
         $roles = $this->fetchAvailableRoles();
         if ($user !== null) {
             $rolesApplied = $user->roles;
@@ -316,20 +353,10 @@ class UsersController extends Controller
             $rolesAvailable = $roles->keyBy('id');
         }
 
-        $merchants = Merchant::query();
-        $this->limitToMerchant($merchants, 'id');
-
-        return view(
-            $view,
-            [
-                'user' => $user,
-                'merchants' => $merchants->get()->pluck('name', 'id')->toArray(),
-                'locationsApplied' => $locationsApplied,
-                'locationsAvailable' => $locationsAvailable,
-                'rolesApplied' => $rolesApplied,
-                'rolesAvailable' => $rolesAvailable,
-            ]
-        );
+        return [
+            'rolesApplied' => $rolesApplied,
+            'rolesAvailable' => $rolesAvailable,
+        ];
     }
 
     /**

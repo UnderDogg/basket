@@ -15,7 +15,10 @@ use App\Exceptions\RedirectException;
 use App\Http\Traits\FilterTrait;
 use App\Http\Traits\LimitTrait;
 use App\Http\Traits\ModelTrait;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -148,16 +151,12 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Get the locations assigned to a merchant by getting a merchant's installations then getting those
-     * installations' locations and putting them in a collection.
-     *
-     * @author EA
-     * @param $id the merchant's id
-     * @return Collection containing locations assigned to a merchant's installations
+     * @author EB, EA, WN
+     * @param Merchant $merchant
+     * @return Collection
      */
-    protected function fetchMerchantLocations($id)
+    protected function fetchMerchantLocations(Merchant $merchant)
     {
-        $merchant = Merchant::findOrFail($id);
         $installations = $merchant->installations()->get();
 
         $merchantLocations = new Collection();
@@ -170,5 +169,27 @@ abstract class Controller extends BaseController
         }
 
         return $merchantLocations;
+    }
+
+    /**
+     * Returns all locations from a merchant. If merchant for the user is null (SU), redirects with error
+     *
+     * @author EA, EB
+     * @param User $user
+     * @return Collection
+     * @throws RedirectException
+     */
+    protected function fetchMerchantLocationsFromUser(User $user)
+    {
+        if($user->merchant_id == null) {
+            throw RedirectException::make('/users')
+                ->setError('Super Users do not belong to a Merchant, cannot fetch Locations');
+        }
+
+        try {
+            return $this->fetchMerchantLocations(Merchant::findOrFail($user->merchant_id));
+        } catch (ModelNotFoundException $e) {
+            throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
+        }
     }
 }
