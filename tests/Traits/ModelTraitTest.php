@@ -26,7 +26,6 @@ class ModelTraitTest extends TestCase
 
         Artisan::call('migrate');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
-        Artisan::call('db:seed', ['--class' => 'MerchantTableSeeder']);
 
         $user = User::find(1);
         $this->be($user);
@@ -198,8 +197,7 @@ class ModelTraitTest extends TestCase
      */
     public function testCheckForMerchantLimitWithInvalidData()
     {
-        $merchant = new Merchant();
-        $merchant = $merchant->find(2);
+        $merchant = $this->createMerchant(2, 'The Perfect Online Store', 'perfecttoken');
         $user = new User();
         $user = $user->find(2);
         $this->be($user);
@@ -228,6 +226,7 @@ class ModelTraitTest extends TestCase
      */
     public function testIsMerchantAllowedForUser()
     {
+        $this->createMerchant(2, 'The Perfect Online Store', 'perfecttoken');
         $test = $this->callProtectedMethodOnAbstractClass(
             'isMerchantAllowedForUser',
             [
@@ -252,6 +251,7 @@ class ModelTraitTest extends TestCase
      */
     public function testIsMerchantAllowedForUserWithNoneSuperUser()
     {
+        $this->createMerchant(2, 'The Perfect Online Store', 'perfecttoken');
         $user = new User();
         $user = $user->find(2);
         $this->be($user);
@@ -273,5 +273,27 @@ class ModelTraitTest extends TestCase
         );
 
         $this->assertFalse($test);
+    }
+
+    /**
+     * @author EB
+     * @param int $id
+     * @param string $name
+     * @param string $token
+     * @return Merchant
+     */
+    public function createMerchant($id, $name, $token)
+    {
+        $merchant = new Merchant();
+        $merchant->create(
+            [
+                'id' => $id,
+                'name' => $name,
+                'token' => $token,
+                'created_at' => time(),
+                'updated_at' => time(),
+            ]
+        );
+        return $merchant;
     }
 }
