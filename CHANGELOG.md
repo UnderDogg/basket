@@ -9,6 +9,15 @@
 - Fixed bugs with updating model active flag
 - Minor doc changes to keep **scrutinizer** happy
 - Added more testing for `Merchant`, `Locations` and `Ips`
+- Added validation testing on *AccountController*, also making sure that error messages are shown
+- Added validation testing on *LocationsController*, also making sure response messages are shown
+- Added functionality to test protected methods in abstract classes
+- Added testing on model traits, including tests against *Merchants* and Users
+- Added functionality to stop duplicate tokens being added
+
+## Bug Fixes
+- Location validation bug fix for email and required
+- Destroy model method fixed to due to always being successful
 
 # 0.17.0
 2015-11-24
