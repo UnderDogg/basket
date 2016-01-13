@@ -151,39 +151,14 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Returns all locations from a merchant. If merchant for the user is null (SU), redirects with error
-     *
-     * @author EA, EB
-     * @param User $user
-     * @return Collection
-     * @throws RedirectException
-     */
-    protected function fetchMerchantLocationsFromUser($user)
-    {
-        if($user->merchant_id == null) {
-            throw RedirectException::make('/users')
-                ->setError('Super Users do not belong to a Merchant, cannot fetch Locations');
-        }
-
-        try {
-            $merchant = Merchant::findOrFail($user->merchant_id);
-            $installations = $merchant->installations()->get();
-        } catch (ModelNotFoundException $e) {
-            throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
-        }
-
-        return $this->getAllLocationsFromInstallations($installations);
-    }
-
-    /**
-     * Returns all locations from installations
-     *
-     * @author EA, EB
-     * @param $installations
+     * @author EB, EA, WN
+     * @param Merchant $merchant
      * @return Collection
      */
-    private function getAllLocationsFromInstallations($installations)
+    protected function fetchMerchantLocations(Merchant $merchant)
     {
+        $installations = $merchant->installations()->get();
+
         $merchantLocations = new Collection();
 
         foreach($installations as $installation) {
@@ -194,5 +169,27 @@ abstract class Controller extends BaseController
         }
 
         return $merchantLocations;
+    }
+
+    /**
+     * Returns all locations from a merchant. If merchant for the user is null (SU), redirects with error
+     *
+     * @author EA, EB
+     * @param User $user
+     * @return Collection
+     * @throws RedirectException
+     */
+    protected function fetchMerchantLocationsFromUser(User $user)
+    {
+        if($user->merchant_id == null) {
+            throw RedirectException::make('/users')
+                ->setError('Super Users do not belong to a Merchant, cannot fetch Locations');
+        }
+
+        try {
+            return $this->fetchMerchantLocations(Merchant::findOrFail($user->merchant_id));
+        } catch (ModelNotFoundException $e) {
+            throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
+        }
     }
 }
