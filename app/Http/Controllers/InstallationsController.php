@@ -70,8 +70,10 @@ class InstallationsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\View\View
+     * @throws RedirectException
      */
     public function show($id)
     {
@@ -176,18 +178,28 @@ class InstallationsController extends Controller
     }
 
     /**
-     * @author EB
+     * @author EB, SL
+     *
      * @param int $id
-     * @return GroupEntity|array
+     * @return GroupEntity
+     * @throws RedirectException
      */
     private function fetchProducts($id)
     {
-        $installation = Installation::findOrFail($id);
+        try {
+            $installation = Installation::findOrFail($id);
 
-        return $this->productGateway
-            ->getProductGroupsWithProducts(
-                $installation->ext_id,
-                $installation->merchant->token
-            );
+            return $this->productGateway
+                ->getProductGroupsWithProducts(
+                    $installation->ext_id,
+                    $installation->merchant->token
+                );
+        } catch (\Exception $e) {
+            if ($e->getMessage() !== 'Products are empty') {
+                throw $this->redirectWithException(URL::previous(), $e->getMessage(), $e);
+            }
+
+            return GroupEntity::make([]);
+        }
     }
 }
