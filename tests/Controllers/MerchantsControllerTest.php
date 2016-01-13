@@ -22,7 +22,7 @@ class MerchantsControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);
         $this->be($user);
@@ -79,25 +79,59 @@ class MerchantsControllerTest extends TestCase
     public function testShow()
     {
         // Test page gives 200 response
-        $this->visit('/merchants/1')
-            ->seeStatusCode(200);
-    }
-
-    /**
-     * @author WN
-     */
-    public function testEdit()
-    {
-        // Test page gives 200 response
         $this->visit('/merchants/1/edit')
             ->seeStatusCode(200);
     }
 
     /**
+     * @author EA
+     */
+    public function testEdit()
+    {
+        // Test page gives 200 response
+        $this->visit('/merchants/1/edit')
+            ->type('Test Merchant2', 'name')
+            ->type('a702ae4ad59e47f5991cf4857bb75033', 'token')
+            ->press('Save Changes')
+            ->see('Merchant details were successfully updated');
+    }
+
+    /**
+     * @author EA
+     */
+    public function testNewMerchant(){
+        $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
+        $this->seePageIs('/merchants');
+    }
+
+    /**
+     * @author EA
+     */
+    public function testEditMerchantValidation(){
+        $this->visit('/merchants/1/edit')
+            ->type('  ', 'name')
+            ->type('12', 'token')
+            ->press('Save Changes')
+            ->see('The name cannot be empty')
+            ->see('The token must be 32 characters');
+    }
+
+    /**
+     * @author EA
+     */
+    public function testNewMerchantDuplicationValidation(){
+        $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
+        $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
+        $this->seePageIs('/merchants')
+            ->see('Invalid merchant token');
+    }
+
+
+    /**
      * Test new merchants button
      * @author EA
      */
-    public function test_new_merchants_button()
+    public function testNewMerchantsButton()
     {
         // Test page gives 200 response
         $this->visit('/merchants')
@@ -105,18 +139,17 @@ class MerchantsControllerTest extends TestCase
             ->see('Create Merchant');
     }
 
-
     /**
      * Test new merchant form
+     * @param $merchantName
+     * @param $token
      * @author EA
      */
-    public function test_new_merchants_form()
+    private function createNewMerchant($merchantName,$token)
     {
         $this->visit('/merchants/create')
-            ->type('merchantTest', 'name')
-            ->type('token123434535320909342898943898', 'token')
-            ->press('Create Merchant')
-            ->seePageIs('/merchants')
-            ->see('merchantTest');
+            ->type($merchantName, 'name')
+            ->type($token, 'token')
+            ->press('Create Merchant');
     }
 }

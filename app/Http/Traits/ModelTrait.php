@@ -53,6 +53,7 @@ trait ModelTrait
     protected function destroyModel(Model $model, $id, $modelName, $redirect)
     {
         try {
+            $model->findOrFail($id);
             $model->destroy($id);
 
         } catch (ModelNotFoundException $e) {
@@ -63,7 +64,7 @@ trait ModelTrait
                 ->setError('Deletion of this record did not complete successfully');
         }
 
-        return redirect($redirect)->with('messages', ['success', ucwords($modelName) . ' was successfully deleted']);
+        return redirect($redirect)->with('messages', ['success' => ucwords($modelName) . ' was successfully deleted']);
     }
 
     /**
@@ -125,7 +126,7 @@ trait ModelTrait
     {
         if (!$this->isMerchantAllowedForUser($merchantId)) {
             throw RedirectException::make($redirect)
-                ->setError('You are not allowed to take any action on this' . ucwords($modelName));
+                ->setError('You are not allowed to take any action on this ' . ucwords($modelName));
         }
 
         return $entity;
