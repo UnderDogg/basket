@@ -19,6 +19,8 @@
 - Location validation bug fix for email and required
 - Destroy model method fixed to due to always being successful
 - Handling 'Products are empty' error given when an installation has no products
+- Fixed User Locations for super users
+- Added a previously removed use statement for Collection
 
 # 0.17.0
 2015-11-24
