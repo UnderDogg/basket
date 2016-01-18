@@ -19,6 +19,10 @@ If you discover any security related issues, please email dev@paybreak.com inste
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+## Configurable Options
+
+`TEST_BANNER_TEXT` - Customised test banner text (defaults to 'This is a test site')
+
 [ico-version]: https://img.shields.io/packagist/v/paybreak/basket.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/PayBreak/basket/master.svg?style=flat-square
