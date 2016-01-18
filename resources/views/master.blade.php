@@ -24,31 +24,13 @@
             padding-bottom: 20px;
         }
     </style>
-
-    @if (getenv('APP_ENV') == 'test')
-        <style>
-            #testing-banner {
-                top: 0;
-                position:fixed;
-                background-color:{{getenv('TEST_BANNER_COLOUR') ? getenv('TEST_BANNER_COLOUR') : 'red'}};
-                height: {{getenv('TEST_BANNER_HEIGHT') ? getenv('TEST_BANNER_HEIGHT') : '24px'}};
-                width: 100%;
-                z-index:2;
-                text-align:{{getenv('TEST_BANNER_ALIGNMENT') ? getenv('TEST_BANNER_ALIGNMENT') : 'center'}};
-                color:{{getenv('TEST_BANNER_FONT_COLOUR') ? getenv('TEST_BANNER_FONT_COLOUR') :'white'}};
-                font-size:{{getenv('TEST_BANNER_FONT_SIZE') ? getenv('TEST_BANNER_FONT_SIZE')  : '16px' }};
-            }
-
-            .navbar-fixed-top {
-                top: {{getenv('TEST_BANNER_HEIGHT') ? getenv('TEST_BANNER_HEIGHT') : '24px'}};
-            }
-        </style>
-    @endif
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{!! asset('formvalidation/dist/css/formValidation.min.css') !!}">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    @if (App::environment('test'))
+        <link rel="stylesheet" href="/css/test-banner.css">
+    @endif
 
     <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     @yield('stylesheets')

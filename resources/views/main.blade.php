@@ -10,9 +10,9 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-@if (getenv('APP_ENV') == 'test')
+@if (App::environment('test'))
     <div id="testing-banner" >
-        {{getenv('TEST_BANNER_TEXT') ? getenv('TEST_BANNER_TEXT') : 'This is a test site'}}
+        {{env('TEST_BANNER_TEXT','This is a test site')}}
     </div>
 @endif
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
