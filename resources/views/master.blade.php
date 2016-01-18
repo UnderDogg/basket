@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     @if (App::environment('test'))
-        <link rel="stylesheet" href="/css/test-banner.css">
+        <link rel="stylesheet" href="/css/main-test.css">
     @endif
 
     <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
