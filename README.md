@@ -21,7 +21,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ## Configurable Options
 
-`TEST_BANNER_TEXT` - Customised test banner text (defaults to 'This is a test site')
+`TEST_BANNER_TEXT` - Customised test banner text (defaults to 'TEST SITE')
 
 [ico-version]: https://img.shields.io/packagist/v/paybreak/basket.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
