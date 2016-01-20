@@ -28,8 +28,8 @@
     <link rel="stylesheet" href="{!! asset('formvalidation/dist/css/formValidation.min.css') !!}">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    @if (App::environment('test'))
-        <link rel="stylesheet" href="/css/main-test.css">
+    @if (env('ENV_BANNER', false)))
+        <link rel="stylesheet" href="/css/main-env.css">
     @endif
 
     <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
