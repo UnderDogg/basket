@@ -2,6 +2,11 @@
 
 @section('page')
     <body class="center-login">
+    @if (App::environment('test'))
+        <div id="testing-banner" >
+            {{env('TEST_BANNER_TEXT','This is a test site')}}
+        </div>
+    @endif
         <div class="form-group panel-heading center-box">
             <form method="POST" @if(isset($action))action="{{$action}}" @endif id="loginForm">
                 {!! csrf_field() !!}
