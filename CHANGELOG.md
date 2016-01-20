@@ -1,4 +1,13 @@
 ## Features
+- Now a banner appears on top of all the pages if the APP_ENV variable is set to 'test' 
+- The default banner text can be changed by changing the TEST_BANNER_TEXT variable in the .env file.
+
+[Delivers #111299086](https://www.pivotaltracker.com/story/show/111299086)
+
+# 0.17.1
+??
+
+## Features
 - Changes to sizing of buttons, font etc on initialise application page
 - jQuery added for deposit amount on initialise application page
 - Deposit added to well and button
