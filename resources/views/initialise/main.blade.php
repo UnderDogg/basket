@@ -2,11 +2,7 @@
 
 @section('page')
 <body>
-@if (App::environment('test'))
-    <div id="testing-banner" >
-        {{env('TEST_BANNER_TEXT','This is a test site')}}
-    </div>
-@endif
+@include('test')
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
