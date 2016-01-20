@@ -2,7 +2,7 @@
 
 @section('page')
 <body>
-@include('test')
+@include('test-banner')
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">

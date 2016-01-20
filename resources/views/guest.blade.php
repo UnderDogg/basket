@@ -2,7 +2,7 @@
 
 @section('page')
     <body class="center-login">
-        @include('test')
+        @include('test-banner')
         <div class="form-group panel-heading center-box">
             <form method="POST" @if(isset($action))action="{{$action}}" @endif id="loginForm">
                 {!! csrf_field() !!}
