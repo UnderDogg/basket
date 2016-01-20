@@ -2,7 +2,9 @@
 
 @section('page')
 <body>
-@include('test-banner')
+@if(env('ENV_BANNER', false))
+    @include('env-banner')
+@endif
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
