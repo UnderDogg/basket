@@ -1,3 +1,6 @@
+# 0.19.0
+2016-01-21
+
 ## Features
 - Added `converted_email` flag on *Location*. Updated *Location* edit and show page to show `converted_email` flag
 
