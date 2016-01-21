@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
+ * @property bool   $converted_email
  * @property Installation $installation
  * @package App\Basket
  */
@@ -44,6 +45,7 @@ class Location extends Model
         'name',
         'email',
         'address',
+        'converted_email',
     ];
 
     /**
