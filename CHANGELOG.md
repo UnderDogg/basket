@@ -1,3 +1,6 @@
+# 0.18.0
+2016-01-21
+
 ## Features
 - Changes to sizing of buttons, font etc on initialise application page
 - jQuery added for deposit amount on initialise application page
