@@ -1,13 +1,4 @@
 ## Features
-- Now a banner appears on top of all the pages if the APP_ENV variable is set to 'test' 
-- The default banner text can be changed by changing the TEST_BANNER_TEXT variable in the .env file.
-
-[Delivers #111299086](https://www.pivotaltracker.com/story/show/111299086)
-
-# 0.17.1
-??
-
-## Features
 - Changes to sizing of buttons, font etc on initialise application page
 - jQuery added for deposit amount on initialise application page
 - Deposit added to well and button
@@ -23,6 +14,7 @@
 - Added functionality to test protected methods in abstract classes
 - Added testing on model traits, including tests against *Merchants* and Users
 - Added functionality to stop duplicate tokens being added
+- Now a banner appears on top of all the pages if the APP_ENV variable is set to 'test' (#111299086)
 
 ## Bug Fixes
 - Location validation bug fix for email and required
@@ -30,6 +22,12 @@
 - Handling 'Products are empty' error given when an installation has no products
 - Fixed User Locations for super users
 - Added a previously removed use statement for Collection
+
+# 0.17.1
+2015-12-01
+
+## Bug Fixes
+- Fixed Initialise page bug where only 1 product was showing
 
 # 0.17.0
 2015-11-24
