@@ -47,6 +47,14 @@
                         <dd>{!! $location->email !!}</dd>
                         <dt>Location Address</dt>
                         <dd>{!! $location->address !!}</dd>
+                        <dt>Converted Email</dt>
+                        <dd>
+                            @if( $location->converted_email == 0 )
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                            @elseif( $location->converted_email == 1 )
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @endif
+                        </dd>
                     </dl>
                 </div>
             </div>
