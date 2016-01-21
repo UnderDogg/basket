@@ -1,3 +1,9 @@
+# 0.18.1
+2016-01-21
+
+## Bug Fixes
+- Removed extra bracket
+
 # 0.18.0
 2016-01-21
 
