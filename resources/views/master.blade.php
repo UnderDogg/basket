@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{!! asset('formvalidation/dist/css/formValidation.min.css') !!}">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    @if (env('ENV_BANNER', false)))
+    @if (env('ENV_BANNER', false))
         <link rel="stylesheet" href="/css/main-env.css">
     @endif
 
