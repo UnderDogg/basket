@@ -48,6 +48,19 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('converted_email', 'Converted Email:', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                <label class="checkbox-inline">
+                    @if($location->converted_email == 1)
+                        {!! Form::input('checkbox', 'converted_email', 0, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                    @else
+                        {!! Form::input('checkbox', 'converted_email', 1, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                    @endif
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
             </div>

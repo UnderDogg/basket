@@ -126,7 +126,12 @@ class LocationsController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
+            'converted_email' => 'required|sometimes',
         ]);
+
+        if(!$request->has('converted_email')) {
+            $request->request->add(['converted_email' => '0']);
+        }
 
         return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
     }
