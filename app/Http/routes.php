@@ -25,8 +25,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('password/reset', 'Auth\PasswordController@postReset');
 });
 
-Log::error('Test Log');
-
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'LandingController@index');
