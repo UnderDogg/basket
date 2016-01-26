@@ -26,7 +26,7 @@ Please use the following to help with DB compatibility:
  $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
  ```
 
-### Logging
+## Logging
 The logging system uses the Laravel standard:
 
 ```php
