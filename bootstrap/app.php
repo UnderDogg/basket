@@ -47,7 +47,7 @@ $app->singleton(
 |--------------------------------------------------------------------------
 */
 
-$monolog = \Illuminate\Support\Facades\Log::getMonolog();
+$monolog = $app->log->getMonolog();
 $monolog->pushHandler(new \Monolog\Handler\SyslogHandler('Basket', LOG_USER, Logger::NOTICE));
 
 /*
