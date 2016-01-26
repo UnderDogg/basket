@@ -25,4 +25,19 @@ Please use the following to help with DB compatibility:
  $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
  $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
  ```
- 
+
+### Logging
+The logging system uses the Laravel standard:
+
+```php
+Log::error('Message', ['context']);
+```
+
+These logs will automatically by written out to the underlying system's syslog. To change the log prefix for this,
+override the LOG_PREFIX environment variable in the .env file.
+
+Additionally, you can switch whether or not to log to Syslog and/or file, by setting the following variables to True or False.
+
+`LOG_SYSLOG=true`
+`LOG_FILE=true`
+
