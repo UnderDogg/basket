@@ -43,6 +43,15 @@ $app->singleton(
 
 /*
 |--------------------------------------------------------------------------
+| Log Configuration
+|--------------------------------------------------------------------------
+*/
+
+$monolog = \Illuminate\Support\Facades\Log::getMonolog();
+$monolog->pushHandler(new \Monolog\Handler\SyslogHandler('Basket', LOG_USER, Logger::NOTICE));
+
+/*
+|--------------------------------------------------------------------------
 | Monetary Locale
 |--------------------------------------------------------------------------
 |
