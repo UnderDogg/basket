@@ -2,6 +2,7 @@
 
 @section('page')
     <body class="center-login">
+        @include('google-tag-manager')
         @if(env('ENV_BANNER', false))
             @include('env-banner')
         @endif
