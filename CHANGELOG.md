@@ -1,6 +1,14 @@
+# 0.20.0
+2016-02-02
+
+## Features
+- Added *Google Tag Manager* to *Master* template (112795661)
+
+# 0.19.0
+2016-01-21
+
 ## Features
 - Added `converted_email` flag on *Location*. Updated *Location* edit and show page to show `converted_email` flag
-- Added Google Tag Manager to `Master` template (112795661)
 
 # 0.18.1
 2016-01-21
