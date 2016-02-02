@@ -1,3 +1,6 @@
+# 0.20.1
+2016-02-02
+
 ## Bug Fixes
 - Removed a redundant google analytics tag (112795661)
 
