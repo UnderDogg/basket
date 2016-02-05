@@ -3,9 +3,30 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Routing\Router;
 
 class Kernel extends HttpKernel
 {
+    /**
+     * Kernel constructor.
+     *
+     * @param Application $app
+     * @param Router      $router
+     */
+    public function __construct(Application $app, Router $router)
+    {
+        parent::__construct($app, $router);
+
+        array_walk($this->bootstrappers, function(&$bootstrapper)
+        {
+            if($bootstrapper === 'Illuminate\Foundation\Bootstrap\ConfigureLogging')
+            {
+                $bootstrapper = 'Bootstrap\ConfigureLogging';
+            }
+        });
+    }
+
     /**
      * The application's global HTTP middleware stack.
      *
