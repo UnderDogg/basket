@@ -1,3 +1,6 @@
+## Features
+- Prevent logs from being pushed using Loggly handler, and insert into syslog instead (112319685)
+
 # 0.20.1
 2016-02-02
 
