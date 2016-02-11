@@ -41,11 +41,6 @@ class NotificationCatcherService extends AbstractSynchronisationService
      */
     public function catchNotification($application, $installation)
     {
-        $this->logInfo(
-            'NotificationCatcherService: Received notification for application[ext' . $application .
-            '] on gate for installation[' . $installation . ']'
-        );
-
         try {
             $app = $this->applicationSynchronisationServices->linkApplication($application, $installation);
 
@@ -61,9 +56,18 @@ class NotificationCatcherService extends AbstractSynchronisationService
         } catch (\Exception $e) {
 
             $this->logError('NotificationCatcherService: Application[ext' . $application .
-                '] can not be synced: ' . $e->getMessage());
+                '] can not be synced: ' . $e->getMessage(), ['application' => $app->toArray()]);
             throw new Exception('NotificationCatcherService: Application can not be synced');
         }
+
+        $this->logInfo(
+            'NotificationCatcherService: Received notification for application[ext' . $application .
+            '] on gate for installation[' . $installation . ']',
+            [
+                'ext_current_status' => $app->ext_current_status,
+                'ext_id' => $app->ext_id,
+            ]
+        );
 
         return $app;
     }
