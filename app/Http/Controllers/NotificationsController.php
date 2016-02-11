@@ -45,7 +45,7 @@ class NotificationsController extends Controller
                 ->catchNotification($request->json('application'), $installation);
 
             if ($application->location !== null
-                && $application->ext_current_status == 'converted'
+                && $request->json('new_status') == 'converted'
                 && $application->location->converted_email) {
 
                 $this->locationNotificationService->convertedNotification($application, $application->location);

@@ -1,6 +1,12 @@
 ## Features
 - Prevent logs from being pushed using Loggly handler, and insert into syslog instead (112319685)
 
+# 0.20.2
+2016-02-11
+
+## Bug fixes
+- Fixed *Converted Email* in case of *Auto Fulfilment* (113469771)
+
 # 0.20.1
 2016-02-02
 
