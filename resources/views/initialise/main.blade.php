@@ -255,7 +255,13 @@
                                         <p>Need more information or have questions? Call us on 0333 444 224</p>
                                     </div>
                                     @if($product['credit_info']['deposit_amount'] > 0)
-                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }} deposit today</button>
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }} deposit today
+                                            @if($product['credit_info']['amount_service'] > 0)
+                                                and a service fee of &pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}
+                                            @endif
+                                        </button>
+                                    @elseif($product['credit_info']['amount_service'] > 0)
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }} service fee today</button>
                                     @else
                                         <button type="submit" class="btn btn-success btn-lg btn-block">Continue with no deposit today</button>
                                     @endif
@@ -270,7 +276,7 @@
                                     {!! Form::hidden('product', $product['id']) !!}
                                     {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
-                                    {!! Form::hidden('dep_am', $product['credit_info']['deposit_amount'], ['class' => 'deposit_amount']) !!}
+                                    {!! Form::hidden('pay_today', $product['credit_info']['deposit_amount'] + $product['credit_info']['amount_service'], ['class' => 'pay_today']) !!}
 
                                 {!! Form::close() !!}
                             </div>
@@ -295,13 +301,13 @@
         $('li').click(function() {
             var prod = $(this).find('a').attr('aria-controls');
             var content = $('div#' + prod);
-            var amount = $(content).find('.deposit_amount').attr('value');
+            var amount = $(content).find('.pay_today').attr('value');
             document.getElementById('pay-today').innerHTML = 'Pay Today £' + (amount / 100).toFixed(2);
         });
         $(window).bind("load", function() {
             if($('div.tab-pane.active').length > 0) {
                 var div = $('div.tab-pane.active').first();
-                var form = $(div).find('.deposit_amount');
+                var form = $(div).find('.pay_today');
                 document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
             }
         });
