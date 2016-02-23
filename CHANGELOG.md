@@ -1,3 +1,10 @@
+# 1.0.0
+2016-02-23
+
+## Features
+- Prevent logs from being pushed using Loggly handler, and insert into syslog instead (112319685)
+- Included `Service Fee` on the `Pay Today` in the make application screen (114074193)
+
 # 0.20.2
 2016-02-11
 
