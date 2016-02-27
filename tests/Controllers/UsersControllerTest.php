@@ -162,7 +162,7 @@ class UsersControllerTest extends TestCase
      */
     public function testFailStore()
     {
-        $request = new \Illuminate\Http\Request($this->getPostUserData('dev@paybreak.com'));
+        $request = $this->createRequestForTest($this->getPostUserData('dev@paybreak.com'));
         $controller = new Controllers\UsersController();
         $this->setExpectedException('App\Exceptions\RedirectException');
         $controller->store($request);
@@ -225,6 +225,180 @@ class UsersControllerTest extends TestCase
         $this->call('GET', 'users/2/locations');
         $this->see('Update User Locations');
         $this->check('Higher Location');
+        $this->submitForm('Save Changes');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditPage()
+    {
+        $this->visit('users/1/edit');
+        $this->call('GET', 'users/1/edit');
+        $this->see('Edit User');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditErrors()
+    {
+        $this->visit('users/1/edit');
+        $this->call('GET', 'users/1/edit');
+        $this->see('Edit User');
+        $this->type('', 'name')
+            ->type('', 'email')
+            ->type('', 'password')
+            ->press('Save Changes')
+            ->see('The name field is required.')
+            ->see('The name cannot be empty')
+            ->see('The email field is required.')
+            ->see('The email cannot be empty');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditForm()
+    {
+        $this->visit('users/1/edit');
+        $this->call('GET', 'users/1/edit');
+        $this->see('Edit User');
+        $this->type('TestName', 'name');
+        $this->press('Save Changes');
+        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDefaultEditThroughPost()
+    {
+        $user = $this->getPostUserData();
+        $view = $this->call(
+            'PATCH',
+            'users/1',
+            $user
+        );
+        $this->assertRedirectedTo('users/');
+        $this->assertEquals(302, $view->getStatusCode());
+        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testActualEditThroughPost()
+    {
+        $user = $this->addMethodOntoRequest($this->getPostUserData('dev@pb.com'));
+        $view = $this->call(
+            'POST',
+            'users/1',
+            $user
+        );
+        $this->assertRedirectedTo('users/');
+        $this->assertEquals(302, $view->getStatusCode());
+        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+        $this->seeInDatabase('users', ['id' => '1', 'email' => 'dev@pb.com']);
+        $this->notSeeInDatabase('users', ['id' => '1', 'email' => 'dev@paybreak.com']);
+        $this->notSeeInDatabase('users', ['id' => '1', 'email' => 'test@dev.com']);
+    }
+
+    /**
+     * Fails because the Email Address already exists (unique fails)
+     *
+     * @author EB
+     */
+    public function testEditFailThroughPost()
+    {
+        $user = $this->addMethodOntoRequest($this->getPostUserData('it@paybreak.com'));
+        $view = $this->call(
+            'POST',
+            'users/1',
+            $user
+        );
+        $this->assertRedirectedTo('/users/1/edit');
+        $this->assertSessionHas(
+            'messages',
+            ['error' => 'Cannot update user [1]']
+        );
+    }
+
+    /**
+     * @author EB
+     * @throws \App\Exceptions\RedirectException
+     */
+    public function testUpdateForException()
+    {
+        $request = $this->createRequestForTest($this->getPostUserData('it@paybreak.com'));
+        $controller = new Controllers\UsersController();
+        $this->setExpectedException('App\Exceptions\RedirectException');
+        $controller->update(1, $request);
+    }
+
+    public function testUpdateLocationsForm()
+    {
+        $this->visit('users/2/locations');
+        $this->call('GET', 'users/2/locations');
+        $this->see('Update User Locations');
+        $this->check('Higher Location');
+        $this->press('Save Changes');
+        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+    }
+
+    public function testUpdateLocations()
+    {
+        $this->visit('/users/2/locations');
+        $this->call('GET', '/users/2/locations');
+        $request = $this->createRequestForTest(['Higher_Location' => '1']);
+        $controller = new Controllers\UsersController();
+        $controller->updateLocations(2, $request);
+        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+    }
+
+    public function testFailUpdateLocationsUndefinedUser()
+    {
+        $request = $this->createRequestForTest($this->addMethodOntoRequest());
+        $controller = new Controllers\UsersController();
+        $this->setExpectedException('ErrorException');
+        $controller->updateLocations(0, $request);
+    }
+
+    public function testDestroyYourself()
+    {
+        $user = User::find(2);
+        $this->be($user);
+        $this->visit('users/2/delete')
+            ->see('Delete User');
+        $this->call('GET', 'users/2/delete');
+        $this->seePageIs('users/2/delete');
+        $this->assertViewHas('object', $this->getDeleteFormUserObject(2));
+        $this->press('Confirm')
+            ->assertSessionHas('messages', ['error' => 'You cannot delete yourself!']);
+    }
+
+    public function testDeleteForm()
+    {
+        $this->visit('users/2/delete')
+            ->see('Delete User');
+        $this->call('GET', 'users/2/delete');
+        $this->seePageIs('users/2/delete');
+        $this->assertViewHas('object', $this->getDeleteFormUserObject(2));
+        $this->press('Confirm')
+            ->assertSessionHas('messages', ['success' => 'User was successfully deleted']);
+    }
+
+    public function testFetchRolesForSu()
+    {
+        /**
+         * @var \Illuminate\Database\Eloquent\Collection
+         */
+        $roles = $this->callPrivateMethodOnClass(
+            'fetchRoles',
+            [User::find(1)],
+            Controllers\UsersController::class
+        );
+        $this->assertTrue($roles->hasKey(0));
     }
 
     /**
@@ -247,5 +421,24 @@ class UsersControllerTest extends TestCase
             'password' => $password,
             'merchant_id' => $merchant_id,
         ];
+    }
+
+    /**
+     * @author EB
+     * @param int $id
+     * @return User
+     */
+    private function getDeleteFormUserObject($id = 1)
+    {
+        $user = $this->callPrivateMethodOnClass(
+            'fetchUserById',
+            [$id],
+            Controllers\UsersController::class
+        );
+
+        $user->type = 'users';
+        $user->controller = 'Users';
+
+        return $user;
     }
 }
