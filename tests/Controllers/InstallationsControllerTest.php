@@ -22,7 +22,7 @@ class InstallationsControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);
         $this->be($user);
@@ -64,5 +64,118 @@ class InstallationsControllerTest extends TestCase
         // Test page gives 200 response
         $this->visit('/installations/1/edit')
             ->seeStatusCode(200);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testActivateNoneExistingInstallation()
+    {
+        $installation = new Installation();
+        $installation->id = 20;
+        try {
+            $installation->activate();
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                'Trying to activate none existing Installation',
+                $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDeactivateNoneExistingInstallation()
+    {
+        $installation = new Installation();
+        $installation->id = 20;
+        try {
+            $installation->deactivate();
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                'Trying to deactivate none existing Installation',
+                $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDeactivateChainsLocation()
+    {
+        $installation = Installation::query()->find(1);
+
+        foreach($installation->locations() as $l1) {
+            $l1->active = 1;
+        }
+
+        $installation->deactivate();
+
+        foreach($installation->locations() as $loc) {
+            $this->assertEquals(0, $loc->active);
+            $this->assertNotEquals(1, $loc->active);
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testActivateMerchantException()
+    {
+        $installation = Installation::query()->find(1);
+
+        try {
+            $installation->activate();
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                'Can\'t activate Installation because Merchant is not active.',
+                $e->getMessage()
+            );
+            $this->assertEquals('App\Exceptions\Exception', get_class($e));
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testActivateChainsLocation()
+    {
+        $installation = Installation::query()->find(1);
+        $merchant = \App\Basket\Merchant::findOrFail(1)->activate();
+
+        foreach($installation->locations() as $l1) {
+            $l1->active = 0;
+        }
+
+        $installation->activate();
+
+        foreach($installation->locations() as $l2) {
+            $this->assertEquals(1, $l2->active);
+            $this->assertNotEquals(0, $l2->active);
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetLocationInstructionAsHtml()
+    {
+        $installation = Installation::query()->find(1);
+        $installation->update(['location_instruction' => '## Test']);
+        $instruction = Installation::findOrFail(1)->getLocationInstructionAsHtml();
+        $this->assertEquals('<h2>Test</h2>', $instruction);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetDisclosureAsHtml()
+    {
+        $installation = Installation::query()->find(1);
+        $installation->update(['disclosure' => '## Test Two']);
+        $disclosure = Installation::findOrFail(1)->getDisclosureAsHtml();
+        $this->assertEquals('<h2>Test Two</h2>', $disclosure);
     }
 }

@@ -152,4 +152,67 @@ class MerchantsControllerTest extends TestCase
             ->type($token, 'token')
             ->press('Create Merchant');
     }
+
+    /**
+     * @author EB
+     */
+    public function testActivateMerchant()
+    {
+        $merchant = \App\Basket\Merchant::query()->find(1);
+        $merchant->activate();
+
+        $this->assertEquals(true, $merchant->active);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDeactivateNoneExistingMerchant()
+    {
+        $installation = new \App\Basket\Merchant();
+        $installation->id = 20;
+        try {
+            $installation->deactivate();
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                'Trying to deactivate none existing Merchant',
+                $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testActivateNoneExistingMerchant()
+    {
+        $installation = new \App\Basket\Merchant();
+        $installation->id = 20;
+        try {
+            $installation->activate();
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                'Trying to activate none existing Merchant',
+                $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * @author EB
+     */
+    public function testDeactivateChainsInstallation()
+    {
+        $merchant = \App\Basket\Merchant::query()->find(1);
+        foreach($merchant->installations() as $i1) {
+            $i1->active = 1;
+        }
+
+        $merchant->deactivate();
+
+        foreach($merchant->installations() as $i2) {
+            $this->assertEquals(1, $i2->active);
+            $this->assertNotEquals(0, $i2->active);
+        }
+    }
 }
