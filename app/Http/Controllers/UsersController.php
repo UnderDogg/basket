@@ -181,7 +181,9 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             $this->logError('Cannot update user [' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
+            throw (new RedirectException())
+                ->setTarget('/users/' . $id . '/edit')
+                ->setError('Cannot update user [' . $id . ']');
         }
 
         return $this->redirectWithSuccessMessage(
