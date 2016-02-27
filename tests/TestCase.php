@@ -44,4 +44,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $method->invokeArgs($obj, $params);
     }
+
+    protected function callPrivateMethodOnClass($method, $params, $class = Controller::class)
+    {
+        $reflection = new ReflectionClass($class);
+        $method = $reflection->getMethod($method);
+        $method->setAccessible(true);
+
+        $obj = $this->getMock($class);
+
+//        $obj = $this->getMockForAbstractClass($class);
+
+        return $method->invokeArgs($obj, $params);
+    }
 }
