@@ -22,7 +22,6 @@ class UsersControllerTest extends TestCase
 
         Artisan::call('migrate');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
-        \Illuminate\Support\Facades\Mail::pretend(true);
 
         $user = User::find(1);
         $this->be($user);
@@ -61,16 +60,17 @@ class UsersControllerTest extends TestCase
      */
     public function testCreate()
     {
-        $this->visit('users/create');
-        $this->assertViewHasAll(['user','merchants','rolesAvailable','rolesApplied']);
-        $this->type('Test User', 'name');
-        $this->type('test@user.com', 'email');
-        $this->type('password', 'password');
-        $this->select(1, 'merchant_id');
-        $this->check('administrator');
-        $this->press('createUserButton');
-        $this->see('Users');
-        $this->see('New user has been successfully created');
+        $this->visit('users/create')
+            ->assertViewHasAll(['user','merchants','rolesAvailable','rolesApplied']);
+        $this->type('Test', 'name')
+            ->type('test@dev.com', 'email')
+            ->type('password', 'password')
+            ->select(1, 'merchant_id')
+            ->check('administrator')
+            ->press('createUserButton')
+            ->see('Users')
+            ->see('New user has been successfully created')
+            ->seeInDatabase('users', ['email' => 'test@dev.com']);
     }
 
     /**
@@ -78,16 +78,16 @@ class UsersControllerTest extends TestCase
      */
     public function testCreateErrors()
     {
-        $this->visit('users/create');
-        $this->assertViewHasAll(['user','merchants','rolesAvailable','rolesApplied']);
-        $this->see('Create a new User');
-        $this->submitForm('createUserButton');
-        $this->see('The name cannot be empty');
-        $this->see('The name field is required');
-        $this->see('The email cannot be empty');
-        $this->see('The email field is required');
-        $this->see('The password cannot be empty');
-        $this->see('The password field is required');
+        $this->visit('users/create')
+            ->assertViewHasAll(['user','merchants','rolesAvailable','rolesApplied']);
+        $this->see('Create a new User')
+            ->submitForm('createUserButton')
+            ->see('The name cannot be empty')
+            ->see('The name field is required')
+            ->see('The email cannot be empty')
+            ->see('The email field is required')
+            ->see('The password cannot be empty')
+            ->see('The password field is required');
     }
 
     /**
@@ -121,5 +121,131 @@ class UsersControllerTest extends TestCase
         );
         $this->assertViewHas('rolesAvailable', $roles['rolesAvailable']);
         $this->assertViewHas('rolesApplied', $roles['rolesApplied']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testStoreThroughPost()
+    {
+        $user = $this->getPostUserData();
+        $views = $this->call(
+            'POST',
+            'users',
+            $user
+        );
+        $this->assertRedirectedTo('/users');
+        $this->assertEquals(302, $views->getStatusCode());
+        $this->assertSessionHas('messages', ['success' => 'New user has been successfully created']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testFailStoreThroughPost()
+    {
+        $user = $this->getPostUserData('dev@paybreak.com');
+        $view = $this->call(
+            'POST',
+            'users',
+            $user
+        );
+        $this->assertRedirectedTo('/users/create');
+        $this->assertEquals(302, $view->getStatusCode());
+        $this->assertSessionHas('messages', ['error' => 'Cannot create User']);
+        $this->notSeeInDatabase('users', $user);
+    }
+
+    /**
+     * @author EB
+     * @throws \App\Exceptions\RedirectException
+     */
+    public function testFailStore()
+    {
+        $request = new \Illuminate\Http\Request($this->getPostUserData('dev@paybreak.com'));
+        $controller = new Controllers\UsersController();
+        $this->setExpectedException('App\Exceptions\RedirectException');
+        $controller->store($request);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testStoreMerchantNotAllowed()
+    {
+        $user = User::find(2);
+        $this->be($user);
+        $user = $this->getPostUserData('test@dev.com', 2);
+        $view = $this->call(
+            'POST',
+            'users',
+            $user
+        );
+        $this->assertRedirectedTo('/users');
+        $this->assertEquals(302, $view->getStatusCode());
+        $this->assertSessionHas('messages', ['error' => 'You are not allowed to create User for this Merchant']);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testShow()
+    {
+        $this->visit('users/1')
+            ->assertViewHas('user');
+
+        $this->see('View User')
+            ->see('Administrator')
+            ->see('dev@paybreak.com')
+            ->see('System Administrator')
+            ->assertResponseStatus(200);
+    }
+    /**
+     * @author EB
+     */
+    public function testSuEditUserLocations()
+    {
+        $this->visit('users/1/locations');
+        $this->call('GET', 'users/1/locations');
+        $this->assertRedirectedTo('users');
+        $this->assertSessionHas(
+            'messages',
+            ['error' => 'Super Users do not belong to a Merchant, cannot fetch Locations']
+        );
+        $this->see('Users');
+        $this->dontSee('Update User Locations');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testEditUserLocations()
+    {
+        $this->visit('users/2/locations');
+        $this->call('GET', 'users/2/locations');
+        $this->see('Update User Locations');
+        $this->check('Higher Location');
+    }
+
+    /**
+     * @author EB
+     * @param string $email
+     * @param string $name
+     * @param string $password
+     * @param int $merchant_id
+     * @return array
+     */
+    private function getPostUserData(
+        $email = 'test@dev.com',
+        $merchant_id = 1,
+        $name = 'Test',
+        $password = 'password'
+    ) {
+        return [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'merchant_id' => $merchant_id,
+        ];
     }
 }
