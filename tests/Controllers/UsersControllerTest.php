@@ -388,19 +388,6 @@ class UsersControllerTest extends TestCase
             ->assertSessionHas('messages', ['success' => 'User was successfully deleted']);
     }
 
-    public function testFetchRolesForSu()
-    {
-        /**
-         * @var \Illuminate\Database\Eloquent\Collection
-         */
-        $roles = $this->callPrivateMethodOnClass(
-            'fetchRoles',
-            [User::find(1)],
-            Controllers\UsersController::class
-        );
-        $this->assertTrue($roles->hasKey(0));
-    }
-
     /**
      * @author EB
      * @param string $email
