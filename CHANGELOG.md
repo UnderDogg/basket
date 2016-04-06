@@ -1,3 +1,6 @@
+## Features
+- Added extra testing
+
 # 1.0.1
 2016-03-23
 
