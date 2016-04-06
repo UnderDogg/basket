@@ -181,7 +181,9 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             $this->logError('Cannot update user [' . $id . ']: ' . $e->getMessage());
-            throw (new RedirectException())->setTarget('/users/' . $id . '/edit')->setError($e->getMessage());
+            throw (new RedirectException())
+                ->setTarget('/users/' . $id . '/edit')
+                ->setError('Cannot update user [' . $id . ']');
         }
 
         return $this->redirectWithSuccessMessage(
@@ -322,18 +324,12 @@ class UsersController extends Controller
     private function fetchLocations($user)
     {
         $locations = $this->fetchMerchantLocationsFromUser($user);
-
-        if ($user !== null) {
-            $locationsApplied = $user->locations;
-            $locationsAvailable = $locations->diff($locationsApplied)->keyBy('id');
-        } else {
-            $locationsApplied = collect([]);
-            $locationsAvailable = $locations->keyBy('id');
-        }
+        $locationsApplied = $user->locations;
 
         return [
             'locationsApplied' => $locationsApplied,
-            'locationsAvailable' => $locationsAvailable,
+            'locationsAvailable' =>
+                $locations->diff($locationsApplied)->keyBy('id'),
         ];
     }
 

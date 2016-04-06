@@ -44,4 +44,50 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $method->invokeArgs($obj, $params);
     }
+
+    /**
+     * Call a private method on a class
+     *
+     * @author EB
+     * @param $method
+     * @param $params
+     * @param $class
+     * @return mixed
+     */
+    protected function callPrivateMethodOnClass($method, $params, $class = Controller::class)
+    {
+        $reflection = new ReflectionClass($class);
+        $method = $reflection->getMethod($method);
+        $method->setAccessible(true);
+
+        $obj = $this->getMock($class);
+
+        return $method->invokeArgs($obj, $params);
+    }
+
+    /**
+     * Appends a method type onto a request
+     *
+     * @author EB
+     * @param array $request
+     * @param string $method
+     * @return array
+     */
+    protected function addMethodOntoRequest(array $request = [], $method = 'patch')
+    {
+        $request['_method'] = $method;
+        return $request;
+    }
+
+    /**
+     * Creates a fake request for testing
+     *
+     * @author EB
+     * @param array $params
+     * @return \Illuminate\Http\Request
+     */
+    protected function createRequestForTest(array $params = [])
+    {
+        return new \Illuminate\Http\Request($params);
+    }
 }
