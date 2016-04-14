@@ -101,10 +101,11 @@
                 <thead>
                     <tr>
                         <th colspan="2">Product</th>
-                        <th colspan="4">Terms</th>
+                        <th colspan="3">Terms</th>
+                        <th colspan="2">Customer Fees</th>
                         <th colspan="2">Order Range</th>
                         <th colspan="4">Deposit</th>
-                        <th colspan="4">Merchant Fees</th>
+                        <th colspan="4">Retailer Fees</th>
                         <th colspan="3">Commission</th>
                     </tr>
                     <tr>
@@ -113,7 +114,8 @@
                         <th>Holiday</th>
                         <th>Payments</th>
                         <th>Interest</th>
-                        <th>Fee</th>
+                        <th>Service</th>
+                        <th>Settlement</th>
                         <th>Min</th>
                         <th>Max</th>
                         <th>Min %</th>
@@ -142,6 +144,7 @@
                                 <td>{{$productData->getPayments()}}</td>
                                 <td>{{number_format($productData->getPerAnnumInterestRate(), 1)}}%</td>
                                 <td>{{'&pound;' . number_format($productData->getCustomerServiceFee()/100, 2)}}</td>
+                                <td>{{'&pound;' . number_format($productData->getCustomerSettlementFee()/100, 2)}}</td>
                                 <td>{{'&pound;' . number_format($productData->getOrder()->getMinimumAmount()/100, 2)}}</td>
                                 <td>{{'&pound;' . number_format($productData->getOrder()->getMaximumAmount()/100, 2)}}</td>
                                 <td>{{number_format($productData->getDeposit()->getMinimumPercentage(), 2)}}%</td>
