@@ -134,7 +134,7 @@
                 <tbody>
                     @forelse($products as $group)
                         <tr class="clickable" data-toggle="collapse" id="{{$group->getId()}}" data-target=".{{$group->getId()}}collapsed">
-                            <td colspan="19"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-minus hidden"></span> {{$group->getName()}}</td>
+                            <td colspan="20"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-minus hidden"></span> {{$group->getName()}}</td>
                         </tr>
                         @forelse($group->getProducts() as $productData)
                             <tr class="collapse out {{$group->getId()}}collapsed">
