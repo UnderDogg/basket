@@ -1,3 +1,6 @@
+# 1.1.0
+2016-04-14
+
 ## Features
 - Added extra testing
 - Added `service` and `settlement` fee to `installation product` view (117620969)
