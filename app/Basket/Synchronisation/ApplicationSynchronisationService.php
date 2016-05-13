@@ -252,13 +252,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
 
             $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
-//            $this->logInfo(
-//                'IniApp: Application reference[' . $reference . '] redirecting to: [' .
-//                $newApplication->getResumeUrl() . ']'
-//            );
 
             return $newApplication;
-//            return $newApplication->getResumeUrl();
 
         } catch (\Exception $e) {
 

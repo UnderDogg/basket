@@ -251,9 +251,14 @@
                                         </div>
                                     @endif
 
+                                    <?php $options = 0; foreach($location->installation->getBitwiseFinanceOffers() as $key => $val) {if($val['active'] == true) {$options++;}} ?>
+
                                     <div class="col-lg-12 text-center">
                                         <p>Need more information or have questions? Call us on 0333 444 224</p>
                                     </div>
+
+                                    @if($options == 2)<div class="col-sm-6 col-xs-12"> @endif
+
                                     @if($product['credit_info']['deposit_amount'] > 0)
                                         <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }} deposit today
                                             @if($product['credit_info']['amount_service'] > 0)
@@ -265,12 +270,22 @@
                                     @else
                                         <button type="submit" class="btn btn-success btn-lg btn-block">Continue with no deposit today</button>
                                     @endif
-                                    <button type="submit" class="btn btn-success btn-lg btn-block" name="link" value="true">Link tings</button>
-                                    @if($location->installation->disclosure)
-                                    <br/>
-                                    <div class="col-lg-12">
-                                        {!! $location->installation->getDisclosureAsHtml() !!}
+
+                                    @if($options == 2)
+                                        </div>
+                                    @endif
+
+                                    @if($options == 2 || $location->installation->finance_offers > 2)
+                                    <div @if($location->installation->finance_offers > 2)class="col-sm-6 col-xs-12"@endif>
+                                        <button type="submit" class="btn btn-success btn-lg btn-block" name="link" value="true">Application Information</button>
                                     </div>
+                                    @endif
+
+                                    @if($location->installation->disclosure)
+                                        <br/>
+                                        <div class="col-lg-12">
+                                            {!! $location->installation->getDisclosureAsHtml() !!}
+                                        </div>
                                     @endif
 
                                     {!! Form::hidden('amount', $amount) !!}
