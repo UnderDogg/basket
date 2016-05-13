@@ -51,7 +51,7 @@ class InitialisationController extends Controller
      * @author WN
      * @param $locationId
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws RedirectException
      */
     public function request($locationId, Request $request)
@@ -90,17 +90,6 @@ class InitialisationController extends Controller
                     $location,
                     $requester
                 ));
-//            return redirect($this->applicationSynchronisationService->initialiseApplication(
-//                $location->installation->id,
-//                $reference,
-//                $request->get('amount'),
-//                'Goods & Services',
-//                $location->installation->validity,
-//                $request->get('group'),
-//                [$request->get('product')],
-//                $location,
-//                $requester
-//            ));
         } catch (\Exception $e) {
 
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
@@ -108,12 +97,16 @@ class InitialisationController extends Controller
         }
     }
 
+    /**
+     * @author EB
+     * @param $location
+     * @param Request $request
+     * @param ApplicationEntity $data
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function requestType($location, Request $request, ApplicationEntity $data)
     {
         if($request->has('link')) {
-
-//            var_dump($data->toArray(true));
-//            die();
             return View('initialise.link')->with(
                 [
                     'location' => $location,
