@@ -227,7 +227,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                     'options' => $productOptions,
                 ],
                 'fulfilment' => [
-                    'method' => 'Collect',
+                    'method' => 'collection',
                     'location' => $location->reference,
                 ],
             ]
