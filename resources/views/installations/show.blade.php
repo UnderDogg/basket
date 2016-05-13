@@ -1,7 +1,6 @@
 @extends('main')
 
 @section('content')
-
     <h1>View Installations
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
@@ -40,6 +39,16 @@
                                 <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Linked</span>
                             @endif
                         </dd>
+                        @foreach($installations->getBitwiseFinanceOffers() as $key => $offer)
+                            <dt>Finance Offer: {{ucwords(str_replace('_',' ', $key))}}</dt>
+                            <dd>
+                                @if( $offer['active'] == false )
+                                    <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                                @elseif( $offer['active'] == true )
+                                    <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                                @endif
+                            </dd>
+                        @endforeach
                     </dl>
                 </div>
             </div>
