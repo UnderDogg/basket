@@ -187,6 +187,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     }
 
     /**
+     * @author WN, EB
      * @param int $installationId
      * @param string $reference
      * @param int $amount
@@ -196,7 +197,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
-     * @return null|string
+     * @return ApplicationEntity
      * @throws Exception
      */
     public function initialiseApplication(
@@ -226,7 +227,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                     'options' => $productOptions,
                 ],
                 'fulfilment' => [
-                    'method' => 'collection',
+                    'method' => 'Collect',
                     'location' => $location->reference,
                 ],
             ]
@@ -251,12 +252,13 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
 
             $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
-            $this->logInfo(
-                'IniApp: Application reference[' . $reference . '] redirecting to: [' .
-                $newApplication->getResumeUrl() . ']'
-            );
+//            $this->logInfo(
+//                'IniApp: Application reference[' . $reference . '] redirecting to: [' .
+//                $newApplication->getResumeUrl() . ']'
+//            );
 
-            return $newApplication->getResumeUrl();
+            return $newApplication;
+//            return $newApplication->getResumeUrl();
 
         } catch (\Exception $e) {
 

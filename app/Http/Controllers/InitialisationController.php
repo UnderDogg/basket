@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
+use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
  * Initialisation Controller
@@ -75,22 +76,53 @@ class InitialisationController extends Controller
         $location = $this->fetchLocation($locationId);
 
         try {
-            return redirect($this->applicationSynchronisationService->initialiseApplication(
-                $location->installation->id,
-                $reference,
-                $request->get('amount'),
-                'Goods & Services',
-                $location->installation->validity,
-                $request->get('group'),
-                [$request->get('product')],
+            return $this->requestType(
                 $location,
-                $requester
-            ));
+                $request,
+                $this->applicationSynchronisationService->initialiseApplication(
+                    $location->installation->id,
+                    $reference,
+                    $request->get('amount'),
+                    'Goods & Services',
+                    $location->installation->validity,
+                    $request->get('group'),
+                    [$request->get('product')],
+                    $location,
+                    $requester
+                ));
+//            return redirect($this->applicationSynchronisationService->initialiseApplication(
+//                $location->installation->id,
+//                $reference,
+//                $request->get('amount'),
+//                'Goods & Services',
+//                $location->installation->validity,
+//                $request->get('group'),
+//                [$request->get('product')],
+//                $location,
+//                $requester
+//            ));
         } catch (\Exception $e) {
 
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         }
+    }
+
+    public function requestType($location, Request $request, ApplicationEntity $data)
+    {
+        if($request->has('link')) {
+
+//            var_dump($data->toArray(true));
+//            die();
+            return View('initialise.link')->with(
+                [
+                    'location' => $location,
+                    'data' => $data,
+                ]
+            );
+        }
+
+        return redirect($data->getResumeUrl());
     }
 
     /**

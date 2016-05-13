@@ -265,6 +265,7 @@
                                     @else
                                         <button type="submit" class="btn btn-success btn-lg btn-block">Continue with no deposit today</button>
                                     @endif
+                                    <button type="submit" class="btn btn-success btn-lg btn-block" name="link" value="true">Link tings</button>
                                     @if($location->installation->disclosure)
                                     <br/>
                                     <div class="col-lg-12">
