@@ -118,6 +118,7 @@ class InstallationsController extends Controller
             'custom_logo_url' => 'url|max:255',
             'ext_return_url' => 'url|max:255',
             'ext_notification_url' => 'url|max:255',
+            'finance_offers' => 'required|integer',
         ]);
         $old = new Installation();
         $old = $old->findOrFail($id);
@@ -135,7 +136,6 @@ class InstallationsController extends Controller
                         $this->fetchInstallation($id)->merchant->token
                     );
             } catch (\Exception $e) {
-                dd($e);
                 return RedirectException::make('/installations/' . $id . '/edit')->setError($e->getMessage());
             }
         }

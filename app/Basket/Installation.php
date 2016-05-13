@@ -34,11 +34,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $validity
  * @property string $custom_logo_url
  * @property string $disclosure
+ * @property int    $finance_offers
  * @package App\Basket
  */
 class Installation extends Model
 {
     protected $table = 'installations';
+
+    const IN_STORE = 2;
+    const LINK = 4;
+
+    protected $in_store = 2;
+    protected $link = 4;
 
     /**
      * Attributes that should be mass-assignable.
@@ -58,6 +65,7 @@ class Installation extends Model
         'validity',
         'custom_logo_url',
         'disclosure',
+        'finance_offers'
     ];
 
     /**
@@ -144,5 +152,25 @@ class Installation extends Model
     public function getDisclosureAsHtml()
     {
         return ((new \Parsedown())->text(htmlspecialchars($this->disclosure)));
+    }
+
+    /**
+     * Return an array of Finance Offers (from bitwise stored)
+     *
+     * @author EB
+     * @return array
+     */
+    public function getBitwiseFinanceOffers()
+    {
+        return [
+            'in_store' => [
+                'value' => self::IN_STORE,
+                'active' => $this->finance_offers&self::IN_STORE,
+            ],
+            'link' => [
+                'value' => self::LINK,
+                'active' => $this->finance_offers&self::LINK,
+            ],
+        ];
     }
 }
