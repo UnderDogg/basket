@@ -5,7 +5,7 @@
     <h1>
         SETTLEMENT REPORT
         <div class="btn-group pull-right">
-            <a href="{!! Request::url() !!}/?download=csv&limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
+            <a href="{!! Request::url() !!}/?download=csv&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
         </div>
     </h1>
     @include('includes.page.breadcrumb', ['over' => [1 => isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
