@@ -259,17 +259,7 @@
 
                                     @if($options == 2)<div class="col-sm-6 col-xs-12"> @endif
 
-                                    @if($product['credit_info']['deposit_amount'] > 0)
-                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }} deposit today
-                                            @if($product['credit_info']['amount_service'] > 0)
-                                                and a service fee of &pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}
-                                            @endif
-                                        </button>
-                                    @elseif($product['credit_info']['amount_service'] > 0)
-                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with a &pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }} service fee today</button>
-                                    @else
-                                        <button type="submit" class="btn btn-success btn-lg btn-block">Continue with no deposit today</button>
-                                    @endif
+                                    <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
 
                                     @if($options == 2)
                                         </div>
@@ -277,7 +267,7 @@
 
                                     @if($options == 2 || $location->installation->finance_offers > 2)
                                     <div @if($location->installation->finance_offers > 2)class="col-sm-6 col-xs-12"@endif>
-                                        <button type="submit" class="btn btn-success btn-lg btn-block" name="link" value="true">Application Information</button>
+                                        <button type="submit" class="btn btn-success btn-lg btn-block" name="link" value="true">Continue with Application Link</button>
                                     </div>
                                     @endif
 
