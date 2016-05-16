@@ -37,13 +37,15 @@ class Download
         $response = $next($request);
 
         if ($request->get('download') && array_key_exists('api_data', $response->original->getData())) {
-//           $customFilename =  array_key_exists('custom_filename', $response->original->getData())
-            switch ($request->get('download')) {
 
+            $hasCustomFileName =  array_key_exists('export_custom_filename', $response->original->getData());
+            $fileName = ($hasCustomFileName == true ? $response->original->getData()['export_custom_filename'] : 'export_' . date('Y-m-d_Hi'));
+
+            switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
                         $response->original->getData()['api_data'], 200,
-                        ['Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.json"']
+                        ['Content-Disposition' => 'attachment; filename="'. $fileName . '.json"']
                     );
                 case 'csv':
 
@@ -55,7 +57,7 @@ class Download
 
                     $headers = [
                         'Content-Type' => 'text/csv',
-                        'Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.csv"',
+                        'Content-Disposition' => 'attachment; filename="'. $fileName . '.csv"',
                     ];
 
                     $csv_headers_set = false;

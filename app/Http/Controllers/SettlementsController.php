@@ -107,6 +107,7 @@ class SettlementsController extends Controller
             'settlementReport' => $settlementReport,
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
             'api_data' => $settlementReport['settlements'],
+            'export_custom_filename' => 'settlement_'.$settlementReport['settlement_date'],
         ]);
     }
 
