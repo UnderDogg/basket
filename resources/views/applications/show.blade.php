@@ -56,6 +56,11 @@
                                 @endif
                             @endif
 
+                            @if($applications->ext_resume_url)
+                                <dt>Resume URL</dt>
+                                <dd><a href="" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
+                            @endif
+
                         </dl>
                     </div>
                 </div>
@@ -195,4 +200,30 @@
                 </div>
             </div>
         </div>
+
+    <div class='toast' style='display:none'>Copied to clipboard!</div>
+@endsection
+
+@section('scripts')
+    <script>
+        $('#return').click(function(e) {
+            e.preventDefault();
+            copyToClipboard(document.getElementById("return"));
+            $('.toast').text('Copied to clipboard!').fadeIn(400).delay(3000).fadeOut(400);
+            return false;
+        });
+
+        function copyToClipboard(elem) {
+            var hidden = document.createElement("textarea");
+            hidden.style.position = "absolute";
+            hidden.style.left = "-9999px";
+            hidden.style.top = "0";
+            document.body.appendChild(hidden);
+
+            hidden.textContent = elem.textContent;
+            hidden.focus();
+            hidden.setSelectionRange(0, hidden.value.length);
+            return document.execCommand("copy");
+        }
+    </script>
 @endsection

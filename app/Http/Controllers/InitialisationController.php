@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Application;
 use App\Basket\Installation;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
@@ -99,23 +100,21 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
-     * @param $location
+     * @param Location $location
      * @param Request $request
-     * @param ApplicationEntity $data
-     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param Application $application
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function requestType($location, Request $request, ApplicationEntity $data)
+    public function requestType(Location $location, Request $request, Application $application)
     {
         if($request->has('link')) {
-            return View('initialise.link')->with(
-                [
-                    'location' => $location,
-                    'data' => $data,
-                ]
+            return $this->redirectWithSuccessMessage(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id,
+                'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
             );
         }
 
-        return redirect($data->getResumeUrl());
+        return redirect($application->ext_resume_url);
     }
 
     /**
