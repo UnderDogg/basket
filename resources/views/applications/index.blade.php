@@ -7,7 +7,7 @@
         <div class="btn-group pull-right">
             {{-- */$params='';/* --}}
             @foreach(Request::all() as $key=>$val) {{-- */$params.="$key=$val&";/*--}} @endforeach
-            <a href="{!! Request::url() !!}/?{{$params}}download=csv&limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
+            <a href="{!! Request::url() !!}/?{{$params}}download=csv&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
         </div>
     </h1>
 
