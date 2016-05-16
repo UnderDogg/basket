@@ -37,8 +37,9 @@ class Download
         $response = $next($request);
 
         if ($request->get('download') && array_key_exists('api_data', $response->original->getData())) {
-
+//           $customFilename =  array_key_exists('custom_filename', $response->original->getData())
             switch ($request->get('download')) {
+
                 case 'json':
                     return response()->json(
                         $response->original->getData()['api_data'], 200,
@@ -104,17 +105,29 @@ class Download
     }
 
     /**
-     * Returns an array representation of the model passed based on it's implementation.
-     * 
-     * @author SL
-     * @param Model $model
+     * Return an array representation of the given data $model based on it's implementation.
+     * @author SL, EA
+     * @param $model
      * @return array
+     * @throws \Exception
      */
-    private function getArrayRepresentation(Model $model){
-        if($model instanceof ExportableModelInterface){
+    private function getArrayRepresentation($model){
+
+        if ($model instanceof ExportableModelInterface){
+
             return $model->getExportableFields();
         }
-        return $model->toArray();
 
+        if ($model instanceof Model) {
+
+            return $model->toArray();
+        }
+
+        if (is_array($model)) {
+
+            return $model;
+        }
+
+        throw new \Exception('Unable to determine type in Download@getArrayRepresentation()');
     }
 }

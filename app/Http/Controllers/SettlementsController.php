@@ -106,6 +106,7 @@ class SettlementsController extends Controller
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
+            'api_data' => $settlementReport['settlements'],
         ]);
     }
 
