@@ -197,7 +197,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
-     * @return ApplicationEntity
+     * @return Application
      * @throws Exception
      */
     public function initialiseApplication(
@@ -249,11 +249,11 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 $newApplication->getId() . ']'
             );
 
-            $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
+            $app = $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
 
             $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
 
-            return $newApplication;
+            return $app;
 
         } catch (\Exception $e) {
 
@@ -283,6 +283,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $app->ext_id = $applicationEntity->getId();
         $app->user_id = $requester;
         $app->location_id = $location;
+        $app->ext_resume_url = $applicationEntity->getResumeUrl();
 
         $this->mapApplication($applicationEntity, $app);
 
