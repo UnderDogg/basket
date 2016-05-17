@@ -38,8 +38,11 @@ class Download
 
         if ($request->get('download') && array_key_exists('api_data', $response->original->getData())) {
 
-            $hasCustomFilename =  array_key_exists('export_custom_filename', $response->original->getData());
-            $filename = ($hasCustomFilename == true ? $response->original->getData()['export_custom_filename'] : 'export_' . date('Y-m-d_Hi'));
+            if (array_key_exists('export_custom_filename', $response->original->getData()) && !is_null(array_key_exists('export_custom_filename', $response->original->getData()))) {
+                $filename = $response->original->getData()['export_custom_filename'];
+            } else {
+                $filename = 'export_' . date('Y-m-d_Hi');
+            }
 
             switch ($request->get('download')) {
                 case 'json':
