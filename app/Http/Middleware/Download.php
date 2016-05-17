@@ -38,11 +38,17 @@ class Download
 
         if ($request->get('download') && array_key_exists('api_data', $response->original->getData())) {
 
+            if (array_key_exists('export_custom_filename', $response->original->getData()) && !is_null($response->original->getData()['export_custom_filename'])) {
+                $filename = $response->original->getData()['export_custom_filename'];
+            } else {
+                $filename = 'export_' . date('Y-m-d_Hi');
+            }
+
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
                         $response->original->getData()['api_data'], 200,
-                        ['Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.json"']
+                        ['Content-Disposition' => 'attachment; filename="'. $filename . '.json"']
                     );
                 case 'csv':
 
@@ -54,7 +60,7 @@ class Download
 
                     $headers = [
                         'Content-Type' => 'text/csv',
-                        'Content-Disposition' => 'attachment; filename="export_' . date('Y-m-d_Hi') . '.csv"',
+                        'Content-Disposition' => 'attachment; filename="'. $filename . '.csv"',
                     ];
 
                     $csv_headers_set = false;
@@ -104,17 +110,29 @@ class Download
     }
 
     /**
-     * Returns an array representation of the model passed based on it's implementation.
-     * 
-     * @author SL
-     * @param Model $model
+     * Return an array representation of the given data $model based on it's implementation.
+     * @author SL, EA
+     * @param $model
      * @return array
+     * @throws \Exception
      */
-    private function getArrayRepresentation(Model $model){
-        if($model instanceof ExportableModelInterface){
+    private function getArrayRepresentation($model){
+
+        if ($model instanceof ExportableModelInterface){
+
             return $model->getExportableFields();
         }
-        return $model->toArray();
 
+        if ($model instanceof Model) {
+
+            return $model->toArray();
+        }
+
+        if (is_array($model)) {
+
+            return $model;
+        }
+
+        throw new \Exception('Unable to determine type in Download@getArrayRepresentation()');
     }
 }
