@@ -18,7 +18,7 @@
         "erusev/parsedown": "^1.5",
         "league/csv": "^7.1",
         "paybreak/paybreak-sdk-php": "^4.0",
-        "paybreak/foundation": "~0.0"
+        "paybreak/foundation": "~0.11"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
