@@ -251,25 +251,18 @@
                                         </div>
                                     @endif
 
-                                    <?php $options = 0; foreach($location->installation->getBitwiseFinanceOffers() as $key => $val) {if($val['active'] == true) {$options++;}} ?>
+                                    @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
 
-                                    <div class="col-lg-12 text-center">
-                                        <p>Need more information or have questions? Call us on 0333 444 224</p>
-                                    </div>
+                                        @if(count($bitwise->explode()) == 2)<div class="col-sm-6 col-xs-12">@endif
 
-                                    @if($options == 2)<div class="col-sm-6 col-xs-12"> @endif
+                                            @if(in_array($offer['value'], $bitwise->explode()))
+                                                <button type="submit" class="btn btn-success btn-lg btn-block"@if(isset($offer['name'])) name="{!! $offer['name'] !!}" value="true"@endif>{!! $offer['text'] !!}</button>
+                                            @endif
 
-                                    <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
 
-                                    @if($options == 2)
-                                        </div>
-                                    @endif
+                                        @if(count($bitwise->explode()) == 2)</div>@endif
 
-                                    @if($options == 2 || $location->installation->finance_offers > 2)
-                                    <div @if($location->installation->finance_offers > 2)class="col-sm-6 col-xs-12"@endif>
-                                        <button type="submit" class="btn btn-success btn-lg btn-block" name="link" value="true">Continue with Application Link</button>
-                                    </div>
-                                    @endif
+                                    @endforeach
 
                                     @if($location->installation->disclosure)
                                         <br/>

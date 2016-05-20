@@ -166,10 +166,13 @@ class Installation extends Model
             'in_store' => [
                 'value' => self::IN_STORE,
                 'active' => $this->finance_offers&self::IN_STORE,
+                'text' => 'Continue with In-store Application',
             ],
             'link' => [
                 'value' => self::LINK,
                 'active' => $this->finance_offers&self::LINK,
+                'text' => 'Continue with Application Link',
+                'name' => 'link',
             ],
         ];
     }

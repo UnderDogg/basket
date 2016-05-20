@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
+use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
@@ -142,6 +143,7 @@ class InitialisationController extends Controller
                 ),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
+                'bitwise' => Bitwise::make($location->installation->finance_offers)
             ]
         );
     }
