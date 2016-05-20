@@ -118,7 +118,7 @@ class InstallationsController extends Controller
             'custom_logo_url' => 'url|max:255',
             'ext_return_url' => 'url|max:255',
             'ext_notification_url' => 'url|max:255',
-            'finance_offers' => 'required|integer',
+            'finance_offers' => 'required|integer|min:' . Installation::LOWEST_BIT,
         ]);
         $old = new Installation();
         $old = $old->findOrFail($id);

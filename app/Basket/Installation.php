@@ -43,9 +43,7 @@ class Installation extends Model
 
     const IN_STORE = 2;
     const LINK = 4;
-
-    protected $in_store = 2;
-    protected $link = 4;
+    const LOWEST_BIT = self::IN_STORE;
 
     /**
      * Attributes that should be mass-assignable.
