@@ -63,7 +63,7 @@ class Installation extends Model
         'validity',
         'custom_logo_url',
         'disclosure',
-        'finance_offers'
+        'finance_offers',
     ];
 
     /**
