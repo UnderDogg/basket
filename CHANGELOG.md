@@ -1,3 +1,10 @@
+# 1.2.1
+2016-05-23
+
+## Configuration
+- Changed settlement csv filename format to `settlement-report-<Report ID>-<SettlementDate in YYYYMMDD>` (120097699)
+- Changed application csv filename format to `applications-export-<datetime in YYYYMMDD-HHSS>` (120097699)
+
 # 1.2.0
 2016-05-23
 
