@@ -1,3 +1,6 @@
+# 1.2.0
+2016-05-23
+
 ## Features
 - CSV downloads for settlement reports (118827323)
 - Custom file names for CSV downloads (118827323)
