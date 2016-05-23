@@ -1,6 +1,7 @@
 ## Features
 - CSV downloads for settlement reports (118827323)
 - Custom file names for CSV downloads (118827323)
+- Added `finance_offers` field, and new route so that applications can be viewed instead of started (119172315)
 
 # 1.1.0
 2016-04-14
