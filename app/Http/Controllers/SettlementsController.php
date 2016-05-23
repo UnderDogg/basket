@@ -13,6 +13,7 @@ use App\Basket\Application;
 use App\Exceptions\RedirectException;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
+use DateTime;
 
 /**
  * Class SettlementsController
@@ -107,7 +108,8 @@ class SettlementsController extends Controller
             'settlementReport' => $settlementReport,
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
             'api_data' => $settlementReport['settlements'],
-            'export_custom_filename' => 'settlement_'.$settlementReport['settlement_date'],
+            'export_custom_filename' => 'settlement-report-'.$settlementReport['id'].'-'
+                .date_format(DateTime::createFromFormat('Y-m-d',$settlementReport['settlement_date']),'Ymd'),
         ]);
     }
 
