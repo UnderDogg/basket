@@ -9,11 +9,14 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Application;
 use App\Basket\Installation;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
+use PayBreak\Foundation\Properties\Bitwise;
+use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
  * Initialisation Controller
@@ -50,7 +53,7 @@ class InitialisationController extends Controller
      * @author WN
      * @param $locationId
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws RedirectException
      */
     public function request($locationId, Request $request)
@@ -75,22 +78,44 @@ class InitialisationController extends Controller
         $location = $this->fetchLocation($locationId);
 
         try {
-            return redirect($this->applicationSynchronisationService->initialiseApplication(
-                $location->installation->id,
-                $reference,
-                $request->get('amount'),
-                'Goods & Services',
-                $location->installation->validity,
-                $request->get('group'),
-                [$request->get('product')],
+            return $this->requestType(
                 $location,
-                $requester
-            ));
+                $request,
+                $this->applicationSynchronisationService->initialiseApplication(
+                    $location->installation->id,
+                    $reference,
+                    $request->get('amount'),
+                    'Goods & Services',
+                    $location->installation->validity,
+                    $request->get('group'),
+                    [$request->get('product')],
+                    $location,
+                    $requester
+                ));
         } catch (\Exception $e) {
 
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         }
+    }
+
+    /**
+     * @author EB
+     * @param Location $location
+     * @param Request $request
+     * @param Application $application
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function requestType(Location $location, Request $request, Application $application)
+    {
+        if($request->has('link')) {
+            return $this->redirectWithSuccessMessage(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id,
+                'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
+            );
+        }
+
+        return redirect($application->ext_resume_url);
     }
 
     /**
@@ -118,6 +143,7 @@ class InitialisationController extends Controller
                 ),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
+                'bitwise' => Bitwise::make($location->installation->finance_offers)
             ]
         );
     }

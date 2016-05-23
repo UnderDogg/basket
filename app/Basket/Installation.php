@@ -12,6 +12,7 @@ namespace App\Basket;
 
 use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
+use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Installation Model
@@ -34,11 +35,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $validity
  * @property string $custom_logo_url
  * @property string $disclosure
+ * @property int    $finance_offers
  * @package App\Basket
  */
 class Installation extends Model
 {
     protected $table = 'installations';
+
+    const IN_STORE = 2;
+    const LINK = 4;
+    const LOWEST_BIT = self::IN_STORE;
 
     /**
      * Attributes that should be mass-assignable.
@@ -58,6 +64,7 @@ class Installation extends Model
         'validity',
         'custom_logo_url',
         'disclosure',
+        'finance_offers',
     ];
 
     /**
@@ -144,5 +151,30 @@ class Installation extends Model
     public function getDisclosureAsHtml()
     {
         return ((new \Parsedown())->text(htmlspecialchars($this->disclosure)));
+    }
+
+    /**
+     * Return an array of Finance Offers (from bitwise stored)
+     *
+     * @author EB
+     * @return array
+     */
+    public function getBitwiseFinanceOffers()
+    {
+        $financeOffers =Bitwise::make($this->finance_offers);
+
+        return [
+            'in_store' => [
+                'value' => self::IN_STORE,
+                'active' => $financeOffers->contains(self::IN_STORE),
+                'text' => 'Continue with In-store Application',
+            ],
+            'link' => [
+                'value' => self::LINK,
+                'active' => $financeOffers->contains(self::LINK),
+                'text' => 'Continue with Application Link',
+                'name' => 'link',
+            ],
+        ];
     }
 }

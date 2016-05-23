@@ -178,3 +178,14 @@ ol.breadcrumb li {
 .padding-left-form {
     padding-left: 10px;
 }
+.toast {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    background-color: #383838;
+    color: #F0F0F0;
+    padding:10px;
+}

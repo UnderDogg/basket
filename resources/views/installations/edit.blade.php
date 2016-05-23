@@ -69,6 +69,17 @@
             </div>
         </div>
 
+        {!! Form::text('finance_offers', $installations->finance_offers, ['hidden' => 'hidden', 'id' => 'finance_offers']) !!}
+
+        @foreach($installations->getBitwiseFinanceOffers() as $key => $offer)
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Finance Offer: {!! ucwords(str_replace('_',' ', $key)) !!}</label>
+            <div class="col-sm-8">
+                <input class="bitwise" type="checkbox" @if($offer['active'] == true) checked @endif data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i> Active" data-off="<i class='glyphicon glyphicon-remove'></i> Inactive" data-onstyle="success" data-offstyle="danger" data-size="small" value="{!! $offer['value'] !!}">
+            </div>
+        </div>
+        @endforeach
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
@@ -163,6 +174,22 @@
                 }
             }
         };
+    </script>
+    <script>
+        $('.bitwise').change(function() {
+            var finance_offers = $('#finance_offers');
+            var finance_value = finance_offers.val();
+            var bitwise = $(this);
+            var value = bitwise.val();
+            if(bitwise.attr('checked')) {
+                bitwise.removeAttr('checked');
+                finance_offers.attr('value', (parseInt(finance_value) - parseInt(value)));
+
+            } else {
+                bitwise.attr('checked', true);
+                finance_offers.attr('value', (parseInt(finance_value) + parseInt(value)));
+            }
+        });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>

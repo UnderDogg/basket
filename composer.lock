@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "80999ddc7728f0c93534d8ea1e006f1a",
-    "content-hash": "8b2bed864e1d451dd4ff65bd4fb76b56",
+    "hash": "58fe272288a656aa9229e13265cf88a0",
+    "content-hash": "2ba04aa885079734c642da4abc1318e1",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -1193,6 +1193,53 @@
             "time": "2015-05-02 15:40:40"
         },
         {
+            "name": "paybreak/foundation",
+            "version": "0.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PayBreak/foundation.git",
+                "reference": "91c091b7a187171a1da8757c6560181e7da93171"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PayBreak/foundation/zipball/91c091b7a187171a1da8757c6560181e7da93171",
+                "reference": "91c091b7a187171a1da8757c6560181e7da93171",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PayBreak\\Foundation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayBreak",
+                    "email": "dev@paybreak.com",
+                    "homepage": "https://github.com/PayBreak",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Foundation Library",
+            "homepage": "https://github.com/PayBreak/foundation",
+            "keywords": [
+                "foundation"
+            ],
+            "time": "2016-05-20 13:08:55"
+        },
+        {
             "name": "paybreak/paybreak-sdk-php",
             "version": "4.2.1",
             "source": {
@@ -2010,12 +2057,12 @@
             "version": "v2.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Routing.git",
+                "url": "https://github.com/symfony/routing.git",
                 "reference": "5581be29185b8fb802398904555f70da62f6d50d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/5581be29185b8fb802398904555f70da62f6d50d",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/5581be29185b8fb802398904555f70da62f6d50d",
                 "reference": "5581be29185b8fb802398904555f70da62f6d50d",
                 "shasum": ""
             },

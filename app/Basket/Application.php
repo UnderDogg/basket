@@ -74,6 +74,7 @@ use App\ExportableModelInterface;
  * @property \Carbon\Carbon|null $ext_cancellation_requested_date
  * @property string $ext_cancellation_description
  * @property int $ext_cancellation_fee_amount
+ * @property string $ext_resume_url
  *
  * @author MS
  * @package App\Basket
@@ -142,7 +143,8 @@ class Application extends Model implements ExportableModelInterface
         'ext_cancellation_description',
         'ext_cancellation_fee_amount',
         'ext_metadata',
-        'last_sync_at'
+        'ext_resume_url',
+        'last_sync_at',
     ];
 
     protected $dates = [
