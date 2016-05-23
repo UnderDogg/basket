@@ -255,7 +255,7 @@
 
                                         @if(count($bitwise->explode()) == 2)<div class="col-sm-6 col-xs-12">@endif
 
-                                            @if(in_array($offer['value'], $bitwise->explode()))
+                                            @if($bitwise->contains($offer['value']))
                                                 <button type="submit" class="btn btn-success btn-lg btn-block"@if(isset($offer['name'])) name="{!! $offer['name'] !!}" value="true"@endif>{!! $offer['text'] !!}</button>
                                             @endif
 
