@@ -67,6 +67,7 @@ class ApplicationsController extends Controller
                 'default_dates' => $filterDates,
                 'ext_current_status' => $this->fetchFilterValues($applications, 'ext_current_status'),
                 'ext_finance_option_group' => $this->fetchFilterValues($applications, 'ext_finance_option_group'),
+                'export_custom_filename' => 'applications-export-'.date('Ymd-Hi'),
             ]
         );
     }
