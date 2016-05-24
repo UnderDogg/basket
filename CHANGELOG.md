@@ -1,3 +1,8 @@
+## Configuration
+- Changes to Retailer Support Details and additional helpful links
+
+[Delivers #120178363] (https://www.pivotaltracker.com/story/show/120178363)
+
 # 1.2.1
 2016-05-23
 
