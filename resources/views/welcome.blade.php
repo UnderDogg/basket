@@ -35,26 +35,33 @@
 
         <h2>Support Details</h2>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div>
                 <h4>Customer Enquiries</h4>
                 <ul>
-                    <li><strong>Tel:</strong> 03333 444 224</li>
-                    <li><strong>Email:</strong> hello@afforditnow.com</li>
+                    <li><strong>Tel:</strong> <a href="tel:03333444224">03333 444 224</a></li>
+                    <li><strong>Email:</strong> <a href="mailto:hello@afforditnow.com">hello@afforditnow.com</a></li>
                 </ul>
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <div>
+                <h4>Retailer Enquiries</h4>
+                <ul>
+                    <li><strong>Tel:</strong><a href="tel:03333444226"> 03333 444 226</a></li>
+                    <li><strong>Email:</strong> <a href="mailto:retailer@afforditnow.com">retailer@afforditnow.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
             <div>
                 <h4>Useful Links</h4>
                 <ul>
-                    <li><a href="http://www.afforditnow.com/retailer/retailer-developer-support/" target="_blank">Retailer Developer Support</a>
-                        <ul>
-                            <li><a href="http://paybreak.github.io/retailer-integration-guide/" target="_blank">Integration Guide</a></li>
-                            <li><a href="http://www.afforditnow.com/wp-content/uploads/2015/02/afforditnow_images_v1.zip">Download</a> Promotional Assets (.zip file)</li>
-                        </ul>
-                    </li>
+                    <li><a href="https://s3-eu-west-1.amazonaws.com/paybreak-assets/afforditnow-retailer-user-guide.pdf" target="_blank">Retailer Back Office Guide</a></li>
+                    <li><a href="http://www.afforditnow.com/retailer/retailer-developer-support/" target="_blank">Retailer Developer Support</a></li>
+                    <li><a href="http://status.afforditnow.com/" target="_blank">Service Status</a></li>
                 </ul>
             </div>
         </div>
