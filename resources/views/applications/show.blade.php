@@ -56,7 +56,7 @@
                                 @endif
                             @endif
 
-                            @if($applications->ext_resume_url && ($applications->ext_current_status == null || $applications->ext_current_status == 1 || $applications->ext_current_status == 3))
+                            @if($applications->ext_resume_url && ($applications->ext_current_status == null || $applications->ext_current_status == 'initialized' || $applications->ext_current_status == 'pending'))
                                 <dt>Resume URL</dt>
                                 <dd><a href="" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
                             @endif
