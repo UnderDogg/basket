@@ -1,3 +1,9 @@
+# 1.2.2
+2016-05-26
+
+## Bug Fixes
+- Fixed application link not showing when it has a status
+
 # 1.2.1
 2016-05-23
 
