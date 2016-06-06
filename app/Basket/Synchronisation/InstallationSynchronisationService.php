@@ -127,6 +127,11 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
                 }
 
                 $rtn[] = 'New installation ' . $installation->getName() . ' has been added.';
+            } else {
+                $current = Installation::where('ext_id', '=', $installation->getId())->first();
+                $this->synchroniseInstallation($current->id);
+
+                $rtn[] = 'Current installation ' . $installation->getName() . ' has been synced';
             }
         }
 
