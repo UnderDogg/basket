@@ -1,3 +1,6 @@
+## Features
+- Fixes `synchronisation` for current installations (120851421)
+
 ## Configuration
 - Changes to Retailer Support Details and additional helpful links (120178363)
 
