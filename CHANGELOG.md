@@ -1,3 +1,6 @@
+# 1.3.0
+2016-06-06
+
 ## Features
 - Fixes `synchronisation` for current installations (120851421)
 
