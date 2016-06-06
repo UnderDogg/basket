@@ -168,7 +168,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      */
     private function mapInstallation(InstallationEntity $installationEntity, Installation $installation, $syncExtId = false)
     {
-        if($syncExtId) {
+        if ($syncExtId) {
             $installation->ext_id = $installationEntity->getId();
         }
         $installation->ext_name = $installationEntity->getName();
