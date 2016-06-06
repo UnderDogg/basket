@@ -40,10 +40,11 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param int $id Local object ID
+     * @param bool $syncExtId
      * @return Installation
      * @throws \Exception
      */
-    public function synchroniseInstallation($id)
+    public function synchroniseInstallation($id, $syncExtId = false)
     {
         $installation = $this->fetchInstallationLocalObject($id);
 
@@ -60,7 +61,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
             throw $e;
         }
 
-        $this->mapInstallation($installationEntity, $installation);
+        $this->mapInstallation($installationEntity, $installation, $syncExtId);
         $installation->linked = true;
         $installation->save();
 
@@ -121,7 +122,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
                 $newInstallation->save();
 
                 try {
-                    $this->synchroniseInstallation($newInstallation->id);
+                    $this->synchroniseInstallation($newInstallation->id, true);
                 } catch (\Exception $e) {
                     // Empty
                 }
@@ -163,10 +164,13 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      * @author WN
      * @param InstallationEntity $installationEntity
      * @param Installation $installation
+     * @param bool $syncExtId
      */
-    private function mapInstallation(InstallationEntity $installationEntity, Installation $installation)
+    private function mapInstallation(InstallationEntity $installationEntity, Installation $installation, $syncExtId = false)
     {
-        $installation->ext_id = $installationEntity->getId();
+        if($syncExtId) {
+            $installation->ext_id = $installationEntity->getId();
+        }
         $installation->ext_name = $installationEntity->getName();
         $installation->ext_return_url = $installationEntity->getReturnUrl();
         $installation->ext_notification_url = $installationEntity->getNotificationUrl();
