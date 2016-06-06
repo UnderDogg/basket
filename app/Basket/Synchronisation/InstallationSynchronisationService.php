@@ -94,8 +94,31 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
 
         }
 
+        $rtn['current'] = $this->synchroniseCurrentInstallations($localInstallations);
         $rtn['new'] = $this->synchroniseNewInstallations($externalInstallations, $localInstallations, $merchantId);
         $rtn['unlinked'] = $this->unlinkRestInstallations($localInstallations);
+
+        return $rtn;
+    }
+
+    /**
+     * @author EB
+     * @param Collection $localInstallations
+     * @return array
+     */
+    private function synchroniseCurrentInstallations(Collection $localInstallations)
+    {
+        $rtn = [];
+
+        foreach ($localInstallations as $installation) {
+            try {
+                $this->synchroniseInstallation($installation->id, false);
+            } catch (\Exception $e) {
+                // Empty
+            }
+
+            $rtn[] = 'Current installation ' . $installation->getName() . ' has been synced';
+        }
 
         return $rtn;
     }
@@ -128,11 +151,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
                 }
 
                 $rtn[] = 'New installation ' . $installation->getName() . ' has been added.';
-            } else {
-                $current = Installation::where('ext_id', '=', $installation->getId())->first();
-                $this->synchroniseInstallation($current->id);
-
-                $rtn[] = 'Current installation ' . $installation->getName() . ' has been synced';
             }
         }
 
