@@ -93,8 +93,32 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
 
         }
 
+        $rtn['current'] = $this->synchroniseCurrentInstallations($localInstallations);
         $rtn['new'] = $this->synchroniseNewInstallations($externalInstallations, $localInstallations, $merchantId);
         $rtn['unlinked'] = $this->unlinkRestInstallations($localInstallations);
+
+        return $rtn;
+    }
+
+    /**
+     * @author EB
+     * @param Collection $localInstallations
+     * @return array
+     */
+    private function synchroniseCurrentInstallations(Collection $localInstallations)
+    {
+        $rtn = [];
+
+        foreach ($localInstallations as $installation) {
+
+            try {
+                $this->synchroniseInstallation($installation->id);
+            } catch (\Exception $e) {
+                // Empty
+            }
+
+            $rtn[] = 'Current installation ' . $installation->name . ' has been synced';
+        }
 
         return $rtn;
     }
@@ -161,7 +185,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      */
     private function mapInstallation(InstallationEntity $installationEntity, Installation $installation)
     {
-        $installation->ext_id = $installationEntity->getId();
         $installation->ext_name = $installationEntity->getName();
         $installation->ext_return_url = $installationEntity->getReturnUrl();
         $installation->ext_notification_url = $installationEntity->getNotificationUrl();
