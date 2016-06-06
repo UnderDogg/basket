@@ -40,11 +40,10 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param int $id Local object ID
-     * @param bool $syncExtId
      * @return Installation
      * @throws \Exception
      */
-    public function synchroniseInstallation($id, $syncExtId = false)
+    public function synchroniseInstallation($id)
     {
         $installation = $this->fetchInstallationLocalObject($id);
 
@@ -61,7 +60,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
             throw $e;
         }
 
-        $this->mapInstallation($installationEntity, $installation, $syncExtId);
+        $this->mapInstallation($installationEntity, $installation);
         $installation->linked = true;
         $installation->save();
 
@@ -111,8 +110,10 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $rtn = [];
 
         foreach ($localInstallations as $installation) {
+
+            dd($installation);
             try {
-                $this->synchroniseInstallation($installation->id, false);
+                $this->synchroniseInstallation($installation->id);
             } catch (\Exception $e) {
                 // Empty
             }
@@ -145,7 +146,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
                 $newInstallation->save();
 
                 try {
-                    $this->synchroniseInstallation($newInstallation->id, true);
+                    $this->synchroniseInstallation($newInstallation->id);
                 } catch (\Exception $e) {
                     // Empty
                 }
@@ -182,13 +183,9 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      * @author WN
      * @param InstallationEntity $installationEntity
      * @param Installation $installation
-     * @param bool $syncExtId
      */
-    private function mapInstallation(InstallationEntity $installationEntity, Installation $installation, $syncExtId = false)
+    private function mapInstallation(InstallationEntity $installationEntity, Installation $installation)
     {
-        if ($syncExtId) {
-            $installation->ext_id = $installationEntity->getId();
-        }
         $installation->ext_name = $installationEntity->getName();
         $installation->ext_return_url = $installationEntity->getReturnUrl();
         $installation->ext_notification_url = $installationEntity->getNotificationUrl();
