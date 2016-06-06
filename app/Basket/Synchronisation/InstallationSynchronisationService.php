@@ -111,14 +111,13 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
 
         foreach ($localInstallations as $installation) {
 
-            dd($installation);
             try {
                 $this->synchroniseInstallation($installation->id);
             } catch (\Exception $e) {
                 // Empty
             }
 
-            $rtn[] = 'Current installation ' . $installation->getName() . ' has been synced';
+            $rtn[] = 'Current installation ' . $installation->name . ' has been synced';
         }
 
         return $rtn;
