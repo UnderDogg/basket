@@ -204,24 +204,37 @@ class SettlementsController extends Controller
             $settlement['deposit'] = $deposit;
             $settlement['loan_amount'] = $loanAmount;
 
-            if ($settlement['type'] == 'Fulfilment') {
-                $settlement['subsidy'] = $fulfilmentSubsidy;
-            } elseif ($settlement['type'] == 'Cancellation') {
-                $settlement['subsidy'] = $cancellationSubsidy;
-            } else {
-                $settlement['subsidy'] = 0;
-            }
-
-            if ($settlement['type'] == 'Refund') {
-                $settlement['adjustment'] = $partial + $manualAdjustment;
-            } elseif ($settlement['type'] == 'Cancellation') {
-                $settlement['adjustment'] = $manualAdjustment + $reversalOfPartial;
-            } else {
-                $settlement['adjustment'] = $manualAdjustment;
-            }
+            $settlement['subsidy'] = $this->getSettlementSubsidy($type,$fulfilmentSubsidy,$cancellationSubsidy);
+            $settlement['adjustment'] = $this->getSettlementAdjustment($type,$partial,$reversalOfPartial,$manualAdjustment);
 
             $settlement['net'] = $settlement['deposit'] +  $settlement['loan_amount'] + $settlement['subsidy'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
         }
+    }
+
+    private function getSettlementAdjustment($type,$partial,$reversalOfPartial,$manualAdjustment)
+    {
+        if ($type == 'Refund') {
+            return  $partial + $manualAdjustment;
+        }
+
+        if ($type == 'Cancellation') {
+            return $manualAdjustment + $reversalOfPartial;
+        }
+
+        return $manualAdjustment;
+    }
+
+    private function getSettlementSubsidy($type,$fulfilmentSubsidy,$cancellationSubsidy)
+    {
+        if ($type == 'Fulfilment') {
+            return  $fulfilmentSubsidy;
+        }
+
+        if ($type == 'Cancellation') {
+            return $cancellationSubsidy;
+        }
+
+        return  0;
     }
 }
