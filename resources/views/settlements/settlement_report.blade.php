@@ -47,11 +47,11 @@
                 <td>{{ $item['order_reference'] }}</td>
                 <td>{{ '&pound;' . number_format($item['order_amount']/100, 2)}}</td>
                 <td>{{ $item['type'] }}</td>
-                <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }}">{{ '&pound;' . number_format($item['deposit']/100, 2) }}</td>
-                <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }}" >{{ '&pound;' . number_format($item['loan_amount']/100, 2) }}</td>
-                <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }}">{{ '&pound;' . number_format($item['subsidy']/100, 2) }}</td>
-                <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }}">{{ '&pound;' . number_format($item['adjustment']/100, 2) }}</td>
-                <td class="{{($item['net'] < 0 ? 'text-danger' : '') }}">{{ '&pound;' . number_format($item['net']/100, 2) }}</td>
+                <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }}">{{ money_format("%.2n",$item['deposit']/100) }}</td>
+                <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }}" >{{money_format("%.2n",$item['loan_amount']/100) }}</td>
+                <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }}">{{money_format("%.2n",$item['subsidy']/100) }}</td>
+                <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }}">{{money_format("%.2n",$item['adjustment']/100) }}</td>
+                <td class="{{($item['net'] < 0 ? 'text-danger' : '') }}">{{money_format("%.2n",$item['net']/100) }}</td>
             </tr>
         @endforeach
         <tr>
