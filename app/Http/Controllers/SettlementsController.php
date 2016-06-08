@@ -212,7 +212,15 @@ class SettlementsController extends Controller
         }
     }
 
-    private function getSettlementAdjustment($type,$partial,$reversalOfPartial,$manualAdjustment)
+    /**
+     * @author EA
+     * @param $type
+     * @param $partial
+     * @param $reversalOfPartial
+     * @param $manualAdjustment
+     * @return mixed
+     */
+    private function getSettlementAdjustment($type, $partial, $reversalOfPartial, $manualAdjustment)
     {
         if ($type == 'Refund') {
             return  $partial + $manualAdjustment;
@@ -225,7 +233,14 @@ class SettlementsController extends Controller
         return $manualAdjustment;
     }
 
-    private function getSettlementSubsidy($type,$fulfilmentSubsidy,$cancellationSubsidy)
+    /**
+     * @author EA
+     * @param $type
+     * @param $fulfilmentSubsidy
+     * @param $cancellationSubsidy
+     * @return int
+     */
+    private function getSettlementSubsidy($type, $fulfilmentSubsidy, $cancellationSubsidy)
     {
         if ($type == 'Fulfilment') {
             return  $fulfilmentSubsidy;
