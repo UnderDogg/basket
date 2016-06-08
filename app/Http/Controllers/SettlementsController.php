@@ -113,6 +113,11 @@ class SettlementsController extends Controller
         ]);
     }
 
+    /**
+     * @author EA
+     * @param array $report
+     * @return array
+     */
     private function flattenReport(array $report)
     {
         $rtn = [];
@@ -134,7 +139,6 @@ class SettlementsController extends Controller
 
             }
         }
-
         return $rtn;
     }
 
@@ -157,6 +161,7 @@ class SettlementsController extends Controller
 
             $deposit = $loanAmount = $fulfilmentSubsidy = $cancellationSubsidy = $partial = $reversalOfPartial = $manualAdjustment = 0;
             $type = '';
+
             foreach ($settlement['transactions'] as $transaction) {
                 switch (strtolower($transaction['type'])) {
                     case 'fulfilment':
@@ -173,8 +178,7 @@ class SettlementsController extends Controller
                         $type = 'Refund';
                         $partial = $partial + $transaction['amount'];
                         break;
-                    case 'reversal of partial refunds':
-                        $type = 'Refund';
+                    case 'reversal of partial refund':
                         $reversalOfPartial = $reversalOfPartial + $transaction['amount'];
                         break;
                     case 'merchant fee charged':
@@ -187,6 +191,7 @@ class SettlementsController extends Controller
                         $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'cancellation fee':
+                        ($type == '' ? $type = 'Cancellation' : '');
                         $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'merchant commission refunded':
@@ -204,25 +209,22 @@ class SettlementsController extends Controller
 
             if ($settlement['type'] == 'Fulfilment') {
                 $settlement['subsidy'] = $fulfilmentSubsidy;
-            } elseif($settlement['type'] == 'Cancellation') {
+            } elseif ($settlement['type'] == 'Cancellation') {
                 $settlement['subsidy'] = $cancellationSubsidy;
-            }else{
+            } else {
                 $settlement['subsidy'] = 0;
             }
 
             if ($settlement['type'] == 'Refund') {
-                $settlement['adjustment'] = $partial + $reversalOfPartial + $manualAdjustment;
+                $settlement['adjustment'] = $partial + $manualAdjustment;
+            } elseif ($settlement['type'] == 'Cancellation') {
+                $settlement['adjustment'] = $manualAdjustment + $reversalOfPartial;
             } else {
                 $settlement['adjustment'] = $manualAdjustment;
             }
 
-            $settlement['net'] = $settlement['deposit'] +   $settlement['loan_amount'] + $settlement['subsidy'] + $settlement['adjustment'];
-
+            $settlement['net'] = $settlement['deposit'] +  $settlement['loan_amount'] + $settlement['subsidy'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
-
-            if( $settlement['type'] == ''){
-                unset($settlement);
-            }
         }
     }
 }
