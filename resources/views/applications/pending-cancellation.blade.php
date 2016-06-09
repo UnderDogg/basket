@@ -32,7 +32,7 @@
             </td>
         </tr>
     @empty
-        <tr><td colspan="4"><em>No records found</em></td></tr>
+        <tr><td colspan="6"><em>No records found</em></td></tr>
     @endforelse
     </table>
 
