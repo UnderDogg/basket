@@ -230,7 +230,7 @@ class SettlementsController extends Controller
             return $manualAdjustment + $reversalOfPartial;
         }
 
-        return $manualAdjustment;
+        return (int)$manualAdjustment;
     }
 
     /**
@@ -243,11 +243,11 @@ class SettlementsController extends Controller
     private function getSettlementSubsidy($type, $fulfilmentSubsidy, $cancellationSubsidy)
     {
         if ($type == 'Fulfilment') {
-            return  $fulfilmentSubsidy;
+            return  (int)$fulfilmentSubsidy;
         }
 
         if ($type == 'Cancellation') {
-            return $cancellationSubsidy;
+            return (int)$cancellationSubsidy;
         }
 
         return  0;
