@@ -107,13 +107,39 @@ class SettlementsController extends Controller
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
-            'api_data' => $settlementReport['settlements'],
+            'api_data' => $this->flattenReport($settlementReport),
             'export_custom_filename' => 'settlement-report-'.$settlementReport['id'].'-'
                 .date_format(DateTime::createFromFormat('Y-m-d',$settlementReport['settlement_date']),'Ymd'),
         ]);
     }
 
+    /**
+     * @author EA
+     * @param array $report
+     * @return array
+     */
+    private function flattenReport(array $report)
+    {
+        $rtn = [];
 
+        foreach ($report['settlements'] as $settlement) {
+            foreach ($settlement['transactions'] as $tx) {
+                $rtn[] = [
+                    'Order Date' => date('d/m/Y', strtotime($settlement['received_date'])),
+                    'Customer' => $settlement['customer_name'],
+                    'Postcode' => $settlement['application_postcode'],
+                    'Retailer Reference' => $settlement['order_reference'],
+                    'Order Amount' =>  number_format( $settlement['order_amount']/100, 2),
+                    'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
+                    'Type' => $tx['type'],
+                    'Description' => $settlement['description'],
+                    'Deposit' =>  number_format( $settlement['deposit']/100, 2),
+                    'Amount' => number_format($tx['amount']/100, 2),
+                ];
+            }
+        }
+        return $rtn;
+    }
 
     /**
      * Apply SettlementAmounts
@@ -129,45 +155,101 @@ class SettlementsController extends Controller
         $settlementReport['sum_net'] = 0;
 
         foreach ($settlementReport['settlements'] as &$settlement) {
-            $settlement['application_data'] = Application::where('ext_id', '=', $settlement['application'])->first();
 
-            $fulfilment = $feeCharged = $refund = $feeRefunded = $cancellationFee = $manualAdjustment = $partial = 0;
+            $deposit = $loanAmount = $fulfilmentSubsidy = $cancellationSubsidy = $partial = $reversalOfPartial = $manualAdjustment = 0;
+            $type = '';
 
             foreach ($settlement['transactions'] as $transaction) {
                 switch (strtolower($transaction['type'])) {
                     case 'fulfilment':
-                        $fulfilment = $fulfilment + $transaction['amount'];
+                        $type = 'Fulfilment';
+                        $deposit =  $settlement['deposit'];
+                        $loanAmount = $transaction['amount'] - $settlement['deposit'];
                         break;
                     case 'refund':
-                        $refund = $refund + $transaction['amount'];
+                        $type = 'Cancellation';
+                        $deposit = -$settlement['deposit'];
+                        $loanAmount = $transaction['amount'] + $settlement['deposit'];
+                        break;
+                    case 'partial refund':
+                        $type = 'Refund';
+                        $partial = $partial + $transaction['amount'];
+                        break;
+                    case 'reversal of partial refund':
+                        $reversalOfPartial = $reversalOfPartial + $transaction['amount'];
                         break;
                     case 'merchant fee charged':
-                        $feeCharged = $feeCharged + $transaction['amount'];
+                        $fulfilmentSubsidy = $fulfilmentSubsidy + $transaction['amount'];
+                        break;
+                    case 'merchant commission':
+                        $fulfilmentSubsidy = $fulfilmentSubsidy + $transaction['amount'];
                         break;
                     case 'merchant fee refunded':
-                        $feeRefunded = $feeRefunded + $transaction['amount'];
+                        $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'cancellation fee':
-                        $cancellationFee = $cancellationFee + $transaction['amount'];
+                        ($type == '' ? $type = 'Cancellation' : '');
+                        $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
+                        break;
+                    case 'merchant commission refunded':
+                        $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'manual adjustment':
                         $manualAdjustment = $manualAdjustment + $transaction['amount'];
                         break;
-                    case 'partial refund':
-                        $partial = $partial + $transaction['amount'];
-                        break;
                 }
             }
 
-            $settlement['order_amount'] = $fulfilment + $refund;
-            $settlement['subsidy'] = $feeCharged + $feeRefunded + $cancellationFee;
-            $settlement['adjustment'] = $manualAdjustment + $partial;
-            $settlement['net'] = $settlement['order_amount'] + $settlement['subsidy'] + $settlement['adjustment'];
+            $settlement['type'] = $type;
+            $settlement['deposit'] = $deposit;
+            $settlement['loan_amount'] = $loanAmount;
 
-            $settlementReport['sum_order_amount'] = $settlementReport['sum_order_amount'] + $settlement['order_amount'];
-            $settlementReport['sum_subsidy'] = $settlementReport['sum_subsidy'] + $settlement['subsidy'];
-            $settlementReport['sum_adjustment'] = $settlementReport['sum_adjustment'] + $settlement['adjustment'];
+            $settlement['subsidy'] = $this->getSettlementSubsidy($type,$fulfilmentSubsidy,$cancellationSubsidy);
+            $settlement['adjustment'] = $this->getSettlementAdjustment($type,$partial,$reversalOfPartial,$manualAdjustment);
+
+            $settlement['net'] = $settlement['deposit'] +  $settlement['loan_amount'] + $settlement['subsidy'] + $settlement['adjustment'];
             $settlementReport['sum_net'] = $settlementReport['sum_net'] + $settlement['net'];
         }
+    }
+
+    /**
+     * @author EA
+     * @param $type
+     * @param $partial
+     * @param $reversalOfPartial
+     * @param $manualAdjustment
+     * @return mixed
+     */
+    private function getSettlementAdjustment($type, $partial, $reversalOfPartial, $manualAdjustment)
+    {
+        if ($type == 'Refund') {
+            return  $partial + $manualAdjustment;
+        }
+
+        if ($type == 'Cancellation') {
+            return $manualAdjustment + $reversalOfPartial;
+        }
+
+        return (int)$manualAdjustment;
+    }
+
+    /**
+     * @author EA
+     * @param $type
+     * @param $fulfilmentSubsidy
+     * @param $cancellationSubsidy
+     * @return int
+     */
+    private function getSettlementSubsidy($type, $fulfilmentSubsidy, $cancellationSubsidy)
+    {
+        if ($type == 'Fulfilment') {
+            return  (int)$fulfilmentSubsidy;
+        }
+
+        if ($type == 'Cancellation') {
+            return (int)$cancellationSubsidy;
+        }
+
+        return  0;
     }
 }
