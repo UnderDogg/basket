@@ -192,4 +192,15 @@ abstract class Controller extends BaseController
             throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
         }
     }
+
+    /**
+     * Returns blank configuration for strict filtering (override on Controller levels)
+     *
+     * @author EB
+     * @return array
+     */
+    protected function getStrictFiltersConfiguration()
+    {
+        return [];
+    }
 }
