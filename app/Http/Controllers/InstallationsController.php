@@ -202,4 +202,18 @@ class InstallationsController extends Controller
             return GroupEntity::make([]);
         }
     }
+
+    /**
+     * Returns an array of fields for strict filtering
+     *
+     * @author EB
+     * @return array
+     */
+    protected function getStrictFiltersConfiguration()
+    {
+        return [
+            'id',
+            'merchant_id',
+        ];
+    }
 }

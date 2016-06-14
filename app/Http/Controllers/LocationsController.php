@@ -188,4 +188,18 @@ class LocationsController extends Controller
             ]
         );
     }
+
+    /**
+     * Returns an array of fields for strict filtering
+     *
+     * @author EB
+     * @return array
+     */
+    protected function getStrictFiltersConfiguration()
+    {
+        return [
+            'id',
+            'installation_id',
+        ];
+    }
 }

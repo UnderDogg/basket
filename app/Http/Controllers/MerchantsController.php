@@ -186,4 +186,17 @@ class MerchantsController extends Controller
         }
         return true;
     }
+
+    /**
+     * Returns an array of fields for strict filtering
+     *
+     * @author EB
+     * @return array
+     */
+    protected function getStrictFiltersConfiguration()
+    {
+        return [
+            'id',
+        ];
+    }
 }
