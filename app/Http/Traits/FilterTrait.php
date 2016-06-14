@@ -26,6 +26,8 @@ trait FilterTrait
         'ext_finance_net_settlement'
     ];
 
+    abstract protected function getStrictFiltersConfiguration();
+
     /**
      * @author WN
      * @param Builder $query
@@ -33,10 +35,15 @@ trait FilterTrait
     protected function processFilters(Builder $query)
     {
         $filter = $this->getFilters();
+        $strictFilters = $this->getStrictFiltersConfiguration();
         if (count($filter) > 0) {
             foreach ($filter as $field => $value) {
                 $value = $this->processMoneyFilters($field, $value);
-                $query->where($field, 'like', '%' . $value . '%');
+                if(in_array($field, $strictFilters)) {
+                    $query->where($field, '=', $value);
+                } else {
+                    $query->where($field, 'like', '%' . $value . '%');
+                }
             }
         }
     }
