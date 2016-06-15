@@ -129,12 +129,12 @@ class SettlementsController extends Controller
                     'Customer' => $settlement['customer_name'],
                     'Postcode' => $settlement['application_postcode'],
                     'Retailer Reference' => $settlement['order_reference'],
-                    'Order Amount' =>  number_format( $settlement['order_amount']/100, 2),
+                    'Order Amount £' =>  number_format( $settlement['order_amount']/100, 2),
                     'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
                     'Type' => $tx['type'],
                     'Description' => $settlement['description'],
-                    'Deposit' =>  number_format( $settlement['deposit']/100, 2),
-                    'Settlement Amount' => number_format($tx['amount']/100, 2),
+                    'Deposit £' =>  number_format( $settlement['deposit']/100, 2),
+                    'Settlement Amount £' => number_format($tx['amount']/100, 2),
                 ];
             }
         }
