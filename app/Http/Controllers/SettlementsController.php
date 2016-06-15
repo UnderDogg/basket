@@ -134,7 +134,7 @@ class SettlementsController extends Controller
                     'Type' => $tx['type'],
                     'Description' => $settlement['description'],
                     'Deposit' =>  number_format( $settlement['deposit']/100, 2),
-                    'Amount' => number_format($tx['amount']/100, 2),
+                    'Settlement Amount' => number_format($tx['amount']/100, 2),
                 ];
             }
         }
@@ -179,19 +179,15 @@ class SettlementsController extends Controller
                         $reversalOfPartial = $reversalOfPartial + $transaction['amount'];
                         break;
                     case 'merchant fee charged':
-                        $fulfilmentSubsidy = $fulfilmentSubsidy + $transaction['amount'];
-                        break;
                     case 'merchant commission':
                         $fulfilmentSubsidy = $fulfilmentSubsidy + $transaction['amount'];
                         break;
                     case 'merchant fee refunded':
+                    case 'merchant commission refunded':
                         $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'cancellation fee':
                         ($type == '' ? $type = 'Cancellation' : '');
-                        $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
-                        break;
-                    case 'merchant commission refunded':
                         $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'manual adjustment':

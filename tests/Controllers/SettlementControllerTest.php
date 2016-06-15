@@ -151,7 +151,7 @@ class SettlementControllerTest extends TestCase
                 'Type' => 'Manual Adjustment',
                 'Description' => 'Order from TestCheckout',
                 'Deposit' => '60.00',
-                'Amount'=> '-20.00',
+                'Settlement Amount'=> '-20.00',
             ];
 
         $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'flattenReport');

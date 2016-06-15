@@ -27,6 +27,7 @@
             <th>Notification Date</th>
             <th>Customer</th>
             <th>Postcode</th>
+            <th>Application ID</th>
             <th>Retailer Reference</th>
             <th>Order Amount</th>
             <th>Type</th>
@@ -44,6 +45,7 @@
                 <td>{{ date('d/m/Y', strtotime($item['captured_date'])) }}</td>
                 <td>{{ $item['customer_name']}}</td>
                 <td>{{ $item['application_postcode'] }}</td>
+                <td>{{ $item['application'] }}</td>
                 <td>{{ $item['order_reference'] }}</td>
                 <td>{{ '&pound;' . number_format($item['order_amount']/100, 2)}}</td>
                 <td>{{ $item['type'] }}</td>
@@ -55,7 +57,7 @@
             </tr>
         @endforeach
         <tr>
-            <td colspan="11"></td>
+            <td colspan="12"></td>
             <td class="{{($settlementReport['sum_net'] < 0 ? '.text-danger' : '') }}"><strong>{{ '&pound;' . number_format($settlementReport['sum_net']/100, 2) }}</strong></td>
         </tr>
     </table>
