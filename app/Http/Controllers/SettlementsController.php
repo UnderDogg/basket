@@ -11,9 +11,9 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Exceptions\RedirectException;
+use DateTime;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\SettlementGateway;
-use DateTime;
 
 /**
  * Class SettlementsController
@@ -90,7 +90,7 @@ class SettlementsController extends Controller
      * @param int $merchant
      * @param int $id
      * @return \Illuminate\View\View
-     * @throws SettlementsController
+     * @throws RedirectException
      */
     public function settlementReport($merchant, $id)
     {
@@ -129,12 +129,12 @@ class SettlementsController extends Controller
                     'Customer' => $settlement['customer_name'],
                     'Postcode' => $settlement['application_postcode'],
                     'Retailer Reference' => $settlement['order_reference'],
-                    'Order Amount' =>  number_format( $settlement['order_amount']/100, 2),
+                    'Order Amount £' =>  number_format( $settlement['order_amount']/100, 2),
                     'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
                     'Type' => $tx['type'],
                     'Description' => $settlement['description'],
-                    'Deposit' =>  number_format( $settlement['deposit']/100, 2),
-                    'Amount' => number_format($tx['amount']/100, 2),
+                    'Deposit £' =>  number_format( $settlement['deposit']/100, 2),
+                    'Settlement Amount £' => number_format($tx['amount']/100, 2),
                 ];
             }
         }
@@ -179,19 +179,15 @@ class SettlementsController extends Controller
                         $reversalOfPartial = $reversalOfPartial + $transaction['amount'];
                         break;
                     case 'merchant fee charged':
-                        $fulfilmentSubsidy = $fulfilmentSubsidy + $transaction['amount'];
-                        break;
                     case 'merchant commission':
                         $fulfilmentSubsidy = $fulfilmentSubsidy + $transaction['amount'];
                         break;
                     case 'merchant fee refunded':
+                    case 'merchant commission refunded':
                         $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'cancellation fee':
                         ($type == '' ? $type = 'Cancellation' : '');
-                        $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
-                        break;
-                    case 'merchant commission refunded':
                         $cancellationSubsidy = $cancellationSubsidy + $transaction['amount'];
                         break;
                     case 'manual adjustment':
@@ -214,11 +210,11 @@ class SettlementsController extends Controller
 
     /**
      * @author EA
-     * @param $type
-     * @param $partial
-     * @param $reversalOfPartial
-     * @param $manualAdjustment
-     * @return mixed
+     * @param string $type
+     * @param int $partial
+     * @param int $reversalOfPartial
+     * @param int $manualAdjustment
+     * @return int
      */
     private function getSettlementAdjustment($type, $partial, $reversalOfPartial, $manualAdjustment)
     {
@@ -235,9 +231,9 @@ class SettlementsController extends Controller
 
     /**
      * @author EA
-     * @param $type
-     * @param $fulfilmentSubsidy
-     * @param $cancellationSubsidy
+     * @param string $type
+     * @param int $fulfilmentSubsidy
+     * @param int $cancellationSubsidy
      * @return int
      */
     private function getSettlementSubsidy($type, $fulfilmentSubsidy, $cancellationSubsidy)

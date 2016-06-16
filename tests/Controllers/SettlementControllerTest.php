@@ -146,12 +146,12 @@ class SettlementControllerTest extends TestCase
                 'Customer' => 'Mr David Cameron',
                 'Postcode' => 'SW1A 2AA',
                 'Retailer Reference' => '86124bb7-57e6-0d91-075d',
-                'Order Amount' => '600.00',
+                'Order Amount £' => '600.00',
                 'Notification Date' => '06/06/2016',
                 'Type' => 'Manual Adjustment',
                 'Description' => 'Order from TestCheckout',
-                'Deposit' => '60.00',
-                'Amount'=> '-20.00',
+                'Deposit £' => '60.00',
+                'Settlement Amount £'=> '-20.00',
             ];
 
         $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'flattenReport');
