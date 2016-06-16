@@ -1,5 +1,6 @@
 ## Features
 - Changes to the settlement report (120176875)
+- Minor changes to settlement report (121503853)
 
 ## Bug fixes 
 - Pending cancellation report colspan fix (121205327)
