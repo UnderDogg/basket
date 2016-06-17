@@ -19,42 +19,65 @@ trait FilterTrait
 {
     private $filters;
 
-
-    abstract protected function getStrictFiltersConfiguration();
+    /**
+     * @author EB
+     * @return array
+     */
+    abstract protected function getFiltersConfiguration();
 
     /**
-     * @author WN
+     * @author WN, EB
      * @param Builder $query
      */
     protected function processFilters(Builder $query)
     {
         $filter = $this->getFilters();
-        $strictFilters = $this->getStrictFiltersConfiguration();
+        $config = $this->getFiltersConfiguration();
         if (count($filter) > 0) {
             foreach ($filter as $field => $value) {
-                $value = $this->processMoneyFilters($field, $value);
-                if(in_array($field, $strictFilters)) {
-                    $query->where($field, '=', $value);
-                } else {
-                    $query->where($field, 'like', '%' . $value . '%');
-                }
+                $this->processFilterTypes($config, $field, $value, $query);
             }
         }
     }
 
     /**
-     * @author CS
+     * @author EB
+     * @param array $config
      * @param string $field
+     * @param mixed $value
+     * @param Builder $query
+     * @throws Exception
+     */
+    protected function processFilterTypes(array $config, $field, $value, Builder $query)
+    {
+        if(array_key_exists($field, $config)) {
+            switch ($config[$field]) {
+                case Controller::FILTER_STRICT:
+                    $query->where($field, '=', $value);
+                    break;
+                case Controller::FILTER_FINANCE:
+                    $query->where(
+                        $field,
+                        'like',
+                        '%' . $this->processMoneyFilters($value) . '%'
+                    );
+                    break;
+                default:
+                    throw new Exception('Unhandled filter for field ' . $field);
+            }
+        } else {
+            $query->where($field, 'like', '%' . $value . '%');
+        }
+    }
+
+    /**
+     * @author CS, EB
      * @param string $value
      * @return string
      */
-    protected function processMoneyFilters($field, $value)
+    protected function processMoneyFilters($value)
     {
-        if (in_array($field, $this->moneyFilters)) {
-            return floor($value * 100);
-        }
-
-        return $value;
+        return floor($value * 100);
     }
 
     /**
