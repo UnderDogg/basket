@@ -2,10 +2,12 @@
 
 namespace App\Http\Traits;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use WNowicki\Generic\Exception;
 
 /**
  * Class FilterTrait
@@ -17,14 +19,6 @@ trait FilterTrait
 {
     private $filters;
 
-    /** @var array of money filters $moneyFilters */
-    private $moneyFilters = [
-        'ext_order_amount',
-        'ext_finance_loan_amount',
-        'ext_finance_deposit',
-        'ext_finance_subsidy',
-        'ext_finance_net_settlement'
-    ];
 
     abstract protected function getStrictFiltersConfiguration();
 
