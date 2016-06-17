@@ -362,6 +362,4 @@ class ApplicationsController extends Controller
             'ext_finance_net_settlement' => Controller::FILTER_FINANCE,
         ];
     }
-
-
 }
