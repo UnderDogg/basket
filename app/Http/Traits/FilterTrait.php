@@ -73,11 +73,11 @@ trait FilterTrait
     /**
      * @author CS, EB
      * @param string $value
-     * @return string
+     * @return int
      */
     protected function processMoneyFilters($value)
     {
-        return floor($value * 100);
+        return (int) floor($value * 100);
     }
 
     /**
