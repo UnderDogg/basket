@@ -1,3 +1,9 @@
+# 1.3.1
+2016-06-17
+
+## Bug Fixes
+- Added strict filters configuration to stop all filters performing a `%like%` (120571545)
+
 # 1.3.0
 2016-06-06
 
