@@ -345,4 +345,21 @@ class ApplicationsController extends Controller
         }
         return view('applications.' . $action, ['application' => $application]);
     }
+
+    /**
+     * Returns an array of fields and their types for filtering
+     *
+     * @author EB
+     * @return array
+     */
+    protected function getFiltersConfiguration()
+    {
+        return [
+            'ext_order_amount' => Controller::FILTER_FINANCE,
+            'ext_finance_loan_amount' => Controller::FILTER_FINANCE,
+            'ext_finance_deposit' => Controller::FILTER_FINANCE,
+            'ext_finance_subsidy' => Controller::FILTER_FINANCE,
+            'ext_finance_net_settlement' => Controller::FILTER_FINANCE,
+        ];
+    }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Traits;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use WNowicki\Generic\Exception;
 
 /**
  * Class FilterTrait
@@ -17,43 +19,65 @@ trait FilterTrait
 {
     private $filters;
 
-    /** @var array of money filters $moneyFilters */
-    private $moneyFilters = [
-        'ext_order_amount',
-        'ext_finance_loan_amount',
-        'ext_finance_deposit',
-        'ext_finance_subsidy',
-        'ext_finance_net_settlement'
-    ];
+    /**
+     * @author EB
+     * @return array
+     */
+    abstract protected function getFiltersConfiguration();
 
     /**
-     * @author WN
+     * @author WN, EB
      * @param Builder $query
      */
     protected function processFilters(Builder $query)
     {
         $filter = $this->getFilters();
+        $config = $this->getFiltersConfiguration();
         if (count($filter) > 0) {
             foreach ($filter as $field => $value) {
-                $value = $this->processMoneyFilters($field, $value);
-                $query->where($field, 'like', '%' . $value . '%');
+                $this->processFilterTypes($config, $field, $value, $query);
             }
         }
     }
 
     /**
-     * @author CS
+     * @author EB
+     * @param array $config
      * @param string $field
-     * @param string $value
-     * @return string
+     * @param mixed $value
+     * @param Builder $query
+     * @throws Exception
      */
-    protected function processMoneyFilters($field, $value)
+    protected function processFilterTypes(array $config, $field, $value, Builder $query)
     {
-        if (in_array($field, $this->moneyFilters)) {
-            return floor($value * 100);
+        if(array_key_exists($field, $config)) {
+            switch ($config[$field]) {
+                case Controller::FILTER_STRICT:
+                    $query->where($field, '=', $value);
+                    break;
+                case Controller::FILTER_FINANCE:
+                    $query->where(
+                        $field,
+                        'like',
+                        '%' . $this->processMoneyFilters($value) . '%'
+                    );
+                    break;
+                default:
+                    throw new Exception('Unhandled filter for field ' . $field);
+            }
+        } else {
+            $query->where($field, 'like', '%' . $value . '%');
         }
+    }
 
-        return $value;
+    /**
+     * @author CS, EB
+     * @param string $value
+     * @return int
+     */
+    protected function processMoneyFilters($value)
+    {
+        return (int) floor($value * 100);
     }
 
     /**
