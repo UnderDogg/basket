@@ -204,16 +204,16 @@ class InstallationsController extends Controller
     }
 
     /**
-     * Returns an array of fields for strict filtering
+     * Returns an array of fields and their types for filtering
      *
      * @author EB
      * @return array
      */
-    protected function getStrictFiltersConfiguration()
+    protected function getFiltersConfiguration()
     {
         return [
-            'id',
-            'merchant_id',
+            'id' => self::FILTER_STRICT,
+            'merchant_id' => self::FILTER_STRICT,
         ];
     }
 }

@@ -188,15 +188,15 @@ class MerchantsController extends Controller
     }
 
     /**
-     * Returns an array of fields for strict filtering
+     * Returns an array of fields and their types for filtering
      *
      * @author EB
      * @return array
      */
-    protected function getStrictFiltersConfiguration()
+    protected function getFiltersConfiguration()
     {
         return [
-            'id',
+            'id' => self::FILTER_STRICT,
         ];
     }
 }

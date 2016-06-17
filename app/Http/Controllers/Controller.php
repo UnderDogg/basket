@@ -38,6 +38,10 @@ abstract class Controller extends BaseController
     // Default Pagination Record Limit
     const PAGE_LIMIT = 15;
 
+    // Types of filters
+    const FILTER_STRICT = 1;
+    const FILTER_FINANCE = 2;
+
     /**
      * Get Merchant Token
      *
@@ -194,12 +198,12 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Returns blank configuration for strict filtering (override on Controller levels)
+     * Returns blank configuration for filters
      *
      * @author EB
      * @return array
      */
-    protected function getStrictFiltersConfiguration()
+    protected function getFiltersConfiguration()
     {
         return [];
     }
