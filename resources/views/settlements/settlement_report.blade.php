@@ -23,49 +23,42 @@
         {!! Form::open(array('url' => Request::url() . '/?' . Request::server('QUERY_STRING'), 'method' => 'get',  'onsubmit'=>"return submitFilter()")) !!}
         <tr>
             {{--TITLES--}}
-
-            <th class="hidden-sm hidden-xs">Order Date</th>
+            <th>Order Date</th>
+            <th>Notification Date</th>
             <th>Customer</th>
             <th>Postcode</th>
-            <th>Merc. Ref.</th>
-            <th>Loan Amount</th>
-            <th>Deposit</th>
+            <th>Application ID</th>
+            <th>Retailer Reference</th>
             <th>Order Amount</th>
+            <th>Type</th>
+            <th>Deposit</th>
+            <th>Loan Amount</th>
             <th>Subsidy</th>
             <th>Adjustment</th>
-            <th>Net</th>
-
-            {{--<th class="col-xs-3 col-sm-3 col-md-2 col-lg-1"><span class="pull-right">Actions</span></th>--}}
+            <th>Settlement Amount</th>
         </tr>
         {!! Form::close() !!}
         <tr>
-        {{-- */$x=0;/* --}}
         @foreach($settlementReport['settlements'] as $item)
-             {{-- */$x++;/* --}}
             <tr>
-                <td class="hidden-sm hidden-xs">{{ date('d/m/Y', strtotime($item['captured_date'])) }}</td>
-                <td>{{ $item['application_data']['ext_customer_title'] . ' ' . $item['application_data']['ext_customer_first_name'] . ' ' . $item['application_data']['ext_customer_last_name'] }}</td>
-                <td>{{ $item['application_data']['ext_application_address_postcode'] }}</td>
-                <td>{{ $item['application_data']['ext_order_reference'] }}</td>
-                <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_loan_ammount']/100, 2) }}</td>
-                <td>{{ '&pound;' . number_format($item['application_data']['ext_finance_deposit']/100, 2) }}</td>
-                <td>{{ '&pound;' . number_format($item['order_amount']/100, 2) }}</td>
-                <td>{{ '&pound;' . number_format($item['subsidy']/100, 2) }}</td>
-                <td>{{ '&pound;' . number_format($item['adjustment']/100, 2) }}</td>
-                <td>{{ '&pound;' . number_format($item['net']/100, 2) }}</td>
-
-                 {{--ACTION BUTTONS --}}
-                {{--<td class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">--}}
-                    {{--@include('includes.form.record_actions', ['id' => $item->id])--}}
-                {{--</td>--}}
+                <td>{{ date('d/m/Y', strtotime($item['received_date'])) }}</td>
+                <td>{{ date('d/m/Y', strtotime($item['captured_date'])) }}</td>
+                <td>{{ $item['customer_name']}}</td>
+                <td>{{ $item['application_postcode'] }}</td>
+                <td>{{ $item['application'] }}</td>
+                <td>{{ $item['order_reference'] }}</td>
+                <td class="text-right">{{ '&pound;' . number_format($item['order_amount']/100, 2)}}</td>
+                <td>{{ $item['type'] }}</td>
+                <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['deposit']/100,2)}}</td>
+                <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['loan_amount']/100,2)}}</td>
+                <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['subsidy']/100,2) }}</td>
+                <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['adjustment']/100,2)}}</td>
+                <td class="{{($item['net'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['net']/100,2) }}</td>
             </tr>
         @endforeach
         <tr>
-            <td colspan="6"></td>
-            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_order_amount']/100, 2) }}</strong></td>
-            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_subsidy']/100, 2) }}</strong></td>
-            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_adjustment']/100, 2) }}</strong></td>
-            <td><strong>{{ '&pound;' . number_format($settlementReport['sum_net']/100, 2) }}</strong></td>
+            <td colspan="12"></td>
+            <td class="{{($settlementReport['sum_net'] < 0 ? '.text-danger' : '') }} text-right"><strong>{{ '&pound;' . number_format($settlementReport['sum_net']/100, 2) }}</strong></td>
         </tr>
     </table>
     </div>

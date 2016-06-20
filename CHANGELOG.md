@@ -1,3 +1,13 @@
+# 1.4.0
+2016-06-20
+
+## Features
+- Changes to the settlement report (120176875)
+- Minor changes to settlement report (121503853)
+
+## Bug fixes
+- Pending cancellation report colspan fix (121205327)
+
 # 1.3.1
 2016-06-17
 
