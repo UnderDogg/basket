@@ -14,6 +14,9 @@
             <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
             <li><a data-toggle="tab" href="#part2">Order Details</a></li>
             <li><a data-toggle="tab" href="#part3">Customer Details</a></li>
+            @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
+                <li><a data-toggle="tab" href="#emailTab">Email Application</a></li>
+            @endif
         </ul>
 
         <div class="tab-content">
@@ -199,6 +202,55 @@
                     </div>
                 </div>
             </div>
+            @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
+                <div id="emailTab" class="tab-pane fade">
+                    <br/>
+                    <div class="row">
+                        <div class="col col-xs-12 col-sm-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    {!! Form::label('title', 'Title:', ['class' => 'col-sm-3 control-label']) !!}
+                                    <div class="col-sm-9">
+                                        <select class="form-control">
+                                            <option disabled selected hidden>Please select...</option>
+                                            <option value="Mr">Mr</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="Miss">Miss</option>
+                                            <option value="Ms">Ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-3 control-label']) !!}
+                                    <div class="col-sm-9">
+                                        {!! Form::text('first_name', null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-3 control-label']) !!}
+                                    <div class="col-sm-9">
+                                        {!! Form::text('last_name', null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('email', 'Email:', ['class' => 'col-sm-3 control-label']) !!}
+                                    <div class="col-sm-9">
+                                        {!! Form::email('last_name', null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('subject', 'Subject:', ['class' => 'col-sm-3 control-label']) !!}
+                                    <div class="col-sm-9">
+                                        {!! Form::input('name', 'ss') !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            @endif
         </div>
 
     <div class='toast' style='display:none'>Copied to clipboard!</div>
@@ -224,6 +276,10 @@
             hidden.focus();
             hidden.setSelectionRange(0, hidden.value.length);
             return document.execCommand("copy");
+        }
+        
+        if(window.location.hash != '') {
+            $('a[href$='+ window.location.hash + ']').click();
         }
     </script>
 @endsection
