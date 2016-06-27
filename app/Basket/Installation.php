@@ -162,7 +162,7 @@ class Installation extends Model
      */
     public function getBitwiseFinanceOffers()
     {
-        $financeOffers =Bitwise::make($this->finance_offers);
+        $financeOffers = Bitwise::make($this->finance_offers);
 
         return [
             'in_store' => [
