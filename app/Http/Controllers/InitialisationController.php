@@ -114,6 +114,12 @@ class InitialisationController extends Controller
                 'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
             );
         }
+        if($request->has('email')) {
+            return $this->redirectWithSuccessMessage(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id . '#emailTab',
+                'Successfully created an Application.'
+            );
+        }
 
         return redirect($application->ext_resume_url);
     }
