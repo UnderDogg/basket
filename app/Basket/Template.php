@@ -54,3 +54,23 @@ class Template extends Model
         'created_at',
         'updated_at',
     ];
+    
+    /**
+     *
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function merchant()
+    {
+        return $this->belongsTo('App\Basket\Merchant');
+    }
+
+    /**
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function installations()
+    {
+        return $this->belongsToMany('App\Basket\Installation', 'installation_template', 'template_id');
+    }
+}
