@@ -345,4 +345,23 @@ class ApplicationsController extends Controller
         }
         return view('applications.' . $action, ['application' => $application]);
     }
+
+
+    public function emailApplication($installation, $id, Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'title' => 'required|in:Mr,Mrs,Miss,Ms',
+                'first_name' => 'required|max:30',
+                'last_name' => 'required|max:30',
+                'email' => 'required|email|max:30',
+                'subject' => 'required|max:100',
+                'description' => 'required|max:255',
+            ]
+        );
+
+        $application = $this->fetchApplicationById($id, $installation);
+
+    }
 }
