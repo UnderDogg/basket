@@ -30,6 +30,9 @@ class ApplicationsController extends Controller
     /** @var ApplicationGateway $applicationGateway */
     private $applicationGateway;
 
+    /** @var \App\Basket\Email\EmailApplicationService */
+    private $emailApplicationService;
+
     public function __construct(ApplicationGateway $applicationGateway)
     {
         $this->applicationSynchronisationService = \App::make(
@@ -37,6 +40,10 @@ class ApplicationsController extends Controller
         );
 
         $this->applicationGateway = $applicationGateway;
+
+        $this->emailApplicationService = \App::make(
+            '\App\Basket\Email\EmailApplicationService'
+        );
     }
 
     /**
