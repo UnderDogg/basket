@@ -31,7 +31,7 @@ class EmailTemplates extends Migration
             $table->integer('template_id')->unsigned();
             $table->integer('installation_id')->unsigned();
             $table->foreign('template_id')->references('id')->on('templates');
-            $table->forgeign('installation_id')->references('id')->on('installations');
+            $table->foreign('installation_id')->references('id')->on('installations');
         });
     }
 
@@ -47,7 +47,7 @@ class EmailTemplates extends Migration
             $table->dropForeign('templates_merchant_id_foreign');
         });
 
-        Schema::table('installation_templates', function(Blueprint $table)
+        Schema::table('installation_template', function(Blueprint $table)
         {
            $table->dropForeign('installation_template_template_id_foreign');
            $table->dropForeign('installation_template_installation_id_foreign');
