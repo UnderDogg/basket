@@ -10,13 +10,11 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
-use App\Basket\Installation;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use PayBreak\Foundation\Properties\Bitwise;
-use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
  * Initialisation Controller
