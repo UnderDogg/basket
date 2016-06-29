@@ -1,3 +1,6 @@
+## Features
+- Added `Template` model and created pivot tables for Templates (120757529)
+
 # 1.4.0
 2016-06-20
 
