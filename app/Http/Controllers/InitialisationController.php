@@ -69,8 +69,13 @@ class InitialisationController extends Controller
         );
 
         $location = $this->fetchLocation($locationId);
-        $reference = $request->has('reference') ? $request->get('reference') : $this->fetchLocationReference($location);
         $requester = Auth::user()->id;
+
+        if($request->has('reference')) {
+            $reference = $request->get('reference');
+        } else {
+            $reference = $this->generateOrderReferenceFromLocation($location);
+        }
 
         try {
             return $this->requestType(
@@ -118,7 +123,7 @@ class InitialisationController extends Controller
      * @param Location $location
      * @return string
      */
-    private function fetchLocationReference(Location $location)
+    private function generateOrderReferenceFromLocation(Location $location)
     {
         list($timeMid, $timeLow) = explode(' ', microtime());
         $reference = sprintf('%08x', $timeLow) . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
