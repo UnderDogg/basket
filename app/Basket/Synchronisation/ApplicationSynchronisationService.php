@@ -11,6 +11,8 @@
 namespace App\Basket\Synchronisation;
 
 use App\Basket\Application;
+use App\Basket\ApplicationEvent;
+use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Exceptions\Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -252,6 +254,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $app = $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
 
             $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
+
+            ApplicationEventHelper::appendEvent($app, ApplicationEvent::TYPE_INITIALISED);
 
             return $app;
 
