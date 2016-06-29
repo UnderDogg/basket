@@ -20,8 +20,9 @@ class EmailTemplates extends Migration
         Schema::create('templates', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('merchant_id')->unsigned();
+            $table->integer('merchant_id')->nullable()->unsigned();
             $table->foreign('merchant_id')->references('id')->on('merchants');
+            $table->boolean('active')->default(true);
             $table->text('html');
             $table->timestamps();
         });
