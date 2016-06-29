@@ -20,8 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $merchant_id
  * @property string $html
  * @property string $name
- * @property $created_at
- * @property $updated_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property Merchant $merchant
  * @property Installation[] $installations
  * @package App\Basket
