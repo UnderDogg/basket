@@ -64,18 +64,13 @@ class InitialisationController extends Controller
                 'amount' => 'required|integer',
                 'group' => 'required',
                 'product' => 'required',
+                'reference' => 'sometimes|min:6',
             ]
         );
 
         $location = $this->fetchLocation($locationId);
-
-        list($timeMid, $timeLow) = explode(' ', microtime());
-        $reference = sprintf('%08x', $timeLow) . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
-
-        $reference = $location->reference . '-' . $reference;
-
+        $reference = $request->has('reference') ? $request->get('reference') : $this->fetchLocationReference($location);
         $requester = Auth::user()->id;
-        $location = $this->fetchLocation($locationId);
 
         try {
             return $this->requestType(
@@ -116,6 +111,18 @@ class InitialisationController extends Controller
         }
 
         return redirect($application->ext_resume_url);
+    }
+
+    /**
+     * @author EB
+     * @param Location $location
+     * @return string
+     */
+    private function fetchLocationReference(Location $location)
+    {
+        list($timeMid, $timeLow) = explode(' ', microtime());
+        $reference = sprintf('%08x', $timeLow) . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
+        return $location->reference . '-' . $reference;
     }
 
     /**
