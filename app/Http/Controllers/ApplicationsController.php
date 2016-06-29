@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\ApplicationEvent;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
@@ -82,11 +83,13 @@ class ApplicationsController extends Controller
     public function show($installation, $id)
     {
         $application = $this->fetchApplicationById($id, $installation);
+        $events = ApplicationEvent::where('application_id', $application->id)->orderByRaw('created_at ASC, id ASC')->get();
 
         return view(
             'applications.show',
             [
                 'applications' => $application,
+                'applicationEvents' => $events,
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
