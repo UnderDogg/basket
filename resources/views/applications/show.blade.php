@@ -207,7 +207,7 @@
                     <br/>
                     <div class="row">
                         <div class="col col-xs-12 col-sm-6">
-                            <div class="form-horizontal">
+                            {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
                                 <div class="form-group">
                                     {!! Form::label('title', 'Title:', ['class' => 'col-sm-3 control-label']) !!}
                                     <div class="col-sm-9">
@@ -235,16 +235,27 @@
                                 <div class="form-group">
                                     {!! Form::label('email', 'Email:', ['class' => 'col-sm-3 control-label']) !!}
                                     <div class="col-sm-9">
-                                        {!! Form::email('last_name', null, ['class' => 'form-control']) !!}
+                                        {!! Form::email('email', null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('subject', 'Subject:', ['class' => 'col-sm-3 control-label']) !!}
                                     <div class="col-sm-9">
-                                        {!! Form::input('name', 'ss') !!}
+                                        {!! Form::text('subject', 'afforditNow Finance Application', ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    {!! Form::label('description', 'Description:', ['class' => 'col-sm-3 control-label']) !!}
+                                    <div class="col-sm-9">
+                                        {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Order description']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="pull-right col-sm-3 col-xs-4">
+                                        {!! Form::submit('Send Email', ['class' => 'btn btn-info form-control', 'name' => 'sendEmail']) !!}
+                                    </div>
+                                </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -277,7 +288,7 @@
             hidden.setSelectionRange(0, hidden.value.length);
             return document.execCommand("copy");
         }
-        
+
         if(window.location.hash != '') {
             $('a[href$='+ window.location.hash + ']').click();
         }
