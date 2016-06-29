@@ -10,6 +10,8 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\ApplicationEvent;
+use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
@@ -109,11 +111,16 @@ class InitialisationController extends Controller
     public function requestType(Location $location, Request $request, Application $application)
     {
         if($request->has('link')) {
+
+            ApplicationEventHelper::appendEvent($application, ApplicationEvent::TYPE_LINK);
+
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
                 'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
             );
         }
+
+        ApplicationEventHelper::appendEvent($application, ApplicationEvent::TYPE_INSTORE);
 
         return redirect($application->ext_resume_url);
     }
