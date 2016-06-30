@@ -211,7 +211,7 @@
                                 <div class="form-group">
                                     {!! Form::label('title', 'Title:', ['class' => 'col-sm-3 control-label']) !!}
                                     <div class="col-sm-9">
-                                        <select class="form-control">
+                                        <select class="form-control" name="title">
                                             <option disabled selected hidden>Please select...</option>
                                             <option value="Mr">Mr</option>
                                             <option value="Mrs">Mrs</option>
@@ -292,5 +292,74 @@
         if(window.location.hash != '') {
             $('a[href$='+ window.location.hash + ']').click();
         }
+    </script>
+    <script>
+        validation = {
+            fields: {
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The title cannot be empty'
+                        }
+                    }
+                },
+                first_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            message: 'The first name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                last_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            message: 'The last name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address cannot be empty'
+                        },
+                        emailAddress: {},
+                        stringLength: {
+                            max: 255,
+                            message: 'The email must not be greater than 255 characters'
+                        }
+                    }
+                },
+                subject: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The subject cannot be empty'
+                        },
+                        stringLength: {
+                            max: 50,
+                            message: 'The subject must not be greater than 50 characters'
+                        }
+                    }
+                },
+                description: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The description cannot be empty'
+                        },
+                        stringLength: {
+                            max:100,
+                            message: 'The description must not be greater than 100 characters'
+                        }
+                    }
+                }
+            }
+        };
     </script>
 @endsection
