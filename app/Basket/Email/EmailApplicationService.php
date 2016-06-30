@@ -4,11 +4,15 @@ namespace App\Basket\Email;
 
 use App\Basket\Application;
 use App\Basket\Template;
-use App\Http\Controllers\TemplatesController;
-use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
+/**
+ * Class EmailApplicationService
+ *
+ * @author EB
+ * @package App\Basket\Email
+ */
 class EmailApplicationService
 {
     use PsrLoggerTrait;
@@ -22,20 +26,18 @@ class EmailApplicationService
 
     /**
      * @author EB
-     * @param Request $request
      * @param Application $application
      * @param Template $template
+     * @param array $data
      * @return bool
      */
-    public function sendDefaultApplicationEmail(Request $request, Application $application, Template $template)
+    public function sendDefaultApplicationEmail(Application $application, Template $template, array $data)
     {
-        $data = EmailTemplateEngine::formatRequestForEmail($request);
-
         $txt = \DbView::make($template)->field('html')->with($data)->render();
 
-        \Mail::send('emails.applications.blank', ['content' => $txt], function($message) use ($request) {
-            $message->to($request->get('email'))
-                ->subject($request->get('subject'));
+        \Mail::send('emails.applications.blank', ['content' => $txt], function ($message) use ($data) {
+            $message->to($data['customer_email'])
+                ->subject($data['email_subject']);
         });
 
         $this->logInfo('EmailApplicationService: Application Email sent for Application[' . $application->id . ']');

@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
@@ -355,8 +356,8 @@ class ApplicationsController extends Controller
 
     /**
      * @author EB
-     * @param int $installation
-     * @param int $id
+     * @param $installation
+     * @param $id
      * @param Request $request
      * @throws RedirectException
      */
@@ -375,10 +376,11 @@ class ApplicationsController extends Controller
         );
 
         $application = $this->fetchApplicationById($id, $installation);
+        $data = EmailTemplateEngine::formatRequestForEmail($request);
 
         try {
             $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
-            $this->emailApplicationService->sendDefaultApplicationEmail($request, $application, $template);
+            $this->emailApplicationService->sendDefaultApplicationEmail($application, $template, $data);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $installation . '/applications/' . $id,
@@ -386,5 +388,22 @@ class ApplicationsController extends Controller
                 $e
             );
         }
+    }
+
+    /**
+     * Returns an array of fields and their types for filtering
+     *
+     * @author EB
+     * @return array
+     */
+    protected function getFiltersConfiguration()
+    {
+        return [
+            'ext_order_amount' => Controller::FILTER_FINANCE,
+            'ext_finance_loan_amount' => Controller::FILTER_FINANCE,
+            'ext_finance_deposit' => Controller::FILTER_FINANCE,
+            'ext_finance_subsidy' => Controller::FILTER_FINANCE,
+            'ext_finance_net_settlement' => Controller::FILTER_FINANCE,
+        ];
     }
 }

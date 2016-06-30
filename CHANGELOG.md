@@ -1,9 +1,21 @@
 ## Features
+- Added `Template` model and created pivot tables for Templates (120757529)
+
+# 1.4.0
+2016-06-20
+
+## Features
 - Changes to the settlement report (120176875)
 - Minor changes to settlement report (121503853)
 
-## Bug fixes 
+## Bug fixes
 - Pending cancellation report colspan fix (121205327)
+
+# 1.3.1
+2016-06-17
+
+## Bug Fixes
+- Added strict filters configuration to stop all filters performing a `%like%` (120571545)
 
 # 1.3.0
 2016-06-06

@@ -16,12 +16,12 @@ use Illuminate\Database\Eloquent\Model;
  * Template Model
  *
  * @author EB
- * @property int    $id
- * @property int    $merchant_id
+ * @property int $id
+ * @property int $merchant_id
  * @property string $html
  * @property string $name
- * @property        $created_at
- * @property        $updated_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property Merchant $merchant
  * @property Installation[] $installations
  * @package App\Basket
@@ -43,16 +43,6 @@ class Template extends Model
     protected $fillable = [
         'merchant_id',
         'html',
-    ];
-
-    /**
-     * Date attributes
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at',
-        'updated_at',
     ];
     
     /**
