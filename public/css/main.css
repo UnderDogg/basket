@@ -189,3 +189,9 @@ ol.breadcrumb li {
     color: #F0F0F0;
     padding:10px;
 }
+.collapse-form-group, .collapse-form-input {
+    width: 100% !important;
+}
+.collapse-form-label {
+    line-height: 30px;
+}
