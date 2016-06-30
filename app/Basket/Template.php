@@ -57,10 +57,11 @@ class Template extends Model
 
     /**
      * @author EB
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return $this
      */
     public function installations()
     {
-        return $this->belongsToMany('App\Basket\Installation', 'installation_template', 'template_id');
+        return $this->belongsToMany('App\Basket\Installation')->withPivot('template_id');
     }
+
 }

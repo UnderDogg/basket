@@ -36,6 +36,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $custom_logo_url
  * @property string $disclosure
  * @property int    $finance_offers
+ * @property Template[] $templates
  * @package App\Basket
  */
 class Installation extends Model
@@ -44,6 +45,7 @@ class Installation extends Model
 
     const IN_STORE = 2;
     const LINK = 4;
+    const EMAIL = 8;
     const LOWEST_BIT = self::IN_STORE;
 
     /**
@@ -83,6 +85,15 @@ class Installation extends Model
     public function locations()
     {
         return $this->hasMany('App\Basket\Location');
+    }
+
+    /**
+    * @author EB
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function templates()
+    {
+        return $this->belongsToMany('App\Basket\Template');
     }
 
     /**
@@ -161,7 +172,7 @@ class Installation extends Model
      */
     public function getBitwiseFinanceOffers()
     {
-        $financeOffers =Bitwise::make($this->finance_offers);
+        $financeOffers = Bitwise::make($this->finance_offers);
 
         return [
             'in_store' => [
@@ -174,6 +185,12 @@ class Installation extends Model
                 'active' => $financeOffers->contains(self::LINK),
                 'text' => 'Continue with Application Link',
                 'name' => 'link',
+            ],
+            'email' => [
+                'value' => self::EMAIL,
+                'active' => $financeOffers->contains(self::EMAIL),
+                'text' => 'Continue with an Application Email',
+                'name' => 'email',
             ],
         ];
     }

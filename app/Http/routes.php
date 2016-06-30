@@ -123,6 +123,7 @@ Route::group(['middleware' => 'auth'], function () {
         );
         Route::get('installations/{installation}/applications', 'ApplicationsController@index');
         Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
+        Route::post('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
