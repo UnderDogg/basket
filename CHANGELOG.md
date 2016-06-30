@@ -1,6 +1,3 @@
-## Features
-- Added additional flow for sending `Email Applications` (120758677)
-
 # 1.4.0
 2016-06-20
 
