@@ -30,6 +30,9 @@ class ApplicationsController extends Controller
     /** @var ApplicationGateway $applicationGateway */
     private $applicationGateway;
 
+    /** @var \App\Basket\Email\EmailApplicationService */
+    private $emailApplicationService;
+
     public function __construct(ApplicationGateway $applicationGateway)
     {
         $this->applicationSynchronisationService = \App::make(
@@ -37,6 +40,10 @@ class ApplicationsController extends Controller
         );
 
         $this->applicationGateway = $applicationGateway;
+
+        $this->emailApplicationService = \App::make(
+            '\App\Basket\Email\EmailApplicationService'
+        );
     }
 
     /**
@@ -344,6 +351,31 @@ class ApplicationsController extends Controller
                 ->setError('Application is not allowed to request ' . $action);
         }
         return view('applications.' . $action, ['application' => $application]);
+    }
+
+    /**
+     * @author EB
+     * @param $installation
+     * @param $id
+     * @param Request $request
+     */
+    public function emailApplication($installation, $id, Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'title' => 'required|in:Mr,Mrs,Miss,Ms',
+                'first_name' => 'required|max:30',
+                'last_name' => 'required|max:30',
+                'email' => 'required|email|max:30',
+                'subject' => 'required|max:100',
+                'description' => 'required|max:255',
+            ]
+        );
+
+        $application = $this->fetchApplicationById($id, $installation);
+
+        // Rest of the method requires Template Engine
     }
 
     /**
