@@ -356,8 +356,8 @@ class ApplicationsController extends Controller
 
     /**
      * @author EB
-     * @param $installation
-     * @param $id
+     * @param int $installation
+     * @param int $id
      * @param Request $request
      * @throws RedirectException
      */
@@ -376,11 +376,14 @@ class ApplicationsController extends Controller
         );
 
         $application = $this->fetchApplicationById($id, $installation);
-        $data = EmailTemplateEngine::formatRequestForEmail($request);
 
         try {
             $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
-            $this->emailApplicationService->sendDefaultApplicationEmail($application, $template, $data);
+            $this->emailApplicationService->sendDefaultApplicationEmail(
+                $application,
+                $template,
+                EmailTemplateEngine::formatRequestForEmail($request)
+            );
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $installation . '/applications/' . $id,
