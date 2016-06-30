@@ -148,6 +148,11 @@ return [
         Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
 
+        /*
+         * Additional Services
+         */
+        Flynsarmy\DbBladeCompiler\DbBladeCompilerServiceProvider::class,
+
     ],
 
     /*
@@ -195,10 +200,11 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-        'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+        'Entrust'   => \Zizaco\Entrust\EntrustFacade::class,
         'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Str'       => Illuminate\Support\Str::class,
+        'DbView'    => Flynsarmy\DbBladeCompiler\Facades\DbView::class,
     ],
 
 ];

@@ -18,7 +18,6 @@ use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use PayBreak\Foundation\Properties\Bitwise;
-use PayBreak\Sdk\Entities\ApplicationEntity;
 
 /**
  * Initialisation Controller
@@ -117,6 +116,16 @@ class InitialisationController extends Controller
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
                 'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
+            );
+        }
+
+        if($request->has('email')) {
+
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
+
+            return $this->redirectWithSuccessMessage(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id . '#emailTab',
+                'Successfully created an Application.'
             );
         }
 

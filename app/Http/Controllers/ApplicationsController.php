@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
+use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
@@ -32,6 +33,9 @@ class ApplicationsController extends Controller
     /** @var ApplicationGateway $applicationGateway */
     private $applicationGateway;
 
+    /** @var \App\Basket\Email\EmailApplicationService */
+    private $emailApplicationService;
+
     public function __construct(ApplicationGateway $applicationGateway)
     {
         $this->applicationSynchronisationService = \App::make(
@@ -39,6 +43,10 @@ class ApplicationsController extends Controller
         );
 
         $this->applicationGateway = $applicationGateway;
+
+        $this->emailApplicationService = \App::make(
+            '\App\Basket\Email\EmailApplicationService'
+        );
     }
 
     /**
@@ -287,8 +295,8 @@ class ApplicationsController extends Controller
     /**
      * @author WN
      * @param int $id
+     * @param int $installation
      * @return Application
-     * @throws RedirectException
      */
     private function fetchApplicationById($id, $installation)
     {
@@ -346,6 +354,45 @@ class ApplicationsController extends Controller
                 ->setError('Application is not allowed to request ' . $action);
         }
         return view('applications.' . $action, ['application' => $application]);
+    }
+
+    /**
+     * @author EB
+     * @param int $installation
+     * @param int $id
+     * @param Request $request
+     * @throws RedirectException
+     */
+    public function emailApplication($installation, $id, Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'title' => 'required|in:Mr,Mrs,Miss,Ms',
+                'first_name' => 'required|max:30',
+                'last_name' => 'required|max:30',
+                'email' => 'required|email|max:30',
+                'subject' => 'required|max:100',
+                'description' => 'required|max:255',
+            ]
+        );
+
+        $application = $this->fetchApplicationById($id, $installation);
+
+        try {
+            $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
+            $this->emailApplicationService->sendDefaultApplicationEmail(
+                $application,
+                $template,
+                EmailTemplateEngine::formatRequestForEmail($request)
+            );
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $installation . '/applications/' . $id,
+                'Unable to send Application via Email: ' . $e->getMessage(),
+                $e
+            );
+        }
     }
 
     /**
