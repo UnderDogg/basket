@@ -16,10 +16,12 @@ class EmailTemplateEngine
     public static function formatRequestForEmail(Request $request)
     {
         return [
-            'CUSTOMER_TITLE' => $request->get('title'),
-            'CUSTOMER_FIRST_NAME' => $request->get('first_name'),
-            'CUSTOMER_LAST_NAME' => $request->get('last_name'),
-            'ORDER_DESCRIPTION' => $request->get('description'),
+            'customer_title' => $request->get('title'),
+            'customer_first_name' => $request->get('first_name'),
+            'customer_last_name' => $request->get('last_name'),
+            'email_recipient' => $request->get('email'),
+            'email_subject' => $request->get('subject'),
+            'order_description' => $request->get('description'),
         ];
     }
 }
