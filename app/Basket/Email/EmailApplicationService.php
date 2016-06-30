@@ -43,7 +43,7 @@ class EmailApplicationService
         $txt = \DbView::make($template)->field('html')->with($data)->render();
 
         \Mail::send('emails.applications.blank', ['content' => $txt], function ($message) use ($data) {
-            $message->to($data['customer_email'])
+            $message->to($data['email_recipient'])
                 ->subject($data['email_subject']);
         });
 
