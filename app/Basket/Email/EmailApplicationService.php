@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
+/**
+ * Class EmailApplicationService
+ *
+ * @author EB
+ * @package App\Basket\Email
+ */
 class EmailApplicationService
 {
     use PsrLoggerTrait;
@@ -18,8 +24,14 @@ class EmailApplicationService
         $this->logger = $loggerInterface;
     }
 
+    /**
+     * @author EB
+     * @param Request $request
+     * @param Application $application
+     */
     public function sendDefaultApplicationEmail(Request $request, Application $application)
     {
+        // Boilerplate - Requires Template Engine
     }
 
     /**

@@ -353,7 +353,12 @@ class ApplicationsController extends Controller
         return view('applications.' . $action, ['application' => $application]);
     }
 
-
+    /**
+     * @autgir EB
+     * @param $installation
+     * @param $id
+     * @param Request $request
+     */
     public function emailApplication($installation, $id, Request $request)
     {
         $this->validate(
@@ -369,6 +374,8 @@ class ApplicationsController extends Controller
         );
 
         $application = $this->fetchApplicationById($id, $installation);
+
+        // Rest of the method requires Template Engine
 
     }
 }
