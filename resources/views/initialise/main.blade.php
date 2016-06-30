@@ -42,6 +42,20 @@
             <div class="form-group padding-left-form">
                 <h4><strong id="pay-today"></strong></h4>
             </div>
+            @if(isset($options) && count($options) > 0)
+                <button class="btn btn-primary btn-lg pull-right" type="button" data-toggle="collapse" data-target="#extraInformation" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                </button>
+                <div class="collapse" id="extraInformation">
+                    <hr>
+                    <div class="form-group col-xs-12">
+                        {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('reference', $reference, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                </div>
+            @endif
             {!! Form::close() !!}
         </div>
 
@@ -69,7 +83,7 @@
                         @foreach($group['products'] as $l => $product)
 
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
-                                {!! Form::open(['action' => ['InitialisationController@request', $location->id]]) !!}
+                                {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
                                         <div class="row text-center">
@@ -275,6 +289,7 @@
                                     {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
                                     {!! Form::hidden('pay_today', $product['credit_info']['deposit_amount'] + $product['credit_info']['amount_service'], ['class' => 'pay_today']) !!}
+                                    {!! Form::hidden('reference', '') !!}
 
                                 {!! Form::close() !!}
                             </div>
@@ -309,6 +324,10 @@
                 document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
             }
         });
+        $('.initialiseForm').submit(function() {
+            var reference = $('#extraInformation').find("input[name='reference']").val();
+            $(this).find("input[name='reference']").attr('value', reference);
+        })
     </script>
 </div>
 </body>

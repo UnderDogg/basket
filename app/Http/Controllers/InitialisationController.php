@@ -62,18 +62,12 @@ class InitialisationController extends Controller
                 'amount' => 'required|integer',
                 'group' => 'required',
                 'product' => 'required',
+                'reference' => 'required|min:6',
             ]
         );
 
         $location = $this->fetchLocation($locationId);
-
-        list($timeMid, $timeLow) = explode(' ', microtime());
-        $reference = sprintf('%08x', $timeLow) . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
-
-        $reference = $location->reference . '-' . $reference;
-
         $requester = Auth::user()->id;
-        $location = $this->fetchLocation($locationId);
 
         try {
             return $this->requestType(
@@ -81,7 +75,7 @@ class InitialisationController extends Controller
                 $request,
                 $this->applicationSynchronisationService->initialiseApplication(
                     $location->installation->id,
-                    $reference,
+                    $request->get('reference'),
                     $request->get('amount'),
                     'Goods & Services',
                     $location->installation->validity,
@@ -91,7 +85,6 @@ class InitialisationController extends Controller
                     $requester
                 ));
         } catch (\Exception $e) {
-
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         }
@@ -123,6 +116,18 @@ class InitialisationController extends Controller
     }
 
     /**
+     * @author EB
+     * @param Location $location
+     * @return string
+     */
+    private function generateOrderReferenceFromLocation(Location $location)
+    {
+        list($timeMid, $timeLow) = explode(' ', microtime());
+        $reference = sprintf('%08x', $timeLow) . sprintf('%04x', (int)substr($timeMid, 2) & 0xffff);
+        return $location->reference . '-' . $reference;
+    }
+
+    /**
      * @author WN
      * @param int $locationId
      * @param Request $request
@@ -147,7 +152,8 @@ class InitialisationController extends Controller
                 ),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
-                'bitwise' => Bitwise::make($location->installation->finance_offers)
+                'bitwise' => Bitwise::make($location->installation->finance_offers),
+                'reference' => $this->generateOrderReferenceFromLocation($location),
             ]
         );
     }
