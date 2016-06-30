@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
@@ -292,8 +293,8 @@ class ApplicationsController extends Controller
     /**
      * @author WN
      * @param int $id
+     * @param int $installation
      * @return Application
-     * @throws RedirectException
      */
     private function fetchApplicationById($id, $installation)
     {
@@ -355,9 +356,10 @@ class ApplicationsController extends Controller
 
     /**
      * @author EB
-     * @param $installation
-     * @param $id
+     * @param int $installation
+     * @param int $id
      * @param Request $request
+     * @throws RedirectException
      */
     public function emailApplication($installation, $id, Request $request)
     {
@@ -375,7 +377,20 @@ class ApplicationsController extends Controller
 
         $application = $this->fetchApplicationById($id, $installation);
 
-        // Rest of the method requires Template Engine
+        try {
+            $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
+            $this->emailApplicationService->sendDefaultApplicationEmail(
+                $application,
+                $template,
+                EmailTemplateEngine::formatRequestForEmail($request)
+            );
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $installation . '/applications/' . $id,
+                'Unable to send Application via Email: ' . $e->getMessage(),
+                $e
+            );
+        }
     }
 
     /**

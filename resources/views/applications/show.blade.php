@@ -206,12 +206,12 @@
                 <div id="emailTab" class="tab-pane fade">
                     <br/>
                     <div class="row">
-                        <div class="col col-xs-12 col-sm-6">
+                        <div class="col col-xs-12">
                             {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
                                 <div class="form-group">
-                                    {!! Form::label('title', 'Title:', ['class' => 'col-sm-3 control-label']) !!}
-                                    <div class="col-sm-9">
-                                        <select class="form-control">
+                                    {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="title">
                                             <option disabled selected hidden>Please select...</option>
                                             <option value="Mr">Mr</option>
                                             <option value="Mrs">Mrs</option>
@@ -221,37 +221,37 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-3 control-label']) !!}
-                                    <div class="col-sm-9">
+                                    {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
                                         {!! Form::text('first_name', null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-3 control-label']) !!}
-                                    <div class="col-sm-9">
+                                    {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
                                         {!! Form::text('last_name', null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('email', 'Email:', ['class' => 'col-sm-3 control-label']) !!}
-                                    <div class="col-sm-9">
+                                    {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
                                         {!! Form::email('email', null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('subject', 'Subject:', ['class' => 'col-sm-3 control-label']) !!}
-                                    <div class="col-sm-9">
+                                    {!! Form::label('subject', 'Subject:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
                                         {!! Form::text('subject', 'afforditNow Finance Application', ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('description', 'Description:', ['class' => 'col-sm-3 control-label']) !!}
-                                    <div class="col-sm-9">
+                                    {!! Form::label('description', 'Description:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
                                         {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Order description']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="pull-right col-sm-3 col-xs-4">
+                                    <div class="pull-right col-sm-4 col-xs-12 col-sm-pull-2">
                                         {!! Form::submit('Send Email', ['class' => 'btn btn-info form-control', 'name' => 'sendEmail']) !!}
                                     </div>
                                 </div>
@@ -292,5 +292,74 @@
         if(window.location.hash != '') {
             $('a[href$='+ window.location.hash + ']').click();
         }
+    </script>
+    <script>
+        validation = {
+            fields: {
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The title cannot be empty'
+                        }
+                    }
+                },
+                first_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            message: 'The first name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                last_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            message: 'The last name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address cannot be empty'
+                        },
+                        emailAddress: {},
+                        stringLength: {
+                            max: 255,
+                            message: 'The email must not be greater than 255 characters'
+                        }
+                    }
+                },
+                subject: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The subject cannot be empty'
+                        },
+                        stringLength: {
+                            max: 50,
+                            message: 'The subject must not be greater than 50 characters'
+                        }
+                    }
+                },
+                description: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The description cannot be empty'
+                        },
+                        stringLength: {
+                            max:100,
+                            message: 'The description must not be greater than 100 characters'
+                        }
+                    }
+                }
+            }
+        };
     </script>
 @endsection

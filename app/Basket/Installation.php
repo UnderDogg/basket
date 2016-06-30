@@ -36,6 +36,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $custom_logo_url
  * @property string $disclosure
  * @property int    $finance_offers
+ * @property Template[] $templates
  * @package App\Basket
  */
 class Installation extends Model
@@ -84,6 +85,15 @@ class Installation extends Model
     public function locations()
     {
         return $this->hasMany('App\Basket\Location');
+    }
+
+    /**
+    * @author EB
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function templates()
+    {
+        return $this->belongsToMany('App\Basket\Template');
     }
 
     /**

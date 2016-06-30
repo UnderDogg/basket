@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "58fe272288a656aa9229e13265cf88a0",
-    "content-hash": "2ba04aa885079734c642da4abc1318e1",
+    "hash": "5d357650a5abe93ffed653d59593a6af",
+    "content-hash": "2f70ff53b04ca7227a58f4179970a753",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/crud-generator/zipball/72792b793b8c92a4ae67d788ef18604fa3fcacad",
+                "url": "https://api.github.com/repos/PayBreak/crud-generator/zipball/92b4f0e5c86857a5bfa8e68634234698ef954348",
                 "reference": "92b4f0e5c86857a5bfa8e68634234698ef954348",
                 "shasum": ""
             },
@@ -309,6 +309,54 @@
             "time": "2015-08-03 09:24:05"
         },
         {
+            "name": "flynsarmy/db-blade-compiler",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Flynsarmy/laravel-db-blade-compiler.git",
+                "reference": "011658034c5ca14d42c64c7f1024f7cc9811fdb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Flynsarmy/laravel-db-blade-compiler/zipball/011658034c5ca14d42c64c7f1024f7cc9811fdb3",
+                "reference": "011658034c5ca14d42c64c7f1024f7cc9811fdb3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Flynsarmy\\DbBladeCompiler\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Flyn San",
+                    "email": "flynsarmy@gmail.com"
+                },
+                {
+                    "name": "Ebrahim Radi",
+                    "email": "ebrahim.radi@gmail.com",
+                    "homepage": "http://me2bits.com"
+                }
+            ],
+            "description": "Render Blade templates from Eloquent Model Fields",
+            "keywords": [
+                "blade",
+                "compiler",
+                "eloquent",
+                "laravel",
+                "model"
+            ],
+            "time": "2015-06-15 22:21:08"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "6.0.1",
             "source": {
@@ -523,6 +571,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
+            "abandoned": "laravelcollective/html",
             "time": "2015-01-01 16:31:18"
         },
         {
