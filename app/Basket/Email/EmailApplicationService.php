@@ -26,10 +26,11 @@ class EmailApplicationService
 
     /**
      * @author EB
-     * @param Request $request
      * @param Application $application
+     * @param array $data
+     * @internal param Request $request
      */
-    public function sendDefaultApplicationEmail(Request $request, Application $application)
+    public function sendDefaultApplicationEmail(Application $application, array $data)
     {
         // Boilerplate - Requires Template Engine
     }
