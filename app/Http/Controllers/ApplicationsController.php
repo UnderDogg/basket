@@ -292,8 +292,8 @@ class ApplicationsController extends Controller
     /**
      * @author WN
      * @param int $id
+     * @param int $installation
      * @return Application
-     * @throws RedirectException
      */
     private function fetchApplicationById($id, $installation)
     {
@@ -353,7 +353,13 @@ class ApplicationsController extends Controller
         return view('applications.' . $action, ['application' => $application]);
     }
 
-
+    /**
+     * @author EB
+     * @param int $installation
+     * @param int $id
+     * @param Request $request
+     * @throws RedirectException
+     */
     public function emailApplication($installation, $id, Request $request)
     {
         $this->validate(
@@ -370,5 +376,15 @@ class ApplicationsController extends Controller
 
         $application = $this->fetchApplicationById($id, $installation);
 
+        try {
+            $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
+            $this->emailApplicationService->sendDefaultApplicationEmail($request, $application, $template);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $installation . '/applications/' . $id,
+                'Unable to send Application via Email: ' . $e->getMessage(),
+                $e
+            );
+        }
     }
 }

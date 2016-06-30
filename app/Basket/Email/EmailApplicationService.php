@@ -3,6 +3,7 @@
 namespace App\Basket\Email;
 
 use App\Basket\Application;
+use App\Basket\Template;
 use App\Http\Controllers\TemplatesController;
 use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
@@ -23,14 +24,14 @@ class EmailApplicationService
      * @author EB
      * @param Request $request
      * @param Application $application
+     * @param Template $template
      * @return bool
      */
-    public function sendDefaultApplicationEmail(Request $request, Application $application)
+    public function sendDefaultApplicationEmail(Request $request, Application $application, Template $template)
     {
-        $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
         $data = EmailTemplateEngine::formatRequestForEmail($request);
 
-        $txt = \DbView::make($template)->field('html')->with([])->render();
+        $txt = \DbView::make($template)->field('html')->with($data)->render();
 
         \Mail::send('emails.applications.blank', ['content' => $txt], function($message) use ($request) {
             $message->to($request->get('email'))
