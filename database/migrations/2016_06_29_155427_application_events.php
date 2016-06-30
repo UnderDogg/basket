@@ -20,10 +20,10 @@ class ApplicationEvents extends Migration
         Schema::create('application_events', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('application_id')->references('id')->on('applications');
+            $table->integer('application_id')->unsigned()->references('id')->on('applications');
+            $table->integer('user_id')->unsigned()->nullable()->references('id')->on('users');
             $table->integer('type');
             $table->string('description');
-            $table->json('metadata');
             $table->timestamps();
         });
     }

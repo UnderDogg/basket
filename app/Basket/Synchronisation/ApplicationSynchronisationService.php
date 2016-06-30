@@ -16,6 +16,7 @@ use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Exceptions\Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\Application\AddressEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
@@ -68,6 +69,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         $this->mapApplication($applicationEntity, $application);
         $application->save();
+        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_NOTIFICATION_INITIALISED, Auth::user());
 
         return $application;
     }
@@ -90,6 +92,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         try {
             $installation = $this->fetchInstallationByExternalId($installationId);
         } catch (\Exception $e) {
+
             $this->logError('linkApplication: Installation not found for ID[' . $installationId . ']');
             throw new Exception('Installation not found');
         }
@@ -255,8 +258,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
             $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
 
-            ApplicationEventHelper::appendEvent($app, ApplicationEvent::TYPE_INITIALISED);
-
             return $app;
 
         } catch (\Exception $e) {
@@ -292,6 +293,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $this->mapApplication($applicationEntity, $app);
 
         if ($app->save()) {
+            ApplicationEventHelper::addEvent($app, ApplicationEvent::TYPE_NOTIFICATION_INITIALISED, Auth::user());
             return $app;
         }
 

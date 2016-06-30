@@ -208,13 +208,15 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>User</th>
                                 <th>Event</th>
                                 <th>Time</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach ($applicationEvents as $event)
+                                @foreach ($applications->applicationEvents as $event)
                                     <tr>
+                                        <td>{{ (is_null($event->user) ? 'System' : $event->user->name) }}</td>
                                         <td>{{ $event->description }}</td>
                                         <td>{{ $event->created_at }}</td>
                                     </tr>

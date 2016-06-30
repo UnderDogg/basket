@@ -5,6 +5,7 @@ namespace App\Basket;
 use App\Exceptions\Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 /**
  * Class ApplicationEvent
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $metadata
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property User|null $user
  *
  * @package App\Basket
  * @author SL
@@ -24,11 +26,31 @@ class ApplicationEvent extends Model
 {
     protected $table = 'application_events';
 
-    const TYPE_CUSTOM = 1;
-    const TYPE_INITIALISED = 2;
-    const TYPE_LINK = 4;
-    const TYPE_EMAIL = 8;
-    const TYPE_INSTORE = 16;
+    const TYPE_CUSTOM = 0;
+    const TYPE_NOTIFICATION = 1;
+    const TYPE_NOTIFICATION_INITIALISED = 2 + self::TYPE_NOTIFICATION;
+    const TYPE_RESUME_SENT = 4;
+    const TYPE_RESUME_LINK = 8 + self::TYPE_RESUME_SENT;
+    const TYPE_RESUME_EMAIL = 16 + self::TYPE_RESUME_SENT;
+    const TYPE_RESUME_INSTORE = 32 + self::TYPE_RESUME_SENT;
+
+    /**
+     * @author SL
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function application()
+    {
+        return $this->belongsTo('App\Basket\Application');
+    }
+
+    /**
+     * @author SL
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     /**
      * Get the default description from the type, which should be from the group of constants of this class.
@@ -57,14 +79,32 @@ class ApplicationEvent extends Model
      * @author SL
      * @return array
      */
-    public function getTypeDescriptionMap()
+    private static function getTypeDescriptionMap()
     {
         return [
-            self::TYPE_CUSTOM =>      'Custom Event.',
-            self::TYPE_INITIALISED => 'Application Initialised',
-            self::TYPE_LINK =>        'Application Link Created in Retailer Back Office',
-            self::TYPE_EMAIL =>       'Application Email Sent',
-            self::TYPE_INSTORE =>     'Instore Application Started',
+            self::TYPE_CUSTOM                   => 'Custom Event.',
+            self::TYPE_NOTIFICATION_INITIALISED => '(Notification Received) - Application Initialised',
+            self::TYPE_RESUME_LINK              => '(Application Resume) - Application Link Created in Retailer Back Office',
+            self::TYPE_RESUME_EMAIL             => '(Application Resume) - Application Email Sent',
+            self::TYPE_RESUME_INSTORE           => '(Application Resume) - Instore Application Started',
         ];
     }
+
+    /**
+     * @author SL
+     * @param $type
+     * @return bool
+     * @throws Exception
+     */
+    public static function validateEventType($type)
+    {
+        if (array_key_exists($type, self::getTypeDescriptionMap())) {
+
+            return true;
+        }
+
+        throw new Exception('Event Type [' . $type . '] does not exist');
+    }
+
+
 }

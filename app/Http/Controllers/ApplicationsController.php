@@ -16,6 +16,7 @@ use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
+use App\Basket\ApplicationEvent\ApplicationEventHelper;
 
 /**
  * Class ApplicationsController
@@ -83,13 +84,11 @@ class ApplicationsController extends Controller
     public function show($installation, $id)
     {
         $application = $this->fetchApplicationById($id, $installation);
-        $events = ApplicationEvent::where('application_id', $application->id)->orderByRaw('created_at ASC, id ASC')->get();
 
         return view(
             'applications.show',
             [
                 'applications' => $application,
-                'applicationEvents' => $events,
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),

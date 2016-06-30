@@ -112,7 +112,7 @@ class InitialisationController extends Controller
     {
         if($request->has('link')) {
 
-            ApplicationEventHelper::appendEvent($application, ApplicationEvent::TYPE_LINK);
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
 
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
@@ -120,7 +120,7 @@ class InitialisationController extends Controller
             );
         }
 
-        ApplicationEventHelper::appendEvent($application, ApplicationEvent::TYPE_INSTORE);
+        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
 
         return redirect($application->ext_resume_url);
     }
