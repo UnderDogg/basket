@@ -14,7 +14,7 @@ use App\User;
  * @property int $application_id
  * @property int $type
  * @property string $description
- * @property string $metadata
+ * @property int $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property User|null $user
@@ -105,6 +105,4 @@ class ApplicationEvent extends Model
 
         throw new Exception('Event Type [' . $type . '] does not exist');
     }
-
-
 }

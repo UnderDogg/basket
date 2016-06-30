@@ -23,12 +23,11 @@ class ApplicationEventHelper
      * @param Application $application
      * @param             $type
      * @param User|null   $user
-     * @param array       $metadata
      * @param null        $description
      *
      * @throws Exception
      */
-    public static function addEvent(Application $application, $type, User $user = null, $metadata = [], $description = null)
+    public static function addEvent(Application $application, $type, User $user = null, $description = null)
     {
         ApplicationEvent::validateEventType($type);
 
