@@ -265,6 +265,18 @@
                                         </div>
                                     @endif
 
+                                    <div class="col-sm-12 col-lg-12 col-xs-12 well custom-deposit-container" style="margin-top: 30px;padding-top:30px;">
+
+                                        <h1>Deposit Amount</h1>
+                                        £MIN <input id="deposit-range-{{ $k }}-{{ $l }}" type="range" style="width: 75%; float: left;"> £MAX
+
+                                        {!! Form::text('amount', number_format($product['credit_info']['deposit_amount']/100, 2), ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+
+                                    </div>
+
+
+
+
                                     @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
 
                                         @if(count($bitwise->explode()) == 1)<div class="col-sm-12 col-xs-12">@endif
@@ -310,6 +322,7 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/rangeslider.min.js"></script>
     <script>
         $('li').click(function() {
             var prod = $(this).find('a').attr('aria-controls');
@@ -331,4 +344,8 @@
     </script>
 </div>
 </body>
+@endsection
+
+@section('stylesheets')
+    <link rel="stylesheet" href="/css/rangeslider.css">
 @endsection
