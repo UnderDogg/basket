@@ -64,18 +64,12 @@ class InitialisationController extends Controller
                 'amount' => 'required|integer',
                 'group' => 'required',
                 'product' => 'required',
-                'reference' => 'sometimes|min:6',
+                'reference' => 'required|min:6',
             ]
         );
 
         $location = $this->fetchLocation($locationId);
         $requester = Auth::user()->id;
-
-        if($request->has('reference')) {
-            $reference = $request->get('reference');
-        } else {
-            $reference = $this->generateOrderReferenceFromLocation($location);
-        }
 
         try {
             return $this->requestType(
@@ -83,7 +77,7 @@ class InitialisationController extends Controller
                 $request,
                 $this->applicationSynchronisationService->initialiseApplication(
                     $location->installation->id,
-                    $reference,
+                    $request->get('reference'),
                     $request->get('amount'),
                     'Goods & Services',
                     $location->installation->validity,
@@ -93,7 +87,6 @@ class InitialisationController extends Controller
                     $requester
                 ));
         } catch (\Exception $e) {
-
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         }
@@ -155,7 +148,8 @@ class InitialisationController extends Controller
                 ),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
-                'bitwise' => Bitwise::make($location->installation->finance_offers)
+                'bitwise' => Bitwise::make($location->installation->finance_offers),
+                'reference' => $this->generateOrderReferenceFromLocation($location),
             ]
         );
     }
