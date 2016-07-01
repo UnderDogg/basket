@@ -10,6 +10,9 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\ApplicationEvent;
+use App\Basket\ApplicationEvent\ApplicationEventHelper;
+use App\Basket\Installation;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
@@ -100,17 +103,26 @@ class InitialisationController extends Controller
     public function requestType(Location $location, Request $request, Application $application)
     {
         if($request->has('link')) {
+
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
+
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
                 'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
             );
         }
+
         if($request->has('email')) {
+
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
+
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id . '#emailTab',
                 'Successfully created an Application.'
             );
         }
+
+        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
 
         return redirect($application->ext_resume_url);
     }
