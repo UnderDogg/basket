@@ -268,9 +268,9 @@
                                     <div class="col-sm-12 col-lg-12 col-xs-12 well custom-deposit-container" style="margin-top: 30px;padding-top:30px;">
 
                                         <h1>Deposit Amount</h1>
-                                        £MIN <input id="deposit-range-{{ $k }}-{{ $l }}" type="range" style="width: 75%; float: left;"> £MAX
+                                        £MIN <input class="deposit-range" data-product="{{ $product }}" data-group="{{ $group }}"  type="range" style="width: 75%; float: left;"> £MAX
 
-                                        {!! Form::text('amount', number_format($product['credit_info']['deposit_amount']/100, 2), ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                                        {!! Form::text('amount', 1000, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
 
                                     </div>
 
@@ -323,6 +323,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/rangeslider.min.js"></script>
+    <script src="/js/custom-deposit.main.js"></script>
     <script>
         $('li').click(function() {
             var prod = $(this).find('a').attr('aria-controls');
