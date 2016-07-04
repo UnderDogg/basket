@@ -27,20 +27,32 @@ function depositValueHasChanged(changedElement, isSlider){
 
     $('#pay-today').html('Pay Today £' + changedElement.value + '.00');
 
-    fetchUpdatedCreditInformation($(changedElement).data('product'), changedElement.value);
+    fetchUpdatedCreditInformation(
+        $(changedElement).data('product'),
+        changedElement.value * 100,
+        $(changedElement).data('orderamt') * 100,
+        $(changedElement).data('installation')
+    );
 }
 
-function fetchUpdatedCreditInformation(product, deposit){
+function fetchUpdatedCreditInformation(product, deposit, orderAmount, installation){
     $.ajax(
         {
             type: "POST",
-            url: "https://basket.dev/ajax/products/BNPL-06/get-credit-info",
-            data: {},
+            url: "https://basket.dev/ajax/installations/" + installation + "/products/" + product + "/get-credit-info",
+            beforeSend: function( xhr ) {
+                xhr.overrideMimeType('Content-Type: application/json');
+            },
+            data: {
+                deposit: deposit,
+                order_amount: orderAmount
+            },
             dataType: "JSON",
             success: function(response){
-                console.log(response);
+                updateFinanceOfferFields(response, product);
             },
-            error: function(){
+            error: function(response){
+                console.log("Error Encountered: " + JSON.parse(response.responseText).error);
                 swal(
                     {
                         title: "An Error Occured!",
@@ -49,8 +61,8 @@ function fetchUpdatedCreditInformation(product, deposit){
                         showCancelButton: false,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Refresh",
-                        closeOnConfirm: false }
-                    ,
+                        closeOnConfirm: false
+                    },
                     function(){
                         location.reload();
                     }
@@ -60,6 +72,30 @@ function fetchUpdatedCreditInformation(product, deposit){
     );
 }
 
-function updateDataFromCalculationResponse(responseData){
-    swal('updated');
+function updateFinanceOfferFields(response, product){
+    console.log(response, product);
+
+    fields = $('#prod-' + product + ' [data-ajaxfield]');
+
+    $(fields).each(function(index, element){
+        // This is the field.
+
+        console.log(element);
+
+        ajaxField = $(element).data('ajaxfield');
+
+        console.log("Filling element " + ajaxField + " with response data " + response[ajaxField]);
+
+        switch($(element).data('fieldtype')){
+            case 'currency':
+                updateFinancialField($(element), parseFloat(response[ajaxField]));
+                break;
+        }
+    });
+}
+
+function updateFinancialField(field, amount){
+    console.log('Filling financial field');
+
+    field.html((amount / 100));
 }

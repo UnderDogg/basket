@@ -151,7 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/confirm', 'InitialisationController@confirm');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
 
-        Route::post('ajax/products/{product}/get-credit-info', 'AjaxController@getCreditInformationForProduct');
+        Route::post('ajax/installations/{installation}/products/{product}/get-credit-info', 'AjaxController@getCreditInformationForProduct');
     });
 
     /*

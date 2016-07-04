@@ -89,16 +89,16 @@
                                         <div class="row text-center">
 
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #29abe1; color: white;">
-                                                <h2 id="loan-amount" data-ajaxfield="loan-amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
+                                                <h2 id="loan-amount" data-fieldtype="currency" data-ajaxfield="loan-amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #39b549; color: white;">
-                                                <h2 data-ajaxfield="monthly-payment">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="monthly-payment">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2 data-ajaxfield="loan-cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan-cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
-                                                <h2 data-ajaxfield="loan-repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan-repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
                                             </div>
 
                                         </div>
@@ -109,15 +109,15 @@
                                                 <tbody>
                                                 <tr>
                                                     <th style="width: 50%;">Order Value</th>
-                                                    <td data-ajaxfield="credit_info.promotional.order_amount">&pound;{{ number_format($product['credit_info']['promotional']['order_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="order_amount">&pound;{{ number_format($product['credit_info']['promotional']['order_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Deposit</th>
-                                                    <td data-ajaxfield="credit_info.promotional.deposit_amount">&pound;{{ number_format($product['credit_info']['promotional']['deposit_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['promotional']['deposit_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Loan Amount</th>
-                                                    <td data-ajaxfield="credit_info.promotional.loan_amount">&pound;{{ number_format($product['credit_info']['promotional']['loan_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['promotional']['loan_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Pay By</th>
@@ -125,11 +125,11 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Settlement Fee</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['customer_settlement_fee']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="customer_settlement_fee">&pound;{{ number_format($product['credit_info']['customer_settlement_fee']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Cost</th>
-                                                    <td data-ajaxfield="total_cost">&pound;{{ number_format(($product['credit_info']['promotional']['deposit_amount'] + $product['credit_info']['promotional']['loan_amount'] + $product['credit_info']['promotional']['customer_settlement_fee'])/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format(($product['credit_info']['promotional']['deposit_amount'] + $product['credit_info']['promotional']['loan_amount'] + $product['credit_info']['promotional']['customer_settlement_fee'])/100, 2) }}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -139,27 +139,27 @@
                                                 <tbody>
                                                 <tr>
                                                     <th style="width: 50%;">Order Value</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="order_amount">&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Loan Amount</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Monthly Payment</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield=payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>No of Payments</th>
-                                                    <td>{{ $product['credit_info']['payments'] }}</td>
+                                                    <td data-fieldtype="number" data-ajaxfield="payments">{{ $product['credit_info']['payments'] }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Payment Start</th>
-                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y')}}</td>
+                                                    <td data-fieldtype="date-end" data-ajaxfield="payment_start">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y')}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Payment Ends</th>
-                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->addMonths($product['credit_info']['payments'])->format('D jS M Y')}}</td>
+                                                    <td data-fieldtype="date-end" data-ajaxfield="order_amount">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->addMonths($product['credit_info']['payments'])->format('D jS M Y')}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -271,8 +271,8 @@
 
                                         <h1>Deposit Amount</h1>
 
-                                        £MIN <input class="deposit-range" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" type="range" style="width: 75%; float: left;" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}"> £MAX
-                                        <input class="deposit-input" data-product="{{ \App\Basket\Helpers\CustomDepositHelper::getProductId($product) }}" data-group="{{ \App\Basket\Helpers\CustomDepositHelper::getProductGroup($product) }}" type="number" step="1" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}">
+                                        £MIN <input class="deposit-range" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" type="range" style="width: 75%; float: left;" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}"> £MAX
+                                        <input class="deposit-input" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ \App\Basket\Helpers\CustomDepositHelper::getProductId($product) }}" data-group="{{ \App\Basket\Helpers\CustomDepositHelper::getProductGroup($product) }}" type="number" step="1" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}">
 
                                     </div>
 

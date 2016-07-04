@@ -42,4 +42,9 @@ class CustomDepositHelper
     {
         return $product['credit_info']['deposit_range']['maximum_amount']/100;
     }
+
+    public static function getOrderAmount(array $product)
+    {
+        return $product['credit_info']['order_amount']/100;
+    }
 }
