@@ -197,8 +197,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
+     * @param null $deposit
      * @return Application
-     * @throws Exception
      */
     public function initialiseApplication(
         $installationId,
@@ -209,38 +209,41 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $productGroup,
         array $productOptions,
         $location,
-        $requester
+        $requester,
+        $deposit = null
     ) {
         $installation = $this->fetchInstallationLocalObject($installationId);
 
-        $application = ApplicationEntity::make(
-            [
-                'installation' => $installation->ext_id,
-                'order' => [
-                    'reference' => $reference,
-                    'amount' => (int) $amount,
-                    'description' => $description,
-                    'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
-                ],
-                'products' => [
-                    'group' => $productGroup,
-                    'options' => $productOptions,
-                ],
-                'fulfilment' => [
-                    'method' => 'collection',
-                    'location' => $location->reference,
-                ],
-            ]
-        );
+        $applicationParams = [
+            'installation' => $installation->ext_id,
+            'order' => [
+                'reference' => $reference,
+                'amount' => (int) $amount,
+                'description' => $description,
+                'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
+            ],
+            'products' => [
+                'group' => $productGroup,
+                'options' => $productOptions,
+            ],
+            'fulfilment' => [
+                'method' => 'collection',
+                'location' => $location->reference,
+            ],
+        ];
+
+        if(!is_null($deposit)) {
+            $applicationParams = $this->addDepositToApplication($applicationParams, $deposit);
+        }
 
         $this->logInfo(
             'IniApp: Application reference[' . $reference . '] ready to be initialised',
-            ['application' => $application->toArray()]
+            ['application' => $applicationParams]
         );
 
         try {
             $newApplication = $this->applicationGateway->initialiseApplication(
-                $application,
+                ApplicationEntity::make($applicationParams),
                 $installation->merchant->token
             );
 
@@ -260,6 +263,24 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $this->logError('IniApp: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
+    }
+
+    /**
+     * @author EB
+     * @param $application
+     * @param $deposit
+     * @return array
+     */
+    private function addDepositToApplication($application, $deposit)
+    {
+        return array_merge_recursive(
+            $application,
+            [
+                'order' => [
+                    'deposit_amount' => $deposit
+                ]
+            ]
+        );
     }
 
     /**
