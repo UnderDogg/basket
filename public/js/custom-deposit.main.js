@@ -39,7 +39,7 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
     $.ajax(
         {
             type: "POST",
-            url: "https://basket.dev/ajax/installations/" + installation + "/products/" + product + "/get-credit-info",
+            url: "/ajax/installations/" + installation + "/products/" + product + "/get-credit-info",
             beforeSend: function( xhr ) {
                 xhr.overrideMimeType('Content-Type: application/json');
             },
@@ -55,7 +55,7 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
                 console.log("Error Encountered: " + JSON.parse(response.responseText).error);
                 swal(
                     {
-                        title: "An Error Occured!",
+                        title: "An Error Occurred!",
                         text: "We were unable to recalculate information for the requested order. Please refresh the page.",
                         type: "error",
                         showCancelButton: false,
@@ -88,7 +88,7 @@ function updateFinanceOfferFields(response, product){
 
         switch($(element).data('fieldtype')){
             case 'currency':
-                updateFinancialField($(element), parseFloat(response[ajaxField]));
+                updateFinancialField($(element), response[ajaxField]);
                 break;
         }
     });
@@ -97,5 +97,5 @@ function updateFinanceOfferFields(response, product){
 function updateFinancialField(field, amount){
     console.log('Filling financial field');
 
-    field.html((amount / 100));
+    field.html('£' + (amount / 100).toFixed(2));
 }
