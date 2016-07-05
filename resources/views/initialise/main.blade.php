@@ -155,11 +155,11 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Payment Start</th>
-                                                    <td data-fieldtype="date-end" data-ajaxfield="payment_start">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y')}}</td>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->format('D jS M Y')}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Payment Ends</th>
-                                                    <td data-fieldtype="date-end" data-ajaxfield="order_amount">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->addMonths($product['credit_info']['payments'])->format('D jS M Y')}}</td>
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $product['credit_info']['payment_start_iso'])->addMonths($product['credit_info']['payments'])->format('D jS M Y')}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -267,13 +267,12 @@
 
                                     @if( CustomDepositHelper::shouldDisplaySlider($product) )
 
-                                    <div class="col-sm-12 col-lg-12 col-xs-12 well custom-deposit-container" style="margin-top: 30px;padding-top:30px;">
+                                    <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
 
                                         <h1>Deposit Amount</h1>
 
-                                        £MIN <input class="deposit-range" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" type="range" style="width: 75%; float: left;" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}"> £MAX
-                                        <input class="deposit-input" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ \App\Basket\Helpers\CustomDepositHelper::getProductId($product) }}" data-group="{{ \App\Basket\Helpers\CustomDepositHelper::getProductGroup($product) }}" type="number" step="1" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}">
-
+                                        <label for="deposit">Deposit:</label>
+                                        <input type="range" name="deposit" id="deposit" data-ajaxfield="deposit_amount" data-highlight="true" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}">
                                     </div>
 
                                 @endif
