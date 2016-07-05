@@ -90,6 +90,9 @@ function updateFinanceOfferFields(response, product){
             case 'currency':
                 updateFinancialField($(element), response[ajaxField]);
                 break;
+            default:
+                updateSubmitCurrencyField($(element), response[ajaxField]);
+                break;
         }
     });
 }
@@ -98,4 +101,11 @@ function updateFinancialField(field, amount){
     console.log('Filling financial field');
 
     field.html('£' + (amount / 100).toFixed(2));
+}
+
+function updateSubmitCurrencyField(field, value){
+    console.log('Filling a submit field');
+
+    field.html(value);
+    field.attr('value', (value / 100).toFixed(2));
 }
