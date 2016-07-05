@@ -48,7 +48,7 @@ class AjaxController extends Controller
                 $product,
                 $inst->merchant->token,
                 [
-                    'deposit' => $request->input('deposit'),
+                    'deposit_amount' => $request->input('deposit'),
                     'order_amount' => $request->input('order_amount'),
                 ]
             );
