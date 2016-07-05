@@ -89,16 +89,16 @@
                                         <div class="row text-center">
 
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #29abe1; color: white;">
-                                                <h2 id="loan-amount" data-fieldtype="currency" data-ajaxfield="loan-amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
+                                                <h2 id="loan-amount" data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #39b549; color: white;">
-                                                <h2 data-fieldtype="currency" data-ajaxfield="monthly-payment">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2 data-fieldtype="currency" data-ajaxfield="loan-cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
-                                                <h2 data-fieldtype="currency" data-ajaxfield="loan-repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
                                             </div>
 
                                         </div>
@@ -147,7 +147,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Monthly Payment</th>
-                                                    <td data-fieldtype="currency" data-ajaxfield=payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>No of Payments</th>
@@ -169,19 +169,19 @@
                                                 <tbody>
                                                 <tr>
                                                     <th>Total Cost of Credit</th>
-                                                    <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                    <td style="width: 50%;" data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Repayable</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Deposit</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Cost</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Interest Rate</th>
@@ -200,15 +200,15 @@
                                                 <tbody>
                                                 <tr>
                                                     <th style="width: 50%;">Order Value</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="order_amount">&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Loan Amount</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Monthly Payment</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>No of Payments</th>
@@ -230,27 +230,27 @@
                                                 <tbody>
                                                 <tr>
                                                     <th>Total Cost of Credit</th>
-                                                    <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                    <td style="width: 50%;" data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Repayable</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 @if($product['credit_info']['amount_service'] > 0)
                                                     <tr>
                                                         <th>Service Fee</th>
-                                                        <td>&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
+                                                        <td data-fieldtype="currency" data-ajaxfield="amount_service">&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
                                                     </tr>
                                                 @endif
                                                 @if($product['credit_info']['deposit_amount'] > 0)
                                                     <tr>
                                                         <th>Deposit</th>
-                                                        <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                        <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                                     </tr>
                                                 @endif
                                                 <tr>
                                                     <th>Total Cost</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Interest Rate</th>
