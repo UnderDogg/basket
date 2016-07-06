@@ -199,6 +199,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param int $requester
      * @param null $deposit
      * @return Application
+     * @throws Exception
      */
     public function initialiseApplication(
         $installationId,
@@ -221,6 +222,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 'amount' => (int) $amount,
                 'description' => $description,
                 'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
+                'deposit_amount' => $deposit,
             ],
             'products' => [
                 'group' => $productGroup,
@@ -232,18 +234,16 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             ],
         ];
 
-        if(!is_null($deposit)) {
-            $applicationParams = $this->addDepositToApplication($applicationParams, $deposit);
-        }
+        $application = ApplicationEntity::make($applicationParams);
 
         $this->logInfo(
             'IniApp: Application reference[' . $reference . '] ready to be initialised',
-            ['application' => $applicationParams]
+            ['application' => $application->toArray()]
         );
 
         try {
             $newApplication = $this->applicationGateway->initialiseApplication(
-                ApplicationEntity::make($applicationParams),
+                $application,
                 $installation->merchant->token
             );
 
@@ -263,24 +263,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $this->logError('IniApp: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
-    }
-
-    /**
-     * @author EB
-     * @param $application
-     * @param $deposit
-     * @return array
-     */
-    private function addDepositToApplication($application, $deposit)
-    {
-        return array_merge_recursive(
-            $application,
-            [
-                'order' => [
-                    'deposit_amount' => $deposit
-                ]
-            ]
-        );
     }
 
     /**
