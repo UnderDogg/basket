@@ -270,9 +270,15 @@
                                     <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
 
                                         <h1>Deposit Amount</h1>
-
-                                        <label for="deposit">Deposit:</label>
-                                        <input type="range" name="deposit" id="deposit" data-ajaxfield="deposit_amount" data-highlight="true" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}">
+                                        <div class="col-sm-2 col-xs-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">&pound;</div>
+                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 col-xs-12">
+                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}">
+                                        </div>
                                     </div>
 
                                 @endif
@@ -316,6 +322,9 @@
         @endif
 
     </div>
+    <div class="container loading-container">
+        <button class="btn btn-lg btn-info"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
+    </div>
 </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
@@ -323,7 +332,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/custom-deposit.main.js"></script>
-    <script src="/js/rangeslider.min.js"></script>
     <script src="/js/sweetalert.min.js"></script>
 
     <script>
@@ -343,13 +351,13 @@
         $('.initialiseForm').submit(function() {
             var reference = $('#extraInformation').find("input[name='reference']").val();
             $(this).find("input[name='reference']").attr('value', reference);
-        })
+        });
     </script>
+
 </div>
 </body>
 @endsection
 
 @section('stylesheets')
     <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
-    <link rel="stylesheet" href="/css/rangeslider.css">
 @endsection
