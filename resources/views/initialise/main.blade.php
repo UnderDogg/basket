@@ -265,7 +265,7 @@
                                         </div>
                                     @endif
 
-                                    @if( CustomDepositHelper::shouldDisplaySlider($product) )
+                                    @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
 
                                     <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
 
@@ -273,11 +273,11 @@
                                         <div class="col-sm-2 col-xs-12">
                                             <div class="input-group">
                                                 <div class="input-group-addon">&pound;</div>
-                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}">
+                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-10 col-xs-12">
-                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-orderamt="{{ CustomDepositHelper::getOrderAmount($product) }}" data-installation="{{ $location->installation->id }}" data-product="{{ CustomDepositHelper::getProductId($product) }}" data-group="{{ CustomDepositHelper::getProductId($product) }}" value="{{ \App\Basket\Helpers\CustomDepositHelper::getDepositAmount($product) }}" min="{{ \App\Basket\Helpers\CustomDepositHelper::getMinimumDeposit($product) }}" max="{{ \App\Basket\Helpers\CustomDepositHelper::getMaximumDeposit($product) }}">
+                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
                                         </div>
                                     </div>
 
