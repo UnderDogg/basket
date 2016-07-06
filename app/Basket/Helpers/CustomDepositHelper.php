@@ -17,6 +17,11 @@ namespace App\Basket\Helpers;
  */
 class CustomDepositHelper
 {
+    /**
+     * @author SL
+     * @param array $product
+     * @return bool
+     */
     public static function shouldDisplaySlider(array $product)
     {
         return (
@@ -25,31 +30,61 @@ class CustomDepositHelper
         );
     }
 
+    /**
+     * @author SL
+     * @param array $product
+     * @return mixed
+     */
     public static function getProductId(array $product)
     {
         return $product['id'];
     }
 
+    /**
+     * @author SL
+     * @param array $product
+     * @return mixed
+     */
     public static function getProductGroup(array $product)
     {
         return $product['product_group'];
     }
 
+    /**
+     * @author SL
+     * @param array $product
+     * @return float
+     */
     public static function getDepositAmount(array $product)
     {
         return $product['credit_info']['deposit_amount']/100;
     }
 
+    /**
+     * @author SL
+     * @param array $product
+     * @return float
+     */
     public static function getMinimumDeposit(array $product)
     {
         return $product['credit_info']['deposit_range']['minimum_amount']/100;
     }
 
+    /**
+     * @author SL
+     * @param array $product
+     * @return float
+     */
     public static function getMaximumDeposit(array $product)
     {
         return $product['credit_info']['deposit_range']['maximum_amount']/100;
     }
 
+    /**
+     * @author SL
+     * @param array $product
+     * @return float
+     */
     public static function getOrderAmount(array $product)
     {
         return $product['credit_info']['order_amount']/100;
