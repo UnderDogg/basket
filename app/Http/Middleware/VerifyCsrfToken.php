@@ -14,7 +14,6 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'push/*',
-        'ajax/*'
     ];
 
     /**

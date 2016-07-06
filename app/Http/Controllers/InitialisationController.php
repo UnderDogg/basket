@@ -71,7 +71,7 @@ class InitialisationController extends Controller
         $requester = Auth::user()->id;
 
         $deposit = $request->has('deposit') ? ($request->get('deposit') * 100) : $request->get('deposit');
-        
+
         try {
             return $this->requestType(
                 $location,

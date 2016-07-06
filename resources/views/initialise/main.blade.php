@@ -273,11 +273,11 @@
                                         <div class="col-sm-2 col-xs-12">
                                             <div class="input-group">
                                                 <div class="input-group-addon">&pound;</div>
-                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-10 col-xs-12">
-                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
                                         </div>
                                     </div>
 

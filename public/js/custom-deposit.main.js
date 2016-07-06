@@ -4,8 +4,6 @@
 
 $(document).ready(function(){
 
-    console.log('Sliders initialising.');
-    // Initialise the range sliders
     $('input[type="range"]').on('change', function() {
         depositValueHasChanged(this);
     });
@@ -17,9 +15,6 @@ $(document).ready(function(){
 });
 
 function depositValueHasChanged(changedElement){
-
-    console.log('Updating fields');
-
     // Update all field values
     $('input[data-product="'+$(changedElement).data('product')+'"').each(function(index){
         $(this).val(changedElement.value);
@@ -31,7 +26,8 @@ function depositValueHasChanged(changedElement){
         $(changedElement).data('product'),
         changedElement.value * 100,
         $(changedElement).data('orderamt') * 100,
-        $(changedElement).data('installation')
+        $(changedElement).data('installation'),
+        $(changedElement).data('token')
     );
 }
 
@@ -43,7 +39,7 @@ function hideLoading() {
     $('.loading-container').hide();
 }
 
-function fetchUpdatedCreditInformation(product, deposit, orderAmount, installation){
+function fetchUpdatedCreditInformation(product, deposit, orderAmount, installation, token){
     $.ajax(
         {
             type: "POST",
@@ -53,12 +49,13 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
                 showLoading();
             },
             data: {
+                _token: token,
                 deposit: deposit,
                 order_amount: orderAmount
             },
             dataType: "JSON",
             success: function(response){
-                $('.loading-container').hide();
+                hideLoading();
                 updateFinanceOfferFields(response, product);
             },
             error: function(response){
@@ -74,31 +71,23 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
                         closeOnConfirm: false
                     },
                     function(){
-                        $('.loading-container').hide();
+                        hideLoading();
                         location.reload();
                     }
                 );
             },
             complete: function() {
-                $('.loading-container').hide();
+                hideLoading();
             }
         }
     );
 }
 
 function updateFinanceOfferFields(response, product){
-    console.log(response, product);
-
     fields = $('#prod-' + product + ' [data-ajaxfield]');
 
     $(fields).each(function(index, element){
-        // This is the field.
-
-        console.log(element);
-
         ajaxField = $(element).data('ajaxfield');
-
-        console.log("Filling element " + ajaxField + " with response data " + response[ajaxField]);
 
         switch($(element).data('fieldtype')){
             case 'currency':
@@ -112,14 +101,10 @@ function updateFinanceOfferFields(response, product){
 }
 
 function updateFinancialField(field, amount){
-    console.log('Filling financial field');
-
     field.html('£' + (amount / 100).toFixed(2));
 }
 
 function updateSubmitCurrencyField(field, value){
-    console.log('Filling a submit field');
-
     field.html(value);
     field.attr('value', (value / 100).toFixed(2));
 }
