@@ -67,8 +67,6 @@ class InitialisationController extends Controller
             ]
         );
 
-
-
         $location = $this->fetchLocation($locationId);
         $requester = Auth::user()->id;
 
