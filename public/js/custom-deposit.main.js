@@ -6,24 +6,24 @@ $(document).ready(function(){
 
     console.log('Sliders initialising.');
     // Initialise the range sliders
-    $('input[type="range"]').rangeslider().on('change', function() {
+    $('input[type="range"]').on('change', function() {
         depositValueHasChanged(this);
     });
 
-    $('input.deposit-input').on('change', function() {
+    $('input[name="deposit"]').on('change', function() {
         depositValueHasChanged(this);
     });
 
 });
 
-function depositValueHasChanged(changedElement, isSlider){
+function depositValueHasChanged(changedElement){
 
     console.log('Updating fields');
 
     // Update all field values
     $('input[data-product="'+$(changedElement).data('product')+'"').each(function(index){
         $(this).val(changedElement.value);
-    })
+    });
 
     $('#pay-today').html('Pay Today £' + changedElement.value + '.00');
 
@@ -35,6 +35,14 @@ function depositValueHasChanged(changedElement, isSlider){
     );
 }
 
+function showLoading() {
+    $('.loading-container').show();
+}
+
+function hideLoading() {
+    $('.loading-container').hide();
+}
+
 function fetchUpdatedCreditInformation(product, deposit, orderAmount, installation){
     $.ajax(
         {
@@ -42,6 +50,7 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
             url: "/ajax/installations/" + installation + "/products/" + product + "/get-credit-info",
             beforeSend: function( xhr ) {
                 xhr.overrideMimeType('Content-Type: application/json');
+                showLoading();
             },
             data: {
                 deposit: deposit,
@@ -49,6 +58,7 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
             },
             dataType: "JSON",
             success: function(response){
+                $('.loading-container').hide();
                 updateFinanceOfferFields(response, product);
             },
             error: function(response){
@@ -64,9 +74,13 @@ function fetchUpdatedCreditInformation(product, deposit, orderAmount, installati
                         closeOnConfirm: false
                     },
                     function(){
+                        $('.loading-container').hide();
                         location.reload();
                     }
                 );
+            },
+            complete: function() {
+                $('.loading-container').hide();
             }
         }
     );
