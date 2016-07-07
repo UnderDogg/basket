@@ -206,7 +206,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param int|null $deposit
      * @return Application
      * @throws Exception
-     * @internal param null $deposit
      */
     public function initialiseApplication(
         $installationId,
