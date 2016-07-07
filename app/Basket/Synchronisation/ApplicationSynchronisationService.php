@@ -202,9 +202,11 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
-     * @param null $deposit
+     * @param ApplicantEntity $applicantEntity
+     * @param int|null $deposit
      * @return Application
      * @throws Exception
+     * @internal param null $deposit
      */
     public function initialiseApplication(
         $installationId,
@@ -216,6 +218,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         array $productOptions,
         $location,
         $requester,
+        ApplicantEntity $applicantEntity,
         $deposit = null
     ) {
         $installation = $this->fetchInstallationLocalObject($installationId);
@@ -237,6 +240,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 'method' => 'collection',
                 'location' => $location->reference,
             ],
+            'applicant' => $applicantEntity->toArray(),
         ];
 
         $application = ApplicationEntity::make($applicationParams);

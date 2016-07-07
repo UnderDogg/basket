@@ -18,6 +18,7 @@ use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use PayBreak\Foundation\Properties\Bitwise;
+use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 
 /**
  * Initialisation Controller
@@ -67,6 +68,13 @@ class InitialisationController extends Controller
                 'product' => 'required',
                 'reference' => 'required|min:6',
                 'deposit' => 'sometimes|integer',
+                'title' => 'sometimes|min:2|max:4',
+                'first_name' => 'sometimes',
+                'last_name' => 'sometimes',
+                'email' => 'sometimes|email',
+                'phone_home' => 'sometimes|max:11',
+                'phone_mobile' => 'sometimes|max:11',
+                'postcode' => 'sometimes|max:8',
             ]
         );
 
@@ -89,12 +97,31 @@ class InitialisationController extends Controller
                     [$request->get('product')],
                     $location,
                     $requester,
+                    $this->createApplicantEntity($request),
                     $deposit
                 ));
         } catch (\Exception $e) {
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         }
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @return ApplicantEntity
+     */
+    private function createApplicantEntity(Request $request)
+    {
+        return ApplicantEntity::make([
+            'title' => $request->get('title'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'email' => $request->get('email'),
+            'phone_home' => $request->get('phone_home'),
+            'phone_mobile' => $request->get('phone_mobile'),
+            'postcode' => $request->get('postcode'),
+        ]);
     }
 
     /**
