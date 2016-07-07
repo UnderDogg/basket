@@ -1290,16 +1290,16 @@
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "4.2.1",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
-                "reference": "bb565dd8d4ea3b5cd1b4a883ccadcb7f97c1f3de"
+                "reference": "6f9361cd8fe9f68c805daf344cb07b12a44759f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/bb565dd8d4ea3b5cd1b4a883ccadcb7f97c1f3de",
-                "reference": "bb565dd8d4ea3b5cd1b4a883ccadcb7f97c1f3de",
+                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/6f9361cd8fe9f68c805daf344cb07b12a44759f7",
+                "reference": "6f9361cd8fe9f68c805daf344cb07b12a44759f7",
                 "shasum": ""
             },
             "require": {
@@ -1327,7 +1327,7 @@
             "keywords": [
                 "paybreak"
             ],
-            "time": "2015-11-18 14:36:01"
+            "time": "2016-07-06 15:25:04"
         },
         {
             "name": "psr/http-message",
