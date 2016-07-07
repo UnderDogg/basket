@@ -202,6 +202,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param array $productOptions
      * @param string $location
      * @param int $requester
+     * @param null $deposit
      * @return Application
      * @throws Exception
      */
@@ -214,29 +215,31 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $productGroup,
         array $productOptions,
         $location,
-        $requester
+        $requester,
+        $deposit = null
     ) {
         $installation = $this->fetchInstallationLocalObject($installationId);
 
-        $application = ApplicationEntity::make(
-            [
-                'installation' => $installation->ext_id,
-                'order' => [
-                    'reference' => $reference,
-                    'amount' => (int) $amount,
-                    'description' => $description,
-                    'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
-                ],
-                'products' => [
-                    'group' => $productGroup,
-                    'options' => $productOptions,
-                ],
-                'fulfilment' => [
-                    'method' => 'collection',
-                    'location' => $location->reference,
-                ],
-            ]
-        );
+        $applicationParams = [
+            'installation' => $installation->ext_id,
+            'order' => [
+                'reference' => $reference,
+                'amount' => (int) $amount,
+                'description' => $description,
+                'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
+                'deposit_amount' => $deposit,
+            ],
+            'products' => [
+                'group' => $productGroup,
+                'options' => $productOptions,
+            ],
+            'fulfilment' => [
+                'method' => 'collection',
+                'location' => $location->reference,
+            ],
+        ];
+
+        $application = ApplicationEntity::make($applicationParams);
 
         $this->logInfo(
             'IniApp: Application reference[' . $reference . '] ready to be initialised',

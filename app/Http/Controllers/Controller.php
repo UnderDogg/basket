@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
@@ -152,6 +153,23 @@ abstract class Controller extends BaseController
     protected function fetchApplicationDetails($id)
     {
         return Application::where('ext_id', '=', $id)->first();
+    }
+
+    /**
+     * @author SL
+     * @param \Exception $e
+     * @return Response
+     */
+    protected function apiResponseFromException(\Exception $e)
+    {
+        $code = $e->getCode();
+
+        if (is_null($code) || $code === 0) {
+
+            $code = 500;
+        }
+
+        return (new Response(['error' => $e->getMessage()], $code))->header('Content-Type', 'json');
     }
 
     /**
