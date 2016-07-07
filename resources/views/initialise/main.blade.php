@@ -48,10 +48,58 @@
                 </button>
                 <div class="collapse" id="extraInformation">
                     <hr>
-                    <div class="form-group col-xs-12">
+                    <div class="form-group collapse-form-group col-xs-12">
                         {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
                         <div class="col-xs-10">
                             {!! Form::text('reference', $reference, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            <select class="form-control col-xs-12 collapse-form-input" name="title">
+                                <option disabled selected hidden>Please select...</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Ms">Ms</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::email('email', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('phone_home', 'Home Phone:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('phone_home', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('phone_mobile', 'Mobile Phone:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('postcode', 'Postcode:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('postcode', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                 </div>
@@ -310,6 +358,8 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src={!! asset('/formvalidation/dist/js/formValidation.min.js') !!}></script>
+    <script src={!! asset('/formvalidation/dist/js/framework/bootstrap.min.js') !!}></script>
     <script>
         $('li').click(function() {
             var prod = $(this).find('a').attr('aria-controls');
@@ -327,7 +377,76 @@
         $('.initialiseForm').submit(function() {
             var reference = $('#extraInformation').find("input[name='reference']").val();
             $(this).find("input[name='reference']").attr('value', reference);
-        })
+        });
+        $(document).ready(function() {
+            $('.form-inline').formValidation(
+                    {
+                        framework: 'bootstrap',
+                        icon: {
+                            valid: 'glyphicon glyphicon-ok',
+                            invalid: 'glyphicon glyphicon-remove',
+                            validating: 'glyphicon glyphicon-refresh'
+                        },
+                        fields: {
+                            title: {
+                                validators: {
+                                    stringLength: {
+                                        max: 4,
+                                        message: 'You must select a valid title'
+                                    }
+                                }
+                            },
+                            first_name: {
+                                validators: {
+                                    stringLength: {
+                                        max: 30,
+                                        message: 'The first name must not be greater than 30 characters'
+                                    }
+                                }
+                            },
+                            last_name: {
+                                validators: {
+                                    stringLength: {
+                                        max: 30,
+                                        message: 'The last name must not be greater than 30 characters'
+                                    }
+                                }
+                            },
+                            email: {
+                                validators: {
+                                    emailAddress: {},
+                                    stringLength: {
+                                        max: 255,
+                                        message: 'The email must not be greater than 255 characters'
+                                    }
+                                }
+                            },
+                            phone_home: {
+                                validators: {
+                                    phone: {
+                                        country: "GB"
+                                    }
+                                }
+                            },
+                            phone_mobile: {
+                                validators: {
+                                    phone: {
+                                        country: "GB"
+                                    }
+                                }
+                            },
+                            postcode: {
+                                validators: {
+                                    zipCode: {
+                                        country: 'GB',
+                                        message: 'The value is not valid %s postal code'
+                                    }
+                                }
+                            }
+                        }
+                    }
+            )
+        });
     </script>
 </div>
 </body>
