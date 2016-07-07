@@ -3,6 +3,7 @@
 - Added additional flow for sending `Email Applications` (120758677)
 - Added `Templates Controller` and ability to send emails stored in the database (120765999)
 - Added the ability for custom order reference (120758937)
+- Add `ApplicationEvent` logging functionality (120759393)
 
 # 1.4.0
 2016-06-20
