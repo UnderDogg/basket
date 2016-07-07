@@ -10,12 +10,14 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\ApplicationEvent;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
+use App\Basket\ApplicationEvent\ApplicationEventHelper;
 
 /**
  * Class ApplicationsController

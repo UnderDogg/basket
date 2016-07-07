@@ -75,6 +75,7 @@ use App\ExportableModelInterface;
  * @property string $ext_cancellation_description
  * @property int $ext_cancellation_fee_amount
  * @property string $ext_resume_url
+ * @property ApplicationEvent[] $applicationEvents
  *
  * @author MS
  * @package App\Basket
@@ -176,6 +177,15 @@ class Application extends Model implements ExportableModelInterface
     public function location()
     {
         return $this->belongsTo('App\Basket\Location');
+    }
+
+    /**
+     * @author SL
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function applicationEvents()
+    {
+        return $this->hasMany('App\Basket\ApplicationEvent');
     }
 
     /**
