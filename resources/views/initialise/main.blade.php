@@ -337,7 +337,17 @@
                                     {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
                                     {!! Form::hidden('pay_today', $product['credit_info']['deposit_amount'] + $product['credit_info']['amount_service'], ['class' => 'pay_today']) !!}
+
+                                    <!-- Extra Fields -->
                                     {!! Form::hidden('reference', '') !!}
+                                    {!! Form::hidden('title', null) !!}
+                                    {!! Form::hidden('first_name', null) !!}
+                                    {!! Form::hidden('last_name', null) !!}
+                                    {!! Form::hidden('email', null) !!}
+                                    {!! Form::hidden('phone_home', null) !!}
+                                    {!! Form::hidden('phone_mobile', null) !!}
+                                    {!! Form::hidden('postcode', null) !!}
+                                    <!-- End Extra Fields -->
 
                                 {!! Form::close() !!}
                             </div>
@@ -375,8 +385,11 @@
             }
         });
         $('.initialiseForm').submit(function() {
-            var reference = $('#extraInformation').find("input[name='reference']").val();
-            $(this).find("input[name='reference']").attr('value', reference);
+            var fields = ['reference', 'title', 'first_name', 'last_name', 'email', 'phone_home', 'phone_mobile', 'postcode'];
+            fields.forEach(function(index) {
+                var value = $('#extraInformation').find("input[name="+index+"]").val();
+                $('.initialiseForm').find("input[name="+index+"]").attr('value', value);
+            });
         });
         $(document).ready(function() {
             $('.form-inline').formValidation(
