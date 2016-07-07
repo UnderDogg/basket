@@ -66,11 +66,14 @@ class InitialisationController extends Controller
                 'group' => 'required',
                 'product' => 'required',
                 'reference' => 'required|min:6',
+                'deposit' => 'sometimes|integer',
             ]
         );
 
         $location = $this->fetchLocation($locationId);
         $requester = Auth::user()->id;
+
+        $deposit = $request->has('deposit') ? ($request->get('deposit') * 100) : $request->get('deposit');
 
         try {
             return $this->requestType(
@@ -85,7 +88,8 @@ class InitialisationController extends Controller
                     $request->get('group'),
                     [$request->get('product')],
                     $location,
-                    $requester
+                    $requester,
+                    $deposit
                 ));
         } catch (\Exception $e) {
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
