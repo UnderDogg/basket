@@ -424,6 +424,17 @@
                         validating: 'glyphicon glyphicon-refresh'
                     },
                     fields: {
+                        reference: {
+                            validators: {
+                                required: {
+                                    message: 'You must provide a reference'
+                                },
+                                stringLength: {
+                                    max: 40,
+                                    message: 'The reference must not be greater than 40 characters'
+                                }
+                            }
+                        },
                         title: {
                             validators: {
                                 stringLength: {
