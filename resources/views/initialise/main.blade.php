@@ -356,17 +356,6 @@
                                     {!! Form::hidden('group', $group['id']) !!}
                                     {!! Form::hidden('pay_today', $product['credit_info']['deposit_amount'] + $product['credit_info']['amount_service'], ['class' => 'pay_today']) !!}
 
-                                    <!-- Extra Fields -->
-                                    {!! Form::hidden('reference', '') !!}
-                                    {!! Form::hidden('title', null) !!}
-                                    {!! Form::hidden('first_name', null) !!}
-                                    {!! Form::hidden('last_name', null) !!}
-                                    {!! Form::hidden('email', null) !!}
-                                    {!! Form::hidden('phone_home', null) !!}
-                                    {!! Form::hidden('phone_mobile', null) !!}
-                                    {!! Form::hidden('postcode', null) !!}
-                                    <!-- End Extra Fields -->
-
                                 {!! Form::close() !!}
                             </div>
 
@@ -409,19 +398,25 @@
         });
         $('.initialiseForm').submit(function() {
             var fields = ['reference', 'title', 'first_name', 'last_name', 'email', 'phone_home', 'phone_mobile', 'postcode'];
-            fields.forEach(function(index) {
-                var value = $('#extraInformation').find("input[name="+index+"]").val();
-                $('.initialiseForm').find("input[name="+index+"]").attr('value', value);
+            fields.forEach(function(item) {
+                var value = $('#extraInformation').find("input[name="+item+"]").val();
+                if(value != '' && value != undefined) {
+                    var node = document.createElement('input');
+                    node.setAttribute('name', item);
+                    node.setAttribute('value', value);
+                    node.setAttribute('type', 'hidden');
+                    $('.initialiseForm').append(node);
+                }
             });
         });
         $(document).ready(function() {
-            $('.form-inline').formValidation(
+            $('#extraInformation').formValidation(
                 {
                     framework: 'bootstrap',
                     icon: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
+                        valid: '',
+                        invalid: '',
+                        validating: ''
                     },
                     fields: {
                         reference: {
