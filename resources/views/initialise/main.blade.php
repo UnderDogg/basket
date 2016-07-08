@@ -403,7 +403,7 @@
             }
         });
         $('.initialiseForm').submit(function() {
-            var fields = ['reference', 'description', 'title', 'first_name', 'last_name', 'email', 'phone_home', 'phone_mobile', 'postcode'];
+            var fields = ['reference', 'description', 'first_name', 'last_name', 'applicant_email', 'phone_home', 'phone_mobile', 'postcode'];
             fields.forEach(function(item) {
                 var value = $('#extraInformation').find("input[name="+item+"]").val();
                 if(value != '' && value != undefined) {
@@ -414,6 +414,12 @@
                     $('.initialiseForm').append(node);
                 }
             });
+            var title = $('#extraInformation').find("select[name='title']").find(":selected").text();
+            var node = document.createElement('input');
+            node.setAttribute('name', 'title');
+            node.setAttribute('value', title);
+            node.setAttribute('type', 'hidden');
+            $('.initialiseForm').append(node);
         });
         $(document).ready(function() {
             $('#extraInformation').formValidation(
@@ -433,6 +439,17 @@
                                 stringLength: {
                                     max: 40,
                                     message: 'The reference must not be greater than 40 characters'
+                                }
+                            }
+                        },
+                        description: {
+                            validators: {
+                                required: {
+                                    message: 'You must provide a description'
+                                },
+                                stringLength: {
+                                    max: 100,
+                                    message: 'The description must not be greater than 100 characters'
                                 }
                             }
                         },
