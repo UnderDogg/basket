@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -75,6 +76,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsTo('App\Role');
     }
 
+    /**
+     * @author EB
+     * @return Collection
+     */
     public function locations()
     {
         return $this->belongsToMany('App\Basket\Location');
