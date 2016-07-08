@@ -22,7 +22,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property        $created_at
  * @property        $updated_at
  * @property Role[]             $roles
- * @property Basket\Location[]  $locations
+ * @property Collection $locations
  *
  * @package App
  */
