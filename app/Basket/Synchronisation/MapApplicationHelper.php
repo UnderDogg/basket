@@ -56,12 +56,14 @@ class MapApplicationHelper
      * @param Application $application
      * @param OrderEntity $orderEntity
      */
-    private function mapOrder(Application $application, OrderEntity $orderEntity)
+    private function mapOrder(Application $application, OrderEntity $orderEntity = null)
     {
-        $application->ext_order_reference = $orderEntity->getReference();
-        $application->ext_order_amount = $orderEntity->getAmount();
-        $application->ext_order_description = $orderEntity->getDescription();
-        $application->ext_order_validity = $orderEntity->getValidity();
+        if ($orderEntity !== null) {
+            $application->ext_order_reference = $orderEntity->getReference();
+            $application->ext_order_amount = $orderEntity->getAmount();
+            $application->ext_order_description = $orderEntity->getDescription();
+            $application->ext_order_validity = $orderEntity->getValidity();
+        }
     }
 
     /**
@@ -69,7 +71,7 @@ class MapApplicationHelper
      * @param Application $application
      * @param ProductsEntity $productsEntity
      */
-    private function mapProducts(Application $application, ProductsEntity $productsEntity)
+    private function mapProducts(Application $application, ProductsEntity $productsEntity = null)
     {
         if ($productsEntity !== null) {
             $application->ext_products_options = json_encode($productsEntity->getOptions());
@@ -83,7 +85,7 @@ class MapApplicationHelper
      * @param Application $application
      * @param FulfilmentEntity $fulfilmentEntity
      */
-    private function mapFulfilment(Application $application, FulfilmentEntity $fulfilmentEntity)
+    private function mapFulfilment(Application $application, FulfilmentEntity $fulfilmentEntity = null)
     {
         if ($fulfilmentEntity !== null) {
             $application->ext_fulfilment_method = $fulfilmentEntity->getMethod();
