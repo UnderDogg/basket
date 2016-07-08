@@ -13,7 +13,6 @@ namespace App\Basket\Synchronisation;
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
-use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\Exception;
 use App\User;

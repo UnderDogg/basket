@@ -20,6 +20,7 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author EB
  * @package App\Basket\Email
  */
+
 class EmailApplicationService
 {
     use PsrLoggerTrait;
