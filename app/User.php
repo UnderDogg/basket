@@ -21,7 +21,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property string $remember_token
  * @property        $created_at
  * @property        $updated_at
- * @property Role[]             $roles
+ * @property Collection $roles
  * @property Collection $locations
  *
  * @package App
