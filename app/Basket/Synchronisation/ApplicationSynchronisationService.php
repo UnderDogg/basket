@@ -13,10 +13,14 @@ namespace App\Basket\Synchronisation;
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
+use App\Basket\Installation;
+use App\Basket\Location;
 use App\Exceptions\Exception;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use PayBreak\Sdk\Entities\Application\ProductsEntity;
 use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\Application\AddressEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
@@ -193,48 +197,25 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author WN, EB
-     * @param int $installationId
-     * @param string $reference
-     * @param int $amount
-     * @param string $description
-     * @param string $validity
-     * @param string $productGroup
-     * @param array $productOptions
-     * @param string $location
-     * @param int $requester
+     * @param Location $location
+     * @param OrderEntity $orderEntity
+     * @param ProductsEntity $productsEntity
      * @param ApplicantEntity $applicantEntity
-     * @param int|null $deposit
+     * @param User $requester
      * @return Application
      * @throws Exception
      */
     public function initialiseApplication(
-        $installationId,
-        $reference,
-        $amount,
-        $description,
-        $validity,
-        $productGroup,
-        array $productOptions,
-        $location,
-        $requester,
+        Location $location,
+        OrderEntity $orderEntity,
+        ProductsEntity $productsEntity,
         ApplicantEntity $applicantEntity,
-        $deposit = null
+        User $requester
     ) {
-        $installation = $this->fetchInstallationLocalObject($installationId);
-
         $applicationParams = [
-            'installation' => $installation->ext_id,
-            'order' => [
-                'reference' => $reference,
-                'amount' => (int) $amount,
-                'description' => $description,
-                'validity' => Carbon::now()->addSeconds($validity)->toDateTimeString(),
-                'deposit_amount' => $deposit,
-            ],
-            'products' => [
-                'group' => $productGroup,
-                'options' => $productOptions,
-            ],
+            'installation' => $location->installation->ext_id,
+            'order' => $orderEntity->toArray(),
+            'products' => $productsEntity->toArray(true),
             'fulfilment' => [
                 'method' => 'collection',
                 'location' => $location->reference,
@@ -245,24 +226,27 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $application = ApplicationEntity::make($applicationParams);
 
         $this->logInfo(
-            'IniApp: Application reference[' . $reference . '] ready to be initialised',
+            'IniApp: Application reference[' . $orderEntity->getReference() . '] ready to be initialised',
             ['application' => $application->toArray()]
         );
 
         try {
             $newApplication = $this->applicationGateway->initialiseApplication(
                 $application,
-                $installation->merchant->token
+                $location->installation->merchant->token
             );
 
             $this->logInfo(
-                'IniApp: Application reference[' . $reference . '] successfully initialised at provider with ID[' .
-                $newApplication->getId() . ']'
+                'IniApp: Application reference[' . $orderEntity->getReference() . ']
+                successfully initialised at provider with ID[' . $newApplication->getId() . ']'
             );
 
-            $app = $this->createNewLocal($newApplication, $installation->id, $requester, $location->id);
+            $app = $this->createNewLocal($newApplication, $location->installation->id, $requester->id, $location->id);
 
-            $this->logInfo('IniApp: Application reference[' . $reference . '] successfully stored in a local system');
+            $this->logInfo(
+                'IniApp: Application reference[' . $orderEntity->getReference() . ']
+                successfully stored in the local system'
+            );
 
             return $app;
 

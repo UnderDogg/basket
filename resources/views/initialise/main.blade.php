@@ -55,6 +55,12 @@
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('description', 'Description:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-xs-10">
+                            {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
                         {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
                         <div class="col-xs-10">
                             <select class="form-control col-xs-12 collapse-form-input" name="title">
@@ -79,9 +85,9 @@
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
+                        {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
                         <div class="col-xs-10">
-                            {!! Form::email('email', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                            {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
@@ -397,7 +403,7 @@
             }
         });
         $('.initialiseForm').submit(function() {
-            var fields = ['reference', 'title', 'first_name', 'last_name', 'email', 'phone_home', 'phone_mobile', 'postcode'];
+            var fields = ['reference', 'description', 'title', 'first_name', 'last_name', 'email', 'phone_home', 'phone_mobile', 'postcode'];
             fields.forEach(function(item) {
                 var value = $('#extraInformation').find("input[name="+item+"]").val();
                 if(value != '' && value != undefined) {
@@ -454,7 +460,7 @@
                                 }
                             }
                         },
-                        email: {
+                        applicant_email: {
                             validators: {
                                 emailAddress: {},
                                 stringLength: {
