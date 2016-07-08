@@ -35,6 +35,7 @@
             <th>Commission</th>
             <th>Net Settlement</th>
             <th>Location</th>
+            <th>Applicant Email</th>
             <th><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
@@ -67,6 +68,7 @@
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_commission', Request::only('ext_finance_commission')['ext_finance_commission'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th><div class="input-group"><span class="input-group-addon" id="basic-addon1">&pound;</span>{!! Form::text('ext_finance_net_settlement', Request::only('ext_finance_net_settlement')['ext_finance_net_settlement'], ['class' => 'filter col-xs-12 pull-down']) !!}</div></th>
             <th>{!! Form::text('ext_fulfilment_location', Request::only('ext_fulfilment_location')['ext_fulfilment_location'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
+            <th>{!! Form::text('ext_applicant_email_address', Request::only('ext_applicant_email_address')['ext_applicant_email_address'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th class="text-right">
                 <div class="btn-group pull-right">
                     <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
@@ -98,6 +100,7 @@
                 <td>{{ '&pound;' . number_format($item->ext_finance_commission/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
+                <td nowrap>{{ $item->ext_applicant_email_address }}</td>
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">

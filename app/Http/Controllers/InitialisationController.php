@@ -142,7 +142,7 @@ class InitialisationController extends Controller
             'title' => $request->get('title'),
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
-            'email_address' => $request->get('customer_email'),
+            'email_address' => $request->get('applicant_email'),
             'phone_home' => $request->get('phone_home'),
             'phone_mobile' => $request->get('phone_mobile'),
             'postcode' => $request->get('postcode'),

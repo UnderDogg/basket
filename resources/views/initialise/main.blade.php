@@ -42,27 +42,32 @@
             <div class="form-group padding-left-form">
                 <h4><strong id="pay-today"></strong></h4>
             </div>
+            {!! Form::close() !!}
+        </div>
+        <div class="col-md-12 well">
+            {!! Form::open(['class' => 'form-horizontal', 'id' => 'extraInformationForm']) !!}
             @if(isset($options) && count($options) > 0)
-                <button class="btn btn-primary btn-lg pull-right" type="button" data-toggle="collapse" data-target="#extraInformation" aria-expanded="false" aria-controls="collapseExample">
+                <label class="input-lg col-xs-10" data-toggle="collapse" data-target="#extraInformation" aria-expanded="false">Application Information</label>
+                <button type="button" class="btn btn-lg btn-primary pull-right" data-toggle="collapse" data-target="#extraInformation">
                     <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </button>
-                <div class="collapse" id="extraInformation">
+                <div class="collapse col-xs-12" id="extraInformation">
                     <hr>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('reference', $reference, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('description', 'Description:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('description', 'Description:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('title', 'Title:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             <select class="form-control col-xs-12 collapse-form-input" name="title">
                                 <option disabled selected hidden>Please select...</option>
                                 <option value="Mr">Mr</option>
@@ -73,38 +78,38 @@
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('phone_home', 'Home Phone:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('phone_home', 'Home Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('phone_home', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('phone_mobile', 'Mobile Phone:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('phone_mobile', 'Mobile Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
                     <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('postcode', 'Postcode:', ['class' => 'col-sm-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-xs-10">
+                        {!! Form::label('postcode', 'Postcode:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
                             {!! Form::text('postcode', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
                         </div>
                     </div>
@@ -403,6 +408,7 @@
             }
         });
         $('.initialiseForm').submit(function() {
+            $('#extraInformationForm').submit();
             var fields = ['reference', 'description', 'first_name', 'last_name', 'applicant_email', 'phone_home', 'phone_mobile', 'postcode'];
             fields.forEach(function(item) {
                 var value = $('#extraInformation').find("input[name="+item+"]").val();
@@ -415,11 +421,13 @@
                 }
             });
             var title = $('#extraInformation').find("select[name='title']").find(":selected").text();
-            var node = document.createElement('input');
-            node.setAttribute('name', 'title');
-            node.setAttribute('value', title);
-            node.setAttribute('type', 'hidden');
-            $('.initialiseForm').append(node);
+            if(title != 'Please select...') {
+                var node = document.createElement('input');
+                node.setAttribute('name', 'title');
+                node.setAttribute('value', title);
+                node.setAttribute('type', 'hidden');
+                $('.initialiseForm').append(node);
+            }
         });
         $(document).ready(function() {
             $('#extraInformation').formValidation(
@@ -433,7 +441,7 @@
                     fields: {
                         reference: {
                             validators: {
-                                required: {
+                                notEmpty: {
                                     message: 'You must provide a reference'
                                 },
                                 stringLength: {
@@ -444,7 +452,7 @@
                         },
                         description: {
                             validators: {
-                                required: {
+                                notEmpty: {
                                     message: 'You must provide a description'
                                 },
                                 stringLength: {

@@ -170,6 +170,29 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Applicant Details</strong></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Title</dt>
+                            <dd>{{ $applications->ext_applicant_title }}</dd>
+                            <dt>First Name</dt>
+                            <dd>{{ $applications->ext_applicant_first_name }}</dd>
+                            <dt>Last Name</dt>
+                            <dd>{{ $applications->ext_applicant_last_name }}</dd>
+                            <dt>Email Address</dt>
+                            <dd>{{ $applications->ext_applicant_date_of_birth }}</dd>
+                            <dt>Email Address</dt>
+                            <dd>{{ $applications->ext_applicant_email_address }}</dd>
+                            <dt>Home Phone Number</dt>
+                            <dd>{{ $applications->ext_applicant_phone_home }}</dd>
+                            <dt>Mobile Phone Number</dt>
+                            <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
+                            <dt>Postcode</dt>
+                            <dd>{{ $applications->ext_applicant_postcode }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading"><strong>Application Address</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
