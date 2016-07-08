@@ -44,9 +44,9 @@
             </div>
             {!! Form::close() !!}
         </div>
+        @if(isset($options) && count($options) > 0)
         <div class="col-md-12 well">
             {!! Form::open(['class' => 'form-horizontal', 'id' => 'extraInformationForm']) !!}
-            @if(isset($options) && count($options) > 0)
                 <label class="input-lg col-xs-10" data-toggle="collapse" data-target="#extraInformation" aria-expanded="false">Application Information</label>
                 <button type="button" class="btn btn-lg btn-primary pull-right" data-toggle="collapse" data-target="#extraInformation">
                     <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
@@ -114,9 +114,9 @@
                         </div>
                     </div>
                 </div>
-            @endif
             {!! Form::close() !!}
         </div>
+        @endif
 
         @if(isset($options))
 
