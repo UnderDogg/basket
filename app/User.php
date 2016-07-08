@@ -78,7 +78,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     /**
      * @author EB
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function locations()
     {
