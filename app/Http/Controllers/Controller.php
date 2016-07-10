@@ -70,11 +70,16 @@ abstract class Controller extends BaseController
 
     /**
      * @author WN
-     * @return \App\User|null
+     * @return \App\User
+     * @throws ModelNotFoundException
      */
     protected function getAuthenticatedUser()
     {
-        return \Auth::getUser();
+        if(\Auth::getUser()) {
+            return \Auth::getUser();
+        }
+
+        throw new ModelNotFoundException('Authenticated user not found');
     }
 
     /**

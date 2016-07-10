@@ -13,11 +13,15 @@ use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use PayBreak\Foundation\Properties\Bitwise;
+use PayBreak\Sdk\Entities\Application\ApplicantEntity;
+use PayBreak\Sdk\Entities\Application\OrderEntity;
+use PayBreak\Sdk\Entities\Application\ProductsEntity;
 
 /**
  * Initialisation Controller
@@ -66,35 +70,83 @@ class InitialisationController extends Controller
                 'group' => 'required',
                 'product' => 'required',
                 'reference' => 'required|min:6',
+                'description' => 'required|min:6',
                 'deposit' => 'sometimes|integer',
+                'title' => 'sometimes|min:2|max:4',
+                'first_name' => 'sometimes',
+                'last_name' => 'sometimes',
+                'applicant_email' => 'sometimes|email',
+                'phone_home' => 'sometimes|max:11',
+                'phone_mobile' => 'sometimes|max:11',
+                'postcode' => 'sometimes|max:8',
             ]
         );
 
         $location = $this->fetchLocation($locationId);
-        $requester = Auth::user()->id;
-
-        $deposit = $request->has('deposit') ? ($request->get('deposit') * 100) : $request->get('deposit');
 
         try {
             return $this->requestType(
                 $location,
                 $request,
                 $this->applicationSynchronisationService->initialiseApplication(
-                    $location->installation->id,
-                    $request->get('reference'),
-                    $request->get('amount'),
-                    'Goods & Services',
-                    $location->installation->validity,
-                    $request->get('group'),
-                    [$request->get('product')],
                     $location,
-                    $requester,
-                    $deposit
+                    $this->createOrderEntity($request, $location->installation),
+                    $this->createProductsEntity($request),
+                    $this->createApplicantEntity($request),
+                    $this->getAuthenticatedUser()
                 ));
         } catch (\Exception $e) {
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         }
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @param Installation $installation
+     * @return OrderEntity
+     */
+    private function createOrderEntity(Request $request, Installation $installation)
+    {
+        return OrderEntity::make([
+            'reference' => $request->get('reference'),
+            'amount' => (int) $request->get('amount'),
+            'description' => $request->get('description'),
+            'validity' => Carbon::now()->addSeconds($installation->validity)->toDateTimeString(),
+            'deposit_amount' => $request->has('deposit') ? ($request->get('deposit') * 100) : $request->get('deposit'),
+        ]);
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @return ProductsEntity
+     */
+    private function createProductsEntity(Request $request)
+    {
+        return ProductsEntity::make([
+            'group' => $request->get('group'),
+            'options' => [$request->get('product')],
+        ]);
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @return ApplicantEntity
+     */
+    private function createApplicantEntity(Request $request)
+    {
+        return ApplicantEntity::make([
+            'title' => $request->get('title'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'email_address' => $request->get('applicant_email'),
+            'phone_home' => $request->get('phone_home'),
+            'phone_mobile' => $request->get('phone_mobile'),
+            'postcode' => $request->get('postcode'),
+        ]);
     }
 
     /**

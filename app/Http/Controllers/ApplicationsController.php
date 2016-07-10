@@ -361,6 +361,7 @@ class ApplicationsController extends Controller
      * @param int $installation
      * @param int $id
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function emailApplication($installation, $id, Request $request)
@@ -393,6 +394,11 @@ class ApplicationsController extends Controller
                 $e
             );
         }
+
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $installation . '/applications/' . $id,
+            'Application successfully emailed to ' . $request->get('email')
+        );
     }
 
     /**

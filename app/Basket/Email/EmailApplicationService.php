@@ -1,5 +1,12 @@
 <?php
-
+/*
+ * This file is part of the PayBreak/basket package.
+ *
+ * (c) PayBreak <dev@paybreak.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace App\Basket\Email;
 
 use App\Basket\Application;
@@ -13,6 +20,7 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author EB
  * @package App\Basket\Email
  */
+
 class EmailApplicationService
 {
     use PsrLoggerTrait;
@@ -36,7 +44,7 @@ class EmailApplicationService
         $txt = \DbView::make($template)->field('html')->with($data)->render();
 
         \Mail::send('emails.applications.blank', ['content' => $txt], function ($message) use ($data) {
-            $message->to($data['customer_email'])
+            $message->to($data['email_recipient'])
                 ->subject($data['email_subject']);
         });
 

@@ -170,6 +170,29 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Applicant Details</strong></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Title</dt>
+                            <dd>{{ $applications->ext_applicant_title }}</dd>
+                            <dt>First Name</dt>
+                            <dd>{{ $applications->ext_applicant_first_name }}</dd>
+                            <dt>Last Name</dt>
+                            <dd>{{ $applications->ext_applicant_last_name }}</dd>
+                            <dt>Email Address</dt>
+                            <dd>{{ $applications->ext_applicant_date_of_birth }}</dd>
+                            <dt>Email Address</dt>
+                            <dd>{{ $applications->ext_applicant_email_address }}</dd>
+                            <dt>Home Phone Number</dt>
+                            <dd>{{ $applications->ext_applicant_phone_home }}</dd>
+                            <dt>Mobile Phone Number</dt>
+                            <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
+                            <dt>Postcode</dt>
+                            <dd>{{ $applications->ext_applicant_postcode }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading"><strong>Application Address</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
@@ -239,30 +262,31 @@
                                     {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
                                         <select class="form-control" name="title">
-                                            <option disabled selected hidden>Please select...</option>
-                                            <option value="Mr">Mr</option>
-                                            <option value="Mrs">Mrs</option>
-                                            <option value="Miss">Miss</option>
-                                            <option value="Ms">Ms</option>
+
+                                            <option disabled {{ (strtolower($applications->ext_applicant_title) == '' || is_null(strtolower($applications->ext_applicant_title))) ? 'selected' : '' }} hidden>Please select...</option>
+                                            <option value="Mr"{{ strtolower($applications->ext_applicant_title) == 'mr' ? ' selected' : ''}}>Mr</option>
+                                            <option value="Mrs"{{ strtolower($applications->ext_applicant_title) == 'mrs' ? ' selected' : ''}}>Mrs</option>
+                                            <option value="Miss"{{ strtolower($applications->ext_applicant_title) == 'miss' ? ' selected' : ''}}>Miss</option>
+                                            <option value="Ms"{{ strtolower($applications->ext_applicant_title) == 'ms' ? ' selected' : ''}}>Ms</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
-                                        {!! Form::text('first_name', null, ['class' => 'form-control']) !!}
+                                        {!! Form::text('first_name', $applications->ext_applicant_first_name, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
-                                        {!! Form::text('last_name', null, ['class' => 'form-control']) !!}
+                                        {!! Form::text('last_name', $applications->ext_applicant_last_name, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
-                                        {!! Form::email('email', null, ['class' => 'form-control']) !!}
+                                        {!! Form::email('email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -274,7 +298,7 @@
                                 <div class="form-group">
                                     {!! Form::label('description', 'Description:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
-                                        {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Order description']) !!}
+                                        {!! Form::text('description', $applications->ext_order_description, ['class' => 'form-control', 'placeholder' => 'Order description']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
