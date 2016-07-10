@@ -4,7 +4,8 @@
 - Added `Templates Controller` and ability to send emails stored in the database (120765999)
 - Added the ability for custom order reference (120758937)
 - Add `ApplicationEvent` logging functionality (120759393)
-- Added functionality to change the *Deposit* on the `initialise` application screen (120758847)
+- Added functionality to change the *Deposit* on the *Initialise Application* screen (120758847)
+- Added *Applicant* information to *Initialise Application* screen (120759267)
 
 # 1.4.0
 2016-06-20
