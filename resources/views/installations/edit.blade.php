@@ -56,9 +56,9 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('default_email_footer', 'Default Email Footer: ', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::textArea('default_email_footer', null, ['class' => 'form-control']) !!}
+                {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
             </div>
         </div>
 
@@ -157,11 +157,11 @@
                         }
                     }
                 },
-                default_email_footer: {
+                default_template_footer: {
                     validators: {
                         stringLength: {
                             max: 50000,
-                            message: 'The default email footer must not be greater than 50000 characters'
+                            message: 'The default template footer must not be greater than 50000 characters'
                         }
                     }
                 },

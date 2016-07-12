@@ -81,10 +81,10 @@
             </div>
             @endif
 
-            @if($installations->default_email_footer)
+            @if($installations->default_template_footer)
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Default Email Footer</h3>
+                    <h3 class="panel-title">Default Template Footer</h3>
                 </div>
                 <div class="panel-body">
                     {!! $installations->getDefaultEmailFooterAsHtml() !!}

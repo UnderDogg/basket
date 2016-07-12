@@ -5,9 +5,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @author EB
- * Class AddDefaultEmailFooterToInstallation
+ * Class AddDefaultTemplateFooterToInstallation
  */
-class AddDefaultEmailFooterToInstallation extends Migration
+class AddDefaultTemplateFooterToInstallation extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,7 @@ class AddDefaultEmailFooterToInstallation extends Migration
     public function up()
     {
         Schema::table('installations', function (Blueprint $table) {
-            $table->text('default_email_footer')->nullable();
+            $table->text('default_template_footer')->nullable();
         });
     }
 
@@ -29,7 +29,7 @@ class AddDefaultEmailFooterToInstallation extends Migration
     public function down()
     {
         Schema::table('installations', function (Blueprint $table) {
-            $table->dropColumn('default_email_footer');
+            $table->dropColumn('default_template_footer');
         });
     }
 }

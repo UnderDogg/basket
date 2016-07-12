@@ -36,7 +36,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $custom_logo_url
  * @property string $disclosure
  * @property int    $finance_offers
- * @property string $default_email_footer
+ * @property string $default_template_footer
  * @property Template[] $templates
  * @package App\Basket
  */
@@ -68,7 +68,7 @@ class Installation extends Model
         'custom_logo_url',
         'disclosure',
         'finance_offers',
-        'default_email_footer',
+        'default_template_footer',
     ];
 
     /**
@@ -172,9 +172,9 @@ class Installation extends Model
      * @author EB
      * @return string
      */
-    public function getDefaultEmailFooterAsHtml()
+    public function getDefaultTemplateFooterAsHtml()
     {
-        return ((new \Parsedown())->text(htmlspecialchars($this->default_email_footer)));
+        return ((new \Parsedown())->text(htmlspecialchars($this->default_template_footer)));
     }
 
     /**
