@@ -81,15 +81,26 @@
             </div>
             @endif
 
-            @if($installations->disclosure)
+            @if($installations->default_email_footer)
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">In Store Disclosure</h3>
+                    <h3 class="panel-title">Default Email Footer</h3>
                 </div>
                 <div class="panel-body">
-                    {!! $installations->getDisclosureAsHtml() !!}
+                    {!! $installations->getDefaultEmailFooterAsHtml() !!}
                 </div>
             </div>
+            @endif
+
+            @if($installations->disclosure)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">In Store Disclosure</h3>
+                    </div>
+                    <div class="panel-body">
+                        {!! $installations->getDisclosureAsHtml() !!}
+                    </div>
+                </div>
             @endif
 
             @if($installations->custom_logo_url)
