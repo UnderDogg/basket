@@ -276,7 +276,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         } catch (\Exception $e) {
 
             $this->logError('GetRemoteMerchantPayments: ' . $e->getMessage());
-            throw new Exception($e->getMessage());
+            return [];
         }
     }
 
