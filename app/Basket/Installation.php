@@ -36,6 +36,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $custom_logo_url
  * @property string $disclosure
  * @property int    $finance_offers
+ * @property int    $merchant_payments
  * @property Template[] $templates
  * @package App\Basket
  */
@@ -67,6 +68,7 @@ class Installation extends Model
         'custom_logo_url',
         'disclosure',
         'finance_offers',
+        'merchant_payments',
     ];
 
     /**
