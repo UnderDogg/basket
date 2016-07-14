@@ -154,7 +154,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('ajax/installations/{installation}/products/{product}/get-credit-info', 'AjaxController@getCreditInformationForProduct');
     });
 
-    Route::group(['middleware' => 'permission:applications-make'], function () {
+    Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {
         Route::get('installations/{installation}/applications/{id}/add-merchant-payment', 'ApplicationsController@addMerchantPayment');
         Route::post('installations/{installation}/applications/{id}/add-merchant-payment', 'ApplicationsController@processAddMerchantPayment');
     });
