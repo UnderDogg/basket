@@ -17,7 +17,7 @@
         "wnowicki/generic": "~0.0",
         "erusev/parsedown": "^1.5",
         "league/csv": "^7.1",
-        "paybreak/paybreak-sdk-php": "^4.0",
+        "paybreak/paybreak-sdk-php": "dev-merchant-payments",
         "paybreak/foundation": "~0.11",
         "flynsarmy/db-blade-compiler": "~2.0"
     },

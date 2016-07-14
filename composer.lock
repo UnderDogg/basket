@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5d357650a5abe93ffed653d59593a6af",
-    "content-hash": "2f70ff53b04ca7227a58f4179970a753",
+    "hash": "2a0f32be87aad16d4c9272059b88fba6",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -17,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/crud-generator/zipball/92b4f0e5c86857a5bfa8e68634234698ef954348",
+                "url": "https://api.github.com/repos/PayBreak/crud-generator/zipball/72792b793b8c92a4ae67d788ef18604fa3fcacad",
                 "reference": "92b4f0e5c86857a5bfa8e68634234698ef954348",
                 "shasum": ""
             },
@@ -1290,16 +1289,16 @@
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "4.3.0",
+            "version": "dev-merchant-payments",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
-                "reference": "424eb0e836dd5bb20f963ab8cbae286a9cefafc2"
+                "reference": "5af6e35b236ffd852ea7551a9a4d59e049a4699e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/424eb0e836dd5bb20f963ab8cbae286a9cefafc2",
-                "reference": "424eb0e836dd5bb20f963ab8cbae286a9cefafc2",
+                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/5af6e35b236ffd852ea7551a9a4d59e049a4699e",
+                "reference": "5af6e35b236ffd852ea7551a9a4d59e049a4699e",
                 "shasum": ""
             },
             "require": {
@@ -1327,7 +1326,7 @@
             "keywords": [
                 "paybreak"
             ],
-            "time": "2016-07-06 15:25:04"
+            "time": "2016-07-13 13:54:45"
         },
         {
             "name": "psr/http-message",
@@ -4473,7 +4472,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "appzcoder/crud-generator": 20
+        "appzcoder/crud-generator": 20,
+        "paybreak/paybreak-sdk-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
