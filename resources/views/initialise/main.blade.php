@@ -44,6 +44,79 @@
             </div>
             {!! Form::close() !!}
         </div>
+        @if(isset($options) && count($options) > 0)
+        <div class="col-md-12 well">
+            {!! Form::open(['class' => 'form-horizontal', 'id' => 'extraInformationForm']) !!}
+                <label class="input-lg col-xs-10" data-toggle="collapse" data-target="#extraInformation" aria-expanded="false">Application Information</label>
+                <button type="button" class="btn btn-lg btn-primary pull-right" data-toggle="collapse" data-target="#extraInformation">
+                    <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                </button>
+                <div class="collapse col-xs-12" id="extraInformation">
+                    <hr>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('reference', $reference, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('description', 'Description:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('title', 'Title:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            <select class="form-control col-xs-12 collapse-form-input" name="title">
+                                <option disabled selected hidden>Please select...</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Ms">Ms</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('phone_home', 'Home Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('phone_home', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('phone_mobile', 'Mobile Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group collapse-form-group col-xs-12">
+                        {!! Form::label('postcode', 'Postcode:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
+                        <div class="col-sm-12 col-md-9">
+                            {!! Form::text('postcode', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
+                        </div>
+                    </div>
+                </div>
+            {!! Form::close() !!}
+        </div>
+        @endif
 
         @if(isset($options))
 
@@ -69,22 +142,22 @@
                         @foreach($group['products'] as $l => $product)
 
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
-                                {!! Form::open(['action' => ['InitialisationController@request', $location->id]]) !!}
+                                {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
                                         <div class="row text-center">
 
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #29abe1; color: white;">
-                                                <h2 id="loan-amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
+                                                <h2 id="loan-amount" data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</h2> <p>loan amount</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #39b549; color: white;">
-                                                <h2>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2>&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
-                                                <h2>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
                                             </div>
 
                                         </div>
@@ -95,15 +168,15 @@
                                                 <tbody>
                                                 <tr>
                                                     <th style="width: 50%;">Order Value</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['promotional']['order_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="order_amount">&pound;{{ number_format($product['credit_info']['promotional']['order_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Deposit</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['promotional']['deposit_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['promotional']['deposit_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Loan Amount</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['promotional']['loan_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['promotional']['loan_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Pay By</th>
@@ -111,11 +184,11 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Settlement Fee</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['customer_settlement_fee']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="customer_settlement_fee">&pound;{{ number_format($product['credit_info']['customer_settlement_fee']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Cost</th>
-                                                    <td>&pound;{{ number_format(($product['credit_info']['promotional']['deposit_amount'] + $product['credit_info']['promotional']['loan_amount'] + $product['credit_info']['promotional']['customer_settlement_fee'])/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format(($product['credit_info']['promotional']['deposit_amount'] + $product['credit_info']['promotional']['loan_amount'] + $product['credit_info']['promotional']['customer_settlement_fee'])/100, 2) }}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -125,19 +198,19 @@
                                                 <tbody>
                                                 <tr>
                                                     <th style="width: 50%;">Order Value</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="order_amount">&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Loan Amount</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Monthly Payment</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>No of Payments</th>
-                                                    <td>{{ $product['credit_info']['payments'] }}</td>
+                                                    <td data-fieldtype="number" data-ajaxfield="payments">{{ $product['credit_info']['payments'] }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Payment Start</th>
@@ -155,19 +228,19 @@
                                                 <tbody>
                                                 <tr>
                                                     <th>Total Cost of Credit</th>
-                                                    <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                    <td style="width: 50%;" data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Repayable</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Deposit</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Cost</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Interest Rate</th>
@@ -186,15 +259,15 @@
                                                 <tbody>
                                                 <tr>
                                                     <th style="width: 50%;">Order Value</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="order_amount">&pound;{{ number_format($product['credit_info']['order_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Loan Amount</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_amount">&pound;{{ number_format($product['credit_info']['loan_amount']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Monthly Payment</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>No of Payments</th>
@@ -216,27 +289,27 @@
                                                 <tbody>
                                                 <tr>
                                                     <th>Total Cost of Credit</th>
-                                                    <td style="width: 50%;">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
+                                                    <td style="width: 50%;" data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Repayable</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</td>
                                                 </tr>
                                                 @if($product['credit_info']['amount_service'] > 0)
                                                     <tr>
                                                         <th>Service Fee</th>
-                                                        <td>&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
+                                                        <td data-fieldtype="currency" data-ajaxfield="amount_service">&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
                                                     </tr>
                                                 @endif
                                                 @if($product['credit_info']['deposit_amount'] > 0)
                                                     <tr>
                                                         <th>Deposit</th>
-                                                        <td>&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                        <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                                     </tr>
                                                 @endif
                                                 <tr>
                                                     <th>Total Cost</th>
-                                                    <td>&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
+                                                    <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Interest Rate</th>
@@ -251,16 +324,33 @@
                                         </div>
                                     @endif
 
+                                    @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
+
+                                    <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
+
+                                        <h1>Deposit Amount</h1>
+                                        <div class="col-sm-2 col-xs-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">&pound;</div>
+                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 col-xs-12">
+                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                        </div>
+                                    </div>
+
+                                @endif
+
                                     @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
 
+                                        @if(count($bitwise->explode()) == 1)<div class="col-sm-12 col-xs-12">@endif
                                         @if(count($bitwise->explode()) == 2)<div class="col-sm-6 col-xs-12">@endif
-
+                                        @if(count($bitwise->explode()) == 3)<div class="col-sm-4 col-xs-12">@endif
                                             @if($bitwise->contains($offer['value']))
                                                 <button type="submit" class="btn btn-success btn-lg btn-block"@if(isset($offer['name'])) name="{!! $offer['name'] !!}" value="true"@endif>{!! $offer['text'] !!}</button>
                                             @endif
-
-
-                                        @if(count($bitwise->explode()) == 2)</div>@endif
+                                        </div>
 
                                     @endforeach
 
@@ -290,12 +380,19 @@
         @endif
 
     </div>
+    <div class="container loading-container">
+        <button class="btn btn-lg btn-info"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
+    </div>
 </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src={!! asset('/formvalidation/dist/js/formValidation.min.js') !!}></script>
+    <script src={!! asset('/formvalidation/dist/js/framework/bootstrap.min.js') !!}></script>
+    <script src="/js/custom-deposit.main.js"></script>
+    <script src="/js/sweetalert.min.js"></script>
     <script>
         $('li').click(function() {
             var prod = $(this).find('a').attr('aria-controls');
@@ -310,7 +407,125 @@
                 document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
             }
         });
+        $('.initialiseForm').submit(function() {
+            $('#extraInformationForm').submit();
+            var fields = ['reference', 'description', 'first_name', 'last_name', 'applicant_email', 'phone_home', 'phone_mobile', 'postcode'];
+            fields.forEach(function(item) {
+                var value = $('#extraInformation').find("input[name="+item+"]").val();
+                if(value != '' && value != undefined) {
+                    var node = document.createElement('input');
+                    node.setAttribute('name', item);
+                    node.setAttribute('value', value);
+                    node.setAttribute('type', 'hidden');
+                    $('.initialiseForm').append(node);
+                }
+            });
+            var title = $('#extraInformation').find("select[name='title']").find(":selected").text();
+            if(title != 'Please select...') {
+                var node = document.createElement('input');
+                node.setAttribute('name', 'title');
+                node.setAttribute('value', title);
+                node.setAttribute('type', 'hidden');
+                $('.initialiseForm').append(node);
+            }
+        });
+        $(document).ready(function() {
+            $('#extraInformation').formValidation(
+                {
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: '',
+                        invalid: '',
+                        validating: ''
+                    },
+                    fields: {
+                        reference: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'You must provide a reference'
+                                },
+                                stringLength: {
+                                    max: 40,
+                                    message: 'The reference must not be greater than 40 characters'
+                                }
+                            }
+                        },
+                        description: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'You must provide a description'
+                                },
+                                stringLength: {
+                                    max: 100,
+                                    message: 'The description must not be greater than 100 characters'
+                                }
+                            }
+                        },
+                        title: {
+                            validators: {
+                                stringLength: {
+                                    max: 4,
+                                    message: 'You must select a valid title'
+                                }
+                            }
+                        },
+                        first_name: {
+                            validators: {
+                                stringLength: {
+                                    max: 30,
+                                    message: 'The first name must not be greater than 30 characters'
+                                }
+                            }
+                        },
+                        last_name: {
+                            validators: {
+                                stringLength: {
+                                    max: 30,
+                                    message: 'The last name must not be greater than 30 characters'
+                                }
+                            }
+                        },
+                        applicant_email: {
+                            validators: {
+                                emailAddress: {},
+                                stringLength: {
+                                    max: 255,
+                                    message: 'The email must not be greater than 255 characters'
+                                }
+                            }
+                        },
+                        phone_home: {
+                            validators: {
+                                phone: {
+                                    country: "GB"
+                                }
+                            }
+                        },
+                        phone_mobile: {
+                            validators: {
+                                phone: {
+                                    country: "GB"
+                                }
+                            }
+                        },
+                        postcode: {
+                            validators: {
+                                zipCode: {
+                                    country: 'GB',
+                                    message: 'The value is not valid %s postal code'
+                                }
+                            }
+                        }
+                    }
+                }
+            )
+        });
     </script>
+
 </div>
 </body>
+@endsection
+
+@section('stylesheets')
+    <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
 @endsection

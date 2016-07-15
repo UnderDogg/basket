@@ -123,6 +123,7 @@ Route::group(['middleware' => 'auth'], function () {
         );
         Route::get('installations/{installation}/applications', 'ApplicationsController@index');
         Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
+        Route::post('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
@@ -149,6 +150,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/make', 'InitialisationController@chooseProduct');
         Route::post('locations/{id}/applications/confirm', 'InitialisationController@confirm');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
+
+        Route::post('ajax/installations/{installation}/products/{product}/get-credit-info', 'AjaxController@getCreditInformationForProduct');
+    });
+
+    Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {
+        Route::get('installations/{installation}/applications/{id}/add-merchant-payment', 'ApplicationsController@addMerchantPayment');
+        Route::post('installations/{installation}/applications/{id}/add-merchant-payment', 'ApplicationsController@processAddMerchantPayment');
     });
 
     /*

@@ -6,6 +6,7 @@
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
             <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
+            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
             <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
     </h1>
@@ -14,6 +15,13 @@
             <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
             <li><a data-toggle="tab" href="#part2">Order Details</a></li>
             <li><a data-toggle="tab" href="#part3">Customer Details</a></li>
+            <li><a data-toggle="tab" href="#part4">Event Log</a></li>
+            @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
+                <li><a data-toggle="tab" href="#emailTab">Email Application</a></li>
+            @endif
+            @if(Auth::user()->can('applications-merchant-payments'))
+                <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
+            @endif
         </ul>
 
         <div class="tab-content">
@@ -166,6 +174,29 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Applicant Details</strong></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Title</dt>
+                            <dd>{{ $applications->ext_applicant_title }}</dd>
+                            <dt>First Name</dt>
+                            <dd>{{ $applications->ext_applicant_first_name }}</dd>
+                            <dt>Last Name</dt>
+                            <dd>{{ $applications->ext_applicant_last_name }}</dd>
+                            <dt>Email Address</dt>
+                            <dd>{{ $applications->ext_applicant_date_of_birth }}</dd>
+                            <dt>Email Address</dt>
+                            <dd>{{ $applications->ext_applicant_email_address }}</dd>
+                            <dt>Home Phone Number</dt>
+                            <dd>{{ $applications->ext_applicant_phone_home }}</dd>
+                            <dt>Mobile Phone Number</dt>
+                            <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
+                            <dt>Postcode</dt>
+                            <dd>{{ $applications->ext_applicant_postcode }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading"><strong>Application Address</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
@@ -199,8 +230,132 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <div id="part4" class="tab-pane fade">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Application Events</strong></div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Event</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($applications->applicationEvents as $event)
+                                    <tr>
+                                        <td>{{ (is_null($event->user) ? 'System' : $event->user->name) }}</td>
+                                        <td>{{ $event->description }}</td>
+                                        <td>{{ $event->created_at }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
+                <div id="emailTab" class="tab-pane fade">
+                    <br/>
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
+                                <div class="form-group">
+                                    {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="title">
 
+                                            <option disabled {{ (strtolower($applications->ext_applicant_title) == '' || is_null(strtolower($applications->ext_applicant_title))) ? 'selected' : '' }} hidden>Please select...</option>
+                                            <option value="Mr"{{ strtolower($applications->ext_applicant_title) == 'mr' ? ' selected' : ''}}>Mr</option>
+                                            <option value="Mrs"{{ strtolower($applications->ext_applicant_title) == 'mrs' ? ' selected' : ''}}>Mrs</option>
+                                            <option value="Miss"{{ strtolower($applications->ext_applicant_title) == 'miss' ? ' selected' : ''}}>Miss</option>
+                                            <option value="Ms"{{ strtolower($applications->ext_applicant_title) == 'ms' ? ' selected' : ''}}>Ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        {!! Form::text('first_name', $applications->ext_applicant_first_name, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        {!! Form::text('last_name', $applications->ext_applicant_last_name, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        {!! Form::email('email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('subject', 'Subject:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        {!! Form::text('subject', 'afforditNow Finance Application', ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('description', 'Description:', ['class' => 'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-8">
+                                        {!! Form::text('description', $applications->ext_order_description, ['class' => 'form-control', 'placeholder' => 'Order description']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="pull-right col-sm-4 col-xs-12 col-sm-pull-2">
+                                        {!! Form::submit('Send Email', ['class' => 'btn btn-info form-control', 'name' => 'sendEmail']) !!}
+                                    </div>
+                                </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+
+
+            @endif
+
+            @if(Auth::user()->can('applications-merchant-payments'))
+                <div id="merchant-payments-pane" class="tab-pane fade">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Merchant Payments</strong></div>
+                    <div class="panel-body">
+                        @if ($limit == count($merchantPayments))
+                            <div class="alert alert-info">
+                                This list has been truncated to display only the {{ $limit }} most recent payments,
+                                but more transactions may have been created against this application.
+                                If you need to view a full list of these transactions please use our API.
+                            </div>
+                        @endif
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Effective Date</th>
+                                <th>Payment Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse ($merchantPayments as $payment)
+                                <tr>
+                                    <td>{{ $payment['effective_date'] }}</td>
+                                    <td>{{ '&pound;' . number_format($payment['amount']/100, 2) }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td>No merchant payments have been made.</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
     <div class='toast' style='display:none'>Copied to clipboard!</div>
 @endsection
 
@@ -225,5 +380,78 @@
             hidden.setSelectionRange(0, hidden.value.length);
             return document.execCommand("copy");
         }
+
+        if(window.location.hash != '') {
+            $('a[href$='+ window.location.hash + ']').click();
+        }
+    </script>
+    <script>
+        validation = {
+            fields: {
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The title cannot be empty'
+                        }
+                    }
+                },
+                first_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            message: 'The first name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                last_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            message: 'The last name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address cannot be empty'
+                        },
+                        emailAddress: {},
+                        stringLength: {
+                            max: 255,
+                            message: 'The email must not be greater than 255 characters'
+                        }
+                    }
+                },
+                subject: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The subject cannot be empty'
+                        },
+                        stringLength: {
+                            max: 50,
+                            message: 'The subject must not be greater than 50 characters'
+                        }
+                    }
+                },
+                description: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The description cannot be empty'
+                        },
+                        stringLength: {
+                            max:100,
+                            message: 'The description must not be greater than 100 characters'
+                        }
+                    }
+                }
+            }
+        };
     </script>
 @endsection

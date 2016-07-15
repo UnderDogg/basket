@@ -36,6 +36,9 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $custom_logo_url
  * @property string $disclosure
  * @property int    $finance_offers
+ * @property string $default_template_footer
+ * @property int    $merchant_payments
+ * @property Template[] $templates
  * @package App\Basket
  */
 class Installation extends Model
@@ -44,6 +47,7 @@ class Installation extends Model
 
     const IN_STORE = 2;
     const LINK = 4;
+    const EMAIL = 8;
     const LOWEST_BIT = self::IN_STORE;
 
     /**
@@ -65,6 +69,8 @@ class Installation extends Model
         'custom_logo_url',
         'disclosure',
         'finance_offers',
+        'default_template_footer',
+        'merchant_payments',
     ];
 
     /**
@@ -83,6 +89,15 @@ class Installation extends Model
     public function locations()
     {
         return $this->hasMany('App\Basket\Location');
+    }
+
+    /**
+    * @author EB
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function templates()
+    {
+        return $this->belongsToMany('App\Basket\Template');
     }
 
     /**
@@ -154,6 +169,17 @@ class Installation extends Model
     }
 
     /**
+     * Returning HTML for Parsed Markdown
+     *
+     * @author EB
+     * @return string
+     */
+    public function getDefaultTemplateFooterAsHtml()
+    {
+        return ((new \Parsedown())->text(htmlspecialchars($this->default_template_footer)));
+    }
+
+    /**
      * Return an array of Finance Offers (from bitwise stored)
      *
      * @author EB
@@ -161,7 +187,7 @@ class Installation extends Model
      */
     public function getBitwiseFinanceOffers()
     {
-        $financeOffers =Bitwise::make($this->finance_offers);
+        $financeOffers = Bitwise::make($this->finance_offers);
 
         return [
             'in_store' => [
@@ -174,6 +200,12 @@ class Installation extends Model
                 'active' => $financeOffers->contains(self::LINK),
                 'text' => 'Continue with Application Link',
                 'name' => 'link',
+            ],
+            'email' => [
+                'value' => self::EMAIL,
+                'active' => $financeOffers->contains(self::EMAIL),
+                'text' => 'Continue with an Application Email',
+                'name' => 'email',
             ],
         ];
     }

@@ -10,11 +10,16 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\ApplicationEvent;
+use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
+use App\Basket\ApplicationEvent\ApplicationEventHelper;
 
 /**
  * Class ApplicationsController
@@ -24,11 +29,16 @@ use PayBreak\Sdk\Gateways\ApplicationGateway;
  */
 class ApplicationsController extends Controller
 {
+    const MERCHANT_PAYMENT_LIMIT = 100;
+
     /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
     private $applicationSynchronisationService;
 
     /** @var ApplicationGateway $applicationGateway */
     private $applicationGateway;
+
+    /** @var \App\Basket\Email\EmailApplicationService */
+    private $emailApplicationService;
 
     public function __construct(ApplicationGateway $applicationGateway)
     {
@@ -37,6 +47,10 @@ class ApplicationsController extends Controller
         );
 
         $this->applicationGateway = $applicationGateway;
+
+        $this->emailApplicationService = \App::make(
+            '\App\Basket\Email\EmailApplicationService'
+        );
     }
 
     /**
@@ -90,6 +104,13 @@ class ApplicationsController extends Controller
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
+                'merchantPayments' => $this->applicationSynchronisationService->getRemoteMerchantPayments(
+                    $application,
+                    [
+                        'count' => self::MERCHANT_PAYMENT_LIMIT,
+                    ]
+                ),
+                'limit' => self::MERCHANT_PAYMENT_LIMIT,
             ]
         );
     }
@@ -285,8 +306,8 @@ class ApplicationsController extends Controller
     /**
      * @author WN
      * @param int $id
+     * @param int $installation
      * @return Application
-     * @throws RedirectException
      */
     private function fetchApplicationById($id, $installation)
     {
@@ -344,6 +365,117 @@ class ApplicationsController extends Controller
                 ->setError('Application is not allowed to request ' . $action);
         }
         return view('applications.' . $action, ['application' => $application]);
+    }
+
+    /**
+     * @author EB
+     * @param int $installation
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function emailApplication($installation, $id, Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'title' => 'required|in:Mr,Mrs,Miss,Ms',
+                'first_name' => 'required|max:30',
+                'last_name' => 'required|max:30',
+                'email' => 'required|email|max:30',
+                'subject' => 'required|max:100',
+                'description' => 'required|max:255',
+            ]
+        );
+
+        $application = $this->fetchApplicationById($id, $installation);
+
+        try {
+            $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
+            $this->emailApplicationService->sendDefaultApplicationEmail(
+                $application,
+                $template,
+                array_merge(
+                    EmailTemplateEngine::formatRequestForEmail($request),
+                    $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
+                    ['template_footer' => $application->installation->getDefaultTemplateFooterAsHtml()]
+                )
+            );
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $installation . '/applications/' . $id,
+                'Unable to send Application via Email: ' . $e->getMessage(),
+                $e
+            );
+        }
+
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $installation . '/applications/' . $id,
+            'Application successfully emailed to ' . $request->get('email')
+        );
+    }
+
+    /**
+     * @author SL
+     *
+     * @param Request $request
+     * @param $installation
+     * @param $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function processAddMerchantPayment(Request $request, $installation, $id)
+    {
+        try {
+            if (!$request->has(['effective_date', 'amount']) || !is_numeric($request->get('amount'))) {
+
+                throw new Exception('Please ensure all required fields have been completed correctly!');
+            }
+
+            $amountPence = $request->get('amount') * 100;
+
+            $response = $this->applicationSynchronisationService->addRemoteMerchantPayment(
+                Application::find($id),
+                Carbon::parse($request->get('effective_date')),
+                $amountPence
+            );
+
+            if ($response) {
+                return $this->redirectWithSuccessMessage(
+                    'installations/' . $installation . '/applications/' . $id . '/',
+                    'Successfully added merchant payment to application.'
+                );
+            }
+
+            throw new Exception('An unknown error was encountered while trying to add the merchant payment.');
+
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $installation . '/applications/' . $id . '/add-merchant-payment',
+                'Unable to add merchant payment: ' . $e->getMessage(),
+                $e
+            );
+        }
+    }
+
+    /**
+     * @author SL
+     *
+     * @param int $installation
+     * @param int $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function addMerchantPayment($installation, $id)
+    {
+        return view(
+            'applications.merchant-payment',
+            [
+                'application' => Application::find($id),
+            ]
+        );
     }
 
     /**

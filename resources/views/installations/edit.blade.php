@@ -56,6 +56,13 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
             {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control']) !!}
@@ -79,6 +86,19 @@
             </div>
         </div>
         @endforeach
+
+
+        <div class="form-group">
+            {!! Form::hidden('merchant_payments', $installations->merchant_payments) !!}
+            {!! Form::label('merchant_payments_toggle', 'Merchant Payments: ', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                @if($installations->merchant_payments == 1)
+                    {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
+                @else
+                    {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                @endif
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
@@ -150,6 +170,14 @@
                         }
                     }
                 },
+                default_template_footer: {
+                    validators: {
+                        stringLength: {
+                            max: 50000,
+                            message: 'The default template footer must not be greater than 50000 characters'
+                        }
+                    }
+                },
                 ext_return_url: {
                     validators: {
                         uri: {
@@ -176,19 +204,25 @@
         };
     </script>
     <script>
-        $('.bitwise').change(function() {
-            var finance_offers = $('#finance_offers');
-            var finance_value = finance_offers.val();
-            var bitwise = $(this);
-            var value = bitwise.val();
-            if(bitwise.attr('checked')) {
-                bitwise.removeAttr('checked');
-                finance_offers.attr('value', (parseInt(finance_value) - parseInt(value)));
+        $(document).ready(function(){
+            $('.merchant-payment-toggle').change(function(){
+                $('input[name=merchant_payments]').val($(this).prop('checked') | 0);
+            });
 
-            } else {
-                bitwise.attr('checked', true);
-                finance_offers.attr('value', (parseInt(finance_value) + parseInt(value)));
-            }
+            $('.bitwise').change(function() {
+                var finance_offers = $('#finance_offers');
+                var finance_value = finance_offers.val();
+                var bitwise = $(this);
+                var value = bitwise.val();
+                if(bitwise.attr('checked')) {
+                    bitwise.removeAttr('checked');
+                    finance_offers.attr('value', (parseInt(finance_value) - parseInt(value)));
+
+                } else {
+                    bitwise.attr('checked', true);
+                    finance_offers.attr('value', (parseInt(finance_value) + parseInt(value)));
+                }
+            });
         });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">

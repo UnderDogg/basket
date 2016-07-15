@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -20,8 +21,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property string $remember_token
  * @property        $created_at
  * @property        $updated_at
- * @property Role[]             $roles
- * @property Basket\Location[]  $locations
+ * @property Collection $roles
+ * @property Collection $locations
  *
  * @package App
  */
@@ -75,6 +76,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsTo('App\Role');
     }
 
+    /**
+     * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function locations()
     {
         return $this->belongsToMany('App\Basket\Location');
