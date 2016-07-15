@@ -7,8 +7,6 @@ use App\Permission;
 use App\User;
 
 /**
- * TODO: Short Description.
- *
  * Class PermissionSeeder
  *
  * @author SL
@@ -18,7 +16,7 @@ class PermissionSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @author MS
+     * @author SL
      * @return void
      */
     public function run()
@@ -29,7 +27,7 @@ class PermissionSeeder extends Seeder
     /**
      * Seed Data Source
      *
-     * @author MS
+     * @author SL
      * @return void
      */
     protected function seedDataSource()

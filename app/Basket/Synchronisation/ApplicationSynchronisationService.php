@@ -285,7 +285,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      *
      * @param Application $application
      * @param Carbon $effectiveDate
-     * @param $amount
+     * @param int $amount
      * @return bool
      * @throws Exception
      */
