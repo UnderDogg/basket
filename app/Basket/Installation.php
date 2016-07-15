@@ -37,6 +37,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $disclosure
  * @property int    $finance_offers
  * @property string $default_template_footer
+ * @property int    $merchant_payments
  * @property Template[] $templates
  * @package App\Basket
  */
@@ -69,6 +70,7 @@ class Installation extends Model
         'disclosure',
         'finance_offers',
         'default_template_footer',
+        'merchant_payments',
     ];
 
     /**

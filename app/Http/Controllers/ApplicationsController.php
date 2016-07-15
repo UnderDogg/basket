@@ -14,8 +14,10 @@ use App\Basket\ApplicationEvent;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 
@@ -27,6 +29,8 @@ use App\Basket\ApplicationEvent\ApplicationEventHelper;
  */
 class ApplicationsController extends Controller
 {
+    const MERCHANT_PAYMENT_LIMIT = 100;
+
     /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
     private $applicationSynchronisationService;
 
@@ -100,6 +104,13 @@ class ApplicationsController extends Controller
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
+                'merchantPayments' => $this->applicationSynchronisationService->getRemoteMerchantPayments(
+                    $application,
+                    [
+                        'count' => self::MERCHANT_PAYMENT_LIMIT,
+                    ]
+                ),
+                'limit' => self::MERCHANT_PAYMENT_LIMIT,
             ]
         );
     }
@@ -402,6 +413,68 @@ class ApplicationsController extends Controller
         return $this->redirectWithSuccessMessage(
             'installations/' . $installation . '/applications/' . $id,
             'Application successfully emailed to ' . $request->get('email')
+        );
+    }
+
+    /**
+     * @author SL
+     *
+     * @param Request $request
+     * @param $installation
+     * @param $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function processAddMerchantPayment(Request $request, $installation, $id)
+    {
+        try {
+            if (!$request->has(['effective_date', 'amount']) || !is_numeric($request->get('amount'))) {
+
+                throw new Exception('Please ensure all required fields have been completed correctly!');
+            }
+
+            $amountPence = $request->get('amount') * 100;
+
+            $response = $this->applicationSynchronisationService->addRemoteMerchantPayment(
+                Application::find($id),
+                Carbon::parse($request->get('effective_date')),
+                $amountPence
+            );
+
+            if ($response) {
+                return $this->redirectWithSuccessMessage(
+                    'installations/' . $installation . '/applications/' . $id . '/',
+                    'Successfully added merchant payment to application.'
+                );
+            }
+
+            throw new Exception('An unknown error was encountered while trying to add the merchant payment.');
+
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $installation . '/applications/' . $id . '/add-merchant-payment',
+                'Unable to add merchant payment: ' . $e->getMessage(),
+                $e
+            );
+        }
+    }
+
+    /**
+     * @author SL
+     *
+     * @param int $installation
+     * @param int $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function addMerchantPayment($installation, $id)
+    {
+        return view(
+            'applications.merchant-payment',
+            [
+                'application' => Application::find($id),
+            ]
         );
     }
 
