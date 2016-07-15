@@ -387,7 +387,8 @@ class ApplicationsController extends Controller
                 $template,
                 array_merge(
                     EmailTemplateEngine::formatRequestForEmail($request),
-                    $this->applicationSynchronisationService->fetchApplicationCreditInformation($application->id)
+                    $this->applicationSynchronisationService->fetchApplicationCreditInformation($application->id),
+                    ['template_footer' => $application->installation->getDefaultTemplateFooterAsHtml()]
                 )
             );
         } catch (\Exception $e) {
