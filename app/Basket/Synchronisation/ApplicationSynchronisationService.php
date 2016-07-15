@@ -362,4 +362,28 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             throw $e;
         }
     }
+
+    /**
+     * @author EB
+     * @param $application
+     * @return array
+     * @throws \Exception
+     */
+    public function getCreditInfoForApplication($application)
+    {
+        $application = $this->fetchApplicationLocalObject($application);
+
+        try {
+            return $this->applicationGateway->getApplicationCreditInfo(
+                $application->installation->ext_id, $application->ext_id, $application->installation->merchant->token
+            );
+        } catch (\Exception $e) {
+
+            $this->logError(
+                'ApplicationSynchronisationService: Fetching Application Credit Information failed: ' . $e->getMessage()
+            );
+
+            throw $e;
+        }
+    }
 }

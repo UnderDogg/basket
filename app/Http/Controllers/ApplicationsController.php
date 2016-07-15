@@ -396,7 +396,11 @@ class ApplicationsController extends Controller
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
                 $template,
-                EmailTemplateEngine::formatRequestForEmail($request)
+                array_merge(
+                    EmailTemplateEngine::formatRequestForEmail($request),
+                    $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
+                    ['template_footer' => $application->installation->getDefaultTemplateFooterAsHtml()]
+                )
             );
         } catch (\Exception $e) {
             throw $this->redirectWithException(

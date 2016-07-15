@@ -56,6 +56,13 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
             {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control']) !!}
@@ -160,6 +167,14 @@
                         stringLength: {
                             max: 50000,
                             message: 'The disclosure must not be greater than 50000 characters'
+                        }
+                    }
+                },
+                default_template_footer: {
+                    validators: {
+                        stringLength: {
+                            max: 50000,
+                            message: 'The default template footer must not be greater than 50000 characters'
                         }
                     }
                 },
