@@ -9,6 +9,8 @@
 - Add applications view to list merchant payments (125524631)
 - Add view to add merchant payment (125524631)
 - Add seeder for new permissions `applications-merchant-payment` (125524631)
+- Added footers to default `templates` (120774193)
+- Added credit information call for an `Application` (120774193)
 
 > Run `PermissionSeeder`
 
