@@ -16,6 +16,7 @@ use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Location;
 use App\Exceptions\Exception;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
@@ -248,6 +249,63 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         } catch (\Exception $e) {
 
             $this->logError('IniApp: ' . $e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @author SL
+     * @param Application $application
+     * @param array $filterParams
+     * @return array
+     * @throws Exception
+     */
+    public function getRemoteMerchantPayments(Application $application, array $filterParams = [])
+    {
+        $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
+
+        try {
+            $merchantPayments = $this->applicationGateway->getMerchantPayments(
+                $application->ext_id,
+                $merchant->token,
+                $filterParams
+            );
+
+            return $merchantPayments;
+
+        } catch (\Exception $e) {
+
+            $this->logError('GetRemoteMerchantPayments: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * @author SL
+     *
+     * @param Application $application
+     * @param Carbon $effectiveDate
+     * @param int $amount
+     * @return bool
+     * @throws Exception
+     */
+    public function addRemoteMerchantPayment(Application $application, Carbon $effectiveDate, $amount)
+    {
+        try {
+            $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
+
+            $status = $this->applicationGateway->addMerchantPayment(
+                $application->ext_id,
+                $effectiveDate,
+                $amount,
+                $merchant->token
+            );
+
+            return is_null($status);
+
+        } catch (\Exception $e) {
+
+            $this->logError('AddRemoteMerchantPayment: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
     }

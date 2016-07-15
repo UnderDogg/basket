@@ -6,6 +6,7 @@
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
             <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
+            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
             <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
     </h1>
@@ -17,6 +18,9 @@
             <li><a data-toggle="tab" href="#part4">Event Log</a></li>
             @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
                 <li><a data-toggle="tab" href="#emailTab">Email Application</a></li>
+            @endif
+            @if(Auth::user()->can('applications-merchant-payments'))
+                <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
             @endif
         </ul>
 
@@ -313,8 +317,45 @@
 
 
             @endif
-        </div>
 
+            @if(Auth::user()->can('applications-merchant-payments'))
+                <div id="merchant-payments-pane" class="tab-pane fade">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Merchant Payments</strong></div>
+                    <div class="panel-body">
+                        @if ($limit == count($merchantPayments))
+                            <div class="alert alert-info">
+                                This list has been truncated to display only the {{ $limit }} most recent payments,
+                                but more transactions may have been created against this application.
+                                If you need to view a full list of these transactions please use our API.
+                            </div>
+                        @endif
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Effective Date</th>
+                                <th>Payment Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse ($merchantPayments as $payment)
+                                <tr>
+                                    <td>{{ $payment['effective_date'] }}</td>
+                                    <td>{{ '&pound;' . number_format($payment['amount']/100, 2) }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td>No merchant payments have been made.</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
     <div class='toast' style='display:none'>Copied to clipboard!</div>
 @endsection
 

@@ -128,6 +128,8 @@ class DBSeeder extends Seeder
             $userObject->attachRole($roles[$user[4]-1]);
         }
 
+        (new PermissionSeeder())->run();
+
         Model::reguard();
     }
 }
