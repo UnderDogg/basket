@@ -1,3 +1,9 @@
+# 1.5.1
+2016-07-18
+
+## Bug Fix
+- Added default *Email Template*
+
 # 1.5.0
 2016-07-15
 
