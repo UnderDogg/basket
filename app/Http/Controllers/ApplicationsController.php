@@ -399,7 +399,12 @@ class ApplicationsController extends Controller
                 array_merge(
                     EmailTemplateEngine::formatRequestForEmail($request),
                     $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
-                    ['template_footer' => $application->installation->getDefaultTemplateFooterAsHtml()]
+                    [
+                        'template_footer' => $application->installation->getDefaultTemplateFooterAsHtml(),
+                        'installation_name' => $application->installation->name,
+                        'installation_logo' => $application->installation->custom_logo_url,
+                        'apply_url' => $application->ext_resume_url,
+                    ]
                 )
             );
         } catch (\Exception $e) {
