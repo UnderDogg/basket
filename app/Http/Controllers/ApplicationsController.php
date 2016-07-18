@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
-use App\Basket\ApplicationEvent\ApplicationEventHelper;
 
 /**
  * Class ApplicationsController
