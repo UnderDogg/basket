@@ -1,3 +1,6 @@
+# 1.5.0
+2016-07-15
+
 ## Features
 - Added `Template` model and created pivot tables for Templates (120757529)
 - Added additional flow for sending `Email Applications` (120758677)
