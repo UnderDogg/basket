@@ -57,11 +57,13 @@
 
                             @if($applications->location !== null)
                                 <dt>Location</dt>
-                                @if(Auth::user()->can('locations-view'))
-                                    <dd><a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a></dd>
-                                @else
-                                    {{ $applications->location->name }}
-                                @endif
+                                <dd>
+                                    @if(Auth::user()->can('locations-view'))
+                                        <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a>
+                                    @else
+                                        {{ $applications->location->name }}
+                                    @endif
+                                </dd>
                             @endif
 
                             @if($applications->ext_resume_url && ($applications->ext_current_status == null || $applications->ext_current_status == 'initialized' || $applications->ext_current_status == 'pending'))
