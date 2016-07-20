@@ -1,3 +1,9 @@
+# 1.5.4
+2016-07-20
+
+## Bug Fixes
+- Fixes for `paybreak/paybreak-sdk-php` version `4.4.1`
+
 # 1.5.3
 2016-07-20
 
