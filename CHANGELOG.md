@@ -1,3 +1,9 @@
+# 1.5.3
+2016-07-20
+
+## Bug Fixes
+- Fixed location name not showing correctly on `application.show` (126589499)
+
 # 1.5.2
 2016-07-18
 
