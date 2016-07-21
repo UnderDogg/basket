@@ -1,3 +1,9 @@
+# 1.5.5
+2016-07-21
+
+## Bug Fixes
+- Added `post-install` script for publishing vendor configuration
+
 # 1.5.4
 2016-07-20
 
