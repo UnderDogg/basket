@@ -340,19 +340,16 @@
                                         </div>
                                     </div>
 
-                                @endif
+                                    @endif
 
-                                    @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
-
-                                        @if(count($bitwise->explode()) == 1)<div class="col-sm-12 col-xs-12">@endif
-                                        @if(count($bitwise->explode()) == 2)<div class="col-sm-6 col-xs-12">@endif
-                                        @if(count($bitwise->explode()) == 3)<div class="col-sm-4 col-xs-12">@endif
-                                            @if($bitwise->contains($offer['value']))
-                                                <button type="submit" class="btn btn-success btn-lg btn-block"@if(isset($offer['name'])) name="{!! $offer['name'] !!}" value="true"@endif>{!! $offer['text'] !!}</button>
-                                            @endif
-                                        </div>
-
-                                    @endforeach
+                                    @if(count($bitwise->explode()) > 1) <div class="col-sm-12 col-xs-12">@else <div class="col-sm-6 col-xs-12">@endif
+                                        @if($bitwise->contains(2))
+                                            <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
+                                        @endif
+                                        @if($bitwise->contains(2) && $bitwise->explode() > 1)
+                                            <button type="submit" class="btn btn-success btn-lg btn-block" name="alternate" value="true">Create an Application Link</button>
+                                        @endif
+                                    </div>
 
                                     @if($location->installation->disclosure)
                                         <br/>
