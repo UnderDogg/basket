@@ -9,7 +9,6 @@
  */
 namespace App\Http\Controllers;
 
-use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
@@ -55,7 +54,7 @@ class InitialisationController extends Controller
     }
 
     /**
-     * @author WN
+     * @author WN, EB
      * @param $locationId
      * @param Request $request
      * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -82,19 +81,8 @@ class InitialisationController extends Controller
             ]
         );
 
-        $location = $this->fetchLocation($locationId);
-
         try {
-            return $this->requestType(
-                $location,
-                $request,
-                $this->applicationSynchronisationService->initialiseApplication(
-                    $location,
-                    $this->createOrderEntity($request, $location->installation),
-                    $this->createProductsEntity($request),
-                    $this->createApplicantEntity($request),
-                    $this->getAuthenticatedUser()
-                ));
+            return $this->applicationRequestType($this->fetchLocation($locationId), $request);
         } catch (\Exception $e) {
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
@@ -153,15 +141,21 @@ class InitialisationController extends Controller
      * @author EB
      * @param Location $location
      * @param Request $request
-     * @param Application $application
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function requestType(Location $location, Request $request, Application $application)
+    private function applicationRequestType(Location $location, Request $request)
     {
+        if($request->has('alternate')) {
+            return view('initialise.alternate')
+                ->with('input', $request->only(
+                    ['amount', 'product', 'product_name', 'group', 'reference', 'description', 'deposit'])
+                );
+        }
+
+        $application = $this->createApplication($location, $request);
+
         if($request->has('link')) {
-
             ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
-
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
                 'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
@@ -169,18 +163,31 @@ class InitialisationController extends Controller
         }
 
         if($request->has('email')) {
-
-            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
-
-            return $this->redirectWithSuccessMessage(
-                '/installations/' . $location->installation->id . '/applications/' . $application->id . '#emailTab',
-                'Successfully created an Application.'
-            );
+            /** @var ApplicationsController $applicationsController */
+            $applicationsController = \App::make('App\Http\Controllers\ApplicationsController');
+            return $applicationsController->emailApplication($location->installation->id, $application->id, $request);
         }
 
         ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
-
         return redirect($application->ext_resume_url);
+    }
+
+    /**
+     * @author EB
+     * @param Location $location
+     * @param Request $request
+     * @return \App\Basket\Application
+     * @throws \App\Exceptions\Exception
+     */
+    private function createApplication(Location $location, Request $request)
+    {
+        return $this->applicationSynchronisationService->initialiseApplication(
+            $location,
+            $this->createOrderEntity($request, $location->installation),
+            $this->createProductsEntity($request),
+            $this->createApplicantEntity($request),
+            $this->getAuthenticatedUser()
+        );
     }
 
     /**
