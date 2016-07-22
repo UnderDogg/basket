@@ -3,7 +3,7 @@
 @section('page')
 <body>
     <div class="container-fluid">
-        {!! Form::open(['class' => 'form-horizontal', 'id' => 'extraInformationForm']) !!}
+        {!! Form::open(['action' => ['InitialisationController@request', Request::segment(2)], 'class' => 'form-horizontal']) !!}
         <div class="form-group collapse-form-group col-xs-12">
             {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
             <div class="col-sm-12 col-md-9">
