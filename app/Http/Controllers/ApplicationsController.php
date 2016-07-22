@@ -16,6 +16,7 @@ use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
@@ -407,6 +408,7 @@ class ApplicationsController extends Controller
                     ]
                 )
             );
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $installation . '/applications/' . $id,
