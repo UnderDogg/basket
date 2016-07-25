@@ -143,7 +143,7 @@ class InitialisationController extends Controller
      * @author EB
      * @param Location $location
      * @param Request $request
-     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws RedirectException
      */
     private function applicationRequestType(Location $location, Request $request)
@@ -210,6 +210,7 @@ class InitialisationController extends Controller
 
         if ($request->has('link')) {
             ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
+
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
                 'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
@@ -219,10 +220,12 @@ class InitialisationController extends Controller
         if ($request->has('email')) {
             /** @var ApplicationsController $controller */
             $controller = \App::make('App\Http\Controllers\ApplicationsController');
+
             return $controller->emailApplication($location->installation->id, $application->id, $request);
         }
 
         ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
+
         return redirect($application->ext_resume_url);
     }
 
