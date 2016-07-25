@@ -193,4 +193,4 @@
     </script>
 
     <script src={!! asset('/js/fv.js') !!}></script>
-    @endsection
+@endsection
