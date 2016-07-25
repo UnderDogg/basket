@@ -68,7 +68,7 @@
 
                             @if($applications->ext_resume_url && ($applications->ext_current_status == null || $applications->ext_current_status == 'initialized' || $applications->ext_current_status == 'pending'))
                                 <dt>Resume URL</dt>
-                                <dd><a href="" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
+                                <dd><a href="{{$applications->ext_resume_url}}" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
                             @endif
 
                         </dl>
