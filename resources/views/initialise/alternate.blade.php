@@ -99,6 +99,11 @@
 
         {!! Form::close() !!}
     </div>
+</body>
+
+@endsection
+
+@section('stylesheets')
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -188,6 +193,4 @@
     </script>
 
     <script src={!! asset('/js/fv.js') !!}></script>
-</body>
-
-@endsection
+    @endsection
