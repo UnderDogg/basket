@@ -143,6 +143,9 @@
                 },
                 first_name: {
                     validators: {
+                        notEmpty: {
+                            message: 'You must provide a first name'
+                        },
                         stringLength: {
                             max: 30,
                             message: 'The first name must not be greater than 30 characters'
@@ -151,6 +154,9 @@
                 },
                 last_name: {
                     validators: {
+                        notEmpty: {
+                            message: 'You must provide a last name'
+                        },
                         stringLength: {
                             max: 30,
                             message: 'The last name must not be greater than 30 characters'
@@ -159,17 +165,13 @@
                 },
                 applicant_email: {
                     validators: {
+                        notEmpty: {
+                            message: 'You must provide an email address'
+                        },
                         emailAddress: {},
                         stringLength: {
                             max: 255,
                             message: 'The email must not be greater than 255 characters'
-                        }
-                    }
-                },
-                phone_home: {
-                    validators: {
-                        phone: {
-                            country: "GB"
                         }
                     }
                 },
@@ -180,14 +182,6 @@
                         }
                     }
                 },
-                postcode: {
-                    validators: {
-                        zipCode: {
-                            country: 'GB',
-                            message: 'The value is not valid %s postal code'
-                        }
-                    }
-                }
             }
         }
     </script>
