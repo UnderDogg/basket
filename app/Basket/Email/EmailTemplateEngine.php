@@ -33,7 +33,7 @@ class EmailTemplateEngine
             'customer_title' => $request->get('title'),
             'customer_first_name' => $request->get('first_name'),
             'customer_last_name' => $request->get('last_name'),
-            'email_recipient' => $request->get('email'),
+            'email_recipient' => $request->get('applicant_email'),
             'email_subject' => $request->get('subject'),
             'order_description' => $request->get('description'),
         ];

@@ -298,3 +298,6 @@ input[type="range"]::-ms-thumb {
     to { transform: scale(1) rotate(360deg);}
 }
 /* End Loading */
+.btn-bottom-margin {
+    margin-bottom: 10px;
+}
