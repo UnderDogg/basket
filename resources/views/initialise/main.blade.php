@@ -268,14 +268,16 @@
 
                                     @endif
 
-                                    @if(count($bitwise->explode()) > 1) <div class="col-sm-12 col-xs-12">@else <div class="col-sm-6 col-xs-12">@endif
-                                        @if($bitwise->contains(2))
-                                            <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
-                                        @endif
-                                        @if($bitwise->contains(2) && $bitwise->explode() > 1)
-                                            <button type="submit" class="btn btn-success btn-lg btn-block" name="alternate" value="true">Create an Application Link</button>
-                                        @endif
-                                    </div>
+                                        @if(count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
+                                            @if($bitwise->contains(2))
+                                                <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
+                                            @endif
+                                        </div>
+                                        @if(count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
+                                            @if($bitwise->contains(2) && $bitwise->explode() > 1)
+                                                <button type="submit" class="btn btn-success btn-lg btn-block" name="alternate" value="true">Create an Application Link</button>
+                                            @endif
+                                        </div>
 
                                     @if($location->installation->disclosure)
                                         <br/>

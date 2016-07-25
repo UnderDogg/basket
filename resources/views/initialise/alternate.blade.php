@@ -99,7 +99,95 @@
 
         {!! Form::close() !!}
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/formvalidation/dist/js/formValidation.min.js"></script>
+    <script src="/formvalidation/dist/js/framework/bootstrap.min.js"></script>
+    <script>
+        validation = {
+            fields: {
+                reference: {
+                    validators: {
+                        notEmpty: {
+                            message: 'You must provide a reference'
+                        },
+                        stringLength: {
+                            max: 40,
+                            message: 'The reference must not be greater than 40 characters'
+                        }
+                    }
+                },
+                description: {
+                    validators: {
+                        notEmpty: {
+                            message: 'You must provide a description'
+                        },
+                        stringLength: {
+                            max: 100,
+                            message: 'The description must not be greater than 100 characters'
+                        }
+                    }
+                },
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: 'You must provide a valid title'
+                        }
+                    }
+                },
+                first_name: {
+                    validators: {
+                        stringLength: {
+                            max: 30,
+                            message: 'The first name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                last_name: {
+                    validators: {
+                        stringLength: {
+                            max: 30,
+                            message: 'The last name must not be greater than 30 characters'
+                        }
+                    }
+                },
+                applicant_email: {
+                    validators: {
+                        emailAddress: {},
+                        stringLength: {
+                            max: 255,
+                            message: 'The email must not be greater than 255 characters'
+                        }
+                    }
+                },
+                phone_home: {
+                    validators: {
+                        phone: {
+                            country: "GB"
+                        }
+                    }
+                },
+                phone_mobile: {
+                    validators: {
+                        phone: {
+                            country: "GB"
+                        }
+                    }
+                },
+                postcode: {
+                    validators: {
+                        zipCode: {
+                            country: 'GB',
+                            message: 'The value is not valid %s postal code'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src={!! asset('/js/fv.js') !!}></script>
 </body>
 
 @endsection
-

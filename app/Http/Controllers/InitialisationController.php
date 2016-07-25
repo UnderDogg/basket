@@ -87,7 +87,7 @@ class InitialisationController extends Controller
         } catch (\Exception $e) {
             $this->logError('Unable to request an Application: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
-                ->setError('Unable to request an Application: ' . $e->getMessage());
+                ->setError('Failed to process the Application, please try again');
         }
     }
 
