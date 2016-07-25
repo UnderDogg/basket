@@ -44,80 +44,6 @@
             </div>
             {!! Form::close() !!}
         </div>
-        @if(isset($options) && count($options) > 0)
-        <div class="col-md-12 well">
-            {!! Form::open(['class' => 'form-horizontal', 'id' => 'extraInformationForm']) !!}
-                <label class="input-lg col-xs-10" data-toggle="collapse" data-target="#extraInformation" aria-expanded="false">Application Information</label>
-                <button type="button" class="btn btn-lg btn-primary pull-right" data-toggle="collapse" data-target="#extraInformation">
-                    <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                </button>
-                <div class="collapse col-xs-12" id="extraInformation">
-                    <hr>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('reference', $reference, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('description', 'Description:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('title', 'Title:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            <select class="form-control col-xs-12 collapse-form-input" name="title">
-                                <option disabled selected hidden>Please select...</option>
-                                <option value="Mr">Mr</option>
-                                <option value="Mrs">Mrs</option>
-                                <option value="Miss">Miss</option>
-                                <option value="Ms">Ms</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('phone_home', 'Home Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('phone_home', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('phone_mobile', 'Mobile Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group collapse-form-group col-xs-12">
-                        {!! Form::label('postcode', 'Postcode:', ['class' => 'col-sm-12 col-md-2 control-label text-right collapse-form-label']) !!}
-                        <div class="col-sm-12 col-md-9">
-                            {!! Form::text('postcode', null, ['class' => 'form-control col-xs-12 collapse-form-input']) !!}
-                        </div>
-                    </div>
-                </div>
-            {!! Form::close() !!}
-        </div>
-        @endif
-
         @if(isset($options))
 
             @if(count($options) > 0)
@@ -363,6 +289,8 @@
                                     {!! Form::hidden('product_name', $product['name']) !!}
                                     {!! Form::hidden('group', $group['id']) !!}
                                     {!! Form::hidden('pay_today', $product['credit_info']['deposit_amount'] + $product['credit_info']['amount_service'], ['class' => 'pay_today']) !!}
+                                    {!! Form::hidden('reference', $reference) !!}
+                                    {!! Form::hidden('description', 'Goods & Services') !!}
 
                                 {!! Form::close() !!}
                             </div>
@@ -386,8 +314,6 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src={!! asset('/formvalidation/dist/js/formValidation.min.js') !!}></script>
-    <script src={!! asset('/formvalidation/dist/js/framework/bootstrap.min.js') !!}></script>
     <script src="/js/custom-deposit.main.js"></script>
     <script src="/js/sweetalert.min.js"></script>
     <script>
@@ -403,119 +329,6 @@
                 var form = $(div).find('.pay_today');
                 document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
             }
-        });
-        $('.initialiseForm').submit(function() {
-            $('#extraInformationForm').submit();
-            var fields = ['reference', 'description', 'first_name', 'last_name', 'applicant_email', 'phone_home', 'phone_mobile', 'postcode'];
-            fields.forEach(function(item) {
-                var value = $('#extraInformation').find("input[name="+item+"]").val();
-                if(value != '' && value != undefined) {
-                    var node = document.createElement('input');
-                    node.setAttribute('name', item);
-                    node.setAttribute('value', value);
-                    node.setAttribute('type', 'hidden');
-                    $('.initialiseForm').append(node);
-                }
-            });
-            var title = $('#extraInformation').find("select[name='title']").find(":selected").text();
-            if(title != 'Please select...') {
-                var node = document.createElement('input');
-                node.setAttribute('name', 'title');
-                node.setAttribute('value', title);
-                node.setAttribute('type', 'hidden');
-                $('.initialiseForm').append(node);
-            }
-        });
-        $(document).ready(function() {
-            $('#extraInformation').formValidation(
-                {
-                    framework: 'bootstrap',
-                    icon: {
-                        valid: '',
-                        invalid: '',
-                        validating: ''
-                    },
-                    fields: {
-                        reference: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'You must provide a reference'
-                                },
-                                stringLength: {
-                                    max: 40,
-                                    message: 'The reference must not be greater than 40 characters'
-                                }
-                            }
-                        },
-                        description: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'You must provide a description'
-                                },
-                                stringLength: {
-                                    max: 100,
-                                    message: 'The description must not be greater than 100 characters'
-                                }
-                            }
-                        },
-                        title: {
-                            validators: {
-                                stringLength: {
-                                    max: 4,
-                                    message: 'You must select a valid title'
-                                }
-                            }
-                        },
-                        first_name: {
-                            validators: {
-                                stringLength: {
-                                    max: 30,
-                                    message: 'The first name must not be greater than 30 characters'
-                                }
-                            }
-                        },
-                        last_name: {
-                            validators: {
-                                stringLength: {
-                                    max: 30,
-                                    message: 'The last name must not be greater than 30 characters'
-                                }
-                            }
-                        },
-                        applicant_email: {
-                            validators: {
-                                emailAddress: {},
-                                stringLength: {
-                                    max: 255,
-                                    message: 'The email must not be greater than 255 characters'
-                                }
-                            }
-                        },
-                        phone_home: {
-                            validators: {
-                                phone: {
-                                    country: "GB"
-                                }
-                            }
-                        },
-                        phone_mobile: {
-                            validators: {
-                                phone: {
-                                    country: "GB"
-                                }
-                            }
-                        },
-                        postcode: {
-                            validators: {
-                                zipCode: {
-                                    country: 'GB',
-                                    message: 'The value is not valid %s postal code'
-                                }
-                            }
-                        }
-                    }
-                }
-            )
         });
     </script>
 
