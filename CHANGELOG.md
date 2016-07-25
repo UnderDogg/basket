@@ -1,3 +1,6 @@
+## Features
+- Changed the flow for different Application types (126765451)
+
 # 1.5.6
 2016-07-25
 
