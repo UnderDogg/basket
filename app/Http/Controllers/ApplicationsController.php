@@ -384,7 +384,7 @@ class ApplicationsController extends Controller
                 'title' => 'required|in:Mr,Mrs,Miss,Ms',
                 'first_name' => 'required|max:30',
                 'last_name' => 'required|max:30',
-                'email' => 'required|email|max:30',
+                'applicant_email' => 'required|email|max:30',
                 'subject' => 'required|max:100',
                 'description' => 'required|max:255',
             ]
@@ -393,10 +393,9 @@ class ApplicationsController extends Controller
         $application = $this->fetchApplicationById($id, $installation);
 
         try {
-            $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
-                $template,
+                TemplatesController::fetchDefaultTemplateForInstallation($application->installation),
                 array_merge(
                     EmailTemplateEngine::formatRequestForEmail($request),
                     $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
@@ -419,7 +418,7 @@ class ApplicationsController extends Controller
 
         return $this->redirectWithSuccessMessage(
             'installations/' . $installation . '/applications/' . $id,
-            'Application successfully emailed to ' . $request->get('email')
+            'Application successfully emailed to ' . $request->get('applicant_email')
         );
     }
 
