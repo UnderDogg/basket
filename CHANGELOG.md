@@ -1,3 +1,15 @@
+# 1.5.6
+2016-07-25
+
+## Bug Fixes
+- Fixed *Application Link* copy issue (126790701)
+
+# 1.5.5
+2016-07-21
+
+## Bug Fixes
+- Added `post-install` script for publishing vendor configuration
+
 # 1.5.4
 2016-07-20
 
