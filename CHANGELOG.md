@@ -1,3 +1,9 @@
+# 1.5.6
+2016-07-25
+
+## Bug Fixes
+- Fixed *Application Link* copy issue (126790701)
+
 # 1.5.5
 2016-07-21
 
