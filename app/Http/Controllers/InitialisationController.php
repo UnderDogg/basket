@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
@@ -84,8 +85,9 @@ class InitialisationController extends Controller
         try {
             return $this->applicationRequestType($this->fetchLocation($locationId), $request);
         } catch (\Exception $e) {
+            $this->logError('Unable to request an Application: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
-                ->setError($e->getMessage());
+                ->setError('Unable to request an Application: ' . $e->getMessage());
         }
     }
 
@@ -141,35 +143,40 @@ class InitialisationController extends Controller
      * @author EB
      * @param Location $location
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws RedirectException
      */
     private function applicationRequestType(Location $location, Request $request)
     {
         if($request->has('alternate')) {
             return view('initialise.alternate')
-                ->with('input', $request->only(
-                    ['amount', 'product', 'product_name', 'group', 'reference', 'description', 'deposit'])
+                ->with(
+                    [
+                        'input' => $request->only(
+                            ['amount', 'product', 'product_name', 'group', 'reference', 'description', 'deposit']
+                        ),
+                        'bitwise' => Bitwise::make(($location->installation->finance_offers - Installation::IN_STORE)),
+                        'location' => $location,
+                    ]
                 );
         }
 
-        $application = $this->createApplication($location, $request);
-
-        if($request->has('link')) {
-            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
-            return $this->redirectWithSuccessMessage(
-                '/installations/' . $location->installation->id . '/applications/' . $application->id,
-                'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
+        try {
+            return $this->handleApplicationRequest($request, $location);
+        } catch (\Exception $e) {
+            $this->logError(
+                'Failed to process an Application request: ' . $e->getMessage(),
+                [
+                    'request' => $request->all(),
+                    'location' => $location->name,
+                ]
+            );
+            throw $this->redirectWithException(
+                '/installations/' . $location->installation->id . '/applications/make',
+                'Failed to process the Application request',
+                $e
             );
         }
-
-        if($request->has('email')) {
-            /** @var ApplicationsController $applicationsController */
-            $applicationsController = \App::make('App\Http\Controllers\ApplicationsController');
-            return $applicationsController->emailApplication($location->installation->id, $application->id, $request);
-        }
-
-        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
-        return redirect($application->ext_resume_url);
     }
 
     /**
@@ -188,6 +195,35 @@ class InitialisationController extends Controller
             $this->createApplicantEntity($request),
             $this->getAuthenticatedUser()
         );
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @param Location $location
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws RedirectException
+     */
+    private function handleApplicationRequest(Request $request, Location $location)
+    {
+        $application = $this->createApplication($location, $request);
+
+        if ($request->has('link')) {
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
+            return $this->redirectWithSuccessMessage(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id,
+                'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
+            );
+        }
+
+        if ($request->has('email')) {
+            /** @var ApplicationsController $controller */
+            $controller = \App::make('App\Http\Controllers\ApplicationsController');
+            return $controller->emailApplication($location->installation->id, $application->id, $request);
+        }
+
+        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
+        return redirect($application->ext_resume_url);
     }
 
     /**

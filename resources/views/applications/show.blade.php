@@ -290,9 +290,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
+                                    {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
-                                        {!! Form::email('email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
+                                        {!! Form::email('applicant_email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
