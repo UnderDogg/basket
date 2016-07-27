@@ -6,13 +6,13 @@
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#generalSettings">General</a></li>
-        <li><a data-toggle="tab" href="#instoreSettings">Instore</a></li>
-        <li><a data-toggle="tab" href="#integrationSettings">Integration</a></li>
         <li><a data-toggle="tab" href="#emailSettings">Email Template</a></li>
+        <li><a data-toggle="tab" href="#instoreSettings">In-store</a></li>
+        <li><a data-toggle="tab" href="#integrationSettings">Integration</a></li>
     </ul>
     <p>&nbsp;</p>
     {!! Form::model($installations, ['method' => 'PATCH', 'action' => ['InstallationsController@update', $installations->id], 'class' => 'form-horizontal']) !!}
-    <div class="col-xs-12">
+    <div class="col-xs-12 tab-content">
         <div id="generalSettings" class="tab-pane fade in active">
             <br/>
             <div class="form-group">
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div id="email" class="tab-pane fade">
+        <div id="emailSettings" class="tab-pane fade">
             <br/>
             <div class="form-group">
                 {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
