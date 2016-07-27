@@ -4,99 +4,106 @@
 
     <h1>Edit Installation</h1>
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installations->name]])
-
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#generalSettings">General</a></li>
+        <li><a data-toggle="tab" href="#instoreSettings">Instore</a></li>
+        <li><a data-toggle="tab" href="#integrationSettings">Integration</a></li>
+        <li><a data-toggle="tab" href="#emailSettings">Email Template</a></li>
+    </ul>
     <p>&nbsp;</p>
     {!! Form::model($installations, ['method' => 'PATCH', 'action' => ['InstallationsController@update', $installations->id], 'class' => 'form-horizontal']) !!}
     <div class="col-xs-12">
-
-        <div class="form-group">
-            {!! Form::label('name', 'Name: ', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('name', null, ['class' => 'form-control']) !!}
+        <div id="generalSettings" class="tab-pane fade in active">
+            <br/>
+            <div class="form-group">
+                {!! Form::label('name', 'Name: ', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('active', 'Active: ', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    @if($installations->active == 1)
+                        {!! Form::input('checkbox', 'active', null, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
+                    @else
+                        {!! Form::input('checkbox', 'active', null, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('validity', 'Validity Period (in seconds)', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('validity', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            {!! Form::text('finance_offers', $installations->finance_offers, ['hidden' => 'hidden', 'id' => 'finance_offers']) !!}
+            @foreach($installations->getBitwiseFinanceOffers() as $key => $offer)
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Finance Offer: {!! ucwords(str_replace('_',' ', $key)) !!}</label>
+                    <div class="col-sm-8">
+                        <input class="bitwise" type="checkbox" @if($offer['active'] == true) checked @endif data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i> Active" data-off="<i class='glyphicon glyphicon-remove'></i> Inactive" data-onstyle="success" data-offstyle="danger" data-size="small" value="{!! $offer['value'] !!}">
+                    </div>
+                </div>
+            @endforeach
+            <div class="form-group">
+                {!! Form::hidden('merchant_payments', $installations->merchant_payments) !!}
+                {!! Form::label('merchant_payments_toggle', 'Merchant Payments: ', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    @if($installations->merchant_payments == 1)
+                        {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
+                    @else
+                        {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                    @endif
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            {!! Form::label('active', 'Active: ', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                @if($installations->active == 1)
-                    {!! Form::input('checkbox', 'active', null, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
-                @else
-                    {!! Form::input('checkbox', 'active', null, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                @endif
+        <div id="instoreSettings" class="tab-pane fade">
+            <br/>
+            <div class="form-group">
+                {!! Form::label('custom_logo_url', 'Custom Logo (URL)', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('custom_logo_url', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('location_instruction', 'Additional Email Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('disclosure', 'In Store Disclosure: ', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::textArea('disclosure', null, ['class' => 'form-control']) !!}
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            {!! Form::label('validity', 'Validity Period (in seconds)', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('validity', null, ['class' => 'form-control']) !!}
+        <div id="integrationSettings" class="tab-pane fade">
+            <br/>
+            <div class="form-group">
+                {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('ext_notification_url', 'Notification URL', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control']) !!}
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            {!! Form::label('custom_logo_url', 'Custom Logo (URL)', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('custom_logo_url', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('location_instruction', 'Additional Email Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('disclosure', 'In Store Disclosure: ', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::textArea('disclosure', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('ext_notification_url', 'Notification URL', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        {!! Form::text('finance_offers', $installations->finance_offers, ['hidden' => 'hidden', 'id' => 'finance_offers']) !!}
-
-        @foreach($installations->getBitwiseFinanceOffers() as $key => $offer)
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Finance Offer: {!! ucwords(str_replace('_',' ', $key)) !!}</label>
-            <div class="col-sm-8">
-                <input class="bitwise" type="checkbox" @if($offer['active'] == true) checked @endif data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i> Active" data-off="<i class='glyphicon glyphicon-remove'></i> Inactive" data-onstyle="success" data-offstyle="danger" data-size="small" value="{!! $offer['value'] !!}">
-            </div>
-        </div>
-        @endforeach
-
-
-        <div class="form-group">
-            {!! Form::hidden('merchant_payments', $installations->merchant_payments) !!}
-            {!! Form::label('merchant_payments_toggle', 'Merchant Payments: ', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                @if($installations->merchant_payments == 1)
-                    {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
-                @else
-                    {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                @endif
+        <div id="email" class="tab-pane fade">
+            <br/>
+            <div class="form-group">
+                {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
+                </div>
             </div>
         </div>
 
