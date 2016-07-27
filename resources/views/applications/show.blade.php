@@ -15,13 +15,13 @@
             <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
             <li><a data-toggle="tab" href="#part2">Order Details</a></li>
             <li><a data-toggle="tab" href="#part3">Customer Details</a></li>
-            <li><a data-toggle="tab" href="#part4">Event Log</a></li>
             @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
                 <li><a data-toggle="tab" href="#emailTab">Email Application</a></li>
             @endif
             @if(Auth::user()->can('applications-merchant-payments'))
                 <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
             @endif
+            <li><a data-toggle="tab" href="#part4">Event Log</a></li>
         </ul>
 
         <div class="tab-content">
@@ -232,32 +232,6 @@
                     </div>
                 </div>
             </div>
-            <div id="part4" class="tab-pane fade">
-                <br/>
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Application Events</strong></div>
-                    <div class="panel-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Event</th>
-                                <th>Time</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($applications->applicationEvents as $event)
-                                    <tr>
-                                        <td>{{ (is_null($event->user) ? 'System' : $event->user->name) }}</td>
-                                        <td>{{ $event->description }}</td>
-                                        <td>{{ $event->created_at }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
             @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
                 <div id="emailTab" class="tab-pane fade">
                     <br/>
@@ -357,6 +331,32 @@
                 </div>
             </div>
             @endif
+            <div id="part4" class="tab-pane fade">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Application Events</strong></div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Event</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($applications->applicationEvents as $event)
+                                <tr>
+                                    <td>{{ (is_null($event->user) ? 'System' : $event->user->name) }}</td>
+                                    <td>{{ $event->description }}</td>
+                                    <td>{{ $event->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     <div class='toast' style='display:none'>Copied to clipboard!</div>
 @endsection
