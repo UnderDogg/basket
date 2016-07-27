@@ -16,13 +16,13 @@
         <div id="generalSettings" class="tab-pane fade in active">
             <br/>
             <div class="form-group">
-                {!! Form::label('name', 'Name: ', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('name', 'Name', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('active', 'Active: ', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('active', 'Active', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     @if($installations->active == 1)
                         {!! Form::input('checkbox', 'active', null, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
@@ -32,9 +32,15 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('validity', 'Validity Period (in seconds)', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('validity', 'Applications should be valid for', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('validity', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('validity', null, ['class' => 'form-control', 'placeholder' => 'in seconds']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::label('custom_logo_url', 'Custom Logo (URL)', ['class' => 'col-sm-2 control-label']) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('custom_logo_url', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             {!! Form::text('finance_offers', $installations->finance_offers, ['hidden' => 'hidden', 'id' => 'finance_offers']) !!}
@@ -48,7 +54,7 @@
             @endforeach
             <div class="form-group">
                 {!! Form::hidden('merchant_payments', $installations->merchant_payments) !!}
-                {!! Form::label('merchant_payments_toggle', 'Merchant Payments: ', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('merchant_payments_toggle', 'Merchant Payments', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     @if($installations->merchant_payments == 1)
                         {!! Form::input('checkbox', 'merchant_payments_toggle', null, ['class' => 'merchant-payment-toggle', 'checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small', 'value' => '1']) !!}
@@ -62,19 +68,13 @@
         <div id="instoreSettings" class="tab-pane fade">
             <br/>
             <div class="form-group">
-                {!! Form::label('custom_logo_url', 'Custom Logo (URL)', ['class' => 'col-sm-2 control-label']) !!}
-                <div class="col-sm-8">
-                    {!! Form::text('custom_logo_url', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group">
-                {!! Form::label('location_instruction', 'Additional Email Instruction: ', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('location_instruction', 'Additional Email Instruction', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('disclosure', 'In Store Disclosure: ', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('disclosure', 'In Store Disclosure', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     {!! Form::textArea('disclosure', null, ['class' => 'form-control']) !!}
                 </div>
@@ -100,7 +100,7 @@
         <div id="emailSettings" class="tab-pane fade">
             <br/>
             <div class="form-group">
-                {!! Form::label('default_template_footer', 'Default Template Footer: ', ['class' => 'col-sm-2 control-label']) !!}
+                {!! Form::label('default_template_footer', 'Default Template Footer', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
                 </div>
