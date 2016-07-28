@@ -47,6 +47,11 @@
                 {!! Form::text('custom_colour_button', $emailConfigHelper->getSafe('custom_colour_button'), ['class' => 'email-customisation preview-refresh form-control']) !!}
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                <button type="submit" class="btn btn-info" name="save" value="emailSettings">Save Changes</button>
+            </div>
+        </div>
     </div>
     <div class="col-lg-8 col-md-12 col-sm-12">
         <h3>Preview</h3>

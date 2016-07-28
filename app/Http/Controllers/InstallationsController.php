@@ -306,8 +306,8 @@ class InstallationsController extends Controller
             array_merge(
                 [
                     'installation_logo' => $installation->custom_logo_url,
-                    'customer_title' => 'Mrs',
-                    'customer_last_name' => 'Client',
+                    'customer_title' => 'Title',
+                    'customer_last_name' => 'Surname',
                     'installation_name' => $name,
                     'order_description' => 'Example Order from ' . $name,
                     'payment_regular' => 0,

@@ -11,6 +11,7 @@ namespace App\Basket\Email;
 
 use App\Basket\Application;
 use App\Basket\Template;
+use Illuminate\Mail\Message;
 use Psr\Log\LoggerInterface;
 use WNowicki\Generic\Logger\PsrLoggerTrait;
 
@@ -43,9 +44,11 @@ class EmailApplicationService
     {
         $txt = $this->getView($template, $data);
 
-        \Mail::send('emails.applications.blank', ['content' => $txt], function ($message) use ($data) {
+        dd($data);
+
+        \Mail::send('emails.applications.blank', ['content' => $txt], function (Message $message) use ($data) {
             $message->to($data['email_recipient'])
-                ->subject($data['email_subject']);
+                ->subject($data['email_subject'])->replyTo('', '');
         });
 
         $this->logInfo('EmailApplicationService: Application Email sent for Application[' . $application->id . ']');

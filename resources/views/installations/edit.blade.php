@@ -115,11 +115,6 @@
         <div id="emailSettings" class="tab-pane fade">
             <br/>
             @include('installations.email')
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-8">
-                    <button type="submit" class="btn btn-info" name="save" value="emailSettings">Save Changes</button>
-                </div>
-            </div>
         </div>
     </div>
 
