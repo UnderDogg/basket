@@ -63,6 +63,11 @@
                     @endif
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-info" name="save" value="generalSettings">Save Changes</button>
+                </div>
+            </div>
         </div>
 
         <div id="instoreSettings" class="tab-pane fade">
@@ -77,6 +82,11 @@
                 {!! Form::label('disclosure', 'In Store Disclosure', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
                     {!! Form::textArea('disclosure', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-info" name="save" value="instoreSettings">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -95,16 +105,20 @@
                     {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control']) !!}
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-info" name="save" value="integrationSettings">Save Changes</button>
+                </div>
+            </div>
         </div>
 
         <div id="emailSettings" class="tab-pane fade">
             <br/>
             @include('installations.email')
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-8">
-                {!! Form::submit('Save Changes', ['class' => 'btn btn-info', 'name' => 'saveChanges']) !!}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-info" name="save" value="emailSettings">Save Changes</button>
+                </div>
             </div>
         </div>
     </div>
@@ -114,6 +128,11 @@
 @endsection
 
 @section('scripts')
+    <script>
+        if(window.location.hash != '') {
+            $('a[href$='+ window.location.hash + ']').click();
+        }
+    </script>
     <script>
         validation = {
             fields: {

@@ -130,6 +130,7 @@ class InstallationsController extends Controller
             'ext_notification_url' => 'url|max:255',
             'finance_offers' => 'required|integer|min:' . Installation::LOWEST_BIT,
         ]);
+
         $old = new Installation();
         $old = $old->findOrFail($id);
 

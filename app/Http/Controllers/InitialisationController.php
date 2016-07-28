@@ -9,7 +9,6 @@
  */
 namespace App\Http\Controllers;
 
-use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
