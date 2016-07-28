@@ -124,7 +124,9 @@ class InstallationsController extends Controller
             'active' => 'required|sometimes',
             'validity' => 'required|integer|between:7200,604800',
             'custom_logo_url' => 'url|max:255',
+            'email_reply_to' => 'email|max:255',
             'ext_return_url' => 'url|max:255',
+            'retailer_url' => 'url|max:255',
             'ext_notification_url' => 'url|max:255',
             'finance_offers' => 'required|integer|min:' . Installation::LOWEST_BIT,
         ]);

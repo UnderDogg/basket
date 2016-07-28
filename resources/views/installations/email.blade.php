@@ -2,21 +2,21 @@
     <div class="col-lg-4 col-md-12 col-sm-12">
         <h3>Metadata Customisation</h3>
         <div class="form-group">
-            {!! Form::label('email_subject', 'Email Subject', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('email_subject', 'Subject', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_subject', $emailConfigHelper->getSafe('email_subject'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_subject', $emailConfigHelper->getSafe('email_subject'), ['placeholder' => 'afforditNOW Finance Application', 'class' => 'email-customisation form-control']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('email_reply_to', 'Reply-to address', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('email_reply_to', 'Reply', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_reply_to', $emailConfigHelper->getSafe('email_reply_to'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_reply_to', $emailConfigHelper->getSafe('email_reply_to'), ['placeholder' => 'hello@paybreak.com', 'class' => 'email-customisation form-control']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('email_from_name', 'Email From (Name)', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('email_from_name', 'Sender', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_from_name', $emailConfigHelper->getSafe('email_from_name'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_from_name', $emailConfigHelper->getSafe('email_from_name'), ['placeholder' => 'afforditNOW Finance', 'class' => 'email-customisation form-control']) !!}
             </div>
         </div>
         <hr>

@@ -201,6 +201,33 @@
                             message: 'The notification url must not be greater than 255 characters'
                         }
                     }
+                },
+                retailer_url: {
+                    validators: {
+                        uri: {
+                            message: 'The website url is not valid'
+                        },
+                        stringLength: {
+                            max: 255,
+                            message: 'The website url must not be greater than 255 characters'
+                        }
+                    }
+                },
+                email_subject: {
+                    validators: {
+                        stringLength: {
+                            max: 64,
+                            message: 'The email subject must not be longer than 64 characters'
+                        }
+                    }
+                },
+                email_reply_to: {
+                    validators: {
+                        stringLength: {
+                            max: 64,
+                            message: 'The email subject must not be longer than 64 characters'
+                        }
+                    }
                 }
             }
         };

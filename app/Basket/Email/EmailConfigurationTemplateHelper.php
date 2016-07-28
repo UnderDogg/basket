@@ -30,7 +30,13 @@ class EmailConfigurationTemplateHelper
      */
     public function has($field)
     {
+        if (!is_array($this->configuration)) {
+
+            return false;
+        }
+
         if (array_key_exists($field, $this->configuration)) {
+
             return true;
         }
 
