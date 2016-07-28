@@ -26,21 +26,23 @@
         <br/>
         <h1>Additional Information</h1>
         <br/>
+        <div class="row alternate-full-form">
+        <div class="col-xs-12">
         {!! Form::open(['action' => ['InitialisationController@request', Request::segment(2)], 'class' => 'form-horizontal']) !!}
-        <div class="form-group col-xs-12">
-            {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('reference', 'Reference', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
-                {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12']) !!}
+                {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12', 'maxlength' => 40]) !!}
             </div>
         </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('description', 'Description:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('description', 'Description', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
-                {!! Form::text('description', $input['description'], ['class' => 'form-control col-xs-12']) !!}
+                {!! Form::text('description', $input['description'], ['class' => 'form-control col-xs-12', 'maxlength' => 100]) !!}
             </div>
         </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('title', 'Title:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('title', 'Title', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
                 <select class="form-control col-xs-12" name="title">
                     <option disabled selected hidden>Please select...</option>
@@ -51,26 +53,26 @@
                 </select>
             </div>
         </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('first_name', 'First Name', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
-                {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12']) !!}
+                {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12', 'maxlength' => 30]) !!}
             </div>
         </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('last_name', 'Last Name', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
-                {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12']) !!}
+                {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12', 'maxlength' => 30]) !!}
             </div>
         </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('applicant_email', 'Email', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
-                {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12']) !!}
+                {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12', 'maxlength' => 255]) !!}
             </div>
         </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('phone_mobile', '(Optional) Mobile Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
+        <div class="form-group">
+            {!! Form::label('phone_mobile', '(Optional) Mobile Phone', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
             <div class="col-sm-12 col-md-10">
                 {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12']) !!}
             </div>
@@ -85,7 +87,7 @@
         {!! Form::hidden('subject', 'afforditNOW Finance Application') !!}
         {!! Form::hidden('installation', $location->installation->id) !!}
 
-        <div class="form-group col-xs-12">
+        <div class="form-group">
             @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
                 @if($bitwise->contains($offer['value']))
                     @if(count($bitwise->explode()) == 1)<div class="col-sm-12 col-xs-12">@endif
@@ -98,6 +100,8 @@
         </div>
 
         {!! Form::close() !!}
+        </div>
+        </div>
     </div>
 </body>
 
