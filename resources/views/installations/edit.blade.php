@@ -21,7 +21,7 @@
                     <div class="input-group">
                         {!! Form::text('name', null, ['class' => 'form-control']) !!}
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" aria-label="Help"><span class="glyphicon glyphicon-question-sign"></span></button>
+                            <button type="button" class="btn btn-default" aria-label="Help" data-toggle="popover" data-placement="top" title="Name" data-content="Your Installation Name etc etc"><span class="glyphicon glyphicon-question-sign"></span></button>
                         </span>
                     </div>
                 </div>
@@ -271,6 +271,9 @@
                     finance_offers.attr('value', (parseInt(finance_value) + parseInt(value)));
                 }
             });
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
         });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
