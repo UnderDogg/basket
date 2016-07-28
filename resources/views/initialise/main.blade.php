@@ -88,6 +88,7 @@
 
                                         </div>
                                     </div>
+                                    <div class="row">
                                     @if($product['product_group'] == 'BNPL')
                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                             <table class="table table-condensed" style="font-size: 0.8em;">
@@ -249,9 +250,11 @@
                                             </table>
                                         </div>
                                     @endif
+                                    </div>
 
                                     @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
 
+                                    <div class="row">
                                     <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
 
                                         <h1>Deposit Amount</h1>
@@ -265,19 +268,22 @@
                                             <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
                                         </div>
                                     </div>
+                                    </div>
 
                                     @endif
 
+                                    <div class="row">
                                         @if(count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
                                             @if($bitwise->contains(2))
-                                                <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
+                                                <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin">Continue with In-store Application</button>
                                             @endif
                                         </div>
                                         @if(count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
                                             @if($bitwise->contains(2) && count($bitwise->explode()) > 1)
-                                                <button type="submit" class="btn btn-success btn-lg btn-block" name="alternate" value="true">Create an Application Link</button>
+                                                <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="alternate" value="true">Create an Application Link</button>
                                             @endif
                                         </div>
+                                    </div>
 
                                     @if($location->installation->disclosure)
                                         <br/>
