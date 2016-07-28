@@ -41,7 +41,7 @@ class EmailApplicationService
      */
     public function sendDefaultApplicationEmail(Application $application, Template $template, array $data)
     {
-        $txt = \DbView::make($template)->field('html')->with($data)->render();
+        $txt = $this->getView($template, $data);
 
         \Mail::send('emails.applications.blank', ['content' => $txt], function ($message) use ($data) {
             $message->to($data['email_recipient'])
@@ -51,6 +51,17 @@ class EmailApplicationService
         $this->logInfo('EmailApplicationService: Application Email sent for Application[' . $application->id . ']');
 
         return true;
+    }
+
+    /**
+     * @author SL
+     * @param Template $template
+     * @param array    $data
+     * @return string
+     */
+    public function getView(Template $template, array $data)
+    {
+        return \DbView::make($template)->field('html')->with($data)->render();
     }
 
     /**

@@ -67,4 +67,13 @@ class EmailConfigurationTemplateHelper
 
         return $this->configuration[$field];
     }
+
+    /**
+     * @author SL
+     * @return array
+     */
+    public function getRaw()
+    {
+        return $this->configuration;
+    }
 }

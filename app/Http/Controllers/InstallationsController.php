@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Email\EmailApplicationService;
 use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
@@ -173,7 +174,7 @@ class InstallationsController extends Controller
             'retailer_telephone' => true,
             'custom_colour_hr' => false,
             'custom_colour_button' => false,
-            'custom_colour_h2' => false,
+            'custom_colour_header' => false,
         ];
 
         $rtn = [];
@@ -281,5 +282,45 @@ class InstallationsController extends Controller
             'id' => self::FILTER_STRICT,
             'merchant_id' => self::FILTER_STRICT,
         ];
+    }
+
+    /**
+     * @author SL
+     * @param string $id
+     * @param EmailApplicationService $emailApplicationService
+     * @param Request $request
+     * @return string
+     */
+    public function previewEmail($id, EmailApplicationService $emailApplicationService, Request $request)
+    {
+        $installation = $this->fetchInstallation($id);
+        $templateHelper = new EmailConfigurationTemplateHelper($installation->email_configuration);
+
+        $name = ($templateHelper->has('retailer_name') ? $templateHelper->get('retailer_name') : $installation->name);
+
+        return $emailApplicationService->getView(
+            TemplatesController::fetchDefaultTemplateForInstallation($installation),
+            array_merge(
+                [
+                    'installation_logo' => $installation->custom_logo_url,
+                    'customer_title' => 'Mrs',
+                    'customer_last_name' => 'Client',
+                    'installation_name' => $name,
+                    'order_description' => 'Example Order from ' . $name,
+                    'payment_regular' => 0,
+                    'apply_url' => '#',
+                    'payments' => 0,
+                    'order_amount' => 0,
+                    'deposit_amount' => 0,
+                    'loan_amount' => 0,
+                    'total_repayment' => 0,
+                    'offered_rate' => 0,
+                    'apr' => 0,
+                    'loan_cost' => 0,
+                ],
+                $templateHelper->getRaw(),
+                $request->all()
+            )
+        );
     }
 }
