@@ -44,11 +44,9 @@ class EmailApplicationService
     {
         $txt = $this->getView($template, $data);
 
-        dd($data);
-
         \Mail::send('emails.applications.blank', ['content' => $txt], function (Message $message) use ($data) {
             $message->to($data['email_recipient'])
-                ->subject($data['email_subject'])->replyTo('', '');
+                ->subject($data['email_subject'])->replyTo('evan.barbour@paybreak.com', 'Evan Barbour');
         });
 
         $this->logInfo('EmailApplicationService: Application Email sent for Application[' . $application->id . ']');
