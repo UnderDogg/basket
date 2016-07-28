@@ -168,13 +168,13 @@ class InstallationsController extends Controller
     private function getEmailConfigurationFromParams(Request $request)
     {
         $fields = [
-            'retailer_name' => true,
-            'retailer_query_email' => true,
             'retailer_url' => true,
             'retailer_telephone' => true,
-            'custom_colour_hr' => false,
+            'custom_colour_highlight' => false,
             'custom_colour_button' => false,
-            'custom_colour_header' => false,
+            'email_subject' => false,
+            'email_reply_to' => false,
+            'email_from_name' => false,
         ];
 
         $rtn = [];

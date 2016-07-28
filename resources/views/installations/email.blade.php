@@ -1,6 +1,6 @@
 <div class="col-md-12 col-lg-12 col-sm-12" style="margin: 0 auto;">
     <div class="col-lg-4 col-md-12 col-sm-12">
-        <h2>Email Customisation</h2>
+        <h3>Metadata Customisation</h3>
         <div class="form-group">
             {!! Form::label('email_subject', 'Email Subject', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
@@ -20,58 +20,40 @@
             </div>
         </div>
         <hr>
-        <h2>Retailer Specific Configuration</h2>
+        <h3>Footer Customisation</h3>
         <div class="form-group">
-            {!! Form::label('retailer_name', 'Retailer Name', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('retailer_url', 'Website URL', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('retailer_name', $emailConfigHelper->getSafe('retailer_name'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('retailer_url', $emailConfigHelper->getSafe('retailer_url'), ['class' => 'email-customisation preview-refresh form-control']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('retailer_query_email', 'Query Email', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('retailer_telephone', 'Telephone', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('retailer_query_email', $emailConfigHelper->getSafe('retailer_name'), ['class' => 'email-customisation form-control']) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('retailer_url', 'Retailer URL', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('retailer_url', $emailConfigHelper->getSafe('retailer_url'), ['class' => 'email-customisation form-control']) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('retailer_telephone', 'Retailer Telephone', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('retailer_telephone', $emailConfigHelper->getSafe('retailer_telephone'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('retailer_telephone', $emailConfigHelper->getSafe('retailer_telephone'), ['class' => 'email-customisation preview-refresh form-control']) !!}
             </div>
         </div>
         <hr>
-        <h2>Email visual customisation</h2>
+        <h3>Colour Customisation</h3>
         <div class="form-group">
-            {!! Form::label('custom_colour_hr', 'Horizontal Rule Colour', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('custom_colour_highlight', 'Highlight', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('custom_colour_hr', $emailConfigHelper->getSafe('custom_colour_hr'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('custom_colour_highlight', $emailConfigHelper->getSafe('custom_colour_highlight'), ['class' => 'email-customisation preview-refresh form-control']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('custom_colour_button', 'Button Colour', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('custom_colour_button', 'Button', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('custom_colour_button', $emailConfigHelper->getSafe('custom_colour_button'), ['class' => 'email-customisation form-control']) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('custom_colour_header', 'Header Text Colour', ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('custom_colour_header', $emailConfigHelper->getSafe('custom_colour_h2'), ['class' => 'email-customisation form-control']) !!}
+                {!! Form::text('custom_colour_button', $emailConfigHelper->getSafe('custom_colour_button'), ['class' => 'email-customisation preview-refresh form-control']) !!}
             </div>
         </div>
     </div>
     <div class="col-lg-8 col-md-12 col-sm-12">
-        <h2>Email Preview</h2>
+        <h3>Preview</h3>
         <style>
             iframe {
                 width: 100%;
-                height: 100vh;
+                height: 60vh;
                 border: none;
             }
         </style>
@@ -85,9 +67,9 @@
         var previewUrl = '/installations/1/preview-email';
 
         $(function() {
-            $('.email-customisation').change(function(){
+            $('.email-customisation.preview-refresh').on('change paste input', function(){
                 console.log('reached');
-                console.log(buildPreviewUrl(getElementJson('.email-customisation')));
+                console.log(buildPreviewUrl(getElementJson('.email-customisation.preview-refresh')));
             });
 
             function getElementJson(cssClass){
@@ -95,10 +77,9 @@
 
                 $(cssClass).each(function(){
                     var value = $(this).val();
-//                    if (value != '') {
-
+                    if (value != '') {
                         formElements[$(this).attr('name')] = value;
-//                    }
+                    }
                 });
 
                 return JSON.stringify(formElements);
