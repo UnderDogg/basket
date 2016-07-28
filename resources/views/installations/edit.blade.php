@@ -105,6 +105,7 @@
                     {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
+            @include('installations.email')
         </div>
 
         <div class="form-group">
