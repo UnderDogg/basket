@@ -63,7 +63,7 @@
             }
         </style>
         <div class="well well-lg">
-            <iframe id="email-prev" src="https://basket.paybreak.com/installations/1/preview-email"></iframe>
+            <iframe id="email-prev" src="/installations/1/preview-email"></iframe>
         </div>
     </div>
 </div>

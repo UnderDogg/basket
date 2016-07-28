@@ -126,7 +126,7 @@ class InstallationsController extends Controller
             'custom_logo_url' => 'url|max:255',
             'email_reply_to' => 'email|max:255',
             'ext_return_url' => 'url|max:255',
-            'retailer_url' => 'url|max:255',
+//            'retailer_url' => 'sometimes|url|max:255',
             'ext_notification_url' => 'url|max:255',
             'finance_offers' => 'required|integer|min:' . Installation::LOWEST_BIT,
         ]);
@@ -171,8 +171,8 @@ class InstallationsController extends Controller
     private function getEmailConfigurationFromParams(Request $request)
     {
         $fields = [
-            'retailer_url' => true,
-            'retailer_telephone' => true,
+            'retailer_url' => false,
+            'retailer_telephone' => false,
             'custom_colour_highlight' => false,
             'custom_colour_button' => false,
             'email_subject' => false,
@@ -301,29 +301,33 @@ class InstallationsController extends Controller
 
         $name = ($templateHelper->has('retailer_name') ? $templateHelper->get('retailer_name') : $installation->name);
 
-        return $emailApplicationService->getView(
-            TemplatesController::fetchDefaultTemplateForInstallation($installation),
-            array_merge(
-                [
-                    'installation_logo' => $installation->custom_logo_url,
-                    'customer_title' => 'Title',
-                    'customer_last_name' => 'Surname',
-                    'installation_name' => $name,
-                    'order_description' => 'Example Order from ' . $name,
-                    'payment_regular' => 0,
-                    'apply_url' => '#',
-                    'payments' => 0,
-                    'order_amount' => 0,
-                    'deposit_amount' => 0,
-                    'loan_amount' => 0,
-                    'total_repayment' => 0,
-                    'offered_rate' => 0,
-                    'apr' => 0,
-                    'loan_cost' => 0,
-                ],
-                $templateHelper->getRaw(),
-                $request->all()
-            )
-        );
+        try {
+            return $emailApplicationService->getView(
+                TemplatesController::fetchDefaultTemplateForInstallation($installation),
+                array_merge(
+                    [
+                        'installation_logo' => $installation->custom_logo_url,
+                        'customer_title' => 'Title',
+                        'customer_last_name' => 'Surname',
+                        'installation_name' => $name,
+                        'order_description' => 'Example Order from ' . $name,
+                        'payment_regular' => 0,
+                        'apply_url' => '#',
+                        'payments' => 0,
+                        'order_amount' => 0,
+                        'deposit_amount' => 0,
+                        'loan_amount' => 0,
+                        'total_repayment' => 0,
+                        'offered_rate' => 0,
+                        'apr' => 0,
+                        'loan_cost' => 0,
+                    ],
+                    $templateHelper->getRaw(),
+                    $request->all()
+                )
+            );
+        } catch (\Exception $e) {
+            return view('emails.applications.blank')->with('content', 'No Template Configured');
+        }
     }
 }

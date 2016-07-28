@@ -18,7 +18,12 @@
             <div class="form-group">
                 {!! Form::label('name', 'Name', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                    <div class="input-group">
+                        {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" aria-label="Help"><span class="glyphicon glyphicon-question-sign"></span></button>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
