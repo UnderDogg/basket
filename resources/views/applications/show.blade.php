@@ -235,58 +235,35 @@
             @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
                 <div id="emailTab" class="tab-pane fade">
                     <br/>
-                    <div class="row">
-                        <div class="col col-xs-12">
-                            {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>Applicant Details</strong></div>
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <dt>Title</dt>
+                                <dd>{{ $applications->ext_applicant_title }}</dd>
+                                <dt>First Name</dt>
+                                <dd>{{ $applications->ext_applicant_first_name }}</dd>
+                                <dt>Last Name</dt>
+                                <dd>{{ $applications->ext_applicant_last_name }}</dd>
+                                <dt>Mobile Phone Number</dt>
+                                <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
+                                <dt>Email Address</dt>
+                                <dd>{{ $applications->ext_applicant_email_address }}</dd>
+                            </dl>
+                            <div class="col col-xs-12">
+                                {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
+                                {!! Form::hidden('title', $applications->ext_applicant_title)  !!}
+                                {!! Form::hidden('first_name', $applications->ext_applicant_first_name)  !!}
+                                {!! Form::hidden('last_name', $applications->ext_applicant_last_name)  !!}
+                                {!! Form::hidden('applicant_email', $applications->ext_applicant_email_address)  !!}
+                                {!! Form::hidden('description', $applications->ext_order_description)  !!}
                                 <div class="form-group">
-                                    {!! Form::label('title', 'Title:', ['class' => 'col-sm-2 control-label']) !!}
-                                    <div class="col-sm-8">
-                                        <select class="form-control" name="title">
-
-                                            <option disabled {{ (strtolower($applications->ext_applicant_title) == '' || is_null(strtolower($applications->ext_applicant_title))) ? 'selected' : '' }} hidden>Please select...</option>
-                                            <option value="Mr"{{ strtolower($applications->ext_applicant_title) == 'mr' ? ' selected' : ''}}>Mr</option>
-                                            <option value="Mrs"{{ strtolower($applications->ext_applicant_title) == 'mrs' ? ' selected' : ''}}>Mrs</option>
-                                            <option value="Miss"{{ strtolower($applications->ext_applicant_title) == 'miss' ? ' selected' : ''}}>Miss</option>
-                                            <option value="Ms"{{ strtolower($applications->ext_applicant_title) == 'ms' ? ' selected' : ''}}>Ms</option>
-                                        </select>
+                                    <div class="col-sm-4 col-xs-12">
+                                        {!! Form::submit('Send', ['class' => 'btn btn-info form-control', 'name' => 'sendEmail']) !!}
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-2 control-label']) !!}
-                                    <div class="col-sm-8">
-                                        {!! Form::text('first_name', $applications->ext_applicant_first_name, ['class' => 'form-control']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-2 control-label']) !!}
-                                    <div class="col-sm-8">
-                                        {!! Form::text('last_name', $applications->ext_applicant_last_name, ['class' => 'form-control']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
-                                    <div class="col-sm-8">
-                                        {!! Form::email('applicant_email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::label('subject', 'Subject:', ['class' => 'col-sm-2 control-label']) !!}
-                                    <div class="col-sm-8">
-                                        {!! Form::text('subject', 'afforditNow Finance Application', ['class' => 'form-control']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::label('description', 'Description:', ['class' => 'col-sm-2 control-label']) !!}
-                                    <div class="col-sm-8">
-                                        {!! Form::text('description', $applications->ext_order_description, ['class' => 'form-control', 'placeholder' => 'Order description']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="pull-right col-sm-4 col-xs-12 col-sm-pull-2">
-                                        {!! Form::submit('Send Email', ['class' => 'btn btn-info form-control', 'name' => 'sendEmail']) !!}
-                                    </div>
-                                </div>
-                            {!! Form::close() !!}
+                                {!! Form::close() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

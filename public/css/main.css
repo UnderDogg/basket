@@ -30,10 +30,6 @@ h4.fieldLabel {
     font-size: 22px;
 }
 
-.form-control.btn:hover, .form-control.btn:focus, .form-control.btn.focus {
-    color: #4682b4;
-}
-
 .draggableItem {
     color:#777 !important;
     background-color:#fff;

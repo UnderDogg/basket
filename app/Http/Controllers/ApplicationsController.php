@@ -386,7 +386,6 @@ class ApplicationsController extends Controller
                 'first_name' => 'required|max:30',
                 'last_name' => 'required|max:30',
                 'applicant_email' => 'required|email|max:30',
-                'subject' => 'required|max:100',
                 'description' => 'required|max:255',
             ]
         );
@@ -405,6 +404,7 @@ class ApplicationsController extends Controller
                         'installation_name' => $application->installation->name,
                         'installation_logo' => $application->installation->custom_logo_url,
                         'apply_url' => $application->ext_resume_url,
+                        'email_subject' => 'Application Subject Here',
                     ],
                     (new EmailConfigurationTemplateHelper($application->installation->email_configuration))->getRaw()
                 )
