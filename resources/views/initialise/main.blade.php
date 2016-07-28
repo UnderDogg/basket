@@ -80,7 +80,7 @@
                                                 <h2 data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit <span class="hidden-xs">variable</span></p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
                                                 <h2 data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
