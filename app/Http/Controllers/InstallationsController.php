@@ -9,10 +9,12 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Entities\GroupEntity;
 
 /**
@@ -94,9 +96,14 @@ class InstallationsController extends Controller
      */
     public function edit($id)
     {
+        $installation = $this->fetchInstallation($id);
+
         return view(
             'installations.edit',
-            ['installations' => $this->fetchInstallation($id)]
+            [
+                'installations' => $installation,
+                'emailConfigHelper' => new EmailConfigurationTemplateHelper($installation->email_configuration)
+            ]
         );
     }
 
@@ -123,9 +130,12 @@ class InstallationsController extends Controller
         $old = new Installation();
         $old = $old->findOrFail($id);
 
-        if($old->ext_notification_url !== $request->ext_notification_url ||
-            $old->ext_return_url !== $request->ext_return_url) {
-            try {
+        try {
+
+            $request->merge(['email_configuration' => $this->getEmailConfigurationFromParams($request)]);
+
+            if($old->ext_notification_url !== $request->ext_notification_url ||
+                $old->ext_return_url !== $request->ext_return_url) {
                 $this->installationGateway
                     ->patchInstallation(
                         $this->fetchInstallation($id)->ext_id,
@@ -135,12 +145,68 @@ class InstallationsController extends Controller
                         ],
                         $this->fetchInstallation($id)->merchant->token
                     );
-            } catch (\Exception $e) {
-                return RedirectException::make('/installations/' . $id . '/edit')->setError($e->getMessage());
             }
+        } catch (\Exception $e) {
+            throw RedirectException::make('/installations/' . $id . '/edit')->setError($e->getMessage());
         }
 
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
+    }
+
+    /**
+     * $fields = [
+     *     'fieldName' => bool $required,
+     * ]
+     *
+     * @author SL
+     *
+     * @param Request $request
+     * @return string
+     * @throws Exception
+     */
+    private function getEmailConfigurationFromParams(Request $request)
+    {
+        $fields = [
+            'retailer_name' => true,
+            'retailer_query_email' => true,
+            'retailer_url' => true,
+            'retailer_telephone' => true,
+            'custom_colour_hr' => false,
+            'custom_colour_button' => false,
+            'custom_colour_h2' => false,
+        ];
+
+        $rtn = [];
+
+        foreach ($fields as $field => $required) {
+
+            if ($this->fieldExistsAndNotEmpty($request, $field)) {
+
+                $rtn[$field] = $request->get($field);
+
+                continue;
+            }
+
+            if ($required) {
+
+                throw new Exception('Expected field [' . $field . '] is missing or empty.');
+            }
+        }
+
+        return json_encode($rtn);
+    }
+
+    /**
+     * @author SL
+     * @param Request $request
+     * @param string $field
+     * @return bool
+     */
+    private function fieldExistsAndNotEmpty(Request $request, $field)
+    {
+        return $request->has($field) &&
+               !is_null($request->get($field)) &&
+               strlen($request->get($field)) > 0;
     }
 
     /**
