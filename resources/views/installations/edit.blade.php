@@ -99,12 +99,6 @@
 
         <div id="emailSettings" class="tab-pane fade">
             <br/>
-            <div class="form-group">
-                {!! Form::label('default_template_footer', 'Default Template Footer', ['class' => 'col-sm-2 control-label']) !!}
-                <div class="col-sm-8">
-                    {!! Form::textArea('default_template_footer', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
             @include('installations.email')
         </div>
 
