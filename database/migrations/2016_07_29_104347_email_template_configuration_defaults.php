@@ -19,8 +19,10 @@ class EmailTemplateConfigurationDefaults extends Migration
      */
     public function up()
     {
+        (new AddEmailConfigurationToInstallation)->down();
+
         Schema::table('installations', function (Blueprint $table) {
-            $table->text($this->field)->default('{}')->change();
+            $table->json($this->field);
         });
 
         $template = \App\Basket\Template::first();
@@ -36,7 +38,9 @@ class EmailTemplateConfigurationDefaults extends Migration
     public function down()
     {
         Schema::table('installations', function (Blueprint $table) {
-            $table->text($this->field)->nullable()->change();
+            $table->dropColumn($this->field);
         });
+
+        (new AddEmailConfigurationToInstallation)->up();
     }
 }
