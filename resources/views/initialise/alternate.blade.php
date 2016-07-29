@@ -87,15 +87,11 @@
                 {!! Form::hidden('installation', $location->installation->id) !!}
 
                 <div class="form-group">
-                    @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
-                        @if($bitwise->contains($offer['value']))
-                            @if(count($bitwise->explode()) == 1)<div class="col-sm-12 col-xs-12">@endif
-                            @if(count($bitwise->explode()) == 2)<div class="col-sm-6 col-xs-12">@endif
-                                <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin"@if(isset($offer['name'])) name="{!! $offer['name'] !!}" value="true"@endif>{!! $offer['text'] !!}</button>
-                            </div>
-                        @endif
+                    <div class="col-sm-6 col-xs-12">
+                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="link" value="true">Create Application Linkph</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="email" value="true">Email Application Link</button>
 
-                    @endforeach
+                    </div>
                 </div>
 
                 {!! Form::close() !!}
