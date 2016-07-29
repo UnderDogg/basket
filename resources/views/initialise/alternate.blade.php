@@ -88,9 +88,10 @@
 
                 <div class="form-group">
                     <div class="col-sm-6 col-xs-12">
-                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="link" value="true">Create Application Linkph</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="link" value="true">Create Application Link</button>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
                         <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="email" value="true">Email Application Link</button>
-
                     </div>
                 </div>
 
