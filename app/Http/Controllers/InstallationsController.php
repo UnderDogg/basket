@@ -16,6 +16,7 @@ use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Foundation\Exception;
+use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\GroupEntity;
 
 /**
@@ -103,7 +104,8 @@ class InstallationsController extends Controller
             'installations.edit',
             [
                 'installations' => $installation,
-                'emailConfigHelper' => new EmailConfigurationTemplateHelper($installation->email_configuration)
+                'emailConfigHelper' => new EmailConfigurationTemplateHelper($installation->email_configuration),
+                'bitwise' => Bitwise::make($installation->finance_offers),
             ]
         );
     }

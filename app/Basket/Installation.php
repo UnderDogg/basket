@@ -48,6 +48,7 @@ class Installation extends Model
 
     const IN_STORE = 2;
     const LINK = 4;
+    const EMAIL = 8;
     const LOWEST_BIT = self::IN_STORE;
 
     /**
@@ -202,6 +203,12 @@ class Installation extends Model
                 'text' => 'Create Application Link',
                 'name' => 'link',
             ],
+            'email' => [
+                'value' => self::EMAIL,
+                'active' => $financeOffers->contains(self::EMAIL),
+                'text' => 'Email Application',
+                'name' => 'email',
+            ]
         ];
     }
 }

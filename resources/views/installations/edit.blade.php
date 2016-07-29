@@ -44,14 +44,18 @@
                 </div>
             </div>
             {!! Form::text('finance_offers', $installations->finance_offers, ['hidden' => 'hidden', 'id' => 'finance_offers']) !!}
-            @foreach($installations->getBitwiseFinanceOffers() as $key => $offer)
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Finance Offer: {!! ucwords(str_replace('_',' ', $key)) !!}</label>
-                    <div class="col-sm-8">
-                        <input class="bitwise" type="checkbox" @if($offer['active'] == true) checked @endif data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i> Active" data-off="<i class='glyphicon glyphicon-remove'></i> Inactive" data-onstyle="success" data-offstyle="danger" data-size="small" value="{!! $offer['value'] !!}">
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Finance Offer: In-store</label>
+                <div class="col-sm-8">
+                    <input class="bitwise" type="checkbox" @if($bitwise->contains(2)) checked @endif data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i> Active" data-off="<i class='glyphicon glyphicon-remove'></i> Inactive" data-onstyle="success" data-offstyle="danger" data-size="small" value="2">
                 </div>
-            @endforeach
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Finance Offer: Link</label>
+                <div class="col-sm-8">
+                    <input class="bitwise" type="checkbox" @if($bitwise->contains(12)) checked @endif data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i> Active" data-off="<i class='glyphicon glyphicon-remove'></i> Inactive" data-onstyle="success" data-offstyle="danger" data-size="small" value="12">
+                </div>
+            </div>
             <div class="form-group">
                 {!! Form::hidden('merchant_payments', $installations->merchant_payments) !!}
                 {!! Form::label('merchant_payments_toggle', 'Merchant Payments', ['class' => 'col-sm-2 control-label']) !!}
