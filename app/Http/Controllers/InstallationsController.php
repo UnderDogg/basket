@@ -326,7 +326,7 @@ class InstallationsController extends Controller
                 )
             );
         } catch (\Exception $e) {
-            return view('emails.applications.blank')->with('content', 'No Template Configured');
+            return view('emails.applications.blank')->with('content', 'Problem rendering template');
         }
     }
 }
