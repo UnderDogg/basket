@@ -245,10 +245,10 @@
                                 <dd>{{ $applications->ext_applicant_first_name }}</dd>
                                 <dt>Last Name</dt>
                                 <dd>{{ $applications->ext_applicant_last_name }}</dd>
-                                <dt>Mobile Phone Number</dt>
-                                <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
                                 <dt>Email Address</dt>
                                 <dd>{{ $applications->ext_applicant_email_address }}</dd>
+                                <dt>Mobile Number</dt>
+                                <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
                             </dl>
                             <div class="col col-xs-12">
                                 {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
