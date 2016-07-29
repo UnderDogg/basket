@@ -291,6 +291,7 @@
             $('#colorSelectorHighlight').ColorPicker({
                 color: highlightColour,
                 onShow: function (colpkr) {
+                    $('#colorSelectorHighlight').attr('data-colorpickerid', $(colpkr).attr('id'));
                     $(colpkr).fadeIn(500);
                     return false;
                 },
@@ -307,6 +308,8 @@
             $('#colorSelectorButton').ColorPicker({
                 color: buttonColour,
                 onShow: function (colpkr) {
+                    $('#colorSelectorButton').attr('data-colorpickerid', $(colpkr).attr('id'));
+                    console.log($(colpkr).attr('id'));
                     $(colpkr).fadeIn(500);
                     return false;
                 },
@@ -332,6 +335,21 @@
                                 'background-color: ' + $(this).data('default')
                         );
             });
+
+            $('.colorpicker_current_color').on('click', function(){
+                var pickerId = $(this).parent().attr('id');
+                var descendant = $($('[data-colorpickerid="' + pickerId + '"]'));
+                $(descendant).siblings('input').val(rgb2hex($(this).css('background-color')));
+                $(descendant).children('div').first().css('background-color', rgb2hex($(this).css('background-color')));
+            });
+
+            function rgb2hex(rgb){
+                rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+                return (rgb && rgb.length === 4) ? "#" +
+                ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+            }
         });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
