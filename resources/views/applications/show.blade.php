@@ -249,26 +249,21 @@
                                 <dd>{{ $applications->ext_applicant_email_address }}</dd>
                                 <dt>Mobile Number</dt>
                                 <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
+                                <dt>&nbsp;</dt>
+                                <dd class="">
+                                    {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
+                                    {!! Form::hidden('title', $applications->ext_applicant_title)  !!}
+                                    {!! Form::hidden('first_name', $applications->ext_applicant_first_name)  !!}
+                                    {!! Form::hidden('last_name', $applications->ext_applicant_last_name)  !!}
+                                    {!! Form::hidden('applicant_email', $applications->ext_applicant_email_address)  !!}
+                                    {!! Form::hidden('description', $applications->ext_order_description)  !!}
+                                    {!! Form::submit('Send', ['class' => 'btn btn-info col-xs-12 col-sm-4', 'name' => 'sendEmail']) !!}
+                                    {!! Form::close() !!}
+                                </dd>
                             </dl>
-                            <div class="col col-xs-12">
-                                {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
-                                {!! Form::hidden('title', $applications->ext_applicant_title)  !!}
-                                {!! Form::hidden('first_name', $applications->ext_applicant_first_name)  !!}
-                                {!! Form::hidden('last_name', $applications->ext_applicant_last_name)  !!}
-                                {!! Form::hidden('applicant_email', $applications->ext_applicant_email_address)  !!}
-                                {!! Form::hidden('description', $applications->ext_order_description)  !!}
-                                <div class="form-group">
-                                    <div class="col-sm-4 col-xs-12">
-                                        {!! Form::submit('Send', ['class' => 'btn btn-info form-control', 'name' => 'sendEmail']) !!}
-                                    </div>
-                                </div>
-                                {!! Form::close() !!}
-                            </div>
                         </div>
                     </div>
                 </div>
-
-
             @endif
 
             @if(Auth::user()->can('applications-merchant-payments'))
