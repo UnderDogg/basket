@@ -44,10 +44,40 @@ class EmailApplicationService
     {
         $txt = $this->getView($template, $data);
 
-        \Mail::send('emails.applications.blank', ['content' => $txt], function (Message $message) use ($data) {
-            $message->to($data['email_recipient'])
-                ->subject($data['email_subject'])->replyTo('evan.barbour@paybreak.com', 'Evan Barbour');
-        });
+        $subject = (
+            isset($data['email_subject']) &&
+            !is_null($data['email_subject']) ?
+                $data['email_subject'] :
+                env('EMAIL_TEMPLATE_DEFAULT_SUBJECT', 'Your afforditNOW Finance Application')
+        );
+
+        $replyTo = (
+            isset($data['email_reply_to']) &&
+            !is_null($data['email_reply_to']) ?
+                $data['email_reply_to'] :
+                env('EMAIL_TEMPLATE_DEFAULT_REPLY_TO')
+        );
+
+        $fromName = (
+            isset($data['email_from_name']) &&
+            !is_null($data['email_from_name']) ?
+                $data['email_from_name'] :
+                env('EMAIL_TEMPLATE_DEFAULT_FROM_NAME', 'afforditNOW Finance')
+        );
+
+        \Mail::send(
+            'emails.applications.blank',
+            ['content' => $txt],
+            function (Message $message) use ($data, $subject, $replyTo, $fromName) {
+                $message->to($data['email_recipient'])
+                        ->subject($subject)
+                        ->replyTo($replyTo)
+                        ->from(
+                            env('MAIL_FROM'),
+                            $fromName
+                        );
+            }
+        );
 
         $this->logInfo('EmailApplicationService: Application Email sent for Application[' . $application->id . ']');
 
