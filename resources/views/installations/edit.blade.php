@@ -288,8 +288,6 @@
             $('#colorSelectorHighlight').children().first().attr('style', 'background-color: ' + highlightColour);
             $('#colorSelectorButton').children().first().attr('style', 'background-color: ' + buttonColour);
 
-            console.log(highlightColour, buttonColour);
-
             $('#colorSelectorHighlight').ColorPicker({
                 color: highlightColour,
                 onShow: function (colpkr) {
