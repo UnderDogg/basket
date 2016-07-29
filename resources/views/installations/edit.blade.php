@@ -18,12 +18,7 @@
             <div class="form-group">
                 {!! Form::label('name', 'Name', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" aria-label="Help" data-toggle="popover" data-placement="top" title="Name" data-content="Your Installation Name etc etc"><span class="glyphicon glyphicon-question-sign"></span></button>
-                        </span>
-                    </div>
+                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
             <div class="form-group">
