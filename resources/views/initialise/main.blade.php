@@ -287,7 +287,7 @@
 
                                     @if($location->installation->disclosure)
                                         <br/>
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12" style="font-size: 0.8em !important;">
                                             {!! $location->installation->getDisclosureAsHtml() !!}
                                         </div>
                                     @endif
