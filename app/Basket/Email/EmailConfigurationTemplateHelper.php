@@ -11,16 +11,21 @@ use App\Exceptions\Exception;
  */
 class EmailConfigurationTemplateHelper
 {
-    private $configuration;
+    private $configuration = [];
 
     /**
      * EmailConfigurationTemplateHelper constructor.
-     *
      * @param string $jsonConfiguration
      */
     public function __construct($jsonConfiguration)
     {
-        $this->configuration = json_decode($jsonConfiguration, JSON_OBJECT_AS_ARRAY);
+        if (!empty($jsonConfiguration)) {
+            $this->configuration = json_decode($jsonConfiguration, JSON_OBJECT_AS_ARRAY);
+        }
+
+        if (is_null($this->configuration)) {
+            $this->configuration = [];
+        }
     }
 
     /**

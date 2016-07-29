@@ -10,8 +10,6 @@ use Illuminate\Database\Migrations\Migration;
  */
 class EmailTemplateConfigurationDefaults extends Migration
 {
-    private $field = 'email_configuration';
-
     /**
      * Run the migrations.
      *
@@ -19,12 +17,6 @@ class EmailTemplateConfigurationDefaults extends Migration
      */
     public function up()
     {
-        (new AddEmailConfigurationToInstallation)->down();
-
-        Schema::table('installations', function (Blueprint $table) {
-            $table->json($this->field);
-        });
-
         $template = \App\Basket\Template::first();
         $template->html = file_get_contents('doc/resources/default_email_template.blade.php');
         $template->save();
@@ -37,10 +29,6 @@ class EmailTemplateConfigurationDefaults extends Migration
      */
     public function down()
     {
-        Schema::table('installations', function (Blueprint $table) {
-            $table->dropColumn($this->field);
-        });
 
-        (new AddEmailConfigurationToInstallation)->up();
     }
 }
