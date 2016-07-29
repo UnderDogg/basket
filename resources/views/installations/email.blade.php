@@ -4,19 +4,19 @@
         <div class="form-group">
             {!! Form::label('email_subject', 'Subject', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_subject', $emailConfigHelper->getSafe('email_subject'), ['placeholder' => 'afforditNOW Finance Application', 'class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_subject', $emailConfigHelper->getSafe('email_subject'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_SUBJECT'), 'class' => 'email-customisation form-control']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('email_reply_to', 'Reply', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('email_reply_to', 'Reply To', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_reply_to', $emailConfigHelper->getSafe('email_reply_to'), ['placeholder' => 'hello@paybreak.com', 'class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_reply_to', $emailConfigHelper->getSafe('email_reply_to'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_REPLY_TO'), 'class' => 'email-customisation form-control']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('email_from_name', 'Sender', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('email_from_name', 'From Name', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_from_name', $emailConfigHelper->getSafe('email_from_name'), ['placeholder' => 'afforditNOW Finance', 'class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_from_name', $emailConfigHelper->getSafe('email_from_name'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_FROM_NAME'), 'class' => 'email-customisation form-control']) !!}
             </div>
         </div>
         <hr>
@@ -72,10 +72,10 @@
         var previewUrl = '/installations/1/preview-email';
 
         $(function() {
-            $('.email-customisation.preview-refresh').on('change paste input', function(){
-                console.log('reached');
-                console.log(buildPreviewUrl(getElementJson('.email-customisation.preview-refresh')));
-            });
+//            $('.email-customisation.preview-refresh').on('change paste input', function(){
+//                console.log('reached');
+//                console.log(buildPreviewUrl(getElementJson('.email-customisation.preview-refresh')));
+//            });
 
             function getElementJson(cssClass){
                 var formElements = {};
