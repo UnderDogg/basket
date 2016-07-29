@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Basket\Email;
+
 use App\Exceptions\Exception;
 
 /**
