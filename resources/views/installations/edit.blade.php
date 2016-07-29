@@ -317,22 +317,6 @@
                     $('#colorSelectorButton').children().first().attr('style', 'background-color: #' + hex);
                 }
             });
-
-//            $('#colorSelectorButton').ColorPicker({
-//                color: '#0000ff',
-//                onShow: function (colpkr) {
-//                    $(colpkr).fadeIn(500);
-//                    return false;
-//                },
-//                onHide: function (colpkr) {
-//                    $(colpkr).fadeOut(500);
-//                    return false;
-//                },
-//                onChange: function (hsb, hex, rgb) {
-//                    console.log('#' + hex);
-//                    $('#colorSelectorButton div').css('backgroundColor', '#' + hex);
-//                }
-//            });
         });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
