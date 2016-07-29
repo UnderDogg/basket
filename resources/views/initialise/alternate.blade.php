@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {!! Form::label('phone_mobile', '(Optional) Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    {!! Form::label('phone_mobile', 'Mobile (Optional)', ['class' => 'col-sm-2 control-label text-right']) !!}
                     <div class="col-sm-10">
                         {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12']) !!}
                     </div>
@@ -84,7 +84,6 @@
                         {!! Form::hidden($key, $value) !!}
                     @endif
                 @endforeach
-                {!! Form::hidden('subject', 'afforditNOW Finance Application') !!}
                 {!! Form::hidden('installation', $location->installation->id) !!}
 
                 <div class="form-group">

@@ -247,7 +247,7 @@
                                 <dd>{{ $applications->ext_applicant_last_name }}</dd>
                                 <dt>Email Address</dt>
                                 <dd>{{ $applications->ext_applicant_email_address }}</dd>
-                                <dt>Mobile Number</dt>
+                                <dt>Mobile</dt>
                                 <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
                                 <dt>&nbsp;</dt>
                                 <dd class="">
