@@ -128,12 +128,11 @@
 @endsection
 
 @section('scripts')
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/colorpicker.css" />
+    <script type="text/javascript" src="/js/colorpicker.js"></script>
+
     <script>
-        if(window.location.hash != '') {
-            $('a[href$='+ window.location.hash + ']').click();
-        }
-    </script>
-    <script>
+        // Form Validation
         validation = {
             fields: {
                 name: {
@@ -250,9 +249,12 @@
                 }
             }
         };
-    </script>
-    <script>
+
         $(document).ready(function(){
+            if(window.location.hash != '') {
+                $('a[href$='+ window.location.hash + ']').click();
+            }
+
             $('.merchant-payment-toggle').change(function(){
                 $('input[name=merchant_payments]').val($(this).prop('checked') | 0);
             });
@@ -271,9 +273,66 @@
                     finance_offers.attr('value', (parseInt(finance_value) + parseInt(value)));
                 }
             });
+
             $(function () {
                 $('[data-toggle="popover"]').popover()
-            })
+            });
+
+            var highlightColour = ($('input#custom_colour_highlight').val().length ? $('input#custom_colour_highlight').val() : '#29ABE2');
+            var buttonColour = ($('input#custom_colour_button').val().length ? $('input#custom_colour_button').val() : '#39B54A');
+            $('#colorSelectorHighlight').children().first().attr('style', 'background-color: ' + highlightColour);
+            $('#colorSelectorButton').children().first().attr('style', 'background-color: ' + buttonColour);
+
+            console.log(highlightColour, buttonColour);
+
+
+            $('#colorSelectorHighlight').ColorPicker({
+                color: highlightColour,
+                onShow: function (colpkr) {
+                    $(colpkr).fadeIn(500);
+                    return false;
+                },
+                onHide: function (colpkr) {
+                    $(colpkr).fadeOut(500);
+                    return false;
+                },
+                onChange: function (hsb, hex, rgb) {
+                    $('input#custom_colour_highlight').val('#' + hex);
+                    $('#colorSelectorHighlight').children().first().attr('style', 'background-color: #' + hex);
+                }
+            });
+
+            $('#colorSelectorButton').ColorPicker({
+                color: buttonColour,
+                onShow: function (colpkr) {
+                    $(colpkr).fadeIn(500);
+                    return false;
+                },
+                onHide: function (colpkr) {
+                    $(colpkr).fadeOut(500);
+                    return false;
+                },
+                onChange: function (hsb, hex, rgb) {
+                    $('input#custom_colour_button').val('#' + hex);
+                    $('#colorSelectorButton').children().first().attr('style', 'background-color: #' + hex);
+                }
+            });
+
+//            $('#colorSelectorButton').ColorPicker({
+//                color: '#0000ff',
+//                onShow: function (colpkr) {
+//                    $(colpkr).fadeIn(500);
+//                    return false;
+//                },
+//                onHide: function (colpkr) {
+//                    $(colpkr).fadeOut(500);
+//                    return false;
+//                },
+//                onChange: function (hsb, hex, rgb) {
+//                    console.log('#' + hex);
+//                    $('#colorSelectorButton div').css('backgroundColor', '#' + hex);
+//                }
+//            });
         });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
