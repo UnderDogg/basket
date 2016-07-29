@@ -40,6 +40,7 @@
             <div class="col-sm-8">
                 {!! Form::hidden('custom_colour_highlight', $emailConfigHelper->getSafe('custom_colour_highlight'), ['class' => 'email-customisation color-picker preview-refresh form-control']) !!}
                 <div class="colorSelectorBlock" id="colorSelectorHighlight"><div></div></div>
+                <a class="btn btn-small btn-secondary colorSelectorReset" data-colorSelector="colorSelectorHighlight" data-default="#29ABE2">Reset</a>
             </div>
         </div>
         <div class="form-group">
@@ -47,6 +48,7 @@
             <div class="col-sm-8">
                 {!! Form::hidden('custom_colour_button', $emailConfigHelper->getSafe('custom_colour_button'), ['class' => 'email-customisation color-picker preview-refresh form-control']) !!}
                 <div class="colorSelectorBlock" id="colorSelectorButton"><div></div></div>
+                <a class="btn btn-small btn-secondary colorSelectorReset" data-colorSelector="colorSelectorButton" data-default="#39B54A">Reset</a>
             </div>
         </div>
         <div class="form-group">
@@ -57,27 +59,7 @@
     </div>
     <div class="col-lg-8 col-md-12 col-sm-12">
         <h3>Preview</h3>
-        <style>
-            iframe#email-prev {
-                width: 100%;
-                height: 60vh;
-                border: none;
-            }
-            .colorSelectorBlock {
-                position: relative;
-                width: 36px;
-                height: 36px;
-                background: url(/image/colorpicker/select.png);
-            }
-            .colorSelectorBlock div {
-                position: absolute;
-                top: 3px;
-                left: 3px;
-                width: 30px;
-                height: 30px;
-                background: url(/image/colorpicker/select.png) center;
-            }
-        </style>
+
         <div class="well well-lg">
             <iframe id="email-prev" src="/installations/{{ $installations->id }}/preview-email"></iframe>
         </div>

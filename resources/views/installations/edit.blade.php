@@ -273,13 +273,22 @@
                 $('[data-toggle="popover"]').popover()
             });
 
-            var highlightColour = ($('input#custom_colour_highlight').val().length ? $('input#custom_colour_highlight').val() : '#29ABE2');
-            var buttonColour = ($('input#custom_colour_button').val().length ? $('input#custom_colour_button').val() : '#39B54A');
+            var highlightColour = (
+                    $('input#custom_colour_highlight').val().length ?
+                            $('input#custom_colour_highlight').val() :
+                            $('[data-colorSelector="colorSelectorHighlight"]').data('default')
+            );
+
+            var buttonColour = (
+                    $('input#custom_colour_button').val().length ?
+                            $('input#custom_colour_button').val() :
+                            $('[data-colorSelector="colorSelectorButton"]').data('default')
+            );
+
             $('#colorSelectorHighlight').children().first().attr('style', 'background-color: ' + highlightColour);
             $('#colorSelectorButton').children().first().attr('style', 'background-color: ' + buttonColour);
 
             console.log(highlightColour, buttonColour);
-
 
             $('#colorSelectorHighlight').ColorPicker({
                 color: highlightColour,
@@ -311,6 +320,19 @@
                     $('input#custom_colour_button').val('#' + hex);
                     $('#colorSelectorButton').children().first().attr('style', 'background-color: #' + hex);
                 }
+            });
+
+            $('.colorSelectorReset').on('click', function(){
+                $('#' + $(this).data('colorselector')).ColorPickerSetColor($(this).data('default'));
+                $(this).siblings('input').first().val($(this).data('default'));
+                $(this)
+                        .siblings('.colorSelectorBlock')
+                        .children()
+                        .first()
+                        .attr(
+                                'style',
+                                'background-color: ' + $(this).data('default')
+                        );
             });
         });
     </script>
