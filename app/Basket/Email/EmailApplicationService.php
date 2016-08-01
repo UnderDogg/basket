@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace App\Basket\Email;
 
 use App\Basket\Application;
@@ -87,7 +88,7 @@ class EmailApplicationService
     /**
      * @author SL
      * @param Template $template
-     * @param array    $data
+     * @param array $data
      * @return string
      */
     public function getView(Template $template, array $data)
