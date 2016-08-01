@@ -11,11 +11,13 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
+use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
@@ -383,8 +385,7 @@ class ApplicationsController extends Controller
                 'title' => 'required|in:Mr,Mrs,Miss,Ms',
                 'first_name' => 'required|max:30',
                 'last_name' => 'required|max:30',
-                'email' => 'required|email|max:30',
-                'subject' => 'required|max:100',
+                'applicant_email' => 'required|email|max:30',
                 'description' => 'required|max:255',
             ]
         );
@@ -392,10 +393,9 @@ class ApplicationsController extends Controller
         $application = $this->fetchApplicationById($id, $installation);
 
         try {
-            $template = TemplatesController::fetchDefaultTemplateForInstallation($application->installation);
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
-                $template,
+                TemplatesController::fetchDefaultTemplateForInstallation($application->installation),
                 array_merge(
                     EmailTemplateEngine::formatRequestForEmail($request),
                     $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
@@ -404,9 +404,11 @@ class ApplicationsController extends Controller
                         'installation_name' => $application->installation->name,
                         'installation_logo' => $application->installation->custom_logo_url,
                         'apply_url' => $application->ext_resume_url,
-                    ]
+                    ],
+                    EmailConfigurationTemplateHelper::makeFromJson($application->installation->email_configuration)->toArray()
                 )
             );
+            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $installation . '/applications/' . $id,
@@ -417,7 +419,7 @@ class ApplicationsController extends Controller
 
         return $this->redirectWithSuccessMessage(
             'installations/' . $installation . '/applications/' . $id,
-            'Application successfully emailed to ' . $request->get('email')
+            'Application successfully emailed to ' . $request->get('applicant_email')
         );
     }
 

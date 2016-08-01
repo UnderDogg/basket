@@ -9,7 +9,6 @@
  */
 namespace App\Http\Controllers;
 
-use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
@@ -55,7 +54,7 @@ class InitialisationController extends Controller
     }
 
     /**
-     * @author WN
+     * @author WN, EB
      * @param $locationId
      * @param Request $request
      * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -82,22 +81,12 @@ class InitialisationController extends Controller
             ]
         );
 
-        $location = $this->fetchLocation($locationId);
-
         try {
-            return $this->requestType(
-                $location,
-                $request,
-                $this->applicationSynchronisationService->initialiseApplication(
-                    $location,
-                    $this->createOrderEntity($request, $location->installation),
-                    $this->createProductsEntity($request),
-                    $this->createApplicantEntity($request),
-                    $this->getAuthenticatedUser()
-                ));
+            return $this->applicationRequestType($this->fetchLocation($locationId), $request);
         } catch (\Exception $e) {
+            $this->logError('Unable to request an Application: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
-                ->setError($e->getMessage());
+                ->setError('Failed to process the Application, please try again');
         }
     }
 
@@ -153,13 +142,72 @@ class InitialisationController extends Controller
      * @author EB
      * @param Location $location
      * @param Request $request
-     * @param Application $application
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws RedirectException
      */
-    public function requestType(Location $location, Request $request, Application $application)
+    private function applicationRequestType(Location $location, Request $request)
     {
-        if($request->has('link')) {
+        if($request->has('alternate')) {
+            return view('initialise.alternate')
+                ->with(
+                    [
+                        'input' => $request->only(
+                            ['amount', 'product', 'product_name', 'group', 'reference', 'description', 'deposit']
+                        ),
+                        'bitwise' => Bitwise::make(($location->installation->finance_offers - Installation::IN_STORE)),
+                        'location' => $location,
+                    ]
+                );
+        }
 
+        try {
+            return $this->handleApplicationRequest($request, $location);
+        } catch (\Exception $e) {
+            $this->logError(
+                'Failed to process an Application request: ' . $e->getMessage(),
+                [
+                    'request' => $request->all(),
+                    'location' => $location->name,
+                ]
+            );
+            throw $this->redirectWithException(
+                '/installations/' . $location->installation->id . '/applications/make',
+                'Failed to process the Application request',
+                $e
+            );
+        }
+    }
+
+    /**
+     * @author EB
+     * @param Location $location
+     * @param Request $request
+     * @return \App\Basket\Application
+     * @throws \App\Exceptions\Exception
+     */
+    private function createApplication(Location $location, Request $request)
+    {
+        return $this->applicationSynchronisationService->initialiseApplication(
+            $location,
+            $this->createOrderEntity($request, $location->installation),
+            $this->createProductsEntity($request),
+            $this->createApplicantEntity($request),
+            $this->getAuthenticatedUser()
+        );
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @param Location $location
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws RedirectException
+     */
+    private function handleApplicationRequest(Request $request, Location $location)
+    {
+        $application = $this->createApplication($location, $request);
+
+        if ($request->has('link')) {
             ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
 
             return $this->redirectWithSuccessMessage(
@@ -168,14 +216,11 @@ class InitialisationController extends Controller
             );
         }
 
-        if($request->has('email')) {
+        if ($request->has('email')) {
+            /** @var ApplicationsController $controller */
+            $controller = \App::make('App\Http\Controllers\ApplicationsController');
 
-            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
-
-            return $this->redirectWithSuccessMessage(
-                '/installations/' . $location->installation->id . '/applications/' . $application->id . '#emailTab',
-                'Successfully created an Application.'
-            );
+            return $controller->emailApplication($location->installation->id, $application->id, $request);
         }
 
         ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());

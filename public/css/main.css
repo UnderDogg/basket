@@ -30,10 +30,6 @@ h4.fieldLabel {
     font-size: 22px;
 }
 
-.form-control.btn:hover, .form-control.btn:focus, .form-control.btn.focus {
-    color: #4682b4;
-}
-
 .draggableItem {
     color:#777 !important;
     background-color:#fff;
@@ -298,3 +294,33 @@ input[type="range"]::-ms-thumb {
     to { transform: scale(1) rotate(360deg);}
 }
 /* End Loading */
+.btn-bottom-margin {
+    margin-bottom: 10px;
+}
+
+iframe#email-prev {
+    width: 100%;
+    height: 60vh;
+    border: none;
+}
+
+.colorSelectorBlock {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background: url(/image/colorpicker/select.png);
+    display: inline;
+}
+
+.colorSelectorBlock div {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 30px;
+    height: 30px;
+    background: url(/image/colorpicker/select.png) center;
+}
+
+.colorSelectorReset {
+    margin-left: 50px;
+}

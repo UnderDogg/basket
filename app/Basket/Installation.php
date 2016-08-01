@@ -37,6 +37,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $disclosure
  * @property int    $finance_offers
  * @property string $default_template_footer
+ * @property string $email_configuration
  * @property int    $merchant_payments
  * @property Template[] $templates
  * @package App\Basket
@@ -71,6 +72,7 @@ class Installation extends Model
         'finance_offers',
         'default_template_footer',
         'merchant_payments',
+        'email_configuration',
     ];
 
     /**
@@ -198,15 +200,15 @@ class Installation extends Model
             'link' => [
                 'value' => self::LINK,
                 'active' => $financeOffers->contains(self::LINK),
-                'text' => 'Continue with Application Link',
+                'text' => 'Create Application Link',
                 'name' => 'link',
             ],
             'email' => [
                 'value' => self::EMAIL,
                 'active' => $financeOffers->contains(self::EMAIL),
-                'text' => 'Continue with an Application Email',
+                'text' => 'Email Application',
                 'name' => 'email',
-            ],
+            ]
         ];
     }
 }
