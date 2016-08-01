@@ -136,12 +136,13 @@ class ApplicationSynchronisationServiceTest extends TestCase
         $service->linkApplication(1, 'TestInstall');
     }
 
-    public function testLinkApplicationForSaveException()
+    /**
+     * @author EB
+     */
+    public function testFulfil()
     {
         $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
-        $mockApiClient->expects($this->any())->method('get')->willReturn([
-            'application_address' => ['postcode' => 'test']
-        ]);
+        $mockApiClient->expects($this->any())->method('post')->willReturn(true);
 
         $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
@@ -149,19 +150,65 @@ class ApplicationSynchronisationServiceTest extends TestCase
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
 
-        $app = $this->getMockBuilder('App\Basket\Application')
-            ->getMock();
-        $app->expects($this->once())->method('creating')->willReturn(false);
+        $this->createApplicationForTest();
+        $this->assertTrue($service->fulfil(1));
+    }
 
-        print_r(get_class_methods($app));
-//        die();
-        $this->app->instance('App\Basket\Application', $app);
-      //  $app = $this->getMock('Illuminate\Database\Eloquent\Model');
-      //  $app->expects($this->any())->method('save')->willReturn(false);
-        $return = $service->linkApplication(1, 'TestInstall');
-      //  var_dump($return);
-        $this->assertFalse($return);
-        $this->assertInstanceOf(\App\Basket\Application::class, $return);
-        $this->assertSame('test', $return->ext_application_address_postcode);
+    /**
+     * @author EB
+     * @throws Exception
+     */
+    public function testFulfilForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willThrowException(new Exception());
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+
+        $this->createApplicationForTest();
+        $this->setExpectedException(
+            'WNowicki\Generic\Exception',
+            'Problem with post: Application data form Provider API'
+        );
+        $service->fulfil(1);
+    }
+
+    public function testRequestCancellation()
+    {
+        $this->set
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn(false);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+
+        $this->createApplicationForTest();
+        $this->assertFalse($service->requestCancellation(1, 'Description'));
+    }
+
+    public function testRequestCancellationForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willThrowException(new Exception());
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+
+        $this->createApplicationForTest();
+        $this->setExpectedException(
+            'WNowicki\Generic\Exception',
+            'Problem with post: Application data form Provider API'
+        );
+        $service->requestCancellation(1, 'Description');
     }
 }
