@@ -329,13 +329,13 @@
             var prod = $(this).find('a').attr('aria-controls');
             var content = $('div#' + prod);
             var amount = $(content).find('.pay_today').attr('value');
-            document.getElementById('pay-today').innerHTML = 'Pay Today £' + ceil(amount / 100).toFixed(2);
+            document.getElementById('pay-today').innerHTML = 'Pay Today £' + Math.ceil((amount / 100)).toFixed(2);
         });
         $(window).bind("load", function() {
             if($('div.tab-pane.active').length > 0) {
                 var div = $('div.tab-pane.active').first();
                 var form = $(div).find('.pay_today');
-                document.getElementById('pay-today').innerHTML = 'Pay Today £' + ceil($(form).attr('value') / 100).toFixed(2);
+                document.getElementById('pay-today').innerHTML = 'Pay Today £' + Math.ceil(($(form).attr('value') / 100)).toFixed(2);
             }
         });
     </script>
