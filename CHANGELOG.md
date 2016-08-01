@@ -1,3 +1,42 @@
+## Features
+- Changed the flow for different Application types (126765451)
+
+# 1.5.6
+2016-07-25
+
+## Bug Fixes
+- Fixed *Application Link* copy issue (126790701)
+
+# 1.5.5
+2016-07-21
+
+## Bug Fixes
+- Added `post-install` script for publishing vendor configuration
+
+# 1.5.4
+2016-07-20
+
+## Bug Fixes
+- Fixes for `paybreak/paybreak-sdk-php` version `4.4.1`
+
+# 1.5.3
+2016-07-20
+
+## Bug Fixes
+- Fixed location name not showing correctly on `application.show` (126589499)
+
+# 1.5.2
+2016-07-18
+
+## Bug Fixes
+- Standards fix
+
+# 1.5.1
+2016-07-18
+
+## Bug Fix
+- Added default *Email Template*
+
 # 1.5.0
 2016-07-15
 

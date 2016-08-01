@@ -57,16 +57,18 @@
 
                             @if($applications->location !== null)
                                 <dt>Location</dt>
-                                @if(Auth::user()->can('locations-view'))
-                                    <dd><a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a></dd>
-                                @else
-                                    {{ $applications->location->name }}
-                                @endif
+                                <dd>
+                                    @if(Auth::user()->can('locations-view'))
+                                        <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a>
+                                    @else
+                                        {{ $applications->location->name }}
+                                    @endif
+                                </dd>
                             @endif
 
                             @if($applications->ext_resume_url && ($applications->ext_current_status == null || $applications->ext_current_status == 'initialized' || $applications->ext_current_status == 'pending'))
                                 <dt>Resume URL</dt>
-                                <dd><a href="" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
+                                <dd><a href="{{$applications->ext_resume_url}}" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
                             @endif
 
                         </dl>
@@ -288,9 +290,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
+                                    {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
                                     <div class="col-sm-8">
-                                        {!! Form::email('email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
+                                        {!! Form::email('applicant_email', $applications->ext_applicant_email_address, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">

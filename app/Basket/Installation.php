@@ -198,7 +198,7 @@ class Installation extends Model
             'link' => [
                 'value' => self::LINK,
                 'active' => $financeOffers->contains(self::LINK),
-                'text' => 'Continue with Application Link',
+                'text' => 'Continue with an Application Link',
                 'name' => 'link',
             ],
             'email' => [
