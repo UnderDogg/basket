@@ -1,3 +1,6 @@
+# 1.6.0
+2016-08-01
+
 ## Features
 - Changed the flow for different Application types (126765451)
 - Added `Template` configuration (127154283)
