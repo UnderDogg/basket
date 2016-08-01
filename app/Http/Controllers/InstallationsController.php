@@ -172,28 +172,24 @@ class InstallationsController extends Controller
     private function getEmailConfigurationFromParams(Request $request)
     {
         $fields = [
-            'retailer_url' => false,
-            'retailer_telephone' => false,
-            'custom_colour_highlight' => false,
-            'custom_colour_button' => false,
-            'email_subject' => false,
-            'email_reply_to' => false,
-            'email_from_name' => false,
+            'retailer_url',
+            'retailer_telephone',
+            'custom_colour_highlight',
+            'custom_colour_button',
+            'email_subject',
+            'email_reply_to',
+            'email_from_name',
         ];
 
         $rtn = [];
 
-        foreach ($fields as $field => $required) {
+        foreach ($fields as $field) {
 
             try {
 
-                $this->fieldExistsAndNotEmpty($request, $field);
+                $this->assertFieldExistsAndNotEmpty($request, $field);
+
             } catch (\Exception $e) {
-
-                if ($required) {
-
-                    throw $e;
-                }
 
                 continue;
             }
@@ -211,7 +207,7 @@ class InstallationsController extends Controller
      * @return bool
      * @throws \Exception
      */
-    private function fieldExistsAndNotEmpty(Request $request, $field)
+    private function assertFieldExistsAndNotEmpty(Request $request, $field)
     {
         if (
             !(
