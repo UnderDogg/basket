@@ -10,6 +10,8 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Installation;
+use App\Basket\Template;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class TemplatesController
@@ -26,6 +28,10 @@ class TemplatesController extends Controller
      */
     public static function fetchDefaultTemplateForInstallation(Installation $installation)
     {
-        return $installation->templates()->firstOrFail();
+        try {
+            return $installation->templates()->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return Template::first();
+        }
     }
 }

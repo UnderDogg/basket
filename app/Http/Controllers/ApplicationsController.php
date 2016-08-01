@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
+use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
@@ -385,7 +386,6 @@ class ApplicationsController extends Controller
                 'first_name' => 'required|max:30',
                 'last_name' => 'required|max:30',
                 'applicant_email' => 'required|email|max:30',
-                'subject' => 'required|max:100',
                 'description' => 'required|max:255',
             ]
         );
@@ -404,7 +404,8 @@ class ApplicationsController extends Controller
                         'installation_name' => $application->installation->name,
                         'installation_logo' => $application->installation->custom_logo_url,
                         'apply_url' => $application->ext_resume_url,
-                    ]
+                    ],
+                    EmailConfigurationTemplateHelper::makeFromJson($application->installation->email_configuration)->toArray()
                 )
             );
             ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());

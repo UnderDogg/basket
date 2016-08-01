@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('merchants/{id}/ips/{ip}', 'IpsController@delete');
         Route::get('installations/{id}/edit',  'InstallationsController@edit');
         Route::patch('installations/{id}',       'InstallationsController@update');
+        Route::get('installations/{id}/preview-email',  'InstallationsController@previewEmail');
     });
 
     /*

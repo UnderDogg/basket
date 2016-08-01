@@ -87,7 +87,21 @@ trait ModelTrait
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
+
+        return redirect()->to($redirect . '/' . $id . '/edit' . $this->shouldReturnToTab($request))
+            ->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
+    }
+
+    /**
+     * Returns to a specific tab on a page, if specified
+     *
+     * @author EB
+     * @param Request $request
+     * @return string
+     */
+    private function shouldReturnToTab(Request $request)
+    {
+        return $request->has('save') ? '#' . $request->get('save') : '';
     }
 
     /**
