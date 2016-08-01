@@ -167,7 +167,7 @@ class InstallationsController extends Controller
      *
      * @param Request $request
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     private function getEmailConfigurationFromParams(Request $request)
     {
@@ -185,7 +185,18 @@ class InstallationsController extends Controller
 
         foreach ($fields as $field => $required) {
 
-            $this->fieldExistsAndNotEmpty($request, $field);
+            try {
+
+                $this->fieldExistsAndNotEmpty($request, $field);
+            } catch (\Exception $e) {
+
+                if ($required) {
+
+                    throw $e;
+                }
+
+                continue;
+            }
 
             $rtn[$field] = $request->get($field);
         }
@@ -197,17 +208,22 @@ class InstallationsController extends Controller
      * @author SL
      * @param Request $request
      * @param string $field
-     * @param bool $required
      * @return bool
+     * @throws \Exception
      */
-    private function fieldExistsAndNotEmpty(Request $request, $field, $required = false)
+    private function fieldExistsAndNotEmpty(Request $request, $field)
     {
-        if (!$request->has($field) && $required) {
-            throw new \Exception('Required field [] is missing or empty');
+        if (
+            !(
+                $request->has($field) &&
+                !is_null($request->get($field)) &&
+                strlen($request->get($field)) > 0
+            )
+        ) {
+            throw new \Exception('Required field [' . $field . '] is missing or empty');
         }
-        return $request->has($field) &&
-               !is_null($request->get($field)) &&
-               strlen($request->get($field)) > 0;
+
+        return true;
     }
 
     /**
