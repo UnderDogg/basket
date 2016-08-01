@@ -1,5 +1,7 @@
 ## Features
 - Changed the flow for different Application types (126765451)
+- Added `Template` configuration (127154283)
+- `Template` preview added to `installation.edit` page (127154283)
 
 # 1.5.6
 2016-07-25
