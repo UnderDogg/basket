@@ -26,7 +26,7 @@ class EmailConfigurationTemplateHelper
      * EmailConfigurationTemplateHelper constructor.
      * @param array $params
      */
-    public function __construct($params = [])
+    public function __construct(array $params)
     {
         $this->configuration = $params;
     }
