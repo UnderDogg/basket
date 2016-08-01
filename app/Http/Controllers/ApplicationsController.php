@@ -405,7 +405,7 @@ class ApplicationsController extends Controller
                         'installation_logo' => $application->installation->custom_logo_url,
                         'apply_url' => $application->ext_resume_url,
                     ],
-                    (new EmailConfigurationTemplateHelper($application->installation->email_configuration))->getRaw()
+                    EmailConfigurationTemplateHelper::makeFromJson($application->installation->email_configuration)->toArray()
                 )
             );
             ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());

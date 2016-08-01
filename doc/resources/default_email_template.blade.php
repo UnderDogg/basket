@@ -122,7 +122,7 @@
                                                                     <p align="right" style="color: #707070;">
                                                                         <strong>{{ isset($installation_name) ? $installation_name : '' }}</strong><br>
                                                                         {{ isset($retailer_telephone) ? $retailer_telephone : '' }}<br>
-                                                                        <a style="text-decoration: none; color: {{ (isset($custom_colour_highlight) ? $custom_colour_highlight : '#39b54a' ) }};" href="{{ isset($retailer_url) ? $retailer_url : '' }}">{{ isset($retailer_url) ? $retailer_url : '' }}</a>
+                                                                        <a style="text-decoration: none; color: {{ (isset($custom_colour_highlight) ? $custom_colour_highlight : '#29ABE2' ) }};" href="{{ isset($retailer_url) ? $retailer_url : '' }}">{{ isset($retailer_url) ? $retailer_url : '' }}</a>
                                                                     </p>
                                                                 </div>
                                                             </td>

@@ -24,17 +24,30 @@ class EmailConfigurationTemplateHelper
 
     /**
      * EmailConfigurationTemplateHelper constructor.
-     * @param string $jsonConfiguration
+     * @param array $params
      */
-    public function __construct($jsonConfiguration)
+    public function __construct($params = [])
     {
+        $this->configuration = $params;
+    }
+
+    /**
+     * @param $jsonConfiguration
+     * @return EmailConfigurationTemplateHelper
+     */
+    public static function makeFromJson($jsonConfiguration)
+    {
+        $config = [];
+
         if (!empty($jsonConfiguration)) {
-            $this->configuration = json_decode($jsonConfiguration, JSON_OBJECT_AS_ARRAY);
+            $config = json_decode($jsonConfiguration, JSON_OBJECT_AS_ARRAY);
         }
 
-        if (is_null($this->configuration)) {
-            $this->configuration = [];
+        if (is_null($config)) {
+            $config = [];
         }
+
+        return new self($config);
     }
 
     /**
@@ -55,13 +68,14 @@ class EmailConfigurationTemplateHelper
     /**
      * @author SL
      * @param $field
+     * @param string $default
      * @return string
      */
-    public function getSafe($field)
+    public function getSafe($field, $default = '')
     {
         if (!$this->has($field)) {
 
-            return '';
+            return $default;
         }
 
         return $this->configuration[$field];
@@ -87,7 +101,7 @@ class EmailConfigurationTemplateHelper
      * @author SL
      * @return array
      */
-    public function getRaw()
+    public function toArray()
     {
         return $this->configuration;
     }

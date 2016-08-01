@@ -104,7 +104,7 @@ class InstallationsController extends Controller
             'installations.edit',
             [
                 'installations' => $installation,
-                'emailConfigHelper' => new EmailConfigurationTemplateHelper($installation->email_configuration),
+                'emailConfigHelper' => EmailConfigurationTemplateHelper::makeFromJson($installation->email_configuration),
                 'bitwise' => Bitwise::make($installation->finance_offers),
             ]
         );
@@ -185,17 +185,9 @@ class InstallationsController extends Controller
 
         foreach ($fields as $field => $required) {
 
-            if ($this->fieldExistsAndNotEmpty($request, $field)) {
+            $this->fieldExistsAndNotEmpty($request, $field);
 
-                $rtn[$field] = $request->get($field);
-
-                continue;
-            }
-
-            if ($required) {
-
-                throw new Exception('Expected field [' . $field . '] is missing or empty.');
-            }
+            $rtn[$field] = $request->get($field);
         }
 
         return json_encode($rtn);
@@ -205,10 +197,14 @@ class InstallationsController extends Controller
      * @author SL
      * @param Request $request
      * @param string $field
+     * @param bool $required
      * @return bool
      */
-    private function fieldExistsAndNotEmpty(Request $request, $field)
+    private function fieldExistsAndNotEmpty(Request $request, $field, $required = false)
     {
+        if (!$request->has($field) && $required) {
+            throw new \Exception('Required field [] is missing or empty');
+        }
         return $request->has($field) &&
                !is_null($request->get($field)) &&
                strlen($request->get($field)) > 0;
@@ -298,7 +294,7 @@ class InstallationsController extends Controller
     public function previewEmail($id, EmailApplicationService $emailApplicationService, Request $request)
     {
         $installation = $this->fetchInstallation($id);
-        $templateHelper = new EmailConfigurationTemplateHelper($installation->email_configuration);
+        $templateHelper = EmailConfigurationTemplateHelper::makeFromJson($installation->email_configuration);
 
         $name = ($templateHelper->has('retailer_name') ? $templateHelper->get('retailer_name') : $installation->name);
 
@@ -323,7 +319,7 @@ class InstallationsController extends Controller
                         'apr' => 0,
                         'loan_cost' => 0,
                     ],
-                    $templateHelper->getRaw(),
+                    $templateHelper->toArray(),
                     $request->all()
                 )
             );
