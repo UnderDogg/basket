@@ -45,25 +45,20 @@ class EmailApplicationService
     {
         $txt = $this->getView($template, $data);
 
-        $subject = (
-            isset($data['email_subject']) &&
-            !is_null($data['email_subject']) ?
-                $data['email_subject'] :
-                env('EMAIL_TEMPLATE_DEFAULT_SUBJECT', 'Your afforditNOW Finance Application')
+        $subject = $this->getDefaultForApplicationEmail(
+            $data,
+            'email_subject',
+            'EMAIL_TEMPLATE_DEFAULT_SUBJECT',
+            'Your afforditNOW Finance Application'
         );
 
-        $replyTo = (
-            isset($data['email_reply_to']) &&
-            !is_null($data['email_reply_to']) ?
-                $data['email_reply_to'] :
-                env('EMAIL_TEMPLATE_DEFAULT_REPLY_TO')
-        );
+        $replyTo = $this->getDefaultForApplicationEmail($data, 'email_reply_to', 'EMAIL_TEMPLATE_DEFAULT_REPLY_TO');
 
-        $fromName = (
-            isset($data['email_from_name']) &&
-            !is_null($data['email_from_name']) ?
-                $data['email_from_name'] :
-                env('EMAIL_TEMPLATE_DEFAULT_FROM_NAME', 'afforditNOW Finance')
+        $fromName = $this->getDefaultForApplicationEmail(
+            $data,
+            'email_from_name',
+            'EMAIL_TEMPLATE_DEFAULT_FROM_NAME',
+            'afforditNOW Finance'
         );
 
         \Mail::send(
@@ -94,6 +89,19 @@ class EmailApplicationService
     public function getView(Template $template, array $data)
     {
         return \DbView::make($template)->field('html')->with($data)->render();
+    }
+
+    /**
+     * @author EB
+     * @param array $data
+     * @param string $field
+     * @param string $envKey
+     * @param string|null $default
+     * @return mixed
+     */
+    private function getDefaultForApplicationEmail($data, $field, $envKey, $default = null)
+    {
+        return (isset($data[$field]) && !is_null($data[$field]) ? $data[$field] : env($envKey, $default));
     }
 
     /**
