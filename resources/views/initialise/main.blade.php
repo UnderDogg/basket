@@ -261,7 +261,7 @@
                                         <div class="col-sm-2 col-xs-12">
                                             <div class="input-group">
                                                 <div class="input-group-addon">&pound;</div>
-                                                <input type="number" step="1" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
+                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-10 col-xs-12">
@@ -329,17 +329,16 @@
             var prod = $(this).find('a').attr('aria-controls');
             var content = $('div#' + prod);
             var amount = $(content).find('.pay_today').attr('value');
-            document.getElementById('pay-today').innerHTML = 'Pay Today £' + Math.ceil((amount / 100)).toFixed(2);
+            document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
         });
         $(window).bind("load", function() {
             if($('div.tab-pane.active').length > 0) {
                 var div = $('div.tab-pane.active').first();
                 var form = $(div).find('.pay_today');
-                document.getElementById('pay-today').innerHTML = 'Pay Today £' + Math.ceil(($(form).attr('value') / 100)).toFixed(2);
+                document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
             }
         });
     </script>
-
 </div>
 </body>
 @endsection
