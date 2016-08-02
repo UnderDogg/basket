@@ -33,7 +33,8 @@
 
                 <div class="input-group">
                     <div class="input-group-addon">&pound;</div>
-                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::text('ui_amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::hidden('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
                 </div>
 
             </div>
@@ -340,8 +341,9 @@
         });
         // Make sure the number input is parsed
         $('.form-finance-info').submit(function(e) {
+            var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
             var field = $('.form-finance-info').first().find('input[name=amount]');
-            var number = $(field).val();
+            var number = $(uifield).val();
             $(field).val(parseFloat(number.replace(',','')));
         })
     </script>
