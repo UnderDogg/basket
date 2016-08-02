@@ -27,7 +27,7 @@
         @include('includes.message.action_response')
         <h1>Interested In Finance?</h1>
         <div class="col-md-12 well">
-            {!! Form::open(['class' => 'form-inline']) !!}
+            {!! Form::open(['class' => 'form-inline form-finance-info']) !!}
             <div class="form-group">
                 <label class="input-lg">Price</label>
 
@@ -338,6 +338,12 @@
                 document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
             }
         });
+        // Make sure the number input is parsed
+        $('.form-finance-info').submit(function(e) {
+            var field = $('.form-finance-info').first().find('input[name=amount]');
+            var number = $(field).val();
+            $(field).val(parseFloat(number.replace(',','')));
+        })
     </script>
 </div>
 </body>
