@@ -17,7 +17,7 @@ $(document).ready(function(){
 function depositValueHasChanged(changedElement){
     // Update all field values
     $('input[data-product="'+$(changedElement).data('product')+'"').each(function(index){
-        $(this).val(changedElement.value);
+        $(this).val(depositValueWithinRange(changedElement));
     });
 
     $('#pay-today').html('Pay Today £' + parseFloat(changedElement.value).toFixed(2));
@@ -28,6 +28,20 @@ function depositValueHasChanged(changedElement){
         $(changedElement).data('orderamt') * 100,
         $(changedElement).data('installation'),
         $(changedElement).data('token')
+    );
+}
+
+function depositValueWithinRange(changedElement) {
+    return Math.ceil(
+        Math.max(
+            Math.floor(
+                Math.min(
+                    changedElement.value,
+                    $(changedElement).attr('max')
+                )
+            ),
+            $(changedElement).attr('min')
+        )
     );
 }
 
