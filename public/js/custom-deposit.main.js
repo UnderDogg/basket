@@ -20,7 +20,7 @@ function depositValueHasChanged(changedElement){
         $(this).val(changedElement.value);
     });
 
-    $('#pay-today').html('Pay Today £' + changedElement.value + '.00');
+    $('#pay-today').html('Pay Today £' + parseFloat(changedElement.value).toFixed(2));
 
     fetchUpdatedCreditInformation(
         $(changedElement).data('product'),
