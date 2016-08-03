@@ -1,3 +1,9 @@
+# 1.6.1
+2016-08-03
+
+## Bug Fixes
+- Fixed `deposit` issues with decimal places (127537673)
+
 # 1.6.0
 2016-08-01
 
