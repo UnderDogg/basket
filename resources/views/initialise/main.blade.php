@@ -326,26 +326,29 @@
     <script src="/js/custom-deposit.main.js"></script>
     <script src="/js/sweetalert.min.js"></script>
     <script>
-        $('li').click(function() {
-            var prod = $(this).find('a').attr('aria-controls');
-            var content = $('div#' + prod);
-            var amount = $(content).find('.pay_today').attr('value');
-            document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
+        $(document).ready(function() {
+            $('li').click(function() {
+                var prod = $(this).find('a').attr('aria-controls');
+                var content = $('div#' + prod);
+                var amount = $(content).find('.pay_today').attr('value');
+                document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
+            });
+            $(window).bind("load", function() {
+                if($('div.tab-pane.active').length > 0) {
+                    var div = $('div.tab-pane.active').first();
+                    var form = $(div).find('.pay_today');
+                    document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
+                }
+            });
+            // Make sure the number input is parsed
+            $('.form-finance-info').submit(function(e) {
+                var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
+                var field = $('.form-finance-info').first().find('input[name=amount]');
+                var number = $(uifield).val();
+                $(field).val(parseFloat(number.replace(',','')));
+            });
+
         });
-        $(window).bind("load", function() {
-            if($('div.tab-pane.active').length > 0) {
-                var div = $('div.tab-pane.active').first();
-                var form = $(div).find('.pay_today');
-                document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
-            }
-        });
-        // Make sure the number input is parsed
-        $('.form-finance-info').submit(function(e) {
-            var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
-            var field = $('.form-finance-info').first().find('input[name=amount]');
-            var number = $(uifield).val();
-            $(field).val(parseFloat(number.replace(',','')));
-        })
     </script>
 </div>
 </body>
