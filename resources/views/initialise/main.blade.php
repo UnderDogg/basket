@@ -348,6 +348,16 @@
                 $(field).val(parseFloat(number.replace(',','')));
             });
 
+            $('input[name=ui_amount]').on('keydown', function(evt) {
+                var charCode = (evt.which) ? evt.which : event.keyCode;
+                if (evt.shiftKey) {return false;}
+                if (evt.altKey) {return false;}
+                if (evt.ctrlKey) {return false;}
+                if (evt.metaKey) {return false;}
+                if (charCode > 31 && charCode != 190 && charCode != 37 && charCode != 39 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+                    return false;
+                return true;
+            });
         });
     </script>
 </div>
