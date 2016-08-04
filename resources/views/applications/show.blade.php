@@ -21,6 +21,7 @@
             @if(Auth::user()->can('applications-merchant-payments'))
                 <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
             @endif
+            <li><a data-toggle="tab" href="#application-history-pane">Application History</a></li>
             <li><a data-toggle="tab" href="#part4">Event Log</a></li>
         </ul>
 
@@ -322,6 +323,31 @@
                                     <td>{{ (is_null($event->user) ? 'System' : $event->user->name) }}</td>
                                     <td>{{ $event->description }}</td>
                                     <td>{{ $event->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="application-history-pane" class="tab-pane fade">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Application Status History</strong></div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($applicationHistory as $historyItem)
+                                <tr>
+                                    <td>{{ ucwords(str_replace('_', ' ', $historyItem['status_friendly'])) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($historyItem['created_at'])->format('Y-m-d G:i:s') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
