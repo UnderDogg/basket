@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7e6e159833e41bedde5e1bb3f6303bc9",
-    "content-hash": "96097e26792c2a60d24c7b3f1ecfc3a0",
+    "hash": "382f32b558ad1d24a26c6c14aabf8627",
+    "content-hash": "2f70ff53b04ca7227a58f4179970a753",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -1290,16 +1290,16 @@
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "dev-app-status-hist",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
-                "reference": "b14833ae99efecfdb033ee54207a2d546843d0bc"
+                "reference": "213dd9a74dfd485fec3ad57ba9bb52cba29c09fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/b14833ae99efecfdb033ee54207a2d546843d0bc",
-                "reference": "b14833ae99efecfdb033ee54207a2d546843d0bc",
+                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/213dd9a74dfd485fec3ad57ba9bb52cba29c09fc",
+                "reference": "213dd9a74dfd485fec3ad57ba9bb52cba29c09fc",
                 "shasum": ""
             },
             "require": {
@@ -1327,7 +1327,7 @@
             "keywords": [
                 "paybreak"
             ],
-            "time": "2016-08-04 13:03:53"
+            "time": "2016-07-20 16:36:35"
         },
         {
             "name": "psr/http-message",
@@ -4473,8 +4473,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "appzcoder/crud-generator": 20,
-        "paybreak/paybreak-sdk-php": 20
+        "appzcoder/crud-generator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
