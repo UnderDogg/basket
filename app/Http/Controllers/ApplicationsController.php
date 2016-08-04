@@ -113,7 +113,9 @@ class ApplicationsController extends Controller
                     ]
                 ),
                 'limit' => self::MERCHANT_PAYMENT_LIMIT,
-                'applicationHistory' => $this->applicationSynchronisationService->getApplicationHistory($application),
+                'applicationHistory' => array_reverse(
+                    $this->applicationSynchronisationService->getApplicationHistory($application)
+                ),
             ]
         );
     }
