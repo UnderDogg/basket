@@ -21,7 +21,9 @@
             @if(Auth::user()->can('applications-merchant-payments'))
                 <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
             @endif
-            <li><a data-toggle="tab" href="#application-history-pane">Application History</a></li>
+            @if(count($applicationHistory) > 0)
+                <li><a data-toggle="tab" href="#application-history-pane">Application History</a></li>
+            @endif
             <li><a data-toggle="tab" href="#part4">Event Log</a></li>
         </ul>
 
@@ -331,6 +333,7 @@
                 </div>
             </div>
 
+            @if(count($applicationHistory) > 0)
             <div id="application-history-pane" class="tab-pane fade">
                 <br/>
                 <div class="panel panel-default">
@@ -355,6 +358,8 @@
                     </div>
                 </div>
             </div>
+            @endif
+
         </div>
     <div class='toast' style='display:none'>Copied to clipboard!</div>
 @endsection
