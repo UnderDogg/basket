@@ -106,6 +106,7 @@ class ApplicationsController extends Controller
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
+                'merchantPaymentsAvailable' => $this->canHaveMerchantPayments($application),
                 'merchantPayments' => $this->applicationSynchronisationService->getRemoteMerchantPayments(
                     $application,
                     [
@@ -337,6 +338,16 @@ class ApplicationsController extends Controller
      * @return bool
      */
     private function isCancellable(Application $application)
+    {
+        return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+    }
+
+    /**
+     * @author SL
+     * @param Application $application
+     * @return bool
+     */
+    private function canHaveMerchantPayments(Application $application)
     {
         return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
     }
