@@ -1,3 +1,6 @@
+## Features
+- Added view to basket for *Application Status History* (126577047)
+
 # 1.6.1
 2016-08-03
 
