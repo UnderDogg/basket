@@ -25,7 +25,7 @@
         </div>
         <br/>
         @include('includes.message.action_response')
-        <h1>Interested In Finance?</h1>
+        <p class="h2">Interested In Finance?</p>
         <div class="col-md-12 well">
             {!! Form::open(['class' => 'form-inline form-finance-info']) !!}
             <div class="form-group">
@@ -45,6 +45,7 @@
             </div>
             {!! Form::close() !!}
         </div>
+
         @if(isset($options))
 
             @if(count($options) > 0)
@@ -325,6 +326,7 @@
     <script src="/js/main.js"></script>
     <script src="/js/custom-deposit.main.js"></script>
     <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/bootstrap-tabdrop.js"></script>
     <script>
         $(document).ready(function() {
             $('li').click(function() {
@@ -358,7 +360,11 @@
                     return false;
                 return true;
             });
+
+            $('.nav-pills, .nav-tabs').tabdrop();
         });
+
+
     </script>
 </div>
 </body>
