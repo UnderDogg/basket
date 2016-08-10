@@ -25,15 +25,15 @@
         }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{!! asset('formvalidation/dist/css/formValidation.min.css') !!}">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="{!! asset(Bust::cache('formvalidation/dist/css/formValidation.min.css')) !!}">
+    <link rel="stylesheet" href="{!! Bust::cache('/css/main.css') !!}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="/css/tabdrop.css">
+    <link rel="stylesheet" href="{!! Bust::cache('/css/tabdrop.css') !!}">
     @if (env('ENV_BANNER', false))
-        <link rel="stylesheet" href="/css/main-env.css">
+        <link rel="stylesheet" href="{!! Bust::cache('/css/main-env.css') !!}">
     @endif
 
-    <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="{!! Bust::cache('/js/modernizr-2.8.3-respond-1.4.2.min.js') !!}"></script>
     @yield('stylesheets')
 </head>
     @yield('page')
