@@ -43,11 +43,6 @@ class CacheBustService
     {
         $service = new self;
 
-        if (env('APP_ENV', 'local') != 'local') {
-
-            return $filePath . '?v=' . $service->getVersionHash();
-        }
-
-        return $filePath;
+        return $filePath . '?v=' . $service->getVersionHash();
     }
 }
