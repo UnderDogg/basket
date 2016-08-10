@@ -18,7 +18,7 @@ class CacheBustService
      * @return string
      * @author SL
      */
-    public function getVersionHash()
+    public static function getVersionHash()
     {
         $file = '../' . env('CACHE_BUST_HASH_SOURCE', 'VERSION.md');
 
@@ -41,8 +41,6 @@ class CacheBustService
      */
     public static function cache($filePath)
     {
-        $service = new self;
-
-        return $filePath . '?v=' . $service->getVersionHash();
+        return $filePath . '?v=' . self::getVersionHash();
     }
 }
