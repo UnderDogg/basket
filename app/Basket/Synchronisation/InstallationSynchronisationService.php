@@ -14,6 +14,7 @@ use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
 use PayBreak\Sdk\Entities\InstallationEntity;
 use PayBreak\Sdk\Gateways\InstallationGateway;
+use PayBreak\Sdk\Gateways\ProductGateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,14 +26,20 @@ use Psr\Log\LoggerInterface;
 class InstallationSynchronisationService extends AbstractSynchronisationService
 {
     private $installationGateway;
+    private $productGateway;
 
     /**
      * @param InstallationGateway $installationGateway
+     * @param ProductGateway $productGateway
      * @param LoggerInterface $logger
      */
-    public function __construct(InstallationGateway $installationGateway, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        InstallationGateway $installationGateway,
+        ProductGateway $productGateway,
+        LoggerInterface $logger = null
+    ) {
         $this->installationGateway = $installationGateway;
+        $this->productGateway = $productGateway;
 
         parent::__construct($logger);
     }
@@ -213,5 +220,14 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         }
 
         return true;
+    }
+
+    public function getProductsByGroup(Installation $installation, $productGroup)
+    {
+        return $this->productGateway->getProductsByGroup(
+            $installation->ext_id,
+            $productGroup,
+            $installation->merchant->token
+        );
     }
 }

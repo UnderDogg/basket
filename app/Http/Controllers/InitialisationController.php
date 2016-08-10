@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
+use App\Basket\Synchronisation\InstallationSynchronisationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
@@ -21,6 +22,7 @@ use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
+use App\Basket\Synchronisation\ApplicationSynchronisationService;
 
 /**
  * Initialisation Controller
@@ -30,14 +32,23 @@ use PayBreak\Sdk\Entities\Application\ProductsEntity;
  */
 class InitialisationController extends Controller
 {
-    /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
-    private $applicationSynchronisationService;
+    const PRODUCT_GROUP_FLEXIBLE_FINANCE = 'FF';
 
-    public function __construct()
-    {
-        $this->applicationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\ApplicationSynchronisationService'
-        );
+    private $applicationSynchronisationService;
+    private $installationSynchronisationService;
+
+    /**
+     * InitialisationController constructor.
+     *
+     * @param ApplicationSynchronisationService $applicationSynchronisationService
+     * @param InstallationSynchronisationService $installationSynchronisationService
+     */
+    public function __construct(
+        ApplicationSynchronisationService $applicationSynchronisationService,
+        InstallationSynchronisationService $installationSynchronisationService
+    ) {
+        $this->applicationSynchronisationService = $applicationSynchronisationService;
+        $this->installationSynchronisationService = $installationSynchronisationService;
     }
 
     /**
@@ -262,6 +273,10 @@ class InitialisationController extends Controller
                     $location->installation->ext_id,
                     floor($request->get('amount') * 100),
                     $location->installation->merchant->token
+                ),
+                'flexibleFinance' => $this->installationSynchronisationService->getProductsByGroup(
+                    $location->installation,
+                    self::PRODUCT_GROUP_FLEXIBLE_FINANCE
                 ),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,

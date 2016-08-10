@@ -45,7 +45,29 @@
             </div>
             {!! Form::close() !!}
         </div>
+
+
+
+
+
+
         @if(isset($options))
+
+            <div class="col-md-12 well">
+                <h1>Flexible Finance</h1>
+
+                <div class="container">
+                    <h2>Holiday</h2>
+                    <div id="slider-range-holiday"></div>
+                    <br><br>
+                    <h2>Term</h2>
+                    <div id="slider-range-term"></div>
+                </div>
+
+            <pre>
+                {{ print_r($flexibleFinance) }}
+            </pre>
+            </div>
 
             @if(count($options) > 0)
 
@@ -358,12 +380,182 @@
                     return false;
                 return true;
             });
+
+            var rangeSliderHoliday = document.getElementById('slider-range-holiday');
+            var rangeSliderTerm = document.getElementById('slider-range-term');
+
+            var rangeHoliday = {
+                'min': [ 1 ],
+                'max': [ 3 ]
+            };
+
+            var rangeTerm = {
+                'min': [  3 ],
+                'max': [ 11 ]
+            };
+
+            noUiSlider.create(rangeSliderHoliday, {
+                start: 1,
+                step: 1,
+                margin: 0,
+                tooltips: false,
+                behaviour: 'tap',
+                connect: 'lower',
+                format: wNumb({decimals: 0}),
+                orientation: "horizontal",
+                range: rangeHoliday,
+                pips: {
+                    mode: 'values',
+                    values: range(1,3),
+                    density: 100
+                }
+            });
+
+            noUiSlider.create(rangeSliderTerm, {
+                start: 3,
+                step: 1,
+                margin: 0,
+                tooltips: false,
+                behaviour: 'tap',
+                connect: 'lower',
+                format: wNumb({decimals: 0}),
+                orientation: "horizontal",
+                range: rangeTerm,
+                pips: {
+                    mode: 'values',
+                    values: range(3, 11),
+                    density: 100
+                }
+            });
+
+            rangeSliderHoliday.noUiSlider.on('change', function(values){
+                var min = 3;
+                var max = 12 - values[0];
+                updateTermSliderRange(range(min, max), min, max);
+                sliderUpdated();
+            });
+
+            rangeSliderTerm.noUiSlider.on('change', function(values){
+
+                sliderUpdated();
+            });
         });
+
+        function range(start, end) {
+            var foo = [];
+            for (var i = start; i <= end; i++) {
+                foo.push(i);
+            }
+            return foo;
+        }
+
+        function getFlexibleFinanceQuote() {
+
+            data = { name: "John", time: "2pm" };
+
+            $.post(
+                "test.php",
+                data
+            ).done(function( data ) {
+                updateView(data);
+            }).fail(function() {
+                swal(
+                    {
+                        title: "An Error Occurred!",
+                        text: "We were unable to recalculate information for the requested order. Please refresh the page.",
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Refresh",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        location.reload();
+                    }
+                );
+            });
+        }
+
+        function updateView(params) {
+            console.log(params)
+        }
+
+        function updateTermSliderRange (values, min, max) {
+
+            var rangeSliderTerm = document.getElementById('slider-range-term');
+
+            rangeSliderTerm.noUiSlider.destroy();
+
+            noUiSlider.create(rangeSliderTerm, {
+                step: 1,
+                start: 3,
+                margin: 0,
+                tooltips: false,
+                behaviour: 'tap',
+                connect: 'lower',
+                format: wNumb({decimals: 0}),
+                orientation: "horizontal",
+                range: {
+                    'min': [ min ],
+                    'max': [ max ]
+                },
+                pips: {
+                    mode: 'values',
+                    values: values,
+                    density: 15,
+                }
+            });
+
+            rangeSliderTerm.noUiSlider.on('change', function(values){
+
+                sliderUpdated();
+            });
+        }
+
+        function sliderUpdated() {
+            var rangeSliderHoliday = document.getElementById('slider-range-holiday').noUiSlider.get();
+            var rangeSliderTerm = document.getElementById('slider-range-term').noUiSlider.get();
+
+            console.log(rangeSliderHoliday, rangeSliderTerm);
+
+            var ffQuote = getFlexibleFinanceQuote(rangeSliderHoliday, rangeSliderTerm);
+
+            updateView(ffQuote);
+        }
     </script>
+    <style>
+        #slider-range-term {
+            background: #29ABE2;
+        }
+
+        #slider-range-holiday {
+            background: #38B54A;
+        }
+
+        .noUi-handle:focus {
+            box-shadow: 0 0 5px #29ABE2;
+        }
+
+        .noUi-value-large {
+            margin-top: 8px;
+        }
+
+        div.container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 50px 50px;
+            border: 1px solid #BFBFBF;
+        }
+    </style>
 </div>
 </body>
 @endsection
 
 @section('stylesheets')
     <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
+    <link href="{!! Bust::cache('/css/nouislider.min.css') !!}" rel="stylesheet">
+    <link href="{!! Bust::cache('/css/nouislider.tooltips.css') !!}" rel="stylesheet">
+    <link href="{!! Bust::cache('/css/nouislider.pips.css') !!}" rel="stylesheet">
+    <script src="{!! Bust::cache('/js/nouislider.min.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/wNumb.js') !!}"></script>
 @endsection
