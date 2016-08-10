@@ -28,7 +28,6 @@
     <link rel="stylesheet" href="{!! asset(Bust::cache('formvalidation/dist/css/formValidation.min.css')) !!}">
     <link rel="stylesheet" href="{!! Bust::cache('/css/main.css') !!}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="{!! Bust::cache('/css/tabdrop.css') !!}">
     @if (env('ENV_BANNER', false))
         <link rel="stylesheet" href="{!! Bust::cache('/css/main-env.css') !!}">
     @endif
