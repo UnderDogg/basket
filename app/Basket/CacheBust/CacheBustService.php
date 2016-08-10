@@ -22,9 +22,6 @@ class CacheBustService
     {
         $file = '../' . env('CACHE_BUST_HASH_SOURCE', 'VERSION.md');
 
-        // We need to fail gracefully.
-        // A failure here means we'll not allow users browsers to cache any resources *but* crucially
-        // pages will still load.
         if (!file_exists($file)) {
 
             \Log::error('Frontend Cache Buster: expected CB Hash Source file does not exist. [' . $file . ']');
@@ -33,5 +30,24 @@ class CacheBustService
         }
 
         return md5(filemtime($file));
+    }
+
+    /**
+     * Static Accessor for use in View
+     *
+     * @param string $filePath
+     * @return string
+     * @author SL
+     */
+    public static function cache($filePath)
+    {
+        $service = new self;
+
+        if (env('APP_ENV', 'local') != 'local') {
+
+            return $filePath . '?v=' . $service->getVersionHash();
+        }
+
+        return $filePath;
     }
 }
