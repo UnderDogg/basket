@@ -9,6 +9,7 @@
  */
 
 namespace App\Http\Controllers;
+
 use App\Basket\Installation;
 use App\Basket\ProductLimit;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -37,6 +38,11 @@ class ProductLimitsController extends Controller
         );
     }
 
+    /**
+     * @author EB
+     * @param int $installation
+     * @return \Illuminate\View\View
+     */
     public function viewProducts($installation)
     {
         $installation = $this->fetchInstallation($installation);
@@ -51,10 +57,18 @@ class ProductLimitsController extends Controller
         );
     }
 
+    /**
+     * @author EB
+     * @param int $installation
+     * @param Request $request
+     * @return \Illuminate\View\View
+     * @throws \App\Exceptions\RedirectException
+     */
     public function updateProducts($installation, Request $request)
     {
         $installation = $this->fetchInstallation($installation);
 
+        /** @var \PayBreak\Sdk\Entities\GroupEntity[] $groups */
         $groups = $this->fetchDefaultEditableProductSet($installation);
 
         $limits = $request->except('_token');
@@ -76,7 +90,7 @@ class ProductLimitsController extends Controller
             }
         }
 
-        return $this->viewProducts($installation)->with('messages', ['success' => 'DONE']);
+        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product limits']);
 
     }
 

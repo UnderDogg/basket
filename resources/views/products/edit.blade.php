@@ -53,5 +53,4 @@
     {!! Form::submit('Save Product Limits', ['class' => 'btn btn-info pull-right']) !!}
     {!! Form::close() !!}
 
-
 @endsection
