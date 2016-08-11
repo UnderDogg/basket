@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\Installation;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use App\Http\Traits\FilterTrait;
@@ -229,5 +230,17 @@ abstract class Controller extends BaseController
     protected function getFiltersConfiguration()
     {
         return [];
+    }
+
+    /**
+     * Returns an associative array
+     *
+     * @param Installation $installation
+     * @return array
+     */
+    protected function fetchInstallationProductLimits(Installation $installation)
+    {
+        $limits = $installation->productLimits->toArray();
+        return array_combine(array_column($limits, 'product'), $limits);
     }
 }
