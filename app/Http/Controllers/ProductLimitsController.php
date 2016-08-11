@@ -112,7 +112,9 @@ class ProductLimitsController extends Controller
     {
         try {
             $limit = ProductLimit::where(['product' => $id, 'installation_id' => $installation->id])->first();
-            if($limit == null) throw new ModelNotFoundException();
+            if ($limit == null)  {
+                throw new ModelNotFoundException();
+            }
         } catch (\Exception $e) {
             $limit = new ProductLimit();
         }
