@@ -10,8 +10,11 @@
 
 namespace App\Http\Controllers;
 use App\Basket\Installation;
+use App\Basket\ProductLimit;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use PayBreak\Sdk\Entities\GroupEntity;
+use PayBreak\Sdk\Entities\ProductEntity;
 
 /**
  * Class ProductLimitsController
@@ -38,18 +41,12 @@ class ProductLimitsController extends Controller
     {
         $installation = $this->fetchInstallation($installation);
 
-        $products = $this->productGateway->getProductGroupsWithProducts($installation->ext_id, $installation->merchant->token);
-
-        dd($installation->productLimits);
-
-        $this->appendProductLimits($products);
-
         return view(
             'products.edit',
             [
                 'installation' => $installation,
-                'products' => $this->productGateway->getProductGroupsWithProducts($installation->ext_id, $installation->merchant->token),
-                'limits' => $installation->productLimits,
+                'products' => $this->fetchDefaultEditableProductSet($installation),
+                'limits' => $this->fetchInstallationProductLimits($installation),
             ]
         );
     }
@@ -58,14 +55,84 @@ class ProductLimitsController extends Controller
     {
         $installation = $this->fetchInstallation($installation);
 
-        dd($request->except('_token'));
+        $groups = $this->fetchDefaultEditableProductSet($installation);
+
+        $limits = $request->except('_token');
+
+        foreach($groups as $group) {
+            foreach($group->getProducts() as $product) {
+                try {
+                    $min = $limits['min-' . $product->getId()];
+                    $max = $limits['max-' . $product->getId()];
+
+                    $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
+                } catch (\Exception $e) {
+                    throw $this->redirectWithException(
+                        'installations/' . $installation->id . '/products',
+                        'Unable to save product limit',
+                        $e
+                    );
+                }
+            }
+        }
+
+        return $this->viewProducts($installation)->with('messages', ['success' => 'DONE']);
 
     }
 
-    private function getProductLimitsForInstallation(array $products)
+    /**
+     * @authpr EB
+     * @param string $id
+     * @param Installation $installation
+     * @param ProductEntity $product
+     * @param float $min
+     * @param float $max
+     * @return ProductLimit
+     * @throws \Exception
+     */
+    public function storeProductLimit($id, Installation $installation, ProductEntity $product, $min, $max)
     {
-        foreach($products as $group) {
-            dd($group->getProducts());
+        try {
+            $limit = ProductLimit::where(['product' => $id, 'installation_id' => $installation->id])->first();
+            if($limit == null) throw new ModelNotFoundException();
+        } catch (\Exception $e) {
+            $limit = new ProductLimit();
         }
+
+        $limit->installation_id = $installation->id;
+        $limit->product = $product->getId();
+        $limit->min_deposit_percentage = $min;
+        $limit->max_deposit_percentage = $max;
+
+        if(!$limit->save()) {
+            throw new \Exception('Problem saving limit [' . $id . '] for Installation [' . $installation->id . ']');
+        }
+
+        return $limit;
+    }
+
+    /**
+     * @author EB
+     * @param Installation $installation
+     * @return GroupEntity
+     */
+    private function fetchDefaultEditableProductSet(Installation $installation)
+    {
+        $groups = $this->productGateway->getProductGroupsWithProducts(
+            $installation->ext_id,
+            $installation->merchant->token
+        );
+
+        foreach($groups as $group) {
+            $products = $group->getProducts();
+            foreach($products as $key => &$product) {
+                if($product->getDeposit()->getMinimumPercentage() == null && $product->getDeposit()->getMaximumPercentage() == null) {
+                    unset($products[$key]);
+                }
+            }
+            $group->setProducts($products);
+        }
+
+        return $groups;
     }
 }
