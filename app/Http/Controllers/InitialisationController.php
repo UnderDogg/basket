@@ -148,7 +148,7 @@ class InitialisationController extends Controller
      */
     private function applicationRequestType(Location $location, Request $request)
     {
-        if($request->has('alternate')) {
+        if ($request->has('alternate')) {
             return view('initialise.alternate')
                 ->with(
                     [
