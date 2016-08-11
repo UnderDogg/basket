@@ -58,7 +58,7 @@ class NotificationsController extends Controller
 
         } catch (\Exception $e) {
 
-            $this->logError('CatchNotification: Failed with measage: ' . $e->getMessage());
+            $this->logError('CatchNotification: Failed with message: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
