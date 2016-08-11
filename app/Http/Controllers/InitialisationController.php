@@ -314,7 +314,7 @@ class InitialisationController extends Controller
             $installation->merchant->token
         );
 
-        if(count($limits) > 0) {
+        if (count($limits) > 0) {
             $creditInfo = $this->setCreditLimitsForProducts($creditInfo, $limits, $installation, $amount);
         }
 
@@ -333,22 +333,21 @@ class InitialisationController extends Controller
     {
         /** @var \PayBreak\Sdk\Gateways\ProductGateway $gateway */
         $gateway = \App::make('PayBreak\Sdk\Gateways\ProductGateway');
-        foreach($creditInfo as &$group) {
-            foreach($group['products'] as &$product) {
+        foreach ($creditInfo as &$group) {
+            foreach ($group['products'] as &$product) {
 
                 if (array_key_exists($product['id'], $limits)) {
 
                     $min = (int) max($product['deposit']['minimum_percentage'], $limits[$product['id']]['min_deposit_percentage']);
                     $max = (int) min($product['deposit']['maximum_percentage'], $limits[$product['id']]['max_deposit_percentage']);
 
-                    if($min > $max) {
+                    if ($min > $max) {
                         unset($product);
                         continue;
                     }
 
                     $product['deposit']['minimum_percentage'] = $min;
                     $product['deposit']['maximum_percentage'] = $max;
-
 
                     $local = $gateway->getCreditInfo(
                         $installation->ext_id,
@@ -365,7 +364,6 @@ class InitialisationController extends Controller
                     $product['credit_info']['deposit_range']['minimum_amount'] = floor(($amount) * ($min / 100));
                     $product['credit_info']['deposit_range']['maximum_amount'] = floor(($amount) * ($max / 100));
                 }
-
             }
         }
 
