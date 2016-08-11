@@ -315,7 +315,7 @@ class InitialisationController extends Controller
         );
 
         if(count($limits) > 0) {
-            $creditInfo = $this->doLimits($creditInfo, $limits, $installation, $amount);
+            $creditInfo = $this->setCreditLimitsForProducts($creditInfo, $limits, $installation, $amount);
         }
 
         return $creditInfo;
@@ -329,7 +329,7 @@ class InitialisationController extends Controller
      * @param $amount
      * @return array
      */
-    public function doLimits(array $creditInfo, array$limits, Installation $installation, $amount)
+    public function setCreditLimitsForProducts(array $creditInfo, array$limits, Installation $installation, $amount)
     {
         /** @var \PayBreak\Sdk\Gateways\ProductGateway $gateway */
         $gateway = \App::make('PayBreak\Sdk\Gateways\ProductGateway');
