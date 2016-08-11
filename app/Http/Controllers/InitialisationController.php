@@ -267,6 +267,7 @@ class InitialisationController extends Controller
                 'location' => $location,
                 'bitwise' => Bitwise::make($location->installation->finance_offers),
                 'reference' => $this->generateOrderReferenceFromLocation($location),
+                'limits' => $location->installation->productLimits,
             ]
         );
     }
