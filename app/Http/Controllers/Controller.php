@@ -233,14 +233,12 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Returns an associative array
-     *
+     * @author EB
      * @param Installation $installation
      * @return array
      */
     protected function fetchInstallationProductLimits(Installation $installation)
     {
-        $limits = $installation->productLimits->toArray();
-        return array_combine(array_column($limits, 'product'), $limits);
+        return $installation->productLimits->keyBy('product')->toArray();
     }
 }
