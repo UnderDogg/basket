@@ -104,6 +104,15 @@ class Installation extends Model
 
     /**
      * @author EB
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function productLimits()
+    {
+        return $this->hasMany('App\Basket\ProductLimit');
+    }
+
+    /**
+     * @author EB
      * @return $this
      * @throws Exception
      */
