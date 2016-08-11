@@ -37,8 +37,8 @@
                     <td>{{number_format($productData->getDeposit()->getMaximumPercentage(), 2)}}%</td>
                     <td>{{'&pound;' . number_format($productData->getDeposit()->getMinimumAmount()/100, 2)}}</td>
                     <td>{{'&pound;' . number_format($productData->getDeposit()->getMaximumAmount()/100, 2)}}</td>
-                    <td><input name="min-{{$productData->getId()}}" value="{{number_format($productData->getDeposit()->getMinimumPercentage(), 2)}}"></td>
-                    <td class="danger"><input name="max-{{$productData->getId()}}" value="{{number_format($productData->getDeposit()->getMaximumPercentage(), 2)}}"></td>
+                    <td><input name="min-{{$productData->getId()}}" value="@if(array_has($limits, $productData->getId())){{number_format($limits[$productData->getId()]['min_deposit_percentage'], 2)}}@else{{number_format($productData->getDeposit()->getMinimumPercentage(), 2)}}@endif"></td>
+                    <td><input name="max-{{$productData->getId()}}" value="@if(array_has($limits, $productData->getId())){{number_format($limits[$productData->getId()]['max_deposit_percentage'], 2)}}@else{{number_format($productData->getDeposit()->getMaximumPercentage(), 2)}}@endif"></td>
                 <tr>
             @empty
                 <tr>

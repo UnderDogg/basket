@@ -76,10 +76,15 @@ class ProductLimitsController extends Controller
         foreach($groups as $group) {
             foreach($group->getProducts() as $product) {
                 try {
-                    $min = $limits['min-' . $product->getId()];
-                    $max = $limits['max-' . $product->getId()];
+                    $min = (float) $limits['min-' . $product->getId()];
+                    $max = (float) $limits['max-' . $product->getId()];
 
-                    $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
+                    if(
+                        !($min == $product->getDeposit()->getMinimumPercentage()) ||
+                        !($max == $product->getDeposit()->getMaximumPercentage())
+                    ) {
+                        $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
+                    }
                 } catch (\Exception $e) {
                     throw $this->redirectWithException(
                         'installations/' . $installation->id . '/products',
@@ -91,7 +96,11 @@ class ProductLimitsController extends Controller
         }
 
         return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product limits']);
+    }
 
+    private function W()
+    {
+        
     }
 
     /**
@@ -104,7 +113,7 @@ class ProductLimitsController extends Controller
      * @return ProductLimit
      * @throws \Exception
      */
-    public function storeProductLimit($id, Installation $installation, ProductEntity $product, $min, $max)
+    private function storeProductLimit($id, Installation $installation, ProductEntity $product, $min, $max)
     {
         try {
             $limit = ProductLimit::where(['product' => $id, 'installation_id' => $installation->id])->first();

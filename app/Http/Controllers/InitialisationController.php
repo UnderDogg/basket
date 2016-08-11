@@ -341,7 +341,6 @@ class InitialisationController extends Controller
                     $min = (int) max($product['deposit']['minimum_percentage'], $limits[$product['id']]['min_deposit_percentage']);
                     $max = (int) min($product['deposit']['maximum_percentage'], $limits[$product['id']]['max_deposit_percentage']);
 
-
                     if($min > $max) {
                         unset($product);
                         continue;
