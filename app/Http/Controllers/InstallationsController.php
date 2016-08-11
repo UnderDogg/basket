@@ -15,7 +15,6 @@ use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
-use PayBreak\Foundation\Exception;
 use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\GroupEntity;
 
@@ -243,17 +242,6 @@ class InstallationsController extends Controller
             URL::previous(),
             'Synchronisation complete successfully'
         );
-    }
-
-    /**
-     * @author WN
-     * @param int $id
-     * @return Installation
-     * @throws RedirectException
-     */
-    private function fetchInstallation($id)
-    {
-        return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 
     /**
