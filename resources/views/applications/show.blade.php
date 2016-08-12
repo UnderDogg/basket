@@ -6,7 +6,7 @@
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
             <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
-            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
+            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
             <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
     </h1>
@@ -20,6 +20,9 @@
             @endif
             @if(Auth::user()->can('applications-merchant-payments'))
                 <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
+            @endif
+            @if(count($applicationHistory) > 0)
+                <li><a data-toggle="tab" href="#application-history-pane">Application History</a></li>
             @endif
             <li><a data-toggle="tab" href="#part4">Event Log</a></li>
         </ul>
@@ -329,6 +332,34 @@
                     </div>
                 </div>
             </div>
+
+            @if(count($applicationHistory) > 0)
+            <div id="application-history-pane" class="tab-pane fade">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Application Status History</strong></div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($applicationHistory as $historyItem)
+                                <tr>
+                                    <td>{{ ucwords(str_replace('_', ' ', $historyItem['status_friendly'])) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($historyItem['created_at'])->format('Y-m-d G:i:s') }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </div>
     <div class='toast' style='display:none'>Copied to clipboard!</div>
 @endsection
