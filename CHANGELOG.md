@@ -1,3 +1,12 @@
+# 1.7.1
+2016-08-12
+
+## Bug Fixes
+- Fixed: *Application Event Log*
+- Numpad keys will now be accepted as valid input on the make application page
+- Corrected an erroneous label on the view application page
+- Allowed validity period to be set up to 30 days (2592000 seconds)
+
 # 1.7.0
 2016-08-10
 
