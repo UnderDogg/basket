@@ -127,8 +127,8 @@
 @endsection
 
 @section('scripts')
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/colorpicker.css" />
-    <script type="text/javascript" src="/js/colorpicker.js"></script>
+    <link rel="stylesheet" media="screen" type="text/css" href="{!! Bust::cache('/css/colorpicker.css') !!}" />
+    <script type="text/javascript" src="{!! Bust::cache('/js/colorpicker.js') !!}"></script>
 
     <script>
         // Form Validation

@@ -1,3 +1,18 @@
+## Features
+- Added view to basket for *Application Status History* (126577047)
+
+# 1.7.0
+2016-08-10
+
+## Features
+- Add a *Cache Busting Service* to the application for use with frontend resources (127712539)
+
+# 1.6.1
+2016-08-03
+
+## Bug Fixes
+- Fixed `deposit` issues with decimal places (127537673)
+
 # 1.6.0
 2016-08-01
 

@@ -27,13 +27,14 @@
         @include('includes.message.action_response')
         <h1>Interested In Finance?</h1>
         <div class="col-md-12 well">
-            {!! Form::open(['class' => 'form-inline']) !!}
+            {!! Form::open(['class' => 'form-inline form-finance-info']) !!}
             <div class="form-group">
                 <label class="input-lg">Price</label>
 
                 <div class="input-group">
                     <div class="input-group-addon">&pound;</div>
-                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::text('ui_amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::hidden('amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
                 </div>
 
             </div>
@@ -261,11 +262,11 @@
                                         <div class="col-sm-2 col-xs-12">
                                             <div class="input-group">
                                                 <div class="input-group-addon">&pound;</div>
-                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                                <input type="number" step="1" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-10 col-xs-12">
-                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                            <input type="range" step="1" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
                                         </div>
                                     </div>
                                     </div>
@@ -321,29 +322,48 @@
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="/js/main.js"></script>
-    <script src="/js/custom-deposit.main.js"></script>
-    <script src="/js/sweetalert.min.js"></script>
+    <script src="{!! Bust::cache('/js/main.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/custom-deposit.main.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
     <script>
-        $('li').click(function() {
-            var prod = $(this).find('a').attr('aria-controls');
-            var content = $('div#' + prod);
-            var amount = $(content).find('.pay_today').attr('value');
-            document.getElementById('pay-today').innerHTML = 'Pay Today £' + (amount / 100).toFixed(2);
-        });
-        $(window).bind("load", function() {
-            if($('div.tab-pane.active').length > 0) {
-                var div = $('div.tab-pane.active').first();
-                var form = $(div).find('.pay_today');
-                document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
-            }
+        $(document).ready(function() {
+            $('li').click(function() {
+                var prod = $(this).find('a').attr('aria-controls');
+                var content = $('div#' + prod);
+                var amount = $(content).find('.pay_today').attr('value');
+                document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
+            });
+            $(window).bind("load", function() {
+                if($('div.tab-pane.active').length > 0) {
+                    var div = $('div.tab-pane.active').first();
+                    var form = $(div).find('.pay_today');
+                    document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
+                }
+            });
+            // Make sure the number input is parsed
+            $('.form-finance-info').submit(function(e) {
+                var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
+                var field = $('.form-finance-info').first().find('input[name=amount]');
+                var number = $(uifield).val();
+                $(field).val(parseFloat(number.replace(',','')));
+            });
+
+            $('input[name=ui_amount]').on('keydown', function(evt) {
+                var charCode = (evt.which) ? evt.which : event.keyCode;
+                if (evt.shiftKey) {return false;}
+                if (evt.altKey) {return false;}
+                if (evt.ctrlKey) {return false;}
+                if (evt.metaKey) {return false;}
+                if (charCode > 31 && charCode != 190 && charCode != 37 && charCode != 39 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+                    return false;
+                return true;
+            });
         });
     </script>
-
 </div>
 </body>
 @endsection
 
 @section('stylesheets')
-    <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
 @endsection

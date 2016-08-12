@@ -35,8 +35,8 @@
         </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src={!! asset('/formvalidation/dist/js/formValidation.min.js') !!}></script>
-    <script src={!! asset('/formvalidation/dist/js/framework/bootstrap.min.js') !!}></script>
+    <script src={!! asset(Bust::cache('/formvalidation/dist/js/formValidation.min.js')) !!}></script>
+    <script src={!! asset(Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js')) !!}></script>
     @yield('scripts')
     </body>
 @endsection
