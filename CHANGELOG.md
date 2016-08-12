@@ -1,5 +1,6 @@
 ## Features
 - Added view to basket for *Application Status History* (126577047)
+- Added *Product Limits* for an *Installation* (127177411)
 
 # 1.7.1
 2016-08-12
