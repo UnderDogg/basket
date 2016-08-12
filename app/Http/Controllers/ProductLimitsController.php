@@ -73,13 +73,13 @@ class ProductLimitsController extends Controller
 
         $limits = $request->except('_token');
 
-        foreach($groups as $group) {
-            foreach($group->getProducts() as $product) {
+        foreach ($groups as $group) {
+            foreach ($group->getProducts() as $product) {
                 try {
                     $min = (float) $limits['min-' . $product->getId()];
                     $max = (float) $limits['max-' . $product->getId()];
 
-                    if(
+                    if (
                         !($min == $product->getDeposit()->getMinimumPercentage()) ||
                         !($max == $product->getDeposit()->getMaximumPercentage())
                     ) {
@@ -98,11 +98,6 @@ class ProductLimitsController extends Controller
         return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product limits']);
     }
 
-    private function W()
-    {
-        
-    }
-
     /**
      * @authpr EB
      * @param string $id
@@ -117,7 +112,9 @@ class ProductLimitsController extends Controller
     {
         try {
             $limit = ProductLimit::where(['product' => $id, 'installation_id' => $installation->id])->first();
-            if($limit == null) throw new ModelNotFoundException();
+            if ($limit == null)  {
+                throw new ModelNotFoundException();
+            }
         } catch (\Exception $e) {
             $limit = new ProductLimit();
         }
@@ -127,7 +124,7 @@ class ProductLimitsController extends Controller
         $limit->min_deposit_percentage = $min;
         $limit->max_deposit_percentage = $max;
 
-        if(!$limit->save()) {
+        if (!$limit->save()) {
             throw new \Exception('Problem saving limit [' . $id . '] for Installation [' . $installation->id . ']');
         }
 
@@ -146,10 +143,10 @@ class ProductLimitsController extends Controller
             $installation->merchant->token
         );
 
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             $products = $group->getProducts();
-            foreach($products as $key => &$product) {
-                if($product->getDeposit()->getMinimumPercentage() == null && $product->getDeposit()->getMaximumPercentage() == null) {
+            foreach ($products as $key => &$product) {
+                if ($product->getDeposit()->getMinimumPercentage() == null && $product->getDeposit()->getMaximumPercentage() == null) {
                     unset($products[$key]);
                 }
             }
