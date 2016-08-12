@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 
+use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -198,6 +199,17 @@ trait ModelTrait
             $modelName,
             $redirect
         );
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Installation
+     * @throws RedirectException
+     */
+    protected function fetchInstallation($id)
+    {
+        return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 
     /**

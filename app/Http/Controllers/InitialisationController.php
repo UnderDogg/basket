@@ -21,6 +21,9 @@ use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
+use App\Basket\Synchronisation\ApplicationSynchronisationService;
+use PayBreak\Sdk\Gateways\CreditInfoGateway;
+use PayBreak\Sdk\Gateways\ProductGateway;
 
 /**
  * Initialisation Controller
@@ -30,14 +33,28 @@ use PayBreak\Sdk\Entities\Application\ProductsEntity;
  */
 class InitialisationController extends Controller
 {
-    /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
+    /**
+     * @var ApplicationSynchronisationService
+     */
     private $applicationSynchronisationService;
+    /**
+     * @var CreditInfoGateway
+     */
+    private $creditInfoGateway;
+    /**
+     * @var ProductGateway
+     */
+    private $productGateway;
 
-    public function __construct()
-    {
-        $this->applicationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\ApplicationSynchronisationService'
-        );
+    public function __construct(
+        ApplicationSynchronisationService $applicationSynchronisationService,
+        CreditInfoGateway $creditInfoGateway,
+        ProductGateway $productGateway
+    ) {
+
+        $this->applicationSynchronisationService = $applicationSynchronisationService;
+        $this->creditInfoGateway = $creditInfoGateway;
+        $this->productGateway = $productGateway;
     }
 
     /**
@@ -147,7 +164,7 @@ class InitialisationController extends Controller
      */
     private function applicationRequestType(Location $location, Request $request)
     {
-        if($request->has('alternate')) {
+        if ($request->has('alternate')) {
             return view('initialise.alternate')
                 ->with(
                     [
@@ -252,16 +269,12 @@ class InitialisationController extends Controller
 
         $location = $this->fetchLocation($locationId);
 
-        /** @var \PayBreak\Sdk\Gateways\CreditInfoGateway $gateway */
-        $gateway = \App::make('PayBreak\Sdk\Gateways\CreditInfoGateway');
-
         return view(
             'initialise.main',
             [
-                'options' => $gateway->getCreditInfo(
-                    $location->installation->ext_id,
-                    floor($request->get('amount') * 100),
-                    $location->installation->merchant->token
+                'options' => $this->getCreditInfoWithProductLimits(
+                    $location->installation,
+                    $request->get('amount') * 100
                 ),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
@@ -296,5 +309,75 @@ class InitialisationController extends Controller
         }
 
         return $location;
+    }
+
+    /**
+     * @author EB
+     * @param Installation $installation
+     * @param $amount
+     * @return array
+     */
+    public function getCreditInfoWithProductLimits(Installation $installation, $amount)
+    {
+        $limits = $this->fetchInstallationProductLimits($installation);
+
+        $creditInfo = $this->creditInfoGateway->getCreditInfo(
+            $installation->ext_id,
+            floor($amount),
+            $installation->merchant->token
+        );
+
+        if (count($limits) > 0) {
+            $creditInfo = $this->setCreditLimitsForProducts($creditInfo, $limits, $installation, $amount);
+        }
+
+        return $creditInfo;
+    }
+
+    /**
+     * @author EB
+     * @param array $creditInfo
+     * @param array $limits
+     * @param Installation $installation
+     * @param $amount
+     * @return array
+     */
+    public function setCreditLimitsForProducts(array $creditInfo, array$limits, Installation $installation, $amount)
+    {
+        foreach ($creditInfo as &$group) {
+            foreach ($group['products'] as &$product) {
+
+                if (array_key_exists($product['id'], $limits)) {
+
+                    $min = (int) max($product['deposit']['minimum_percentage'], $limits[$product['id']]['min_deposit_percentage']);
+                    $max = (int) min($product['deposit']['maximum_percentage'], $limits[$product['id']]['max_deposit_percentage']);
+
+                    if ($min > $max) {
+                        unset($product);
+                        continue;
+                    }
+
+                    $product['deposit']['minimum_percentage'] = $min;
+                    $product['deposit']['maximum_percentage'] = $max;
+
+                    $local = $this->productGateway->getCreditInfo(
+                        $installation->ext_id,
+                        $product['id'],
+                        $installation->merchant->token,
+                        [
+                            'deposit_amount' => floor($amount * ($min / 100)),
+                            'order_amount' => floor($amount),
+                        ]
+                    );
+
+                    $product['credit_info'] = $local;
+
+                    $product['credit_info']['deposit_range']['minimum_amount'] = floor(($amount) * ($min / 100));
+                    $product['credit_info']['deposit_range']['maximum_amount'] = floor(($amount) * ($max / 100));
+                }
+            }
+        }
+
+        return $creditInfo;
     }
 }
