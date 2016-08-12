@@ -256,19 +256,18 @@
                                     @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
 
                                     <div class="row">
-                                    <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
-
-                                        <h1>Deposit Amount</h1>
-                                        <div class="col-sm-2 col-xs-12">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">&pound;</div>
-                                                <input type="number" step="1" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
+                                        <h2>Deposit Amount</h2>
+                                        <div class="well col-sm-12 col-lg-12 col-xs-12 deposit-container">
+                                            <div class="col-sm-2 col-xs-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">&pound;</div>
+                                                    <input type="number" maxlength="10" step="1" class="form-control input-number" name="deposit" title="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-10 col-xs-12 deposit-slider-container">
+                                                <div class="slider-range"></div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-10 col-xs-12">
-                                            <input type="range" step="1" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
-                                        </div>
-                                    </div>
                                     </div>
 
                                     @endif
@@ -354,8 +353,27 @@
                 if (evt.altKey) {return false;}
                 if (evt.ctrlKey) {return false;}
                 if (evt.metaKey) {return false;}
-                if (charCode > 31 && charCode != 190 && charCode != 37 && charCode != 39 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+                if (
+                        charCode > 31 &&
+                        charCode != 190 &&
+                        charCode != 37 &&
+                        charCode != 39 &&
+                        (
+                            charCode != 46 &&
+                            (
+                                (
+                                    (charCode < 48 || charCode > 57)
+                                ) &&
+                                (
+                                    (charCode < 96 || charCode > 105)
+                                )
+                            )
+                        )
+                ) {
+
                     return false;
+                }
+
                 return true;
             });
         });
@@ -366,4 +384,33 @@
 
 @section('stylesheets')
     <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
+    <link href="{!! Bust::cache('/css/nouislider.min.css') !!}" rel="stylesheet">
+    <link href="{!! Bust::cache('/css/nouislider.tooltips.css') !!}" rel="stylesheet">
+    <link href="{!! Bust::cache('/css/nouislider.pips.css') !!}" rel="stylesheet">
+    <script src="{!! Bust::cache('/js/nouislider.min.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/wNumb.js') !!}"></script>
+    <style>
+        .slider-range {
+            background: #29ABE2;
+        }
+
+        .noUi-value-large {
+            margin-top: 8px;
+        }
+
+        .deposit-container {
+            padding: 50px 0;
+        }
+        .deposit-container .slider-range{
+            margin-top: 8px;
+        }
+        @media screen and (max-width: 767px) {
+            .deposit-slider-container {
+                margin-top: 36px;
+            }
+            .deposit-container {
+                padding: 20px 0 50px 0;
+            }
+        }
+    </style>
 @endsection

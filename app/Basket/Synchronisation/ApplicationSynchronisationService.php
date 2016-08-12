@@ -69,7 +69,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $mapApplicationHelper = new MapApplicationHelper();
         $mapApplicationHelper->mapApplication($applicationEntity, $application);
         $application->save();
-        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_NOTIFICATION_INITIALISED, Auth::user());
 
         return $application;
     }
