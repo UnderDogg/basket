@@ -21,6 +21,8 @@ use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
+use App\Basket\Synchronisation\ApplicationSynchronisationService;
+use PayBreak\Sdk\Gateways\CreditInfoGateway;
 use PayBreak\Sdk\Gateways\ProductGateway;
 
 /**
@@ -31,14 +33,28 @@ use PayBreak\Sdk\Gateways\ProductGateway;
  */
 class InitialisationController extends Controller
 {
-    /** @var \App\Basket\Synchronisation\ApplicationSynchronisationService */
+    /**
+     * @var ApplicationSynchronisationService
+     */
     private $applicationSynchronisationService;
+    /**
+     * @var CreditInfoGateway
+     */
+    private $creditInfoGateway;
+    /**
+     * @var ProductGateway
+     */
+    private $productGateway;
 
-    public function __construct()
-    {
-        $this->applicationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\ApplicationSynchronisationService'
-        );
+    public function __construct(
+        ApplicationSynchronisationService $applicationSynchronisationService,
+        CreditInfoGateway $creditInfoGateway,
+        ProductGateway $productGateway
+    ) {
+
+        $this->applicationSynchronisationService = $applicationSynchronisationService;
+        $this->creditInfoGateway = $creditInfoGateway;
+        $this->productGateway = $productGateway;
     }
 
     /**
@@ -305,10 +321,7 @@ class InitialisationController extends Controller
     {
         $limits = $this->fetchInstallationProductLimits($installation);
 
-        /** @var \PayBreak\Sdk\Gateways\CreditInfoGateway $gateway */
-        $creditInfoGateway = \App::make('PayBreak\Sdk\Gateways\CreditInfoGateway');
-
-        $creditInfo = $creditInfoGateway->getCreditInfo(
+        $creditInfo = $this->creditInfoGateway->getCreditInfo(
             $installation->ext_id,
             floor($amount),
             $installation->merchant->token
@@ -331,8 +344,6 @@ class InitialisationController extends Controller
      */
     public function setCreditLimitsForProducts(array $creditInfo, array$limits, Installation $installation, $amount)
     {
-        /** @var \PayBreak\Sdk\Gateways\ProductGateway $gateway */
-        $gateway = \App::make('PayBreak\Sdk\Gateways\ProductGateway');
         foreach ($creditInfo as &$group) {
             foreach ($group['products'] as &$product) {
 
@@ -349,7 +360,7 @@ class InitialisationController extends Controller
                     $product['deposit']['minimum_percentage'] = $min;
                     $product['deposit']['maximum_percentage'] = $max;
 
-                    $local = $gateway->getCreditInfo(
+                    $local = $this->productGateway->getCreditInfo(
                         $installation->ext_id,
                         $product['id'],
                         $installation->merchant->token,
