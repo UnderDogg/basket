@@ -354,8 +354,27 @@
                 if (evt.altKey) {return false;}
                 if (evt.ctrlKey) {return false;}
                 if (evt.metaKey) {return false;}
-                if (charCode > 31 && charCode != 190 && charCode != 37 && charCode != 39 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+                if (
+                        charCode > 31 &&
+                        charCode != 190 &&
+                        charCode != 37 &&
+                        charCode != 39 &&
+                        (
+                            charCode != 46 &&
+                            (
+                                (
+                                    (charCode < 48 || charCode > 57)
+                                ) &&
+                                (
+                                    (charCode < 96 || charCode > 105)
+                                )
+                            )
+                        )
+                ) {
+
                     return false;
+                }
+
                 return true;
             });
         });

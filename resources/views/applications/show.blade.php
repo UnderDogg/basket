@@ -188,7 +188,7 @@
                             <dd>{{ $applications->ext_applicant_first_name }}</dd>
                             <dt>Last Name</dt>
                             <dd>{{ $applications->ext_applicant_last_name }}</dd>
-                            <dt>Email Address</dt>
+                            <dt>Date of Birth</dt>
                             <dd>{{ $applications->ext_applicant_date_of_birth }}</dd>
                             <dt>Email Address</dt>
                             <dd>{{ $applications->ext_applicant_email_address }}</dd>

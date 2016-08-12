@@ -123,7 +123,7 @@ class InstallationsController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'active' => 'required|sometimes',
-            'validity' => 'required|integer|between:7200,604800',
+            'validity' => 'required|integer|between:7200,2592000',
             'custom_logo_url' => 'url|max:255',
             'email_reply_to' => 'email|max:255',
             'ext_return_url' => 'url|max:255',

@@ -157,8 +157,8 @@
                         },
                         between: {
                             min: 7200,
-                            max: 604800,
-                            message: 'The validity period must be between 7200 and 604800'
+                            max: 2592000,
+                            message: 'The validity period must be between 7200 and 2592000'
                         }
                     }
                 },
