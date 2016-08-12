@@ -127,8 +127,8 @@
 @endsection
 
 @section('scripts')
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/colorpicker.css" />
-    <script type="text/javascript" src="/js/colorpicker.js"></script>
+    <link rel="stylesheet" media="screen" type="text/css" href="{!! Bust::cache('/css/colorpicker.css') !!}" />
+    <script type="text/javascript" src="{!! Bust::cache('/js/colorpicker.js') !!}"></script>
 
     <script>
         // Form Validation
@@ -157,8 +157,8 @@
                         },
                         between: {
                             min: 7200,
-                            max: 604800,
-                            message: 'The validity period must be between 7200 and 604800'
+                            max: 2592000,
+                            message: 'The validity period must be between 7200 and 2592000'
                         }
                     }
                 },
