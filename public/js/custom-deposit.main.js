@@ -17,7 +17,7 @@ $(document).ready(function(){
             connect: "lower",
             orientation: "horizontal",
             range: {
-                'min': [  parseInt($(inputNumber).attr('min')) ],
+                'min': [ parseInt($(inputNumber).attr('min')) ],
                 'max': [ parseInt($(inputNumber).attr('max')) ]
             },
             pips: {
