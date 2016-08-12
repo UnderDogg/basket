@@ -385,5 +385,13 @@
         .deposit-container .slider-range{
             margin-top: 8px;
         }
+        @media screen and (max-width: 767px) {
+            .deposit-slider-container {
+                margin-top: 36px;
+            }
+            .deposit-container {
+                padding: 20px 0 50px 0;
+            }
+        }
     </style>
 @endsection

@@ -48,7 +48,6 @@ function depositValueHasChanged(changedElement){
         $(this).val(depositValueWithinRange(changedElement));
     });
 
-    console.log($(changedElement).parent().parent());
     $(changedElement).parent().parent().parent().find('.slider-range')[0].noUiSlider.set(depositValueWithinRange(changedElement))
 
     $('#pay-today').html('Pay Today £' + parseFloat(changedElement.value).toFixed(2));
