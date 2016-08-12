@@ -362,11 +362,16 @@
                         (
                             charCode != 46 &&
                             (
-                                (charCode < 48 || charCode > 57) ||
-                                (charCode < 96 || charCode > 105)
+                                (
+                                    (charCode < 48 || charCode > 57)
+                                ) &&
+                                (
+                                    (charCode < 96 || charCode > 105)
+                                )
                             )
                         )
                 ) {
+
                     return false;
                 }
 
