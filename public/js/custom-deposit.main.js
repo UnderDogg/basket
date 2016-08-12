@@ -16,7 +16,7 @@ $(document).ready(function(){
 
 function depositValueHasChanged(changedElement){
     // Update all field values
-    $('input[data-product="'+$(changedElement).data('product')+'"').each(function(index){
+    $('input[data-product="'+$(changedElement).data('product')+'"]').each(function(index){
         $(this).val(depositValueWithinRange(changedElement));
     });
 
