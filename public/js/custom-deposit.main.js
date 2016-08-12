@@ -12,6 +12,100 @@ $(document).ready(function(){
         depositValueHasChanged(this);
     });
 
+    $('li').click(function() {
+        var prod = $(this).find('a').attr('aria-controls');
+        var content = $('div#' + prod);
+        var amount = $(content).find('.pay_today').attr('value');
+        console.log($(content).find('.pay_today').attr('value'));
+        document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
+    });
+    $(window).bind("load", function() {
+        if($('div.tab-pane.active').length > 0) {
+            var div = $('div.tab-pane.active').first();
+            var form = $(div).find('.pay_today');
+            document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
+        }
+    });
+    // Make sure the number input is parsed
+    $('.form-finance-info').submit(function(e) {
+        var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
+        var field = $('.form-finance-info').first().find('input[name=amount]');
+        var number = $(uifield).val();
+        $(field).val(parseFloat(number.replace(',','')));
+    });
+
+    $('input[name=ui_amount]').on('keydown', function(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (evt.shiftKey) {return false;}
+        if (evt.altKey) {return false;}
+        if (evt.ctrlKey) {return false;}
+        if (evt.metaKey) {return false;}
+        if (charCode > 31 && charCode != 190 && charCode != 37 && charCode != 39 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+            return false;
+        return true;
+    });
+
+    var rangeSliderHoliday = document.getElementById('slider-range-holiday');
+    var rangeSliderTerm = document.getElementById('slider-range-term');
+
+    var rangeHoliday = {
+        'min': [ 1 ],
+        'max': [ 3 ]
+    };
+
+    var rangeTerm = {
+        'min': [  3 ],
+        'max': [ 11 ]
+    };
+
+    noUiSlider.create(rangeSliderHoliday, {
+        start: 1,
+        step: 1,
+        margin: 0,
+        tooltips: false,
+        behaviour: 'tap',
+        connect: 'lower',
+        format: wNumb({decimals: 0}),
+        orientation: "horizontal",
+        range: rangeHoliday,
+        pips: {
+            mode: 'values',
+            values: range(1,3),
+            density: 100
+        }
+    });
+
+    noUiSlider.create(rangeSliderTerm, {
+        start: 3,
+        step: 1,
+        margin: 0,
+        tooltips: false,
+        behaviour: 'tap',
+        connect: 'lower',
+        format: wNumb({decimals: 0}),
+        orientation: "horizontal",
+        range: rangeTerm,
+        pips: {
+            mode: 'values',
+            values: range(3, 11),
+            density: 100
+        }
+    });
+
+    rangeSliderHoliday.noUiSlider.on('change', function(values){
+        var min = 3;
+        var max = 12 - values[0];
+        updateTermSliderRange(range(min, max), min, max);
+        sliderUpdated();
+    });
+
+    rangeSliderTerm.noUiSlider.on('change', function(values){
+
+        sliderUpdated();
+    });
+
+    getFlexibleFinanceQuote(1, 3);
+
 });
 
 function depositValueHasChanged(changedElement){
@@ -46,11 +140,11 @@ function depositValueWithinRange(changedElement) {
 }
 
 function showLoading() {
-    $('.loading-container').show();
+    $(".loading").show();
 }
 
 function hideLoading() {
-    $('.loading-container').hide();
+    $('.loading').hide();
 }
 
 function fetchUpdatedCreditInformation(product, deposit, orderAmount, installation, token){
@@ -121,4 +215,92 @@ function updateFinancialField(field, amount){
 function updateSubmitCurrencyField(field, value){
     field.html(value);
     field.attr('value', (value / 100).toFixed(2));
+}
+
+function range(start, end) {
+    var foo = [];
+    for (var i = start; i <= end; i++) {
+        foo.push(i);
+    }
+    return foo;
+}
+
+function updateView(params) {
+    console.log(params);
+
+    $("[data-product='FF'] [data-ajaxfield]").each(function(){
+
+        var content = params[$(this).data('ajaxfield').replace('ff_', '')];
+
+        switch ($(this).data('fieldtype')) {
+            case 'hybriddate':
+                $(this).html(formatDate(content, params[$(this).data('deltamonths')]));
+                break;
+            case 'date':
+                $(this).html(formatDate(content, 0));
+                break;
+            case 'raw':
+                $(this).html(content);
+                break;
+            case 'percent':
+                $(this).html(content + "%");
+                break;
+            case 'currency':
+                $(this).html("£" + (content / 100));
+                break;
+        }
+    });
+}
+
+function updateTermSliderRange (values, min, max) {
+
+    var rangeSliderTerm = document.getElementById('slider-range-term');
+
+    var value = rangeSliderTerm.noUiSlider.get();
+
+    rangeSliderTerm.noUiSlider.destroy();
+
+    noUiSlider.create(rangeSliderTerm, {
+        step: 1,
+        start: 3,
+        margin: 0,
+        tooltips: false,
+        behaviour: 'tap',
+        connect: 'lower',
+        format: wNumb({decimals: 0}),
+        orientation: "horizontal",
+        range: {
+            'min': [ min ],
+            'max': [ max ]
+        },
+        pips: {
+            mode: 'values',
+            values: values,
+            density: 15,
+        }
+    });
+
+    rangeSliderTerm.noUiSlider.set(value);
+
+    rangeSliderTerm.noUiSlider.on('change', function(values){
+
+        sliderUpdated();
+    });
+}
+
+function formatDate(dateStartIso, deltaMonths) {
+    var date = new Date(Date.parse(dateStartIso))
+
+    date.setMonth(date.getMonth() + deltaMonths);
+
+    return date.toDateString();
+}
+
+function sliderUpdated() {
+    var rangeSliderHoliday = document.getElementById('slider-range-holiday').noUiSlider.get();
+    var rangeSliderTerm = document.getElementById('slider-range-term').noUiSlider.get();
+
+    console.log(rangeSliderHoliday, rangeSliderTerm);
+
+    getFlexibleFinanceQuote(rangeSliderHoliday, rangeSliderTerm);
 }
