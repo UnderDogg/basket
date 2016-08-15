@@ -13,12 +13,9 @@ $(document).ready(function(){
     });
 
     $('li').click(function() {
-        console.log('Getting pay today');
         var prod = $(this).find('a').attr('aria-controls');
         var content = $('div#' + prod);
         var amount = $(content).find('.pay_today').attr('value');
-        console.log('div#' + prod);
-        console.log($(content).find('.pay_today').attr('value'));
         document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
     });
     $(window).bind("load", function() {
