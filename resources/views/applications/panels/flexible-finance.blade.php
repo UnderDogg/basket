@@ -5,10 +5,10 @@
         <div class="row text-center">
 
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 well flex-slider-container">
-                <h2>Holiday in Months</h2>
+                <h4>Holiday in Months</h4>
                 <div id="slider-range-holiday"></div>
                 <br><br>
-                <h2>Term in Months</h2>
+                <h4>Term in Months</h4>
                 <div id="slider-range-term"></div>
             </div>
 
