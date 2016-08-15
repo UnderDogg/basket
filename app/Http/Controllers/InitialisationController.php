@@ -48,16 +48,22 @@ class InitialisationController extends Controller
      * @var ProductGateway
      */
     private $productGateway;
+    /**
+     * @var InstallationSynchronisationService
+     */
+    private $installationSynchronisationService;
 
     public function __construct(
         ApplicationSynchronisationService $applicationSynchronisationService,
         CreditInfoGateway $creditInfoGateway,
-        ProductGateway $productGateway
+        ProductGateway $productGateway,
+        InstallationSynchronisationService $installationSynchronisationService
     ) {
 
         $this->applicationSynchronisationService = $applicationSynchronisationService;
         $this->creditInfoGateway = $creditInfoGateway;
         $this->productGateway = $productGateway;
+        $this->installationSynchronisationService = $installationSynchronisationService;
     }
 
     /**
