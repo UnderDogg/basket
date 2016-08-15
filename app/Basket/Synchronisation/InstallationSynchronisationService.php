@@ -14,7 +14,6 @@ use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
 use PayBreak\Sdk\Entities\InstallationEntity;
 use PayBreak\Sdk\Gateways\InstallationGateway;
-use PayBreak\Sdk\Gateways\ProductGateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -29,12 +28,9 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @param InstallationGateway $installationGateway
-     * @param LoggerInterface|null $logger
+     * @param LoggerInterface $logger
      */
-    public function __construct(
-        InstallationGateway $installationGateway,
-        LoggerInterface $logger = null
-    ) {
+    public function __construct(InstallationGateway $installationGateway, LoggerInterface $logger = null) {
         $this->installationGateway = $installationGateway;
 
         parent::__construct($logger);
