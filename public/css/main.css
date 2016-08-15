@@ -324,3 +324,7 @@ iframe#email-prev {
 .colorSelectorReset {
     margin-left: 50px;
 }
+
+td.has-feedback i {
+    padding-top: 7px;
+}
