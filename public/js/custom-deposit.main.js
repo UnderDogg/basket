@@ -4,12 +4,40 @@
 
 $(document).ready(function(){
 
-    $('input[type="range"]').on('change', function() {
-        depositValueHasChanged(this);
-    });
+    $('div.slider-range').each(function(){
+        var rangeSlider = $(this);
+        var inputNumber = rangeSlider.parent().parent().find('.input-number');
 
-    $('input[name="deposit"]').on('change', function() {
-        depositValueHasChanged(this);
+        var startPosition = 0;
+
+        noUiSlider.create(rangeSlider[0], {
+            start: startPosition,
+            tooltips: [ true ],
+            format: wNumb({decimals: 0}),
+            connect: "lower",
+            orientation: "horizontal",
+            range: {
+                'min': [ parseInt($(inputNumber).attr('min')) ],
+                'max': [ parseInt($(inputNumber).attr('max')) ]
+            },
+            pips: {
+                mode: 'range',
+                density: 100
+            }
+        });
+
+        rangeSlider[0].noUiSlider.on('update', function( values, handle ) {
+            inputNumber.val(values[handle]);
+        });
+
+        rangeSlider[0].noUiSlider.on('change', function(){
+            $(inputNumber).trigger('change');
+        });
+
+        inputNumber.on('change', function(){
+            rangeSlider[0].noUiSlider.set(this.value);
+            depositValueHasChanged(this);
+        });
     });
 
 });
@@ -19,6 +47,8 @@ function depositValueHasChanged(changedElement){
     $('input[data-product="'+$(changedElement).data('product')+'"]').each(function(index){
         $(this).val(depositValueWithinRange(changedElement));
     });
+
+    $(changedElement).parent().parent().parent().find('.slider-range')[0].noUiSlider.set(depositValueWithinRange(changedElement))
 
     $('#pay-today').html('Pay Today £' + parseFloat(changedElement.value).toFixed(2));
 
