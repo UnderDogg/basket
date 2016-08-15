@@ -337,6 +337,13 @@
     <script src="{!! Bust::cache('/js/initialise.main.js') !!}"></script>
     <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
     <script>
+        @if(count($flexibleFinance) > 0)
+            $(document).ready(function(){
+                getFlexibleFinanceQuote(1, 3);
+                initialiseFlexibleFinanceSliders();
+            });
+
+        @endif
         function getFlexibleFinanceQuote(holiday, term) {
 
             showLoading();

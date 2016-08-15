@@ -22,11 +22,7 @@ $(document).ready(function(){
         document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
     });
     $(window).bind("load", function() {
-        if($('div.tab-pane.active').length > 0) {
-            var div = $('div.tab-pane.active').first();
-            var form = $(div).find('.pay_today');
-            document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
-        }
+        updatePayToday();
     });
     // Make sure the number input is parsed
     $('.form-finance-info').submit(function(e) {
@@ -46,6 +42,54 @@ $(document).ready(function(){
             return false;
         return true;
     });
+
+    $('div.slider-range').each(function(){
+        var rangeSlider = $(this);
+        var inputNumber = rangeSlider.parent().parent().find('.input-number');
+
+        var startPosition = 0;
+
+        noUiSlider.create(rangeSlider[0], {
+            start: startPosition,
+            tooltips: [ true ],
+            format: wNumb({decimals: 0}),
+            connect: "lower",
+            orientation: "horizontal",
+            range: {
+                'min': [ parseInt($(inputNumber).attr('min')) ],
+                'max': [ parseInt($(inputNumber).attr('max')) ]
+            },
+            pips: {
+                mode: 'range',
+                density: 100
+            }
+        });
+
+        rangeSlider[0].noUiSlider.on('update', function( values, handle ) {
+            inputNumber.val(values[handle]);
+        });
+
+        rangeSlider[0].noUiSlider.on('change', function(){
+            $(inputNumber).trigger('change');
+        });
+
+        inputNumber.on('change', function(){
+            rangeSlider[0].noUiSlider.set(this.value);
+            depositValueHasChanged(this);
+        });
+    });
+
+});
+
+function updatePayToday() {
+    if($('div.tab-pane.active').length > 0) {
+        var div = $('div.tab-pane.active').first();
+        var form = $(div).find('.pay_today');
+        document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
+    }
+}
+
+function initialiseFlexibleFinanceSliders() {
 
     var rangeSliderHoliday = document.getElementById('slider-range-holiday');
     var rangeSliderTerm = document.getElementById('slider-range-term');
@@ -105,47 +149,7 @@ $(document).ready(function(){
 
         sliderUpdated();
     });
-
-    getFlexibleFinanceQuote(1, 3);
-
-    $('div.slider-range').each(function(){
-        var rangeSlider = $(this);
-        var inputNumber = rangeSlider.parent().parent().find('.input-number');
-
-        var startPosition = 0;
-
-        noUiSlider.create(rangeSlider[0], {
-            start: startPosition,
-            tooltips: [ true ],
-            format: wNumb({decimals: 0}),
-            connect: "lower",
-            orientation: "horizontal",
-            range: {
-                'min': [ parseInt($(inputNumber).attr('min')) ],
-                'max': [ parseInt($(inputNumber).attr('max')) ]
-            },
-            pips: {
-                mode: 'range',
-                density: 100
-            }
-        });
-
-        rangeSlider[0].noUiSlider.on('update', function( values, handle ) {
-            inputNumber.val(values[handle]);
-        });
-
-        rangeSlider[0].noUiSlider.on('change', function(){
-            $(inputNumber).trigger('change');
-        });
-
-        inputNumber.on('change', function(){
-            rangeSlider[0].noUiSlider.set(this.value);
-            depositValueHasChanged(this);
-        });
-    });
-
-});
-
+}
 
 
 function depositValueHasChanged(changedElement){
@@ -308,6 +312,8 @@ function updateView(params, holiday, term) {
     });
 
     $(".credit-info[data-product='FF']").show();
+
+    updatePayToday();
 }
 
 function updateTermSliderRange (values, min, max) {
