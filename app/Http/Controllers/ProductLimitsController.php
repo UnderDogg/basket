@@ -79,12 +79,7 @@ class ProductLimitsController extends Controller
                     $min = (float) $limits['min-' . $product->getId()];
                     $max = (float) $limits['max-' . $product->getId()];
 
-                    if (
-                        !($min == $product->getDeposit()->getMinimumPercentage()) ||
-                        !($max == $product->getDeposit()->getMaximumPercentage())
-                    ) {
-                        $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
-                    }
+                    $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
                 } catch (\Exception $e) {
                     throw $this->redirectWithException(
                         'installations/' . $installation->id . '/products',
