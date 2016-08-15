@@ -405,8 +405,14 @@ class InitialisationController extends Controller
 
                     $product['credit_info'] = $local;
 
-                    $product['credit_info']['deposit_range']['minimum_amount'] = floor(($amount) * ($min / 100));
-                    $product['credit_info']['deposit_range']['maximum_amount'] = floor(($amount) * ($max / 100));
+                    $product['credit_info']['deposit_range']['minimum_amount'] = max(
+                        floor(($amount) * ($min / 100)),
+                        $product['credit_info']['deposit_range']['minimum_amount']
+                    );
+                    $product['credit_info']['deposit_range']['maximum_amount'] = min(
+                        floor(($amount) * ($max / 100)),
+                        $product['credit_info']['deposit_range']['maximum_amount']
+                    );
                 }
             }
         }
