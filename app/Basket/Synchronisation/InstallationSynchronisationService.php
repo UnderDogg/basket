@@ -222,9 +222,15 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         return true;
     }
 
+    /**
+     * @param Installation $installation
+     * @param $productGroup
+     * @return array
+     * @author SL
+     */
     public function getProductsByGroup(Installation $installation, $productGroup)
     {
-        return $this->productGateway->getProductsByGroup(
+        return $this->productGateway->getProductsInGroup(
             $installation->ext_id,
             $productGroup,
             $installation->merchant->token
