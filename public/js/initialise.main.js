@@ -158,7 +158,7 @@ function depositValueHasChanged(changedElement){
         $(this).val(depositValueWithinRange(changedElement));
     });
 
-    $(changedElement).parent().parent().parent().find('.slider-range')[0].noUiSlider.set(depositValueWithinRange(changedElement))
+    $(changedElement).parent().parent().parent().find('.slider-deposit')[0].noUiSlider.set(depositValueWithinRange(changedElement))
 
     $('#pay-today').html('Pay Today £' + parseFloat(changedElement.value).toFixed(2));
 
@@ -196,8 +196,8 @@ function hideLoading() {
 function fetchUpdatedCreditInformation(product, deposit, orderAmount, installation, token){
     $.ajax(
         {
-            type: "POST",
-            url: "/ajax/installations/" + installation + "/products/" + product + "/get-credit-info",
+            type: "GET",
+            url: "/ajax/installations/" + installation + "/products/" + product + "/credit-info",
             beforeSend: function( xhr ) {
                 xhr.overrideMimeType('Content-Type: application/json');
                 showLoading();
