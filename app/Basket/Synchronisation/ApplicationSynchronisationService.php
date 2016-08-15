@@ -69,7 +69,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $mapApplicationHelper = new MapApplicationHelper();
         $mapApplicationHelper->mapApplication($applicationEntity, $application);
         $application->save();
-        ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_, Auth::user());
 
         return $application;
     }
@@ -381,6 +380,29 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
             $this->logError(
                 'ApplicationSynchronisationService: Fetching Application Credit Information failed: ' . $e->getMessage()
+            );
+
+            throw $e;
+        }
+    }
+
+    /**
+     * @author SL
+     * @param Application $application
+     * @return array
+     * @throws \Exception
+     */
+    public function getApplicationHistory(Application $application)
+    {
+        try {
+            return $this->applicationGateway->getApplicationHistory(
+                $application->ext_id,
+                $application->installation->merchant->token
+            );
+        } catch (\Exception $e) {
+
+            $this->logError(
+                'ApplicationSynchronisationService: Fetching Application Status History failed: ' . $e->getMessage()
             );
 
             throw $e;

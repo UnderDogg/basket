@@ -95,6 +95,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('installations/{id}/edit',  'InstallationsController@edit');
         Route::patch('installations/{id}',       'InstallationsController@update');
         Route::get('installations/{id}/preview-email',  'InstallationsController@previewEmail');
+        Route::get('installations/{installation}/products',  'ProductLimitsController@viewProducts');
+        Route::post('installations/{installation}/products',  'ProductLimitsController@updateProducts');
     });
 
     /*

@@ -264,18 +264,18 @@
                                     @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
 
                                     <div class="row">
-                                    <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
-
-                                        <h1>Deposit Amount</h1>
-                                        <div class="col-sm-2 col-xs-12">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">&pound;</div>
-                                                <input type="number" maxlength="10" step="1" class="form-control input-number" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
+                                        <h2>Deposit Amount</h2>
+                                        <div class="well col-sm-12 col-lg-12 col-xs-12 deposit-container">
+                                            <div class="col-sm-2 col-xs-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">&pound;</div>
+                                                    <input type="number" maxlength="10" step="1" class="form-control input-number" name="deposit" title="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
+                                                </div>
                                             </div>
-                                            <div id="slider-range"></div>
+                                            <div class="col-sm-10 col-xs-12 deposit-slider-container">
+                                                <div class="slider-range"></div>
+                                            </div>
                                         </div>
-                                            {{--<input type="range" step="1" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">--}}
-                                    </div>
                                     </div>
 
                                     @endif
@@ -364,7 +364,6 @@
                         }
                 );
             });
-
         }
     </script>
 </div>

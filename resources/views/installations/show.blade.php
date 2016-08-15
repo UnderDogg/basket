@@ -6,6 +6,7 @@
             <a href="{{Request::url()}}/edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a href="/locations/?installation_id={{Request::segment(2)}}" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Locations</a>
             <a href="/merchants/{{$installations->merchant_id}}" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Merchant</a>
+            <a href="{{Request::url()}}/products" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> Products</a>
         </div>
     </h1>
     @include('includes.page.breadcrumb', ['over' => [1  => $installations->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
