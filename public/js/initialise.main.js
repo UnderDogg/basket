@@ -43,7 +43,7 @@ $(document).ready(function(){
         return true;
     });
 
-    $('div.slider-range').each(function(){
+    $('div.slider-deposit').each(function(){
         var rangeSlider = $(this);
         var inputNumber = rangeSlider.parent().parent().find('.input-number');
 
