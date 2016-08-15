@@ -85,7 +85,7 @@ function updatePayToday() {
     if($('div.tab-pane.active').length > 0) {
         var div = $('div.tab-pane.active').first();
         var form = $(div).find('.pay_today');
-        document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
+        document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat(($(form).attr('value')/100)).toFixed(2);
     }
 }
 
