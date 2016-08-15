@@ -73,18 +73,14 @@
                                 <th>Total Repayable</th>
                                 <td data-fieldtype="currency" data-ajaxfield="ff_loan_repayment"></td>
                             </tr>
-                            @if(true)
-                                <tr>
-                                    <th>Service Fee</th>
-                                    <td data-fieldtype="currency" data-ajaxfield="ff_amount_service"></td>
-                                </tr>
-                            @endif
-                            @if(true)
-                                <tr>
-                                    <th>Deposit</th>
-                                    <td data-fieldtype="currency" data-ajaxfield="ff_deposit_amount"></td>
-                                </tr>
-                            @endif
+                            <tr>
+                                <th>Service Fee</th>
+                                <td data-fieldtype="currency" data-ajaxfield="ff_amount_service"></td>
+                            </tr>
+                            <tr>
+                                <th>Deposit</th>
+                                <td data-fieldtype="currency" data-ajaxfield="ff_deposit_amount"></td>
+                            </tr>
                             <tr>
                                 <th>Total Cost</th>
                                 <td data-fieldtype="currency" data-ajaxfield="ff_total_cost"></td>
