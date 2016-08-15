@@ -361,7 +361,7 @@ class InitialisationController extends Controller
         );
 
         if (count($limits) > 0) {
-            $creditInfo = $this->setCreditLimitsForProducts($creditInfo, $limits, $installation, $amount);
+            $creditInfo = $this->getRestrictedDepositLimitsForProducts($creditInfo, $limits, $installation, $amount);
         }
 
         return $creditInfo;
@@ -375,7 +375,7 @@ class InitialisationController extends Controller
      * @param $amount
      * @return array
      */
-    public function setCreditLimitsForProducts(array $creditInfo, array$limits, Installation $installation, $amount)
+    public function getRestrictedDepositLimitsForProducts(array $creditInfo, array $limits, Installation $installation, $amount)
     {
         foreach ($creditInfo as &$group) {
             foreach ($group['products'] as &$product) {
