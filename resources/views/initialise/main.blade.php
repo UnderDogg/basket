@@ -365,7 +365,7 @@
             showLoading();
 
             $.get(
-                    "/ajax/installations/{{ $location->installation->id }}/products/AIN" + holiday + "-" + term + "/get-credit-info",
+                    "/ajax/installations/{{ $location->installation->id }}/products/AIN" + holiday + "-" + term + "/credit-info",
                     { order_amount: {{ $amount or 0 }}, deposit: 0, _token: $('input[data-product="FF"][data-field="token"]').val() }
             ).done(function( data ) {
                 hideLoading();
