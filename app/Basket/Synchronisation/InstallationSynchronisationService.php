@@ -26,20 +26,16 @@ use Psr\Log\LoggerInterface;
 class InstallationSynchronisationService extends AbstractSynchronisationService
 {
     private $installationGateway;
-    private $productGateway;
 
     /**
      * @param InstallationGateway $installationGateway
-     * @param ProductGateway $productGateway
-     * @param LoggerInterface $logger
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
         InstallationGateway $installationGateway,
-        ProductGateway $productGateway,
         LoggerInterface $logger = null
     ) {
         $this->installationGateway = $installationGateway;
-        $this->productGateway = $productGateway;
 
         parent::__construct($logger);
     }
