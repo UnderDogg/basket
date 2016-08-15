@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
-use App\Basket\Synchronisation\InstallationSynchronisationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
@@ -49,22 +48,16 @@ class InitialisationController extends Controller
      * @var ProductGateway
      */
     private $productGateway;
-    /**
-     * @var InstallationSynchronisationService
-     */
-    private $installationSynchronisationService;
 
     public function __construct(
         ApplicationSynchronisationService $applicationSynchronisationService,
         CreditInfoGateway $creditInfoGateway,
-        ProductGateway $productGateway,
-        InstallationSynchronisationService $installationSynchronisationService
+        ProductGateway $productGateway
     ) {
 
         $this->applicationSynchronisationService = $applicationSynchronisationService;
         $this->creditInfoGateway = $creditInfoGateway;
         $this->productGateway = $productGateway;
-        $this->installationSynchronisationService = $installationSynchronisationService;
     }
 
     /**
@@ -303,9 +296,10 @@ class InitialisationController extends Controller
      */
     private function prepareFlexibleFinance(Location $location, $orderAmount)
     {
-        $products = $this->installationSynchronisationService->getProductsInGroup(
-            $location->installation,
-            self::PRODUCT_GROUP_FLEXIBLE_FINANCE
+        $products = $this->productGateway->getProductsInGroup(
+            $location->installation->ext_id,
+            self::PRODUCT_GROUP_FLEXIBLE_FINANCE,
+            $location->installation->merchant->token
         );
 
         $filteredProducts = [];
