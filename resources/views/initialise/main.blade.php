@@ -51,10 +51,10 @@
 
             @if((count($options) > 0) || (count($flexibleFinance) > 0))
 
-                @if(count($options) > 1 || count($options[0]['products']) > 1 || (count($flexibleFinance) > 0))
+                @if(count($options) > 1 || count($options[0]['products']) > 1 || (isset($flexibleFinance) && count($flexibleFinance) > 0))
                     <ul class="nav nav-tabs" role="tablist">
 
-                        @if(count($flexibleFinance) > 0)
+                        @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
                             <li role="presentation" class="active"><a href="#prod-FF" aria-controls="prod-FF" role="tab" data-toggle="tab">Flexible Finance</a></li>
                         @endif
 
@@ -62,7 +62,7 @@
 
                             @foreach($group['products'] as $l => $product)
 
-                                <li role="presentation"{{ ($k == 0 && $l == 0 && count($flexibleFinance) == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
+                                <li role="presentation"{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
 
                             @endforeach
 
@@ -76,7 +76,7 @@
 
                         @foreach($group['products'] as $l => $product)
 
-                            <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0 && count($flexibleFinance) == 0)?' active':'' }}" id="prod-{{$product['id']}}">
+                            <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' active':'' }}" id="prod-{{$product['id']}}">
                                 {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
@@ -315,7 +315,7 @@
 
                 @endforeach
 
-                @if(count($flexibleFinance) > 0)
+                @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
                     @include('applications.panels.flexible-finance')
                 @endif
             @else
@@ -337,7 +337,7 @@
     <script src="{!! Bust::cache('/js/initialise.main.js') !!}"></script>
     <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
     <script>
-        @if(count($flexibleFinance) > 0)
+        @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
             $(document).ready(function(){
                 getFlexibleFinanceQuote(1, 3);
                 initialiseFlexibleFinanceSliders();
