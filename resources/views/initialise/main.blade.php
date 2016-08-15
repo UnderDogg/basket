@@ -289,7 +289,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-10 col-xs-12 deposit-slider-container">
-                                                <div class="slider-range"></div>
+                                                <div class="slider-deposit"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -364,7 +364,7 @@
 
             showLoading();
 
-            $.post(
+            $.get(
                     "/ajax/installations/{{ $location->installation->id }}/products/AIN" + holiday + "-" + term + "/get-credit-info",
                     { order_amount: {{ $amount or 0 }}, deposit: 0, _token: $('input[data-product="FF"][data-field="token"]').val() }
             ).done(function( data ) {
