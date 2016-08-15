@@ -303,7 +303,7 @@ class InitialisationController extends Controller
      */
     private function prepareFlexibleFinance(Location $location, $orderAmount)
     {
-        $products = $this->installationSynchronisationService->getProductsByGroup(
+        $products = $this->installationSynchronisationService->getProductsInGroup(
             $location->installation,
             self::PRODUCT_GROUP_FLEXIBLE_FINANCE
         );

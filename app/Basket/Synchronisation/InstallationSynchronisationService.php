@@ -228,7 +228,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      * @return array
      * @author SL
      */
-    public function getProductsByGroup(Installation $installation, $productGroup)
+    public function getProductsInGroup(Installation $installation, $productGroup)
     {
         return $this->productGateway->getProductsInGroup(
             $installation->ext_id,
