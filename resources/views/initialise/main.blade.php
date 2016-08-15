@@ -49,12 +49,28 @@
 
         @if(isset($options) || isset($flexibleFinance))
 
-            @if((count($options) > 0) || (count($flexibleFinance) > 0))
+            @if(
+                (isset($options) && count($options) > 0) ||
+                (isset($flexibleFinance) && count($flexibleFinance) > 0)
+            )
 
-                @if(count($options) > 1 || count($options[0]['products']) > 1 || (isset($flexibleFinance) && count($flexibleFinance) > 0))
+                @if(
+                    (count($options) > 1) ||
+                    (isset($options[0]) && count($options[0]['products']) > 1) ||
+                    (isset($flexibleFinance) && count($flexibleFinance) > 0)
+                )
                     <ul class="nav nav-tabs" role="tablist">
 
-                        @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
+                        @if(
+                            (
+                                isset($flexibleFinance) &&
+                                count($flexibleFinance) > 0
+                            ) &&
+                            (
+                                count($options) > 1 ||
+                                (isset($options[0]) && count($options[0]) > 1)
+                            )
+                        )
                             <li role="presentation" class="active"><a href="#prod-FF" aria-controls="prod-FF" role="tab" data-toggle="tab">Flexible Finance</a></li>
                         @endif
 
