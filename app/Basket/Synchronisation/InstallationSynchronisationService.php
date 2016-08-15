@@ -30,7 +30,8 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      * @param InstallationGateway $installationGateway
      * @param LoggerInterface $logger
      */
-    public function __construct(InstallationGateway $installationGateway, LoggerInterface $logger = null) {
+    public function __construct(InstallationGateway $installationGateway, LoggerInterface $logger = null)
+    {
         $this->installationGateway = $installationGateway;
 
         parent::__construct($logger);
