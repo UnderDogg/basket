@@ -366,7 +366,7 @@
 
             $.post(
                     "/ajax/installations/{{ $location->installation->id }}/products/AIN" + holiday + "-" + term + "/get-credit-info",
-                    { order_amount: {{ $amount or 0 }}, deposit: 0 }
+                    { order_amount: {{ $amount or 0 }}, deposit: 0, _token: $('input[data-product="FF"][data-field="token"]').val() }
             ).done(function( data ) {
                 hideLoading();
                 updateView(data, holiday, term);

@@ -125,6 +125,7 @@
                     {!! Form::hidden('amount', $amount, ['data-product' => 'FF']) !!}
                     {!! Form::hidden('product', 'AIN1-3', ['data-product' => 'FF', 'data-field' => 'product']) !!}
                     {!! Form::hidden('group', 'FF', ['data-product' => 'FF', 'data-field' => 'group']) !!}
+                    {!! Form::hidden('token', csrf_token(), ['data-product' => 'FF', 'data-field' => 'token']) !!}
                     {!! Form::hidden('pay_today', 0, ['data-product' => 'FF', 'class' => 'pay_today', 'data-calcfield' => 'deposit_amount|amount_service']) !!}
                     {!! Form::hidden('reference', $reference, ['data-product' => 'FF']) !!}
                     {!! Form::hidden('description', 'Goods & Services', ['data-product' => 'FF']) !!}
