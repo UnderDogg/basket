@@ -23,6 +23,7 @@ use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
 use App\Basket\Synchronisation\ApplicationSynchronisationService;
+use PayBreak\Sdk\Entities\ProductEntity;
 use PayBreak\Sdk\Gateways\CreditInfoGateway;
 use PayBreak\Sdk\Gateways\ProductGateway;
 
@@ -285,16 +286,41 @@ class InitialisationController extends Controller
                     $location->installation,
                     $request->get('amount') * 100
                 ),
-                'flexibleFinance' => $this->installationSynchronisationService->getProductsByGroup(
-                    $location->installation,
-                    self::PRODUCT_GROUP_FLEXIBLE_FINANCE
-                ),
+                'flexibleFinance' => $this->prepareFlexibleFinance($location, $request->get('amount') * 100),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
                 'bitwise' => Bitwise::make($location->installation->finance_offers),
                 'reference' => $this->generateOrderReferenceFromLocation($location),
             ]
         );
+    }
+
+    /**
+     * @param Location $location
+     * @param int $orderAmount
+     * @return array
+     * @author SL
+     */
+    private function prepareFlexibleFinance(Location $location, $orderAmount)
+    {
+        $products = $this->installationSynchronisationService->getProductsByGroup(
+            $location->installation,
+            self::PRODUCT_GROUP_FLEXIBLE_FINANCE
+        );
+
+        $filteredProducts = [];
+
+        /** @var ProductEntity $product */
+        foreach ($products as $product) {
+            if (
+                $product->getOrder()->getMinimumAmount() <= $orderAmount &&
+                $product->getOrder()->getMaximumAmount() >= $orderAmount
+            ) {
+                $filteredProducts[] = $product;
+            }
+        }
+
+        return $filteredProducts;
     }
 
     /**
