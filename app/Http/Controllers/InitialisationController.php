@@ -296,25 +296,30 @@ class InitialisationController extends Controller
      */
     private function prepareFlexibleFinance(Location $location, $orderAmount)
     {
-        $products = $this->productGateway->getProductsInGroup(
-            $location->installation->ext_id,
-            self::PRODUCT_GROUP_FLEXIBLE_FINANCE,
-            $location->installation->merchant->token
-        );
+        try {
+            $products = $this->productGateway->getProductsInGroup(
+                $location->installation->ext_id,
+                self::PRODUCT_GROUP_FLEXIBLE_FINANCE,
+                $location->installation->merchant->token
+            );
 
-        $filteredProducts = [];
+            $filteredProducts = [];
 
-        /** @var ProductEntity $product */
-        foreach ($products as $product) {
-            if (
-                $product->getOrder()->getMinimumAmount() <= $orderAmount &&
-                $product->getOrder()->getMaximumAmount() >= $orderAmount
-            ) {
-                $filteredProducts[] = $product;
+            /** @var ProductEntity $product */
+            foreach ($products as $product) {
+                if (
+                    $product->getOrder()->getMinimumAmount() <= $orderAmount &&
+                    $product->getOrder()->getMaximumAmount() >= $orderAmount
+                ) {
+                    $filteredProducts[] = $product;
+                }
             }
-        }
 
-        return $filteredProducts;
+            return $filteredProducts;
+
+        }catch(\Exception $e) {
+            return [];
+        }
     }
 
     /**
