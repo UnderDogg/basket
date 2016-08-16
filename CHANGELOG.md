@@ -1,8 +1,17 @@
+## Features
+- Added view to basket for *Application Status History* (126577047)
+- Added *Product Limits* for an *Installation* (127177411)
+- Added validation for product limits (127177411)
+- Add flexible finance calculator to basket (121944781)
+
+## Bug Fixes
+- Fixed limits not saving 
+
 # 1.8.0
 2016-08-12
 
 ## Features
-- Update Variable Deposit slider to use better implementation. 
+- Update Variable Deposit slider to use better implementation.
 
 # 1.7.1
 2016-08-12
