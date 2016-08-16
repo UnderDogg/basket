@@ -3,7 +3,6 @@
 - Added *Product Limits* for an *Installation* (127177411)
 - Added validation for product limits (127177411)
 - Add flexible finance calculator to basket (121944781)
-- Do not show inputs for deposit limits if the deposit is fixed
 
 ## Bug Fixes
 - Fixed limits not saving 
