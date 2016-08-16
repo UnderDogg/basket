@@ -1,3 +1,6 @@
+# 1.9.0
+2016-08-16
+
 ## Features
 - Added view to basket for *Application Status History* (126577047)
 - Added *Product Limits* for an *Installation* (127177411)
@@ -5,7 +8,7 @@
 - Add flexible finance calculator to basket (121944781)
 
 ## Bug Fixes
-- Fixed limits not saving 
+- Fixed limits not saving
 
 # 1.8.0
 2016-08-12
