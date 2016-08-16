@@ -11,12 +11,8 @@ $(document).ready(function(){
     $('input[name="deposit"]').on('change', function() {
         depositValueHasChanged(this);
     });
-
-    $('li').click(function() {
-        var prod = $(this).find('a').attr('aria-controls');
-        var content = $('div#' + prod);
-        var amount = $(content).find('.pay_today').attr('value');
-        document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        updatePayToday();
     });
     $(window).bind("load", function() {
         updatePayToday();
@@ -155,9 +151,9 @@ function depositValueHasChanged(changedElement){
         $(this).val(depositValueWithinRange(changedElement));
     });
 
-    $(changedElement).parent().parent().parent().find('.slider-deposit')[0].noUiSlider.set(depositValueWithinRange(changedElement))
-
-    $('#pay-today').html('Pay Today £' + parseFloat(changedElement.value).toFixed(2));
+    var root = $(changedElement).parent().parent().parent().find('.slider-deposit')[0];
+    root.noUiSlider.set(depositValueWithinRange(changedElement))
+    $(root).parent().parent().parent().parent().find('input.pay_today').val(depositValueWithinRange(changedElement) * 100);
 
     fetchUpdatedCreditInformation(
         $(changedElement).data('product'),
@@ -166,6 +162,8 @@ function depositValueHasChanged(changedElement){
         $(changedElement).data('installation'),
         $(changedElement).data('token')
     );
+
+    updatePayToday();
 }
 
 function depositValueWithinRange(changedElement) {
