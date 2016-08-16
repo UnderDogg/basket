@@ -22,6 +22,7 @@ use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
 use App\Basket\Synchronisation\ApplicationSynchronisationService;
+use PayBreak\Sdk\Entities\ProductEntity;
 use PayBreak\Sdk\Gateways\CreditInfoGateway;
 use PayBreak\Sdk\Gateways\ProductGateway;
 
@@ -33,6 +34,8 @@ use PayBreak\Sdk\Gateways\ProductGateway;
  */
 class InitialisationController extends Controller
 {
+    const PRODUCT_GROUP_FLEXIBLE_FINANCE = 'FF';
+
     /**
      * @var ApplicationSynchronisationService
      */
@@ -276,12 +279,42 @@ class InitialisationController extends Controller
                     $location->installation,
                     $request->get('amount') * 100
                 ),
+                'flexibleFinance' => $this->prepareFlexibleFinance($location, $request->get('amount') * 100),
                 'amount' => floor($request->get('amount') * 100),
                 'location' => $location,
                 'bitwise' => Bitwise::make($location->installation->finance_offers),
                 'reference' => $this->generateOrderReferenceFromLocation($location),
             ]
         );
+    }
+
+    /**
+     * @param Location $location
+     * @param int $orderAmount
+     * @return array
+     * @author SL
+     */
+    private function prepareFlexibleFinance(Location $location, $orderAmount)
+    {
+        $products = $this->productGateway->getProductsInGroup(
+            $location->installation->ext_id,
+            self::PRODUCT_GROUP_FLEXIBLE_FINANCE,
+            $location->installation->merchant->token
+        );
+
+        $filteredProducts = [];
+
+        /** @var ProductEntity $product */
+        foreach ($products as $product) {
+            if (
+                $product->getOrder()->getMinimumAmount() <= $orderAmount &&
+                $product->getOrder()->getMaximumAmount() >= $orderAmount
+            ) {
+                $filteredProducts[] = $product;
+            }
+        }
+
+        return $filteredProducts;
     }
 
     /**
@@ -328,7 +361,7 @@ class InitialisationController extends Controller
         );
 
         if (count($limits) > 0) {
-            $creditInfo = $this->setCreditLimitsForProducts($creditInfo, $limits, $installation, $amount);
+            $creditInfo = $this->getRestrictedDepositLimitsForProducts($creditInfo, $limits, $installation, $amount);
         }
 
         return $creditInfo;
@@ -342,7 +375,7 @@ class InitialisationController extends Controller
      * @param $amount
      * @return array
      */
-    public function setCreditLimitsForProducts(array $creditInfo, array$limits, Installation $installation, $amount)
+    public function getRestrictedDepositLimitsForProducts(array $creditInfo, array $limits, Installation $installation, $amount)
     {
         foreach ($creditInfo as &$group) {
             foreach ($group['products'] as &$product) {
@@ -372,8 +405,14 @@ class InitialisationController extends Controller
 
                     $product['credit_info'] = $local;
 
-                    $product['credit_info']['deposit_range']['minimum_amount'] = floor(($amount) * ($min / 100));
-                    $product['credit_info']['deposit_range']['maximum_amount'] = floor(($amount) * ($max / 100));
+                    $product['credit_info']['deposit_range']['minimum_amount'] = max(
+                        floor(($amount) * ($min / 100)),
+                        $product['credit_info']['deposit_range']['minimum_amount']
+                    );
+                    $product['credit_info']['deposit_range']['maximum_amount'] = min(
+                        floor(($amount) * ($max / 100)),
+                        $product['credit_info']['deposit_range']['maximum_amount']
+                    );
                 }
             }
         }

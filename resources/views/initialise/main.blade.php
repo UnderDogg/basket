@@ -5,6 +5,7 @@
 @if(env('ENV_BANNER', false))
     @include('env-banner')
 @endif
+<div class="loading"></div>
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
@@ -45,21 +46,44 @@
             </div>
             {!! Form::close() !!}
         </div>
-        @if(isset($options))
 
-            @if(count($options) > 0)
+        @if(isset($options) || isset($flexibleFinance))
 
-                @if(count($options) > 1 || count($options[0]['products']) > 1)
+            @if(
+                (isset($options) && count($options) > 0) ||
+                (isset($flexibleFinance) && count($flexibleFinance) > 0)
+            )
+
+                @if(
+                    (count($options) > 1) ||
+                    (isset($options[0]) && count($options[0]['products']) > 1) ||
+                    (isset($flexibleFinance) && count($flexibleFinance) > 0)
+                )
                     <ul class="nav nav-tabs" role="tablist">
+
+                        @if(
+                            (
+                                isset($flexibleFinance) &&
+                                count($flexibleFinance) > 0
+                            ) &&
+                            (
+                                count($options) > 1 ||
+                                (isset($options[0]) && count($options[0]) > 1)
+                            )
+                        )
+                            <li role="presentation" class="active"><a href="#prod-FF" aria-controls="prod-FF" role="tab" data-toggle="tab">Flexible Finance</a></li>
+                        @endif
+
                         @foreach($options as $k => $group)
 
                             @foreach($group['products'] as $l => $product)
 
-                                <li role="presentation"{{ ($k == 0 && $l == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
+                                <li role="presentation"{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
 
                             @endforeach
 
                         @endforeach
+
                     </ul>
                 @endif
 
@@ -68,7 +92,7 @@
 
                         @foreach($group['products'] as $l => $product)
 
-                            <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
+                            <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' active':'' }}" id="prod-{{$product['id']}}">
                                 {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
@@ -166,6 +190,12 @@
                                                     <th>Deposit</th>
                                                     <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                                 </tr>
+                                                @if($product['credit_info']['amount_service'] > 0)
+                                                    <tr>
+                                                        <th>Service Fee</th>
+                                                        <td data-fieldtype="currency" data-ajaxfield="amount_service">&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <th>Total Cost</th>
                                                     <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
@@ -229,12 +259,10 @@
                                                         <td data-fieldtype="currency" data-ajaxfield="amount_service">&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
                                                     </tr>
                                                 @endif
-                                                @if($product['credit_info']['deposit_amount'] > 0)
-                                                    <tr>
-                                                        <th>Deposit</th>
-                                                        <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
-                                                    </tr>
-                                                @endif
+                                                <tr>
+                                                    <th>Deposit</th>
+                                                    <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                </tr>
                                                 <tr>
                                                     <th>Total Cost</th>
                                                     <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
@@ -253,7 +281,7 @@
                                     @endif
                                     </div>
 
-                                    @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
+                                    @if($product['credit_info']['deposit_range']['minimum_amount'] < $product['credit_info']['deposit_range']['maximum_amount'])
 
                                     <div class="row">
                                         <h2>Deposit Amount</h2>
@@ -265,7 +293,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-10 col-xs-12 deposit-slider-container">
-                                                <div class="slider-range"></div>
+                                                <div class="slider-deposit"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -306,6 +334,10 @@
                     @endforeach
 
                 @endforeach
+
+                @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
+                    @include('applications.panels.flexible-finance')
+                @endif
             @else
                 <div class="alert alert-warning col-md-12" role="alert">No available products for this amount!</div>
             @endif
@@ -322,61 +354,44 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="{!! Bust::cache('/js/main.js') !!}"></script>
-    <script src="{!! Bust::cache('/js/custom-deposit.main.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/initialise.main.js') !!}"></script>
     <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
     <script>
-        $(document).ready(function() {
-            $('li').click(function() {
-                var prod = $(this).find('a').attr('aria-controls');
-                var content = $('div#' + prod);
-                var amount = $(content).find('.pay_today').attr('value');
-                document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil(amount/100))).toFixed(2);
-            });
-            $(window).bind("load", function() {
-                if($('div.tab-pane.active').length > 0) {
-                    var div = $('div.tab-pane.active').first();
-                    var form = $(div).find('.pay_today');
-                    document.getElementById('pay-today').innerHTML = 'Pay Today £' + parseFloat((Math.ceil($(form).attr('value')/100))).toFixed(2);
-                }
-            });
-            // Make sure the number input is parsed
-            $('.form-finance-info').submit(function(e) {
-                var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
-                var field = $('.form-finance-info').first().find('input[name=amount]');
-                var number = $(uifield).val();
-                $(field).val(parseFloat(number.replace(',','')));
+        @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
+            $(document).ready(function(){
+                getFlexibleFinanceQuote(1, 3);
+                initialiseFlexibleFinanceSliders();
             });
 
-            $('input[name=ui_amount]').on('keydown', function(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode;
-                if (evt.shiftKey) {return false;}
-                if (evt.altKey) {return false;}
-                if (evt.ctrlKey) {return false;}
-                if (evt.metaKey) {return false;}
-                if (
-                        charCode > 31 &&
-                        charCode != 190 &&
-                        charCode != 37 &&
-                        charCode != 39 &&
-                        (
-                            charCode != 46 &&
-                            (
-                                (
-                                    (charCode < 48 || charCode > 57)
-                                ) &&
-                                (
-                                    (charCode < 96 || charCode > 105)
-                                )
-                            )
-                        )
-                ) {
+        @endif
+        function getFlexibleFinanceQuote(holiday, term) {
 
-                    return false;
-                }
+            showLoading();
 
-                return true;
+            $.get(
+                    "/ajax/installations/{{ $location->installation->id }}/products/AIN" + holiday + "-" + term + "/credit-info",
+                    { order_amount: {{ $amount or 0 }}, deposit: 0, _token: $('input[data-product="FF"][data-field="token"]').val() }
+            ).done(function( data ) {
+                hideLoading();
+                updateView(data, holiday, term);
+            }).fail(function() {
+                hideLoading();
+                swal(
+                        {
+                            title: "An Error Occurred!",
+                            text: "We were unable to recalculate information for the requested order. Please refresh the page.",
+                            type: "error",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Refresh",
+                            closeOnConfirm: false
+                        },
+                        function(){
+                            location.reload();
+                        }
+                );
             });
-        });
+        }
     </script>
 </div>
 </body>
@@ -384,33 +399,10 @@
 
 @section('stylesheets')
     <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/initialise.main.css') !!}">
     <link href="{!! Bust::cache('/css/nouislider.min.css') !!}" rel="stylesheet">
     <link href="{!! Bust::cache('/css/nouislider.tooltips.css') !!}" rel="stylesheet">
     <link href="{!! Bust::cache('/css/nouislider.pips.css') !!}" rel="stylesheet">
     <script src="{!! Bust::cache('/js/nouislider.min.js') !!}"></script>
     <script src="{!! Bust::cache('/js/wNumb.js') !!}"></script>
-    <style>
-        .slider-range {
-            background: #29ABE2;
-        }
-
-        .noUi-value-large {
-            margin-top: 8px;
-        }
-
-        .deposit-container {
-            padding: 50px 0;
-        }
-        .deposit-container .slider-range{
-            margin-top: 8px;
-        }
-        @media screen and (max-width: 767px) {
-            .deposit-slider-container {
-                margin-top: 36px;
-            }
-            .deposit-container {
-                padding: 20px 0 50px 0;
-            }
-        }
-    </style>
 @endsection
