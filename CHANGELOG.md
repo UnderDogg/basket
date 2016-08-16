@@ -5,6 +5,9 @@
 - Add flexible finance calculator to basket (121944781)
 - Do not show inputs for deposit limits if the deposit is fixed
 
+## Bug Fixes
+- Fixed limits not saving 
+
 # 1.8.0
 2016-08-12
 
