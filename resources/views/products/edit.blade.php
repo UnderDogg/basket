@@ -25,6 +25,7 @@
         </tr>
         </thead>
         <tbody>
+        @if($i = 0) @endif
         @forelse($products as $group)
             <tr id="{{$group->getId()}}">
                 <td colspan="8"><strong>{{$group->getName()}}</strong></td>
@@ -37,8 +38,13 @@
                     <td id="max" data-value="{{number_format($productData->getDeposit()->getMaximumPercentage(), 2)}}">{{number_format($productData->getDeposit()->getMaximumPercentage(), 2)}}%</td>
                     <td>{{'&pound;' . number_format($productData->getDeposit()->getMinimumAmount()/100, 2)}}</td>
                     <td>{{'&pound;' . number_format($productData->getDeposit()->getMaximumAmount()/100, 2)}}</td>
-                    <td><input type="text" class="form-control" data-fv-digits="true" data-fv-stringlength-max="2" maxlength="2" data-fv-notempty data-fv-between-inclusive="true" min="{{number_format($productData->getDeposit()->getMinimumPercentage(), 0)}}" max="{{$productData->getDeposit()->getMaximumPercentage()}}" name="min-{{$productData->getId()}}" data-fv-lessthan="true" data-fv-lessthan-value="max-{{$productData->getId()}}" value="@if(array_has($limits, $productData->getId())){{number_format($limits[$productData->getId()]['min_deposit_percentage'], 0)}}@else{{number_format($productData->getDeposit()->getMinimumPercentage(), 0)}}@endif"></td>
-                    <td><input type="text" class="form-control" data-fv-digits="true" data-fv-stringlength-max="2" maxlength="2" data-fv-notempty data-fv-between-inclusive="true" min="{{number_format($productData->getDeposit()->getMinimumPercentage(), 0)}}" max="{{$productData->getDeposit()->getMaximumPercentage()}}" name="max-{{$productData->getId()}}" data-fv-greaterthan="true" data-fv-greaterthan-value="min-{{$productData->getId()}}" value="@if(array_has($limits, $productData->getId())){{number_format($limits[$productData->getId()]['max_deposit_percentage'], 0)}}@else{{number_format($productData->getDeposit()->getMaximumPercentage(), 0)}}@endif"></td>
+                    @if(($productData->getDeposit()->getMinimumPercentage() == $productData->getDeposit()->getMaximumPercentage()) ||  ($productData->getDeposit()->getMinimumAmount() == $productData->getDeposit()->getMaximumAmount()))
+                        <td colspan="2">Fixed deposit</td>
+                    @else
+                        @if($i++) @endif
+                        <td><input type="text" class="form-control" data-fv-digits="true" data-fv-stringlength-max="2" maxlength="2" data-fv-notempty data-fv-between-inclusive="true" min="{{number_format($productData->getDeposit()->getMinimumPercentage(), 0)}}" max="{{$productData->getDeposit()->getMaximumPercentage()}}" name="min-{{$productData->getId()}}" data-fv-lessthan="true" data-fv-lessthan-value="max-{{$productData->getId()}}" value="@if(array_has($limits, $productData->getId())){{number_format($limits[$productData->getId()]['min_deposit_percentage'], 0)}}@else{{number_format($productData->getDeposit()->getMinimumPercentage(), 0)}}@endif"></td>
+                        <td><input type="text" class="form-control" data-fv-digits="true" data-fv-stringlength-max="2" maxlength="2" data-fv-notempty data-fv-between-inclusive="true" min="{{number_format($productData->getDeposit()->getMinimumPercentage(), 0)}}" max="{{$productData->getDeposit()->getMaximumPercentage()}}" name="max-{{$productData->getId()}}" data-fv-greaterthan="true" data-fv-greaterthan-value="min-{{$productData->getId()}}" value="@if(array_has($limits, $productData->getId())){{number_format($limits[$productData->getId()]['max_deposit_percentage'], 0)}}@else{{number_format($productData->getDeposit()->getMaximumPercentage(), 0)}}@endif"></td>
+                    @endif
                 <tr>
             @empty
                 <tr>
@@ -50,7 +56,9 @@
         @endforelse
         </tbody>
     </table>
+    @if(isset($i) && $i > 0)
     {!! Form::submit('Save Product Limits', ['class' => 'btn btn-info pull-right']) !!}
+    @endif
     {!! Form::close() !!}
 
 @endsection

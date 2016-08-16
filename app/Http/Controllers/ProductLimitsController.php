@@ -138,6 +138,7 @@ class ProductLimitsController extends Controller
      */
     private function fetchDefaultEditableProductSet(Installation $installation)
     {
+        /** @var GroupEntity[] $groups */
         $groups = $this->productGateway->getProductGroupsWithProducts(
             $installation->ext_id,
             $installation->merchant->token
