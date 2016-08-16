@@ -76,14 +76,16 @@ class ProductLimitsController extends Controller
         foreach ($groups as $group) {
             foreach ($group->getProducts() as $product) {
                 try {
-                    $min = (float) $limits['min-' . $product->getId()];
-                    $max = (float) $limits['max-' . $product->getId()];
+                    if($request->has('min-' . $product->getId()) && $request->has('max-' . $product->getId())) {
+                        $min = (float) $limits['min-' . $product->getId()];
+                        $max = (float) $limits['max-' . $product->getId()];
 
-                    if (
-                        $min >= $product->getDeposit()->getMinimumPercentage() &&
-                        $max <= $product->getDeposit()->getMaximumPercentage()
-                    ) {
-                        $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
+                        if (
+                            $min >= $product->getDeposit()->getMinimumPercentage() &&
+                            $max <= $product->getDeposit()->getMaximumPercentage()
+                        ) {
+                            $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
+                        }
                     }
                 } catch (\Exception $e) {
                     throw $this->redirectWithException(
