@@ -82,6 +82,10 @@ class InitialisationController extends Controller
      */
     public function request($locationId, Request $request)
     {
+        if($request->has('phone_mobile')) {
+            $request->merge(['phone_mobile' => preg_replace('/\s+/', '', $request->get('phone_mobile'))]);
+        }
+
         $this->validate(
             $request,
             [
