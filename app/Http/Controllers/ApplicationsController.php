@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
+use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
@@ -104,6 +105,7 @@ class ApplicationsController extends Controller
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
+                'merchantPaymentsAvailable' => $this->canHaveMerchantPayments($application),
                 'merchantPayments' => $this->applicationSynchronisationService->getRemoteMerchantPayments(
                     $application,
                     [
@@ -111,6 +113,9 @@ class ApplicationsController extends Controller
                     ]
                 ),
                 'limit' => self::MERCHANT_PAYMENT_LIMIT,
+                'applicationHistory' => array_reverse(
+                    $this->applicationSynchronisationService->getApplicationHistory($application)
+                ),
             ]
         );
     }
@@ -337,6 +342,16 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * @author SL
+     * @param Application $application
+     * @return bool
+     */
+    private function canHaveMerchantPayments(Application $application)
+    {
+        return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+    }
+
+    /**
      * @author LH
      * @param Application $application
      * @return bool
@@ -384,7 +399,6 @@ class ApplicationsController extends Controller
                 'first_name' => 'required|max:30',
                 'last_name' => 'required|max:30',
                 'applicant_email' => 'required|email|max:30',
-                'subject' => 'required|max:100',
                 'description' => 'required|max:255',
             ]
         );
@@ -403,7 +417,8 @@ class ApplicationsController extends Controller
                         'installation_name' => $application->installation->name,
                         'installation_logo' => $application->installation->custom_logo_url,
                         'apply_url' => $application->ext_resume_url,
-                    ]
+                    ],
+                    EmailConfigurationTemplateHelper::makeFromJson($application->installation->email_configuration)->toArray()
                 )
             );
             ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());

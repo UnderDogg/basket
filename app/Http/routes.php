@@ -94,6 +94,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('merchants/{id}/ips/{ip}', 'IpsController@delete');
         Route::get('installations/{id}/edit',  'InstallationsController@edit');
         Route::patch('installations/{id}',       'InstallationsController@update');
+        Route::get('installations/{id}/preview-email',  'InstallationsController@previewEmail');
+        Route::get('installations/{installation}/products',  'ProductLimitsController@viewProducts');
+        Route::post('installations/{installation}/products',  'ProductLimitsController@updateProducts');
     });
 
     /*
@@ -151,7 +154,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/confirm', 'InitialisationController@confirm');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
 
-        Route::post('ajax/installations/{installation}/products/{product}/get-credit-info', 'AjaxController@getCreditInformationForProduct');
+        Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
     });
 
     Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {
@@ -181,4 +184,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
-    Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
+Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');

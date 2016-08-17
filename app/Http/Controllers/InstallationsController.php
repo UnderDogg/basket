@@ -9,10 +9,13 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Email\EmailApplicationService;
+use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\GroupEntity;
 
 /**
@@ -94,9 +97,15 @@ class InstallationsController extends Controller
      */
     public function edit($id)
     {
+        $installation = $this->fetchInstallation($id);
+
         return view(
             'installations.edit',
-            ['installations' => $this->fetchInstallation($id)]
+            [
+                'installations' => $installation,
+                'emailConfigHelper' => EmailConfigurationTemplateHelper::makeFromJson($installation->email_configuration),
+                'bitwise' => Bitwise::make($installation->finance_offers),
+            ]
         );
     }
 
@@ -114,18 +123,23 @@ class InstallationsController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'active' => 'required|sometimes',
-            'validity' => 'required|integer|between:7200,604800',
+            'validity' => 'required|integer|between:7200,2592000',
             'custom_logo_url' => 'url|max:255',
+            'email_reply_to' => 'email|max:255',
             'ext_return_url' => 'url|max:255',
             'ext_notification_url' => 'url|max:255',
             'finance_offers' => 'required|integer|min:' . Installation::LOWEST_BIT,
         ]);
+
         $old = new Installation();
         $old = $old->findOrFail($id);
 
-        if($old->ext_notification_url !== $request->ext_notification_url ||
-            $old->ext_return_url !== $request->ext_return_url) {
-            try {
+        try {
+
+            $request->merge(['email_configuration' => $this->getEmailConfigurationFromParams($request)]);
+
+            if($old->ext_notification_url !== $request->ext_notification_url ||
+                $old->ext_return_url !== $request->ext_return_url) {
                 $this->installationGateway
                     ->patchInstallation(
                         $this->fetchInstallation($id)->ext_id,
@@ -135,12 +149,76 @@ class InstallationsController extends Controller
                         ],
                         $this->fetchInstallation($id)->merchant->token
                     );
-            } catch (\Exception $e) {
-                return RedirectException::make('/installations/' . $id . '/edit')->setError($e->getMessage());
             }
+        } catch (\Exception $e) {
+            throw RedirectException::make('/installations/' . $id . '/edit')->setError($e->getMessage());
         }
 
         return $this->updateModel((new Installation()), $id, 'installation', '/installations', $request);
+    }
+
+    /**
+     * $fields = [
+     *     'fieldName' => bool $required,
+     * ]
+     *
+     * @author SL
+     *
+     * @param Request $request
+     * @return string
+     * @throws \Exception
+     */
+    private function getEmailConfigurationFromParams(Request $request)
+    {
+        $fields = [
+            'retailer_url',
+            'retailer_telephone',
+            'custom_colour_highlight',
+            'custom_colour_button',
+            'email_subject',
+            'email_reply_to',
+            'email_from_name',
+        ];
+
+        $rtn = [];
+
+        foreach ($fields as $field) {
+
+            try {
+
+                $this->assertFieldExistsAndNotEmpty($request, $field);
+
+            } catch (\Exception $e) {
+
+                continue;
+            }
+
+            $rtn[$field] = $request->get($field);
+        }
+
+        return json_encode($rtn);
+    }
+
+    /**
+     * @author SL
+     * @param Request $request
+     * @param string $field
+     * @return bool
+     * @throws \Exception
+     */
+    private function assertFieldExistsAndNotEmpty(Request $request, $field)
+    {
+        if (
+            !(
+                $request->has($field) &&
+                !is_null($request->get($field)) &&
+                strlen($request->get($field)) > 0
+            )
+        ) {
+            throw new \Exception('Required field [' . $field . '] is missing or empty');
+        }
+
+        return true;
     }
 
     /**
@@ -164,17 +242,6 @@ class InstallationsController extends Controller
             URL::previous(),
             'Synchronisation complete successfully'
         );
-    }
-
-    /**
-     * @author WN
-     * @param int $id
-     * @return Installation
-     * @throws RedirectException
-     */
-    private function fetchInstallation($id)
-    {
-        return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 
     /**
@@ -215,5 +282,49 @@ class InstallationsController extends Controller
             'id' => self::FILTER_STRICT,
             'merchant_id' => self::FILTER_STRICT,
         ];
+    }
+
+    /**
+     * @author SL
+     * @param string $id
+     * @param EmailApplicationService $emailApplicationService
+     * @param Request $request
+     * @return string
+     */
+    public function previewEmail($id, EmailApplicationService $emailApplicationService, Request $request)
+    {
+        $installation = $this->fetchInstallation($id);
+        $templateHelper = EmailConfigurationTemplateHelper::makeFromJson($installation->email_configuration);
+
+        $name = ($templateHelper->has('retailer_name') ? $templateHelper->get('retailer_name') : $installation->name);
+
+        try {
+            return $emailApplicationService->getView(
+                TemplatesController::fetchDefaultTemplateForInstallation($installation),
+                array_merge(
+                    [
+                        'installation_logo' => $installation->custom_logo_url,
+                        'customer_title' => 'Title',
+                        'customer_last_name' => 'Surname',
+                        'installation_name' => $name,
+                        'order_description' => 'Example Order from ' . $name,
+                        'payment_regular' => 0,
+                        'apply_url' => '#',
+                        'payments' => 0,
+                        'order_amount' => 0,
+                        'deposit_amount' => 0,
+                        'loan_amount' => 0,
+                        'total_repayment' => 0,
+                        'offered_rate' => 0,
+                        'apr' => 0,
+                        'loan_cost' => 0,
+                    ],
+                    $templateHelper->toArray(),
+                    $request->all()
+                )
+            );
+        } catch (\Exception $e) {
+            return view('emails.applications.blank')->with('content', 'Problem rendering template');
+        }
     }
 }

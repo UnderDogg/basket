@@ -26,78 +26,78 @@
         <br/>
         <h1>Additional Information</h1>
         <br/>
-        {!! Form::open(['action' => ['InitialisationController@request', Request::segment(2)], 'class' => 'form-horizontal']) !!}
-        <div class="form-group col-xs-12">
-            {!! Form::label('reference', 'Reference:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12']) !!}
-            </div>
-        </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('description', 'Description:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                {!! Form::text('description', $input['description'], ['class' => 'form-control col-xs-12']) !!}
-            </div>
-        </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('title', 'Title:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                <select class="form-control col-xs-12" name="title">
-                    <option disabled selected hidden>Please select...</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Miss">Miss</option>
-                    <option value="Ms">Ms</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('first_name', 'First Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12']) !!}
-            </div>
-        </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('last_name', 'Last Name:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12']) !!}
-            </div>
-        </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('applicant_email', 'Email:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12']) !!}
-            </div>
-        </div>
-        <div class="form-group col-xs-12">
-            {!! Form::label('phone_mobile', '(Optional) Mobile Phone:', ['class' => 'col-sm-12 col-md-2 control-label text-right']) !!}
-            <div class="col-sm-12 col-md-10">
-                {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12']) !!}
-            </div>
-        </div>
-
-        <!-- Previous input values -->
-        @foreach($input as $key => $value)
-            @if(!is_null($value) && !in_array($value, ['reference', 'description']))
-                {!! Form::hidden($key, $value) !!}
-            @endif
-        @endforeach
-        {!! Form::hidden('subject', 'afforditNOW Finance Application') !!}
-        {!! Form::hidden('installation', $location->installation->id) !!}
-
-        <div class="form-group col-xs-12">
-            @foreach($location->installation->getBitwiseFinanceOffers() as $key => $offer)
-                @if($bitwise->contains($offer['value']))
-                    @if(count($bitwise->explode()) == 1)<div class="col-sm-12 col-xs-12">@endif
-                    @if(count($bitwise->explode()) == 2)<div class="col-sm-6 col-xs-12">@endif
-                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin"@if(isset($offer['name'])) name="{!! $offer['name'] !!}" value="true"@endif>{!! $offer['text'] !!}</button>
+        <div class="row alternate-full-form">
+            <div class="col-xs-12">
+                {!! Form::open(['action' => ['InitialisationController@request', Request::segment(2)], 'class' => 'form-horizontal']) !!}
+                <div class="form-group">
+                    {!! Form::label('reference', 'Reference', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12', 'maxlength' => 40]) !!}
                     </div>
-                @endif
+                </div>
+                <div class="form-group">
+                    {!! Form::label('description', 'Description', ['class' => 'col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('description', $input['description'], ['class' => 'form-control col-xs-12', 'maxlength' => 100]) !!}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <div class="col-sm-10">
+                        <select class="form-control col-xs-12" name="title">
+                            <option disabled selected hidden>Please select...</option>
+                            <option value="Mr">Mr</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Ms">Ms</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('first_name', 'First Name', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('first_name', null, ['class' => 'form-control col-xs-12', 'maxlength' => 30]) !!}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('last_name', 'Last Name', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('last_name', null, ['class' => 'form-control col-xs-12', 'maxlength' => 30]) !!}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('applicant_email', 'Email', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::email('applicant_email', null, ['class' => 'form-control col-xs-12', 'maxlength' => 255]) !!}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('phone_mobile', 'Mobile (Optional)', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('phone_mobile', null, ['class' => 'form-control col-xs-12']) !!}
+                    </div>
+                </div>
 
-            @endforeach
+                <!-- Previous input values -->
+                @foreach($input as $key => $value)
+                    @if(!is_null($value) && !in_array($value, ['reference', 'description']))
+                        {!! Form::hidden($key, $value) !!}
+                    @endif
+                @endforeach
+                {!! Form::hidden('installation', $location->installation->id) !!}
+
+                <div class="form-group">
+                    <div class="col-sm-6 col-xs-12">
+                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="link" value="true">Create Application Link</button>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="email" value="true">Email Application Link</button>
+                    </div>
+                </div>
+
+                {!! Form::close() !!}
+            </div>
         </div>
-
-        {!! Form::close() !!}
     </div>
 </body>
 
@@ -107,8 +107,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="/formvalidation/dist/js/formValidation.min.js"></script>
-    <script src="/formvalidation/dist/js/framework/bootstrap.min.js"></script>
+    <script src="{!! Bust::cache('/formvalidation/dist/js/formValidation.min.js') !!}"></script>
+    <script src="{!! Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js') !!}"></script>
     <script>
         validation = {
             fields: {
@@ -186,5 +186,5 @@
         }
     </script>
 
-    <script src={!! asset('/js/fv.js') !!}></script>
+    <script src="{!! asset(Bust::cache('/js/fv.js')) !!}"></script>
 @endsection

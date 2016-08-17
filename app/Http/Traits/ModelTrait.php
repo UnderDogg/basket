@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 
+use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -87,7 +88,21 @@ trait ModelTrait
 
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
-        return redirect()->back()->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
+
+        return redirect()->to($redirect . '/' . $id . '/edit' . $this->shouldReturnToTab($request))
+            ->with('messages', ['success' => ucwords($modelName) .' details were successfully updated']);
+    }
+
+    /**
+     * Returns to a specific tab on a page, if specified
+     *
+     * @author EB
+     * @param Request $request
+     * @return string
+     */
+    private function shouldReturnToTab(Request $request)
+    {
+        return $request->has('save') ? '#' . $request->get('save') : '';
     }
 
     /**
@@ -184,6 +199,17 @@ trait ModelTrait
             $modelName,
             $redirect
         );
+    }
+
+    /**
+     * @author WN
+     * @param int $id
+     * @return Installation
+     * @throws RedirectException
+     */
+    protected function fetchInstallation($id)
+    {
+        return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
     }
 
     /**

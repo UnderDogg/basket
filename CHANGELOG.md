@@ -1,5 +1,49 @@
+# 1.9.0
+2016-08-16
+
+## Features
+- Added view to basket for *Application Status History* (126577047)
+- Added *Product Limits* for an *Installation* (127177411)
+- Added validation for product limits (127177411)
+- Add flexible finance calculator to basket (121944781)
+
+## Bug Fixes
+- Fixed limits not saving
+
+# 1.8.0
+2016-08-12
+
+## Features
+- Update Variable Deposit slider to use better implementation.
+
+# 1.7.1
+2016-08-12
+
+## Bug Fixes
+- Fixed: *Application Event Log*
+- Numpad keys will now be accepted as valid input on the make application page
+- Corrected an erroneous label on the view application page
+- Allowed validity period to be set up to 30 days (2592000 seconds)
+
+# 1.7.0
+2016-08-10
+
+## Features
+- Add a *Cache Busting Service* to the application for use with frontend resources (127712539)
+
+# 1.6.1
+2016-08-03
+
+## Bug Fixes
+- Fixed `deposit` issues with decimal places (127537673)
+
+# 1.6.0
+2016-08-01
+
 ## Features
 - Changed the flow for different Application types (126765451)
+- Added `Template` configuration (127154283)
+- `Template` preview added to `installation.edit` page (127154283)
 
 # 1.5.6
 2016-07-25

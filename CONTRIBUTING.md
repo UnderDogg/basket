@@ -4,14 +4,19 @@
 Based on http://laravel.com/docs/5.1/homestead
 
 ### First Time
-1. `ssh-keygen -t rsa -C "you@homestead"` use default file name
+1. Clone Application
+2. `composer install`
+3. `cd {app_dir}`
+4. `ssh-keygen -t rsa -C "you@homestead"` use default file name (if not done already)
+5. `vagrant box add "laravel/homestead" --box-version 0.3.0` to get working version
 
 ### Every Time
-1. Clone repository
-2. `cd` repository folder in terminal
-3. `composer install`
-4. `cp .env.example .env`
-5. `vagrant up`
+
+From repository folder
+
+1. `composer install`
+2. `cp .env.example .env`
+3. `vagrant up`
 
 ## Constraints
 
@@ -27,7 +32,7 @@ Please use the following to help with DB compatibility:
  ```
 
 ## Logging
-The logging system uses the Laravel standard:
+The logging system uses the *Laravel* standard:
 
 ```php
 Log::error('Message', ['context']);
@@ -40,4 +45,3 @@ Additionally, you can switch whether or not to log to Syslog and/or file, by set
 
 `LOG_SYSLOG=true`
 `LOG_FILE=true`
-

@@ -5,6 +5,7 @@
 @if(env('ENV_BANNER', false))
     @include('env-banner')
 @endif
+<div class="loading"></div>
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
@@ -27,13 +28,14 @@
         @include('includes.message.action_response')
         <h1>Interested In Finance?</h1>
         <div class="col-md-12 well">
-            {!! Form::open(['class' => 'form-inline']) !!}
+            {!! Form::open(['class' => 'form-inline form-finance-info']) !!}
             <div class="form-group">
                 <label class="input-lg">Price</label>
 
                 <div class="input-group">
                     <div class="input-group-addon">&pound;</div>
-                    {!! Form::text('amount', isset($amount)?number_format($amount/100,2):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::text('ui_amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::hidden('amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
                 </div>
 
             </div>
@@ -44,21 +46,44 @@
             </div>
             {!! Form::close() !!}
         </div>
-        @if(isset($options))
 
-            @if(count($options) > 0)
+        @if(isset($options) || isset($flexibleFinance))
 
-                @if(count($options) > 1 || count($options[0]['products']) > 1)
+            @if(
+                (isset($options) && count($options) > 0) ||
+                (isset($flexibleFinance) && count($flexibleFinance) > 0)
+            )
+
+                @if(
+                    (count($options) > 1) ||
+                    (isset($options[0]) && count($options[0]['products']) > 1) ||
+                    (isset($flexibleFinance) && count($flexibleFinance) > 0)
+                )
                     <ul class="nav nav-tabs" role="tablist">
+
+                        @if(
+                            (
+                                isset($flexibleFinance) &&
+                                count($flexibleFinance) > 0
+                            ) &&
+                            (
+                                count($options) > 1 ||
+                                (isset($options[0]) && count($options[0]) > 1)
+                            )
+                        )
+                            <li role="presentation" class="active"><a href="#prod-FF" aria-controls="prod-FF" role="tab" data-toggle="tab">Flexible Finance</a></li>
+                        @endif
+
                         @foreach($options as $k => $group)
 
                             @foreach($group['products'] as $l => $product)
 
-                                <li role="presentation"{{ ($k == 0 && $l == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
+                                <li role="presentation"{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' class=active':'' }}><a href="#prod-{{$product['id']}}" aria-controls="prod-{{$product['id']}}" role="tab" data-toggle="tab">{{$product['name']}}</a></li>
 
                             @endforeach
 
                         @endforeach
+
                     </ul>
                 @endif
 
@@ -67,7 +92,7 @@
 
                         @foreach($group['products'] as $l => $product)
 
-                            <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0)?' active':'' }}" id="prod-{{$product['id']}}">
+                            <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' active':'' }}" id="prod-{{$product['id']}}">
                                 {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
@@ -80,7 +105,7 @@
                                                 <h2 data-fieldtype="currency" data-ajaxfield="payment_regular">&pound;{{ number_format($product['credit_info']['payment_regular']/100, 2) }}</h2> <p>monthly payment</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #1a1a1a; color: white;">
-                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit variable</p>
+                                                <h2 data-fieldtype="currency" data-ajaxfield="loan_cost">&pound;{{ number_format($product['credit_info']['loan_cost']/100, 2) }}</h2> <p>total cost of credit <span class="hidden-xs">variable</span></p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 col-lg-3 col-xs-6" style="background-color: #bbb; color: white;">
                                                 <h2 data-fieldtype="currency" data-ajaxfield="loan_repayment">&pound;{{ number_format($product['credit_info']['loan_repayment']/100, 2) }}</h2> <p>total repayable</p>
@@ -88,6 +113,7 @@
 
                                         </div>
                                     </div>
+                                    <div class="row">
                                     @if($product['product_group'] == 'BNPL')
                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                             <table class="table table-condensed" style="font-size: 0.8em;">
@@ -164,6 +190,12 @@
                                                     <th>Deposit</th>
                                                     <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
                                                 </tr>
+                                                @if($product['credit_info']['amount_service'] > 0)
+                                                    <tr>
+                                                        <th>Service Fee</th>
+                                                        <td data-fieldtype="currency" data-ajaxfield="amount_service">&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <th>Total Cost</th>
                                                     <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
@@ -227,12 +259,10 @@
                                                         <td data-fieldtype="currency" data-ajaxfield="amount_service">&pound;{{ number_format($product['credit_info']['amount_service']/100, 2) }}</td>
                                                     </tr>
                                                 @endif
-                                                @if($product['credit_info']['deposit_amount'] > 0)
-                                                    <tr>
-                                                        <th>Deposit</th>
-                                                        <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
-                                                    </tr>
-                                                @endif
+                                                <tr>
+                                                    <th>Deposit</th>
+                                                    <td data-fieldtype="currency" data-ajaxfield="deposit_amount">&pound;{{ number_format($product['credit_info']['deposit_amount']/100, 2) }}</td>
+                                                </tr>
                                                 <tr>
                                                     <th>Total Cost</th>
                                                     <td data-fieldtype="currency" data-ajaxfield="total_cost">&pound;{{ number_format($product['credit_info']['total_cost']/100, 2) }}</td>
@@ -249,39 +279,43 @@
                                             </table>
                                         </div>
                                     @endif
+                                    </div>
 
-                                    @if($product['credit_info']['deposit_range']['minimum_amount'] <  $product['credit_info']['deposit_range']['maximum_amount'])
+                                    @if($product['credit_info']['deposit_range']['minimum_amount'] < $product['credit_info']['deposit_range']['maximum_amount'])
 
-                                    <div class="col-sm-12 col-lg-12 col-xs-12 well" style="margin-top: 30px;padding-top:30px;">
-
-                                        <h1>Deposit Amount</h1>
-                                        <div class="col-sm-2 col-xs-12">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">&pound;</div>
-                                                <input type="number" class="form-control" name="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                    <div class="row">
+                                        <h2>Deposit Amount</h2>
+                                        <div class="well col-sm-12 col-lg-12 col-xs-12 deposit-container">
+                                            <div class="col-sm-2 col-xs-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">&pound;</div>
+                                                    <input type="number" maxlength="10" step="1" class="form-control input-number" name="deposit" title="deposit" data-ajaxfield="deposit_amount" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ ceil($product['credit_info']['deposit_amount']/100) }}" min="{{ ceil($product['credit_info']['deposit_range']['minimum_amount']/100) }}" max="{{ floor($product['credit_info']['deposit_range']['maximum_amount']/100) }}">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-10 col-xs-12">
-                                            <input type="range" name="deposit_slide" id="deposit_slide" data-ajaxfield="deposit_amount" data-highlight="true" data-token="{{ csrf_token()}}" data-orderamt="{{ $product['credit_info']['order_amount']/100 }}" data-installation="{{ $location->installation->id }}" data-product="{{ $product['id'] }}" data-group="{{ $product['id'] }}" value="{{ $product['credit_info']['deposit_amount']/100 }}" min="{{ $product['credit_info']['deposit_range']['minimum_amount']/100 }}" max="{{ $product['credit_info']['deposit_range']['maximum_amount']/100 }}">
+                                            <div class="col-sm-10 col-xs-12 deposit-slider-container">
+                                                <div class="slider-deposit"></div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     @endif
 
-                                        @if(count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
+                                    <div class="row">
+                                        @if($bitwise->contains(2) && count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
                                             @if($bitwise->contains(2))
-                                                <button type="submit" class="btn btn-success btn-lg btn-block">Continue with In-store Application</button>
+                                                <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin">Continue with In-store Application</button>
                                             @endif
                                         </div>
-                                        @if(count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
-                                            @if($bitwise->contains(2) && $bitwise->explode() > 1)
-                                                <button type="submit" class="btn btn-success btn-lg btn-block" name="alternate" value="true">Create an Application Link</button>
+                                            @if($bitwise->contains(2) && count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
+                                            @if($bitwise->contains(4) || $bitwise->contains(8))
+                                                <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="alternate" value="true">Create an Application Link</button>
                                             @endif
                                         </div>
+                                    </div>
 
                                     @if($location->installation->disclosure)
                                         <br/>
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12" style="font-size: 0.8em !important;">
                                             {!! $location->installation->getDisclosureAsHtml() !!}
                                         </div>
                                     @endif
@@ -300,6 +334,10 @@
                     @endforeach
 
                 @endforeach
+
+                @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
+                    @include('applications.panels.flexible-finance')
+                @endif
             @else
                 <div class="alert alert-warning col-md-12" role="alert">No available products for this amount!</div>
             @endif
@@ -315,29 +353,56 @@
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="/js/main.js"></script>
-    <script src="/js/custom-deposit.main.js"></script>
-    <script src="/js/sweetalert.min.js"></script>
+    <script src="{!! Bust::cache('/js/main.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/initialise.main.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
     <script>
-        $('li').click(function() {
-            var prod = $(this).find('a').attr('aria-controls');
-            var content = $('div#' + prod);
-            var amount = $(content).find('.pay_today').attr('value');
-            document.getElementById('pay-today').innerHTML = 'Pay Today £' + (amount / 100).toFixed(2);
-        });
-        $(window).bind("load", function() {
-            if($('div.tab-pane.active').length > 0) {
-                var div = $('div.tab-pane.active').first();
-                var form = $(div).find('.pay_today');
-                document.getElementById('pay-today').innerHTML = 'Pay Today £' + ($(form).attr('value') / 100).toFixed(2);
-            }
-        });
-    </script>
+        @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
+            $(document).ready(function(){
+                getFlexibleFinanceQuote(1, 3);
+                initialiseFlexibleFinanceSliders();
+            });
 
+        @endif
+        function getFlexibleFinanceQuote(holiday, term) {
+
+            showLoading();
+
+            $.get(
+                    "/ajax/installations/{{ $location->installation->id }}/products/AIN" + holiday + "-" + term + "/credit-info",
+                    { order_amount: {{ $amount or 0 }}, deposit: 0, _token: $('input[data-product="FF"][data-field="token"]').val() }
+            ).done(function( data ) {
+                hideLoading();
+                updateView(data, holiday, term);
+            }).fail(function() {
+                hideLoading();
+                swal(
+                        {
+                            title: "An Error Occurred!",
+                            text: "We were unable to recalculate information for the requested order. Please refresh the page.",
+                            type: "error",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Refresh",
+                            closeOnConfirm: false
+                        },
+                        function(){
+                            location.reload();
+                        }
+                );
+            });
+        }
+    </script>
 </div>
 </body>
 @endsection
 
 @section('stylesheets')
-    <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/initialise.main.css') !!}">
+    <link href="{!! Bust::cache('/css/nouislider.min.css') !!}" rel="stylesheet">
+    <link href="{!! Bust::cache('/css/nouislider.tooltips.css') !!}" rel="stylesheet">
+    <link href="{!! Bust::cache('/css/nouislider.pips.css') !!}" rel="stylesheet">
+    <script src="{!! Bust::cache('/js/nouislider.min.js') !!}"></script>
+    <script src="{!! Bust::cache('/js/wNumb.js') !!}"></script>
 @endsection

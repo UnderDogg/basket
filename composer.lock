@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5d357650a5abe93ffed653d59593a6af",
+    "hash": "382f32b558ad1d24a26c6c14aabf8627",
     "content-hash": "2f70ff53b04ca7227a58f4179970a753",
     "packages": [
         {
@@ -1243,16 +1243,16 @@
         },
         {
             "name": "paybreak/foundation",
-            "version": "0.11.0",
+            "version": "0.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/foundation.git",
-                "reference": "91c091b7a187171a1da8757c6560181e7da93171"
+                "reference": "7986cca76d8fca33bf894beed87e7361b5f212c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/foundation/zipball/91c091b7a187171a1da8757c6560181e7da93171",
-                "reference": "91c091b7a187171a1da8757c6560181e7da93171",
+                "url": "https://api.github.com/repos/PayBreak/foundation/zipball/7986cca76d8fca33bf894beed87e7361b5f212c0",
+                "reference": "7986cca76d8fca33bf894beed87e7361b5f212c0",
                 "shasum": ""
             },
             "require": {
@@ -1286,20 +1286,20 @@
             "keywords": [
                 "foundation"
             ],
-            "time": "2016-05-20 13:08:55"
+            "time": "2016-08-01 11:01:23"
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "4.4.1",
+            "version": "4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
-                "reference": "213dd9a74dfd485fec3ad57ba9bb52cba29c09fc"
+                "reference": "4e0d68cb8ace33a98b3c0dca1af770600fadb5ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/213dd9a74dfd485fec3ad57ba9bb52cba29c09fc",
-                "reference": "213dd9a74dfd485fec3ad57ba9bb52cba29c09fc",
+                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/4e0d68cb8ace33a98b3c0dca1af770600fadb5ac",
+                "reference": "4e0d68cb8ace33a98b3c0dca1af770600fadb5ac",
                 "shasum": ""
             },
             "require": {
@@ -1327,7 +1327,7 @@
             "keywords": [
                 "paybreak"
             ],
-            "time": "2016-07-20 16:36:35"
+            "time": "2016-08-15 12:49:01"
         },
         {
             "name": "psr/http-message",
