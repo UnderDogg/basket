@@ -177,11 +177,14 @@ class ApplicationSynchronisationServiceTest extends TestCase
         $service->fulfil(1);
     }
 
+    /**
+     * @author EB
+     * @throws Exception
+     */
     public function testRequestCancellation()
     {
-        $this->set
         $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
-        $mockApiClient->expects($this->any())->method('post')->willReturn(false);
+        $mockApiClient->expects($this->any())->method('post')->willReturn(true);
 
         $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
@@ -190,9 +193,13 @@ class ApplicationSynchronisationServiceTest extends TestCase
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
 
         $this->createApplicationForTest();
-        $this->assertFalse($service->requestCancellation(1, 'Description'));
+        $this->assertTrue($service->requestCancellation(1, 'Description'));
     }
 
+    /**
+     * @author EB
+     * @throws Exception
+     */
     public function testRequestCancellationForException()
     {
         $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
