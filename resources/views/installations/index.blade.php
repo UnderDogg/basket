@@ -63,6 +63,9 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="{{Request::URL()}}/{{$item->id}}/edit">Edit</a></li>
+                            @if(Auth::user()->can('applications-view'))
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/applications">Applications</a></li>
+                            @endif
                         </ul>
                     </div>
                 </td>
