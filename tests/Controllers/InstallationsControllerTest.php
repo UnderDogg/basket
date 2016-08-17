@@ -57,8 +57,8 @@ class InstallationsControllerTest extends TestCase
         $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
-        $applicationGateway = new \PayBreak\Sdk\Gateways\ProductGateway($mock);
-        $this->app->instance('PayBreak\Sdk\Gateways\ProductGateway', $applicationGateway);
+        $productGateway = new \PayBreak\Sdk\Gateways\ProductGateway($mock);
+        $this->app->instance('PayBreak\Sdk\Gateways\ProductGateway', $productGateway);
 
         // Test page gives 200 response
         $this->visit('/installations/1')
