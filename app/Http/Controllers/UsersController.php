@@ -361,11 +361,11 @@ class UsersController extends Controller
      */
     private function fetchAvailableRoles()
     {
-        $roles = Role::all();
+        $roles = Role::all()->keyBy('id');
 
-        if (array_search(1, $this->getAuthenticatedUser()->roles->pluck('id')->toArray()) === false) {
-
-            $roles->forget(0);
+        if (array_search(RolesController::SUPER_USER_NAME, $this->getAuthenticatedUser()->roles->pluck('name')->toArray()) === false) {
+            $roles->forget($this->fetchSingleSuRoleByName(RolesController::SUPER_USER_NAME)->id);
+            $roles->forget($this->fetchSingleSuRoleByName(RolesController::READ_ONLY_NAME)->id);
         }
 
         return $roles;
