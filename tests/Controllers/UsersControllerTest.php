@@ -261,8 +261,8 @@ class UsersControllerTest extends TestCase
      */
     public function testEditForm()
     {
-        $this->visit('users/1/edit');
-        $this->call('GET', 'users/1/edit');
+        $this->visit('users/2/edit');
+        $this->call('GET', 'users/2/edit');
         $this->see('Edit User');
         $this->type('TestName', 'name');
         $this->press('Save Changes');
