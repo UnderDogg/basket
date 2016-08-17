@@ -22,7 +22,7 @@ class ApplicationsControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);
         $this->be($user);
