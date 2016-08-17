@@ -90,4 +90,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         return new \Illuminate\Http\Request($params);
     }
+
+    /**
+     * Creates an application using the ModelFactory
+     *
+     * @author EB
+     * @return mixed
+     */
+    protected function createApplicationForTest()
+    {
+        return factory(\App\Basket\Application::class)->create();
+    }
 }
