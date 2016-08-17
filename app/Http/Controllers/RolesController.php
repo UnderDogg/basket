@@ -197,15 +197,4 @@ class RolesController extends Controller
 
         return view('includes.page.confirm_delete', ['object' => $role]);
     }
-
-    /**
-     * @author WN
-     * @param int $id
-     * @return Role
-     * @throws \App\Exceptions\RedirectException
-     */
-    private function fetchRoleById($id)
-    {
-        return $this->fetchModelById((new Role()), $id, 'role', '/roles');
-    }
 }
