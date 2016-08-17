@@ -356,7 +356,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @author WN
+     * @author WN, EB
      * @return \Illuminate\Database\Eloquent\Collection
      */
     private function fetchAvailableRoles()
@@ -379,15 +379,58 @@ class UsersController extends Controller
      */
     private function applyRoles(User $user, array $roles)
     {
-        if (array_search('1', $roles) !== false) {
+        if (count($ar = $this->filterSuRole($roles)) > 0) {
 
             $user->merchant_id = null;
             if (!$user->save()) {
                 throw new Exception('Cannot remove Merchant form Super User');
             }
-            $roles = [1];
+            $roles = $ar;
         }
 
         $user->roles()->sync($roles);
+    }
+
+    /**
+     * Filters SU roles to return a single SU role
+     *
+     * @author EB, WN
+     * @param array $roles
+     * @return array
+     */
+    private function filterSuRole(array $roles)
+    {
+        if (count(array_intersect($roles, $this->fetchSuRoles()->pluck('id')->toArray())) > 0) {
+
+            if (array_search($id = $this->fetchSingleSuRoleByName(RolesController::SUPER_USER_NAME)->id, $roles)) {
+                return [$id];
+            }
+
+            return [$this->fetchSingleSuRoleByName(RolesController::READ_ONLY_NAME)->id];
+        }
+
+        return [];
+    }
+
+    /**
+     * @author EB
+     * @return \Illuminate\Support\Collection
+     */
+    private function fetchSuRoles()
+    {
+        return collect([
+            $this->fetchRoleByName(RolesController::SUPER_USER_NAME),
+            $this->fetchRoleByName(RolesController::READ_ONLY_NAME),
+        ]);
+    }
+
+    /**
+     * @author EB
+     * @param string $name
+     * @return Role
+     */
+    private function fetchSingleSuRoleByName($name)
+    {
+        return $this->fetchSuRoles()->where('name', $name)->first();
     }
 }
