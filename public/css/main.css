@@ -328,3 +328,10 @@ iframe#email-prev {
 td.has-feedback i {
     padding-top: 7px;
 }
+
+/* Menu Styling */
+.scrollable-menu {
+    height: auto;
+    max-height: 70vh;
+    overflow-x: hidden;
+}
