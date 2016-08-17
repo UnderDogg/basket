@@ -16,6 +16,7 @@ use App\Role;
 use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class UsersController
@@ -418,7 +419,7 @@ class UsersController extends Controller
      */
     private function fetchSuRoles()
     {
-        return collect([
+        return Collection::make([
             $this->fetchRoleByName(RolesController::SUPER_USER_NAME),
             $this->fetchRoleByName(RolesController::READ_ONLY_NAME),
         ]);
