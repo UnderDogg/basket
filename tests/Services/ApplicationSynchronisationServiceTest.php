@@ -218,4 +218,231 @@ class ApplicationSynchronisationServiceTest extends TestCase
         );
         $service->requestCancellation(1, 'Description');
     }
+
+    /**
+     * @author EB
+     * @throws Exception
+     */
+    public function testRequestPartialRefund()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $this->app->instance('\PayBreak\Sdk\Gateways\PartialRefundGateway', $partialRefundGateway);
+
+        $this->createApplicationForTest();
+        $this->assertNull($service->requestPartialRefund(1, 2000, '2016-01-01', 'Cancel'));
+    }
+
+    /**
+     * @author EB
+     * @throws Exception
+     */
+    public function testRequestPartialRefundForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+
+        $mockApiClientPR = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClientPR->expects($this->any())->method('post')->willThrowException(new Exception(''));
+
+        $mockPR = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mockPR->expects($this->any())->method('makeApiClient')->willReturn($mockApiClientPR);
+
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mockPR);
+        $this->app->instance('\PayBreak\Sdk\Gateways\PartialRefundGateway', $partialRefundGateway);
+
+        $this->createApplicationForTest();
+        $this->setExpectedException(
+            'PayBreak\Sdk\SdkException',
+            'Problem requesting a partial refund on Provider API'
+        );
+        $this->assertNull($service->requestPartialRefund(1, 2000, '2016-01-01', 'Cancel'));
+    }
+
+    /**
+     * @author EB
+     * @throws \App\Exceptions\Exception
+     */
+    public function testInitialiseApplicationForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn(['application' => 1234, 'url' => 'go.com']);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('initialiseApplication')->willThrowException(new Exception('Fail'));
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->setExpectedException('App\Exceptions\Exception', 'Fail');
+        $service->initialiseApplication(
+            \App\Basket\Location::first(),
+            $this->getOrderEntity(),
+            $this->getProductsEntity(),
+            $this->getApplicantEntity(),
+            User::find(1)
+        );
+    }
+
+    /**
+     * @author EB
+     */
+    public function testInitialiseApplication()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn(['application' => 1234, 'url' => 'go.com']);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('initialiseApplication')->willReturn($this->getApplication());
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->assertInstanceOf(
+            '\App\Basket\Application',
+            $service->initialiseApplication(
+                \App\Basket\Location::first(),
+                $this->getOrderEntity(),
+                $this->getProductsEntity(),
+                $this->getApplicantEntity(),
+                User::find(1)
+            )
+        );
+    }
+
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\OrderEntity
+     */
+    private function getOrderEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\OrderEntity::make(
+            [
+                'reference' => '123456789',
+                'amount' => 50000,
+                'description' => 'Test Order',
+                'validity' => \Carbon\Carbon::now()->addDay()->toDateTimeString(),
+                'deposit_amount' => 2000,
+            ]
+        );
+    }
+
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\ProductsEntity
+     */
+    private function getProductsEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\ProductsEntity::make(
+            [
+                'group' => 'xx',
+                'options' => [],
+                'default' => 'xx-xx',
+            ]
+        );
+    }
+
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\ApplicantEntity
+     */
+    private function getApplicantEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\ApplicantEntity::make([
+            'title' => 'Mr',
+            'first_name' => 'Test',
+            'last_name' => 'Tester',
+            'date_of_birth' => \Carbon\Carbon::now()->subYears(20)->toDateString(),
+            'email_address' => 'test@test.com',
+            'phone_home' => 03333333333,
+            'phone_mobile' => 07777777777,
+            'postcode' => 'TE55TP',
+        ]);
+    }
+
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\FulfilmentEntity
+     */
+    private function getFulfilment()
+    {
+        return \PayBreak\Sdk\Entities\Application\FulfilmentEntity::make([
+            'method' => 'xx',
+            'location' => 'location',
+        ]);
+    }
+
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\CustomerEntity
+     */
+    private function getCustomerEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\CustomerEntity::make([
+            'title' => 'Mr',
+            'first_name' => 'Test',
+            'last_name' => 'Tester',
+            'email_address' => 'test@test.com',
+            'phone_home' => 03333333333,
+            'phone_mobile' => 07777777777,
+            'postcode' => 'TE55TP',
+        ]);
+    }
+
+    private function getAddressEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\AddressEntity::make([
+            'postcode' => 'TE55TP',
+        ]);
+    }
+
+    private function getFinanceEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\FinanceEntity::make([]);
+    }
+
+    private function getCancellationEntity()
+    {
+        return \PayBreak\Sdk\Entities\Application\CancellationEntity::make([]);
+    }
+
+    /**
+     * @return \PayBreak\Sdk\Entities\ApplicationEntity
+     */
+    private function getApplication()
+    {
+        $app = new \PayBreak\Sdk\Entities\ApplicationEntity();
+        return $app->setId(1234)
+            ->setPostedDate(\Carbon\Carbon::now()->toDateString())
+            ->setCurrentStatus('1')
+            ->setCustomer($this->getCustomerEntity())
+            ->setApplicationAddress($this->getAddressEntity())
+            ->setInstallation('Installation')
+            ->setOrder($this->getOrderEntity())
+            ->setProducts($this->getProductsEntity())
+            ->setFulfilment($this->getFulfilment())
+            ->setApplicant($this->getApplicantEntity())
+            ->setFinance($this->getFinanceEntity())
+            ->setCancellation($this->getCancellationEntity())
+            ->setMetadata([])
+            ->setResumeUrl('https://www.google.co.uk');
+    }
 }

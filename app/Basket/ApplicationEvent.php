@@ -25,15 +25,6 @@ use App\User;
 class ApplicationEvent extends Model
 {
     protected $table = 'application_events';
-//
-//    const TYPE_CUSTOM = 0;
-//    const TYPE_NOTIFICATION = 1;
-//    const TYPE_NOTIFICATION_INITIALISED = 2 + self::TYPE_NOTIFICATION;
-//    const TYPE_RESUME_SENT = 4;
-//    const TYPE_RESUME_LINK = 8 + self::TYPE_RESUME_SENT;
-//    const TYPE_RESUME_EMAIL = 16 + self::TYPE_RESUME_SENT;
-//    const TYPE_RESUME_INSTORE = 32 + self::TYPE_RESUME_SENT;
-//
 
     const TYPE_CUSTOM = 0;
     const TYPE_NOTIFICATION = 1;

@@ -91,7 +91,7 @@ class MerchantsControllerTest extends TestCase
         // Test page gives 200 response
         $this->visit('/merchants/1/edit')
             ->type('Test Merchant2', 'name')
-            ->type('a702ae4ad59e47f5991cf4857bb75033', 'token')
+            ->type('1234567890qwertyuiopasdfghjklzxc', 'token')
             ->press('Save Changes')
             ->see('Merchant details were successfully updated');
     }
