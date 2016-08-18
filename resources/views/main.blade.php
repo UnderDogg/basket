@@ -37,8 +37,8 @@
                             <ul class="dropdown-menu scrollable-menu">
                                 @foreach($available_installations as $id => $installation)
                                     <li class="dropdown-header">{{ $installation->name }}</li>
-                                    <li><a href="/installations/{{ $installation->id }}/applications">Applications List</a></li>
-                                    <li><a href="/installations/{{ $installation->id }}/applications/pending-cancellations">Pending Cancellation List</a></li>
+                                    <li><a href="/installations/{{ $installation->id }}/applications">Applications</a></li>
+                                    <li><a href="/installations/{{ $installation->id }}/applications/pending-cancellations">Pending Cancellations</a></li>
                                     @if(count($available_installations) != ($id+1))
                                             <li role="separator" class="divider"></li>
                                     @endif
