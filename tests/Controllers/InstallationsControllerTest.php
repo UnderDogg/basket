@@ -47,10 +47,19 @@ class InstallationsControllerTest extends TestCase
     }
 
     /**
-     * @author WN
+     * @author WN, EB
      */
     public function testShow()
     {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('get')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $productGateway = new \PayBreak\Sdk\Gateways\ProductGateway($mock);
+        $this->app->instance('PayBreak\Sdk\Gateways\ProductGateway', $productGateway);
+
         // Test page gives 200 response
         $this->visit('/installations/1')
             ->seeStatusCode(200);
@@ -177,5 +186,51 @@ class InstallationsControllerTest extends TestCase
         $installation->update(['disclosure' => '## Test Two']);
         $disclosure = Installation::findOrFail(1)->getDisclosureAsHtml();
         $this->assertEquals('<h2>Test Two</h2>', $disclosure);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testShowForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('get')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $productGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ProductGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $productGateway->expects($this->any())->method('getProductGroupsWithProducts')
+            ->willThrowException(new \Exception('Failed'));
+        $this->app->instance('PayBreak\Sdk\Gateways\ProductGateway', $productGateway);
+
+            $this->visit('/installations/1')
+                ->seeStatusCode(200)
+            ->see('Failed');
+    }
+
+    /**
+     * @author EB
+     */
+    public function testShowForProductsEmptyException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('get')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $productGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ProductGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $productGateway->expects($this->any())->method('getProductGroupsWithProducts')
+            ->willThrowException(new \Exception('Products are empty'));
+        $this->app->instance('PayBreak\Sdk\Gateways\ProductGateway', $productGateway);
+
+        $this->visit('/installations/1')
+            ->seeStatusCode(200)
+            ->dontSee('Failed')
+            ->dontSee('Products are empty')
+            ->assertViewHas('products');
     }
 }

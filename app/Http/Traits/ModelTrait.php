@@ -4,6 +4,7 @@ namespace App\Http\Traits;
 
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
+use App\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -210,6 +211,55 @@ trait ModelTrait
     protected function fetchInstallation($id)
     {
         return $this->fetchModelByIdWithMerchantLimit((new Installation()), $id, 'installation', '/installations');
+    }
+
+    /**
+     * @author WN, EB
+     * @param int $id
+     * @return Role
+     * @throws \App\Exceptions\RedirectException
+     */
+    protected function fetchRoleById($id)
+    {
+        return $this->fetchModelById((new Role()), $id, 'role', '/roles');
+    }
+
+    /**
+     * @author EB
+     * @param $name
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchRoleByName($name)
+    {
+        return $this->fetchModelByField((new Role()), $name, 'role', '/roles', 'name');
+    }
+
+    /**
+     * @author EB
+     * @param Model $model
+     * @param string $id
+     * @param string $modelName
+     * @param string $redirect
+     * @param string $field
+     * @return Model
+     * @throws RedirectException
+     */
+    protected function fetchModelByField(Model $model, $id, $modelName, $redirect, $field = 'name')
+    {
+        try {
+            return $model->where($field, '=', $id)->first();
+
+        } catch (ModelNotFoundException $e) {
+
+            $this->logError(
+                'Could not get ' . $modelName . ' with ' . $field . ' [' . $id . ']; ' .
+                ucwords($modelName) . ' does not exist: ' . $e->getMessage()
+            );
+            throw (new RedirectException())
+                ->setTarget($redirect)
+                ->setError('Could not find ' . ucwords($modelName) . ' with ' . $field . ':' . $id);
+        }
     }
 
     /**

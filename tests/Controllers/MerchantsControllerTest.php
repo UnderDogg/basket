@@ -91,7 +91,7 @@ class MerchantsControllerTest extends TestCase
         // Test page gives 200 response
         $this->visit('/merchants/1/edit')
             ->type('Test Merchant2', 'name')
-            ->type('a702ae4ad59e47f5991cf4857bb75033', 'token')
+            ->type('1234567890qwertyuiopasdfghjklzxc', 'token')
             ->press('Save Changes')
             ->see('Merchant details were successfully updated');
     }
@@ -100,8 +100,8 @@ class MerchantsControllerTest extends TestCase
      * @author EA
      */
     public function testNewMerchant(){
-        $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
-        $this->seePageIs('/merchants');
+        $this->createNewMerchant('TestMerchant','1234567890qwertyuiopasdfghjklzxc');
+        $this->seePageIs('/merchants/2');
     }
 
     /**
@@ -120,12 +120,11 @@ class MerchantsControllerTest extends TestCase
      * @author EA
      */
     public function testNewMerchantDuplicationValidation(){
-        $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
-        $this->createNewMerchant('Scan','a702ae4ad59e47f5991cf4857bb75033');
+        $this->createNewMerchant('TestMerchant','1234567890qwertyuiopasdfghjklzxc');
+        $this->createNewMerchant('TestMerchant','1234567890qwertyuiopasdfghjklzxc');
         $this->seePageIs('/merchants')
             ->see('Invalid merchant token');
     }
-
 
     /**
      * Test new merchants button
@@ -143,10 +142,22 @@ class MerchantsControllerTest extends TestCase
      * Test new merchant form
      * @param $merchantName
      * @param $token
-     * @author EA
+     * @author EA, EB
      */
     private function createNewMerchant($merchantName,$token)
     {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('get')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $merchantGateway = new \PayBreak\Sdk\Gateways\MerchantGateway($mock);
+        $this->app->instance('PayBreak\Sdk\Gateways\MerchantGateway', $merchantGateway);
+
+        $installationGateway = new \PayBreak\Sdk\Gateways\InstallationGateway($mock);
+        $this->app->instance('PayBreak\Sdk\Gateways\InstallationGateway', $installationGateway);
+
         $this->visit('/merchants/create')
             ->type($merchantName, 'name')
             ->type($token, 'token')

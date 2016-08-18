@@ -45,6 +45,9 @@
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/synchronise">Synchronise</a></li>
                                 <li><a href="/installations/?merchant_id={{$item->id}}">Installations</a></li>
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/ips">View IP's</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/settlements">Settlements</a></li>
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/partial-refunds">Partial Refunds</a></li>
                             </ul>
                     </div>
                 </td>

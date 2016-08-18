@@ -28,5 +28,7 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="BASKET_PROVIDER_URL" value="http://httpbin.org/"/>
         <env name="APP_KEY" value="ao5hYvUNFr7g0J841xavRqxTPXUd0iZT"/>
+        <env name="LOG_SYSLOG" value="false"/>
+        <env name="LOG_FILE" value="false"/>
     </php>
 </phpunit>
