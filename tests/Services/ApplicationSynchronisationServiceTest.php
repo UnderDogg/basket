@@ -407,6 +407,10 @@ class ApplicationSynchronisationServiceTest extends TestCase
         ]);
     }
 
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\AddressEntity
+     */
     private function getAddressEntity()
     {
         return \PayBreak\Sdk\Entities\Application\AddressEntity::make([
@@ -414,11 +418,19 @@ class ApplicationSynchronisationServiceTest extends TestCase
         ]);
     }
 
+    /**
+     * @author EB
+     * @return \PayBreak\Sdk\Entities\Application\FinanceEntity
+     */
     private function getFinanceEntity()
     {
         return \PayBreak\Sdk\Entities\Application\FinanceEntity::make([]);
     }
 
+    /**
+     * @autor EB
+     * @return \PayBreak\Sdk\Entities\Application\CancellationEntity
+     */
     private function getCancellationEntity()
     {
         return \PayBreak\Sdk\Entities\Application\CancellationEntity::make([]);
