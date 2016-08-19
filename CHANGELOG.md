@@ -1,3 +1,6 @@
+## Bug Fixes
+- Fixed `rosu` being selected when `su` and any other role was selected
+
 # 1.10.0
 2016-08-18
 
