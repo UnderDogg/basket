@@ -20,16 +20,20 @@
                     <th>&nbsp;</th>
                 </tr>
 
+                @if($locationsDisplayed = 0) @endif
                 @foreach($user->locations as $location)
-                    <tr>
-                        <td>{{ $location->reference }}</td>
-                        <td>{{ $location->name }}</td>
-                        <td class="hidden-xs hidden-sm">{{ $location->address }}</td>
-                        <td class="hidden-xs hidden-sm">{{ $location->email }}</td>
-                        <td class="text-right"><a href="/locations/{{ $location->id }}/applications/make" class="btn btn-success">Make Application</a></td>
-                    </tr>
-
+                    @if($location->installation->finance_offers > 0)
+                        @if($locationsDisplayed++) @endif
+                        <tr>
+                            <td>{{ $location->reference }}</td>
+                            <td>{{ $location->name }}</td>
+                            <td class="hidden-xs hidden-sm">{{ $location->address }}</td>
+                            <td class="hidden-xs hidden-sm">{{ $location->email }}</td>
+                            <td class="text-right"><a href="/locations/{{ $location->id }}/applications/make" class="btn btn-success">Make Application</a></td>
+                        </tr>
+                    @endif
                 @endforeach
+                @if($locationsDisplayed == 0) <tr><td colspan="5">No locations available to make an application.</td></tr>@endif
             </table>
         @endif
 
