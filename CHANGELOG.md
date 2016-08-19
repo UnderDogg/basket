@@ -1,3 +1,9 @@
+# 1.10.1
+2016-08-18
+
+## Bug Fixes
+- Fully namespace ApplicationEventHelper in ApplicationsController (128656113)
+
 # 1.10.0
 2016-08-18
 
