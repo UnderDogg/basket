@@ -1,3 +1,15 @@
+# 1.10.0
+2016-08-18
+
+## Features
+- Added *read only super user* (128056527)
+
+# 1.9.1
+2016-08-16
+
+## Bug Fixes
+- Fixed spaces in the `mobile_number` not working for alternate applications (127916831)
+
 # 1.9.0
 2016-08-16
 

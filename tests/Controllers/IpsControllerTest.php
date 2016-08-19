@@ -40,12 +40,20 @@ class IpsControllerTest extends TestCase
     }
 
     /**
-     * Test the  ip address page
+     * Test the ip address page
      *
-     * @author EA
+     * @author EA, EB
      */
-    public function test_index_page()
+    public function testIndexPage()
     {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('get')->willReturn([]);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $ipsGateway = new \PayBreak\Sdk\Gateways\IpsGateway($mock);
+        $this->app->instance('PayBreak\Sdk\Gateways\IpsGateway', $ipsGateway);
 
         $this->visit('/merchants/1/ips')
             ->seeStatusCode(200);

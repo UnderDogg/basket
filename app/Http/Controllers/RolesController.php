@@ -22,6 +22,9 @@ use Illuminate\Http\Request;
  */
 class RolesController extends Controller
 {
+    const SUPER_USER_NAME = 'su';
+    const READ_ONLY_NAME = 'rosu';
+
     /**
      * Display a listing of the resource.
      *
@@ -163,15 +166,17 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @author WN
+     * @author WN, EB
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function destroy($id)
     {
-        if ($id == 1) {
-            throw RedirectException::make('/')->setError('Cannot delete Super Administrator it\'s a special role!');
+        $role = $this->fetchRoleById($id);
+
+        if($role->name == self::SUPER_USER_NAME || $role->name == self::READ_ONLY_NAME) {
+            throw RedirectException::make('/')->setError('Cannot delete ' . $role->name . ', it\'s a special role!');
         }
 
         return $this->destroyModel((new Role()), $id, 'role', '/roles');
@@ -191,16 +196,5 @@ class RolesController extends Controller
         $role->controller = 'Roles';
 
         return view('includes.page.confirm_delete', ['object' => $role]);
-    }
-
-    /**
-     * @author WN
-     * @param int $id
-     * @return Role
-     * @throws \App\Exceptions\RedirectException
-     */
-    private function fetchRoleById($id)
-    {
-        return $this->fetchModelById((new Role()), $id, 'role', '/roles');
     }
 }

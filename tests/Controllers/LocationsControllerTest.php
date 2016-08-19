@@ -179,7 +179,6 @@ class LocationsControllerTest extends TestCase
             'name' => 'test',
             'email' => 'High@location.com',
             'address' => 'Location City',
-            'fuck' => 'off',
         ]);
 
         $messages = $this->app['session.store']->get('messages');
