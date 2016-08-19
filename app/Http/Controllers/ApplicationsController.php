@@ -421,7 +421,7 @@ class ApplicationsController extends Controller
                     EmailConfigurationTemplateHelper::makeFromJson($application->installation->email_configuration)->toArray()
                 )
             );
-            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
+            ApplicationEvent\ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $installation . '/applications/' . $id,
