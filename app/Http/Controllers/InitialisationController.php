@@ -64,12 +64,14 @@ class InitialisationController extends Controller
      * @author WN
      * @param int $locationId
      * @return \Illuminate\View\View
+     * @throws RedirectException
      */
     public function prepare($locationId)
     {
-        return view('initialise.main', [
-            'location' => $this->fetchLocation($locationId),
-        ]
+        return view('initialise.main',
+            [
+                'location' => $this->validateApplicationCanBeMade($this->fetchLocation($locationId)),
+            ]
         );
     }
 
@@ -427,5 +429,24 @@ class InitialisationController extends Controller
         }
 
         return $creditInfo;
+    }
+
+    /**
+     * @author EB
+     * @param Location $location
+     * @return Location
+     * @throws RedirectException
+     */
+    private function validateApplicationCanBeMade(Location $location)
+    {
+        if($location->installation->finance_offers > 0) {
+            return $location;
+        }
+
+        throw $this->redirectWithException(
+            '/',
+            'Cannot make an application for location [' . $location->id . ']',
+            new \Exception('There is no valid finance route for installation [' . $location->installation->id . ']')
+        );
     }
 }
