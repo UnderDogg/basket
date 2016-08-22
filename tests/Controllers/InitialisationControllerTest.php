@@ -21,7 +21,7 @@ class InitialisationControllerTest extends TestCase
         parent::setUp();
 
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'DBSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);
         $this->be($user);
@@ -44,6 +44,44 @@ class InitialisationControllerTest extends TestCase
     {
         // Test page gives 200 response
         $this->visit('/account/edit')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testPrepareWithoutPermissionForLocation()
+    {
+        $user = User::find(1);
+        $this->visit('/locations/1/applications/make')
+            ->see('You don&#039;t have permissions to access this Location')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testPrepareWithAccessToLocationWithValidFinanceOfferRoute()
+    {
+        $user = User::find(1);
+        $user->locations()->sync([1]);
+        $this->visit('/locations/1/applications/make')
+            ->see('Interested In Finance?')
+            ->seeStatusCode(200);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testPrepareWithAccessToLocationWithoutValidFinanceOfferRoute()
+    {
+        $user = User::find(1);
+        $user->locations()->sync([1]);
+        $installation = \App\Basket\Location::find(1)->installation;
+        $installation->finance_offers = 0;
+        $installation->save();
+        $this->visit('/locations/1/applications/make')
+            ->see('Cannot make an application for location [1]')
             ->seeStatusCode(200);
     }
 }

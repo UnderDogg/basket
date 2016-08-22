@@ -1,6 +1,12 @@
 ## Bug Fixes
 - Fixed `rosu` being selected when `su` and any other role was selected
 
+# 1.10.2
+2016-08-22
+
+## Bug Fixes
+- Removed validation for at least one application route (128648421)
+
 # 1.10.1
 2016-08-18
 

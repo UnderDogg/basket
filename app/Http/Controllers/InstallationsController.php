@@ -128,7 +128,7 @@ class InstallationsController extends Controller
             'email_reply_to' => 'email|max:255',
             'ext_return_url' => 'url|max:255',
             'ext_notification_url' => 'url|max:255',
-            'finance_offers' => 'required|integer|min:' . Installation::LOWEST_BIT,
+            'finance_offers' => 'required|integer',
         ]);
 
         $old = new Installation();
