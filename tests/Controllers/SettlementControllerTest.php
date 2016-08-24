@@ -138,23 +138,25 @@ class SettlementControllerTest extends TestCase
     /**
      * @author EA
      */
-    public function testFlattenReport()
+    public function testFlattenApiReport()
     {
+
+
         $lastRow =
             [
                 'Order Date' => '31/05/2016',
                 'Customer' => 'Mr David Cameron',
                 'Postcode' => 'SW1A 2AA',
                 'Retailer Reference' => '86124bb7-57e6-0d91-075d',
-                'Order Amount £' => '600.00',
+                'Order Amount' => '600.00',
                 'Notification Date' => '06/06/2016',
                 'Type' => 'Manual Adjustment',
                 'Description' => 'Order from TestCheckout',
-                'Deposit £' => '60.00',
-                'Settlement Amount £'=> '-20.00',
+                'Deposit' => '60.00',
+                'Settlement Amount'=> '-20.00',
             ];
 
-        $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'flattenReport');
+        $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'flattenApiReport');
         $method->setAccessible(TRUE);
         $flattenSettlementReport = $method->invokeArgs($this->settlementControllerObject,[$this->settlementReport]);
 
@@ -199,4 +201,38 @@ class SettlementControllerTest extends TestCase
         $this->assertArraySubset($cancellationRow, $this->settlementReport['settlements'][2]);
 
     }
+
+    /**
+     * @author EA
+     */
+    public function testFlattenViewReport()
+    {
+        $lastRow =
+            [
+                'Order Date' => "31/05/2016",
+                'Notification Date' => "06/06/2016",
+                'Customer' => "Mr David Cameron",
+                'Post Code' => "SW1A 2AA",
+                'Application ID' => 1000000073,
+                'Retailer Reference' =>"86124bb7-57e6-0d91-075d",
+                'Order Amount' => "600.00",
+                'Type' => "Cancellation",
+                'Deposit' => "-60.00",
+                'Loan Amount' => "-540.00",
+                'Subsidy' => "1.00",
+                'Adjustment' => "0.00",
+                'Settlement Amount' => "-599.00",
+            ];
+
+        $method1 = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'applySettlementAmounts');
+        $method1->setAccessible(TRUE);
+        $method1->invokeArgs($this->settlementControllerObject,[&$this->settlementReport]);
+
+        $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'flattenViewReport');
+        $method->setAccessible(TRUE);
+        $flattenSettlementReport = $method->invokeArgs($this->settlementControllerObject,[$this->settlementReport]);
+
+        $this->assertArraySubset($lastRow,$flattenSettlementReport[2]);
+    }
+
 }
