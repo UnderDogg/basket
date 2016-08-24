@@ -36,10 +36,13 @@ class Download
     {
         $response = $next($request);
 
-        if ($request->get('download') && array_key_exists('api_data', $response->original->getData())) {
+        $source = $request->get('source');
+        $customFilename = $request->get('filename');
 
-            if (array_key_exists('export_custom_filename', $response->original->getData()) && !is_null($response->original->getData()['export_custom_filename'])) {
-                $filename = $response->original->getData()['export_custom_filename'];
+        if ($request->get('download') && array_key_exists($source, $response->original->getData())) {
+
+            if (array_key_exists($customFilename, $response->original->getData()) && !is_null($response->original->getData()[$customFilename])) {
+                $filename = $response->original->getData()[$customFilename];
             } else {
                 $filename = 'export_' . date('Y-m-d_Hi');
             }
@@ -47,7 +50,7 @@ class Download
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
-                        $response->original->getData()['api_data'], 200,
+                        $response->original->getData()[$source], 200,
                         ['Content-Disposition' => 'attachment; filename="'. $filename . '.json"']
                     );
                 case 'csv':
@@ -65,7 +68,7 @@ class Download
 
                     $csv_headers_set = false;
 
-                    foreach ($response->original->getData()['api_data'] as $data) {
+                    foreach ($response->original->getData()[$source] as $data) {
                         if(!$csv_headers_set){
                             $writer->insertOne(array_keys($this->getArrayRepresentation($data)));
                             $csv_headers_set = true;
