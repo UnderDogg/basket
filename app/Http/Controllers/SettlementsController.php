@@ -109,7 +109,7 @@ class SettlementsController extends Controller
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
             'api_data' => $this->flattenRawReport($settlementReport),
             'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'
-                .date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
             'view_data' => $this->flattenViewReport($settlementReport),
             'export_view_filename' => 'settlement-report-' . $settlementReport['id'] . '-'
                 . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),

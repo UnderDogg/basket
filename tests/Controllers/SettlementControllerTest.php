@@ -154,7 +154,7 @@ class SettlementControllerTest extends TestCase
         ];
 
         $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'flattenRawReport');
-        $method->setAccessible(TRUE);
+        $method->setAccessible(true);
         $flattenSettlementReport = $method->invokeArgs($this->settlementControllerObject, [$this->settlementReport]);
 
         $this->assertArraySubset($lastRow, $flattenSettlementReport[11]);
@@ -190,7 +190,7 @@ class SettlementControllerTest extends TestCase
             ];
 
         $method = new ReflectionMethod('App\Http\Controllers\SettlementsController', 'applySettlementAmounts');
-        $method->setAccessible(TRUE);
+        $method->setAccessible(true);
         $method->invokeArgs($this->settlementControllerObject,[&$this->settlementReport]);
 
         $this->assertArraySubset($fulfilmentRow, $this->settlementReport['settlements'][0]);
