@@ -5,8 +5,8 @@
     <h1>
         Settlement Report
         <div class="btn-toolbar pull-right">
-            <a href="{{Request::url()}}/?download=csv&amp;source=view_data&amp;filename=export_view_filename&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
-            <a href="{!! Request::url() !!}/?download=csv&amp;filename=export_api_filename&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download Raw</a>
+            <a href="{{ Request::url() }}/?download=csv&source=view_data&filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
+            <a href="{{ Request::url() }}/?download=csv&filename={{ $export_api_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download Raw</a>
         </div>
     </h1>
     @include('includes.page.breadcrumb', ['over' => [1 => isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
@@ -51,11 +51,11 @@
                         <td>{{ $item['order_reference'] }}</td>
                         <td class="text-right">{{ '&pound;' . number_format($item['order_amount']/100, 2)}}</td>
                         <td>{{ $item['type'] }}</td>
-                        <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['deposit']/100,2)}}</td>
-                        <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['loan_amount']/100,2)}}</td>
-                        <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['subsidy']/100,2) }}</td>
-                        <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['adjustment']/100,2)}}</td>
-                        <td class="{{($item['net'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['net']/100,2) }}</td>
+                        <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['deposit']/100, 2)}}</td>
+                        <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['loan_amount']/100, 2)}}</td>
+                        <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['subsidy']/100, 2) }}</td>
+                        <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['adjustment']/100, 2)}}</td>
+                        <td class="{{($item['net'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['net']/100, 2) }}</td>
                     </tr>
                 @endforeach
                 <tr>
