@@ -131,7 +131,7 @@ class SettlementsController extends Controller
                 $rtn[] = [
                     'Order Date' => date('d/m/Y', strtotime($settlement['received_date'])),
                     'Customer' => $settlement['customer_name'],
-                    'Postcode' => $settlement['application_postcode'],
+                    'Post Code' => $settlement['application_postcode'],
                     'Retailer Reference' => $settlement['order_reference'],
                     'Order Amount' =>  number_format( $settlement['order_amount']/100,2,'.',''),
                     'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
@@ -171,7 +171,6 @@ class SettlementsController extends Controller
         }
 
         return $rtn;
-//        return array_merge($rtn,[$report['sum_net']]);
     }
 
     /**
