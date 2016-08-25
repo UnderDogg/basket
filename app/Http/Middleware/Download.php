@@ -36,7 +36,7 @@ class Download
     {
         $response = $next($request);
 
-        $source = $request->get('source');
+        $source = $request->get('source', 'api_data');
         $customFilename = $request->get('filename');
 
         if ($request->get('download') && array_key_exists($source, $response->original->getData())) {
