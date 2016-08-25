@@ -37,15 +37,9 @@ class Download
         $response = $next($request);
 
         $source = $request->get('source', 'api_data');
-        $customFilename = $request->get('filename');
+        $filename = $request->get('filename', 'export_' . date('Y-m-d_Hi'));
 
         if ($request->get('download') && array_key_exists($source, $response->original->getData())) {
-
-            if (array_key_exists($customFilename, $response->original->getData()) && !is_null($response->original->getData()[$customFilename])) {
-                $filename = $response->original->getData()[$customFilename];
-            } else {
-                $filename = 'export_' . date('Y-m-d_Hi');
-            }
 
             switch ($request->get('download')) {
                 case 'json':
