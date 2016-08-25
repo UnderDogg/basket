@@ -6,7 +6,7 @@
         Settlement Report
         <div class="btn-toolbar pull-right">
             <a href="{{Request::url()}}/?download=csv&amp;source=view_data&amp;filename=export_view_filename&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
-            <a href="{!! Request::url() !!}/?download=csv&amp;source=api_data&amp;filename=export_api_filename&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download Raw</a>
+            <a href="{!! Request::url() !!}/?download=csv&amp;filename=export_api_filename&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download Raw</a>
         </div>
     </h1>
     @include('includes.page.breadcrumb', ['over' => [1 => isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
