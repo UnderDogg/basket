@@ -146,7 +146,7 @@ class SettlementControllerTest extends TestCase
             [
                 'Order Date' => '31/05/2016',
                 'Customer' => 'Mr David Cameron',
-                'Postcode' => 'SW1A 2AA',
+                'Post Code' => 'SW1A 2AA',
                 'Retailer Reference' => '86124bb7-57e6-0d91-075d',
                 'Order Amount' => '600.00',
                 'Notification Date' => '06/06/2016',
