@@ -403,7 +403,7 @@ class UsersController extends Controller
     {
         if (count(array_intersect($roles, $this->fetchSuRoles()->pluck('id')->toArray())) > 0) {
 
-            if (array_search($id = $this->fetchSingleSuRoleByName(RolesController::SUPER_USER_NAME)->id, $roles)) {
+            if (in_array($id = $this->fetchSingleSuRoleByName(RolesController::SUPER_USER_NAME)->id, $roles)) {
                 return [$id];
             }
 

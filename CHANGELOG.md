@@ -1,3 +1,10 @@
+### Features 
+- *Settlement Report* table is now responsive to screen resizing (126586279)
+- *Settlement Report* shown in the view is now downloadable as a `.csv` (126586279)
+
+## Bug Fixes
+- Fixed `rosu` being selected when `su` and any other role was selected
+
 # 1.10.2
 2016-08-22
 

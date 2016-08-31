@@ -107,9 +107,13 @@ class SettlementsController extends Controller
         return View('settlements.settlement_report', [
             'settlementReport' => $settlementReport,
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
-            'api_data' => $this->flattenReport($settlementReport),
-            'export_custom_filename' => 'settlement-report-'.$settlementReport['id'].'-'
-                .date_format(DateTime::createFromFormat('Y-m-d',$settlementReport['settlement_date']),'Ymd'),
+            'api_data' => $this->flattenRawReport($settlementReport),
+            'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
+            'view_data' => $this->flattenViewReport($settlementReport),
+            'export_view_filename' => 'settlement-report-' . $settlementReport['id'] . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
+
         ]);
     }
 
@@ -118,7 +122,7 @@ class SettlementsController extends Controller
      * @param array $report
      * @return array
      */
-    private function flattenReport(array $report)
+    private function flattenRawReport(array $report)
     {
         $rtn = [];
 
@@ -127,17 +131,47 @@ class SettlementsController extends Controller
                 $rtn[] = [
                     'Order Date' => date('d/m/Y', strtotime($settlement['received_date'])),
                     'Customer' => $settlement['customer_name'],
-                    'Postcode' => $settlement['application_postcode'],
+                    'Post Code' => $settlement['application_postcode'],
                     'Retailer Reference' => $settlement['order_reference'],
-                    'Order Amount £' =>  number_format( $settlement['order_amount']/100, 2),
+                    'Order Amount' =>  number_format( $settlement['order_amount']/100, 2, '.', ''),
                     'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
                     'Type' => $tx['type'],
                     'Description' => $settlement['description'],
-                    'Deposit £' =>  number_format( $settlement['deposit']/100, 2),
-                    'Settlement Amount £' => number_format($tx['amount']/100, 2),
+                    'Deposit' =>  number_format( $settlement['deposit']/100, 2, '.', ''),
+                    'Settlement Amount' => number_format($tx['amount']/100, 2, '.', ''),
                 ];
             }
         }
+        return $rtn;
+    }
+
+    /**
+     * @author EA
+     * @param array $report
+     * @return array
+     */
+    private function flattenViewReport(array $report)
+    {
+        $rtn = [];
+
+        foreach ($report['settlements'] as $settlement) {
+            $rtn[] = [
+                'Order Date' => date('d/m/Y', strtotime($settlement['received_date'])),
+                'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
+                'Customer' => $settlement['customer_name'],
+                'Post Code' => $settlement['application_postcode'],
+                'Application ID' =>  $settlement['application'],
+                'Retailer Reference' => $settlement['order_reference'],
+                'Order Amount' => number_format($settlement['order_amount']/100, 2, '.', ''),
+                'Type' => $settlement['type'],
+                'Deposit' => number_format($settlement['deposit']/100, 2, '.', ''),
+                'Loan Amount' => number_format($settlement['loan_amount']/100, 2, '.', ''),
+                'Subsidy' => number_format($settlement['subsidy']/100, 2, '.', ''),
+                'Adjustment' => number_format($settlement['adjustment']/100, 2, '.', ''),
+                'Settlement Amount' => number_format($settlement['net']/100, 2, '.', ''),
+            ];
+        }
+
         return $rtn;
     }
 
