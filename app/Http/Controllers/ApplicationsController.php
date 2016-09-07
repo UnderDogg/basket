@@ -75,7 +75,7 @@ class ApplicationsController extends Controller
         $this->limitToInstallationOnMerchant($applications->where('installation_id', $installation));
 
         return $this->standardIndexAction(
-            $applications->orderBy('created_at', 'DESC'),
+            $applications->orderBy('updated_at', 'DESC'),
             'applications.index',
             'applications',
             [
