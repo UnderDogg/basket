@@ -16,7 +16,7 @@ class ChangeValidityPeriodForInstallation extends Migration
      */
     public function up()
     {
-        Schema::create('installations', function (Blueprint $table) {
+        Schema::table('installations', function (Blueprint $table) {
             $table->integer('validity')->default(2592000)->change();
         });
     }
@@ -28,7 +28,7 @@ class ChangeValidityPeriodForInstallation extends Migration
      */
     public function down()
     {
-        Schema::create('installations', function (Blueprint $table) {
+        Schema::table('installations', function (Blueprint $table) {
             $table->integer('validity')->default(7200)->change();
         });
     }
