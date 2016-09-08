@@ -148,7 +148,7 @@ class LocationsControllerTest extends TestCase
     {
         $this->typeEditDetails('Higher Location', 'NotAnEmailAddress', 'Location City');
 
-        $this->see('The email must be a valid email address.');
+        $this->see('Cannot update Location: Cannot validate NotAnEmailAddress as a valid email');
     }
 
     /**

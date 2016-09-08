@@ -136,7 +136,11 @@ class LocationsController extends Controller
         try {
             $this->validateEmailAddressInput($request);
         } catch (\Exception $e) {
-            throw $this->redirectWithException('/locations/' . $id, 'Cannot update Location: ' . $e->getMessage(), $e);
+            throw $this->redirectWithException(
+                '/locations/' . $id . '/edit',
+                'Cannot update Location: ' . $e->getMessage(),
+                $e
+            );
         }
 
         return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
@@ -220,8 +224,9 @@ class LocationsController extends Controller
     {
         $emails = explode(',', $request->get('email'));
         foreach($emails as $email) {
+            $initial = $email;
             if(!($email = filter_var($email, FILTER_VALIDATE_EMAIL))) {
-                throw new \Exception('Cannot validate ' . $email . ' as a valid email');
+                throw new \Exception('Cannot validate ' . $initial . ' as a valid email');
             }
         }
 
