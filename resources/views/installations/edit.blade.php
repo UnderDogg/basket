@@ -34,7 +34,7 @@
             <div class="form-group">
                 {!! Form::label('validity', 'Applications should be valid for', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('validity', null, ['class' => 'form-control', 'placeholder' => 'in seconds']) !!}
+                    {!! Form::text('validity', round($installations->validity / 60 / 60 / 24, 1) , ['class' => 'form-control', 'placeholder' => 'in days']) !!}
                 </div>
             </div>
             <div class="form-group">
@@ -150,15 +150,10 @@
                         notEmpty: {
                             message: 'The validity period cannot be empty'
                         },
-                        integer: {
-                            message: 'The validity period is not an integer',
-                            thousandsSeparator: '',
-                            decimalSeparator: '.'
-                        },
                         between: {
-                            min: 7200,
-                            max: 2592000,
-                            message: 'The validity period must be between 7200 and 2592000'
+                            min: 0,
+                            max: 30,
+                            message: 'The validity period must not exceed 30 days'
                         }
                     }
                 },
