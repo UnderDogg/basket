@@ -18,7 +18,7 @@
             <div class="form-group">
                 {!! Form::label('name', 'Name', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('name', null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 255]) !!}
                 </div>
             </div>
             <div class="form-group">
@@ -34,13 +34,13 @@
             <div class="form-group">
                 {!! Form::label('validity', 'Applications should be valid for', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('validity', ceil($installations->validity / 60 / 60 / 24) , ['class' => 'form-control', 'placeholder' => 'in days', 'maxlength' => 2]) !!}
+                    {!! Form::text('validity', ceil($installations->validity / 60 / 60 / 24) , ['class' => 'form-control', 'placeholder' => 'in days', 'maxlength' => 2, 'data-fv-notempty' => 'true', 'data-fv-integer' => 'true', 'data-fv-integer-decimalseparator' => '', 'data-fv-digits' => 'true', 'data-fv-between' => 'true', 'data-fv-between-max' => 30, 'data-fv-between-min' => 1, 'data-fv-between-message' => 'The validity period must be at least 1 day, but must not exceed 30 days']) !!}
                 </div>
             </div>
             <div class="form-group">
                 {!! Form::label('custom_logo_url', 'Custom Logo (URL)', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('custom_logo_url', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('custom_logo_url', null, ['class' => 'form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The custom logo url must be a valid url', 'maxlength' => 255]) !!}
                 </div>
             </div>
             {!! Form::text('finance_offers', $installations->finance_offers, ['hidden' => 'hidden', 'id' => 'finance_offers']) !!}
@@ -79,13 +79,13 @@
             <div class="form-group">
                 {!! Form::label('location_instruction', 'Additional Email Instruction', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::textArea('location_instruction', null, ['class' => 'form-control']) !!}
+                    {!! Form::textArea('location_instruction', null, ['class' => 'form-control', 'maxlength' => 50000]) !!}
                 </div>
             </div>
             <div class="form-group">
                 {!! Form::label('disclosure', 'In Store Disclosure', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::textArea('disclosure', null, ['class' => 'form-control']) !!}
+                    {!! Form::textArea('disclosure', null, ['class' => 'form-control', 'maxlength' => 50000]) !!}
                 </div>
             </div>
             <div class="form-group">
@@ -100,13 +100,13 @@
             <div class="form-group">
                 {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control']) !!}
+                    {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The return url must not be greater than 255 characters', 'maxlength' => 255]) !!}
                 </div>
             </div>
             <div class="form-group">
                 {!! Form::label('ext_notification_url', 'Notification URL', ['class' => 'col-sm-2 control-label']) !!}
                 <div class="col-sm-8">
-                    {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control']) !!}
+                    {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The notification url must not be greater than 255 characters', 'maxlength' => 255]) !!}
                 </div>
             </div>
             <div class="form-group">
@@ -131,125 +131,6 @@
     <script type="text/javascript" src="{!! Bust::cache('/js/colorpicker.js') !!}"></script>
 
     <script>
-        // Form Validation
-        validation = {
-            fields: {
-                name: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The name cannot be empty'
-                        },
-                        stringLength: {
-                            max: 255,
-                            message: 'The name must not be greater than 255 characters'
-                        }
-                    }
-                },
-                validity: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The validity period cannot be empty'
-                        },
-                        integer: {
-                            message: 'The validity period is not an integer',
-                            thousandsSeparator: '',
-                            decimalSeparator: ''
-                        },
-                        digits: {},
-                        between: {
-                            min: 1,
-                            max: 30,
-                            message: 'The validity period must be at least 1 day, but must not exceed 30 days'
-                        }
-                    }
-                },
-                custom_logo_url: {
-                    validators: {
-                        uri: {
-                            message: 'The custom logo url must be a valid url'
-                        },
-                        stringLength: {
-                            max: 255,
-                            message: 'The custom logo url must not be greater than 255 characters'
-                        }
-                    }
-                },
-                location_instruction: {
-                    validators: {
-                        stringLength: {
-                            max: 50000,
-                            message: 'The additional instruction must not be greater than 50000 characters'
-                        }
-                    }
-                },
-                disclosure: {
-                    validators: {
-                        stringLength: {
-                            max: 50000,
-                            message: 'The disclosure must not be greater than 50000 characters'
-                        }
-                    }
-                },
-                default_template_footer: {
-                    validators: {
-                        stringLength: {
-                            max: 50000,
-                            message: 'The default template footer must not be greater than 50000 characters'
-                        }
-                    }
-                },
-                ext_return_url: {
-                    validators: {
-                        uri: {
-                            message: 'The return url must be a valid url'
-                        },
-                        stringLength: {
-                            max: 255,
-                            message: 'The return url must not be greater than 255 characters'
-                        }
-                    }
-                },
-                ext_notification_url: {
-                    validators: {
-                        uri: {
-                            message: 'The notification url must be a valid url'
-                        },
-                        stringLength: {
-                            max: 255,
-                            message: 'The notification url must not be greater than 255 characters'
-                        }
-                    }
-                },
-                retailer_url: {
-                    validators: {
-                        uri: {
-                            message: 'The website url is not valid'
-                        },
-                        stringLength: {
-                            max: 255,
-                            message: 'The website url must not be greater than 255 characters'
-                        }
-                    }
-                },
-                email_subject: {
-                    validators: {
-                        stringLength: {
-                            max: 64,
-                            message: 'The email subject must not be longer than 64 characters'
-                        }
-                    }
-                },
-                email_reply_to: {
-                    validators: {
-                        stringLength: {
-                            max: 64,
-                            message: 'The email subject must not be longer than 64 characters'
-                        }
-                    }
-                }
-            }
-        };
-
         $(document).ready(function(){
             if(window.location.hash != '') {
                 $('a[href$='+ window.location.hash + ']').click();
