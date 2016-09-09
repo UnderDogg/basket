@@ -19,6 +19,16 @@ class ChangeValidityPeriodForInstallation extends Migration
         Schema::table('installations', function (Blueprint $table) {
             $table->integer('validity')->default(2592000)->change();
         });
+
+        $installations = \App\Basket\Installation::all();
+
+        /** @var \App\Basket\Installation $installation */
+        foreach($installations as $installation) {
+            if($installation->validity < 86400) {
+                $installation->validity = 86400;
+                $installation->save();
+            }
+        }
     }
 
     /**
