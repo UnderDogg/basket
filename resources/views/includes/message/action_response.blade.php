@@ -7,7 +7,7 @@
             <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            @foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+            @foreach ($errors->all() as $error)<p>{!! HTML::decode($error) !!}</p>@endforeach
         </div>
     </div>
 @endif
@@ -21,7 +21,7 @@
                 <button type="button" class="close message_close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <p>{{ $v }}</p>
+                <p>{!! HTML::decode($v) !!}</p>
             </div>
         </div>
     @endif
