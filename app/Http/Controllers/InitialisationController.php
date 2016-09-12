@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
@@ -107,8 +108,12 @@ class InitialisationController extends Controller
             ]
         );
 
+        $location = $this->fetchLocation($locationId);
+
+        $this->validateApplicationRequest($request, $location);
+
         try {
-            return $this->applicationRequestType($this->fetchLocation($locationId), $request);
+            return $this->applicationRequestType($location, $request);
         } catch (\Exception $e) {
             $this->logError('Unable to request an Application: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
@@ -448,5 +453,26 @@ class InitialisationController extends Controller
             'Cannot make an application for location [' . $location->id . ']',
             new \Exception('There is no valid finance route for installation [' . $location->installation->id . ']')
         );
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @param Location $location
+     * @return bool
+     * @throws RedirectException
+     */
+    private function validateApplicationRequest(Request $request, Location $location)
+    {
+        /** @var Application $application */
+        if($application = Application::where('ext_order_reference' , '=', $request->get('reference'))
+            ->where('installation_id', '=', $location->installation->id)->first()) {
+            throw RedirectException::make('/locations/' . $location->id . '/applications/make')
+                ->setError('Unable to process the request, an application has already been created with this order
+                reference (<a href="/installations/' . $location->installation->id . '/applications/' . $application->id
+                . '">' . $application->ext_order_reference . '</a>)');
+        }
+
+        return true;
     }
 }
