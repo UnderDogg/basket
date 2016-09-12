@@ -1,3 +1,9 @@
+# 1.11.1
+2016-09-12
+
+## Bug Fixes
+- Fixed duplicate request trying to be made on `initialise` application (130086745)
+
 # 1.11.0
 2016-08-31
 
