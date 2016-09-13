@@ -118,7 +118,7 @@
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
                                 @endif
 
-                                @if(Auth::user()->can('applications-cancel') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
+                                @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></li>
                                 @endif
 
