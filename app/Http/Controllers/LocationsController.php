@@ -67,11 +67,12 @@ class LocationsController extends Controller
             'reference' => 'required|regex:/^[A-Za-z0-9\-]+$/',
             'installation_id' => 'required',
             'name' => 'required',
-            'email' => 'required:email',
+            'email' => 'required|max:255',
             'address' => 'required',
         ]);
 
         try {
+            $this->validateEmailAddressInput($request);
             $toCreate = $request->all();
             $toCreate['active'] = ($request->has('active')) ? 1 : 0;
             Location::create($toCreate);
@@ -124,13 +125,23 @@ class LocationsController extends Controller
             'reference' => 'required|sometimes|regex:/^[A-Za-z0-9\-]+$/',
             'active' => 'required|sometimes',
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|max:255',
             'address' => 'required',
             'converted_email' => 'required|sometimes',
         ]);
 
         $converted_email = $request->has('converted_email') ? '1' : '0';
         $request->request->add(['converted_email' => $converted_email]);
+
+        try {
+            $this->validateEmailAddressInput($request);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                '/locations/' . $id . '/edit',
+                'Cannot update Location: ' . $e->getMessage(),
+                $e
+            );
+        }
 
         return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
     }
@@ -201,5 +212,24 @@ class LocationsController extends Controller
             'id' => self::FILTER_STRICT,
             'installation_id' => self::FILTER_STRICT,
         ];
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @return string
+     * @throws \Exception
+     */
+    private function validateEmailAddressInput(Request $request)
+    {
+        $emails = explode(',', $request->get('email'));
+        foreach($emails as $email) {
+            $initial = $email;
+            if(!($email = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+                throw new \Exception('Cannot validate ' . $initial . ' as a valid email');
+            }
+        }
+
+        return implode($emails);
     }
 }

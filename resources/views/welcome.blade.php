@@ -28,7 +28,7 @@
                             <td>{{ $location->reference }}</td>
                             <td>{{ $location->name }}</td>
                             <td class="hidden-xs hidden-sm">{{ $location->address }}</td>
-                            <td class="hidden-xs hidden-sm">{{ $location->email }}</td>
+                            <td class="hidden-xs hidden-sm">@foreach($location->getEmails() as $email){{$email}} @endforeach</td>
                             <td class="text-right"><a href="/locations/{{ $location->id }}/applications/make" class="btn btn-success">Make Application</a></td>
                         </tr>
                     @endif

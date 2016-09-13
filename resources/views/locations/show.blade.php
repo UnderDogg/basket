@@ -44,7 +44,7 @@
                             <dd></dd>
                         @endif
                         <dt>Location Email Address</dt>
-                        <dd>{!! $location->email !!}</dd>
+                        <dd>@foreach($location->getEmails() as $email){{$email}} @endforeach</dd>
                         <dt>Location Address</dt>
                         <dd>{!! $location->address !!}</dd>
                         <dt>Converted Email</dt>

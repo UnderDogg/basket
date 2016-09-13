@@ -102,4 +102,13 @@ class Location extends Model
         }
         throw new Exception('Problem saving details');
     }
+
+    /**
+     * @author EB
+     * @return array
+     */
+    public function getEmails()
+    {
+        return explode(',', $this->email);
+    }
 }

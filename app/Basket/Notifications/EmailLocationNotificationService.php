@@ -40,18 +40,19 @@ class EmailLocationNotificationService implements LocationNotificationService
      */
     public function convertedNotification(Application $application, Location $location)
     {
-        \Mail::send(
-            'emails.locations.converted',
-            [
-                'application' => $application,
-                'location' => $location,
-            ],
-            function ($message) use ($location, $application) {
-                $message->to($location->email)
-                    ->subject('Customer Finance Application ' . $application->ext_id .' has been Approved');
-
-            }
-        );
+        foreach ($location->getEmails() as $email) {
+            \Mail::send(
+                'emails.locations.converted',
+                [
+                    'application' => $application,
+                    'location' => $location,
+                ],
+                function ($message) use ($email, $application) {
+                    $message->to($email)
+                        ->subject('Customer Finance Application ' . $application->ext_id .' has been Approved');
+                }
+            );
+        }
 
         $this->logInfo('LocationNotificationService: Converted Email sent for Application[' . $application->id . ']');
 
