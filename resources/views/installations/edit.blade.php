@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! HTML::decode(Form::label('validity', '<abbr title="This is the number of days before an application will expire">Validity Period<abbr>', ['class' => 'col-sm-2 control-label'])) !!}
+                <label for="validity" class="col-sm-2 control-label"><abbr title="This is the number of days before an application will expire">Validity Period</abbr></label>
                 <div class="col-sm-8">
                     {!! Form::text('validity', ceil($installations->validity / 60 / 60 / 24) , ['class' => 'form-control', 'placeholder' => 'in days', 'maxlength' => 2, 'data-fv-notempty' => 'true', 'data-fv-integer' => 'true', 'data-fv-integer-decimalseparator' => '', 'data-fv-digits' => 'true', 'data-fv-between' => 'true', 'data-fv-between-max' => 30, 'data-fv-between-min' => 1, 'data-fv-between-message' => 'The validity period must be at least 1 day, but must not exceed 30 days']) !!}
                 </div>
