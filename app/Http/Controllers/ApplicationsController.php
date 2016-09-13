@@ -332,13 +332,13 @@ class ApplicationsController extends Controller
     }
 
     /**
-     * @author WN
+     * @author WN, EB
      * @param Application $application
      * @return bool
      */
     private function isCancellable(Application $application)
     {
-        return in_array($application->ext_current_status, ['converted', 'fulfilled', 'complete']);
+        return !in_array($application->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']);
     }
 
     /**
