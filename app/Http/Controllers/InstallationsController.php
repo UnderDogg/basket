@@ -120,10 +120,12 @@ class InstallationsController extends Controller
      */
     public function update($id, Request $request)
     {
+        $this->amendValidityPeriod($request);
+
         $this->validate($request, [
             'name' => 'required|max:255',
             'active' => 'required|sometimes',
-            'validity' => 'required|integer|between:7200,2592000',
+            'validity' => 'required|numeric|between:7200,2592000',
             'custom_logo_url' => 'url|max:255',
             'email_reply_to' => 'email|max:255',
             'ext_return_url' => 'url|max:255',
@@ -326,5 +328,17 @@ class InstallationsController extends Controller
         } catch (\Exception $e) {
             return view('emails.applications.blank')->with('content', 'Problem rendering template');
         }
+    }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @return Request
+     */
+    private function amendValidityPeriod(Request $request)
+    {
+        $request->merge(['validity' => ($request->get('validity') * 24 * 60 * 60)]);
+
+        return $request;
     }
 }

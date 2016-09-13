@@ -4,13 +4,13 @@
         <div class="form-group">
             {!! Form::label('email_subject', 'Subject', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_subject', $emailConfigHelper->getSafe('email_subject'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_SUBJECT'), 'class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_subject', $emailConfigHelper->getSafe('email_subject'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_SUBJECT'), 'class' => 'email-customisation form-control', 'maxlength' => 64]) !!}
             </div>
         </div>
         <div class="form-group">
             {!! Form::label('email_reply_to', 'Reply To', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('email_reply_to', $emailConfigHelper->getSafe('email_reply_to'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_REPLY_TO'), 'class' => 'email-customisation form-control']) !!}
+                {!! Form::text('email_reply_to', $emailConfigHelper->getSafe('email_reply_to'), ['placeholder' => env('EMAIL_TEMPLATE_DEFAULT_REPLY_TO'), 'class' => 'email-customisation form-control', 'maxlength' => 255]) !!}
             </div>
         </div>
         <div class="form-group">
@@ -24,7 +24,7 @@
         <div class="form-group">
             {!! Form::label('retailer_url', 'Website url', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('retailer_url', $emailConfigHelper->getSafe('retailer_url'), ['class' => 'email-customisation preview-refresh form-control']) !!}
+                {!! Form::text('retailer_url', $emailConfigHelper->getSafe('retailer_url'), ['class' => 'email-customisation preview-refresh form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The website url must not be greater than 255 characters', 'maxlength' => 255]) !!}
             </div>
         </div>
         <div class="form-group">
