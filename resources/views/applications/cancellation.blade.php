@@ -54,9 +54,7 @@
             {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
         </div>
         <div class="form-group pull-right">
-            {!! Form::submit('Request', [
-                                        'class' => 'btn btn-success',
-                                        ]) !!}
+            {!! Form::submit('Request', ['class' => 'btn btn-success']) !!}
             <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
         </div>
     </div>
