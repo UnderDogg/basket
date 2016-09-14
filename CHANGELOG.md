@@ -1,3 +1,6 @@
+# 1.12.0
+2016-09-14
+
 ## Features
 - Added ability for multiple `location` emails to be entered and used (128407249)
 - Changed order of Application report to order by `updated_at` (128406917)
