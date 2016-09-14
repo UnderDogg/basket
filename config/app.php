@@ -206,6 +206,7 @@ return [
         'Str'       => Illuminate\Support\Str::class,
         'DbView'    => Flynsarmy\DbBladeCompiler\Facades\DbView::class,
         'Bust'      => \App\Basket\CacheBust\CacheBustService::class,
+        'AppHelper' => \App\Basket\Blade\ApplicationHelper::class,
     ],
 
 ];
