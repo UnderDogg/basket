@@ -39,7 +39,9 @@
                             <dd>{{ $applications->ext_id }}</dd>
 
                             <dt>Current Status</dt>
-                            <dd>{{ ucwords($applications->ext_current_status) }}</dd>
+                            <dd class="@if(in_array($applications->ext_current_status, ['pre_declined', 'declined']))text-danger @endif @if(in_array($applications->ext_current_status, ['abandoned', 'expired']))text-muted @endif @if($applications->ext_current_status == 'pending')text-info @endif @if($applications->ext_current_status == 'referred')text-primary @endif @if(in_array($applications->ext_current_status, ['pre_declined', 'declined']))text-danger @endif @if(in_array($applications->ext_current_status, ['cancelled', 'pending_cancellation']))text-warning @endif @if(in_array($applications->ext_current_status, ['converted', 'fulfilled', 'complete']))text-success @endif">
+                                {{ ucwords(str_replace('_', ' ', $applications->ext_current_status)) }}
+                            </dd>
 
                             <dt>Order Reference</dt>
                             <dd>{{ $applications->ext_order_reference }}</dd>
@@ -136,7 +138,7 @@
                             <dt>PayBreak App ID</dt>
                             <dd>{{ $applications->ext_id }}</dd>
                             <dt>Current Status</dt>
-                            <dd>{{ $applications->ext_current_status }}</dd>
+                            <dd>{{ ucwords(str_replace('_', ' ', $applications->ext_current_status)) }}</dd>
                             <dt>Order Description</dt>
                             <dd>{{ $applications->ext_order_description }}</dd>
                             <dt>Order Amount</dt>

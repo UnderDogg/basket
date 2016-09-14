@@ -87,7 +87,15 @@
             <tr>
                 <td>{{ $item->ext_id }}</td>
                 <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
-                <td>{{ ucwords($item->ext_current_status) }}</td>
+                <td class="@if(in_array($item->ext_current_status, ['pre_declined', 'declined']))text-danger @endif @if(in_array($item->ext_current_status, ['abandoned', 'expired']))text-muted @endif @if($item->ext_current_status == 'pending')text-info @endif @if($item->ext_current_status == 'referred')text-primary @endif @if(in_array($item->ext_current_status, ['pre_declined', 'declined']))text-danger @endif @if(in_array($item->ext_current_status, ['cancelled', 'pending_cancellation']))text-warning @endif @if(in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))text-success @endif">
+                    @if($item->ext_current_status == 'converted')
+                        <abbr title="This application is approved and ready to go, you should fulfil the order once the customers receives the goods/services.">
+                    @endif
+                    {{ ucwords(str_replace('_', ' ', $item->ext_current_status)) }}
+                    @if($item->ext_current_status == 'converted')
+                        </abbr>
+                    @endif
+                </td>
                 <td>{{ $item->ext_order_reference }}</td>
                 <td>{{ $item->ext_finance_option_group }}</td>
                 <td>{{ $item->ext_customer_first_name }}</td>
