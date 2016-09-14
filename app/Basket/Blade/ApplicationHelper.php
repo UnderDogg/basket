@@ -73,7 +73,7 @@ class ApplicationHelper
     private static function getConfiguration()
     {
         return [
-            'initialised' => [
+            'initialized' => [
                 'display_name' => 'Initialised',
                 'color' => '',
                 'description' => '',
