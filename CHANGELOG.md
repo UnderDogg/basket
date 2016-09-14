@@ -2,6 +2,8 @@
 - Added ability for multiple `location` emails to be entered and used (128407249)
 - Changed order of Application report to order by `updated_at` (128406917)
 - Changed default validity period to 30 days, and changed input to days instead of seconds (128407051)
+- Added help information to various inputs (128407127)
+- Added Colours to application statuses (128407127)
 
 # 1.11.1
 2016-09-12
