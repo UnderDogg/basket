@@ -4,6 +4,7 @@
 - Changed default validity period to 30 days, and changed input to days instead of seconds (128407051)
 - Added help information to various inputs (128407127)
 - Added Colours to application statuses (128407127)
+- Changed cancellation so it can be requested when in a correct state
 
 # 1.11.1
 2016-09-12
