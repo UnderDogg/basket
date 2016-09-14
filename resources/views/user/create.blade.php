@@ -51,7 +51,9 @@
                             <div class="col-sm-offset-1 col-sm-5">
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                        <abbr title="{{ ucfirst($role->description) }}">
+                                            {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                        </abbr>
                                     </label>
                                 </div>
                             </div>
@@ -62,7 +64,9 @@
                             <div class="col-sm-offset-1 col-sm-5">
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                        <abbr title="{{ ucfirst($role->description) }}">
+                                            {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                        </abbr>
                                     </label>
                                 </div>
                             </div>

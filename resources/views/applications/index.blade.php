@@ -87,7 +87,11 @@
             <tr>
                 <td>{{ $item->ext_id }}</td>
                 <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
-                <td>{{ ucwords($item->ext_current_status) }}</td>
+                <td class="{{ AppHelper::getApplicationStatusTextColour($item->ext_current_status) }}">
+                    @if(AppHelper::getApplicationStatusDescription($item->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($item->ext_current_status) }}">@endif
+                        {{ AppHelper::getApplicationDisplayName($item->ext_current_status) }}
+                    @if($item->ext_current_status != '')</abbr>@endif
+                </td>
                 <td>{{ $item->ext_order_reference }}</td>
                 <td>{{ $item->ext_finance_option_group }}</td>
                 <td>{{ $item->ext_customer_first_name }}</td>

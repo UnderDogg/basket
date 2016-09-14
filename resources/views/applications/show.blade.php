@@ -39,7 +39,11 @@
                             <dd>{{ $applications->ext_id }}</dd>
 
                             <dt>Current Status</dt>
-                            <dd>{{ ucwords($applications->ext_current_status) }}</dd>
+                            <dd class="{{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
+                                @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
+                                    {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                                @if($applications->ext_current_status != '')</abbr>@endif
+                            </dd>
 
                             <dt>Order Reference</dt>
                             <dd>{{ $applications->ext_order_reference }}</dd>
@@ -136,7 +140,11 @@
                             <dt>PayBreak App ID</dt>
                             <dd>{{ $applications->ext_id }}</dd>
                             <dt>Current Status</dt>
-                            <dd>{{ $applications->ext_current_status }}</dd>
+                            <dd class="{{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
+                                @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
+                                    {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                                    @if($applications->ext_current_status != '')</abbr>@endif
+                            </dd>
                             <dt>Order Description</dt>
                             <dd>{{ $applications->ext_order_description }}</dd>
                             <dt>Order Amount</dt>

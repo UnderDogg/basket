@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('custom_logo_url', 'Custom Logo (URL)', ['class' => 'col-sm-2 control-label']) !!}
+                <label for="custom_logo_url" class="col-sm-2 control-label"><abbr title="This should be a URL of your logo, which will be used on the screens to initialize an application and in the application journey">Custom Logo</abbr></label>
                 <div class="col-sm-8">
                     {!! Form::text('custom_logo_url', null, ['class' => 'form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The custom logo url must be a valid url', 'maxlength' => 255]) !!}
                 </div>
@@ -77,13 +77,13 @@
         <div id="instoreSettings" class="tab-pane fade">
             <br/>
             <div class="form-group">
-                {!! Form::label('location_instruction', 'Additional Email Instruction', ['class' => 'col-sm-2 control-label']) !!}
+                <label for="location_instruction" class="col-sm-2 control-label"><abbr title="This should contain additional information around what to do when an Application is converted. This can be written in Markdown, and will be used on the Converted email">Additional Email Instruction</abbr></label>
                 <div class="col-sm-8">
                     {!! Form::textArea('location_instruction', null, ['class' => 'form-control', 'maxlength' => 50000]) !!}
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('disclosure', 'In Store Disclosure', ['class' => 'col-sm-2 control-label']) !!}
+                <label for="disclosure" class="col-sm-2 control-label"><abbr title="The In Store Disclosure can contain text which will be shown at the bottom of the initialization page. This can be written in Markdown">In Store Disclosure</abbr></label>
                 <div class="col-sm-8">
                     {!! Form::textArea('disclosure', null, ['class' => 'form-control', 'maxlength' => 50000]) !!}
                 </div>
@@ -98,13 +98,13 @@
         <div id="integrationSettings" class="tab-pane fade">
             <br/>
             <div class="form-group">
-                {!! Form::label('ext_return_url', 'Return URL', ['class' => 'col-sm-2 control-label']) !!}
+                <label for="ext_return_url" class="col-sm-2 control-label"><abbr title="We will use the Notification URL for the 'return to merchant' buttons in the application journey">Return URL</abbr></label>
                 <div class="col-sm-8">
                     {!! Form::text('ext_return_url', $installations->ext_return_url, ['class' => 'form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The return url must not be greater than 255 characters', 'maxlength' => 255]) !!}
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::label('ext_notification_url', 'Notification URL', ['class' => 'col-sm-2 control-label']) !!}
+                <label for="ext_notification_url" class="col-sm-2 control-label"><abbr title="The Notification URL should be a URL end point where notifications will be sent to. The notifications contain information on applications and their current status">Notification URL</abbr></label>
                 <div class="col-sm-8">
                     {!! Form::text('ext_notification_url', $installations->ext_notification_url, ['class' => 'form-control', 'data-fv-uri' => 'true', 'data-fv-uri-message' => 'The notification url must not be greater than 255 characters', 'maxlength' => 255]) !!}
                 </div>

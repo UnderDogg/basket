@@ -45,12 +45,14 @@
                 <div class="panel-heading"><strong>User Roles</strong></div>
                 <div class="form-horizontal">
                     @if($rolesApplied !== null)
-                        @foreach ($rolesApplied as $location)
+                        @foreach ($rolesApplied as $role)
                             <div class="form-group">
                                 <div class="col-sm-offset-1 col-sm-5">
                                     <div class="checkbox">
                                         <label>
-                                            {!! Form::checkbox($location->name, $location->id, true) !!} {{$location->name}}
+                                            <abbr title="{{ ucfirst($role->description) }}">
+                                                {!! Form::checkbox($role->name, $role->id, true) !!} {{$role->name}}
+                                            </abbr>
                                         </label>
                                     </div>
                                 </div>
@@ -58,12 +60,14 @@
                         @endforeach
                     @endif
                     @if($rolesAvailable !== null)
-                        @foreach ($rolesAvailable as $location)
+                        @foreach ($rolesAvailable as $role)
                             <div class="form-group">
                                 <div class="col-sm-offset-1 col-sm-5">
                                     <div class="checkbox">
                                         <label>
-                                            {!! Form::checkbox($location->name, $location->id, false) !!} {{$location->name}}
+                                            <abbr title="{{ ucfirst($role->description) }}">
+                                                {!! Form::checkbox($role->name, $role->id, false) !!} {{$role->name}}
+                                            </abbr>
                                         </label>
                                     </div>
                                 </div>
