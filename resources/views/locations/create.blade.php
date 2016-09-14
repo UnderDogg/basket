@@ -29,7 +29,7 @@
                 {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name of location', 'data-fv-notempty' => 'true', 'maxlength' => 255]) !!}
             </div>
         </div><div class="form-group">
-            {!! Form::label('email', 'Email: ', ['class' => 'col-sm-2 control-label']) !!}
+            <label for="email" class="col-sm-2 control-label"><abbr title="This should be a valid email address, as we will send the converted email to this email address. This field can contain multiple email addresses, but they must be separated with a comma, and have no spaces between them">Email</abbr></label>
             <div class="col-sm-8">
                 {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Email Address of Location', 'data-fv-notempty' => 'true', 'data-fv-emailaddress' => 'true', 'data-fv-emailaddress-multiple' => 'true', 'data-fv-emailaddress-separator' => ',', 'maxlength' => 255, 'data-fv-emailaddress-message' => 'Please enter a valid email address, or multiple email addresses, separated with only a comma']) !!}
             </div>

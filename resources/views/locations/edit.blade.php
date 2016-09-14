@@ -14,28 +14,28 @@
     <div class="col-xs-12">
 
         <div class="form-group">
-            {!! Form::label('name', 'Name:', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('name', 'Name', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::text('name', null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 255]) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('email', 'Email:', ['class' => 'col-sm-2 control-label']) !!}
+            <label for="email" class="col-sm-2 control-label"><abbr title="This should be a valid email address, as we will send the converted email to this email address. This field can contain multiple email addresses, but they must be separated with a comma, and have no spaces between them">Email</abbr></label>
             <div class="col-sm-8">
                 {!! Form::input('email', 'email', null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-emailaddress' => 'true', 'data-fv-emailaddress-multiple' => 'true', 'data-fv-emailaddress-separator' => ',', 'maxlength' => 255, 'data-fv-emailaddress-message' => 'Please enter a valid email address, or multiple email addresses, separated with only a comma']) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('address', 'Address:', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('address', 'Address', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 {!! Form::text('address', null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 255]) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('active', 'Active:', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('active', 'Active', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 <label class="checkbox-inline">
                     @if($location->active == 1)
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('converted_email', 'Converted Email:', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('converted_email', 'Converted Email', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 <label class="checkbox-inline">
                     @if($location->converted_email == 1)
