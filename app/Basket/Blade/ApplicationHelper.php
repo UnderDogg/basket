@@ -73,8 +73,8 @@ class ApplicationHelper
     private static function getConfiguration()
     {
         return [
-            'initialised' => [
-                'display_name' => 'Initialised',
+            'initialized' => [
+                'display_name' => 'Initialized',
                 'color' => '',
                 'description' => '',
             ],
@@ -89,7 +89,7 @@ class ApplicationHelper
                 'description' => '',
             ],
             'pre_declined' => [
-                'display_name' => 'Pre Declined',
+                'display_name' => 'Pre&nbsp;Declined',
                 'color' => 'text-danger',
                 'description' => '',
             ],
@@ -129,7 +129,7 @@ class ApplicationHelper
                 'description' => '',
             ],
             'pending_cancellation' => [
-                'display_name' => 'Pending Cancellation',
+                'display_name' => 'Pending&nbsp;Cancellation',
                 'color' => 'text-warning',
                 'description' => '',
             ],
@@ -145,7 +145,7 @@ class ApplicationHelper
     private static function getEmptyConfiguration()
     {
         return [
-            'display_name' => 'Status not set',
+            'display_name' => 'Not&nbsp;set',
             'color' => '',
             'description' => 'This application may have not been synced yet and so no information regarding the status is available',
         ];
