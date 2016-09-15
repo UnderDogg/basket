@@ -1,3 +1,9 @@
+# 1.12.1
+2016-09-15
+
+## Bug Fixes
+- Fixed initiali**z**e on Application status (front end)
+
 # 1.12.0
 2016-09-14
 
