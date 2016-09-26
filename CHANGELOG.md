@@ -1,3 +1,9 @@
+# 1.13.0
+2016-09-15
+
+## Features
+- Added `resume_url` to *Application Synchronisation Service* (131064355)
+
 # 1.12.1
 2016-09-15
 
