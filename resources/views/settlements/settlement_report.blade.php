@@ -5,7 +5,7 @@
     <h1>
         Settlement Report
         <div class="btn-toolbar pull-right">
-            <a href="{{ Request::url() }}/?download=csv&amp;source=view_data&amp;filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
+            <a href="{{ Request::url() }}/?download=csv&amp;source=aggregateSettlementReport&amp;filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
             <a href="{{ Request::url() }}/?download=csv&amp;filename={{ $export_api_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Raw</a>
         </div>
     </h1>
@@ -41,26 +41,26 @@
                 </tr>
                 {!! Form::close() !!}
                 <tr>
-                @foreach($settlementReport['settlements'] as $item)
+                @foreach($aggregateSettlementReport as $item)
                     <tr>
-                        <td>{{ date('d/m/Y', strtotime($item['received_date'])) }}</td>
-                        <td>{{ date('d/m/Y', strtotime($item['captured_date'])) }}</td>
-                        <td>{{ $item['customer_name']}}</td>
-                        <td>{{ $item['application_postcode'] }}</td>
-                        <td>{{ $item['application'] }}</td>
-                        <td>{{ $item['order_reference'] }}</td>
-                        <td class="text-right">{{ '&pound;' . number_format($item['order_amount']/100, 2)}}</td>
-                        <td>{{ $item['type'] }}</td>
-                        <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['deposit']/100, 2)}}</td>
-                        <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['loan_amount']/100, 2)}}</td>
-                        <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['subsidy']/100, 2) }}</td>
-                        <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['adjustment']/100, 2)}}</td>
-                        <td class="{{($item['net'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['net']/100, 2) }}</td>
+                        <td>{{ date('d/m/Y', strtotime($item['Order Date'])) }}</td>
+                        <td>{{ date('d/m/Y', strtotime($item['Notification Date'])) }}</td>
+                        <td>{{ $item['Customer']}}</td>
+                        <td>{{ $item['Post Code'] }}</td>
+                        <td>{{ $item['Application ID'] }}</td>
+                        <td>{{ $item['Retailer Reference'] }}</td>
+                        <td class="text-right">{{ '&pound;' . number_format($item['Order Amount']/100, 2)}}</td>
+                        <td>{{ $item['Type'] }}</td>
+                        <td class="{{($item['Deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Deposit']/100, 2)}}</td>
+                        <td class="{{($item['Loan Amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['Loan Amount']/100, 2)}}</td>
+                        <td class="{{($item['Subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Subsidy']/100, 2) }}</td>
+                        <td class="{{($item['Adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Adjustment']/100, 2)}}</td>
+                        <td class="{{($item['Settlement Amount'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Settlement Amount']/100, 2) }}</td>
                     </tr>
                 @endforeach
                 <tr>
                     <td colspan="12"></td>
-                    <td class="{{($settlementReport['sum_net'] < 0 ? '.text-danger' : '') }} text-right"><strong>{{ '&pound;' . number_format($settlementReport['sum_net']/100, 2) }}</strong></td>
+                    <td class="{{($aggregateSettlementReport['sum_net'] < 0 ? '.text-danger' : '') }} text-right"><strong>{{ '&pound;' . number_format($aggregateSettlementReport['sum_net']/100, 2) }}</strong></td>
                 </tr>
             </table>
         </div>
