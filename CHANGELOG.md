@@ -1,3 +1,9 @@
+# 1.13.1
+2016-09-30
+
+## Configuration
+- New company address
+
 # 1.13.0
 2016-09-15
 
