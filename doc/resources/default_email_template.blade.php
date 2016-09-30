@@ -144,8 +144,7 @@
                                         <table border="0" cellpadding="10" cellspacing="0" width="100%">
                                             <tr>
                                                 <td colspan="2" valign="middle" id="utility" style="border-collapse: collapse;">
-                                                    <div style="color: #707070; font-family: Arial; font-size: 12px; line-height: 125%;">afforditNOW is a suite of products offered by PayBreak Limited, a company authorised and regulated by the Financial Conduct Authority. PayBreak Limited is a UK registered company, registration number 7440512 with registered offices at Grosvenor House, 20 Barrington Road, Altrincham, WA14 1HB.
-                                                    </div>
+                                                    <div style="color: #707070; font-family: Arial; font-size: 12px; line-height: 125%;">afforditNOW is a suite of products offered by PayBreak Limited, a company authorised and regulated by the Financial Conduct Authority. PayBreak Limited is a UK registered company, registration number 7440512 with registered offices at Floor 1, The Bloc, Ashley Road, Altrincham, WA14 2DW.</div>
                                                 </td>
                                             </tr>
                                         </table>
