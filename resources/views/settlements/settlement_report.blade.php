@@ -5,15 +5,15 @@
     <h1>
         Settlement Report
         <div class="btn-toolbar pull-right">
-            <a href="{{ Request::url() }}/?download=csv&amp;source=aggregateSettlementReport&amp;filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
+            <a href="{{ Request::url() }}/?download=csv&amp;source=aggregate_settlement_report&amp;filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
             <a href="{{ Request::url() }}/?download=csv&amp;filename={{ $export_api_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Raw</a>
         </div>
     </h1>
     @include('includes.page.breadcrumb', ['over' => [1 => isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
-    <h3><span>Amount: {{ '&pound;' . number_format($settlementReport['amount']/100, 2) }}</span></h3>
+    <h3><span>Amount: {{ '&pound;' . number_format($settlement_report['amount']/100, 2) }}</span></h3>
     <h5>
-        <span>Date: {{ date('d/m/Y', strtotime($settlementReport['settlement_date'])) }}</span> |
-        <span>Lender: {{ ucwords($settlementReport['provider']) }}</span>
+        <span>Date: {{ date('d/m/Y', strtotime($settlement_report['settlement_date'])) }}</span> |
+        <span>Lender: {{ ucwords($settlement_report['provider']) }}</span>
     </h5>
 
     <div class="panel panel-default">
@@ -41,7 +41,7 @@
                 </tr>
                 {!! Form::close() !!}
                 <tr>
-                @foreach($aggregateSettlementReport as $item)
+                @foreach($aggregate_settlement_report as $item)
                     <tr>
                         <td>{{ date('d/m/Y', strtotime($item['Order Date'])) }}</td>
                         <td>{{ date('d/m/Y', strtotime($item['Notification Date'])) }}</td>
@@ -60,7 +60,7 @@
                 @endforeach
                 <tr>
                     <td colspan="12"></td>
-                    <td class="{{($aggregateSettlementReport['sum_net'] < 0 ? '.text-danger' : '') }} text-right"><strong>{{ '&pound;' . number_format($aggregateSettlementReport['sum_net']/100, 2) }}</strong></td>
+                    <td class="{{($aggregate_settlement_total < 0 ? '.text-danger' : '') }} text-right"><strong>{{ '&pound;' . number_format($aggregate_settlement_total/100, 2) }}</strong></td>
                 </tr>
             </table>
         </div>

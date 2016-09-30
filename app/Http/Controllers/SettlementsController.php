@@ -103,14 +103,14 @@ class SettlementsController extends Controller
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
 
-            $aggregateSettlementReport['sum_net'] = array_sum(array_column($aggregateSettlementReport, 'Settlement Amount'));
         } catch (\Exception $e) {
             throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
         }
 
         return View('settlements.settlement_report', [
-            'settlementReport' => $settlementReport,
-            'aggregateSettlementReport' => $aggregateSettlementReport,
+            'settlement_report' => $settlementReport,
+            'aggregate_settlement_report' => $aggregateSettlementReport,
+            'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'Settlement Amount')),
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
             'api_data' => $this->flattenRawReport($settlementReport),
             'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'
