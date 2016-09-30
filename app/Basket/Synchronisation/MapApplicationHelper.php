@@ -48,6 +48,7 @@ class MapApplicationHelper
         $this->mapFinance($application, $applicationEntity->getFinance());
         $this->mapCancellation($application, $applicationEntity->getCancellation());
 
+        $application->ext_resume_url = $applicationEntity->getResumeUrl();
         $application->ext_metadata = json_encode($applicationEntity->getMetadata());
     }
 

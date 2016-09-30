@@ -1,3 +1,21 @@
+# 1.13.1
+2016-09-30
+
+## Configuration
+- New company address
+
+# 1.13.0
+2016-09-15
+
+## Features
+- Added `resume_url` to *Application Synchronisation Service* (131064355)
+
+# 1.12.1
+2016-09-15
+
+## Bug Fixes
+- Fixed initiali**z**e on Application status (front end)
+
 # 1.12.0
 2016-09-14
 
