@@ -1,3 +1,6 @@
+## Bug Fix
+- Fixed potential fatal error (131530149)
+
 # 1.13.1
 2016-09-30
 
