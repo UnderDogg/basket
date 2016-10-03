@@ -403,9 +403,9 @@ class ApplicationsController extends Controller
             ]
         );
 
-        $application = $this->fetchApplicationById($id, $installation);
-
         try {
+            $application = $this->fetchApplicationById($id, $installation);
+            
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
                 TemplatesController::fetchDefaultTemplateForInstallation($application->installation),
