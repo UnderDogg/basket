@@ -80,7 +80,7 @@
 
                 <!-- Previous input values -->
                 @foreach($input as $key => $value)
-                    @if(!is_null($value) && !in_array($value, ['reference', 'description']))
+                    @if(!is_null($value) && !in_array($key, ['reference', 'description']))
                         {!! Form::hidden($key, $value) !!}
                     @endif
                 @endforeach
