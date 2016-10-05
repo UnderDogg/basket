@@ -110,7 +110,7 @@ class SettlementsController extends Controller
         return View('settlements.settlement_report', [
             'settlement_report' => $settlementReport,
             'aggregate_settlement_report' => $aggregateSettlementReport,
-            'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'Settlement Amount')),
+            'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'settlement_amount')),
             'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
             'api_data' => $this->flattenRawReport($settlementReport),
             'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'

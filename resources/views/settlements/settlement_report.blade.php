@@ -43,19 +43,19 @@
                 <tr>
                 @foreach($aggregate_settlement_report as $item)
                     <tr>
-                        <td>{{ date('d/m/Y', strtotime($item['Order Date'])) }}</td>
-                        <td>{{ date('d/m/Y', strtotime($item['Notification Date'])) }}</td>
-                        <td>{{ $item['Customer']}}</td>
-                        <td>{{ $item['Post Code'] }}</td>
-                        <td>{{ $item['Application ID'] }}</td>
-                        <td>{{ $item['Retailer Reference'] }}</td>
-                        <td class="text-right">{{ '&pound;' . number_format($item['Order Amount']/100, 2)}}</td>
-                        <td>{{ $item['Type'] }}</td>
-                        <td class="{{($item['Deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Deposit']/100, 2)}}</td>
-                        <td class="{{($item['Loan Amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['Loan Amount']/100, 2)}}</td>
-                        <td class="{{($item['Subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Subsidy']/100, 2) }}</td>
-                        <td class="{{($item['Adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Adjustment']/100, 2)}}</td>
-                        <td class="{{($item['Settlement Amount'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['Settlement Amount']/100, 2) }}</td>
+                        <td>{{ date('d/m/Y', strtotime($item['order_date'])) }}</td>
+                        <td>{{ date('d/m/Y', strtotime($item['notification_date'])) }}</td>
+                        <td>{{ $item['customer']}}</td>
+                        <td>{{ $item['post_code'] }}</td>
+                        <td>{{ $item['application_id'] }}</td>
+                        <td>{{ $item['retailer_reference'] }}</td>
+                        <td class="text-right">{{ '&pound;' . number_format($item['order_amount']/100, 2)}}</td>
+                        <td>{{ $item['type'] }}</td>
+                        <td class="{{($item['deposit'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['deposit']/100, 2)}}</td>
+                        <td class="{{($item['loan_amount'] < 0 ? 'text-danger' : '') }} text-right" >{{'&pound;' . number_format($item['loan_amount']/100, 2)}}</td>
+                        <td class="{{($item['subsidy'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['subsidy']/100, 2) }}</td>
+                        <td class="{{($item['adjustment'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['adjustment']/100, 2)}}</td>
+                        <td class="{{($item['settlement_amount'] < 0 ? 'text-danger' : '') }} text-right">{{'&pound;' . number_format($item['settlement_amount']/100, 2) }}</td>
                     </tr>
                 @endforeach
                 <tr>
