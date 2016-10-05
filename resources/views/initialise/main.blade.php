@@ -34,7 +34,7 @@
 
                 <div class="input-group">
                     <div class="input-group-addon">&pound;</div>
-                    {!! Form::text('ui_amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
+                    {!! Form::text('ui_amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10, 'data-fv-digits' => 'true']) !!}
                     {!! Form::hidden('amount', isset($amount)?number_format($amount/100,2,'.',''):null, ['class' => 'form-control input-lg', 'maxlength' => 10]) !!}
                 </div>
 
@@ -356,6 +356,9 @@
     <script src="{!! Bust::cache('/js/main.js') !!}"></script>
     <script src="{!! Bust::cache('/js/initialise.main.js') !!}"></script>
     <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
+    <script src="{!! asset(Bust::cache('/formvalidation/dist/js/formValidation.min.js')) !!}"></script>
+    <script src="{!! asset(Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js')) !!}"></script>
+    <script>$('.form-inline').formValidation();</script>
     <script>
         @if(isset($flexibleFinance) && count($flexibleFinance) > 0)
             $(document).ready(function(){
