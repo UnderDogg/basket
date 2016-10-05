@@ -1,3 +1,9 @@
+# 1.13.4
+2016-10-05
+
+## Bug Fixes
+- Fixed number keypad issues across different platforms (131612681)
+
 # 1.13.3
 2016-10-04
 
