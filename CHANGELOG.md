@@ -1,3 +1,9 @@
+# 1.13.3
+2016-10-04
+
+## Bug Fixes
+- Fixed hidden fields not sending over correctly on initialise application screen (131615951)
+
 # 1.13.2
 2016-10-03
 
