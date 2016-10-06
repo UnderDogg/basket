@@ -1,3 +1,9 @@
+# 1.13.5
+2016-10-06
+
+## Bug Fixes
+- Re-introduced decimal support for the order amount (131612681)
+
 # 1.13.4
 2016-10-05
 
