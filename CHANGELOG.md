@@ -1,3 +1,6 @@
+## Features
+- Refactoring out aggregate settlement reports (130356905)
+
 # 1.13.5
 2016-10-06
 
