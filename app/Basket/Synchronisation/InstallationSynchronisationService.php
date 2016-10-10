@@ -47,10 +47,9 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
     {
         $installation = $this->fetchInstallationLocalObject($id);
 
-        $merchant = $this->fetchMerchantLocalObject($installation->merchant_id);
-
         try {
-            $installationEntity = $this->installationGateway->getInstallation($installation->ext_id, $merchant->token);
+            $installationEntity = $this->installationGateway
+                ->getInstallation($installation->ext_id, $installation->merchant->token);
         } catch (\Exception $e) {
 
             $installation->linked = false;

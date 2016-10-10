@@ -85,8 +85,10 @@ class NotificationCatcherService extends AbstractSynchronisationService
     public function catchSynchronisationNotification($installation)
     {
         try {
-            $install = $this->fetchInstallationByExternalId($installation);
-            return $this->merchantSynchronisationService->synchroniseMerchant($install->merchant_id, true);
+            return $this->merchantSynchronisationService->synchroniseMerchant(
+                $this->fetchInstallationByExternalId($installation)->merchant_id,
+                true
+            );
         } catch (\Exception $e) {
 
             $this->logError('NotificationCatcherService: Installation[ext' . $installation .
