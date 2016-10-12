@@ -77,6 +77,21 @@ class InitialisationController extends Controller
     }
 
     /**
+     * @author EB
+     * @param int $locationId
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function startAssisted($locationId)
+    {
+        $location = $this->fetchLocation($locationId);
+
+        $this->checkPermissionForAssistedApplication($location);
+
+        return $this->prepare($location->id)->with('assisted', true);
+    }
+
+    /**
      * @author WN, EB
      * @param $locationId
      * @param Request $request
@@ -471,6 +486,23 @@ class InitialisationController extends Controller
                 ->setError('Unable to process the request, an application has already been created with this order
                 reference (<a href="/installations/' . $location->installation->id . '/applications/' . $application->id
                 . '">' . $application->ext_order_reference . '</a>)');
+        }
+
+        return true;
+    }
+
+    /**
+     * @author EB
+     * @param Location $location
+     * @return bool
+     * @throws RedirectException
+     */
+    private function checkPermissionForAssistedApplication(Location $location)
+    {
+        if ($location->installation->assisted_journey == false) {
+
+            throw RedirectException::make('/')
+                ->setError('You don\'t have permission to initialize an assisted application');
         }
 
         return true;
