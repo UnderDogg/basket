@@ -46,7 +46,6 @@
             </div>
             {!! Form::close() !!}
         </div>
-
         @if(isset($options) || isset($flexibleFinance))
 
             @if(
@@ -91,9 +90,12 @@
                     @foreach($options as $k => $group)
 
                         @foreach($group['products'] as $l => $product)
-
                             <div role="tabpanel" class="tab-pane{{ ($k == 0 && $l == 0 && (isset($flexibleFinance) && count($flexibleFinance)) == 0)?' active':'' }}" id="prod-{{$product['id']}}">
+                                @if(isset($assisted) && $assisted == true)
+                                    {!! Form::open(['action' => ['InitialisationController@requestAssisted', $location->id], 'class' => 'initialiseForm']) !!}
+                                @else
                                 {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
+                                @endif
                                     <h2>{{$product['name']}}</h2>
                                     <div class="form-group container-fluid">
                                         <div class="row text-center">
