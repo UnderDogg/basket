@@ -66,7 +66,7 @@ class AjaxController extends Controller
                 ]
             );
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $this->apiResponseFromException($e);
         }
     }
