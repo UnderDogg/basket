@@ -82,7 +82,7 @@ class InitialisationController extends Controller
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function startAssisted($locationId)
+    public function prepareAssisted($locationId)
     {
         $location = $this->fetchLocation($locationId);
 
@@ -134,6 +134,18 @@ class InitialisationController extends Controller
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError('Failed to process the Application, please try again');
         }
+    }
+
+    /**
+     * @author EB
+     * @param int $locationId
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function requestAssisted($locationId, Request $request)
+    {
+        return $this->request($locationId, $request)->with('assisted', true);
     }
 
     /**
@@ -290,16 +302,17 @@ class InitialisationController extends Controller
      * @author WN
      * @param int $locationId
      * @param Request $request
+     * @param bool $assisted
      * @return \Illuminate\Http\JsonResponse
+     * @throws RedirectException
      */
-    public function chooseProduct($locationId, Request $request)
+    public function chooseProduct($locationId, Request $request, $assisted = false)
     {
         $this->validate($request, ['amount' => 'required|numeric']);
 
         $location = $this->fetchLocation($locationId);
 
-        return view(
-            'initialise.main',
+        return view('initialise.main')->with(
             [
                 'options' => $this->getCreditInfoWithProductLimits(
                     $location->installation,
@@ -310,8 +323,20 @@ class InitialisationController extends Controller
                 'location' => $location,
                 'bitwise' => Bitwise::make($location->installation->finance_offers),
                 'reference' => $this->generateOrderReferenceFromLocation($location),
+                'assisted' => $assisted,
             ]
         );
+    }
+
+    /**
+     * @author EB
+     * @param int $locationId
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function chooseProductAssisted($locationId, Request $request)
+    {
+        return $this->chooseProduct($locationId, $request, true);
     }
 
     /**
