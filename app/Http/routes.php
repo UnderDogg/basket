@@ -150,9 +150,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'permission:applications-make'], function () {
         Route::get('return-back', 'InitialisationController@returnBack');
         Route::get('locations/{id}/applications/make', 'InitialisationController@prepare');
-        Route::get('locations/{id}/applications/assisted', 'InitialisationController@startAssisted');
+        Route::get('locations/{id}/applications/assisted', 'InitialisationController@prepareAssisted');
         Route::post('locations/{id}/applications/make', 'InitialisationController@chooseProduct');
-        Route::post('locations/{id}/applications/assisted', 'InitialisationController@chooseProduct');
+        Route::post('locations/{id}/applications/assisted', 'InitialisationController@chooseProductAssisted');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
         Route::post('locations/{id}/applications/request-assisted', 'InitialisationController@requestAssisted');
 
