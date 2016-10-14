@@ -396,9 +396,9 @@ class ApplicationsController extends Controller
             $request,
             [
                 'title' => 'required|in:Mr,Mrs,Miss,Ms',
-                'first_name' => 'required|max:30',
-                'last_name' => 'required|max:30',
-                'applicant_email' => 'required|email|max:30',
+                'first_name' => 'required|max:50',
+                'last_name' => 'required|max:50',
+                'applicant_email' => 'required|email|max:255',
                 'description' => 'required|max:255',
             ]
         );
