@@ -1,5 +1,6 @@
 ## Features
 - Refactoring out aggregate settlement reports (130356905)
+- Added `assisted_journey` Feature concept (131806137)
 
 ## Bug Fixes
 - Fixed Email Address length issue (132149593)
