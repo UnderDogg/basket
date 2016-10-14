@@ -1,6 +1,9 @@
 ## Features
 - Refactoring out aggregate settlement reports (130356905)
 
+## Bug Fixes
+- Fixed Email Address length issue (132149593)
+
 # 1.13.5
 2016-10-06
 
