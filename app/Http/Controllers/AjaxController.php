@@ -14,6 +14,7 @@ use App\Basket\Installation;
 use Illuminate\Http\Request;
 use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ProductGateway;
+use PayBreak\Sdk\Gateways\ProfileGateway;
 
 /**
  * Class AjaxController
@@ -29,14 +30,20 @@ class AjaxController extends Controller
     private $productGateway;
 
     /**
+     * @var ProfileGateway
+     */
+    private $profileGateway;
+
+    /**
      * AjaxController constructor.
      *
      * @param ProductGateway $productGateway
+     * @param ProfileGateway $profileGateway
      */
-    public function __construct(ProductGateway $productGateway)
+    public function __construct(ProductGateway $productGateway, ProfileGateway $profileGateway)
     {
-
         $this->productGateway = $productGateway;
+        $this->profileGateway = $profileGateway;
     }
 
     /**
@@ -66,6 +73,20 @@ class AjaxController extends Controller
                 ]
             );
 
+        } catch (\Exception $e) {
+            return $this->apiResponseFromException($e);
+        }
+    }
+
+    public function showPersonal()
+    {
+        return view('initialise.profile');
+    }
+
+    public function createProfilePersonal(Request $request, $installation = 1)
+    {
+        try {
+            return $this->profileGateway->createPersonal(3000000947, $request->all(), 'mytoken');
         } catch (\Exception $e) {
             return $this->apiResponseFromException($e);
         }
