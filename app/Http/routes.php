@@ -155,6 +155,19 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
 
         Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
+
+        //POST HERE
+
+        Route::get('evan', 'AjaxController@showPersonal');
+
+
+
+
+
+
+
+
+
     });
 
     Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {
@@ -183,5 +196,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 });
+
+Route::post('ajax/installations/{installation}/profile/personal', 'AjaxController@createProfilePersonal');
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
