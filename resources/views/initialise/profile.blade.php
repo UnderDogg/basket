@@ -6,7 +6,7 @@
     @include('env-banner')
 @endif
 <div class="loading"></div>
-{!! Form::hidden('installation', isset($installation) ? $installation : null) !!}
+{!! Form::hidden('installation', isset($installation) ? $installation->id : null) !!}
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
@@ -19,16 +19,25 @@
             </div>
             <div class="col-md-6">
                 <div class="pull-right">
-                    {{--@if($location->installation->custom_logo_url)--}}
-                        {{--{!! HTML::image($location->installation->custom_logo_url, 'logo') !!}--}}
-                    {{--@endif--}}
+                    @if($installation->custom_logo_url)
+                        {!! HTML::image($installation->custom_logo_url, 'logo') !!}
+                    @endif
                 </div>
             </div>
         </div>
         <br/>
-        @include('includes.message.action_response')
-        <h1>Profile Information</h1>
-        @include('initialise.profile.personal', ['validation' => true])
+        <div class="row">
+            @include('includes.message.action_response')
+            <div class="col-sm-8 col-sm-offset-2">
+                <h1>Profile Information</h1>
+                </hr>
+                <p>
+                    Please fill in as much information as you can before sending the application email. Once you have
+                    filled out all the details that you can, click 'Continue and Send Email' below to send a link to the customer.
+                </p>
+            </div>
+            @include('initialise.profile.personal', ['validation' => true])
+        </div>
     </div>
 </div>
 
