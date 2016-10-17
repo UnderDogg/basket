@@ -475,4 +475,13 @@ class InitialisationController extends Controller
 
         return true;
     }
+
+    /**
+     * @author EB
+     * @return View
+     */
+    public function showProfile()
+    {
+        return view('initialise.profile')->with(['reference' => 3000000178, 'installation' => 1]);
+    }
 }
