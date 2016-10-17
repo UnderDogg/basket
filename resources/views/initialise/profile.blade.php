@@ -6,6 +6,7 @@
     @include('env-banner')
 @endif
 <div class="loading"></div>
+{!! Form::hidden('installation', isset($installation) ? $installation : null) !!}
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
