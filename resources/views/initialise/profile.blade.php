@@ -5,7 +5,7 @@
 @if(env('ENV_BANNER', false))
     @include('env-banner')
 @endif
-
+<div class="loading"></div>
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
@@ -40,4 +40,6 @@
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
     <script src="{!! asset(Bust::cache('/formvalidation/dist/js/formValidation.min.js')) !!}"></script>
     <script src="{!! asset(Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js')) !!}"></script>
+    <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
+    <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
 @endsection
