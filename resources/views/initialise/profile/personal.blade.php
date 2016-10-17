@@ -5,12 +5,6 @@
 <form class="form-horizontal" id="form-personal" method="POST">
     {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
     <div class="form-group">
-        {!! Form::label('email', 'Email', ['class' => 'col-sm-2 control-label']) !!}
-        <div class="col-sm-8">
-            {!! Form::text('email', isset($email) ? $email : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-emailaddress' => 'true', 'maxlength' => 255]) !!}
-        </div>
-    </div>
-    <div class="form-group">
         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
         <div class="col-sm-8">
             <select class="form-control col-xs-12" name="title" data-fv-notempty="true" data-fv-notempty-message="Please select a title">
