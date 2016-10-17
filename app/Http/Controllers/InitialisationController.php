@@ -482,6 +482,6 @@ class InitialisationController extends Controller
      */
     public function showProfile()
     {
-        return view('initialise.profile')->with(['reference' => 3000000178, 'installation' => 1]);
+        return view('initialise.profile')->with(['reference' => 3000000178, 'installation' => Installation::findOrFail(1)]);
     }
 }
