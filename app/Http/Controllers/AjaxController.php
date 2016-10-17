@@ -11,6 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Installation;
+use App\Basket\Location;
 use Illuminate\Http\Request;
 use PayBreak\Foundation\Exception;
 use PayBreak\Sdk\Gateways\ProductGateway;
@@ -81,18 +82,19 @@ class AjaxController extends Controller
     /**
      * @author EB
      * @param Request $request
-     * @param int $installation
+     * @param int $location
      * @return array|\Illuminate\Http\Response
      */
-    public function createProfilePersonal(Request $request, $installation)
+    public function createProfilePersonal(Request $request, $location)
     {
-        $installation = Installation::findOrFail($installation)->first();
+        /** @var Location $location */
+        $location = Location::findOrFail($location)->first();
 
         try {
             return $this->profileGateway->createPersonal(
                 $request->get('reference'),
                 $request->all(),
-                $installation->merchant->token
+                $location->installation->merchant->token
             );
         } catch (\Exception $e) {
             $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
