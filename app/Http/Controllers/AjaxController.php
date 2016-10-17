@@ -78,15 +78,22 @@ class AjaxController extends Controller
         }
     }
 
-    public function showPersonal()
+    /**
+     * @author EB
+     * @param Request $request
+     * @param int $installation
+     * @return array|\Illuminate\Http\Response
+     */
+    public function createProfilePersonal(Request $request, $installation)
     {
-        return view('initialise.profile');
-    }
+        $installation = $this->fetchInstallation($installation);
 
-    public function createProfilePersonal(Request $request, $installation = 1)
-    {
         try {
-            return $this->profileGateway->createPersonal(3000000947, $request->all(), 'mytoken');
+            return $this->profileGateway->createPersonal(
+                $request->get('reference'),
+                $request->all(),
+                $installation->merchant->token
+            );
         } catch (\Exception $e) {
             return $this->apiResponseFromException($e);
         }
