@@ -54,7 +54,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-8">
-            <input type="submit" class="btn btn-info" name="savePersonal" value="Save Personal Information"/>
+            <button class="btn btn-info" name="savePersonal" id="savePersonal">Save Personal Information</button>
         </div>
     </div>
 </form>
@@ -101,13 +101,15 @@
                 }
             });
 
-            $(personal).submit(function (e) {
+            $('#savePersonal').on('click', function (e) {
                 e.preventDefault();
                 var formValidation = $(personal).data('formValidation');
+                formValidation.validate();
                 if (formValidation.isValidContainer(personal)) {
-                    var formData = $(this).serializeArray();
+                    var installation = $('input[name="installation"]').val();
+                    var formData = $(personal).serializeArray();
                     $.ajax({
-                        url: '/ajax/installations/1/profile/personal',
+                        url: '/ajax/installations/' + installation + '/profile/personal',
                         type: 'POST',
                         data: formData,
                         dataType: 'JSON',
@@ -122,10 +124,14 @@
                             updateFormStatus('personal', true);
                         },
                         error: function (response) {
-                            var errorText = JSON.parse(response.responseText).error;
-                            console.log('Error Encountered: ' + errorText);
-                            // Enable the form to be submitted again
                             hideLoading();
+                            try {
+                                var errorText = JSON.parse(response.responseText).error;
+                            } catch (e) {
+                                console.log('Error Encountered: ' + e);
+                                errorText = 'There was a problem with the API';
+                            }
+                            // Enable the form to be submitted again
                             formValidation.disableSubmitButtons(false);
                             updateFormStatus('personal', false);
                             swal({
