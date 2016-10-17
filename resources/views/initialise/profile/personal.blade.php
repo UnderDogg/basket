@@ -1,8 +1,25 @@
+<div class="col-sm-offset-2">
+    <h2>Personal <span class="personal-status"></span></h2>
+    <hr/>
+</div>
 <form class="form-horizontal" id="form-personal" method="POST">
+    {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
     <div class="form-group">
         {!! Form::label('email', 'Email', ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-8">
             {!! Form::text('email', isset($email) ? $email : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-emailaddress' => 'true', 'maxlength' => 255]) !!}
+        </div>
+    </div>
+    <div class="form-group">
+        {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
+        <div class="col-sm-8">
+            <select class="form-control col-xs-12" name="title" data-fv-notempty="true" data-fv-notempty-message="Please select a title">
+                <option disabled selected hidden>Please select...</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Miss">Miss</option>
+                <option value="Ms">Ms</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
@@ -37,7 +54,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-8">
-            <input type="submit" class="btn btn-info" name="savePersonal" value="Save Personal Information" onclick="return false"/>
+            <input type="submit" class="btn btn-info" name="savePersonal" value="Save Personal Information"/>
         </div>
     </div>
 </form>
@@ -89,20 +106,42 @@
                 var formValidation = $(personal).data('formValidation');
                 if (formValidation.isValidContainer(personal)) {
                     var formData = $(this).serializeArray();
-                    console.log(formData);
                     $.ajax({
                         url: '/ajax/installations/1/profile/personal',
-                        type: "POST",
-                        cache: false,
-                        contentType: 'application/json; charset=utf-8',
+                        type: 'POST',
                         data: formData,
-                        success: function (jsonData) {
-                            console.log(jsonData);
-                            alert('data');
+                        dataType: 'JSON',
+                        encode: true,
+                        beforeSend: function() {
+                            showLoading();
                         },
-                        error: function (jsonData) {
-                            console.log(jsonData);
-                            alert('faildata');
+                        success: function () {
+                            hideLoading();
+                            // Disable the form from being submitted again
+                            formValidation.disableSubmitButtons(true);
+                            updateFormStatus('personal', true);
+                        },
+                        error: function (response) {
+                            var errorText = JSON.parse(response.responseText).error;
+                            console.log('Error Encountered: ' + errorText);
+                            // Enable the form to be submitted again
+                            hideLoading();
+                            formValidation.disableSubmitButtons(false);
+                            updateFormStatus('personal', false);
+                            swal({
+                                title: 'An Error Occurred!',
+                                text: 'We were unable to save the information provided.' +
+                                        '</br></br>[' + errorText[0].toUpperCase() + errorText.slice(1) + ']',
+                                type: 'error',
+                                html: true,
+                                showCancelButton: false,
+                                confirmButtonColor: '#DD6B55',
+                                confirmButtonText: 'Close',
+                                closeOnConfirm: false
+                            });
+                        },
+                        complete: function() {
+                            hideLoading();
                         }
                     });
 
@@ -111,6 +150,24 @@
 
                 return false;
             });
+
+            function updateFormStatus(formType, success) {
+                var glyph = 'remove';
+                var colour = 'danger';
+                if (success) {
+                    glyph = 'ok';
+                    colour = 'success'
+                }
+                $('.' + formType + '-status').html('<small class="text-' + colour + '"><span class="glyphicon glyphicon-' + glyph + '" aria-hidden="true"></span></small>');
+            }
+
+            function showLoading() {
+                $('.loading').show();
+            }
+
+            function hideLoading() {
+                $('.loading').hide();
+            }
         });
     </script>
 @endif
