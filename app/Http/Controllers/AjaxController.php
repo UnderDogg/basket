@@ -86,7 +86,7 @@ class AjaxController extends Controller
      */
     public function createProfilePersonal(Request $request, $installation)
     {
-        $installation = $this->fetchInstallation($installation);
+        $installation = Installation::findOrFail($installation)->first();
 
         try {
             return $this->profileGateway->createPersonal(
@@ -95,6 +95,7 @@ class AjaxController extends Controller
                 $installation->merchant->token
             );
         } catch (\Exception $e) {
+            $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
             return $this->apiResponseFromException($e);
         }
     }
