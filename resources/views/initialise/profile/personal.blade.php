@@ -49,7 +49,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
-                <button class="btn btn-info" name="savePersonal" id="savePersonal">Save Personal Information</button>
+                <a class="btn btn-info" data-target="save" data-source="ajax">Save Personal Information</a>
             </div>
         </div>
     </form>
@@ -57,6 +57,7 @@
 
 @if(isset($validation) && $validation == true)
     <script>
+        var x;
         // Programmatic ONLY needed for "one or the other" phone numbers
         $(document).ready(function() {
             var personal = '#form-personal';
@@ -97,10 +98,19 @@
                 }
             });
 
-            $('#savePersonal').on('click', function (e) {
-                e.preventDefault();
-                var formValidation = $(personal).data('formValidation');
+            $.ajaxSetup(
+            {
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('a[data-target="save"][data-source="ajax"]').on('click', function (event) {
+
+                var formEl = jQuery(event.currentTarget).parents('form')
+                var formValidation = jQuery(formEl).data('formValidation');
                 formValidation.validate();
+
                 if (formValidation.isValidContainer(personal)) {
                     var installation = $('input[name="installation"]').val();
                     var formData = $(personal).serializeArray();
