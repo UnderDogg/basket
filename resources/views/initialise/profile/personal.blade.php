@@ -3,7 +3,7 @@
     <hr/>
 </div>
 <div class="col-sm-12">
-    <form class="form-horizontal" id="form-personal" method="POST">
+    <form class="form-horizontal" id="personal" method="POST">
         {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
         <div class="form-group">
             {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
@@ -60,7 +60,7 @@
         var x;
         // Programmatic ONLY needed for "one or the other" phone numbers
         $(document).ready(function() {
-            var personal = '#form-personal';
+
             var validators = {
                 callback: {
                     message: 'You must enter at least one phone number',
@@ -107,15 +107,15 @@
 
             $('a[data-target="save"][data-source="ajax"]').on('click', function (event) {
 
-                var formEl = jQuery(event.currentTarget).parents('form')
-                var formValidation = jQuery(formEl).data('formValidation');
+                var formId = jQuery(event.currentTarget).parents('form').attr("id");
+                var formValidation = jQuery("#"+formId).data('formValidation');
                 formValidation.validate();
 
-                if (formValidation.isValidContainer(personal)) {
+                if (formValidation.isValid()) {
                     var installation = $('input[name="installation"]').val();
-                    var formData = $(personal).serializeArray();
+                    var formData = $("#"+formId).serializeArray();
                     $.ajax({
-                        url: '/ajax/installations/' + installation + '/profile/personal',
+                        url: '/ajax/installations/' + installation + '/profile/'+formId,
                         type: 'POST',
                         data: formData,
                         dataType: 'JSON',
@@ -127,7 +127,7 @@
                             hideLoading();
                             // Disable the form from being submitted again
                             formValidation.disableSubmitButtons(true);
-                            updateFormStatus('personal', true);
+                            updateFormStatus(formId, true);
                         },
                         error: function (response) {
                             hideLoading();
@@ -139,7 +139,7 @@
                             }
                             // Enable the form to be submitted again
                             formValidation.disableSubmitButtons(false);
-                            updateFormStatus('personal', false);
+                            updateFormStatus(formId, false);
                             swal({
                                 title: 'An Error Occurred!',
                                 text: 'We were unable to save the information provided.' +
