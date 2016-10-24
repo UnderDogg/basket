@@ -47,6 +47,7 @@
                 {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
             </div>
         </div>
+        {!! Form::token() !!}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 <a class="btn btn-info" data-target="save" data-source="ajax">Save Personal Information</a>

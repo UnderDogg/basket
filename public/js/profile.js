@@ -7,12 +7,6 @@
  *
  */
 $(document).ready(function() {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
     $('a[data-target="save"][data-source="ajax"]').on('click', function (event) {
 
         var formId = jQuery(event.currentTarget).parents('form').attr("id");
