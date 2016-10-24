@@ -85,7 +85,7 @@
                 }
             };
 
-            $(personal).formValidation({
+            $('#personal').formValidation({
                 framework: 'bootstrap',
                 icon: {
                     valid: 'glyphicon glyphicon-ok',
