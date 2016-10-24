@@ -37,6 +37,9 @@
                 </p>
             </div>
             @include('initialise.profile.personal', ['validation' => true])
+            @include('initialise.profile.address', ['validation' => true])
+            @include('initialise.profile.employment', ['validation' => true])
+            @include('initialise.profile.financial', ['validation' => true])
         </div>
     </div>
 </div>
