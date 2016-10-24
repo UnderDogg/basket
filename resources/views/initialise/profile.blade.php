@@ -6,7 +6,7 @@
     @include('env-banner')
 @endif
 <div class="loading"></div>
-{!! Form::hidden('installation', isset($installation) ? $installation->id : null) !!}
+{!! Form::hidden('location', isset($location) ? $location->id : null) !!}
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
@@ -19,8 +19,8 @@
             </div>
             <div class="col-md-6">
                 <div class="pull-right">
-                    @if($installation->custom_logo_url)
-                        {!! HTML::image($installation->custom_logo_url, 'logo') !!}
+                    @if($location->installation->custom_logo_url)
+                        {!! HTML::image($location->installation->custom_logo_url, 'logo') !!}
                     @endif
                 </div>
             </div>
