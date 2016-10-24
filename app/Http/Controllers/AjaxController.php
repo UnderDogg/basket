@@ -124,4 +124,31 @@ class AjaxController extends Controller
             return $this->apiResponseFromException($e);
         }
     }
+
+    /**
+     * @author EA
+     * @param Request $request
+     * @param int $location
+     * @return array|\Illuminate\Http\Response
+     */
+    public function setEmployment(Request $request, $location)
+    {
+        /** @var Location $location */
+        $location = Location::findOrFail($location)->first();
+
+        try {
+            return $this->profileGateway->setEmployment(
+                (int) $request->get('user'),
+                [
+                    (int) $request->get('employment_status'),
+                    (string)$request->get('employment_start'),
+                    (string) $request->get('phone_employer'),
+                ],
+                $location->installation->merchant->token
+            );
+        } catch (\Exception $e) {
+            $this->logError('Setting Employment Failed: ' . $e->getMessage(), $request->all());
+            return $this->apiResponseFromException($e);
+        }
+    }
 }
