@@ -11,7 +11,6 @@
             <div class="col-sm-8">
                 <select class="form-control col-xs-12" name="employment_status"
                         class="form-control"
-                        data-fv-notempty="true"
                         data-fv-notempty-message="Please select an employment status">
                     <option value="">Please select&hellip;</option>
                     @foreach ($employmentStatuses as $status)
@@ -23,7 +22,7 @@
         <div class="form-group">
             {!! Form::label('employment_start', 'Employment Start Date', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
-                {!! Form::text('employment_start', isset($employment_start) ? $employment_start : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
+                {!! Form::text('employment_start', isset($employment_start) ? $employment_start : null, ['class' => 'form-control', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
             </div>
         </div>
         <div class="form-group">
@@ -35,7 +34,7 @@
         {!! Form::token() !!}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
-                <a class="btn btn-info" data-target="save" data-source="ajax">Save Employment Information</a>
+                <a class="btn btn-info" id="employmentBtn" disabled="disabled"  data-target="save" data-source="ajax">Save Employment Information</a>
             </div>
         </div>
     </form>
@@ -45,6 +44,14 @@
     <script>
         $(document).ready(function() {
             $('#employment').formValidation({ });
+
+            $(function() {
+                $('#employment :input').not(':hidden').on('input', function() {
+                    var completed = $('#employment :input').not(':hidden').filter(function() { return $(this).val(); }).length > 0;
+                    $('#employmentBtn').attr('disabled', !completed);
+                });
+            });
         });
+
     </script>
 @endif
