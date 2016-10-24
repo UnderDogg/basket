@@ -187,3 +187,4 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
+Route::post('push/installations/{id}', 'NotificationsController@catchSynchronisationNotification');
