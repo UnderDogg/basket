@@ -159,7 +159,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('ajax/locations/{location}/profile/personal', 'AjaxController@createProfilePersonal');
         Route::post('ajax/locations/{location}/profile/address', 'AjaxController@createProfilePersonal');
         Route::post('ajax/locations/{location}/profile/employment', 'AjaxController@setEmployment');
-        Route::post('ajax/locations/{location}/profile/financial', 'AjaxController@updateProfileFinancial');
+        Route::post('ajax/locations/{location}/profile/financial', 'AjaxController@setProfileFinancial');
     });
 
     Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {
