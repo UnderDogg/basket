@@ -158,7 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
         Route::post('ajax/locations/{location}/profile/personal', 'AjaxController@createProfilePersonal');
         Route::post('ajax/locations/{location}/profile/address', 'AjaxController@createProfilePersonal');
-        Route::post('ajax/locations/{location}/profile/employment', 'AjaxController@createProfilePersonal');
+        Route::post('ajax/locations/{location}/profile/employment', 'AjaxController@setEmployment');
         Route::post('ajax/locations/{location}/profile/financial', 'AjaxController@updateProfileFinancial');
     });
 
