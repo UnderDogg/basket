@@ -9,7 +9,7 @@
             {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
                 <select class="form-control col-xs-12" name="title" data-fv-notempty="true" data-fv-notempty-message="Please select a title">
-                    <option disabled selected hidden>Please select...</option>
+                    <option>Please select&hellip;</option>
                     <option value="Mr">Mr</option>
                     <option value="Mrs">Mrs</option>
                     <option value="Miss">Miss</option>
