@@ -5,6 +5,7 @@
 <div class="col-sm-12">
     <form class="form-horizontal" id="personal" method="POST">
         {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
+        {!! Form::token() !!}
         <div class="form-group">
             {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
@@ -47,6 +48,7 @@
                 {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
             </div>
         </div>
+        {!! Form::token() !!}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 <a class="btn btn-info" data-target="save" data-source="ajax">Save Employment Information</a>
