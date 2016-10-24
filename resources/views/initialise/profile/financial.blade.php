@@ -3,48 +3,35 @@
     <hr/>
 </div>
 <div class="col-sm-12">
-    <form class="form-horizontal" id="personal" method="POST">
+    <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap" data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" data-fv-icon-validating="glyphicon glyphicon-refresh">
         {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
+
         <div class="form-group">
-            {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
+            {!! Form::label('monthly_income', 'Monthly Income', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
-                <select class="form-control col-xs-12" name="title" data-fv-notempty="true" data-fv-notempty-message="Please select a title">
-                    <option disabled selected hidden>Please select...</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Miss">Miss</option>
-                    <option value="Ms">Ms</option>
-                </select>
+                {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('first_name', 'First Name', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('monthly_outgoings', 'Monthly Outgoings', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
-                {!! Form::text('first_name', isset($first_name) ? $first_name : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
+                {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control col-xs-12', 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('last_name', 'Last Name', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('bank_sort_code', 'Bank Sort Code', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
-                {!! Form::text('last_name', isset($last_name) ? $last_name : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
+                {!! Form::text('bank_sort_code', isset($bank_sort_code) ? $bank_sort_code : null, ['class' => 'form-control col-xs-12',
+                 'maxlength' => 8, 'data-fv-regexp' => 'true',
+                 'data-fv-regexp-regexp' => '^(\d){literal}{{/literal}2{literal}}{/literal}-(\d){literal}{{/literal}2{literal}}{/literal}-(\d){literal}{{/literal}2{literal}}{/literal}$', 'data-fv-regexp-message' => 'The sort code must be in format 00-00-00']) !!}
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
+            {!! Form::label('bank_account', 'Bank Account Number', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
-                {!! Form::text('date_of_birth', isset($date_of_birth) ? $date_of_birth : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('phone_mobile', isset($phone_mobile) ? $phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
-            </div>
-        </div>
-        <div class="form-group">
-            {!! Form::label('phone_home', 'Home Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
-            <div class="col-sm-8">
-                {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                {!! Form::input('number', 'bank_account', isset($bank_account) ? $bank_account : null, ['class' => 'form-control col-xs-12',
+                 'maxlength' => 8, 'data-fv-regexp' => 'true',
+                 'data-fv-regexp-regexp' => '^(\d){literal}{{/literal}8{literal}}{/literal}$', 'data-fv-regexp-message' => 'The bank account number must be 8 digits, if your account number is only 7 digits add 0 at the start']) !!}
             </div>
         </div>
         {!! Form::token() !!}
@@ -55,3 +42,12 @@
         </div>
     </form>
 </div>
+
+@if(isset($validation) && $validation == true)
+    <script>
+        // Programmatic ONLY needed for "one or the other" phone numbers
+        $(document).ready(function() {
+            $('#financial').formValidation({});
+        });
+    </script>
+@endif
