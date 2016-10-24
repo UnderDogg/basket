@@ -14,10 +14,10 @@ $(document).ready(function() {
         formValidation.validate();
 
         if (formValidation.isValid()) {
-            var installation = $('input[name="installation"]').val();
+            var location = $('input[name="location"]').val();
             var formData = $("#"+formId).serializeArray();
             $.ajax({
-                url: '/ajax/installations/' + installation + '/profile/'+formId,
+                url: '/ajax/locations/' + location + '/profile/'+formId,
                 type: 'POST',
                 data: formData,
                 dataType: 'JSON',
