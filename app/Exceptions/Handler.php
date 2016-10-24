@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -14,7 +15,8 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         HttpException::class,
-        RedirectException::class
+        RedirectException::class,
+        TokenMismatchException::class
     ];
 
     /**
