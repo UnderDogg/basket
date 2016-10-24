@@ -26,6 +26,7 @@ use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use PayBreak\Sdk\Entities\ProductEntity;
 use PayBreak\Sdk\Gateways\CreditInfoGateway;
 use PayBreak\Sdk\Gateways\ProductGateway;
+use PayBreak\Sdk\Gateways\DictionaryGateway;
 
 /**
  * Initialisation Controller
@@ -49,16 +50,22 @@ class InitialisationController extends Controller
      * @var ProductGateway
      */
     private $productGateway;
+    /**
+     * @var DictionaryGateway
+     */
+    private $dictionaryGateway;
 
     public function __construct(
         ApplicationSynchronisationService $applicationSynchronisationService,
         CreditInfoGateway $creditInfoGateway,
-        ProductGateway $productGateway
+        ProductGateway $productGateway,
+        DictionaryGateway $dictionaryGateway
     ) {
-
+        
         $this->applicationSynchronisationService = $applicationSynchronisationService;
         $this->creditInfoGateway = $creditInfoGateway;
         $this->productGateway = $productGateway;
+        $this->dictionaryGateway = $dictionaryGateway;
     }
 
     /**
@@ -476,12 +483,27 @@ class InitialisationController extends Controller
         return true;
     }
 
+
     /**
-     * @author EB
+     * @author EB, EA
      * @return View
+     * @throws RedirectException
      */
     public function showProfile()
     {
-        return view('initialise.profile')->with(['reference' => 3000000178, 'location' => Location::findOrFail(1)]);
+
+        try {
+            $employmentStatuses = $this
+                ->dictionaryGateway
+                ->getEmploymentStatuses($this->fetchMerchantById(1)->token);
+
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/', 'Failed fetching employment statues', $e);
+        }
+
+        return view('initialise.profile')->with(['reference' => 3000000178,
+            'location' => Location::findOrFail(1),
+            'employmentStatuses' => $employmentStatuses,
+            'user' => 1]);
     }
 }
