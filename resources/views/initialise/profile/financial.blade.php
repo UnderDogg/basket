@@ -45,9 +45,47 @@
 
 @if(isset($validation) && $validation == true)
     <script>
-        // Programmatic ONLY needed for "one or the other" phone numbers
         $(document).ready(function() {
-            $('#financial').formValidation({});
+            var validators = {
+                callback: {
+                    message: 'You must enter both the sort code and the account number, or neither',
+                    callback: function (value, validator) {
+                        var notEmpty = false;
+                        var atleastOne = false;
+                        var sortCode = validator.getFieldElements('bank_sort_code');
+                        if (sortCode.eq(0).val() !== '') {
+                            atleastOne = true;
+                        }
+                        var accountNumber = validator.getFieldElements('bank_account');
+                        if (accountNumber.eq(0).val() !== '') {
+                            if (atleastOne == true) {
+                                notEmpty = true;
+                            }
+                            atleastOne = true;
+                        }
+
+                        if (atleastOne == true && notEmpty == true) {
+                            validator.updateStatus('bank_sort_code', validator.STATUS_VALID, 'callback');
+                            validator.updateStatus('bank_account', validator.STATUS_VALID, 'callback');
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            };
+
+            $('#financial').formValidation({
+                framework: 'bootstrap',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    bank_sort_code: {validators: validators},
+                    bank_account: {validators: validators}
+                }
+            });
         });
     </script>
 @endif
