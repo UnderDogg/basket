@@ -101,4 +101,27 @@ class AjaxController extends Controller
             return $this->apiResponseFromException($e);
         }
     }
+
+    /**
+     * @author EB
+     * @param Request $request
+     * @param $location
+     * @return array|\Illuminate\Http\Response
+     */
+    public function setProfileFinancial(Request $request, $location)
+    {
+        /** @var Location $location */
+        $location = Location::findOrFail($location)->first();
+
+        try {
+            return $this->profileGateway->setFinancial(
+                $request->get('reference'),
+                $request->all(),
+                $location->installation->merchant->token
+            );
+        } catch (\Exception $e) {
+            $this->logError('Set Profile Financial failed: ' . $e->getMessage(), $request->all());
+            return $this->apiResponseFromException($e);
+        }
+    }
 }
