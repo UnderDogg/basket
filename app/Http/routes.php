@@ -155,11 +155,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/assisted', 'InitialisationController@chooseProductAssisted');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
         Route::post('locations/{id}/applications/request-assisted', 'InitialisationController@requestAssisted');
+        Route::post('locations/{id}/applications/perform-assisted', 'InitialisationController@performAssisted');
+
         Route::get('locations/{id}/profile', 'InitialisationController@showProfile');
         Route::post('locations/{id}/profile', 'InitialisationController@createProfilePersonal');
 
         Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
-        Route::post('ajax/locations/{location}/profile/personal', 'AjaxController@createProfilePersonal');
         Route::post('ajax/locations/{location}/profile/address', 'AjaxController@addProfileAddress');
         Route::post('ajax/locations/{location}/profile/employment', 'AjaxController@setProfileEmployment');
         Route::post('ajax/locations/{location}/profile/financial', 'AjaxController@setProfileFinancial');

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
@@ -170,6 +171,32 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
+     * @param $locationId
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function performAssisted($locationId, Request $request)
+    {
+        $location = $this->fetchLocation($locationId);
+
+        $this->validateApplicationRequest($request, $location);
+
+        try {
+            return $this->applicationRequestType($location, $request);
+        } catch (RedirectException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            return $this->redirectWithException(
+                '/locations/' . $location->id . '/applications/assisted',
+                'Unable to create an assisted application',
+                $e
+            );
+        }
+    }
+
+    /**
+     * @author EB
      * @param Request $request
      * @param Installation $installation
      * @return OrderEntity
@@ -238,7 +265,7 @@ class InitialisationController extends Controller
                 );
         }
 
-        if ($request->has('assisted') && !$request->has('email')) {
+        if ($request->has('assisted') && !($request->has('email'))) {
             return view('initialise.assisted')
                 ->with([
                     'input' => $request->only(
@@ -250,6 +277,8 @@ class InitialisationController extends Controller
 
         try {
             return $this->handleApplicationRequest($request, $location);
+        } catch (RedirectException $e) {
+            throw $e;
         } catch (\Exception $e) {
             $this->logError(
                 'Failed to process an Application request: ' . $e->getMessage(),
@@ -286,6 +315,25 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
+     * @param Location $location
+     * @param Request $request
+     * @return Application
+     * @throws \App\Exceptions\Exception
+     */
+    private function createAssistedApplication(Location $location, Request $request)
+    {
+        return $this->applicationSynchronisationService->initialiseAssistedApplication(
+            $request->get('email'),
+            $location,
+            $this->createOrderEntity($request, $location->installation),
+            $this->createProductsEntity($request),
+            $this->createApplicantEntity($request),
+            $this->getAuthenticatedUser()
+        );
+    }
+
+    /**
+     * @author EB
      * @param Request $request
      * @param Location $location
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -294,7 +342,18 @@ class InitialisationController extends Controller
     private function handleApplicationRequest(Request $request, Location $location)
     {
         if ($request->has('assisted')) {
-            $application = $this->createAssistedApplication($location, $request);
+            try {
+                $application = $this->createAssistedApplication($location, $request);
+            } catch (\Exception $e) {
+                throw $this->redirectWithException(
+                    '/locations/' . $location->id . '/applications/assisted',
+                    'Unable to created an assisted application: ' . $e->getMessage(),
+                    $e
+                );
+            }
+
+//            dd($application);
+            return $this->showProfile($location->id, $application->ext_id);
         }
 
         $application = $this->createApplication($location, $request);
@@ -555,7 +614,7 @@ class InitialisationController extends Controller
      * @return View
      * @throws RedirectException
      */
-    public function showProfile($location, $user = null)
+    public function showProfile($location, $reference = null, $user = null)
     {
         try {
             $employmentStatuses = $this
@@ -574,7 +633,7 @@ class InitialisationController extends Controller
         }
 
         return view('initialise.profile')->with([
-            'reference' => 3000000996,
+            'reference' => $reference,
             'location' => Location::findOrFail($location),
             'employmentStatuses' => $employmentStatuses,
             'martialStatuses' => $martialStatuses,
@@ -583,12 +642,12 @@ class InitialisationController extends Controller
         ]);
     }
 
-//    /**
-//     * @author EB
-//     * @param Request $request
-//     * @param int $location
-//     * @return array|\Illuminate\Http\Response
-//     */
+    /**
+     * @author EB
+     * @param Request $request
+     * @param int $location
+     * @return array|\Illuminate\Http\Response
+     */
     public function createProfilePersonal(Request $request, $location)
     {
         /** @var Location $location */
@@ -601,7 +660,9 @@ class InitialisationController extends Controller
                 $location->installation->merchant->token
             );
 
-            return $this->showProfile($location->id, 22);
+            dd($response);
+
+            return $this->showProfile($location->id, $request->get('reference'), 22);
         } catch (\Exception $e) {
             $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
             throw RedirectException::make('/locations/' . $location->id . '/profile')

@@ -29,7 +29,7 @@
             <br/>
             <div class="row alternate-full-form">
                 <div class="col-xs-12">
-                    {!! Form::open(['action' => ['InitialisationController@request', Request::segment(2)], 'class' => 'form-horizontal']) !!}
+                    {!! Form::open(['action' => ['InitialisationController@performAssisted', $location->id], 'class' => 'form-horizontal', 'method' => 'POST']) !!}
                     <div class="form-group">
                         {!! Form::label('reference', 'Reference', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-10">
@@ -50,10 +50,12 @@
                         @endif
                     @endforeach
                     {!! Form::hidden('installation', $location->installation->id) !!}
+                    {!! Form::hidden('description', 'Goods & Services') !!}
 
                     <div class="form-group">
                         <div class="col-sm-12 col-xs-12">
-                            <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="assisted" value="true">Continue with Assisted Journey</button>
+                            {!! Form::submit('Continue with Assisted Journey', ['class' => 'btn btn-success btn-lg btn-block btn-bottom-margin', 'name' => 'assisted', 'value' => true]) !!}
+                            {{--<button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="assisted" value="true">Continue with Assisted Journey</button>--}}
                         </div>
                     </div>
 
