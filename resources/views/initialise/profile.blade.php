@@ -37,10 +37,20 @@
 
             </div>
             <div class="col-sm-8 col-sm-offset-2">
-                @include('initialise.profile.personal', ['validation' => true])
-                @include('initialise.profile.address', ['validation' => true])
-                @include('initialise.profile.employment', ['validation' => true])
-                @include('initialise.profile.financial', ['validation' => true])
+                @if(isset($user) && !is_null($user))
+                    @include('initialise.profile.personal', ['validation' => true])
+                @else
+                    @include('initialise.profile.address', ['validation' => true])
+                    @include('initialise.profile.employment', ['validation' => true])
+                    @include('initialise.profile.financial', ['validation' => true])
+                @endif
+                {!! Form::open(['url' => '/locations/' . $location->id . '/complete-profile', 'class' => 'form-horizontal', 'method' => 'POST']) !!}
+                    <div class="pull-right">
+                        <a href="/" class="btn btn-default">Cancel</a>
+                        {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
+                        {!! Form::submit('Email Application', ['class' => 'btn btn-info']) !!}
+                    </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
