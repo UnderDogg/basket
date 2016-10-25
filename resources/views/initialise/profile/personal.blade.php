@@ -3,7 +3,7 @@
         <div class="panel-heading" role="tab" id="headingPersonal">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePersonal" aria-expanded="true" aria-controls="collapseOne">
-                    Personal <small>(Mandatory)</small><span class="personal-status"></span>
+                    Personal <small>(Mandatory)</small> <span class="personal-status"></span>
                 </a>
             </h4>
         </div>

@@ -3,7 +3,7 @@
         <div class="panel-heading" role="tab" id="headingEmployment">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment" aria-expanded="true" aria-controls="collapseOne">
-                    Employment <small>(Optional)</small><span class="employment-status"></span>
+                    Employment <small>(Optional)</small> <span class="employment-status"></span>
                 </a>
             </h4>
         </div>
@@ -69,6 +69,8 @@
                     }
                 });
             });
+
+            $('#collapseEmployment').collapse();
         });
     </script>
 @endif

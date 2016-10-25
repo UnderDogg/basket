@@ -3,7 +3,7 @@
         <div class="panel-heading" role="tab" id="headingAddress">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" aria-expanded="true" aria-controls="collapseOne">
-                    Address <small>(Optional)</small><span class="address-status"></span>
+                    Address <small>(Optional)</small> <span class="address-status"></span>
                 </a>
             </h4>
         </div>
