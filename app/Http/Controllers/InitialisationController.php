@@ -116,7 +116,7 @@ class InitialisationController extends Controller
                 'title' => 'sometimes|min:2|max:4',
                 'first_name' => 'sometimes',
                 'last_name' => 'sometimes',
-                'applicant_email' => 'sometimes|email',
+                'applicant_email' => 'sometimes|email|max:255',
                 'phone_home' => 'sometimes|max:11',
                 'phone_mobile' => 'sometimes|max:11',
                 'postcode' => 'sometimes|max:8',
