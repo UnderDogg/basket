@@ -108,7 +108,7 @@ class AjaxController extends Controller
             );
         } catch (\Exception $e) {
             $this->logError('Add address Failed: ' . $e->getMessage(), $request->all());
-            return $this->apiResponseFromException($e);
+            return $this->apiResponseFromException($e, 422);
         }
     }
 
@@ -135,7 +135,7 @@ class AjaxController extends Controller
             );
         } catch (\Exception $e) {
             $this->logError('Setting Employment Failed: ' . $e->getMessage(), $request->all());
-            return $this->apiResponseFromException($e);
+            return $this->apiResponseFromException($e, 422);
         }
     }
 
@@ -158,7 +158,7 @@ class AjaxController extends Controller
             );
         } catch (\Exception $e) {
             $this->logError('Set Profile Financial failed: ' . $e->getMessage(), $request->all());
-            return $this->apiResponseFromException($e);
+            return $this->apiResponseFromException($e, 422);
         }
     }
 }

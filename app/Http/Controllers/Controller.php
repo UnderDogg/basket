@@ -162,17 +162,18 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @author SL
+     * @author SL, EB
      * @param \Exception $e
+     * @param int $defaultCode
      * @return Response
      */
-    protected function apiResponseFromException(\Exception $e)
+    protected function apiResponseFromException(\Exception $e, $defaultCode = 500)
     {
         $code = $e->getCode();
 
         if (is_null($code) || $code === 0) {
 
-            $code = 500;
+            $code = $defaultCode;
         }
 
         return (new Response(['error' => $e->getMessage()], $code))->header('Content-Type', 'json');
