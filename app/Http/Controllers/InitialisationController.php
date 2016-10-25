@@ -238,6 +238,16 @@ class InitialisationController extends Controller
                 );
         }
 
+        if ($request->has('assisted') && !$request->has('email')) {
+            return view('initialise.assisted')
+                ->with([
+                    'input' => $request->only(
+                        ['amount', 'product', 'product_name', 'group', 'reference', 'description', 'deposit']
+                    ),
+                    'location' => $location,
+                ]);
+        }
+
         try {
             return $this->handleApplicationRequest($request, $location);
         } catch (\Exception $e) {
@@ -283,6 +293,10 @@ class InitialisationController extends Controller
      */
     private function handleApplicationRequest(Request $request, Location $location)
     {
+        if ($request->has('assisted')) {
+            $application = $this->createAssistedApplication($location, $request);
+        }
+
         $application = $this->createApplication($location, $request);
 
         if ($request->has('link')) {
