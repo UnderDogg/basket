@@ -9,8 +9,8 @@
         <div class="form-group">
             {!! Form::label('employment_status', 'Employment Status', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
-                <select class="form-control col-xs-12" name="employment_status"
-                        class="form-control"
+                <select class="form-control col-xs-12"
+                        name="employment_status"
                         data-fv-notempty-message="Please select an employment status">
                     <option value="">Please select&hellip;</option>
                     @foreach ($employmentStatuses as $status)
