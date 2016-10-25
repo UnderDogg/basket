@@ -36,10 +36,12 @@
                 <p class="lead">Once you are happy with the details click the create or send application link.</p>
 
             </div>
+            <div class="col-sm-8 col-sm-offset-2">
                 @include('initialise.profile.personal', ['validation' => true])
                 @include('initialise.profile.address', ['validation' => true])
                 @include('initialise.profile.employment', ['validation' => true])
                 @include('initialise.profile.financial', ['validation' => true])
+            </div>
         </div>
     </div>
 </div>
@@ -52,6 +54,7 @@
     <link rel="stylesheet" type="text/css" href="{!! Bust::cache('/css/sweetalert.css') !!}">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.writex('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="{!! asset(Bust::cache('/formvalidation/dist/js/formValidation.min.js')) !!}"></script>
     <script src="{!! asset(Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js')) !!}"></script>
     <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
