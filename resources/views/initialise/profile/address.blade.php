@@ -5,10 +5,11 @@
 <div class="col-sm-12">
     <form class="form-horizontal" id="address" method="POST">
         {!! Form::token() !!}
+        {!! Form::hidden('user', isset($user) ? $user : null) !!}
         <div class="form-group">
             {!! Form::label('abode', 'Abode', ['class' => 'col-sm-2 control-label text-right']) !!}
             <div class="col-sm-8">
-                {!! Form::text('abode', isset($abode) ? abode : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
+                {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
             </div>
         </div>
         <div class="form-group">
@@ -43,7 +44,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
-            <div class="col-sm-8">
+                <div class="col-sm-8">
                 {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 11]) !!}
             </div>
         </div>
