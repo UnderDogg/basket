@@ -47,6 +47,20 @@
                 {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
             </div>
         </div>
+        <div class="form-group">
+            {!! Form::label('martial_status', 'Martial Status', ['class' => 'col-sm-2 control-label text-right']) !!}
+            <div class="col-sm-8">
+                <select class="form-control col-xs-12"
+                        name="martial_status"
+                        data-fv-notempty-message="Please select a martial status"
+                        data-fv-notempty = "true">
+                    <option value="">Please select&hellip;</option>
+                    @foreach ($martialStatuses as $status)
+                        <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         {!! Form::token() !!}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">

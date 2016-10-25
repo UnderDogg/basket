@@ -497,13 +497,22 @@ class InitialisationController extends Controller
                 ->dictionaryGateway
                 ->getEmploymentStatuses($this->fetchMerchantById(1)->token);
 
+            $martialStatuses = $this
+                ->dictionaryGateway
+                ->getMaritalStatuses($this->fetchMerchantById(1)->token);
+
+            $residentialStatuses = $this
+                ->dictionaryGateway
+                ->getResidentialStatuses($this->fetchMerchantById(1)->token);
         } catch (\Exception $e) {
-            throw $this->redirectWithException('/', 'Failed fetching employment statues', $e);
+            throw $this->redirectWithException('/', 'Failed fetching dictionary', $e);
         }
 
         return view('initialise.profile')->with(['reference' => 3000000178,
             'location' => Location::findOrFail(1),
             'employmentStatuses' => $employmentStatuses,
+            'martialStatuses' => $martialStatuses,
+            'residentialStatuses' => $residentialStatuses,
             'user' => 1]);
     }
 }
