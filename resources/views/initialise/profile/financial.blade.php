@@ -3,7 +3,7 @@
         <div class="panel-heading" role="tab" id="headingFinancial">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFinancial" aria-expanded="true" aria-controls="collapseOne">
-                    Financial <small>(Optional)</small><span class="financial-status"></span>
+                    Financial <small>(Optional)</small> <span class="financial-status"></span>
                 </a>
             </h4>
         </div>
@@ -30,7 +30,7 @@
                             <div class="col-sm-8">
                                 {!! Form::text('bank_sort_code', isset($bank_sort_code) ? $bank_sort_code : null, ['class' => 'form-control col-xs-12',
                                  'maxlength' => 8, 'data-fv-regexp' => 'true',
-                                 'data-fv-regexp-regexp' => '^(\d){literal}{{/literal}2{literal}}{/literal}-(\d){literal}{{/literal}2{literal}}{/literal}-(\d){literal}{{/literal}2{literal}}{/literal}$', 'data-fv-regexp-message' => 'The sort code must be in format 00-00-00']) !!}
+                                 'data-fv-regexp-regexp' => '^[0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]$', 'data-fv-regexp-message' => 'The sort code must be in format 00-00-00']) !!}
                             </div>
                         </div>
                         <div class="form-group">
@@ -38,7 +38,7 @@
                             <div class="col-sm-8">
                                 {!! Form::input('number', 'bank_account', isset($bank_account) ? $bank_account : null, ['class' => 'form-control col-xs-12',
                                  'maxlength' => 8, 'data-fv-regexp' => 'true',
-                                 'data-fv-regexp-regexp' => '^(\d){literal}{{/literal}8{literal}}{/literal}$', 'data-fv-regexp-message' => 'The bank account number must be 8 digits, if your account number is only 7 digits add 0 at the start']) !!}
+                                 'data-fv-regexp-regexp' => '^[0-9]{8}$', 'data-fv-regexp-message' => 'The bank account number must be 8 digits, if your account number is only 7 digits add 0 at the start']) !!}
                             </div>
                         </div>
                         {!! Form::token() !!}
@@ -97,6 +97,8 @@
                     bank_account: {validators: validators}
                 }
             });
+
+            $('#collapseFinancial').collapse();
         });
     </script>
 @endif
