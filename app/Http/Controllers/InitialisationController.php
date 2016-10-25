@@ -660,9 +660,11 @@ class InitialisationController extends Controller
                 $location->installation->merchant->token
             );
 
-            dd($response);
+            if(array_key_exists('user', $response)) {
+                return $this->showProfile($location->id, $request->get('reference'), $response['user']);
+            }
 
-            return $this->showProfile($location->id, $request->get('reference'), 22);
+            throw new \Exception('No User form response');
         } catch (\Exception $e) {
             $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
             throw RedirectException::make('/locations/' . $location->id . '/profile')
