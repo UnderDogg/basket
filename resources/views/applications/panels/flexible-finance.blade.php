@@ -1,5 +1,9 @@
 <div role="tabpanel" class="tab-pane active" id="prod-FF">
-    {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
+    @if(isset($assisted) && $assisted == true)
+        {!! Form::open(['action' => ['InitialisationController@requestAssisted', $location->id], 'class' => 'initialiseForm']) !!}
+    @else
+        {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'initialiseForm']) !!}
+    @endif
     <h2>Flexible Finance</h2>
     <div class="form-group container-fluid">
         <div class="row text-center">
@@ -99,17 +103,22 @@
                 </div>
             </div>
             <div class="row">
-                @if($bitwise->contains(2) && count($bitwise->explode()) > 1)<div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
-                        @if($bitwise->contains(2))
-                            <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin">Continue with In-store Application</button>
-                        @endif
-                    </div>
-                    @if($bitwise->contains(2) && count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
+                    @if(isset($assisted) && $assisted == true)
+                        <div class="row"><div class="col-sm-12 col-xs-12"><button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="assisted" value="true">Continue with Assisted Application</button></div></div>
+                    @else
+                        <div class="row">
+                            @if($bitwise->contains(2) && count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
+                            @if($bitwise->contains(2))
+                                <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin">Continue with In-store Application</button>
+                            @endif
+                        </div>
+                            @if($bitwise->contains(2) && count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif
                             @if($bitwise->contains(4) || $bitwise->contains(8))
                                 <button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="alternate" value="true">Create an Application Link</button>
                             @endif
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     @if($location->installation->disclosure)
                         <br/>
