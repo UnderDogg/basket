@@ -1,5 +1,5 @@
 <div class="col-sm-offset-2 col-sm-8">
-    <h2>Address <span class="address-status"></span></h2>
+    <h2>Address <small>(Optional)</small><span class="address-status"></span></h2>
     <hr/>
 </div>
 <div class="col-sm-12">

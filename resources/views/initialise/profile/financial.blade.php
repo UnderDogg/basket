@@ -1,5 +1,5 @@
 <div class="col-sm-offset-2 col-sm-8">
-    <h2>Financial <span class="financial-status"></span></h2>
+    <h2>Financial <small>(Optional)</small><span class="financial-status"></span></h2>
     <hr/>
 </div>
 <div class="col-sm-12">
