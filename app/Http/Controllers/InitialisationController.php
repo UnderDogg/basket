@@ -27,6 +27,7 @@ use PayBreak\Sdk\Entities\ProductEntity;
 use PayBreak\Sdk\Gateways\CreditInfoGateway;
 use PayBreak\Sdk\Gateways\ProductGateway;
 use PayBreak\Sdk\Gateways\DictionaryGateway;
+use PayBreak\Sdk\Gateways\ProfileGateway;
 
 /**
  * Initialisation Controller
@@ -55,17 +56,29 @@ class InitialisationController extends Controller
      */
     private $dictionaryGateway;
 
+    /**
+     * Initialisation Controller constructor.
+     *
+     * @author EB
+     * @param ApplicationSynchronisationService $applicationSynchronisationService
+     * @param CreditInfoGateway $creditInfoGateway
+     * @param ProductGateway $productGateway
+     * @param DictionaryGateway $dictionaryGateway
+     * @param ProfileGateway $profileGateway
+     */
     public function __construct(
         ApplicationSynchronisationService $applicationSynchronisationService,
         CreditInfoGateway $creditInfoGateway,
         ProductGateway $productGateway,
-        DictionaryGateway $dictionaryGateway
+        DictionaryGateway $dictionaryGateway,
+        ProfileGateway $profileGateway
     ) {
         
         $this->applicationSynchronisationService = $applicationSynchronisationService;
         $this->creditInfoGateway = $creditInfoGateway;
         $this->productGateway = $productGateway;
         $this->dictionaryGateway = $dictionaryGateway;
+        $this->profileGateway = $profileGateway;
     }
 
     /**
@@ -483,15 +496,13 @@ class InitialisationController extends Controller
         return true;
     }
 
-
     /**
      * @author EB, EA
      * @return View
      * @throws RedirectException
      */
-    public function showProfile()
+    public function showProfile($location, $user = null)
     {
-
         try {
             $employmentStatuses = $this
                 ->dictionaryGateway
@@ -508,11 +519,39 @@ class InitialisationController extends Controller
             throw $this->redirectWithException('/', 'Failed fetching dictionary', $e);
         }
 
-        return view('initialise.profile')->with(['reference' => 3000000178,
-            'location' => Location::findOrFail(1),
+        return view('initialise.profile')->with([
+            'reference' => 3000000996,
+            'location' => Location::findOrFail($location),
             'employmentStatuses' => $employmentStatuses,
             'martialStatuses' => $martialStatuses,
             'residentialStatuses' => $residentialStatuses,
-            'user' => 1]);
+            'user' => $user,
+        ]);
+    }
+
+//    /**
+//     * @author EB
+//     * @param Request $request
+//     * @param int $location
+//     * @return array|\Illuminate\Http\Response
+//     */
+    public function createProfilePersonal(Request $request, $location)
+    {
+        /** @var Location $location */
+        $location = Location::findOrFail($location)->first();
+
+        try {
+            $response = $this->profileGateway->createPersonal(
+                $request->get('reference'),
+                $request->all(),
+                $location->installation->merchant->token
+            );
+
+            return $this->showProfile($location->id, 22);
+        } catch (\Exception $e) {
+            $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
+            throw RedirectException::make('/locations/' . $location->id . '/profile')
+                ->setError('Creating User Failed: ' . $e->getMessage());
+        }
     }
 }
