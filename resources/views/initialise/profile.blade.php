@@ -31,18 +31,15 @@
             <div class="col-sm-8 col-sm-offset-2">
                 <h1>Profile Information</h1>
                 </hr>
-                <p>
-                    Please fill in as much information as you can before sending the application email. Once you have
-                    filled out all the details that you can, click 'Continue and Send Email' below to send a link to the customer.
-                </p>
+                <p class="lead">To create an application link please fill out the mandatory <em>Personal</em> section, together with any of the optional sections you wish.
+                Any optional sections not completed by you will require the customer to complete once they click the application link.</p>
+                <p class="lead">Once you are happy with the details click the create or send application link.</p>
+
             </div>
-            @if(!isset($user))
                 @include('initialise.profile.personal', ['validation' => true])
-            @else
                 @include('initialise.profile.address', ['validation' => true])
                 @include('initialise.profile.employment', ['validation' => true])
                 @include('initialise.profile.financial', ['validation' => true])
-            @endif
         </div>
     </div>
 </div>
