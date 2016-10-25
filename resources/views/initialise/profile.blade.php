@@ -26,8 +26,8 @@
             </div>
         </div>
         <br/>
+        @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
         <div class="row">
-            @include('includes.message.action_response')
             <div class="col-sm-8 col-sm-offset-2">
                 <h1>Profile Information</h1>
                 </hr>
@@ -36,10 +36,13 @@
                     filled out all the details that you can, click 'Continue and Send Email' below to send a link to the customer.
                 </p>
             </div>
-            @include('initialise.profile.personal', ['validation' => true])
-            @include('initialise.profile.address', ['validation' => true])
-            @include('initialise.profile.employment', ['validation' => true])
-            @include('initialise.profile.financial', ['validation' => true])
+            @if(!isset($user))
+                @include('initialise.profile.personal', ['validation' => true])
+            @else
+                @include('initialise.profile.address', ['validation' => true])
+                @include('initialise.profile.employment', ['validation' => true])
+                @include('initialise.profile.financial', ['validation' => true])
+            @endif
         </div>
     </div>
 </div>
