@@ -80,47 +80,34 @@ class AjaxController extends Controller
     }
 
     /**
-     * @author EB
+     * @author EA
      * @param Request $request
      * @param int $location
      * @return array|\Illuminate\Http\Response
      */
-    public function createProfilePersonal(Request $request, $location)
+    public function addProfileAddress(Request $request, $location)
     {
         /** @var Location $location */
         $location = Location::findOrFail($location)->first();
 
         try {
-            return $this->profileGateway->createPersonal(
-                $request->get('reference'),
-                $request->all(),
+            return $this->profileGateway->addAddress(
+                (int) $request->get('user'),
+                [
+                    (string) $request->get('abode'),
+                    (string) $request->get('building_name'),
+                    (string) $request->get('building_number'),
+                    (string) $request->get('street'),
+                    (string) $request->get('locality'),
+                    (string) $request->get('town'),
+                    (string) $request->get('postcode'),
+                    (string) $request->get('moved_in'),
+                    (int) $request->get('residential_status'),
+                ],
                 $location->installation->merchant->token
             );
         } catch (\Exception $e) {
-            $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
-            return $this->apiResponseFromException($e);
-        }
-    }
-
-    /**
-     * @author EB
-     * @param Request $request
-     * @param $location
-     * @return array|\Illuminate\Http\Response
-     */
-    public function setProfileFinancial(Request $request, $location)
-    {
-        /** @var Location $location */
-        $location = Location::findOrFail($location)->first();
-
-        try {
-            return $this->profileGateway->setFinancial(
-                $request->get('reference'),
-                $request->all(),
-                $location->installation->merchant->token
-            );
-        } catch (\Exception $e) {
-            $this->logError('Set Profile Financial failed: ' . $e->getMessage(), $request->all());
+            $this->logError('Add address Failed: ' . $e->getMessage(), $request->all());
             return $this->apiResponseFromException($e);
         }
     }
@@ -131,7 +118,7 @@ class AjaxController extends Controller
      * @param int $location
      * @return array|\Illuminate\Http\Response
      */
-    public function setEmployment(Request $request, $location)
+    public function setProfileEmployment(Request $request, $location)
     {
         /** @var Location $location */
         $location = Location::findOrFail($location)->first();
@@ -153,24 +140,24 @@ class AjaxController extends Controller
     }
 
     /**
-     * @author EA
+     * @author EB
      * @param Request $request
-     * @param int $location
+     * @param $location
      * @return array|\Illuminate\Http\Response
      */
-    public function addAddress(Request $request, $location)
+    public function setProfileFinancial(Request $request, $location)
     {
         /** @var Location $location */
         $location = Location::findOrFail($location)->first();
 
         try {
-            return $this->profileGateway->addAddress(
-                (int) $request->get('reference'),
+            return $this->profileGateway->setFinancial(
+                $request->get('user'),
                 $request->all(),
                 $location->installation->merchant->token
             );
         } catch (\Exception $e) {
-            $this->logError('Add address Failed: ' . $e->getMessage(), $request->all());
+            $this->logError('Set Profile Financial failed: ' . $e->getMessage(), $request->all());
             return $this->apiResponseFromException($e);
         }
     }
