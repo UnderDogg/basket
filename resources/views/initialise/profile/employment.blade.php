@@ -49,9 +49,15 @@
                 $('#employment :input').not(':hidden').on('input', function() {
                     var completed = $('#employment :input').not(':hidden').filter(function() { return $(this).val(); }).length > 0;
                     $('#employmentBtn').attr('disabled', !completed);
+                    if (completed) {
+                        $('#employmentBtn').bind('click', function(e){
+                            e.preventDefault();
+                        });
+                    } else {
+                        $('#employmentBtn').unbind('click');
+                    }
                 });
             });
         });
-
     </script>
 @endif
