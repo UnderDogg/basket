@@ -153,7 +153,12 @@ class AjaxController extends Controller
         try {
             return $this->profileGateway->setFinancial(
                 $request->get('user'),
-                $request->all(),
+                [
+                    'monthly_income' => (int) $request->get('monthly_income'),
+                    'monthly_outgoings' => (int) $request->get('monthly_outgoings'),
+                    'bank_sort_code' => (string) $request->get('bank_sort_code'),
+                    'bank_account' => (string) $request->get('bank_account'),
+                ],
                 $location->installation->merchant->token
             );
         } catch (\Exception $e) {
