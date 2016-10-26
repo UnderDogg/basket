@@ -156,6 +156,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
         Route::post('locations/{id}/applications/request-assisted', 'InitialisationController@requestAssisted');
         Route::post('locations/{id}/applications/perform-assisted', 'InitialisationController@performAssisted');
+        Route::get('locations/{location}/applications/{application}/email', 'ApplicationsController@sendEmail');
 
         route::get('locations/{location}/applications/{id}/profile', 'InitialisationController@showProfile');
         Route::post('locations/{location}/applications/{id}/profile', 'InitialisationController@createProfilePersonal');
