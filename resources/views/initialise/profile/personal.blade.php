@@ -9,7 +9,7 @@
         </div>
         <div id="collapsePersonal" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingPersonal">
             <div class="panel-body">
-                {!! Form::open(['url' => '/locations/' . $location->id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
+                {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $reference . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
                     {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
                     <div class="form-group">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
@@ -67,7 +67,7 @@
                     {!! Form::token() !!}
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            {!! Form::submit('Save Personal Information', ['class' => 'btn btn-info', 'name' => 'savePersonal']) !!}
+                            {!! Form::submit('Save Personal Information', ['class' => 'btn btn-info pull-right', 'name' => 'savePersonal']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}
