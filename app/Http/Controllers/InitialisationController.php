@@ -360,11 +360,13 @@ class InitialisationController extends Controller
                 return Redirect('/locations/' . $location->id . '/no-finance');
             }
 
+            $application = $this->applicationSynchronisationService->synchroniseApplication($application->id);
+
             if (is_null($application->ext_user)) {
                 return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
             }
 
-            return $this->redirectWithSuccessMessage('/', 'Successfully emailed');
+            return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/email');
         }
 
         $application = $this->createApplication($location, $request);
@@ -640,7 +642,7 @@ class InitialisationController extends Controller
         return view('initialise.profile')->with(
             array_merge(
                 [
-                    'reference' => $application->ext_id,
+                    'application' => $application,
                     'location' => $location,
                     'user' => $user,
                 ],
@@ -683,6 +685,8 @@ class InitialisationController extends Controller
                 $location->installation->merchant->token
             );
 
+            $application = $this->applicationSynchronisationService->synchroniseApplication($application->id);
+
             if(array_key_exists('user', $response)) {
                 return $this->showProfile($location->id, $application->id, $response['user']);
             }
@@ -708,6 +712,12 @@ class InitialisationController extends Controller
         }
 
         return true;
+    }
+
+    public function completeProfile($location, Request $request)
+    {
+        $application = $this->fetchApplicationDetails($request->get('reference'));
+
     }
 
     /**
