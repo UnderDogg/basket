@@ -335,6 +335,17 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
+     * @param $location
+     * @return View
+     */
+    public function noFinance($location)
+    {
+        $location = Location::findOrFail($location);
+        return view('initialise.no_finance')->with(['location' => $location]);
+    }
+
+    /**
+     * @author EB
      * @param Request $request
      * @param Location $location
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -346,16 +357,14 @@ class InitialisationController extends Controller
             try {
                 $application = $this->createAssistedApplication($location, $request);
             } catch (\Exception $e) {
-                throw $this->redirectWithException(
-                    '/locations/' . $location->id . '/applications/assisted',
-                    'Unable to created an assisted application: ' . $e->getMessage(),
-                    $e
-                );
+                return Redirect('/locations/' . $location->id . '/no-finance');
             }
 
-            //Decide whether to email or profile
-            return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
-//            return $this->showProfile($location->id, $application->ext_id);
+            if (is_null($application->ext_user)) {
+                return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
+            }
+
+            return $this->redirectWithSuccessMessage('/', 'Successfully emailed');
         }
 
         $application = $this->createApplication($location, $request);
