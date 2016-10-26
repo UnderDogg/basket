@@ -2,12 +2,16 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingAddress">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" aria-expanded="true" aria-controls="collapseOne">
-                    Address <small>(Optional)</small> <span class="address-status"></span>
-                </a>
+                Address <small>(Optional)</small> <span class="address-status"></span>
+                <p class="pull-right">
+                    <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" class="collapsed">
+                        <span class="if-collapsed"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+                        <span class="if-not-collapsed"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></span>
+                    </a>
+                </p>
             </h4>
         </div>
-        <div id="collapseAddress" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingAddress">
+        <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
             <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="address" method="POST">

@@ -2,9 +2,13 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingFinancial">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFinancial" aria-expanded="true" aria-controls="collapseOne">
-                    Financial <small>(Optional)</small> <span class="financial-status"></span>
-                </a>
+                Financial <small>(Optional)</small> <span class="financial-status"></span>
+                <p class="pull-right">
+                    <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFinancial" class="collapsed">
+                        <span class="if-collapsed"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+                        <span class="if-not-collapsed"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></span>
+                    </a>
+                </p>
             </h4>
         </div>
         <div id="collapseFinancial" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFinancial">
