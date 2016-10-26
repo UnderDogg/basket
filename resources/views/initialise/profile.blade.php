@@ -37,7 +37,7 @@
 
             </div>
             <div class="col-sm-8 col-sm-offset-2">
-                @if(isset($user) && !is_null($user))
+                @if(!isset($user))
                     @include('initialise.profile.personal', ['validation' => true])
                 @else
                     @include('initialise.profile.address', ['validation' => true])
