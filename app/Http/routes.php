@@ -157,8 +157,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/request-assisted', 'InitialisationController@requestAssisted');
         Route::post('locations/{id}/applications/perform-assisted', 'InitialisationController@performAssisted');
 
-        Route::get('locations/{id}/profile', 'InitialisationController@showProfile');
-        Route::post('locations/{id}/profile', 'InitialisationController@createProfilePersonal');
+        route::get('locations/{location}/applications/{id}/profile', 'InitialisationController@showProfile');
+//        Route::get('locations/{id}/profile', 'InitialisationController@showProfile');
+        Route::post('locations/{location}/applications/{id}/profile', 'InitialisationController@createProfilePersonal');
+//        Route::post('locations/{id}/profile', 'InitialisationController@createProfilePersonal');
 
         Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
         Route::post('ajax/locations/{location}/profile/address', 'AjaxController@addProfileAddress');
