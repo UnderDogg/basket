@@ -14,6 +14,7 @@ use App\Basket\ApplicationEvent;
 use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
+use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -403,14 +404,52 @@ class ApplicationsController extends Controller
             ]
         );
 
+        $application = $this->fetchApplicationById($id, $installation);
+        $this->sendApplicationEmail($application, $request);
+
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $installation . '/applications/' . $id,
+            'Application successfully emailed to ' . $request->get('applicant_email')
+        );
+    }
+
+    public function sendEmail($location, $id, Request $request)
+    {
+        $location = Location::findOrFail($location);
+        $application = $this->fetchApplicationById($id, $location->installation->id);
+
+        $request->merge([
+            'title' => $application->ext_customer_title,
+            'first_name' => $application->ext_customer_first_name,
+            'last_name' => $application->ext_customer_last_name,
+            'email' => $application->ext_customer_email_address,
+            'description' => $application->ext_order_description,
+        ]);
+
+        $this->sendApplicationEmail($application, $request, 'email');
+
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $location->installation->id . '/applications/' . $id,
+            'Application successfully emailed to ' . $request->get('email')
+        );
+    }
+
+    /**
+     * @author EB
+     * @param Application $application
+     * @param Request $request
+     * @param string $emailParameter
+     * @return Application
+     * @throws RedirectException
+     */
+    private function sendApplicationEmail(Application $application, $request, $emailParameter = 'applicant_email')
+    {
         try {
-            $application = $this->fetchApplicationById($id, $installation);
-            
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
                 TemplatesController::fetchDefaultTemplateForInstallation($application->installation),
                 array_merge(
-                    EmailTemplateEngine::formatRequestForEmail($request),
+                    EmailTemplateEngine::formatRequestForEmail($request, $emailParameter),
                     $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
                     [
                         'template_footer' => $application->installation->getDefaultTemplateFooterAsHtml(),
@@ -424,16 +463,13 @@ class ApplicationsController extends Controller
             ApplicationEvent\ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
         } catch (\Exception $e) {
             throw $this->redirectWithException(
-                'installations/' . $installation . '/applications/' . $id,
+                'installations/' . $application->installation->id . '/applications/' . $application->id,
                 'Unable to send Application via Email: ' . $e->getMessage(),
                 $e
             );
         }
 
-        return $this->redirectWithSuccessMessage(
-            'installations/' . $installation . '/applications/' . $id,
-            'Application successfully emailed to ' . $request->get('applicant_email')
-        );
+        return $application;
     }
 
     /**
