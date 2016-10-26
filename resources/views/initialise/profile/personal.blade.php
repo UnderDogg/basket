@@ -9,8 +9,8 @@
         </div>
         <div id="collapsePersonal" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingPersonal">
             <div class="panel-body">
-                {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $reference . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
-                    {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
+                {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->ext_id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
+                    {!! Form::hidden('reference', $application->ext_id) !!}
                     <div class="form-group">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
                         <div class="col-sm-8">
