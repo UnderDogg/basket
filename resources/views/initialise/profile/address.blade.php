@@ -61,7 +61,7 @@
                         <div class="form-group">
                             {!! Form::label('moved_in', 'Moved In', ['class' => 'col-sm-2 control-label']) !!}
                             <div class="col-sm-8">
-                                {!! Form::text('moved_in', isset($moved_in) ? $moved_in : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
+                                {!! Form::text('moved_in', isset($moved_in) ? $moved_in : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
                             </div>
                         </div>
                         <div class="form-group">
