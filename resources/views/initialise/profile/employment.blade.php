@@ -16,7 +16,6 @@
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="employment" method="POST">
                         {!! Form::hidden('user', isset($user) ? $user : null) !!}
-                        {!! Form::token() !!}
                         <div class="form-group">
                             {!! Form::label('employment_status', 'Employment Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">

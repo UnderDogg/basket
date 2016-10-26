@@ -15,8 +15,7 @@
             <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap" data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" data-fv-icon-validating="glyphicon glyphicon-refresh">
-                        {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
-
+                        {!! Form::hidden('user', isset($user) ? $user : null) !!}
                         <div class="form-group">
                             {!! Form::label('monthly_income', 'Monthly Income', ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">

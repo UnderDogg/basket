@@ -15,7 +15,6 @@
             <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="address" method="POST">
-                        {!! Form::token() !!}
                         {!! Form::hidden('user', isset($user) ? $user : null) !!}
                         <div class="form-group">
                             {!! Form::label('abode', 'Abode', ['class' => 'col-sm-2 control-label text-right']) !!}
