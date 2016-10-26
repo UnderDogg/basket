@@ -29,12 +29,12 @@
         @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-                <h1>Profile Information</h1>
-                </hr>
-                <p class="lead">To create an application link please fill out the mandatory <em>Personal</em> section, together with any of the optional sections you wish.
-                Any optional sections not completed by you will require the customer to complete once they click the application link.</p>
-                <p class="lead">Once you are happy with the details click the create or send application link.</p>
-
+                <section>
+                    <h1 class="text-primary">Create Application Link</h1>
+                    <p class="lead text-muted">Please fill out the mandatory <em>Personal</em> section, together with any of the optional sections you wish.
+                        Any optional sections not completed by you will require the customer to complete once they click the application link.</p>
+                    <p class="lead text-muted">Once you are happy with the details click the create or send application link.</p>
+                </section>
             </div>
             <div class="col-sm-8 col-sm-offset-2">
                 @if(!isset($user))
