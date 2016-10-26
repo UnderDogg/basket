@@ -13,6 +13,7 @@ use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
+use App\Basket\Merchant;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
@@ -352,8 +353,9 @@ class InitialisationController extends Controller
                 );
             }
 
-//            dd($application);
-            return $this->showProfile($location->id, $application->ext_id);
+            //Decide whether to email or profile
+            return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
+//            return $this->showProfile($location->id, $application->ext_id);
         }
 
         $application = $this->createApplication($location, $request);
@@ -610,50 +612,62 @@ class InitialisationController extends Controller
     }
 
     /**
-     * @author EB, EA
+     * @param int $location
+     * @param int $application
+     * @param int|null $user
      * @return View
      * @throws RedirectException
      */
-    public function showProfile($location, $reference = null, $user = null)
+    public function showProfile($location, $application, $user = null)
     {
         try {
-            $employmentStatuses = $this
-                ->dictionaryGateway
-                ->getEmploymentStatuses($this->fetchMerchantById(1)->token);
-
-            $martialStatuses = $this
-                ->dictionaryGateway
-                ->getMaritalStatuses($this->fetchMerchantById(1)->token);
-
-            $residentialStatuses = $this
-                ->dictionaryGateway
-                ->getResidentialStatuses($this->fetchMerchantById(1)->token);
+            $location = $this->fetchLocation($location);
+            $application = $this->fetchModelById(new Application(), $application, 'Application', '/');
+            $dictionaries = $this->fetchDictionaries($location->installation->merchant);
         } catch (\Exception $e) {
-            throw $this->redirectWithException('/', 'Failed fetching dictionary', $e);
+            throw $this->redirectWithException('/', 'Profile Creation Failed: ' . $e->getMessage(), $e);
         }
 
-        return view('initialise.profile')->with([
-            'reference' => $reference,
-            'location' => Location::findOrFail($location),
-            'employmentStatuses' => $employmentStatuses,
-            'martialStatuses' => $martialStatuses,
-            'residentialStatuses' => $residentialStatuses,
-            'user' => $user,
-        ]);
+        return view('initialise.profile')->with(
+            array_merge(
+                [
+                    'reference' => $application->ext_id,
+                    'location' => $location,
+                    'user' => $user,
+                ],
+                $dictionaries
+            )
+        );
+    }
+
+    /**
+     * @author EB
+     * @param Merchant $merchant
+     * @return array
+     */
+    private function fetchDictionaries(Merchant $merchant)
+    {
+        return [
+            'employmentStatuses' => $this->dictionaryGateway->getEmploymentStatuses($merchant->token),
+            'martialStatuses' => $this->dictionaryGateway->getMaritalStatuses($merchant->token),
+            'residentialStatuses' => $this->dictionaryGateway->getResidentialStatuses($merchant->token),
+        ];
     }
 
     /**
      * @author EB
      * @param Request $request
-     * @param int $location
-     * @return array|\Illuminate\Http\Response
+     * @param $location
+     * @return View
+     * @throws RedirectException
      */
     public function createProfilePersonal(Request $request, $location)
     {
-        /** @var Location $location */
-        $location = Location::findOrFail($location)->first();
-
         try {
+            /** @var Location $location */
+            $location = Location::findOrFail($location)->first();
+            $application = $this->fetchApplicationDetails($request->get('reference'));
+
             $response = $this->profileGateway->createPersonal(
                 $request->get('reference'),
                 $request->all(),
@@ -661,15 +675,30 @@ class InitialisationController extends Controller
             );
 
             if(array_key_exists('user', $response)) {
-                return $this->showProfile($location->id, $request->get('reference'), $response['user']);
+                return $this->showProfile($location->id, $application->id, $response['user']);
             }
 
-            throw new \Exception('No User form response');
+            throw new \Exception('No User from response');
         } catch (\Exception $e) {
             $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
             throw RedirectException::make('/locations/' . $location->id . '/profile')
                 ->setError('Creating User Failed: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * @author EB
+     * @param Application $application
+     * @return bool
+     * @throws \Exception
+     */
+    private function checkIfProfileCanBeEdited(Application $application)
+    {
+        if ($application->ext_current_status == 'initialized') {
+            throw new \Exception('You cannot edit the profile as the application is not initialized');
+        }
+
+        return true;
     }
 
     /**
