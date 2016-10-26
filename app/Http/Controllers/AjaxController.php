@@ -94,15 +94,15 @@ class AjaxController extends Controller
             return $this->profileGateway->addAddress(
                 (int) $request->get('user'),
                 [
-                    (string) $request->get('abode'),
-                    (string) $request->get('building_name'),
-                    (string) $request->get('building_number'),
-                    (string) $request->get('street'),
-                    (string) $request->get('locality'),
-                    (string) $request->get('town'),
-                    (string) $request->get('postcode'),
-                    (string) $request->get('moved_in'),
-                    (int) $request->get('residential_status'),
+                    'abode' => (string) $request->get('abode'),
+                    'building_name' => (string) $request->get('building_name'),
+                    'building_number' => (string) $request->get('building_number'),
+                    'street' => (string) $request->get('street'),
+                    'locality' => (string) $request->get('locality'),
+                    'town' => (string) $request->get('town'),
+                    'postcode' => (string) $request->get('postcode'),
+                    'moved_in' => (string) $request->get('moved_in'),
+                    'residential_status' => (int) $request->get('residential_status'),
                 ],
                 $location->installation->merchant->token
             );
@@ -127,9 +127,9 @@ class AjaxController extends Controller
             return $this->profileGateway->setEmployment(
                 (int) $request->get('user'),
                 [
-                    (int) $request->get('employment_status'),
-                    (string)$request->get('employment_start'),
-                    (string) $request->get('phone_employer'),
+                    'employment_status' => (int) $request->get('employment_status'),
+                    'employment_start' => (string)$request->get('employment_start'),
+                    'phone_employer' => (string) $request->get('phone_employer'),
                 ],
                 $location->installation->merchant->token
             );
