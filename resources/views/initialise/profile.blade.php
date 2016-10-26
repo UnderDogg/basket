@@ -48,7 +48,9 @@
                     <div class="pull-right">
                         <a href="/" class="btn btn-default">Cancel</a>
                         {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
-                        {!! Form::submit('Email Application', ['class' => 'btn btn-info']) !!}
+                        @if(isset($user))
+                            {!! Form::submit('Email Application', ['class' => 'btn btn-info']) !!}
+                        @endif
                     </div>
                 {!! Form::close() !!}
             </div>
