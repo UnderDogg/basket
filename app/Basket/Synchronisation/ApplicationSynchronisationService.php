@@ -332,6 +332,10 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $app->location_id = $location;
         $app->ext_resume_url = $applicationEntity->getResumeUrl();
 
+        if($applicationEntity instanceof AssistedApplicationEntity) {
+            $app->ext_user = $applicationEntity->getUser();
+        }
+
         $mapApplicationHelper = new MapApplicationHelper();
         $mapApplicationHelper->mapApplication($applicationEntity, $app);
 
