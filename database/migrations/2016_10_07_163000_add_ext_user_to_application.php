@@ -17,7 +17,7 @@ class AddExtUserToApplication extends Migration
     public function up()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->integer('user')->nullable()->after('ext_cancellation_fee_amount');
+            $table->integer('ext_user')->nullable()->after('ext_cancellation_fee_amount');
         });
     }
 
@@ -29,7 +29,7 @@ class AddExtUserToApplication extends Migration
     public function down()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->dropColumn('user');
+            $table->dropColumn('ext_user');
         });
     }
 }
