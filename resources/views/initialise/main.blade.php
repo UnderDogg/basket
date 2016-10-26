@@ -303,7 +303,7 @@
                                     @endif
 
                                     @if(isset($assisted) && $assisted == true)
-                                        <div class="row"><div class="col-sm-12 col-xs-12"><button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="assisted" value="true">Continue with Assisted Application</button></div></div>
+                                        <div class="row"><div class="col-sm-12 col-xs-12"><button type="submit" class="btn btn-success btn-lg btn-block btn-bottom-margin" name="assisted" value="true">Continue</button></div></div>
                                     @else
                                         <div class="row">
                                             @if($bitwise->contains(2) && count($bitwise->explode()) > 1) <div class="col-sm-6 col-xs-12">@else <div class="col-sm-12 col-xs-12">@endif

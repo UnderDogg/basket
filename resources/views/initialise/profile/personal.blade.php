@@ -67,7 +67,7 @@
                     {!! Form::token() !!}
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            {!! Form::submit('Save Personal Information', ['class' => 'btn btn-info pull-right', 'name' => 'savePersonal']) !!}
+                            {!! Form::submit('Continue', ['class' => 'btn btn-success pull-right', 'name' => 'savePersonal']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}
