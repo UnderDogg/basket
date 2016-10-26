@@ -44,15 +44,12 @@
                     @include('initialise.profile.employment', ['validation' => true])
                     @include('initialise.profile.financial', ['validation' => true])
                 @endif
-                {!! Form::open(['url' => '/locations/' . $location->id . '/complete-profile', 'class' => 'form-horizontal', 'method' => 'POST']) !!}
                     <div class="pull-right">
                         <a href="/" class="btn btn-default">Cancel</a>
-                        {!! Form::hidden('reference', isset($reference) ? $reference : null) !!}
                         @if(isset($user))
-                            {!! Form::submit('Email Application', ['class' => 'btn btn-info']) !!}
+                            <a href="/locations/{{$location->id}}/applications/{{$application->id}}/email" class="btn btn-info">Email Application</a>
                         @endif
                     </div>
-                {!! Form::close() !!}
             </div>
         </div>
     </div>
