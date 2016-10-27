@@ -29,12 +29,7 @@
         @include('includes.message.action_response', ['messages' => $messages, 'errors' => $errors])
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-                <section>
-                    <h1 class="text-primary">Create Application Link</h1>
-                    <p class="lead text-muted">Please fill out the mandatory <em>Personal</em> section, together with any of the optional sections you wish.
-                        Any optional sections not completed by you will require the customer to complete once they click the application link.</p>
-                    <p class="lead text-muted">Once you are happy with the details click the create or send application link.</p>
-                </section>
+                <h1>Create Application Link</h1>
             </div>
             <div class="col-sm-8 col-sm-offset-2">
                 @if(!isset($user))
@@ -43,13 +38,15 @@
                     @include('initialise.profile.address', ['validation' => true])
                     @include('initialise.profile.employment', ['validation' => true])
                     @include('initialise.profile.financial', ['validation' => true])
-                @endif
                     <div class="pull-right">
                         <a href="/" class="btn btn-default">Cancel</a>
+                        <a href="/locations/{{$location->id}}/applications/{{$application->id}}/" class="btn btn-success">Create (send later)</a>
                         @if(isset($user))
-                            <a href="/locations/{{$location->id}}/applications/{{$application->id}}/email" class="btn btn-info">Email Application</a>
+                            <a href="/locations/{{$location->id}}/applications/{{$application->id}}/email" class="btn btn-success">Email Application</a>
                         @endif
                     </div>
+                @endif
+
             </div>
         </div>
     </div>

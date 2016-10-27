@@ -65,15 +65,19 @@
                         </div>
                     </div>
                     {!! Form::token() !!}
+
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            {!! Form::submit('Continue', ['class' => 'btn btn-success pull-right', 'name' => 'savePersonal']) !!}
+                            <div class="pull-right">
+                                <a href="/" class="btn btn-default">Cancel</a>
+                                {!! Form::submit('Continue', ['class' => 'btn btn-success', 'name' => 'savePersonal']) !!}
+                            </div>
                         </div>
                     </div>
                 {!! Form::close() !!}
-            </div>
+
+            </div>            </div>
         </div>
-    </div>
 </div>
 
 @if(isset($validation) && $validation == true)

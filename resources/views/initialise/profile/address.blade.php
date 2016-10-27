@@ -81,7 +81,7 @@
                         {!! Form::token() !!}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-8">
-                                <a class="btn btn-info" data-target="save" data-source="ajax">Save Address Information</a>
+                                <a class="btn btn-info" data-target="save" data-source="ajax">Save Address</a>
                             </div>
                         </div>
                     </form>
