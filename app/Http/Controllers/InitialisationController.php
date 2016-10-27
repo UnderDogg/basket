@@ -694,7 +694,7 @@ class InitialisationController extends Controller
             throw new \Exception('No User from response');
         } catch (\Exception $e) {
             $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
-            throw RedirectException::make('/locations/' . $location->id . '/profile')
+            throw RedirectException::make('/locations/' . $location->id . '/no-finance')
                 ->setError('Creating User Failed: ' . $e->getMessage());
         }
     }
