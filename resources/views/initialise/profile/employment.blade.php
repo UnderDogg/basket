@@ -11,7 +11,7 @@
                 </p>
             </h4>
         </div>
-        <div id="collapseEmployment" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingEmployment">
+        <div id="collapseEmployment" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEmployment">
             <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="employment" method="POST">
@@ -72,8 +72,6 @@
                     }
                 });
             });
-
-            $('#collapseEmployment').collapse();
         });
     </script>
 @endif

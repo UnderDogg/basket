@@ -12,7 +12,7 @@
             </h4>
         </div>
         <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
-            <div class="panel-body">
+            <div class="panel-body">l
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="address" method="POST">
                         {!! Form::hidden('user', isset($user) ? $user : null) !!}

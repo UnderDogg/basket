@@ -11,7 +11,7 @@
                 </p>
             </h4>
         </div>
-        <div id="collapseFinancial" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFinancial">
+        <div id="collapseFinancial" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFinancial">
             <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap" data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" data-fv-icon-validating="glyphicon glyphicon-refresh">
@@ -100,8 +100,6 @@
                     bank_account: {validators: validators}
                 }
             });
-
-            $('#collapseFinancial').collapse();
         });
     </script>
 @endif
