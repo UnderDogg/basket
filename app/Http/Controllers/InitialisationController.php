@@ -57,6 +57,10 @@ class InitialisationController extends Controller
      * @var DictionaryGateway
      */
     private $dictionaryGateway;
+    /**
+     * @var ProfileGateway
+     */
+    private $profileGateway;
 
     /**
      * Initialisation Controller constructor.
