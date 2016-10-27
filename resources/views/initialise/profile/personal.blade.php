@@ -3,7 +3,7 @@
         <div class="panel-heading" role="tab" id="headingPersonal">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePersonal" aria-expanded="true" aria-controls="collapseOne">
-                    Personal <small>(Mandatory)</small> <span class="personal-status"></span>
+                    Personal <span class="personal-status"></span>
                 </a>
             </h4>
         </div>
@@ -13,6 +13,7 @@
                     {!! Form::hidden('reference', $application->ext_id) !!}
                     <div class="form-group">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
+                        <small>(Optional)</small>
                         <div class="col-sm-8">
                             <select class="form-control col-xs-12" name="title">
                                 <option value="">Please select&hellip;</option>
@@ -37,6 +38,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
+                        <small>(Optional)</small>
                         <div class="col-sm-8">
                             {!! Form::text('date_of_birth', isset($date_of_birth) ? $date_of_birth : null, ['class' => 'form-control', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
                         </div>
@@ -55,6 +57,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('martial_status', 'Martial Status', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        <small>(Optional)</small>
                         <div class="col-sm-8">
                             <select class="form-control col-xs-12" name="martial_status">
                                 <option value="">Please select&hellip;</option>
