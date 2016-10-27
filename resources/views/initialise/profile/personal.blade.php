@@ -10,8 +10,10 @@
         <div id="collapsePersonal" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingPersonal">
             <div class="panel-body">
                 {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->ext_id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
-                    {!! Form::hidden('reference', $application->ext_id) !!}
-                    <div class="form-group">
+                {!! Form::hidden('reference', $application->ext_id) !!}
+                    <h4 class="lead text-muted">Basic Details</h4>
+
+                <div class="form-group">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
                         <small>(Optional)</small>
                         <div class="col-sm-8">
@@ -44,18 +46,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
-                        <div class="col-sm-8">
-                            {!! Form::text('phone_mobile', isset($phone_mobile) ? $phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('phone_home', 'Home Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
-                        <div class="col-sm-8">
-                            {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
-                        </div>
-                    </div>
-                    <div class="form-group">
                         {!! Form::label('martial_status', 'Martial Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <small>(Optional)</small>
                         <div class="col-sm-8">
@@ -65,6 +55,22 @@
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <h4 class="lead text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
+                    <div class="form-group">
+                        {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        <div class="col-sm-8">
+                            {!! Form::text('phone_mobile', isset($phone_mobile) ? $phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group text-center">— Or —</div>
+                    <div class="form-group">
+                        {!! Form::label('phone_home', 'Home Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        <div class="col-sm-8">
+                            {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                         </div>
                     </div>
                     {!! Form::token() !!}
@@ -78,9 +84,9 @@
                         </div>
                     </div>
                 {!! Form::close() !!}
-
-            </div>            </div>
+            </div>
         </div>
+    </div>
 </div>
 
 @if(isset($validation) && $validation == true)
