@@ -40,7 +40,7 @@
                     @include('initialise.profile.financial', ['validation' => true])
                     <div class="pull-right">
                         <a href="/" class="btn btn-default">Cancel</a>
-                        <a href="/locations/{{$location->id}}/applications/{{$application->id}}/" class="btn btn-success">Create (send later)</a>
+                        <a href="/locations/{{$location->id}}/applications/{{$application->id}}/create" class="btn btn-success">Create (send later)</a>
                         @if(isset($user))
                             <a href="/locations/{{$location->id}}/applications/{{$application->id}}/email" class="btn btn-success">Email Application</a>
                         @endif

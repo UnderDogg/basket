@@ -517,6 +517,33 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * @author EB
+     * @param int $location
+     * @param int $application
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function finishApplication($location, $application)
+    {
+        try {
+            /** @var Location $location */
+            $location = Location::findOrFail($location);
+            $application = $this->fetchApplicationById($application, $location->installation->id);
+
+            return $this->redirectWithSuccessMessage(
+                'installations/' . $location->installation->id . '/applications/' . $application->id,
+                'Successfully created an application'
+            );
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $location->installation->id . '/applications',
+                'Unable to complete the application: ' . $e->getMessage(),
+                $e
+            );
+        }
+    }
+
+    /**
      * @author SL
      *
      * @param int $installation
