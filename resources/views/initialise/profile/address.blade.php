@@ -1,18 +1,18 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingAddress">
+            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" class="collapsed">
             <h4 class="panel-title">
                 Current Address <small>(Optional)</small> <span class="address-status"></span>
                 <p class="pull-right">
-                    <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" class="collapsed">
-                        <span class="if-collapsed"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
-                        <span class="if-not-collapsed"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></span>
-                    </a>
+                    <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
                 </p>
             </h4>
+            </a>
         </div>
         <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
-            <div class="panel-body">l
+            <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-horizontal" id="address" method="POST">
                         {!! Form::hidden('user', isset($user) ? $user : null) !!}
