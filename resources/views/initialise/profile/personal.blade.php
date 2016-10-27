@@ -14,7 +14,7 @@
                     <div class="form-group">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="title" data-fv-notempty="true" data-fv-notempty-message="Please select a title">
+                            <select class="form-control col-xs-12" name="title">
                                 <option value="">Please select&hellip;</option>
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('date_of_birth', isset($date_of_birth) ? $date_of_birth : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a date of birth', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
+                            {!! Form::text('date_of_birth', isset($date_of_birth) ? $date_of_birth : null, ['class' => 'form-control', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -56,7 +56,7 @@
                     <div class="form-group">
                         {!! Form::label('martial_status', 'Martial Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="martial_status" data-fv-notempty-message="Please select a martial status" data-fv-notempty="true">
+                            <select class="form-control col-xs-12" name="martial_status">
                                 <option value="">Please select&hellip;</option>
                                 @foreach ($martialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
