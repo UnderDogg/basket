@@ -35,7 +35,7 @@
                                 {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control col-xs-12', 'maxlength' => 5, 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
                                 <div class="input-group-addon">.00</div>
                             </div>
-                            <small class="text-muted">Enter 0 if you have no debt repayments</small>
+                            <small class="text-muted">Enter 0 if no debt repayments</small>
                         </div>
                     </div>
                     <h4 class="text-muted">Bank Account Information</h4>
