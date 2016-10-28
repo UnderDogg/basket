@@ -30,16 +30,18 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('employment_start', 'Employment Start Date', ['class' => 'col-sm-2 control-label']) !!}
+                        {!! Form::hidden('employment_start') !!}
                         <div class="col-sm-8">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectMonth('month', null, ['id'=> 'employment_start_month','class' => 'form-control']) !!}
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(40)->year, null, ['id'=> 'employment_start_year', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
                         </div>
+                        <div class="employment-start-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('phone_employer', 'Employer\'s Phone Number' , ['class' => 'col-sm-2 control-label text-right']) !!}
@@ -66,20 +68,30 @@
 @if(isset($validation) && $validation == true)
     <script>
         $(document).ready(function() {
-            $('#employment').formValidation({});
-
-            $(function() {
-                $('#employment :input').not(':hidden').on('input', function() {
-                    var completed = $('#employment :input').not(':hidden').filter(function() { return $(this).val(); }).length > 0;
-                    $('#employmentBtn').attr('disabled', !completed);
-                    if (completed) {
-                        $('#employmentBtn').bind('click', function(e){
-                            e.preventDefault();
-                        });
-                    } else {
-                        $('#employmentBtn').unbind('click');
+            $('#employment').formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    employment_start: {
+                        err: '.employment-start-error',
+                        icon: false,
+                        excluded: false,
+                        validators: {
+                            date: {
+                                format: 'YYYY-MM-DD',
+                                message: 'Please fully enter the employment start date'
+                            }
+                        }
                     }
-                });
+                }
+            });
+
+            $('#employment').on('change', '#employment_start_month, #employment_start_year', function(e) {
+                var y = $('#employment_start_year').val(),
+                    m = $('#employment_start_month').val(),
+                    d = '1';
+
+                $('#employment').find('[name="employment_start"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
+                $('#employment').formValidation('revalidateField', 'employment_start');
             });
 
             $('#employment_start_month').prepend( '<option value="">-- Month --</option>');
