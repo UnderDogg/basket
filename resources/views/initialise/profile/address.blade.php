@@ -19,7 +19,7 @@
                         <div class="form-group">
                             {!! Form::label('abode', 'Abode', ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">
-                                {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
+                                {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 30]) !!}
                             </div>
                         </div>
                         <div class="form-group">
@@ -31,31 +31,31 @@
                         <div class="form-group">
                             {!! Form::label('building_number', 'Building Number', ['class' => 'col-sm-2 control-label']) !!}
                             <div class="col-sm-8">
-                                {!! Form::text('building_number', isset($building_number) ? $building_number : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
+                                {!! Form::text('building_number', isset($building_number) ? $building_number : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 12]) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             {!! Form::label('street', 'Street', ['class' => 'col-sm-2 control-label']) !!}
                             <div class="col-sm-8">
-                                {!! Form::text('street', isset($street) ? $street : null, ['class' => 'form-control','maxlength' => 10]) !!}
+                                {!! Form::text('street', isset($street) ? $street : null, ['class' => 'form-control','maxlength' => 50]) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             {!! Form::label('locality', 'Locality', ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">
-                                {!! Form::text('locality', isset($locality) ? $locality : null, ['class' => 'form-control col-xs-12', 'maxlength' => 11]) !!}
+                                {!! Form::text('locality', isset($locality) ? $locality : null, ['class' => 'form-control col-xs-12', 'maxlength' => 50]) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             {!! Form::label('town', 'Town', ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">
-                                {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control col-xs-12', 'maxlength' => 11]) !!}
+                                {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control col-xs-12', 'maxlength' => 25]) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
                                 <div class="col-sm-8">
-                                {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 11]) !!}
+                                {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8]) !!}
                             </div>
                         </div>
                         <div class="form-group">
