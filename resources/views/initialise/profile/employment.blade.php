@@ -31,7 +31,14 @@
                     <div class="form-group">
                         {!! Form::label('employment_start', 'Employment Start Date', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('employment_start', isset($employment_start) ? $employment_start : null, ['class' => 'form-control', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {!! Form::selectMonth('month', null, ['id'=> 'employment_start_month','class' => 'form-control']) !!}
+                                </div>
+                                <div class="col-sm-6">
+                                    {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(34)->year, null, ['id'=> 'employment_start_year', 'class' => 'form-control']) !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -71,6 +78,11 @@
                     }
                 });
             });
+
+            $('#employment_start_month').prepend( '<option value="">-- Month --</option>');
+            $('#employment_start_year').prepend( '<option value="">-- Year --</option>');
+            $('#employment_start_month :nth-child(1)').prop('selected', true);
+            $('#employment_start_year :nth-child(1)').prop('selected', true);
         });
     </script>
 @endif
