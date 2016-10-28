@@ -101,6 +101,9 @@
 
             $('#financial').formValidation({
                 framework: 'bootstrap',
+                button: {
+                    selector: '[data-target="save"]'
+                },
                 fields: {
                     bank_sort_code: {validators: validators},
                     bank_account: {validators: validators}

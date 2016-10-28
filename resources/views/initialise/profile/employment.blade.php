@@ -68,6 +68,9 @@
         $(document).ready(function() {
             $('#employment').formValidation({
                 framework: 'bootstrap',
+                button: {
+                    selector: '[data-target="save"]'
+                },
                 fields: {
                     employment_start: {
                         err: '.employment-start-error',

@@ -100,6 +100,9 @@
         $(document).ready(function() {
             $('#address').formValidation({
                 framework: 'bootstrap',
+                button: {
+                    selector: '[data-target="save"]'
+                },
                 fields: {
                     moved_in: {
                         err: '.moved-in-error',
