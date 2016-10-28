@@ -16,24 +16,30 @@
                 <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap" data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" data-fv-icon-validating="glyphicon glyphicon-refresh">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
                     <div class="form-group">
-                        {!! Form::label('monthly_income', 'Monthly Income', ['class' => 'col-sm-2 control-label text-right', 'maxlength' => 5]) !!}
+                        {!! Form::label('monthly_income', 'Net Monthly Income', ['class' => 'col-sm-2 control-label text-right', 'maxlength' => 5]) !!}
+                        <small class="text-muted">After tax and National Insurance</small>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
                                 {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric']) !!}
                             </div>
-                            <small class="text-muted">After tax and National Insurance</small>
                         </div>
                     </div>
+                    <h4 class="text-muted">Income and Expenditure</h4>
                     <div class="form-group">
                         {!! Form::label('monthly_outgoings', 'Monthly Outgoings', ['class' => 'col-sm-2 control-label text-right', 'maxlength' => 5]) !!}
+                        <small class="text-muted">This is how much you pay every month towards secured and unsecured debt such as mortgages, loans and credit cards.</small>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
                                 {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control col-xs-12', 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
                             </div>
+                            <small class="text-muted">Enter 0 if you have no debt repayments</small>
                         </div>
                     </div>
+                    <h4 class="text-muted">Bank Account Information</h4>
+                    <small class="text-muted">The customer must repay loans by direct debit. Loan repayments will be taken by direct debit from the account details provided here.</small>
+                    <p class="small text-warning"><strong>Important:</strong> The customer must be the account holder and have authorisation to set up debits from this account.</p>
                     <div class="form-group">
                         {!! Form::label('bank_sort_code', 'Bank Sort Code', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
