@@ -59,18 +59,18 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('moved_in', 'Moved In', ['class' => 'col-sm-2 control-label']) !!}
-                        <input type="hidden" name="moved_in_date" />
+                        <input type="hidden" name="moved_in" />
                         <div class="col-sm-8">
                             <div class="row">
-                                <div class="col-sm-6 col-xs-12">
+                                <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control']) !!}
                                 </div>
-                                <div class="col-sm-6 col-xs-12">
+                                <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(30)->year, null, ['id'=> 'moved_in_year', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
-                            <div class="moved-in-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                         </div>
+                        <div class="moved-in-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('residential_status', 'Residential Status', ['class' => 'col-sm-2 control-label text-right']) !!}
@@ -100,13 +100,8 @@
         $(document).ready(function() {
             $('#address').formValidation({
                 framework: 'bootstrap',
-                icon: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
                 fields: {
-                    date_of_birth: {
+                    moved_in: {
                         err: '.moved-in-error',
                         icon: false,
                         excluded: false,
@@ -121,11 +116,12 @@
             });
 
             $('#address').on('change', '#moved_in_month, #moved_in_year', function(e) {
-                var y = $('#address').find('#moved_in_year').val(),
-                        m = $('#address').find('#moved_in_month').val(),
-                        d = '01';
-                $('#address').find('[name="moved_in_date"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
-                $('#address').formValidation('revalidateField', 'moved_in_date');
+                var y = $('#moved_in_year').val(),
+                    m = $('#moved_in_month').val(),
+                    d = '1';
+
+                $('#address').find('[name="moved_in"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
+                $('#address').formValidation('revalidateField', 'moved_in');
             });
 
             $('#moved_in_month').prepend( '<option value="">-- Month --</option>');
