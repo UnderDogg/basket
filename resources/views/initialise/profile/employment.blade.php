@@ -44,7 +44,7 @@
                         {!! Form::token() !!}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-8">
-                                <a class="btn btn-info" id="employmentBtn" disabled="disabled"  data-target="save" data-source="ajax">Save Employment</a>
+                                <a class="btn btn-info" id="employmentBtn" data-target="save" data-source="ajax">Save Employment</a>
                             </div>
                         </div>
                     </form>
