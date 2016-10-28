@@ -62,7 +62,7 @@
                             <select class="form-control col-xs-12" name="marital_status">
                                 <option value="">-- Please select --</option>
                                 @foreach ($maritalStatuses as $status)
-                                    <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
+                                    <option value="{!! $status['id']!!}">{!!$status['description'] !!}</option>
                                 @endforeach
                             </select>
                         </div>
