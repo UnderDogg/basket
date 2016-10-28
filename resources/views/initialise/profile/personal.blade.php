@@ -14,10 +14,10 @@
                 <h4 class="text-muted">Basic Details</h4>
 
                 <div class="form-group">
-                        {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
+                        {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <small>(Optional)</small>
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="title">
+                            <select class="form-control col-xs-12" name="title" data-fv-different="true" data-fv-different-field="marital_status">
                                 <option value="">-- Please select --</option>
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
@@ -61,7 +61,7 @@
                         {!! Form::label('marital_status', 'Marital Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <small>(Optional)</small>
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="marital_status">
+                            <select class="form-control col-xs-12" name="marital_status" data-fv-numeric="true">
                                 <option value="">-- Please select --</option>
                                 @foreach ($maritalStatuses as $status)
                                     <option value="{!! $status['id']!!}">{!!$status['description'] !!}</option>
