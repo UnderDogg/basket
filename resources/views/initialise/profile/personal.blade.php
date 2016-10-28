@@ -163,7 +163,7 @@
                         return false;
                     }
                 }
-            }
+            };
 
             $('#personal').formValidation({
                 framework: 'bootstrap',
