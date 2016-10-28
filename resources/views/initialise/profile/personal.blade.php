@@ -44,13 +44,13 @@
                         <small>(Optional)</small>
                         <div class="col-sm-8">
                             <div class="row">
-                                <div class="col-sm-4 col-xs-12">
+                                <div class="col-sm-4 col-xs-4">
                                     {!! Form::selectRange('day', 1, 31, null, ['id'=> 'dob_day', 'class' => 'form-control'])  !!}
                                 </div>
-                                <div class="col-sm-4 col-xs-12">
+                                <div class="col-sm-4 col-xs-4">
                                     {!! Form::selectMonth('month', null, ['id'=> 'dob_month','class' => 'form-control']) !!}
                                 </div>
-                                <div class="col-sm-4 col-xs-12">
+                                <div class="col-sm-4 col-xs-4">
                                     {!! Form::selectYear('year', \Carbon\Carbon::now()->subyears(18)->year, \Carbon\Carbon::now()->subyears(81)->year, null, ['id'=> 'dob_year', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
