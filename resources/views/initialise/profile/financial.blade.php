@@ -16,13 +16,13 @@
                 <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap" data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" data-fv-icon-validating="glyphicon glyphicon-refresh">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
                     <div class="form-group">
-                        {!! Form::label('monthly_income', 'Monthly Income', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        {!! Form::label('monthly_income', 'Monthly Income', ['class' => 'col-sm-2 control-label text-right', 'maxlength' => 5]) !!}
                         <div class="col-sm-8">
                             {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric']) !!}
                         </div>
                     </div>
                     <div class="form-group">
-                        {!! Form::label('monthly_outgoings', 'Monthly Outgoings', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        {!! Form::label('monthly_outgoings', 'Monthly Outgoings', ['class' => 'col-sm-2 control-label text-right', 'maxlength' => 5]) !!}
                         <div class="col-sm-8">
                             {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control col-xs-12', 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
                         </div>
@@ -38,8 +38,7 @@
                     <div class="form-group">
                         {!! Form::label('bank_account', 'Bank Account Number', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::input('number', 'bank_account', isset($bank_account) ? $bank_account : null, ['class' => 'form-control col-xs-12',
-                             'maxlength' => 8, 'data-fv-regexp' => 'true',
+                            {!! Form::input('number', 'bank_account', isset($bank_account) ? $bank_account : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8, 'data-fv-regexp' => 'true',
                              'data-fv-regexp-regexp' => '^[0-9]{8}$', 'data-fv-regexp-message' => 'The bank account number must be 8 digits, if your account number is only 7 digits add 0 at the start']) !!}
                         </div>
                     </div>
