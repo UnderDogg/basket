@@ -60,7 +60,14 @@
                     <div class="form-group">
                         {!! Form::label('moved_in', 'Moved In', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('moved_in', isset($moved_in) ? $moved_in : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {!! Form::selectMonth('month', null, ['id'=> 'move_in_month','class' => 'form-control']) !!}
+                                </div>
+                                <div class="col-sm-6">
+                                    {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(34)->year, null, ['id'=> 'move_in_year', 'class' => 'form-control']) !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -93,6 +100,11 @@
     <script>
         $(document).ready(function() {
             $('#address').formValidation({});
+
+            $('#move_in_month').prepend( '<option value="">-- Month --</option>');
+            $('#move_in_year').prepend( '<option value="">-- Year --</option>');
+            $('#move_in_month :nth-child(1)').prop('selected', true);
+            $('#move_in_year :nth-child(1)').prop('selected', true);
         });
     </script>
 @endif
