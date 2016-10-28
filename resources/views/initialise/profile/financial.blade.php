@@ -27,9 +27,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        {!! Form::label('monthly_outgoings', 'Monthly Debt Repayments', ['class' => 'col-sm-2 control-label text-right']) !!}
-                        <label for="monthly_outgoings" class="col-sm-2 control-label text-right" maxlength="5"><abbr title="This is how much you pay every month towards secured and unsecured debt such as mortgages, loans and credit cards">Monthly Debt Repayments</abbr></label>
-
+                        <label for="monthly_outgoings" class="col-sm-2 control-label text-right" maxlength="5"><abbr title="This is how much is paid every month towards secured and unsecured debt such as mortgages, loans and credit cards">Monthly Debt Repayments</abbr></label>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
@@ -39,8 +37,7 @@
                         </div>
                     </div>
                     <h4 class="text-muted">Bank Account Information</h4>
-                    <p class="text-muted">Loan repayments will be taken by direct debit from the account details provided below.</p>
-                    <p class="small text-primary"><strong>Important:</strong> The customer must be the account holder and have authorisation to set up direct debits on this account.</p>
+                    <p class="small text-primary"><strong>Important:</strong> Loan repayments will be taken by direct debit, the customer must be the account holder and have authorisation to set up direct debits on this account.</p>
                     <div class="form-group">
                         {!! Form::label('bank_sort_code', 'Bank Sort Code', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <small class="text-muted">00-00-00</small>
