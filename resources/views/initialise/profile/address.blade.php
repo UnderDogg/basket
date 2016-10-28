@@ -65,7 +65,7 @@
                                     {!! Form::selectMonth('month', null, ['id'=> 'move_in_month','class' => 'form-control']) !!}
                                 </div>
                                 <div class="col-sm-6">
-                                    {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(34)->year, null, ['id'=> 'move_in_year', 'class' => 'form-control']) !!}
+                                    {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(30)->year, null, ['id'=> 'move_in_year', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                     name="residential_status"
                                     data-fv-notempty-message="Please select a residential status"
                                     data-fv-notempty = "true">
-                                <option value="">Please select&hellip;</option>
+                                <option value="">-- Please select --</option>
                                 @foreach ($residentialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
                                 @endforeach
@@ -103,6 +103,7 @@
 
             $('#move_in_month').prepend( '<option value="">-- Month --</option>');
             $('#move_in_year').prepend( '<option value="">-- Year --</option>');
+            $('#move_in_year option:last').val();
             $('#move_in_month :nth-child(1)').prop('selected', true);
             $('#move_in_year :nth-child(1)').prop('selected', true);
         });
