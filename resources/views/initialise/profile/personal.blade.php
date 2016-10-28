@@ -18,7 +18,7 @@
                         <small>(Optional)</small>
                         <div class="col-sm-8">
                             <select class="form-control col-xs-12" name="title">
-                                <option value="">Please select&hellip;</option>
+                                <option value="">-- Please select --</option>
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
                                 <option value="Miss">Miss</option>
@@ -60,7 +60,7 @@
                         <small>(Optional)</small>
                         <div class="col-sm-8">
                             <select class="form-control col-xs-12" name="martial_status">
-                                <option value="">Please select&hellip;</option>
+                                <option value="">-- Please select --</option>
                                 @foreach ($martialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
                                 @endforeach
@@ -193,9 +193,9 @@
                 }
             });
 
-            $('#dob_day').prepend( '<option value="">Day</option>');
-            $('#dob_month').prepend( '<option value="">Month</option>');
-            $('#dob_year').prepend( '<option value="">Year</option>');
+            $('#dob_day').prepend( '<option value="">-- Day --</option>');
+            $('#dob_month').prepend( '<option value="">-- Month --</option>');
+            $('#dob_year').prepend( '<option value="">-- Year --</option>');
             $('#dob_day :nth-child(1)').prop('selected', true);
             $('#dob_month :nth-child(1)').prop('selected', true);
             $('#dob_year :nth-child(1)').prop('selected', true);
