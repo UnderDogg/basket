@@ -21,8 +21,8 @@
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
                                 {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric']) !!}
-                                <small class="text-muted">After tax and National Insurance</small>
                             </div>
+                            <small class="text-muted">After tax and National Insurance</small>
                         </div>
                     </div>
                     <div class="form-group">
