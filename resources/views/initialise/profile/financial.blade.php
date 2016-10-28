@@ -75,25 +75,20 @@
                 callback: {
                     message: 'You must enter both the sort code and the account number, or neither',
                     callback: function (value, validator) {
-                        var notEmpty = false;
-                        var atleastOne = false;
+                        var atLeastOne = false;
                         var sortCode = validator.getFieldElements('bank_sort_code');
-                        if (sortCode.eq(0).val() !== '') {
-                            atleastOne = true;
-                        }
                         var accountNumber = validator.getFieldElements('bank_account');
-                        if (accountNumber.eq(0).val() !== '') {
-                            if (atleastOne == true) {
-                                notEmpty = true;
-                            }
-                            atleastOne = true;
+
+                        if ((sortCode.val().length > 0 || accountNumber.val().length > 0)) {
+                            atLeastOne = true;
                         }
 
-                        if (atleastOne == true && notEmpty == true) {
+                        if ((atLeastOne && (sortCode.val().length > 0 && accountNumber.val().length > 0)) || !atLeastOne) {
                             validator.updateStatus('bank_sort_code', validator.STATUS_VALID, 'callback');
                             validator.updateStatus('bank_account', validator.STATUS_VALID, 'callback');
                             return true;
                         }
+                        
                         return false;
                     }
                 }
