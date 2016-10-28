@@ -43,9 +43,9 @@
                     </div>
                     <div class="pull-right">
                         <a href="/" class="btn btn-default">Cancel</a>
-                        <a href="/locations/{{$location->id}}/applications/{{$application->id}}/create" class="btn btn-success">Create</a>
+                        <a href="/locations/{{$location->id}}/applications/{{$application->id}}/create" class="btn btn-success"><abbr title="Create an application link to send later">Create</abbr></a>
                         @if(isset($user))
-                            <a href="/locations/{{$location->id}}/applications/{{$application->id}}/email" class="btn btn-success">Email</a>
+                            <a href="/locations/{{$location->id}}/applications/{{$application->id}}/email" class="btn btn-success"<abbr title="Email an application link based on the email template set">>Email</abbr></a>
                         @endif
                     </div>
                 @endif
