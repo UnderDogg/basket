@@ -39,17 +39,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                    {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
-                    <small>(Optional)</small>
+                        {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
+                        <input type="hidden" name="date_of_birth" />
+                        <small>(Optional)</small>
                         <div class="col-sm-8">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-xs-12">
                                     {!! Form::selectRange('day', 1, 31, null, ['id'=> 'dob_day', 'class' => 'form-control'])  !!}
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-xs-12">
                                     {!! Form::selectMonth('month', null, ['id'=> 'dob_month','class' => 'form-control']) !!}
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-xs-12">
                                     {!! Form::selectYear('year', \Carbon\Carbon::now()->subyears(81)->year, \Carbon\Carbon::now()->subyears(18)->year, null, ['id'=> 'dob_year', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
@@ -140,30 +141,14 @@
                 }
             };
 
-            var dateValidation = {
-                callback: {
-                    message: 'Please fully enter the date of birth',
-                    callback: function (value, validator) {
-                        var atLeastOne = false;
+            $('#personal').on('change', '#dob_day, #dob_month, #dob_year', function(e) {
+                var y = $('#personal').find('#dob_year').val(),
+                    m = $('#personal').find('#dob_month').val(),
+                    d = $('#personal').find('#dob_day').val();
 
-                        var day = validator.getFieldElements('day');
-                        var month = validator.getFieldElements('month');
-                        var year = validator.getFieldElements('year');
-
-                        if (day.val().length > 0 || month.val().length > 0 || year.val().length > 0) {
-                            atLeastOne = true;
-                        }
-
-                        if ((atLeastOne && (day.val().length > 0 && month.val().length > 0 && year.val().length > 0)) || !atLeastOne) {
-                            validator.updateStatus('day', validator.STATUS_VALID, 'callback');
-                            validator.updateStatus('month', validator.STATUS_VALID, 'callback');
-                            validator.updateStatus('year', validator.STATUS_VALID, 'callback');
-                            return true;
-                        }
-                        return false;
-                    }
-                }
-            };
+                $('#personal').find('[name="date_of_birth"]').val(y === '' && m === '' && d === '' ? '' : [y, m, d].join('-'));
+                $('#personal').formValidation('revalidateField', 'date_of_birth');
+            });
 
             $('#personal').formValidation({
                 framework: 'bootstrap',
@@ -173,9 +158,15 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-                    day: {validators: dateValidation},
-                    month: {validators: dateValidation},
-                    year: {validators: dateValidation},
+                    date_of_birth: {
+                        excluded: false,
+                        validators: {
+                            date: {
+                                format: 'YYYY-MM-DD',
+                                message: 'Please fully enter the date of birth'
+                            }
+                        }
+                    },
                     phone_home: {validators: phoneValidation},
                     phone_mobile: {validators: phoneValidation}
                 }

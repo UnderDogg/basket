@@ -689,7 +689,7 @@ class InitialisationController extends Controller
                     'title' => (string) $request->get('title'),
                     'first_name' => (string) $request->get('first_name'),
                     'last_name' => (string) $request->get('last_name'),
-                    'date_of_birth' => (string) $request->get('year'). '-'. $request->get('month'). '-'. $request->get('day'),
+                    'date_of_birth' => (string) $request->get('date_of_birth'),
                     'marital_status' => (int) $request->get('marital_status'),
                     'number_of_dependents' => (int) $request->get('number_of_dependents'),
                     'phone_mobile' => (string) $request->get('phone_mobile'),
