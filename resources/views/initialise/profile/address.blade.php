@@ -75,7 +75,7 @@
                     <div class="form-group">
                         {!! Form::label('residential_status', 'Residential Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="residential_status">
+                            <select class="form-control col-xs-12" name="residential_status" data-fv-numeric="true">
                                 <option value="">-- Please select --</option>
                                 @foreach ($residentialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>

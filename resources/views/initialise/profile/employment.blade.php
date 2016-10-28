@@ -18,9 +18,7 @@
                     <div class="form-group">
                         {!! Form::label('employment_status', 'Employment Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12"
-                                    name="employment_status"
-                                    data-fv-notempty-message="Please select an employment status">
+                            <select class="form-control col-xs-12" name="employment_status" data-fv-numeric="true">
                                 <option value="">-- Please select --</option>
                                 @foreach ($employmentStatuses as $status)
                                 <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
