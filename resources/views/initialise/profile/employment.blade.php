@@ -44,7 +44,10 @@
                     <div class="form-group">
                         {!! Form::label('phone_employer', 'Employer\'s Phone Number' , ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('phone_employer', isset($phone_employer) ? $phone_employer : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></div>
+                                {!! Form::text('phone_employer', isset($phone_employer) ? $phone_employer : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            </div>
                         </div>
                     </div>
                     {!! Form::token() !!}
