@@ -35,9 +35,11 @@
                 @if(!isset($user))
                     @include('initialise.profile.personal', ['validation' => true])
                 @else
-                    @include('initialise.profile.address', ['validation' => true])
-                    @include('initialise.profile.employment', ['validation' => true])
-                    @include('initialise.profile.financial', ['validation' => true])
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        @include('initialise.profile.address', ['validation' => true])
+                        @include('initialise.profile.employment', ['validation' => true])
+                        @include('initialise.profile.financial', ['validation' => true])
+                    </div>
                     <div class="pull-right">
                         <a href="/" class="btn btn-default">Cancel</a>
                         <a href="/locations/{{$location->id}}/applications/{{$application->id}}/create" class="btn btn-success">Create</a>
