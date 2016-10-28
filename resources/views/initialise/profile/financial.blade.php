@@ -18,12 +18,12 @@
                     <h4 class="text-muted">Income and Expenditure</h4>
                     <div class="form-group">
                         {!! Form::label('monthly_income', 'Net Monthly Income', ['class' => 'col-sm-2 control-label text-right']) !!}
-                        <small class="text-muted">After tax and National Insurance</small>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
                                 {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'maxlength' => 5, 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric']) !!}
                             </div>
+                            <small class="text-muted">After tax and National Insurance</small>
                         </div>
                     </div>
                     <div class="form-group">
