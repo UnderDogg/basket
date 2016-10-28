@@ -11,7 +11,7 @@
             <div class="panel-body">
                 {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->ext_id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
                 {!! Form::hidden('reference', $application->ext_id) !!}
-                    <h4 class="lead text-muted">Basic Details</h4>
+                <h4 class="text-muted">Basic Details</h4>
 
                 <div class="form-group">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right', 'data-fv-notempty' => 'true']) !!}
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <hr />
-                    <h4 class="lead text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
+                    <h4 class="text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
                     <div class="form-group">
                         {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
