@@ -57,6 +57,13 @@
                             </select>
                         </div>
                     </div>
+                <div class="form-group">
+                    {!! Form::label('number_of_dependents', 'Dependents', ['class' => 'col-sm-2 control-label text-right']) !!}
+                    <small>(Optional)</small>
+                    <div class="col-sm-8">
+                        {!! Form::selectRange('number_of_dependents', 0, 10, null, ['id' => 'number_of_dependents', 'class' => 'form-control', 'data-fv-numeric' => 'true']) !!}
+                    </div>
+                </div>
 
                     <hr />
                     <h4 class="lead text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
@@ -130,6 +137,8 @@
                     phone_mobile: {validators: validators}
                 }
             });
+
+            $("#number_of_dependents option[value='10']").html('10 +');
         });
     </script>
 @endif
