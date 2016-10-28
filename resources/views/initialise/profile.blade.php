@@ -35,7 +35,7 @@
                 @if(!isset($user))
                     @include('initialise.profile.personal', ['validation' => true])
                 @else
-                    <p>The following sections are optional, the more that is filled in the less the customer will have to fill in when they click on the application link.</p>
+                    <p>The following sections are optional. The customer will be required to provide any details not completed here when they click on the application link.</p>
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         @include('initialise.profile.address', ['validation' => true])
                         @include('initialise.profile.employment', ['validation' => true])
