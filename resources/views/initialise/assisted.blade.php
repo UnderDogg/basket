@@ -35,21 +35,30 @@
                         <div class="col-xs-12">
                             {!! Form::open(['action' => ['InitialisationController@performAssisted', $location->id], 'class' => 'form-horizontal', 'method' => 'POST']) !!}
                             <div class="form-group">
-                                {!! Form::label('reference', 'Reference', ['class' => 'col-sm-2 control-label text-right']) !!}
+                                {!! Form::label('reference', 'Your Reference', ['class' => 'col-sm-2 control-label text-right']) !!}
                                 <div class="col-sm-8">
-                                    {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255]) !!}
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></div>
+                                        {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255]) !!}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                {!! Form::label('description', 'Description', ['class' => 'col-sm-2 control-label text-right']) !!}
+                                {!! Form::label('description', 'Order Description', ['class' => 'col-sm-2 control-label text-right']) !!}
                                 <div class="col-sm-8">
-                                    {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a description for this order', 'maxlength' => 255]) !!}
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></div>
+                                        {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a description for this order', 'maxlength' => 255]) !!}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                {!! Form::label('email', 'Email', ['class' => 'col-sm-2 control-label text-right']) !!}
+                                {!! Form::label('email', 'Customer Email', ['class' => 'col-sm-2 control-label text-right']) !!}
                                 <div class="col-sm-8">
-                                    {!! Form::email('email', null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter an email address', 'data-fv-emailaddress' => 'true', 'maxlength' => 255]) !!}
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></div>
+                                        {!! Form::email('email', null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter an email address', 'data-fv-emailaddress' => 'true', 'maxlength' => 255]) !!}
+                                    </div>
                                 </div>
                             </div>
 
