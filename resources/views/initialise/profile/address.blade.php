@@ -103,7 +103,7 @@
 
             $('#move_in_month').prepend( '<option value="">-- Month --</option>');
             $('#move_in_year').prepend( '<option value="">-- Year --</option>');
-            $('#move_in_year option:last').val();
+            $('#move_in_year option:last').text($('#move_in_year option:last').text() + ' and earlier');
             $('#move_in_month :nth-child(1)').prop('selected', true);
             $('#move_in_year :nth-child(1)').prop('selected', true);
         });
