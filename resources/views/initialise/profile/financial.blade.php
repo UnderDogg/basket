@@ -13,7 +13,7 @@
     <div id="collapseFinancial" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFinancial">
         <div class="panel-body">
             <div class="col-sm-12">
-                <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap" data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" data-fv-icon-validating="glyphicon glyphicon-refresh">
+                <form class="form-horizontal" id="financial" method="POST" data-fv-framework="bootstrap">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
                     <h4 class="text-muted">Income and Expenditure</h4>
                     <div class="form-group">
@@ -102,11 +102,6 @@
 
             $('#financial').formValidation({
                 framework: 'bootstrap',
-                icon: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
                 fields: {
                     bank_sort_code: {validators: validators},
                     bank_account: {validators: validators}

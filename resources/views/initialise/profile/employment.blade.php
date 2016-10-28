@@ -66,7 +66,7 @@
 @if(isset($validation) && $validation == true)
     <script>
         $(document).ready(function() {
-            $('#employment').formValidation({ });
+            $('#employment').formValidation({});
 
             $(function() {
                 $('#employment :input').not(':hidden').on('input', function() {

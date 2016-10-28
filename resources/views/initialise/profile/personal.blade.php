@@ -153,15 +153,9 @@
 
             $('#personal').formValidation({
                 framework: 'bootstrap',
-                icon: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
                 fields: {
                     date_of_birth: {
                         err: '.dob-error',
-                        icon: false,
                         excluded: false,
                         validators: {
                             date: {
@@ -172,12 +166,6 @@
                     },
                     phone_home: {validators: phoneValidation},
                     phone_mobile: {validators: phoneValidation}
-                }
-            }).on('success.field.fv', function(e, data) {
-                if (data.element.val() === '') {
-                    var $parent = data.element.parents('.form-group');
-                    $parent.removeClass('has-success');
-                    data.element.data('fv.icon').hide();
                 }
             });
 
