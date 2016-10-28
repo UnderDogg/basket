@@ -22,6 +22,7 @@
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
                                 {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'maxlength' => 5, 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric']) !!}
+                                <div class="input-group-addon">.00</div>
                             </div>
                             <small class="text-muted">After tax and National Insurance</small>
                         </div>
@@ -32,6 +33,7 @@
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
                                 {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control col-xs-12', 'maxlength' => 5, 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
+                                <div class="input-group-addon">.00</div>
                             </div>
                             <small class="text-muted">Enter 0 if you have no debt repayments</small>
                         </div>
