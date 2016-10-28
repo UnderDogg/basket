@@ -18,19 +18,19 @@
                     <div class="form-group">
                         {!! Form::label('abode', 'Abode', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 30]) !!}
+                            {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'maxlength' => 30]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('building_name', 'Building Name', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('building_name', isset($building_name) ? $building_name : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 50]) !!}
+                            {!! Form::text('building_name', isset($building_name) ? $building_name : null, ['class' => 'form-control', 'maxlength' => 50]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('building_number', 'Building Number', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('building_number', isset($building_number) ? $building_number : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'maxlength' => 12]) !!}
+                            {!! Form::text('building_number', isset($building_number) ? $building_number : null, ['class' => 'form-control', 'maxlength' => 12]) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -73,10 +73,7 @@
                     <div class="form-group">
                         {!! Form::label('residential_status', 'Residential Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12"
-                                    name="residential_status"
-                                    data-fv-notempty-message="Please select a residential status"
-                                    data-fv-notempty = "true">
+                            <select class="form-control col-xs-12" name="residential_status">
                                 <option value="">-- Please select --</option>
                                 @foreach ($residentialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
