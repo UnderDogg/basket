@@ -664,7 +664,7 @@ class InitialisationController extends Controller
     {
         return [
             'employmentStatuses' => $this->dictionaryGateway->getEmploymentStatuses($merchant->token),
-            'martialStatuses' => $this->dictionaryGateway->getMaritalStatuses($merchant->token),
+            'maritalStatuses' => $this->dictionaryGateway->getMaritalStatuses($merchant->token),
             'residentialStatuses' => $this->dictionaryGateway->getResidentialStatuses($merchant->token),
         ];
     }
@@ -690,7 +690,7 @@ class InitialisationController extends Controller
                     'first_name' => (string) $request->get('first_name'),
                     'last_name' => (string) $request->get('last_name'),
                     'date_of_birth' => (string) $request->get('year'). '-'. $request->get('month'). '-'. $request->get('day'),
-                    'martial_status' => (int) $request->get('martial_status'),
+                    'marital_status' => (int) $request->get('marital_status'),
                     'number_of_dependents' => (int) $request->get('number_of_dependents'),
                     'phone_mobile' => (string) $request->get('phone_mobile'),
                     'phone_home' => (string) $request->get('phone_home'),

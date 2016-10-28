@@ -56,12 +56,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        {!! Form::label('martial_status', 'Martial Status', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        {!! Form::label('marital_status', 'Marital Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <small>(Optional)</small>
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="martial_status">
+                            <select class="form-control col-xs-12" name="marital_status">
                                 <option value="">-- Please select --</option>
-                                @foreach ($martialStatuses as $status)
+                                @foreach ($maritalStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
                                 @endforeach
                             </select>
@@ -153,14 +153,7 @@
                             atLeastOne = true;
                         }
 
-                        if (!atLeastOne) {
-                            validator.updateStatus('day', validator.STATUS_VALID, 'callback');
-                            validator.updateStatus('month', validator.STATUS_VALID, 'callback');
-                            validator.updateStatus('year', validator.STATUS_VALID, 'callback');
-                            return true;
-                        }
-
-                        if (atLeastOne && (day.val().length > 0 && month.val().length > 0 && year.val().length > 0)) {
+                        if ((atLeastOne && (day.val().length > 0 && month.val().length > 0 && year.val().length > 0)) || !atLeastOne) {
                             validator.updateStatus('day', validator.STATUS_VALID, 'callback');
                             validator.updateStatus('month', validator.STATUS_VALID, 'callback');
                             validator.updateStatus('year', validator.STATUS_VALID, 'callback');
