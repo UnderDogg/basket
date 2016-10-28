@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingEmployment">
         <h4 class="panel-title">
-            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment">
+            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment" aria-expanded="false" aria-controls="collapseEmployment">
                 Employment <small>(Optional)</small> <span class="employment-status"></span>
                 <p class="pull-right">
                     <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>

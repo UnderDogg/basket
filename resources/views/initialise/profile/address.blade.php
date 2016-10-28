@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingAddress">
         <h4 class="panel-title">
-            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress">
+            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
                 Current Address <small>(Optional)</small> <span class="address-status"></span>
                 <p class="pull-right">
                     <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>

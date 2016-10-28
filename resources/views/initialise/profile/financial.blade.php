@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingFinancial">
         <h4 class="panel-title">
-            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFinancial">
+            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFinancial" aria-expanded="false" aria-controls="collapseFinancial">
                 Financial <small>(Optional)</small> <span class="financial-status"></span>
                 <p class="pull-right">
                     <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
