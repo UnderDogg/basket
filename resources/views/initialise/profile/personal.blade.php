@@ -55,6 +55,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="dob-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('marital_status', 'Marital Status', ['class' => 'col-sm-2 control-label text-right']) !!}
@@ -159,6 +160,8 @@
                 },
                 fields: {
                     date_of_birth: {
+                        err: '.dob-error',
+                        icon: false,
                         excluded: false,
                         validators: {
                             date: {
