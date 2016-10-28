@@ -177,6 +177,8 @@
             $('#dob_year :nth-child(1)').prop('selected', true);
 
             $("#number_of_dependents option[value='10']").html('10 +');
+            $("#number_of_dependents").prepend( '<option value="">-- Please select --</option>');
+            $('#number_of_dependents :nth-child(1)').prop('selected', true);
         });
     </script>
 @endif
