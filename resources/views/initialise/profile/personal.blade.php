@@ -67,27 +67,32 @@
                             </select>
                         </div>
                     </div>
-                <div class="form-group">
-                    {!! Form::label('number_of_dependents', 'Dependents', ['class' => 'col-sm-2 control-label text-right']) !!}
-                    <small>(Optional)</small>
-                    <div class="col-sm-8">
-                        {!! Form::selectRange('number_of_dependents', 0, 10, null, ['id' => 'number_of_dependents', 'class' => 'form-control', 'data-fv-numeric' => 'true']) !!}
+                    <div class="form-group">
+                        {!! Form::label('number_of_dependents', 'Dependents', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        <small>(Optional)</small>
+                        <div class="col-sm-8">
+                            {!! Form::selectRange('number_of_dependents', 0, 10, null, ['id' => 'number_of_dependents', 'class' => 'form-control', 'data-fv-numeric' => 'true']) !!}
+                        </div>
                     </div>
-                </div>
-
                     <hr />
                     <h4 class="lead text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
                     <div class="form-group">
                         {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('phone_mobile', isset($phone_mobile) ? $phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
+                                {!! Form::text('phone_mobile', isset($phone_mobile) ? $phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            </div>
                         </div>
                     </div>
                     <div class="form-group text-center">— Or —</div>
                     <div class="form-group">
                         {!! Form::label('phone_home', 'Home Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></div>
+                                {!! Form::text('phone_home', isset($phone_home) ? $phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            </div>
                         </div>
                     </div>
                     {!! Form::token() !!}
@@ -113,7 +118,7 @@
 
             var phoneValidation = {
                 callback: {
-                    message: 'You must enter at least one phone number',
+                    message: 'You must enter at least one contact phone number',
                     callback: function (value, validator) {
                         var isEmpty = true;
                         var mobile = validator.getFieldElements('phone_mobile');
@@ -131,10 +136,6 @@
                             return true;
                         }
                         return false;
-                    },
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm must be the same'
                     }
                 }
             };
