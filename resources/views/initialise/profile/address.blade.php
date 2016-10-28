@@ -59,15 +59,17 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('moved_in', 'Moved In', ['class' => 'col-sm-2 control-label']) !!}
+                        <input type="hidden" name="moved_in_date" />
                         <div class="col-sm-8">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    {!! Form::selectMonth('month', null, ['id'=> 'move_in_month','class' => 'form-control']) !!}
+                                <div class="col-sm-6 col-xs-12">
+                                    {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control']) !!}
                                 </div>
-                                <div class="col-sm-6">
-                                    {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(30)->year, null, ['id'=> 'move_in_year', 'class' => 'form-control']) !!}
+                                <div class="col-sm-6 col-xs-12">
+                                    {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(30)->year, null, ['id'=> 'moved_in_year', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
+                            <div class="moved-in-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -96,13 +98,41 @@
 @if(isset($validation) && $validation == true)
     <script>
         $(document).ready(function() {
-            $('#address').formValidation({});
+            $('#address').formValidation({
+                framework: 'bootstrap',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    date_of_birth: {
+                        err: '.moved-in-error',
+                        icon: false,
+                        excluded: false,
+                        validators: {
+                            date: {
+                                format: 'YYYY-MM-DD',
+                                message: 'Please fully enter the moved in date'
+                            }
+                        }
+                    }
+                }
+            });
 
-            $('#move_in_month').prepend( '<option value="">-- Month --</option>');
-            $('#move_in_year').prepend( '<option value="">-- Year --</option>');
-            $('#move_in_year option:last').text($('#move_in_year option:last').text() + ' and earlier');
-            $('#move_in_month :nth-child(1)').prop('selected', true);
-            $('#move_in_year :nth-child(1)').prop('selected', true);
+            $('#address').on('change', '#moved_in_month, #moved_in_year', function(e) {
+                var y = $('#address').find('#moved_in_year').val(),
+                        m = $('#address').find('#moved_in_month').val(),
+                        d = '01';
+                $('#address').find('[name="moved_in_date"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
+                $('#address').formValidation('revalidateField', 'moved_in_date');
+            });
+
+            $('#moved_in_month').prepend( '<option value="">-- Month --</option>');
+            $('#moved_in_year').prepend( '<option value="">-- Year --</option>');
+            $('#moved_in_year option:last').text($('#moved_in_year option:last').text() + ' and earlier');
+            $('#moved_in_month :nth-child(1)').prop('selected', true);
+            $('#moved_in_year :nth-child(1)').prop('selected', true);
         });
     </script>
 @endif
