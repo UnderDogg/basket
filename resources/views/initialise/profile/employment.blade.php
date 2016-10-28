@@ -21,7 +21,7 @@
                             <select class="form-control col-xs-12"
                                     name="employment_status"
                                     data-fv-notempty-message="Please select an employment status">
-                                <option value="">Please select&hellip;</option>
+                                <option value="">-- Please select --</option>
                                 @foreach ($employmentStatuses as $status)
                                 <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
                                 @endforeach
