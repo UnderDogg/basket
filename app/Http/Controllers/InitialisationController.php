@@ -685,7 +685,16 @@ class InitialisationController extends Controller
 
             $response = $this->profileGateway->createPersonal(
                 $request->get('reference'),
-                $request->all(),
+                [
+                    'title' => (string) $request->get('title'),
+                    'first_name' => (string) $request->get('first_name'),
+                    'last_name' => (string) $request->get('last_name'),
+                    'date_of_birth' => (string) $request->get('year'). '-'. $request->get('month'). '-'. $request->get('day'),
+                    'martial_status' => (int) $request->get('martial_status'),
+                    'number_of_dependents' => (int) $request->get('number_of_dependents'),
+                    'phone_mobile' => (string) $request->get('phone_mobile'),
+                    'phone_home' => (string) $request->get('phone_home'),
+                ],
                 $location->installation->merchant->token
             );
 

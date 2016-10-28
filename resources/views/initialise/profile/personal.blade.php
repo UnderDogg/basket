@@ -39,10 +39,20 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
-                        <small>(Optional)</small>
+                    {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
+                    <small>(Optional)</small>
                         <div class="col-sm-8">
-                            {!! Form::text('date_of_birth', isset($date_of_birth) ? $date_of_birth : null, ['class' => 'form-control', 'data-fv-date' => 'true', 'data-fv-date-format' => 'YYYY-MM-DD', 'data-fv-date-message' => 'Please enter a valid date in the following format: YYYY-MM-DD', 'maxlength' => 10]) !!}
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    {!! Form::selectRange('day', 1, 31, null, ['id'=> 'dob_day', 'class' => 'form-control'])  !!}
+                                </div>
+                                <div class="col-sm-4">
+                                    {!! Form::selectMonth('month', null, ['id'=> 'dob_month','class' => 'form-control']) !!}
+                                </div>
+                                <div class="col-sm-4">
+                                    {!! Form::selectYear('year', 1981, 2015, null, ['id'=> 'dob_year', 'class' => 'form-control']) !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -101,7 +111,7 @@
         // Programmatic ONLY needed for "one or the other" phone numbers
         $(document).ready(function() {
 
-            var validators = {
+            var phoneValidation = {
                 callback: {
                     message: 'You must enter at least one phone number',
                     callback: function (value, validator) {
@@ -121,9 +131,45 @@
                             return true;
                         }
                         return false;
+                    },
+                    identical: {
+                        field: 'password',
+                        message: 'The password and its confirm must be the same'
                     }
                 }
             };
+
+            var dateValidation = {
+                callback: {
+                    message: 'Please fully enter the date of birth',
+                    callback: function (value, validator) {
+                        var atLeastOne = false;
+
+                        var day = validator.getFieldElements('day');
+                        var month = validator.getFieldElements('month');
+                        var year = validator.getFieldElements('year');
+
+                        if (day.val().length > 0 || month.val().length > 0 || year.val().length > 0) {
+                            atLeastOne = true;
+                        }
+
+                        if (!atLeastOne) {
+                            validator.updateStatus('day', validator.STATUS_VALID, 'callback');
+                            validator.updateStatus('month', validator.STATUS_VALID, 'callback');
+                            validator.updateStatus('year', validator.STATUS_VALID, 'callback');
+                            return true;
+                        }
+
+                        if (atLeastOne && (day.val().length > 0 && month.val().length > 0 && year.val().length > 0)) {
+                            validator.updateStatus('day', validator.STATUS_VALID, 'callback');
+                            validator.updateStatus('month', validator.STATUS_VALID, 'callback');
+                            validator.updateStatus('year', validator.STATUS_VALID, 'callback');
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            }
 
             $('#personal').formValidation({
                 framework: 'bootstrap',
@@ -133,10 +179,26 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-                    phone_home: {validators: validators},
-                    phone_mobile: {validators: validators}
+                    day: {validators: dateValidation},
+                    month: {validators: dateValidation},
+                    year: {validators: dateValidation},
+                    phone_home: {validators: phoneValidation},
+                    phone_mobile: {validators: phoneValidation}
+                }
+            }).on('success.field.fv', function(e, data) {
+                if (data.element.val() === '') {
+                    var $parent = data.element.parents('.form-group');
+                    $parent.removeClass('has-success');
+                    data.element.data('fv.icon').hide();
                 }
             });
+
+            $('#dob_day').prepend( '<option value="">Day</option>');
+            $('#dob_month').prepend( '<option value="">Month</option>');
+            $('#dob_year').prepend( '<option value="">Year</option>');
+            $('#dob_day :nth-child(1)').prop('selected', true);
+            $('#dob_month :nth-child(1)').prop('selected', true);
+            $('#dob_year :nth-child(1)').prop('selected', true);
 
             $("#number_of_dependents option[value='10']").html('10 +');
         });
