@@ -8,6 +8,7 @@
                         <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
                         <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
                     </p>
+                </a>
             </h4>
         </div>
         <div id="collapseEmployment" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEmployment">

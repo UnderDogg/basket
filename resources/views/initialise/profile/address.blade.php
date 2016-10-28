@@ -1,15 +1,15 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingAddress">
-            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" class="collapsed">
             <h4 class="panel-title">
-                Current Address <small>(Optional)</small> <span class="address-status"></span>
-                <p class="pull-right">
-                    <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
-                </p>
+                <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" class="collapsed">
+                    Current Address <small>(Optional)</small> <span class="address-status"></span>
+                    <p class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
+                    </p>
+                </a>
             </h4>
-            </a>
         </div>
         <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
             <div class="panel-body">
