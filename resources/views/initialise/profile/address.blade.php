@@ -16,7 +16,7 @@
                 <form class="form-horizontal" id="address" method="POST">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
                     <div class="form-group">
-                        {!! Form::label('abode', 'Abode', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        {!! Form::label('abode', 'Flat / Unit Number', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
                             {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'maxlength' => 30]) !!}
                         </div>
