@@ -640,6 +640,7 @@ class InitialisationController extends Controller
             $application = $this->fetchModelById(new Application(), $application, 'Application', '/');
             $dictionaries = $this->fetchDictionaries($location->installation->merchant);
         } catch (\Exception $e) {
+            $this->logError('Profile creation failed: ' . $e->getMessage() . ' trace[' . $e->getTraceAsString() . ']');
             throw $this->redirectWithException('/', 'Profile Creation Failed: ' . $e->getMessage(), $e);
         }
 
