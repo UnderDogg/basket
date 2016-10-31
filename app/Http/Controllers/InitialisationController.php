@@ -729,12 +729,6 @@ class InitialisationController extends Controller
         return true;
     }
 
-    public function completeProfile($location, Request $request)
-    {
-        $application = $this->fetchApplicationDetails($request->get('reference'));
-
-    }
-
     /**
      * @author EB
      * @param Location $location
