@@ -91,7 +91,7 @@ class AjaxController extends Controller
         $location = Location::findOrFail($location)->first();
 
         try {
-            return $this->profileGateway->addAddress(
+            return $this->profileGateway->setAddress(
                 (int) $request->get('user'),
                 [
                     'abode' => (string) $request->get('abode'),
