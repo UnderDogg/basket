@@ -27,7 +27,8 @@ $(document).ready(function() {
                 },
                 success: function () {
                     hideLoading();
-                    // Disable the form from being submitted again
+                    // Enable the form from being submitted again
+                    formValidation.disableSubmitButtons(false);
                     updateFormStatus(formId, true);
                 },
                 error: function (response) {
