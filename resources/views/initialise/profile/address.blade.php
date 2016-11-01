@@ -18,7 +18,6 @@
                 <form class="form-horizontal" id="address" method="POST">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
 
-
                     <div class="form-group">
                         <p>Search for an address by typing your postcode in the field below</p>
                         {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
@@ -93,7 +92,7 @@
                     {!! Form::token() !!}
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <a class="btn btn-info" data-target="save" data-source="ajax">Save Address</a>
+                            <a class="btn btn-info btn-block" data-target="save" data-source="ajax">Save Address</a>
                         </div>
                     </div>
                 </form>
@@ -102,46 +101,44 @@
     </div>
 </div>
 
-@if(isset($validation) && $validation == true)
-    <script>
-        $(document).ready(function() {
-            $('#address').formValidation({
-                framework: 'bootstrap',
-                button: {
-                    selector: '[data-target="save"]'
-                },
-                fields: {
-                    moved_in: {
-                        err: '.moved-in-error',
-                        icon: false,
-                        excluded: false,
-                        validators: {
-                            date: {
-                                format: 'YYYY-MM-DD',
-                                message: 'Please fully enter the moved in date'
-                            },
-                            notEmpty: {
-                                message: 'Please fully enter the moved in date'
-                            }
+<script>
+    $(document).ready(function() {
+        $('#address').formValidation({
+            framework: 'bootstrap',
+            button: {
+                selector: '[data-target="save"]'
+            },
+            fields: {
+                moved_in: {
+                    err: '.moved-in-error',
+                    icon: false,
+                    excluded: false,
+                    validators: {
+                        date: {
+                            format: 'YYYY-MM-DD',
+                            message: 'Please fully enter the moved in date'
+                        },
+                        notEmpty: {
+                            message: 'Please fully enter the moved in date'
                         }
                     }
                 }
-            });
-
-            $('#address').on('change', '#moved_in_month, #moved_in_year', function(e) {
-                var y = $('#moved_in_year').val(),
-                    m = $('#moved_in_month').val(),
-                    d = '1';
-
-                $('#address').find('[name="moved_in"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
-                $('#address').formValidation('revalidateField', 'moved_in');
-            });
-
-            $('#moved_in_month').prepend( '<option value="">-- Month --</option>');
-            $('#moved_in_year').prepend( '<option value="">-- Year --</option>');
-            $('#moved_in_year option:last').text($('#moved_in_year option:last').text() + ' and earlier');
-            $('#moved_in_month :nth-child(1)').prop('selected', true);
-            $('#moved_in_year :nth-child(1)').prop('selected', true);
+            }
         });
-    </script>
-@endif
+
+        $('#address').on('change', '#moved_in_month, #moved_in_year', function(e) {
+            var y = $('#moved_in_year').val(),
+                m = $('#moved_in_month').val(),
+                d = '1';
+
+            $('#address').find('[name="moved_in"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
+            $('#address').formValidation('revalidateField', 'moved_in');
+        });
+
+        $('#moved_in_month').prepend( '<option value="">-- Month --</option>');
+        $('#moved_in_year').prepend( '<option value="">-- Year --</option>');
+        $('#moved_in_year option:last').text($('#moved_in_year option:last').text() + ' and earlier');
+        $('#moved_in_month :nth-child(1)').prop('selected', true);
+        $('#moved_in_year :nth-child(1)').prop('selected', true);
+    });
+</script>

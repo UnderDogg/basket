@@ -58,7 +58,7 @@
                     {!! Form::token() !!}
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <a class="btn btn-info" data-target="save" data-source="ajax">Save Financial</a>
+                            <a class="btn btn-info btn-block" data-target="save" data-source="ajax">Save Financial</a>
                         </div>
                     </div>
                 </form>
@@ -67,43 +67,40 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        var validators = {
+            callback: {
+                message: 'You must enter both the sort code and the account number, or neither',
+                callback: function (value, validator) {
+                    var atLeastOne = false;
+                    var sortCode = validator.getFieldElements('bank_sort_code');
+                    var accountNumber = validator.getFieldElements('bank_account');
 
-@if(isset($validation) && $validation == true)
-    <script>
-        $(document).ready(function() {
-            var validators = {
-                callback: {
-                    message: 'You must enter both the sort code and the account number, or neither',
-                    callback: function (value, validator) {
-                        var atLeastOne = false;
-                        var sortCode = validator.getFieldElements('bank_sort_code');
-                        var accountNumber = validator.getFieldElements('bank_account');
-
-                        if ((sortCode.val().length > 0 || accountNumber.val().length > 0)) {
-                            atLeastOne = true;
-                        }
-
-                        if ((atLeastOne && (sortCode.val().length > 0 && accountNumber.val().length > 0)) || !atLeastOne) {
-                            validator.updateStatus('bank_sort_code', validator.STATUS_VALID, 'callback');
-                            validator.updateStatus('bank_account', validator.STATUS_VALID, 'callback');
-                            return true;
-                        }
-                        
-                        return false;
+                    if ((sortCode.val().length > 0 || accountNumber.val().length > 0)) {
+                        atLeastOne = true;
                     }
-                }
-            };
 
-            $('#financial').formValidation({
-                framework: 'bootstrap',
-                button: {
-                    selector: '[data-target="save"]'
-                },
-                fields: {
-                    bank_sort_code: {validators: validators},
-                    bank_account: {validators: validators}
+                    if ((atLeastOne && (sortCode.val().length > 0 && accountNumber.val().length > 0)) || !atLeastOne) {
+                        validator.updateStatus('bank_sort_code', validator.STATUS_VALID, 'callback');
+                        validator.updateStatus('bank_account', validator.STATUS_VALID, 'callback');
+                        return true;
+                    }
+
+                    return false;
                 }
-            });
+            }
+        };
+
+        $('#financial').formValidation({
+            framework: 'bootstrap',
+            button: {
+                selector: '[data-target="save"]'
+            },
+            fields: {
+                bank_sort_code: {validators: validators},
+                bank_account: {validators: validators}
+            }
         });
-    </script>
-@endif
+    });
+</script>
