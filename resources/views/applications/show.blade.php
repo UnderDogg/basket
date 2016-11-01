@@ -186,6 +186,7 @@
                         </dl>
                     </div>
                 </div>
+                @if(!empty($applications->ext_applicant_first_name))
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Applicant Details</strong></div>
                     <div class="panel-body">
@@ -209,6 +210,7 @@
                         </dl>
                     </div>
                 </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Application Address</strong></div>
                     <div class="panel-body">
