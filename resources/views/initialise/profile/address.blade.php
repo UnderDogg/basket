@@ -13,8 +13,20 @@
     <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
         <div class="panel-body">
             <div class="col-sm-12">
+                <link rel="stylesheet" type="text/css" href="https://services.postcodeanywhere.co.uk/css/captureplus-2.30.min.css?key=kh79-rj31-an17-mu82" />
+                <script type="text/javascript" src="https://services.postcodeanywhere.co.uk/js/captureplus-2.30.min.js?key=kh79-rj31-an17-mu82"></script>
                 <form class="form-horizontal" id="address" method="POST">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
+
+
+                    <div class="form-group">
+                        <p>Search for an address by typing your postcode in the field below</p>
+                        {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        <div class="col-sm-8">
+                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here']) !!}
+                        </div>
+                    </div>
+                    <hr/>
                     <div class="form-group">
                         {!! Form::label('abode', 'Flat / Unit Number', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
@@ -51,12 +63,7 @@
                             {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control col-xs-12', 'maxlength' => 25, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a town']) !!}
                         </div>
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
-                            <div class="col-sm-8">
-                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
-                        </div>
-                    </div>
+                    <hr/>
                     <div class="form-group">
                         {!! Form::label('moved_in', 'Moved In', ['class' => 'col-sm-2 control-label']) !!}
                         <input type="hidden" name="moved_in" />
