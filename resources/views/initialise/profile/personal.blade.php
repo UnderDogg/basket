@@ -10,7 +10,12 @@
         <div id="collapsePersonal" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingPersonal">
             <div class="panel-body">
                 {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->ext_id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
-                {!! Form::hidden('reference', $application->ext_id) !!}
+
+                @if(!isset($user))
+                    {!! Form::hidden('reference', $application->ext_id) !!}
+                @else
+                    {!! Form::hidden('user', $user) !!}
+                @endif
                 <h4 class="text-muted">Basic Details</h4>
 
                 <div class="form-group">
@@ -103,7 +108,11 @@
                         <div class="col-sm-offset-2 col-sm-8">
                             <div class="pull-right">
                                 <a href="/" class="btn btn-default">Cancel</a>
-                                {!! Form::submit('Continue', ['class' => 'btn btn-success', 'name' => 'savePersonal']) !!}
+                                @if(!isset($user))
+                                    {!! Form::submit('Continue', ['class' => 'btn btn-success', 'name' => 'savePersonal']) !!}
+                                @else
+                                    <a class="btn btn-info" data-target="save" data-source="ajax">Save Address</a>
+                                @endif
                             </div>
                         </div>
                     </div>
