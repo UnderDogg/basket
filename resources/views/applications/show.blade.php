@@ -77,7 +77,7 @@
                         <div class="panel-heading"><strong>Application Link</strong></div>
                         <div class="panel-body">
                             @if(!empty($applications->ext_applicant_email_address) || !empty($applications->ext_customer_email_address))
-                            <p>Send email using configured template <a href="{!! Request::url() !!}'/email" class="btn btn-info">Send Email</a></p>
+                            <p>Send email using configured template <a href="{!! Request::url() !!}/email" class="btn btn-info">Send Email</a></p>
                             @endif
                             <p>Click on the link below to copy it to the clipboard</p>
                             <a href="{{$applications->ext_resume_url}}" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a>
