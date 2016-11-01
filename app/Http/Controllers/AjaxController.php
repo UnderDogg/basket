@@ -80,6 +80,38 @@ class AjaxController extends Controller
     }
 
     /**
+     * @author EB
+     * @param Request $request
+     * @param int $location
+     * @return array|\Illuminate\Http\Response
+     */
+    public function setProfilePersonal(Request $request, $location)
+    {
+        /** @var Location $location */
+        $location = Location::findOrFail($location)->first();
+
+        try {
+            return $this->profileGateway->setPersonal(
+                (int) $request->get('user'),
+                [
+                    'title' => (string)$request->get('title'),
+                    'first_name' => (string)$request->get('first_name'),
+                    'last_name' => (string)$request->get('last_name'),
+                    'date_of_birth' => (string)$request->get('date_of_birth'),
+                    'marital_status' => (int)$request->get('marital_status'),
+                    'number_of_dependents' => (int)$request->get('number_of_dependents'),
+                    'phone_mobile' => (string)$request->get('phone_mobile'),
+                    'phone_home' => (string)$request->get('phone_home'),
+                ],
+                $location->installation->merchant->token
+            );
+        } catch (\Exception $e) {
+            $this->logError('Set Personal Failed: ' . $e->getMessage(), $request->all());
+            return $this->apiResponseFromException($e, 422);
+        }
+    }
+
+    /**
      * @author EA
      * @param Request $request
      * @param int $location
