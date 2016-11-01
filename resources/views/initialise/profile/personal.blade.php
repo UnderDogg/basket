@@ -1,12 +1,20 @@
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingPersonal">
         <h4 class="panel-title">
-            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePersonal" aria-expanded="true" aria-controls="collapseOne">
-                Personal <span class="personal-status"></span>
+            @if(isset($user))
+            <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsePersonal" @if(!isset($user))aria-expanded="true" @endif aria-controls="collapseOne">
+            @endif
+                Personal <span class="personal-status">@if(isset($user))<small class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></small>@endif</span>
+                @if(isset($user))
+                <p class="pull-right">
+                    <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
+                </p>
             </a>
+            @endif
         </h4>
     </div>
-    <div id="collapsePersonal" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingPersonal">
+    <div id="collapsePersonal" class="panel-collapse collapse @if(!isset($user))in @endif" role="tabpanel" aria-labelledby="headingPersonal">
         <div class="panel-body">
             {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->ext_id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
 
