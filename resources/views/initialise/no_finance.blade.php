@@ -25,9 +25,12 @@
             </div>
             <br/>
             <div class="col-sm-8 col-sm-offset-2">
-                <h2>Unfortunately we cannot provide an application link</h2>
+                <h2>Unfortunately we are unable to create an application link for this email address at this time</h2>
                 <div class="alert alert-info" role="alert">
-                    <em>Information regarding reason</em>
+                    There are a number of reasons you may receive this message. Please ask the customer to contact our
+                    Customer Support team on <a href="tel:03333444226">03333 444 226</a> or they can email
+                    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;tf=1&amp;to=retailer@afforditnow.com" target="_blank">retailer@afforditnow.com</a>
+                    and we will be able to assist in resolving this issue.
                 </div>
                 <a href="/" class="btn btn-default pull-right">Return to Dashboard</a>
 
