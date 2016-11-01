@@ -36,7 +36,7 @@
                     <div class="form-group">
                         {!! Form::label('street', 'Street', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('street', isset($street) ? $street : null, ['class' => 'form-control','maxlength' => 50]) !!}
+                            {!! Form::text('street', isset($street) ? $street : null, ['class' => 'form-control', 'maxlength' => 50, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a street']) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -48,13 +48,13 @@
                     <div class="form-group">
                         {!! Form::label('town', 'Town', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control col-xs-12', 'maxlength' => 25]) !!}
+                            {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control col-xs-12', 'maxlength' => 25, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a town']) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">
-                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8]) !!}
+                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -63,7 +63,7 @@
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-6">
-                                    {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control']) !!}
+                                    {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please fully enter the moved in date']) !!}
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(30)->year, null, ['id'=> 'moved_in_year', 'class' => 'form-control']) !!}
@@ -75,7 +75,7 @@
                     <div class="form-group">
                         {!! Form::label('residential_status', 'Residential Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="residential_status" data-fv-numeric="true">
+                            <select class="form-control col-xs-12" name="residential_status" data-fv-numeric="true" data-fv-notempty = "true" data-fv-notempty-message = "Please select a residential status">
                                 <option value="">-- Please select --</option>
                                 @foreach ($residentialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
