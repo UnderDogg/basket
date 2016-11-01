@@ -223,7 +223,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      * @param FeaturesEntity $featuresEntity
      * @param Installation $installation
      */
-    private function mapFeatures(Installation $installation, FeaturesEntity $featuresEntity)
+    private function mapFeatures(Installation $installation, FeaturesEntity $featuresEntity = null)
     {
         if ($featuresEntity !== null) {
             $installation->assisted_journey = $featuresEntity->getAssistedJourney();
