@@ -636,9 +636,9 @@ class InitialisationController extends Controller
     public function showProfile($location, $application, $user = null)
     {
         try {
-            $location = $this->fetchLocation($location);
+            $locationObj = $this->fetchLocation($location);
             $application = $this->fetchModelById(new Application(), $application, 'Application', '/');
-            $dictionaries = $this->fetchDictionaries($location->installation->merchant);
+            $dictionaries = $this->fetchDictionaries($locationObj->installation->merchant);
         } catch (\Exception $e) {
             $this->logError('Profile creation failed: ' . $e->getMessage() . ' trace[' . $e->getTraceAsString() . ']');
             throw $this->redirectWithException('/', 'Profile Creation Failed: ' . $e->getMessage(), $e);
@@ -648,7 +648,7 @@ class InitialisationController extends Controller
             array_merge(
                 [
                     'application' => $application,
-                    'location' => $location,
+                    'location' => $locationObj,
                     'user' => $user,
                 ],
                 $dictionaries
