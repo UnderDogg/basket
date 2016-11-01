@@ -26,9 +26,6 @@
             <br/>
             <div class="col-sm-8 col-sm-offset-2">
                 <h2>New Application Link</h2>
-                <div class="alert alert-info" role="alert">
-                    <em>Amount and Finance Information goes here...</em>
-                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading"><p class="panel-title">Order Information</p></div>
                     <div class="panel-body">
