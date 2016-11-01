@@ -70,7 +70,7 @@
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-6">
-                                    {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please fully enter the moved in date']) !!}
+                                    {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control']) !!}
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectYear('year', \Carbon\Carbon::now()->year, \Carbon\Carbon::now()->subyears(30)->year, null, ['id'=> 'moved_in_year', 'class' => 'form-control']) !!}
@@ -118,6 +118,9 @@
                         validators: {
                             date: {
                                 format: 'YYYY-MM-DD',
+                                message: 'Please fully enter the moved in date'
+                            },
+                            notEmpty: {
                                 message: 'Please fully enter the moved in date'
                             }
                         }
