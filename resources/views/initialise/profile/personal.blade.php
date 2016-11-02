@@ -29,7 +29,7 @@
                     {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
                     <small>(Optional)</small>
                     <div class="col-sm-8">
-                        {!! Form::select('title', ['' => '-- Please select --', 'Mr' => 'Mr', 'Mrs' => 'Mrs', 'Miss' => 'Miss', 'Ms' => 'Ms'], isset($application->ext_customer_title) ? $application->ext_customer_title : null, ['class' => 'form-control col-xs-12', 'data-fv-different' => 'true', 'data-fv-different-field' => 'marital-status']) !!}
+                        {!! Form::select('title', ['' => '-- Please select --', 'Mr' => 'Mr', 'Mrs' => 'Mrs', 'Miss' => 'Miss', 'Ms' => 'Ms'], isset($application->ext_customer_title) ? $application->ext_customer_title : null, ['class' => 'form-control', 'data-fv-different' => 'true', 'data-fv-different-field' => 'marital-status']) !!}
                     </div>
                 </div>
                 <div class="form-group">
@@ -66,7 +66,7 @@
                     {!! Form::label('marital_status', 'Marital Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                     <small>(Optional)</small>
                     <div class="col-sm-8">
-                        <select class="form-control col-xs-12" name="marital_status" data-fv-numeric="true">
+                        <select class="form-control" name="marital_status" data-fv-numeric="true">
                             <option value="">-- Please select --</option>
                             @foreach ($maritalStatuses as $status)
                                 <option value="{!! $status['id']!!}">{!!$status['description'] !!}</option>
@@ -88,7 +88,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
-                            {!! Form::text('phone_mobile', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            {!! Form::text('phone_mobile', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <div class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></div>
-                            {!! Form::text('phone_home', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                            {!! Form::text('phone_home', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                         </div>
                     </div>
                 </div>

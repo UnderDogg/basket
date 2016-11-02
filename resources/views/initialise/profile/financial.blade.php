@@ -21,7 +21,7 @@
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
-                                {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control col-xs-12', 'maxlength' => 5, 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric', 'data-fv-notempty' => 'true', 'data-fv-notempty-message'=>'Please enter a monthly income amount']) !!}
+                                {!! Form::input('number', 'monthly_income', isset($monthly_income) ? $monthly_income : null, ['class' => 'form-control', 'maxlength' => 5, 'min' => '0', 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Your income can only be numeric', 'data-fv-notempty' => 'true', 'data-fv-notempty-message'=>'Please enter a monthly income amount']) !!}
                                 <div class="input-group-addon">.00</div>
                             </div>
                             <small class="text-muted">After tax and National Insurance</small>
@@ -32,7 +32,7 @@
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-gbp"></i></div>
-                                {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control col-xs-12', 'maxlength' => 5, 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
+                                {!! Form::input('number', 'monthly_outgoings', isset($monthly_outgoings) ? $monthly_outgoings : null, ['class' => 'form-control', 'maxlength' => 5, 'min' => 0, 'max' => '99999', 'placeholder' => 'Amount in whole &pound;', 'data-fv-integer' => 'true', 'data-fv-integer-message' => 'Monthly debt repayments can only be numeric']) !!}
                                 <div class="input-group-addon">.00</div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                         {!! Form::label('bank_sort_code', 'Bank Sort Code', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <small class="text-muted">00-00-00</small>
                         <div class="col-sm-8">
-                            {!! Form::text('bank_sort_code', isset($bank_sort_code) ? $bank_sort_code : null, ['class' => 'form-control col-xs-12',
+                            {!! Form::text('bank_sort_code', isset($bank_sort_code) ? $bank_sort_code : null, ['class' => 'form-control',
                              'maxlength' => 8, 'data-fv-regexp' => 'true',
                              'data-fv-regexp-regexp' => '^[0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]$', 'data-fv-regexp-message' => 'The sort code must be in format 00-00-00']) !!}
                         </div>
@@ -51,7 +51,7 @@
                     <div class="form-group">
                         {!! Form::label('bank_account', 'Bank Account Number', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::input('number', 'bank_account', isset($bank_account) ? $bank_account : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8, 'data-fv-regexp' => 'true',
+                            {!! Form::input('number', 'bank_account', isset($bank_account) ? $bank_account : null, ['class' => 'form-control', 'maxlength' => 8, 'data-fv-regexp' => 'true',
                              'data-fv-regexp-regexp' => '^[0-9]{8}$', 'data-fv-regexp-message' => 'The bank account number must be 8 digits, if your account number is only 7 digits add 0 at the start']) !!}
                         </div>
                     </div>
