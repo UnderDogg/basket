@@ -402,27 +402,6 @@ class ApplicationsController extends Controller
         );
     }
 
-    public function sendEmail($location, $id, Request $request)
-    {
-        $location = Location::findOrFail($location);
-        $application = $this->fetchApplicationById($id, $location->installation->id);
-
-        $request->merge([
-            'title' => $application->ext_customer_title,
-            'first_name' => $application->ext_customer_first_name,
-            'last_name' => $application->ext_customer_last_name,
-            'email' => $application->ext_customer_email_address,
-            'description' => $application->ext_order_description,
-        ]);
-
-        $this->sendApplicationEmail($application, $request, 'email');
-
-        return $this->redirectWithSuccessMessage(
-            'installations/' . $location->installation->id . '/applications/' . $id,
-            'Application successfully emailed to ' . $request->get('email')
-        );
-    }
-
     /**
      * @author EB
      * @param Application $application
