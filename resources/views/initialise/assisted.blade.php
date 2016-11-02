@@ -27,7 +27,7 @@
             <div class="col-sm-8 col-sm-offset-2">
                 <h2>New Application Link</h2>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><p class="panel-title">Order Information</p></div>
+                    <div class="panel-heading"><p class="panel-title">Basic Details</p></div>
                     <div class="panel-body">
                         <div class="col-xs-12">
                             {!! Form::open(['action' => ['InitialisationController@performAssisted', $location->id], 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'order']) !!}
