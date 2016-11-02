@@ -16,7 +16,7 @@
     </div>
     <div id="collapsePersonal" class="panel-collapse collapse @if(!isset($user))in @endif" role="tabpanel" aria-labelledby="headingPersonal">
         <div class="panel-body">
-            {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->ext_id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
+            {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
 
             @if(!isset($user))
                 {!! Form::hidden('reference', $application->ext_id) !!}
