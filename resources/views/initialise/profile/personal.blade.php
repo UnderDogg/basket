@@ -48,7 +48,7 @@
                     {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'col-sm-2 control-label']) !!}
                     <input type="hidden" name="date_of_birth" />
                     <small>(Optional)</small>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 dob-error">
                         <div class="row">
                             <div class="col-sm-4 col-xs-4">
                                 {!! Form::selectRange('day', 1, 31, null, ['id'=> 'dob_day', 'class' => 'form-control'])  !!}
@@ -61,7 +61,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dob-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                 </div>
                 <div class="form-group">
                     {!! Form::label('marital_status', 'Marital Status', ['class' => 'col-sm-2 control-label text-right']) !!}
