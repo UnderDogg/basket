@@ -387,29 +387,18 @@ class ApplicationsController extends Controller
      * @author EB
      * @param int $installation
      * @param int $id
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function emailApplication($installation, $id, Request $request)
+    public function emailApplication($installation, $id)
     {
-        $this->validate(
-            $request,
-            [
-                'title' => 'required|in:Mr,Mrs,Miss,Ms',
-                'first_name' => 'required|max:50',
-                'last_name' => 'required|max:50',
-                'applicant_email' => 'required|email|max:255',
-                'description' => 'required|max:255',
-            ]
-        );
-
         $application = $this->fetchApplicationById($id, $installation);
-        $this->sendApplicationEmail($application, $request);
+        $this->sendApplicationEmail($application);
 
         return $this->redirectWithSuccessMessage(
             'installations/' . $installation . '/applications/' . $id,
-            'Application successfully emailed to ' . $request->get('applicant_email')
+            'Application successfully emailed to ' .
+            (empty($application->ext_customer_email_address) ? $application->ext_applicant_email_address : $application->ext_customer_email_address)
         );
     }
 
@@ -437,19 +426,17 @@ class ApplicationsController extends Controller
     /**
      * @author EB
      * @param Application $application
-     * @param Request $request
-     * @param string $emailParameter
      * @return Application
      * @throws RedirectException
      */
-    private function sendApplicationEmail(Application $application, $request, $emailParameter = 'applicant_email')
+    private function sendApplicationEmail(Application $application)
     {
         try {
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
                 TemplatesController::fetchDefaultTemplateForInstallation($application->installation),
                 array_merge(
-                    EmailTemplateEngine::formatRequestForEmail($request, $emailParameter),
+                    EmailTemplateEngine::getEmailTemplateFields($application),
                     $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
                     [
                         'template_footer' => $application->installation->getDefaultTemplateFooterAsHtml(),

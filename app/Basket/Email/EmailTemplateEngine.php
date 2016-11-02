@@ -10,7 +10,7 @@
 
 namespace App\Basket\Email;
 
-use Illuminate\Http\Request;
+use App\Basket\Application;
 
 /**
  * Email Template Engine
@@ -23,19 +23,47 @@ class EmailTemplateEngine
     /**
      * Formats a Request so it can be merged with a template
      *
-     * @author EB
-     * @param Request $request
-     * @param string $emailParameter
+     * @author EB, EA
+     * @param Application $application
      * @return array
+     * @throws \Exception
      */
-    public static function formatRequestForEmail(Request $request, $emailParameter)
+    public static function getEmailTemplateFields(Application $application)
     {
-        return [
-            'customer_title' => $request->get('title'),
-            'customer_first_name' => $request->get('first_name'),
-            'customer_last_name' => $request->get('last_name'),
-            'email_recipient' => $request->get($emailParameter),
-            'order_description' => $request->get('description'),
-        ];
+        if (
+        !(
+            empty($application->ext_customer_first_name) &&
+            empty($application->ext_customer_last_name) &&
+            empty($application->ext_customer_email_address) &&
+            empty($application->ext_order_description)
+        )
+        ) {
+            return [
+                'customer_title' => $application->ext_customer_title,
+                'customer_first_name' => $application->ext_customer_first_name,
+                'customer_last_name' => $application->ext_customer_last_name,
+                'email_recipient' => $application->ext_customer_email_address,
+                'order_description' => $application->ext_order_description,
+            ];
+        }
+
+        if (
+        !(
+            empty($application->ext_applicant_first_name) &&
+            empty($application->ext_applicant_last_name) &&
+            empty($application->ext_applicant_email_address) &&
+            empty($application->ext_order_description)
+        )
+        ) {
+            return [
+                'customer_title' => $application->ext_applicant_title,
+                'customer_first_name' => $application->ext_applicant_first_name,
+                'customer_last_name' => $application->ext_applicant_last_name,
+                'email_recipient' => $application->ext_applicant_email_address,
+                'order_description' => $application->ext_order_description,
+            ];
+        }
+
+        throw new \Exception('Missing Template Application Fields');
     }
 }
