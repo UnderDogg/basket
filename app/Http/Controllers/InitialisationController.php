@@ -79,7 +79,6 @@ class InitialisationController extends Controller
         DictionaryGateway $dictionaryGateway,
         ProfileGateway $profileGateway
     ) {
-        
         $this->applicationSynchronisationService = $applicationSynchronisationService;
         $this->creditInfoGateway = $creditInfoGateway;
         $this->productGateway = $productGateway;
@@ -489,7 +488,7 @@ class InitialisationController extends Controller
      */
     public function returnBack()
     {
-         return view('initialise.return_back');
+        return view('initialise.return_back');
     }
 
     /**
@@ -629,15 +628,14 @@ class InitialisationController extends Controller
     /**
      * @param int $location
      * @param int $application
-     * @param int|null $user
      * @return View
      * @throws RedirectException
      */
-    public function showProfile($location, $application, $user = null)
+    public function showProfile($location, $application)
     {
         try {
             $locationObj = $this->fetchLocation($location);
-            $application = $this->fetchModelById(new Application(), $application, 'Application', '/');
+            $applicationObj = $this->fetchApplicationDetails($application, 'id');
             $dictionaries = $this->fetchDictionaries($locationObj->installation->merchant);
         } catch (\Exception $e) {
             $this->logError('Profile creation failed: ' . $e->getMessage() . ' trace[' . $e->getTraceAsString() . ']');
@@ -647,9 +645,9 @@ class InitialisationController extends Controller
         return view('initialise.profile')->with(
             array_merge(
                 [
-                    'application' => $application,
+                    'application' => $applicationObj,
                     'location' => $locationObj,
-                    'user' => $user,
+                    'user' => $applicationObj->ext_user,
                 ],
                 $dictionaries
             )
@@ -677,34 +675,33 @@ class InitialisationController extends Controller
      * @return View
      * @throws RedirectException
      */
-    public function createProfilePersonal(Request $request, $location)
+    public function createProfilePersonal(Request $request, $location, $application)
     {
         try {
             $locationObj = $this->fetchModelById(new Location(), $location, 'Location', '/locations');
-            $application = $this->fetchApplicationDetails($request->get('reference'));
+            $application = $this->fetchApplicationDetails($application, 'id');
 
-            $response = $this->profileGateway->createPersonal(
-                $request->get('reference'),
-                [
-                    'title' => (string)$request->get('title'),
-                    'first_name' => (string)$request->get('first_name'),
-                    'last_name' => (string)$request->get('last_name'),
-                    'date_of_birth' => (string)$request->get('date_of_birth'),
-                    'marital_status' => (int)$request->get('marital_status'),
-                    'number_of_dependents' => (int)$request->get('number_of_dependents'),
-                    'phone_mobile' => (string)$request->get('phone_mobile'),
-                    'phone_home' => (string)$request->get('phone_home'),
-                ],
-                $locationObj->installation->merchant->token
-            );
+            if (is_null($application->ext_user)) {
+                $this->profileGateway->createPersonal(
+                    $request->get('reference'),
+                    [
+                        'title' => (string)$request->get('title'),
+                        'first_name' => (string)$request->get('first_name'),
+                        'last_name' => (string)$request->get('last_name'),
+                        'date_of_birth' => (string)$request->get('date_of_birth'),
+                        'marital_status' => (int)$request->get('marital_status'),
+                        'number_of_dependents' => (int)$request->get('number_of_dependents'),
+                        'phone_mobile' => (string)$request->get('phone_mobile'),
+                        'phone_home' => (string)$request->get('phone_home'),
+                    ],
+                    $locationObj->installation->merchant->token
+                );
 
-            $application = $this->applicationSynchronisationService->synchroniseApplication($application->id);
-
-            if (array_key_exists('user', $response)) {
-                return $this->showProfile($locationObj->id, $application->id, $response['user']);
+                $application = $this->applicationSynchronisationService->synchroniseApplication($application->id);
             }
 
-            throw new \Exception('No User from response');
+            return $this->showProfile($locationObj->id, $application->id);
+
         } catch (RedirectException $e) {
             throw $e;
         } catch (\Exception $e) {
