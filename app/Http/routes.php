@@ -126,7 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
         );
         Route::get('installations/{installation}/applications', 'ApplicationsController@index');
         Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
-        Route::post('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
+        Route::get('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
@@ -156,7 +156,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
         Route::post('locations/{id}/applications/request-assisted', 'InitialisationController@requestAssisted');
         Route::post('locations/{id}/applications/perform-assisted', 'InitialisationController@performAssisted');
-        Route::get('locations/{location}/applications/{application}/email', 'ApplicationsController@sendEmail');
         Route::get('locations/{location}/applications/{application}/create', 'ApplicationsController@finishApplication');
 
         route::get('locations/{location}/applications/{id}/profile', 'InitialisationController@showProfile');

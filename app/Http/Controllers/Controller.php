@@ -154,11 +154,12 @@ abstract class Controller extends BaseController
     /**
      * @author EB
      * @param $id
-     * @return mixed
+     * @param string $field
+     * @return Application
      */
-    protected function fetchApplicationDetails($id)
+    protected function fetchApplicationDetails($id, $field = 'ext_id')
     {
-        return Application::where('ext_id', '=', $id)->first();
+        return Application::where($field, '=', $id)->first();
     }
 
     /**
