@@ -147,6 +147,12 @@ $(document).ready(function() {
     $('#number_of_dependents :nth-child(1)').prop('selected', true);
 
     // Address
+    capturePlus.listen("load", function(control) {
+        control.listen("populate", function() {
+            $('#address').data('formValidation').resetForm();
+        });
+    });
+
     $('#address').formValidation({
         framework: 'bootstrap',
         button: {
