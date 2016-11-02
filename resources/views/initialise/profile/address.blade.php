@@ -13,8 +13,6 @@
     <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
         <div class="panel-body">
             <div class="col-sm-12">
-                <link rel="stylesheet" type="text/css" href="https://services.postcodeanywhere.co.uk/css/captureplus-2.30.min.css?key=kh79-rj31-an17-mu82" />
-                <script type="text/javascript" src="https://services.postcodeanywhere.co.uk/js/captureplus-2.30.min.js?key=kh79-rj31-an17-mu82"></script>
                 <form class="form-horizontal" id="address" method="POST">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
 
@@ -22,7 +20,7 @@
                         <p>Search for an address by typing your postcode in the field below</p>
                         {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control col-xs-12', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here']) !!}
+                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here',  'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
                         </div>
                     </div>
                     <hr/>
@@ -53,13 +51,13 @@
                     <div class="form-group">
                         {!! Form::label('locality', 'Locality', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('locality', isset($locality) ? $locality : null, ['class' => 'form-control col-xs-12', 'maxlength' => 50]) !!}
+                            {!! Form::text('locality', isset($locality) ? $locality : null, ['class' => 'form-control', 'maxlength' => 50]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('town', 'Town', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control col-xs-12', 'maxlength' => 25, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a town']) !!}
+                            {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control', 'maxlength' => 25, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a town']) !!}
                         </div>
                     </div>
                     <hr/>
@@ -80,7 +78,7 @@
                     <div class="form-group">
                         {!! Form::label('residential_status', 'Residential Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="residential_status" data-fv-numeric="true" data-fv-notempty = "true" data-fv-notempty-message = "Please select a residential status">
+                            <select class="form-control" name="residential_status" data-fv-numeric="true" data-fv-notempty = "true" data-fv-notempty-message = "Please select a residential status">
                                 <option value="">-- Please select --</option>
                                 @foreach ($residentialStatuses as $status)
                                     <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
