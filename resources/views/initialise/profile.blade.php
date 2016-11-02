@@ -32,26 +32,18 @@
                     <h1>Create Application Link</h1>
                 </div>
                 <div class="col-sm-8 col-sm-offset-2">
-                    @if(!isset($user))
-                        <p>The customer will be required to provide any details not completed here when they click on the application link.</p>
+                    <p>The customer will be required to provide any details not completed here when they click on the application link.</p>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         @include('initialise.profile.personal')
-                    @else
-                        <p>The customer will be required to provide any details not completed here when they click on the application link.</p>
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            @include('initialise.profile.personal')
-                            @include('initialise.profile.address')
-                            @include('initialise.profile.employment')
-                            @include('initialise.profile.financial')
-                        </div>
-                        <div class="pull-right">
-                            <a href="/" class="btn btn-default">Cancel</a>
-                            <a href="/locations/{{$location->id}}/applications/{{$application->id}}/create" class="btn btn-success"><abbr title="Create an application link to send later">Create</abbr></a>
-                            @if(isset($user))
-                                <a href="/installations/{{$location->installation->id}}/applications/{{$application->id}}/email" class="btn btn-success"><abbr title="Email an application link based on the email template set">Email</abbr></a>
-                            @endif
-                        </div>
-                    @endif
-
+                        @include('initialise.profile.address')
+                        @include('initialise.profile.employment')
+                        @include('initialise.profile.financial')
+                    </div>
+                    <div class="pull-right">
+                        <a href="/" class="btn btn-default">Cancel</a>
+                        <a href="/locations/{{$location->id}}/applications/{{$application->id}}/create" class="btn btn-success"><abbr title="Create an application link to send later">Create</abbr></a>
+                        <a href="/installations/{{$location->installation->id}}/applications/{{$application->id}}/email" class="btn btn-success"><abbr title="Email an application link based on the email template set">Email</abbr></a>
+                    </div>
                 </div>
             </div>
         </div>
