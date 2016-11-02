@@ -23,7 +23,6 @@ use PayBreak\Sdk\Entities\Application\ProductsEntity;
 use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
-use PayBreak\Sdk\Entities\AssistedApplicationEntity;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
 use Psr\Log\LoggerInterface;
 
@@ -323,18 +322,12 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $installationId,
         $requester = null,
         $location = null
-    )
-    {
+    ) {
         $app = new Application();
         $app->installation_id = $installationId;
         $app->ext_id = $applicationEntity->getId();
         $app->user_id = $requester;
         $app->location_id = $location;
-        $app->ext_resume_url = $applicationEntity->getResumeUrl();
-
-        if($applicationEntity instanceof AssistedApplicationEntity) {
-            $app->ext_user = $applicationEntity->getUser();
-        }
 
         $mapApplicationHelper = new MapApplicationHelper();
         $mapApplicationHelper->mapApplication($applicationEntity, $app);
@@ -445,7 +438,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         ];
 
 
-        $application = AssistedApplicationEntity::make($applicationParams);
+        $application = ApplicationEntity::make($applicationParams);
 
         $this->logInfo(
             'IniApp: Application reference[' . $orderEntity->getReference() . '] ready to be initialised',
