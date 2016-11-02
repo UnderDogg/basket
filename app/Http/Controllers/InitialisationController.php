@@ -364,13 +364,15 @@ class InitialisationController extends Controller
             }
 
             if (is_null($application->ext_user)) {
-
                 $this->createProfilePersonal($request, $location, $application);
                 return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
             }
 
-            return redirect(
-                '/installations/' . $location->installation->id . '/applications/' . $application->id . '/email'
+            $this->applicationSynchronisationService->synchroniseApplication($application->id);
+            return $this->redirectWithSuccessMessage(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id,
+                'Successfully created an Application.
+                You can email this to the customer by clicking \'Send Email\' below'
             );
         }
 
