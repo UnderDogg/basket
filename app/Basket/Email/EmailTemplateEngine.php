@@ -31,12 +31,12 @@ class EmailTemplateEngine
     public static function getEmailTemplateFields(Application $application)
     {
         if (
-        !(
-            empty($application->ext_customer_first_name) &&
-            empty($application->ext_customer_last_name) &&
-            empty($application->ext_customer_email_address) &&
-            empty($application->ext_order_description)
-        )
+            !(
+                empty($application->ext_customer_first_name) ||
+                empty($application->ext_customer_last_name) ||
+                empty($application->ext_customer_email_address) ||
+                empty($application->ext_order_description)
+            )
         ) {
             return [
                 'customer_title' => $application->ext_customer_title,
@@ -48,12 +48,13 @@ class EmailTemplateEngine
         }
 
         if (
-        !(
-            empty($application->ext_applicant_first_name) &&
-            empty($application->ext_applicant_last_name) &&
-            empty($application->ext_applicant_email_address) &&
-            empty($application->ext_order_description)
-        )
+            !(
+                empty($application->ext_applicant_title) ||
+                empty($application->ext_applicant_first_name) ||
+                empty($application->ext_applicant_last_name) ||
+                empty($application->ext_applicant_email_address) ||
+                empty($application->ext_order_description)
+            )
         ) {
             return [
                 'customer_title' => $application->ext_applicant_title,
