@@ -37,7 +37,8 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></div>
-                                        {!! Form::text('reference', $input['reference'], ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255]) !!}
+                                        {!! Form::text('reference',null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255]) !!}
+                                        <span class="input-group-btn"><a onclick="populateGuid();" class="btn btn-info"><abbr title="Click to generate order reference"><span class="glyphicon glyphicon-refresh"></span></abbr></a></span>
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +103,7 @@
                                 @endif
                             @endforeach
                             {!! Form::hidden('installation', $location->installation->id) !!}
+                            {!! Form::hidden('location_reference', $location->reference, ['id' => 'location_reference']) !!}
 
                             <div class="form-group">
                                 <div class="col-sm-8 col-xs-12 col-sm-offset-2">
@@ -165,5 +167,22 @@
             });
 
         });
+
+        function populateGuid()
+        {
+            var reference = $('#location_reference').val() + '-' + guid();
+            $('#reference').val(reference);
+            $('#reference').text(reference);
+        }
+
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+            }
+            return s4() + s4() + s4();
+        }
+
     </script>
 @endsection
