@@ -29,7 +29,7 @@
                     <div class="form-group">
                         {!! Form::label('employment_start', 'Employment Start Date', ['class' => 'col-sm-2 control-label']) !!}
                         {!! Form::hidden('employment_start') !!}
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 employment-start-error">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectMonth('month', null, ['id'=> 'employment_start_month','class' => 'form-control']) !!}
@@ -39,7 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="employment-start-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('phone_employer', 'Employer\'s Phone Number' , ['class' => 'col-sm-2 control-label text-right']) !!}

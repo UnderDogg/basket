@@ -66,7 +66,7 @@
                     <div class="form-group">
                         {!! Form::label('moved_in', 'Moved In', ['class' => 'col-sm-2 control-label']) !!}
                         <input type="hidden" name="moved_in" />
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 moved-in-error">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-6">
                                     {!! Form::selectMonth('month', null, ['id'=> 'moved_in_month','class' => 'form-control']) !!}
@@ -76,7 +76,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="moved-in-error col-sm-8 col-md-offset-2 col-xs-12"></div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('residential_status', 'Residential Status', ['class' => 'col-sm-2 control-label text-right']) !!}
