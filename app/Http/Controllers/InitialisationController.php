@@ -120,7 +120,7 @@ class InitialisationController extends Controller
      * @author WN, EB
      * @param $locationId
      * @param Request $request
-     * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|Redirect
      * @throws RedirectException
      */
     public function request($locationId, Request $request)
@@ -172,12 +172,12 @@ class InitialisationController extends Controller
     {
         return $this->request($locationId, $request)->with('assisted', true);
     }
-
+    
     /**
      * @author EB
      * @param $locationId
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse|Redirect
      * @throws RedirectException
      */
     public function performAssisted($locationId, Request $request)
@@ -191,7 +191,7 @@ class InitialisationController extends Controller
         } catch (RedirectException $e) {
             throw $e;
         } catch (\Exception $e) {
-            return $this->redirectWithException(
+            throw $this->redirectWithException(
                 '/locations/' . $location->id . '/applications/assisted',
                 'Unable to create an assisted application',
                 $e
@@ -251,7 +251,7 @@ class InitialisationController extends Controller
      * @author EB
      * @param Location $location
      * @param Request $request
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return $this|\Illuminate\Http\RedirectResponse|Redirect
      * @throws RedirectException
      */
     private function applicationRequestType(Location $location, Request $request)
@@ -351,8 +351,8 @@ class InitialisationController extends Controller
      * @author EB
      * @param Request $request
      * @param Location $location
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws RedirectException
+     * @return \Illuminate\Http\RedirectResponse|Redirect
+     * @throws \Exception
      */
     private function handleApplicationRequest(Request $request, Location $location)
     {
@@ -369,7 +369,9 @@ class InitialisationController extends Controller
                 return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
             }
 
-            return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/email');
+            return redirect(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id . '/email'
+            );
         }
 
         $application = $this->createApplication($location, $request);
@@ -384,10 +386,9 @@ class InitialisationController extends Controller
         }
 
         if ($request->has('email')) {
-            /** @var ApplicationsController $controller */
-            $controller = \App::make('App\Http\Controllers\ApplicationsController');
-
-            return $controller->emailApplication($location->installation->id, $application->id, $request);
+            return redirect(
+                '/installations/' . $location->installation->id . '/applications/' . $application->id . '/email'
+            );
         }
 
         ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
