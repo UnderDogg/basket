@@ -50,6 +50,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr />
                             <h4 class="text-muted">Customer Details</h4>
                             <div class="form-group">
                                 {!! Form::label('email', 'Customer Email', ['class' => 'col-sm-2 control-label text-right']) !!}
@@ -72,6 +73,7 @@
                                     {!! Form::text('last_name', isset($application->ext_customer_last_name) ? $application->ext_customer_last_name : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a last name', 'maxlength' => 50]) !!}
                                 </div>
                             </div>
+                            <hr />
                             <h4 class="text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
                             <div class="form-group">
                                 {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
