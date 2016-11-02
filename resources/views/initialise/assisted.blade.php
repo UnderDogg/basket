@@ -30,7 +30,8 @@
                     <div class="panel-heading"><p class="panel-title">Order Information</p></div>
                     <div class="panel-body">
                         <div class="col-xs-12">
-                            {!! Form::open(['action' => ['InitialisationController@performAssisted', $location->id], 'class' => 'form-horizontal', 'method' => 'POST']) !!}
+                            {!! Form::open(['action' => ['InitialisationController@performAssisted', $location->id], 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'order']) !!}
+                            <h4 class="text-muted">Order Details</h4>
                             <div class="form-group">
                                 {!! Form::label('reference', 'Your Reference', ['class' => 'col-sm-2 control-label text-right']) !!}
                                 <div class="col-sm-8">
@@ -49,12 +50,45 @@
                                     </div>
                                 </div>
                             </div>
+                            <h4 class="text-muted">Customer Details</h4>
                             <div class="form-group">
                                 {!! Form::label('email', 'Customer Email', ['class' => 'col-sm-2 control-label text-right']) !!}
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></div>
                                         {!! Form::email('email', null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter an email address', 'data-fv-emailaddress' => 'true', 'maxlength' => 255]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('first_name', 'First Name', ['class' => 'col-sm-2 control-label']) !!}
+                                <div class="col-sm-8">
+                                    {!! Form::text('first_name', isset($application->ext_customer_first_name) ? $application->ext_customer_first_name : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a first name', 'maxlength' => 50]) !!}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('last_name', 'Last Name', ['class' => 'col-sm-2 control-label']) !!}
+                                <div class="col-sm-8">
+                                    {!! Form::text('last_name', isset($application->ext_customer_last_name) ? $application->ext_customer_last_name : null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a last name', 'maxlength' => 50]) !!}
+                                </div>
+                            </div>
+                            <h4 class="text-muted"><abbr title="Please provide either a mobile or home phone number. If the contact information is found to be incorrect it could delay or void an application">Contact Number</abbr></h4>
+                            <div class="form-group">
+                                {!! Form::label('phone_mobile', 'Mobile Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
+                                        {!! Form::text('phone_mobile', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">— Or —</div>
+                            <div class="form-group">
+                                {!! Form::label('phone_home', 'Home Phone', ['class' => 'col-sm-2 control-label text-right']) !!}
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></div>
+                                        {!! Form::text('phone_home', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                                     </div>
                                 </div>
                             </div>
@@ -94,5 +128,40 @@
     <script src="{!! Bust::cache('/formvalidation/dist/js/formValidation.min.js') !!}"></script>
     <script src="{!! Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js') !!}"></script>
 
-    <script src="{!! asset(Bust::cache('/js/fv.js')) !!}"></script>
+    <script>
+        $(document).ready(function() {
+            var phoneValidation = {
+                callback: {
+                    message: 'You must enter at least one contact phone number',
+                    callback: function (value, validator) {
+                        var isEmpty = true;
+                        var mobile = validator.getFieldElements('phone_mobile');
+                        if (mobile.eq(0).val() !== '') {
+                            isEmpty = false;
+                        }
+                        var home = validator.getFieldElements('phone_home');
+                        if (home.eq(0).val() !== '') {
+                            isEmpty = false;
+                        }
+
+                        if (!isEmpty) {
+                            validator.updateStatus('phone_mobile', validator.STATUS_VALID, 'callback');
+                            validator.updateStatus('phone_home', validator.STATUS_VALID, 'callback');
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            };
+
+            $('#order').formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    phone_home: {validators: phoneValidation},
+                    phone_mobile: {validators: phoneValidation}
+                }
+            });
+
+        });
+    </script>
 @endsection

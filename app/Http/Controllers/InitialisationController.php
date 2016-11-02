@@ -363,9 +363,9 @@ class InitialisationController extends Controller
                 return Redirect('/locations/' . $location->id . '/no-finance');
             }
 
-            $application = $this->applicationSynchronisationService->synchroniseApplication($application->id);
-
             if (is_null($application->ext_user)) {
+
+                $this->createProfilePersonal($request, $location, $application);
                 return redirect('/locations/' . $location->id . '/applications/' . $application->id . '/profile');
             }
 
@@ -672,44 +672,25 @@ class InitialisationController extends Controller
     /**
      * @author EB
      * @param Request $request
-     * @param $location
-     * @return View
-     * @throws RedirectException
+     * @param Location $location
+     * @param Application $application
+     * @return Application
+     * @throws \Exception
      */
-    public function createProfilePersonal(Request $request, $location, $application)
+    private function createProfilePersonal(Request $request, Location $location, Application $application)
     {
-        try {
-            $locationObj = $this->fetchModelById(new Location(), $location, 'Location', '/locations');
-            $application = $this->fetchApplicationDetails($application, 'id');
+        $this->profileGateway->createPersonal(
+            $application->ext_id,
+            [
+                'first_name' => (string)$request->get('first_name'),
+                'last_name' => (string)$request->get('last_name'),
+                'phone_mobile' => (string)$request->get('phone_mobile'),
+                'phone_home' => (string)$request->get('phone_home'),
+            ],
+            $location->installation->merchant->token
+        );
 
-            if (is_null($application->ext_user)) {
-                $this->profileGateway->createPersonal(
-                    $request->get('reference'),
-                    [
-                        'title' => (string)$request->get('title'),
-                        'first_name' => (string)$request->get('first_name'),
-                        'last_name' => (string)$request->get('last_name'),
-                        'date_of_birth' => (string)$request->get('date_of_birth'),
-                        'marital_status' => (int)$request->get('marital_status'),
-                        'number_of_dependents' => (int)$request->get('number_of_dependents'),
-                        'phone_mobile' => (string)$request->get('phone_mobile'),
-                        'phone_home' => (string)$request->get('phone_home'),
-                    ],
-                    $locationObj->installation->merchant->token
-                );
-
-                $application = $this->applicationSynchronisationService->synchroniseApplication($application->id);
-            }
-
-            return $this->showProfile($locationObj->id, $application->id);
-
-        } catch (RedirectException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            $this->logError('Create Profile Personal failed: ' . $e->getMessage(), $request->all());
-            throw RedirectException::make('/locations/' . $location . '/no-finance')
-                ->setError('Creating User Failed: ' . $e->getMessage());
-        }
+        return $this->applicationSynchronisationService->synchroniseApplication($application->id);
     }
 
     /**

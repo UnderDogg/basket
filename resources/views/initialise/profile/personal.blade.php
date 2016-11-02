@@ -14,7 +14,7 @@
             @endif
         </h4>
     </div>
-    <div id="collapsePersonal" class="panel-collapse collapse @if(!isset($user))in @endif" role="tabpanel" aria-labelledby="headingPersonal">
+    <div id="collapsePersonal" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingPersonal">
         <div class="panel-body">
             {!! Form::open(['url' => '/locations/' . $location->id . '/applications/' . $application->id . '/profile', 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'personal']) !!}
 
@@ -25,7 +25,7 @@
             @endif
             <h4 class="text-muted">Basic Details</h4>
 
-            <div class="form-group">
+                <div class="form-group">
                     {!! Form::label('title', 'Title', ['class' => 'col-sm-2 control-label text-right']) !!}
                     <small>(Optional)</small>
                     <div class="col-sm-8">
