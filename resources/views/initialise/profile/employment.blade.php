@@ -18,7 +18,7 @@
                     <div class="form-group">
                         {!! Form::label('employment_status', 'Employment Status', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            <select class="form-control col-xs-12" name="employment_status" data-fv-numeric="true" data-fv-notempty="true" data-fv-notempty-message="Please select an employment status">
+                            <select class="form-control" name="employment_status" data-fv-numeric="true" data-fv-notempty="true" data-fv-notempty-message="Please select an employment status">
                                 <option value="">-- Please select --</option>
                                 @foreach ($employmentStatuses as $status)
                                 <option value="{!!$status['id']!!}">{!!$status['description']!!}</option>
@@ -45,7 +45,7 @@
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></div>
-                                {!! Form::text('phone_employer', isset($phone_employer) ? $phone_employer : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                                {!! Form::text('phone_employer', isset($phone_employer) ? $phone_employer : null, ['class' => 'form-control', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                             </div>
                         </div>
                     </div>

@@ -61,5 +61,7 @@
     <script src="{!! asset(Bust::cache('/formvalidation/dist/js/formValidation.min.js')) !!}"></script>
     <script src="{!! asset(Bust::cache('/formvalidation/dist/js/framework/bootstrap.min.js')) !!}"></script>
     <script src="{!! Bust::cache('/js/sweetalert.min.js') !!}"></script>
+    <link rel="stylesheet" type="text/css" href="https://services.postcodeanywhere.co.uk/css/captureplus-2.30.min.css?key=kh79-rj31-an17-mu82" />
+    <script type="text/javascript" src="https://services.postcodeanywhere.co.uk/js/captureplus-2.30.min.js?key=kh79-rj31-an17-mu82"></script>
     <script src="{!! asset(Bust::cache('/js/profile.js')) !!}"></script>
 @endsection
