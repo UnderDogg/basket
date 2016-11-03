@@ -38,7 +38,7 @@
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></div>
                                         {!! Form::text('reference',null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255]) !!}
-                                        <span class="input-group-btn"><a onclick="populateGuid();" class="btn btn-info"><abbr title="Click to generate order reference"><span class="glyphicon glyphicon-refresh"></span></abbr></a></span>
+                                        <span class="input-group-btn"><a id="regen_btn" class="btn btn-info"><abbr title="Click to generate order reference"><span class="glyphicon glyphicon-refresh"></span></abbr></a></span>
                                     </div>
                                 </div>
                             </div>
@@ -165,6 +165,11 @@
                     phone_mobile: {validators: phoneValidation}
                 }
             });
+
+            $('#regen_btn').on( 'click', function() {
+                populateGuid();
+            });
+
 
         });
 
