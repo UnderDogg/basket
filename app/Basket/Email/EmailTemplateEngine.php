@@ -51,7 +51,7 @@ class EmailTemplateEngine
             !(
                 empty($application->ext_applicant_first_name) ||
                 empty($application->ext_applicant_last_name) ||
-                empty($application->ext_applicant_email_address) ||
+                !(empty($application->ext_applicant_email_address) || empty($application->ext_customer_email_address)) ||
                 empty($application->ext_order_description)
             )
         ) {
@@ -59,7 +59,10 @@ class EmailTemplateEngine
                 'customer_title' => $application->ext_applicant_title,
                 'customer_first_name' => $application->ext_applicant_first_name,
                 'customer_last_name' => $application->ext_applicant_last_name,
-                'email_recipient' => $application->ext_applicant_email_address,
+                'email_recipient' =>
+                    empty($application->ext_applicant_email_address) ?
+                        $application->ext_customer_email_address :
+                        $application->ext_applicant_email_address,
                 'order_description' => $application->ext_order_description,
             ];
         }
