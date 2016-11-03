@@ -49,7 +49,6 @@ class EmailTemplateEngine
 
         if (
             !(
-                empty($application->ext_applicant_title) ||
                 empty($application->ext_applicant_first_name) ||
                 empty($application->ext_applicant_last_name) ||
                 empty($application->ext_applicant_email_address) ||
