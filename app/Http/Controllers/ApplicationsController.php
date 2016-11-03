@@ -495,11 +495,7 @@ class ApplicationsController extends Controller
             /** @var Location $location */
             $location = Location::findOrFail($location);
             $application = $this->fetchApplicationById($application, $location->installation->id);
-
-            return $this->redirectWithSuccessMessage(
-                'installations/' . $location->installation->id . '/applications/' . $application->id,
-                'Successfully created an application'
-            );
+            ApplicationEvent\ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $location->installation->id . '/applications',
@@ -507,6 +503,11 @@ class ApplicationsController extends Controller
                 $e
             );
         }
+
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $location->installation->id . '/applications/' . $application->id,
+            'Successfully created an application'
+        );
     }
 
     /**

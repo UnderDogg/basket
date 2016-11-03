@@ -102,21 +102,6 @@ class InitialisationController extends Controller
     }
 
     /**
-     * @author EB
-     * @param int $locationId
-     * @return \Illuminate\View\View
-     * @throws RedirectException
-     */
-    public function prepareAssisted($locationId)
-    {
-        $location = $this->fetchLocation($locationId);
-
-        $this->checkPermissionForAssistedApplication($location);
-
-        return $this->prepare($location->id)->with('assisted', true);
-    }
-
-    /**
      * @author WN, EB
      * @param $locationId
      * @param Request $request
@@ -125,10 +110,6 @@ class InitialisationController extends Controller
      */
     public function request($locationId, Request $request)
     {
-        if($request->has('phone_mobile')) {
-            $request->merge(['phone_mobile' => preg_replace('/\s+/', '', $request->get('phone_mobile'))]);
-        }
-
         $this->validate(
             $request,
             [
@@ -149,7 +130,6 @@ class InitialisationController extends Controller
         );
 
         $location = $this->fetchLocation($locationId);
-
         $this->validateApplicationRequest($request, $location);
 
         try {
@@ -287,12 +267,12 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
-     * @param $location
+     * @param int $id
      * @return View
      */
-    public function noFinance($location)
+    public function noFinance($id)
     {
-        $location = Location::findOrFail($location);
+        $location = $this->fetchLocation($id);
         return view('initialise.no_finance')->with(['location' => $location]);
     }
 
@@ -320,21 +300,11 @@ class InitialisationController extends Controller
             $this->applicationSynchronisationService->synchroniseApplication($application->id);
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
-                'Successfully created an Application.
-                You can email this to the customer by clicking \'Send Email\' below'
+                'Application successfully created. You can action on this in the `Application / Resume Link` section below'
             );
         }
 
         $application = $this->createApplication($location, $request);
-
-        if ($request->has('link')) {
-            ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK, Auth::user());
-
-            return $this->redirectWithSuccessMessage(
-                '/installations/' . $location->installation->id . '/applications/' . $application->id,
-                'Successfully created an Application. The Application\'s resume URL is: ' . $application->ext_resume_url
-            );
-        }
 
         if ($request->has('email')) {
             return redirect(
@@ -343,7 +313,6 @@ class InitialisationController extends Controller
         }
 
         ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_INSTORE, Auth::user());
-
         return redirect($application->ext_resume_url);
     }
 
@@ -370,7 +339,6 @@ class InitialisationController extends Controller
     public function chooseProduct($locationId, Request $request, $assisted = false)
     {
         $this->validate($request, ['amount' => 'required|numeric']);
-
         $location = $this->fetchLocation($locationId);
 
         return view('initialise.main')->with(
@@ -387,17 +355,6 @@ class InitialisationController extends Controller
                 'assisted' => $assisted,
             ]
         );
-    }
-
-    /**
-     * @author EB
-     * @param int $locationId
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function chooseProductAssisted($locationId, Request $request)
-    {
-        return $this->chooseProduct($locationId, $request, true);
     }
 
     /**
@@ -455,7 +412,7 @@ class InitialisationController extends Controller
 
         if (!in_array($id,  $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
 
-            throw RedirectException::make('/')->setError('You don\'t have permissions to access this Location');
+            throw RedirectException::make('/')->setError('You don\'t have permission to access this Location');
         }
 
         return $location;
@@ -588,6 +545,7 @@ class InitialisationController extends Controller
         try {
             $locationObj = $this->fetchLocation($location);
             $applicationObj = $this->fetchApplicationDetails($application, 'id');
+            $this->checkIfProfileCanBeEdited($applicationObj);
             $dictionaries = $this->fetchDictionaries($locationObj->installation->merchant);
         } catch (\Exception $e) {
             $this->logError('Profile creation failed: ' . $e->getMessage() . ' trace[' . $e->getTraceAsString() . ']');
@@ -654,23 +612,6 @@ class InitialisationController extends Controller
     {
         if ($application->ext_current_status == 'initialized') {
             throw new \Exception('You cannot edit the profile as the application is not initialized');
-        }
-
-        return true;
-    }
-
-    /**
-     * @author EB
-     * @param Location $location
-     * @return bool
-     * @throws RedirectException
-     */
-    private function checkPermissionForAssistedApplication(Location $location)
-    {
-        if ($location->installation->assisted_journey == false) {
-
-            throw RedirectException::make('/')
-                ->setError('You don\'t have permission to initialize an assisted application');
         }
 
         return true;
