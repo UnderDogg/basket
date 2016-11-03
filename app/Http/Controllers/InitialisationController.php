@@ -141,7 +141,7 @@ class InitialisationController extends Controller
                 'title' => 'sometimes|min:2|max:4',
                 'first_name' => 'sometimes',
                 'last_name' => 'sometimes',
-                'applicant_email' => 'sometimes|email|max:255',
+                'email' => 'sometimes|email|max:255',
                 'phone_home' => 'sometimes|max:11',
                 'phone_mobile' => 'sometimes|max:11',
                 'postcode' => 'sometimes|max:8',
@@ -158,44 +158,6 @@ class InitialisationController extends Controller
             $this->logError('Unable to request an Application: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError('Failed to process the Application, please try again');
-        }
-    }
-
-    /**
-     * @author EB
-     * @param int $locationId
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws RedirectException
-     */
-    public function requestAssisted($locationId, Request $request)
-    {
-        return $this->request($locationId, $request)->with('assisted', true);
-    }
-    
-    /**
-     * @author EB
-     * @param $locationId
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|Redirect
-     * @throws RedirectException
-     */
-    public function performAssisted($locationId, Request $request)
-    {
-        $location = $this->fetchLocation($locationId);
-
-        $this->validateApplicationRequest($request, $location);
-
-        try {
-            return $this->applicationRequestType($location, $request);
-        } catch (RedirectException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw $this->redirectWithException(
-                '/locations/' . $location->id . '/applications/assisted',
-                'Unable to create an assisted application',
-                $e
-            );
         }
     }
 
@@ -256,20 +218,7 @@ class InitialisationController extends Controller
      */
     private function applicationRequestType(Location $location, Request $request)
     {
-        if ($request->has('alternate')) {
-            return view('initialise.alternate')
-                ->with(
-                    [
-                        'input' => $request->only(
-                            ['amount', 'product', 'product_name', 'group', 'reference', 'description', 'deposit']
-                        ),
-                        'bitwise' => Bitwise::make(($location->installation->finance_offers - Installation::IN_STORE)),
-                        'location' => $location,
-                    ]
-                );
-        }
-
-        if ($request->has('assisted') && !($request->has('email'))) {
+        if ($request->has('assisted') && !$request->has('email')) {
             return view('initialise.assisted')
                 ->with([
                     'input' => $request->only(

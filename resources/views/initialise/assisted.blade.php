@@ -30,7 +30,7 @@
                     <div class="panel-heading"><p class="panel-title">Basic Details</p></div>
                     <div class="panel-body">
                         <div class="col-xs-12">
-                            {!! Form::open(['action' => ['InitialisationController@performAssisted', $location->id], 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'order']) !!}
+                            {!! Form::open(['action' => ['InitialisationController@request', $location->id], 'class' => 'form-horizontal', 'method' => 'POST', 'id' => 'order']) !!}
                             <h4 class="text-muted">Order Details</h4>
                             <div class="form-group">
                                 {!! Form::label('reference', 'Your Reference', ['class' => 'col-sm-2 control-label text-right']) !!}

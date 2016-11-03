@@ -154,9 +154,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('locations/{id}/applications/make', 'InitialisationController@chooseProduct');
         Route::post('locations/{id}/applications/assisted', 'InitialisationController@chooseProductAssisted');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
-        Route::post('locations/{id}/applications/request-assisted', 'InitialisationController@requestAssisted');
-        Route::post('locations/{id}/applications/perform-assisted', 'InitialisationController@performAssisted');
-        Route::get('locations/{location}/applications/{application}/create', 'ApplicationsController@finishApplication');
+        Route::get('locations/{id}/applications/{application}/create', 'ApplicationsController@finishApplication');
 
         route::get('locations/{location}/applications/{id}/profile', 'InitialisationController@showProfile');
         Route::get('locations/{location}/no-finance', 'InitialisationController@noFinance');
