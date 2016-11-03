@@ -74,13 +74,20 @@
                 </div>
                 @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
                     <div class="panel panel-default">
-                        <div class="panel-heading"><strong>Application Link</strong></div>
+                        <div class="panel-heading"><strong>Application / Resume Link</strong></div>
                         <div class="panel-body">
-                            @if(!empty($applications->ext_applicant_email_address) || !empty($applications->ext_customer_email_address))
-                            <p>Send email using the configured template <a href="{!! Request::url() !!}/email" class="btn btn-info">Send Email</a></p>
-                            @endif
-                            <p>Click on the link below to copy it to the clipboard</p>
-                            <a href="{{$applications->ext_resume_url}}" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a>
+                            <div class="input-group">
+                                <input type="text" class="form-control disabled" value="{!!  $applications->ext_resume_url !!}" readonly>
+                                <div class="input-group-btn ">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        @if(!empty($applications->ext_applicant_email_address) || !empty($applications->ext_customer_email_address))
+                                            <li><a href="{!! Request::url() !!}/email">Send Email</a></li>
+                                        @endif
+                                        <li><a id="return" href="{!!  $applications->ext_resume_url !!}">Copy Link</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -359,7 +366,7 @@
             hidden.style.top = "0";
             document.body.appendChild(hidden);
 
-            hidden.textContent = elem.textContent;
+            hidden.textContent = elem.href;
             hidden.focus();
             hidden.setSelectionRange(0, hidden.value.length);
             return document.execCommand("copy");
