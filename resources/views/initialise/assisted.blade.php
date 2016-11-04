@@ -166,8 +166,9 @@
                 }
             });
 
-            $('#regen_btn').on( 'click', function() {
+            $('#regen_btn').on('click', function() {
                 populateGuid();
+                $('#order').formValidation('revalidateField', 'reference');
             });
 
 
