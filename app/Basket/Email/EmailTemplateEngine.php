@@ -30,14 +30,7 @@ class EmailTemplateEngine
      */
     public static function getEmailTemplateFields(Application $application)
     {
-        if (
-            !(
-                empty($application->ext_customer_first_name) ||
-                empty($application->ext_customer_last_name) ||
-                empty($application->ext_customer_email_address) ||
-                empty($application->ext_order_description)
-            )
-        ) {
+        if (self::checkForCustomerInformation($application)) {
             return [
                 'customer_title' => $application->ext_customer_title,
                 'customer_first_name' => $application->ext_customer_first_name,
@@ -47,26 +40,46 @@ class EmailTemplateEngine
             ];
         }
 
-        if (
-            !(
-                empty($application->ext_applicant_first_name) ||
-                empty($application->ext_applicant_last_name) ||
-                !(empty($application->ext_applicant_email_address) || empty($application->ext_customer_email_address)) ||
-                empty($application->ext_order_description)
-            )
-        ) {
+        if (self::checkForApplicantInformation($application)) {
             return [
                 'customer_title' => $application->ext_applicant_title,
                 'customer_first_name' => $application->ext_applicant_first_name,
                 'customer_last_name' => $application->ext_applicant_last_name,
-                'email_recipient' =>
-                    empty($application->ext_applicant_email_address) ?
-                        $application->ext_customer_email_address :
-                        $application->ext_applicant_email_address,
+                'email_recipient' => $application->ext_applicant_email_address,
                 'order_description' => $application->ext_order_description,
             ];
         }
 
         throw new \Exception('Missing Template Application Fields');
+    }
+
+    /**
+     * @author EB
+     * @param Application $application
+     * @return bool
+     */
+    private static function checkForCustomerInformation(Application $application)
+    {
+        return !(
+            empty($application->ext_customer_first_name) ||
+            empty($application->ext_customer_last_name) ||
+            empty($application->ext_customer_email_address) ||
+            empty($application->ext_order_description)
+        );
+    }
+
+    /**
+     * @author EB
+     * @param Application $application
+     * @return bool
+     */
+    private static function checkForApplicantInformation(Application $application)
+    {
+        return !(
+            empty($application->ext_applicant_first_name) ||
+            empty($application->ext_applicant_last_name) ||
+            !(empty($application->ext_applicant_email_address) || empty($application->ext_customer_email_address)) ||
+            empty($application->ext_order_description)
+        );
     }
 }
