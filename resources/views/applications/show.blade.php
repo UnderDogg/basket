@@ -78,13 +78,15 @@
                         <div class="panel-body">
                             <div class="input-group">
                                 <input type="text" class="form-control disabled" value="{!!  $applications->ext_resume_url !!}" readonly>
-                                <div class="input-group-btn ">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></button>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Actions<span class="caret"></span>
+                                    </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         @if(!empty($applications->ext_applicant_email_address) || !empty($applications->ext_customer_email_address))
-                                            <li><a href="{!! Request::url() !!}/email">Send Email</a></li>
+                                            <li><a href="{!! Request::url() !!}/email"><abbr title="Click to send email">Send Email</abbr></a></li>
                                         @endif
-                                        <li><a id="return" href="{!!  $applications->ext_resume_url !!}">Copy Link</a></li>
+                                        <li><a id="return" href="{!!  $applications->ext_resume_url !!}"><abbr title="Click to copy the link">Copy Link</abbr></a></li>
                                     </ul>
                                 </div>
                             </div>
