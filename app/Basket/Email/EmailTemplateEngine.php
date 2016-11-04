@@ -78,7 +78,7 @@ class EmailTemplateEngine
         return !(
             empty($application->ext_applicant_first_name) ||
             empty($application->ext_applicant_last_name) ||
-            !(empty($application->ext_applicant_email_address) || empty($application->ext_customer_email_address)) ||
+            empty($application->ext_applicant_email_address) ||
             empty($application->ext_order_description)
         );
     }
