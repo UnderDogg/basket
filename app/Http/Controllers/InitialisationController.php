@@ -14,6 +14,7 @@ use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
 use App\Basket\Merchant;
+use App\Basket\Synchronisation\InitialiseApplicationHelper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
@@ -143,54 +144,6 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
-     * @param Request $request
-     * @param Installation $installation
-     * @return OrderEntity
-     */
-    private function createOrderEntity(Request $request, Installation $installation)
-    {
-        return OrderEntity::make([
-            'reference' => $request->get('reference'),
-            'amount' => (int) $request->get('amount'),
-            'description' => $request->get('description'),
-            'validity' => Carbon::now()->addSeconds($installation->validity)->toDateTimeString(),
-            'deposit_amount' => $request->has('deposit') ? ($request->get('deposit') * 100) : $request->get('deposit'),
-        ]);
-    }
-
-    /**
-     * @author EB
-     * @param Request $request
-     * @return ProductsEntity
-     */
-    private function createProductsEntity(Request $request)
-    {
-        return ProductsEntity::make([
-            'group' => $request->get('group'),
-            'options' => [$request->get('product')],
-        ]);
-    }
-
-    /**
-     * @author EB
-     * @param Request $request
-     * @return ApplicantEntity
-     */
-    private function createApplicantEntity(Request $request)
-    {
-        return ApplicantEntity::make([
-            'title' => $request->get('title'),
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'email_address' => $request->get('applicant_email'),
-            'phone_home' => $request->get('phone_home'),
-            'phone_mobile' => $request->get('phone_mobile'),
-            'postcode' => $request->get('postcode'),
-        ]);
-    }
-
-    /**
-     * @author EB
      * @param Location $location
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse|Redirect
@@ -239,9 +192,9 @@ class InitialisationController extends Controller
     {
         return $this->applicationSynchronisationService->initialiseApplication(
             $location,
-            $this->createOrderEntity($request, $location->installation),
-            $this->createProductsEntity($request),
-            $this->createApplicantEntity($request),
+            InitialiseApplicationHelper::createOrderEntity($request, $location->installation),
+            InitialiseApplicationHelper::createProductsEntity($request),
+            InitialiseApplicationHelper::createApplicantEntity($request),
             $this->getAuthenticatedUser()
         );
     }
@@ -258,9 +211,9 @@ class InitialisationController extends Controller
         return $this->applicationSynchronisationService->initialiseAssistedApplication(
             $request->get('email'),
             $location,
-            $this->createOrderEntity($request, $location->installation),
-            $this->createProductsEntity($request),
-            $this->createApplicantEntity($request),
+            InitialiseApplicationHelper::createOrderEntity($request, $location->installation),
+            InitialiseApplicationHelper::createProductsEntity($request),
+            InitialiseApplicationHelper::createApplicantEntity($request),
             $this->getAuthenticatedUser()
         );
     }
@@ -386,7 +339,7 @@ class InitialisationController extends Controller
 
             return $filteredProducts;
 
-        }catch(\Exception $e) {
+        } catch(\Exception $e) {
             return [];
         }
     }
