@@ -9,13 +9,13 @@
  */
 
 namespace App\Basket\Synchronisation;
+
 use App\Basket\Installation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Entities\Application\ProductsEntity;
-
 
 /**
  * Initialise Application Helper
@@ -26,6 +26,7 @@ use PayBreak\Sdk\Entities\Application\ProductsEntity;
 class InitialiseApplicationHelper
 {
     /**
+     * @author EB
      * @param Request $request
      * @param Installation $installation
      * @return OrderEntity
