@@ -220,8 +220,9 @@ class InitialisationController extends Controller
 
     /**
      * @author EB
-     * @param int $id
-     * @return View
+     * @param $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
      */
     public function noFinance($id)
     {
@@ -242,7 +243,7 @@ class InitialisationController extends Controller
             try {
                 $application = $this->createAssistedApplication($location, $request);
             } catch (\Exception $e) {
-                return Redirect('/locations/' . $location->id . '/no-finance');
+                return redirect('/locations/' . $location->id . '/no-finance');
             }
 
             if (is_null($application->ext_user)) {
@@ -545,7 +546,7 @@ class InitialisationController extends Controller
      */
     private function checkIfProfileCanBeEdited(Application $application)
     {
-        if ($application->ext_current_status == 'initialized') {
+        if ($application->ext_current_status != 'initialized') {
             throw new \Exception('You cannot edit the profile as the application is not initialized');
         }
 
