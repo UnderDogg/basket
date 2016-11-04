@@ -401,24 +401,6 @@ class InitialisationController extends Controller
     }
 
     /**
-     * @author WN
-     * @param $id
-     * @return Location
-     * @throws RedirectException
-     */
-    private function fetchLocation($id)
-    {
-        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
-
-        if (!in_array($id,  $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
-
-            throw RedirectException::make('/')->setError('You don\'t have permission to access this Location');
-        }
-
-        return $location;
-    }
-
-    /**
      * @author EB
      * @param Installation $installation
      * @param $amount

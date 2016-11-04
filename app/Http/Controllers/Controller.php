@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\Installation;
+use App\Basket\Location;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use App\Http\Traits\FilterTrait;
@@ -221,6 +222,24 @@ abstract class Controller extends BaseController
         } catch (ModelNotFoundException $e) {
             throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
         }
+    }
+
+    /**
+     * @author WN
+     * @param $id
+     * @return Location
+     * @throws RedirectException
+     */
+    protected function fetchLocation($id)
+    {
+        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
+
+        if (!in_array($id,  $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
+
+            throw RedirectException::make('/')->setError('You don\'t have permission to access this Location');
+        }
+
+        return $location;
     }
 
     /**
