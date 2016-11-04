@@ -168,27 +168,24 @@
 
             $('#regen_btn').on('click', function() {
                 populateGuid();
-                $('#order').formValidation('revalidateField', 'reference');
+                $('#order').data('formValidation').revalidateField('reference');
             });
 
-
-        });
-
-        function populateGuid()
-        {
-            var reference = $('#location_reference').val() + '-' + guid();
-            $('#reference').val(reference);
-            $('#reference').text(reference);
-        }
-
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                        .toString(16)
-                        .substring(1);
+            function populateGuid()
+            {
+                var reference = $('#location_reference').val() + '-' + guid();
+                $('#reference').val(reference);
+                $('#reference').text(reference);
             }
-            return s4() + s4() + s4();
-        }
 
+            function guid() {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                            .toString(16)
+                            .substring(1);
+                }
+                return s4() + s4() + s4();
+            }
+        });
     </script>
 @endsection
