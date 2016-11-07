@@ -50,7 +50,7 @@
                                                                     </tr>
                                                                 </table>
 
-                                                                <div style="color: #505050; font-family: Arial; font-size: 14px; line-height: 150%; text-align: left; padding: 20px;">                                <p>Dear {{$customer_title}} {{$customer_last_name}}</p>
+                                                                <div style="color: #505050; font-family: Arial; font-size: 14px; line-height: 150%; text-align: left; padding: 20px;">                                <p>Dear {{$customer_first_name}}</p>
                                                                     <p>You are just a couple of clicks away from completing your purchase with <strong>{{ $installation_name }}</strong>.</p>
                                                                     <h2 style="color: {{ (isset($custom_colour_highlight) ? $custom_colour_highlight : '#29ABE2' ) }}; display: block; font-family: Arial; font-size: 22px; font-weight: bold; line-height: 100%; margin-top: 0; margin-right: 0; margin-bottom: 20px; margin-left: 0; text-align: left;">How it works</h2>
                                                                     <p>In order to apply for finance and spread the cost. Just check <strong>Your Finance Offer</strong> below and click Apply Now.</p>

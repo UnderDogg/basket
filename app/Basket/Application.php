@@ -75,6 +75,7 @@ use App\ExportableModelInterface;
  * @property string $ext_cancellation_description
  * @property int $ext_cancellation_fee_amount
  * @property string $ext_resume_url
+ * @property int $ext_user
  * @property ApplicationEvent[] $applicationEvents
  *
  * @author MS
@@ -143,6 +144,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_cancellation_requested_date',
         'ext_cancellation_description',
         'ext_cancellation_fee_amount',
+        'ext_user',
         'ext_metadata',
         'ext_resume_url',
         'last_sync_at',

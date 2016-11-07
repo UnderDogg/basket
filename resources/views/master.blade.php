@@ -14,6 +14,7 @@
     <title>Basket</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" type="image/icon" href="{!! asset('/image/favicon.png') !!}" sizes="64x64">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">

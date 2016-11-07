@@ -330,6 +330,235 @@ class ApplicationSynchronisationServiceTest extends TestCase
 
     /**
      * @author EB
+     */
+    public function testGetRemoteMerchantPayments()
+    {
+        $response = ['test' => 'response'];
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('getMerchantPayments')->willReturn($response);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $rtn = $service->getRemoteMerchantPayments($this->createApplicationForTest());
+
+        $this->assertInternalType('array', $rtn);
+        $this->assertEquals($response, $rtn);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetRemoteMerchantPaymentsForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('getMerchantPayments')
+            ->willThrowException(new Exception('Get Merchant Payments Failed'));
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $rtn = $service->getRemoteMerchantPayments($this->createApplicationForTest());
+
+        $this->assertInternalType('array', $rtn);
+        $this->assertEquals([], $rtn);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testAddRemoteMerchantPayment()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('addMerchantPayment')->willReturn(null);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->assertTrue(
+            $service->addRemoteMerchantPayment($this->createApplicationForTest(), \Carbon\Carbon::now(), 1)
+        );
+    }
+
+    /**
+     * @author EB
+     */
+    public function testAddRemoteMerchantPaymentForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('addMerchantPayment')
+            ->willThrowException(new Exception('Add Merchant Payment Failed'));
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->setExpectedException('App\Exceptions\Exception', 'Add Merchant Payment Failed');
+        $service->addRemoteMerchantPayment($this->createApplicationForTest(), \Carbon\Carbon::now(), 1);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetCreditInfoForApplication()
+    {
+        $response = ['test' => 'response'];
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('getApplicationCreditInfo')->willReturn($response);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->createApplicationForTest();
+        $rtn = $service->getCreditInfoForApplication(1);
+
+        $this->assertInternalType('array', $rtn);
+        $this->assertSame($response, $rtn);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetCreditInfoForApplicationForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('getApplicationCreditInfo')
+            ->willThrowException(new Exception('Get Credit Info For Application Failed'));
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->createApplicationForTest();
+
+        $this->setExpectedException('Exception', 'Get Credit Info For Application Failed');
+        $service->getCreditInfoForApplication(1);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetApplicationHistory()
+    {
+        $response = ['test' => 'response'];
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('getApplicationHistory')->willReturn($response);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $rtn = $service->getApplicationHistory($this->createApplicationForTest());
+
+        $this->assertInternalType('array', $rtn);
+        $this->assertSame($response, $rtn);
+    }
+
+    /**
+     * @author EB
+     */
+    public function testGetApplicationHistoryForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('getApplicationHistory')
+            ->willThrowException(new Exception('Get Application History Failed'));
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->setExpectedException('Exception', 'Get Application History Failed');
+        $service->getApplicationHistory($this->createApplicationForTest());
+    }
+
+    /**
+     * @author EB
+     */
+    public function testInitialiseAssistedApplication()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn(['application' => 1234, 'url' => 'go.com']);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('initialiseAssistedApplication')
+            ->willReturn($this->getApplication());
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->assertInstanceOf(
+            '\App\Basket\Application',
+            $service->initialiseAssistedApplication(
+                'test@email.com',
+                \App\Basket\Location::first(),
+                $this->getOrderEntity(),
+                $this->getProductsEntity(),
+                $this->getApplicantEntity(),
+                User::find(1)
+            )
+        );
+    }
+
+    /**
+     * @author EB
+     */
+    public function testInitialiseAssistedApplicationForException()
+    {
+        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient->expects($this->any())->method('post')->willReturn(['application' => 1234, 'url' => 'go.com']);
+
+        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
+
+        $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
+            ->getMock();
+        $appGateway->expects($this->any())->method('initialiseAssistedApplication')
+            ->willThrowException(new Exception('Fail'));
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $this->setExpectedException('App\Exceptions\Exception', 'Fail');
+        $service->initialiseAssistedApplication(
+            'test@email.com',
+            \App\Basket\Location::first(),
+            $this->getOrderEntity(),
+            $this->getProductsEntity(),
+            $this->getApplicantEntity(),
+            User::find(1)
+        );
+    }
+
+    /**
+     * @author EB
      * @return \PayBreak\Sdk\Entities\Application\OrderEntity
      */
     private function getOrderEntity()
@@ -428,7 +657,7 @@ class ApplicationSynchronisationServiceTest extends TestCase
     }
 
     /**
-     * @autor EB
+     * @author EB
      * @return \PayBreak\Sdk\Entities\Application\CancellationEntity
      */
     private function getCancellationEntity()
