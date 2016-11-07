@@ -51,9 +51,6 @@ class InstallationSynchronisationServiceTest extends TestCase
     {
         $response = [
             'return_url' => 'go.com',
-            'features' => [
-                'assisted_journey' => true,
-            ],
         ];
 
         $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
@@ -69,7 +66,6 @@ class InstallationSynchronisationServiceTest extends TestCase
 
         $this->assertInstanceOf(\App\Basket\Installation::class, $rtn);
         $this->assertSame('1', $rtn->id);
-        $this->assertTrue($rtn->assisted_journey);
         $this->assertSame($rtn->ext_return_url, 'go.com');
     }
 
