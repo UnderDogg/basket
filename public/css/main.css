@@ -336,6 +336,60 @@ td.has-feedback i {
     overflow-x: hidden;
 }
 
+.application-status-text {
+    color: #ffffff;
+    font-weight: bold;
+    padding: 1px 4px 1px 4px;
+}
+
+.application-bg-initialized {
+    background: gray;
+}
+
+.application-bg-abandoned {
+    background: darkred;
+}
+
+.application-bg-pending {
+    background: blue;
+}
+
+.application-bg-pre-declined {
+    background: #ff8994;
+}
+
+.application-bg-declined {
+    background: red;
+}
+
+.application-bg-referred {
+    background: blue;
+}
+
+.application-bg-cancelled {
+    background: #ff1d70;
+}
+
+.application-bg-expired {
+    background: darkred;
+}
+
+.application-bg-converted {
+    background: limegreen;
+}
+
+.application-bg-fulfilled {
+    background: purple;
+}
+
+.application-bg-complete {
+    background: green;
+}
+
+.application-bg-pending-cancellation {
+    background: orange;
+}
+
 /* Loading spinner */
 
 /* Absolute Center Spinner */

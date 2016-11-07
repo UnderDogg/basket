@@ -35,10 +35,12 @@
                             <dt>Application ID</dt>
                             <dd>{{ $applications->ext_id }}</dd>
 
-                            <dt>Current Status</dt>
-                            <dd class="{{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
-                                @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
+                        <dt>Current Status</dt>
+                        <dd>
+                            @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
+                                <span class="{{ AppHelper::getApplicationStatusBackgroundColour($applications->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
                                     {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                                </span>
                                 @if($applications->ext_current_status != '')</abbr>@endif
                             </dd>
 
@@ -152,9 +154,11 @@
                             <dt>PayBreak App ID</dt>
                             <dd>{{ $applications->ext_id }}</dd>
                             <dt>Current Status</dt>
-                            <dd class="{{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
+                            <dd>
                                 @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
-                                    {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                                    <span class="{{ AppHelper::getApplicationStatusBackgroundColour($applications->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
+                                        {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                                    </span>
                                     @if($applications->ext_current_status != '')</abbr>@endif
                             </dd>
                             <dt>Order Description</dt>

@@ -65,6 +65,18 @@ class ApplicationHelper
     }
 
     /**
+     * Returns a Bootstrap class for background colour for an Application Status
+     *
+     * @author EA
+     * @param string $status
+     * @return string
+     */
+    public static function getApplicationStatusBackgroundColour($status)
+    {
+        return self::getStatusConfiguration($status)['background'];
+    }
+
+    /**
      * Returns the Application Configuration for Statuses
      *
      * @author EB
@@ -77,61 +89,73 @@ class ApplicationHelper
                 'display_name' => 'Initialized',
                 'color' => '',
                 'description' => '',
+                'background' => '',
             ],
             'abandoned' => [
                 'display_name' => 'Abandoned',
-                'color' => 'text-muted',
+                'color' => '',
                 'description' => '',
+                'background' => '',
             ],
             'pending' => [
                 'display_name' => 'Pending',
-                'color' => 'text-info',
+                'color' => '',
                 'description' => '',
+                'background' => '',
             ],
             'pre_declined' => [
                 'display_name' => 'Pre&nbsp;Declined',
-                'color' => 'text-danger',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-pre-declined',
             ],
             'declined' => [
                 'display_name' => 'Declined',
-                'color' => 'text-danger',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-declined',
             ],
             'referred' => [
                 'display_name' => 'Referred',
-                'color' => 'text-primary',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-referred',
             ],
             'cancelled' => [
                 'display_name' => 'Cancelled',
-                'color' => 'text-warning',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-cancelled',
             ],
             'expired' => [
                 'display_name' => 'Expired',
-                'color' => 'text-muted',
+                'color' => '',
                 'description' => '',
+                'background' => '',
             ],
             'converted' => [
                 'display_name' => 'Converted',
-                'color' => 'text-success',
+                'color' => 'application-status-text',
                 'description' => 'This application is approved and ready to go, you should fulfil the order once the customers receives the goods/services.',
+                'background' => 'application-bg-converted',
             ],
             'fulfilled' => [
                 'display_name' => 'Fulfilled',
-                'color' => 'text-success',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-fulfilled',
             ],
             'complete' => [
                 'display_name' => 'Complete',
-                'color' => 'text-success',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-complete',
             ],
             'pending_cancellation' => [
                 'display_name' => 'Pending&nbsp;Cancellation',
-                'color' => 'text-warning',
+                'color' => 'application-status-text',
                 'description' => '',
+                'background' => 'application-bg-pending-cancellation',
             ],
         ];
     }
