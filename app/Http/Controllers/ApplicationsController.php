@@ -14,6 +14,7 @@ use App\Basket\ApplicationEvent;
 use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
+use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -386,31 +387,35 @@ class ApplicationsController extends Controller
      * @author EB
      * @param int $installation
      * @param int $id
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function emailApplication($installation, $id, Request $request)
+    public function emailApplication($installation, $id)
     {
-        $this->validate(
-            $request,
-            [
-                'title' => 'required|in:Mr,Mrs,Miss,Ms',
-                'first_name' => 'required|max:50',
-                'last_name' => 'required|max:50',
-                'applicant_email' => 'required|email|max:255',
-                'description' => 'required|max:255',
-            ]
-        );
+        $application = $this->fetchApplicationById($id, $installation);
+        $this->sendApplicationEmail($application);
 
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $installation . '/applications/' . $id,
+            'Application successfully emailed to ' .
+            (empty($application->ext_customer_email_address) ? $application->ext_applicant_email_address : $application->ext_customer_email_address)
+        );
+    }
+
+    /**
+     * @author EB
+     * @param Application $application
+     * @return Application
+     * @throws RedirectException
+     */
+    private function sendApplicationEmail(Application $application)
+    {
         try {
-            $application = $this->fetchApplicationById($id, $installation);
-            
             $this->emailApplicationService->sendDefaultApplicationEmail(
                 $application,
                 TemplatesController::fetchDefaultTemplateForInstallation($application->installation),
                 array_merge(
-                    EmailTemplateEngine::formatRequestForEmail($request),
+                    EmailTemplateEngine::getEmailTemplateFields($application),
                     $this->applicationSynchronisationService->getCreditInfoForApplication($application->id),
                     [
                         'template_footer' => $application->installation->getDefaultTemplateFooterAsHtml(),
@@ -424,16 +429,13 @@ class ApplicationsController extends Controller
             ApplicationEvent\ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
         } catch (\Exception $e) {
             throw $this->redirectWithException(
-                'installations/' . $installation . '/applications/' . $id,
+                'installations/' . $application->installation->id . '/applications/' . $application->id,
                 'Unable to send Application via Email: ' . $e->getMessage(),
                 $e
             );
         }
 
-        return $this->redirectWithSuccessMessage(
-            'installations/' . $installation . '/applications/' . $id,
-            'Application successfully emailed to ' . $request->get('applicant_email')
-        );
+        return $application;
     }
 
     /**
@@ -478,6 +480,34 @@ class ApplicationsController extends Controller
                 $e
             );
         }
+    }
+
+    /**
+     * @author EB
+     * @param int $location
+     * @param int $application
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function finishApplication($location, $application)
+    {
+        try {
+            /** @var Location $location */
+            $location = Location::findOrFail($location);
+            $application = $this->fetchApplicationById($application, $location->installation->id);
+            ApplicationEvent\ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_LINK);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+                'installations/' . $location->installation->id . '/applications',
+                'Unable to complete the application: ' . $e->getMessage(),
+                $e
+            );
+        }
+
+        return $this->redirectWithSuccessMessage(
+            'installations/' . $location->installation->id . '/applications/' . $application->id,
+            'Successfully created an application'
+        );
     }
 
     /**

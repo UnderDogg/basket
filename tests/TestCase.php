@@ -95,7 +95,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * Creates an application using the ModelFactory
      *
      * @author EB
-     * @return mixed
+     * @return \App\Basket\Application
      */
     protected function createApplicationForTest()
     {

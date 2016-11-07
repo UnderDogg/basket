@@ -12,7 +12,6 @@ namespace App\Basket\Synchronisation;
 
 use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
-use PayBreak\Sdk\Entities\Installation\FeaturesEntity;
 use PayBreak\Sdk\Entities\InstallationEntity;
 use PayBreak\Sdk\Gateways\InstallationGateway;
 use Psr\Log\LoggerInterface;
@@ -190,8 +189,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $installation->ext_return_url = $installationEntity->getReturnUrl();
         $installation->ext_notification_url = $installationEntity->getNotificationUrl();
         $installation->ext_default_product = $installationEntity->getDefaultProduct();
-
-        $this->mapFeatures($installation, $installationEntity->getFeatures());
     }
 
     /**
@@ -216,17 +213,5 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         }
 
         return true;
-    }
-
-    /**
-     * @author EB
-     * @param FeaturesEntity $featuresEntity
-     * @param Installation $installation
-     */
-    private function mapFeatures(Installation $installation, FeaturesEntity $featuresEntity)
-    {
-        if ($featuresEntity !== null) {
-            $installation->assisted_journey = $featuresEntity->getAssistedJourney();
-        }
     }
 }

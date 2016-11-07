@@ -1,9 +1,10 @@
 ## Features
 - Refactoring out aggregate settlement reports (130356905)
-- Added `assisted_journey` Feature concept (131806137)
+- Changed `Application Link` journey (131807249)
 
 ## Bug Fixes
 - Fixed Email Address length issue (132149593)
+- Cease reporting `TokenMismatchException` leaving view as-is. (132647799)
 
 # 1.13.5
 2016-10-06

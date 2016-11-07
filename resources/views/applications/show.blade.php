@@ -15,9 +15,6 @@
             <li class="active"><a data-toggle="tab" href="#part1">Application Details</a></li>
             <li><a data-toggle="tab" href="#part2">Order Details</a></li>
             <li><a data-toggle="tab" href="#part3">Customer Details</a></li>
-            @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
-                <li><a data-toggle="tab" href="#emailTab">Email Application</a></li>
-            @endif
             @if(Auth::user()->can('applications-merchant-payments'))
                 <li><a data-toggle="tab" href="#merchant-payments-pane">Merchant Payments</a></li>
             @endif
@@ -74,15 +71,30 @@
                                     @endif
                                 </dd>
                             @endif
-
-                            @if($applications->ext_resume_url && ($applications->ext_current_status == null || $applications->ext_current_status == 'initialized' || $applications->ext_current_status == 'pending'))
-                                <dt>Resume URL</dt>
-                                <dd><a href="{{$applications->ext_resume_url}}" id="return" data-clipboard-text="{{$applications->ext_resume_url}}">{{$applications->ext_resume_url}}</a></dd>
-                            @endif
-
                         </dl>
                     </div>
                 </div>
+                @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>Application / Resume Link</strong></div>
+                        <div class="panel-body">
+                            <div class="input-group">
+                                <input type="text" class="form-control disabled" value="{!!  $applications->ext_resume_url !!}" readonly>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Actions<span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        @if(!empty($applications->ext_applicant_email_address) || !empty($applications->ext_customer_email_address))
+                                            <li><a href="{!! Request::url() !!}/email"><abbr title="Click to send email">Send Email</abbr></a></li>
+                                        @endif
+                                        <li><a id="return" href="{!!  $applications->ext_resume_url !!}"><abbr title="Click to copy the link">Copy Link</abbr></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Product information</strong></div>
                     <div class="panel-body">
@@ -190,6 +202,7 @@
                         </dl>
                     </div>
                 </div>
+                @if(!empty($applications->ext_applicant_first_name))
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Applicant Details</strong></div>
                     <div class="panel-body">
@@ -213,6 +226,7 @@
                         </dl>
                     </div>
                 </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Application Address</strong></div>
                     <div class="panel-body">
@@ -247,40 +261,6 @@
                     </div>
                 </div>
             </div>
-            @if($applications->ext_resume_url && (in_array($applications->ext_current_status, [null, 'initialized', 'pending']) ))
-                <div id="emailTab" class="tab-pane fade">
-                    <br/>
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><strong>Applicant Details</strong></div>
-                        <div class="panel-body">
-                            <dl class="dl-horizontal">
-                                <dt>Title</dt>
-                                <dd>{{ $applications->ext_applicant_title }}</dd>
-                                <dt>First Name</dt>
-                                <dd>{{ $applications->ext_applicant_first_name }}</dd>
-                                <dt>Last Name</dt>
-                                <dd>{{ $applications->ext_applicant_last_name }}</dd>
-                                <dt>Email Address</dt>
-                                <dd>{{ $applications->ext_applicant_email_address }}</dd>
-                                <dt>Mobile</dt>
-                                <dd>{{ $applications->ext_applicant_phone_mobile }}</dd>
-                                <dt>&nbsp;</dt>
-                                <dd class="">
-                                    {!! Form::open(['url' => Request::url() . '/email', 'class' => 'form-horizontal']) !!}
-                                    {!! Form::hidden('title', $applications->ext_applicant_title)  !!}
-                                    {!! Form::hidden('first_name', $applications->ext_applicant_first_name)  !!}
-                                    {!! Form::hidden('last_name', $applications->ext_applicant_last_name)  !!}
-                                    {!! Form::hidden('applicant_email', $applications->ext_applicant_email_address)  !!}
-                                    {!! Form::hidden('description', $applications->ext_order_description)  !!}
-                                    {!! Form::submit('Send', ['class' => 'btn btn-info col-xs-12 col-sm-4', 'name' => 'sendEmail']) !!}
-                                    {!! Form::close() !!}
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             @if(Auth::user()->can('applications-merchant-payments'))
                 <div id="merchant-payments-pane" class="tab-pane fade">
                 <br/>
@@ -392,7 +372,7 @@
             hidden.style.top = "0";
             document.body.appendChild(hidden);
 
-            hidden.textContent = elem.textContent;
+            hidden.textContent = elem.href;
             hidden.focus();
             hidden.setSelectionRange(0, hidden.value.length);
             return document.execCommand("copy");

@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\Installation;
+use App\Basket\Location;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use App\Http\Traits\FilterTrait;
@@ -154,25 +155,27 @@ abstract class Controller extends BaseController
     /**
      * @author EB
      * @param $id
-     * @return mixed
+     * @param string $field
+     * @return Application
      */
-    protected function fetchApplicationDetails($id)
+    protected function fetchApplicationDetails($id, $field = 'ext_id')
     {
-        return Application::where('ext_id', '=', $id)->first();
+        return Application::where($field, '=', $id)->first();
     }
 
     /**
-     * @author SL
+     * @author SL, EB
      * @param \Exception $e
+     * @param int $defaultCode
      * @return Response
      */
-    protected function apiResponseFromException(\Exception $e)
+    protected function apiResponseFromException(\Exception $e, $defaultCode = 500)
     {
         $code = $e->getCode();
 
         if (is_null($code) || $code === 0) {
 
-            $code = 500;
+            $code = $defaultCode;
         }
 
         return (new Response(['error' => $e->getMessage()], $code))->header('Content-Type', 'json');
@@ -219,6 +222,24 @@ abstract class Controller extends BaseController
         } catch (ModelNotFoundException $e) {
             throw RedirectException::make('users/' . $user->id)->setError($e->getMessage());
         }
+    }
+
+    /**
+     * @author WN
+     * @param $id
+     * @return Location
+     * @throws RedirectException
+     */
+    protected function fetchLocation($id)
+    {
+        $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
+
+        if (!in_array($id,  $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
+
+            throw RedirectException::make('/')->setError('You don\'t have permission to access this Location');
+        }
+
+        return $location;
     }
 
     /**

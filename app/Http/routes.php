@@ -126,7 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
         );
         Route::get('installations/{installation}/applications', 'ApplicationsController@index');
         Route::get('installations/{installation}/applications/{id}', 'ApplicationsController@show');
-        Route::post('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
+        Route::get('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
@@ -151,10 +151,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('return-back', 'InitialisationController@returnBack');
         Route::get('locations/{id}/applications/make', 'InitialisationController@prepare');
         Route::post('locations/{id}/applications/make', 'InitialisationController@chooseProduct');
-        Route::post('locations/{id}/applications/confirm', 'InitialisationController@confirm');
+        Route::post('locations/{id}/applications/assisted', 'InitialisationController@chooseProductAssisted');
         Route::post('locations/{id}/applications/request', 'InitialisationController@request');
+        Route::get('locations/{id}/applications/{application}/create', 'ApplicationsController@finishApplication');
+
+        route::get('locations/{location}/applications/{id}/profile', 'InitialisationController@showProfile');
+        Route::get('locations/{location}/no-finance', 'InitialisationController@noFinance');
 
         Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
+        Route::post('ajax/locations/{location}/profile/personal', 'AjaxController@setProfilePersonal');
+        Route::post('ajax/locations/{location}/profile/address', 'AjaxController@addProfileAddress');
+        Route::post('ajax/locations/{location}/profile/employment', 'AjaxController@setProfileEmployment');
+        Route::post('ajax/locations/{location}/profile/financial', 'AjaxController@setProfileFinancial');
     });
 
     Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {

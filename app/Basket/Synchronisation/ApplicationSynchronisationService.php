@@ -322,14 +322,12 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $installationId,
         $requester = null,
         $location = null
-    )
-    {
+    ) {
         $app = new Application();
         $app->installation_id = $installationId;
         $app->ext_id = $applicationEntity->getId();
         $app->user_id = $requester;
         $app->location_id = $location;
-        $app->ext_resume_url = $applicationEntity->getResumeUrl();
 
         $mapApplicationHelper = new MapApplicationHelper();
         $mapApplicationHelper->mapApplication($applicationEntity, $app);
@@ -405,6 +403,72 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             );
 
             throw $e;
+        }
+    }
+
+    /**
+     * @author WN, EB
+     * @param string $email
+     * @param Location $location
+     * @param OrderEntity $orderEntity
+     * @param ProductsEntity $productsEntity
+     * @param ApplicantEntity $applicantEntity
+     * @param User $requester
+     * @return Application
+     * @throws Exception
+     */
+    public function initialiseAssistedApplication(
+        $email,
+        Location $location,
+        OrderEntity $orderEntity,
+        ProductsEntity $productsEntity,
+        ApplicantEntity $applicantEntity,
+        User $requester
+    ) {
+        $applicationParams = [
+            'email' => $email,
+            'installation' => $location->installation->ext_id,
+            'order' => $orderEntity->toArray(),
+            'products' => $productsEntity->toArray(true),
+            'fulfilment' => [
+                'method' => 'collection',
+                'location' => $location->reference,
+            ],
+            'applicant' => $applicantEntity->toArray(),
+        ];
+
+
+        $application = ApplicationEntity::make($applicationParams);
+
+        $this->logInfo(
+            'IniApp: Application reference[' . $orderEntity->getReference() . '] ready to be initialised',
+            ['application' => $application->toArray()]
+        );
+
+        try {
+            $newApplication = $this->applicationGateway->initialiseAssistedApplication(
+                $application,
+                $location->installation->merchant->token
+            );
+
+            $this->logInfo(
+                'IniApp: Application reference[' . $orderEntity->getReference() . ']
+                successfully initialised at provider with ID[' . $newApplication->getId() . ']'
+            );
+
+            $app = $this->createNewLocal($newApplication, $location->installation->id, $requester->id, $location->id);
+
+            $this->logInfo(
+                'IniApp: Application reference[' . $orderEntity->getReference() . ']
+                successfully stored in the local system'
+            );
+
+            return $app;
+
+        } catch (\Exception $e) {
+
+            $this->logError('IniApp: ' . $e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 }
