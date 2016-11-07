@@ -1,3 +1,6 @@
+# 1.14.0
+2016-11-07
+
 ## Features
 - Refactoring out aggregate settlement reports (130356905)
 - Changed `Application Link` journey (131807249)
