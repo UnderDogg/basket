@@ -4,6 +4,7 @@
 
 ## Bug Fixes
 - Fixed Email Address length issue (132149593)
+- Cease reporting `TokenMismatchException` leaving view as-is. (132647799)
 
 # 1.13.5
 2016-10-06
