@@ -1,4 +1,10 @@
-## Bug Fixed
+## Features
+- Refactoring out aggregate settlement reports (130356905)
+- Changed `Application Link` journey (131807249)
+- Changes to application status text and background colour (133426217)
+
+## Bug Fixes
+- Fixed Email Address length issue (132149593)
 - Cease reporting `TokenMismatchException` leaving view as-is. (132647799)
 
 # 1.13.5

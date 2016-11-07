@@ -50,6 +50,7 @@ class MapApplicationHelper
 
         $application->ext_resume_url = $applicationEntity->getResumeUrl();
         $application->ext_metadata = json_encode($applicationEntity->getMetadata());
+        $application->ext_user = $applicationEntity->getUser();
     }
 
     /**
@@ -145,7 +146,7 @@ class MapApplicationHelper
             $application->ext_applicant_email_address = $applicantEntity->getEmailAddress();
             $application->ext_applicant_phone_home = $applicantEntity->getPhoneHome();
             $application->ext_applicant_phone_mobile = $applicantEntity->getPhoneMobile();
-            $application->ext_applicant_postcode = $applicantEntity->getEmailAddress();
+            $application->ext_applicant_postcode = $applicantEntity->getPostcode();
         }
     }
 

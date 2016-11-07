@@ -64,7 +64,7 @@ class AccountController extends Controller
         $user = $this->getAuthenticatedUser();
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|max:255',
         ]);
         try {
             $user->update($request->all());

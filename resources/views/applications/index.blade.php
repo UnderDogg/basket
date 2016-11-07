@@ -87,9 +87,11 @@
             <tr>
                 <td>{{ $item->ext_id }}</td>
                 <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
-                <td class="{{ AppHelper::getApplicationStatusTextColour($item->ext_current_status) }}">
+                <td>
                     @if(AppHelper::getApplicationStatusDescription($item->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($item->ext_current_status) }}">@endif
-                        {{ AppHelper::getApplicationDisplayName($item->ext_current_status) }}
+                        <span class="{{ AppHelper::getApplicationStatusBackgroundColour($item->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($item->ext_current_status) }}">
+                            {{ AppHelper::getApplicationDisplayName($item->ext_current_status) }}
+                        </span>
                     @if($item->ext_current_status != '')</abbr>@endif
                 </td>
                 <td>{{ $item->ext_order_reference }}</td>

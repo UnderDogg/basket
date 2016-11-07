@@ -23,13 +23,17 @@ class NotificationCatcherService extends AbstractSynchronisationService
 {
     private $applicationSynchronisationServices;
 
+    private $merchantSynchronisationService;
+
     public function __construct(
         ApplicationSynchronisationService $applicationSynchronisationService,
+        MerchantSynchronisationService $merchantSynchronisationService,
         LoggerInterface $logger = null
     ) {
         parent::__construct($logger);
 
         $this->applicationSynchronisationServices = $applicationSynchronisationService;
+        $this->merchantSynchronisationService = $merchantSynchronisationService;
     }
 
     /**
@@ -70,5 +74,26 @@ class NotificationCatcherService extends AbstractSynchronisationService
         );
 
         return $app;
+    }
+
+    /**
+     * @author EB
+     * @param $installation
+     * @return \App\Basket\Merchant
+     * @throws Exception
+     */
+    public function catchSynchronisationNotification($installation)
+    {
+        try {
+            return $this->merchantSynchronisationService->synchroniseMerchant(
+                $this->fetchInstallationByExternalId($installation)->merchant_id,
+                true
+            );
+        } catch (\Exception $e) {
+
+            $this->logError('NotificationCatcherService: Installation[ext' . $installation .
+                '] can not be synced:' . $e->getMessage());
+            throw new Exception('NotificationCatcherService: Installation cannot be synced');
+        }
     }
 }

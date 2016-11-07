@@ -62,4 +62,24 @@ class NotificationsController extends Controller
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
+
+    /**
+     * @author EB
+     * @param $installation
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function catchSynchronisationNotification($installation, Request $request)
+    {
+        try {
+            $this->notificationCatcherService->catchSynchronisationNotification($installation);
+            return response()->json(
+                ['message' => 'Installation [' . $installation . '] successfully synchronised'],
+                200
+            );
+        } catch (\Exception $e) {
+            $this->logError('CatchSynchronisationNotification: Failed with message: ' . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
 }
