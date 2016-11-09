@@ -1,3 +1,9 @@
+# 1.14.1
+2016-11-09
+
+## Bug Fixes
+- Fixed `phone_mobile` and `phone_home` not being in the correct order (133998285)
+
 # 1.14.0
 2016-11-07
 
