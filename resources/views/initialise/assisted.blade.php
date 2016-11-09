@@ -81,7 +81,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
-                                        {!! Form::text('phone_mobile', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                                        {!! Form::text('phone_mobile', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></div>
-                                        {!! Form::text('phone_home', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                                        {!! Form::text('phone_home', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                                     </div>
                                 </div>
                             </div>
