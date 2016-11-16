@@ -43,8 +43,8 @@
                 <tr>
                 @foreach($aggregate_settlement_report as $item)
                     <tr>
-                        <td>{{ date('d/m/Y', strtotime($item['order_date'])) }}</td>
-                        <td>{{ date('d/m/Y', strtotime($item['notification_date'])) }}</td>
+                        <td>{{ $item['order_date'] }}</td>
+                        <td>{{ $item['notification_date'] }}</td>
                         <td>{{ $item['customer']}}</td>
                         <td>{{ $item['post_code'] }}</td>
                         <td>{{ $item['application_id'] }}</td>
