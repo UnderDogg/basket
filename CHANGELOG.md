@@ -1,5 +1,9 @@
+# 1.14.2
+2016-11-17
+
 ## Bug Fixes
 - Ensuring that the button is not hidden on smaller devices (134445811)
+- Correcting settlement dates (134259557)
 
 # 1.14.1
 2016-11-09
