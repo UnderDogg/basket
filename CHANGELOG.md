@@ -1,3 +1,6 @@
+## Bug Fixes
+- Ensuring that the button is not hidden on smaller devices (134445811)
+
 # 1.14.1
 2016-11-09
 
