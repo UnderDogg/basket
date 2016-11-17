@@ -441,7 +441,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $application = ApplicationEntity::make($applicationParams);
 
         $this->logInfo(
-            'IniApp: Application reference[' . $orderEntity->getReference() . '] ready to be initialised',
+            'IniAssistedApp: Application reference[' . $orderEntity->getReference() . '] ready to be initialised',
             ['application' => $application->toArray()]
         );
 
@@ -452,14 +452,14 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             );
 
             $this->logInfo(
-                'IniApp: Application reference[' . $orderEntity->getReference() . ']
+                'IniAssistedApp: Application reference[' . $orderEntity->getReference() . ']
                 successfully initialised at provider with ID[' . $newApplication->getId() . ']'
             );
 
             $app = $this->createNewLocal($newApplication, $location->installation->id, $requester->id, $location->id);
 
             $this->logInfo(
-                'IniApp: Application reference[' . $orderEntity->getReference() . ']
+                'IniAssistedApp: Application reference[' . $orderEntity->getReference() . ']
                 successfully stored in the local system'
             );
 
@@ -467,7 +467,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         } catch (\Exception $e) {
 
-            $this->logError('IniApp: ' . $e->getMessage());
+            $this->logError('IniAssistedApp: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
     }
