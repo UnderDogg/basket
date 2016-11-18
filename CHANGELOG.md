@@ -1,3 +1,9 @@
+# 1.14.3
+2016-11-18
+
+## Bug Fixes
+- Improving validation for order reference and description (134504071)
+
 # 1.14.2
 2016-11-17
 
