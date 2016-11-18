@@ -21,7 +21,6 @@ use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Validator;
 use PayBreak\Foundation\Properties\Bitwise;
 use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use PayBreak\Sdk\Entities\ProductEntity;
