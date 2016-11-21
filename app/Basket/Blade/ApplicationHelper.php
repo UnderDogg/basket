@@ -172,6 +172,7 @@ class ApplicationHelper
             'display_name' => 'Not&nbsp;set',
             'color' => '',
             'description' => 'This application may have not been synced yet and so no information regarding the status is available',
+            'background' => '',
         ];
     }
 }
