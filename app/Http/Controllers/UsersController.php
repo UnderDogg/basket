@@ -17,6 +17,7 @@ use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class UsersController
@@ -258,10 +259,17 @@ class UsersController extends Controller
     public function destroy($id)
     {
         if ($id == $this->getAuthenticatedUser()->id) {
+            
             throw RedirectException::make('/')->setError('You cannot delete yourself!');
         }
 
-        return $this->destroyModel((new User()), $id, 'user', '/users');
+        try {
+            return $this->destroyModel((new User()), $id, 'user', '/users');
+        } catch (\Exception $e) {
+
+            Log::error('Problem deleting user [' .  $id. ']: ' . $e->getMessage());
+            throw RedirectException::make('/users/' . $id)->setError('There was a problem deleting the selected user. If this error persists, please contact afforditNOW! Support.');
+        }
     }
 
     /**
