@@ -259,11 +259,12 @@ class UsersController extends Controller
     public function destroy($id)
     {
         if ($id == $this->getAuthenticatedUser()->id) {
-            
+
             throw RedirectException::make('/')->setError('You cannot delete yourself!');
         }
 
         try {
+            
             return $this->destroyModel((new User()), $id, 'user', '/users');
         } catch (\Exception $e) {
 
