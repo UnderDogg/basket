@@ -1,3 +1,11 @@
+# 1.14.4
+2016-11-22
+
+## Bug Fixes
+- Improve error message and introduce logging when user deletion failed (134273227)
+- Allow users to be soft deleted when they have foreign key dependencies set (134273227)
+- Add missing default config key (134520549)
+
 # 1.14.3
 2016-11-18
 
