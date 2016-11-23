@@ -1,4 +1,10 @@
 # 1.14.4
+2016-11-23
+
+## Bug Fixes
+- Fixed check for `available_installations` in `main.blade.php` (134843291)
+
+# 1.14.4
 2016-11-22
 
 ## Bug Fixes
