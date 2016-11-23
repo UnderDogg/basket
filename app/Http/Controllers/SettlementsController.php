@@ -13,6 +13,7 @@ use App\Basket\Application;
 use App\Exceptions\RedirectException;
 use DateTime;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Input;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
 /**
@@ -119,6 +120,34 @@ class SettlementsController extends Controller
                 . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
 
         ]);
+    }
+
+    /**
+     * @author EA
+     * @param int $merchant
+     * @param int $id
+     * @return \Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function downloadSettlementReportCsv($merchant, $id)
+    {
+        try {
+
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="'. Input::get('filename') . '.csv"',
+            ];
+
+            return response()->make(
+                $this->settlementGateway->getSingleAggregateSettlementReport(
+                    $this->fetchMerchantById($merchant)->token, $id, true),
+                200,
+                $headers
+            );
+
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/', 'Failed to download settlements csv', $e);
+        }
     }
 
     /**
