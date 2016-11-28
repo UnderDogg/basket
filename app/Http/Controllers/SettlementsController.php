@@ -27,13 +27,18 @@ class SettlementsController extends Controller
     /** @var SettlementGateway $settlementGateway */
     protected $settlementGateway;
 
+    /** @var SettlementCsvGateway $settlementCsvGateway */
+    protected $settlementCsvGateway;
+
     /**
      * @author MS
      * @param SettlementGateway $settlementGateway
+     * @param SettlementCsvGateway $settlementGateway
      */
-    public function __construct(SettlementGateway $settlementGateway)
+    public function __construct(SettlementGateway $settlementGateway, SettlementCsvGateway $settlementCsvGateway)
     {
         $this->settlementGateway = $settlementGateway;
+        $this->settlementCsvGateway = $settlementCsvGateway;
     }
 
     /**
@@ -90,16 +95,14 @@ class SettlementsController extends Controller
      * @author MS
      * @param int $merchant
      * @param int $id
+     * @param string $settlementDate
+     * @param string $provider
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function settlementReport($merchant, $id)
+    public function settlementReport($merchant, $id, $settlementDate, $provider)
     {
         try {
-            $settlementReport = $this
-                ->settlementGateway
-                ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
-
             $aggregateSettlementReport = $this
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
@@ -109,15 +112,15 @@ class SettlementsController extends Controller
         }
 
         return View('settlements.settlement_report', [
-            'settlement_report' => $settlementReport,
+            'settlement_date' => $settlementDate,
+            'provider' => $provider,
             'aggregate_settlement_report' => $aggregateSettlementReport,
             'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'settlement_amount')),
-            'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
-            'api_data' => $this->flattenRawReport($settlementReport),
-            'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'
-                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
-            'export_view_filename' => 'settlement-report-' . $settlementReport['id'] . '-'
-                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
+            'installation' => Application::where('ext_id', '=', $id)->first(),
+            'export_api_filename' => 'settlement-raw-' . $id . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
+            'export_view_filename' => 'settlement-report-' . $id . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
 
         ]);
     }
@@ -139,7 +142,7 @@ class SettlementsController extends Controller
             ];
 
             return response()->make(
-                $this->settlementGateway->getSingleAggregateSettlementReport(
+                $this->settlementCsvGateway->getSingleAggregateSettlementReport(
                     $this->fetchMerchantById($merchant)->token, $id, true),
                 200,
                 $headers
