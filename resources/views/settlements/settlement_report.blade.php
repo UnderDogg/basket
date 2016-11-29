@@ -5,7 +5,7 @@
     <h1>
         Settlement Report
         <div class="btn-toolbar pull-right">
-            <a href="{{ Request::url() }}/csv/download?filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
+            <a href="{{ Request::url() }}/csv?filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
             <a href="{{ Request::url() }}/?download=csv&amp;filename={{ $export_api_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Raw</a>
         </div>
     </h1>
