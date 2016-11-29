@@ -10,10 +10,12 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use DateTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
+use PayBreak\Sdk\Gateways\SettlementCsvGateway;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
 /**
@@ -31,9 +33,9 @@ class SettlementsController extends Controller
     protected $settlementCsvGateway;
 
     /**
-     * @author MS
+     * @author MS, EA
      * @param SettlementGateway $settlementGateway
-     * @param SettlementCsvGateway $settlementGateway
+     * @param SettlementCsvGateway $settlementCsvGateway
      */
     public function __construct(SettlementGateway $settlementGateway, SettlementCsvGateway $settlementCsvGateway)
     {
@@ -92,17 +94,19 @@ class SettlementsController extends Controller
     /**
      * Settlement Report
      *
-     * @author MS
+     * @author MS, EA
      * @param int $merchant
      * @param int $id
-     * @param string $settlementDate
-     * @param string $provider
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function settlementReport($merchant, $id, $settlementDate, $provider)
+    public function settlementReport($merchant, $id)
     {
         try {
+            $settlementReport = $this
+                ->settlementGateway
+                ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
+
             $aggregateSettlementReport = $this
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
@@ -112,15 +116,15 @@ class SettlementsController extends Controller
         }
 
         return View('settlements.settlement_report', [
-            'settlement_date' => $settlementDate,
-            'provider' => $provider,
+            'settlement_report' => $settlementReport,
             'aggregate_settlement_report' => $aggregateSettlementReport,
             'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'settlement_amount')),
-            'installation' => Application::where('ext_id', '=', $id)->first(),
-            'export_api_filename' => 'settlement-raw-' . $id . '-'
-                . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
-            'export_view_filename' => 'settlement-report-' . $id . '-'
-                . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
+            'merchant' => Merchant::where('id', '=', $merchant)->first(),
+            'api_data' => $this->flattenRawReport($settlementReport),
+            'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
+            'export_view_filename' => 'settlement-report-' . $settlementReport['id'] . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
 
         ]);
     }
@@ -141,9 +145,12 @@ class SettlementsController extends Controller
                 'Content-Disposition' => 'attachment; filename="'. Input::get('filename') . '.csv"',
             ];
 
+            $csvResponse =  $this
+                ->settlementCsvGateway
+                ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
+
             return response()->make(
-                $this->settlementCsvGateway->getSingleAggregateSettlementReport(
-                    $this->fetchMerchantById($merchant)->token, $id, true),
+                stripcslashes($csvResponse['csv']),
                 200,
                 $headers
             );
