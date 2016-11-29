@@ -9,7 +9,7 @@
             <a href="{{ Request::url() }}/?download=csv&amp;filename={{ $export_api_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Raw</a>
         </div>
     </h1>
-    @include('includes.page.breadcrumb', ['over' => [1 => isset($installation->installation->merchant->name) ? $installation->installation->merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
+    @include('includes.page.breadcrumb', ['over' => [1 => isset($merchant->name) ? $merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     <h3><span>Amount: {{ '&pound;' . number_format($settlement_report['amount']/100, 2) }}</span></h3>
     <h5>
         <span>Date: {{ date('d/m/Y', strtotime($settlement_report['settlement_date'])) }}</span> |
