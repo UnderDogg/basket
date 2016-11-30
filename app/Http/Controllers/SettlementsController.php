@@ -15,7 +15,6 @@ use App\Exceptions\RedirectException;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
 use PayBreak\Sdk\Gateways\SettlementCsvGateway;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
@@ -27,6 +26,9 @@ use PayBreak\Sdk\Gateways\SettlementGateway;
  */
 class SettlementsController extends Controller
 {
+    const RAW_SETTLEMENT_REPORT = 'raw-settlement-report';
+    const AGGREGATE_SETTLEMENT_REPORT = 'aggregate-settlement-report';
+    
     /** @var SettlementGateway $settlementGateway */
     protected $settlementGateway;
 
@@ -143,12 +145,12 @@ class SettlementsController extends Controller
     {
         try {
             switch ($request->get('type', null)) {
-                case 'aggregate-settlement-report':
+                case self::AGGREGATE_SETTLEMENT_REPORT:
                     $csvResponse =  $this
                         ->settlementCsvGateway
                         ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
                     break;
-                case 'raw-settlement-report':
+                case self::RAW_SETTLEMENT_REPORT:
                    $csvResponse =  $this
                        ->settlementCsvGateway
                        ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
