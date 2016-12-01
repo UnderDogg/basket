@@ -1,3 +1,9 @@
+# 1.14.6
+2016-12-01
+
+## Features 
+- Changes for settlement report download button to directly to call csv api (134525555)
+
 # 1.14.5
 2016-11-23
 
