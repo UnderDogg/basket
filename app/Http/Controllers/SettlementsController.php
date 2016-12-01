@@ -10,9 +10,12 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
 use DateTime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use PayBreak\Sdk\Gateways\SettlementCsvGateway;
 use PayBreak\Sdk\Gateways\SettlementGateway;
 
 /**
@@ -23,16 +26,24 @@ use PayBreak\Sdk\Gateways\SettlementGateway;
  */
 class SettlementsController extends Controller
 {
+    const RAW_SETTLEMENT_REPORT = 'raw-settlement-report';
+    const AGGREGATE_SETTLEMENT_REPORT = 'aggregate-settlement-report';
+    
     /** @var SettlementGateway $settlementGateway */
     protected $settlementGateway;
 
+    /** @var SettlementCsvGateway $settlementCsvGateway */
+    protected $settlementCsvGateway;
+
     /**
-     * @author MS
+     * @author MS, EA
      * @param SettlementGateway $settlementGateway
+     * @param SettlementCsvGateway $settlementCsvGateway
      */
-    public function __construct(SettlementGateway $settlementGateway)
+    public function __construct(SettlementGateway $settlementGateway, SettlementCsvGateway $settlementCsvGateway)
     {
         $this->settlementGateway = $settlementGateway;
+        $this->settlementCsvGateway = $settlementCsvGateway;
     }
 
     /**
@@ -86,18 +97,16 @@ class SettlementsController extends Controller
     /**
      * Settlement Report
      *
-     * @author MS
+     * @author MS, EA
      * @param int $merchant
      * @param int $id
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      * @throws RedirectException
      */
-    public function settlementReport($merchant, $id)
+    public function settlementReport($merchant, $id, Request $request)
     {
         try {
-            $settlementReport = $this
-                ->settlementGateway
-                ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id);
 
             $aggregateSettlementReport = $this
                 ->settlementGateway
@@ -107,45 +116,62 @@ class SettlementsController extends Controller
             throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
         }
 
+        $settlementDate = $request->get('date');
+
         return View('settlements.settlement_report', [
-            'settlement_report' => $settlementReport,
+            'settlement_date' => $settlementDate,
+            'settlement_amount' => $request->get('amount', ''),
+            'settlement_provider' => $request->get('provider', ''),
             'aggregate_settlement_report' => $aggregateSettlementReport,
             'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'settlement_amount')),
-            'installation' => Application::where('ext_id', '=', $settlementReport['id'])->first(),
-            'api_data' => $this->flattenRawReport($settlementReport),
-            'export_api_filename' => 'settlement-raw-' . $settlementReport['id'] . '-'
-                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
-            'export_view_filename' => 'settlement-report-' . $settlementReport['id'] . '-'
-                . date_format(DateTime::createFromFormat('Y-m-d', $settlementReport['settlement_date']), 'Ymd'),
+            'merchant' => Merchant::where('id', '=', $merchant)->first(),
+            'export_api_filename' => 'settlement-raw-' . $id . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
+            'export_view_filename' => 'settlement-report-' . $id . '-'
+                . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
 
         ]);
     }
 
     /**
      * @author EA
-     * @param array $report
-     * @return array
+     * @param int $merchant
+     * @param int $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     * @throws RedirectException
      */
-    private function flattenRawReport(array $report)
+    public function downloadSettlementReportCsv($merchant, $id, Request $request)
     {
-        $rtn = [];
-
-        foreach ($report['settlements'] as $settlement) {
-            foreach ($settlement['transactions'] as $tx) {
-                $rtn[] = [
-                    'Order Date' => date('d/m/Y', strtotime($settlement['received_date'])),
-                    'Customer' => $settlement['customer_name'],
-                    'Post Code' => $settlement['application_postcode'],
-                    'Retailer Reference' => $settlement['order_reference'],
-                    'Order Amount' =>  number_format( $settlement['order_amount']/100, 2, '.', ''),
-                    'Notification Date' => date('d/m/Y', strtotime($settlement['captured_date'])),
-                    'Type' => $tx['type'],
-                    'Description' => $settlement['description'],
-                    'Deposit' =>  number_format( $settlement['deposit']/100, 2, '.', ''),
-                    'Settlement Amount' => number_format($tx['amount']/100, 2, '.', ''),
-                ];
+        try {
+            switch ($request->get('type', null)) {
+                case self::AGGREGATE_SETTLEMENT_REPORT:
+                    $csvResponse =  $this
+                        ->settlementCsvGateway
+                        ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
+                    break;
+                case self::RAW_SETTLEMENT_REPORT:
+                   $csvResponse =  $this
+                       ->settlementCsvGateway
+                       ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
+                     break;
+                default:
+                    throw new Exception('Settlement report type not found');
             }
+
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="'. $request->get('filename') . '.csv"',
+            ];
+
+            return response()->make(
+                stripcslashes($csvResponse['csv']),
+                200,
+                $headers
+            );
+
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/', 'Failed to download settlements csv', $e);
         }
-        return $rtn;
     }
 }
