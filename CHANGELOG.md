@@ -1,3 +1,9 @@
+# 1.14.7
+2016-12-01
+
+## Configuration
+- Updated `paybreak/paybreak-sdk-php` to `v4.9.0`
+
 # 1.14.6
 2016-12-01
 
