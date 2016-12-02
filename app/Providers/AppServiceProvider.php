@@ -31,5 +31,9 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface', 'App\Gateways\ApiClientFactory');
+
+        $this->app->when('PayBreak\Sdk\Gateways\SettlementCsvGateway')
+            ->needs('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface')
+            ->give('App\Gateways\ApiCsvClientFactory');
     }
 }

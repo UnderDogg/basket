@@ -1,3 +1,51 @@
+# 1.14.7
+2016-12-01
+
+## Configuration
+- Updated `paybreak/paybreak-sdk-php` to `v4.9.0`
+
+# 1.14.6
+2016-12-01
+
+## Features 
+- Changes for settlement report download button to directly to call csv api (134525555)
+
+# 1.14.5
+2016-11-23
+
+## Bug Fixes
+- Fixed check for `available_installations` in `main.blade.php` (134843291)
+
+# 1.14.4
+2016-11-22
+
+## Bug Fixes
+- Improve error message and introduce logging when user deletion failed (134273227)
+- Allow users to be soft deleted when they have foreign key dependencies set (134273227)
+- Add missing default config key (134520549)
+
+# 1.14.3
+2016-11-18
+
+## Bug Fixes
+- Improving validation for order reference and description (134504071)
+
+# 1.14.2
+2016-11-17
+
+## Features
+- Changed log messages for assisted applications 
+
+## Bug Fixes
+- Ensuring that the button is not hidden on smaller devices (134445811)
+- Correcting settlement dates (134259557)
+
+# 1.14.1
+2016-11-09
+
+## Bug Fixes
+- Fixed `phone_mobile` and `phone_home` not being in the correct order (133998285)
+
 # 1.14.0
 2016-11-07
 

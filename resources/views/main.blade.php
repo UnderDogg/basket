@@ -35,14 +35,16 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Applications <span class="caret"></span></a>
                             <ul class="dropdown-menu scrollable-menu">
-                                @foreach($available_installations as $id => $installation)
-                                    <li class="dropdown-header">{{ $installation->name }}</li>
-                                    <li><a href="/installations/{{ $installation->id }}/applications">Applications</a></li>
-                                    <li><a href="/installations/{{ $installation->id }}/applications/pending-cancellations">Pending Cancellations</a></li>
-                                    @if(count($available_installations) != ($id+1))
+                                @if(isset($available_installations))
+                                    @foreach($available_installations as $id => $installation)
+                                        <li class="dropdown-header">{{ $installation->name }}</li>
+                                        <li><a href="/installations/{{ $installation->id }}/applications">Applications</a></li>
+                                        <li><a href="/installations/{{ $installation->id }}/applications/pending-cancellations">Pending Cancellations</a></li>
+                                        @if(count($available_installations) != ($id+1))
                                             <li role="separator" class="divider"></li>
-                                    @endif
-                                @endforeach
+                                        @endif
+                                    @endforeach
+                                @endif
                             </ul>
                         </li>
                     @endif

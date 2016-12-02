@@ -37,7 +37,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></div>
-                                        {!! Form::text('reference',null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255]) !!}
+                                        {!! Form::text('reference',null, ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a reference', 'maxlength' => 255, 'data-fv-stringlength' => true,'data-fv-stringlength-min' => 6]) !!}
                                         <span class="input-group-btn"><a id="regen_btn" class="btn btn-info"><abbr title="Click to generate order reference"><span class="glyphicon glyphicon-refresh"></span></abbr></a></span>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></div>
-                                        {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a description for this order', 'maxlength' => 255]) !!}
+                                        {!! Form::text('description', 'Goods & Services', ['class' => 'form-control col-xs-12', 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a description for this order', 'maxlength' => 255, 'data-fv-stringlength' => true,'data-fv-stringlength-min' => 6]) !!}
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
-                                        {!! Form::text('phone_mobile', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                                        {!! Form::text('phone_mobile', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></div>
-                                        {!! Form::text('phone_home', isset($application->ext_customer_phone_mobile) ? $application->ext_customer_phone_mobile : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
+                                        {!! Form::text('phone_home', isset($application->ext_customer_phone_home) ? $application->ext_customer_phone_home : null, ['class' => 'form-control col-xs-12', 'data-fv-phone' => 'true', 'data-fv-phone-country' => 'GB', 'maxlength' => 11]) !!}
                                     </div>
                                 </div>
                             </div>

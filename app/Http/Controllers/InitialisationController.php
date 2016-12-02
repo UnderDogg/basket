@@ -15,6 +15,7 @@ use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
 use App\Basket\Merchant;
 use App\Basket\Synchronisation\InitialiseApplicationHelper;
+use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
@@ -107,30 +108,33 @@ class InitialisationController extends Controller
      */
     public function request($locationId, Request $request)
     {
-        $this->validate(
-            $request,
-            [
-                'amount' => 'required|integer',
-                'group' => 'required',
-                'product' => 'required',
-                'reference' => 'required|min:6',
-                'description' => 'required|min:6',
-                'deposit' => 'sometimes|integer',
-                'title' => 'sometimes|min:2|max:4',
-                'first_name' => 'sometimes',
-                'last_name' => 'sometimes',
-                'email' => 'sometimes|email|max:255',
-                'phone_home' => 'sometimes|max:11',
-                'phone_mobile' => 'sometimes|max:11',
-                'postcode' => 'sometimes|max:8',
-            ]
-        );
-
-        $location = $this->fetchLocation($locationId);
-        $this->validateApplicationRequest($request, $location);
-
         try {
+            $this->validate(
+                $request,
+                [
+                    'amount' => 'required|integer',
+                    'group' => 'required',
+                    'product' => 'required',
+                    'reference' => 'required|min:6',
+                    'description' => 'required|min:6',
+                    'deposit' => 'sometimes|integer',
+                    'first_name' => 'sometimes',
+                    'last_name' => 'sometimes',
+                    'email' => 'sometimes|email|max:255',
+                    'phone_home' => 'sometimes|max:11',
+                    'phone_mobile' => 'sometimes|max:11',
+                ]
+            );
+
+            $location = $this->fetchLocation($locationId);
+            $this->validateApplicationRequest($request, $location);
+
             return $this->applicationRequestType($location, $request);
+        } catch (RedirectException $e) {
+            throw $e;
+        } catch (HttpResponseException $e) {
+            throw RedirectException::make('/locations/' . $locationId . '/applications/make')
+                ->setError($e->getMessage());
         } catch (\Exception $e) {
             $this->logError('Unable to request an Application: ' . $e->getMessage());
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
