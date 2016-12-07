@@ -18,12 +18,12 @@ use PayBreak\Sdk\Entities\GroupEntity;
 use PayBreak\Sdk\Entities\ProductEntity;
 
 /**
- * Class ProductLimitsController
+ * Class ProductConfigurationController
  *
- * @author EB
+ * @author EB, EA
  * @package App\Http\Controllers
  */
-class ProductLimitsController extends Controller
+class ProductConfigurationController extends Controller
 {
     /** @var \PayBreak\Sdk\Gateways\ProductGateway */
     protected $productGateway;
@@ -157,5 +157,25 @@ class ProductLimitsController extends Controller
         }
 
         return $groups;
+    }
+
+    /**
+     * @author EA
+     * @param Installation $installation
+     * @param Request $request
+     * @return GroupEntity
+     */
+    private function orderProducts(Installation $installation, Request $request)
+    {
+       foreach ($request->get('products') as $product) {
+            
+       }
+
+        /** @var GroupEntity[] $groups */
+        $response = $this->productGateway->orderProducts(
+            $installation->ext_id,
+            $installation->merchant->token
+        );
+
     }
 }
