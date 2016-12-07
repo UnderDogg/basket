@@ -174,7 +174,7 @@ class InitialisationController extends Controller
                 ]
             );
             throw $this->redirectWithException(
-                '/installations/' . $location->installation->id . '/applications/make',
+                '/locations/' . $location->id . '/applications/make',
                 'Failed to process the Application request',
                 $e
             );
