@@ -97,7 +97,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('installations/{id}/preview-email',  'InstallationsController@previewEmail');
         Route::get('installations/{installation}/products',  'ProductConfigurationController@viewProducts');
         Route::post('installations/{installation}/products',  'ProductConfigurationController@updateProducts');
-        Route::post('installations/{installation}/products/ordering',  'ProductConfigurationController@orderProducts');
+        Route::post('installations/{installation}/products/ordering',  'ProductConfigurationController@updateProductsOrder');
 
     });
 

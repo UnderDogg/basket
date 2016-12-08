@@ -6,16 +6,21 @@
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installation->name]])
     <p>&nbsp;</p>
 
+    <p id="product_ordering_help">
+        Click, drag and drop a product to determine its order when shown in the choose product drop-down list on our checkout page.
+    </p>
+
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#product-limits" aria-controls="product-limits" role="tab" data-toggle="tab">Product Limits</a></li>
-        <li role="presentation"><a href="#product_ordering" aria-controls="product-ordering" role="tab" data-toggle="tab">Product Position</a></li>
+        <li role="presentation"><a href="#product_ordering" aria-controls="product-ordering" role="tab" data-toggle="tab">Product Order</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="product-limits">
             {!! Form::open(['method' => 'POST','action' => ['ProductConfigurationController@updateProducts', $installation->id], 'class' => 'form-horizontal']) !!}
+            <input type = "hidden" name="save" id="save" value="limits" />
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -36,7 +41,7 @@
                 </thead>
                 <tbody>
                 @if($i = 0) @endif
-                @forelse($products as $group)
+                @forelse($grouped_products as $group)
                     <tr id="{{$group->getId()}}">
                         <td colspan="8"><strong>{{$group->getName()}}</strong></td>
                     </tr>
@@ -73,8 +78,9 @@
         </div>
 
         <div role="tabpanel" class="tab-pane" id="product_ordering">
-            {!! Form::open(['method' => 'POST','action' => ['ProductConfigurationController@updateProductsOrder', $installation->id], 'class' => 'form-horizontal']) !!}
+            {!! Form::open(['method' => 'POST','action' => ['ProductConfigurationController@updateProducts', $installation->id], 'class' => 'form-horizontal']) !!}
             <input type = "hidden" name="product_order" id="product_order" />
+            <input type = "hidden" name="save" id="save" value="order" />
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -111,7 +117,7 @@
                 </thead>
                 <tbody id="sortable_tbody">
 
-                @forelse($listProducts as $productData)
+                @forelse($products as $productData)
                     @if($i = 0) @endif
                     <tr id="{{$productData->getId()}}">
                         <td><code>{{$productData->getId()}}</code></td>

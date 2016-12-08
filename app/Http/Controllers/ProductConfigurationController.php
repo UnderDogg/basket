@@ -25,6 +25,9 @@ use PayBreak\Sdk\Entities\ProductEntity;
  */
 class ProductConfigurationController extends Controller
 {
+    const UPDATE_PRODUCT_LIMIT = 'limit';
+    const UPDATE_PRODUCT_ORDER = 'order';
+
     /** @var \PayBreak\Sdk\Gateways\ProductGateway */
     protected $productGateway;
 
@@ -51,7 +54,8 @@ class ProductConfigurationController extends Controller
             'products.edit',
             [
                 'installation' => $installation,
-                'products' => $this->fetchDefaultEditableProductSet($installation),
+                'grouped_products' => $this->fetchDefaultEditableProductSet($installation, true),
+                'products' => $this->fetchDefaultEditableProductSet($installation, false),
                 'limits' => $this->fetchInstallationProductLimits($installation),
             ]
         );
@@ -68,36 +72,26 @@ class ProductConfigurationController extends Controller
     {
         $installation = $this->fetchInstallation($installation);
 
-        /** @var \PayBreak\Sdk\Entities\GroupEntity[] $groups */
-        $groups = $this->fetchDefaultEditableProductSet($installation);
-
-        $limits = $request->except('_token');
-
-        foreach ($groups as $group) {
-            foreach ($group->getProducts() as $product) {
-                try {
-                    if($request->has('min-' . $product->getId()) && $request->has('max-' . $product->getId())) {
-                        $min = (float) $limits['min-' . $product->getId()];
-                        $max = (float) $limits['max-' . $product->getId()];
-
-                        if (
-                            $min >= $product->getDeposit()->getMinimumPercentage() &&
-                            $max <= $product->getDeposit()->getMaximumPercentage()
-                        ) {
-                            $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
-                        }
-                    }
-                } catch (\Exception $e) {
-                    throw $this->redirectWithException(
-                        'installations/' . $installation->id . '/products',
-                        'Unable to save product limit',
-                        $e
-                    );
-                }
+        try {
+            switch ($request->get('save', null)) {
+                case self::UPDATE_PRODUCT_LIMIT:
+                    self::updateProductLimits($installation, $request);
+                    break;
+                case self::UPDATE_PRODUCT_ORDER:
+                    self::updateProductOrder($installation, $request);
+                    break;
+                default:
+                    throw new Exception('Save type not found');
             }
+        } catch (\Exception $e) {
+            throw $this->redirectWithException(
+            'installations/' . $installation->id . '/products',
+            'Unable to save product configuration',
+            $e
+            );
         }
 
-        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product limits']);
+        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product configuration']);
     }
 
     /**
@@ -136,10 +130,63 @@ class ProductConfigurationController extends Controller
     /**
      * @author EB
      * @param Installation $installation
+     * @param bool $grouped
      * @return GroupEntity
      */
-    private function fetchDefaultEditableProductSet(Installation $installation)
+    private function fetchDefaultEditableProductSet(Installation $installation, $grouped)
     {
+        if ($grouped) {
+           return  self::fetchGroupedProducts($installation);
+        }
+
+        return self::fetchProducts($installation);
+    }
+
+    /**
+     * @author EA
+     * @param Installation $installation
+     * @param Request $request
+     * @throws \App\Exceptions\RedirectException
+     * @return \Illuminate\View\View
+     */
+    public function updateProductOrder(Installation $installation, Request $request)
+    {
+        try {
+            $products = [];
+            $index = 0;
+
+            foreach (explode(',', $request->get('product_order'))  as $product) {
+                $products['products'][] = [
+                    'product_code' => $product,
+                    'order' => $index++
+                ];
+            }
+
+            $this->productGateway->orderProducts(
+                $installation->ext_id,
+                $installation->merchant->token,
+                $products
+            );
+
+        }  catch (\Exception $e) {
+                throw $this->redirectWithException(
+                'installations/' . $installation->id . '/products',
+                'Unable to save product order',
+                $e
+                );
+        }
+
+        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product ordering']);
+    }
+
+    /**
+     * @author EB, EA
+     * @param Installation $installation
+     * @return array
+     */
+    private function fetchGroupedProducts($installation)
+    {
+
         /** @var GroupEntity[] $groups */
         $groups = $this->productGateway->getProductGroupsWithProducts(
             $installation->ext_id,
@@ -159,23 +206,56 @@ class ProductConfigurationController extends Controller
         return $groups;
     }
 
+
     /**
      * @author EA
      * @param Installation $installation
-     * @param Request $request
-     * @return GroupEntity
+     * @return array
      */
-    private function orderProducts(Installation $installation, Request $request)
+    private function fetchProducts($installation)
     {
-       foreach ($request->get('products') as $product) {
-            
-       }
-
-        /** @var GroupEntity[] $groups */
-        $response = $this->productGateway->orderProducts(
+        /** @var ProductEntity[] $groups */
+        return $this->productGateway->getProducts(
             $installation->ext_id,
             $installation->merchant->token
         );
+    }
 
+    /**
+     * author EA, EB
+     * @param $installation
+     * @param Request $request
+     * @throws \App\Exceptions\RedirectException
+     */
+    private function updateProductLimits($installation, Request $request)
+    {
+        /** @var \PayBreak\Sdk\Entities\GroupEntity[] $groups */
+        $groups = $this->fetchDefaultEditableProductSet($installation);
+
+        $limits = $request->except('_token');
+
+        foreach ($groups as $group) {
+            foreach ($group->getProducts() as $product) {
+                try {
+                    if ($request->has('min-' . $product->getId()) && $request->has('max-' . $product->getId())) {
+                        $min = (float)$limits['min-' . $product->getId()];
+                        $max = (float)$limits['max-' . $product->getId()];
+
+                        if (
+                            $min >= $product->getDeposit()->getMinimumPercentage() &&
+                            $max <= $product->getDeposit()->getMaximumPercentage()
+                        ) {
+                            $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    throw $this->redirectWithException(
+                        'installations/' . $installation->id . '/products',
+                        'Unable to save product limit',
+                        $e
+                    );
+                }
+            }
+        }
     }
 }
