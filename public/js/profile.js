@@ -25,7 +25,8 @@ $(document).ready(function() {
                 beforeSend: function() {
                     showLoading();
                 },
-                success: function () {
+                success: function (response) {
+                    if (formId == 'address') updateAddressPanelForAddition(response, formData);
                     hideLoading();
                     // Enable the form from being submitted again
                     formValidation.disableSubmitButtons(false);
@@ -64,6 +65,107 @@ $(document).ready(function() {
 
         return false;
     });
+
+    $('a[data-target="removeAddress"][data-source="ajax"]').on('click', function (event) {
+        var form = jQuery(event.currentTarget).parents('form');
+        var formId = $(form).attr("id");
+
+        var location = $('input[name="location"]').val();
+        var formData = $("#"+formId).serializeArray();
+        $.ajax({
+            url: '/ajax/locations/' + location + '/profile/removeAddress',
+            type: 'POST',
+            data: formData,
+            dataType: 'JSON',
+            encode: true,
+            beforeSend: function() {
+                showLoading();
+            },
+            success: function () {
+                updateAddressPanelForRemoval(formData);
+                hideLoading();
+                // Remove the form from the view
+                $(form).remove();
+            },
+            error: function (response) {
+                hideLoading();
+                try {
+                    var errorText = JSON.parse(response.responseText).error;
+                } catch (e) {
+                    console.log('Error Encountered: ' + e);
+                    errorText = 'There was a problem with the API';
+                }
+                swal({
+                    title: 'An Error Occurred!',
+                    text: 'We were unable to remove the address.' +
+                    '</br></br>[' + errorText[0].toUpperCase() + errorText.slice(1) + ']',
+                    type: 'error',
+                    html: true,
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Close',
+                    closeOnConfirm: false
+                });
+            },
+            complete: function() {
+                hideLoading();
+            }
+        });
+
+        return false;
+    });
+
+    function updateAddressPanelForAddition(response, formData) {
+        console.log(response);
+        console.log(formData);
+
+        // We have to add the address
+
+        // We have to move the 'remove address' button down a notch
+
+        // We also have to hide the input ONLY IF we have sufficient history
+    }
+
+    function updateAddressPanelForRemoval(formData) {
+        $.each(formData, function(i, data) {
+            if (data.name == 'moved_in') {
+                // NEW CODE
+                var minDate = new Date(new Date(Date.now()).toDateString());
+                var years = 3;
+                minDate.setFullYear((minDate).getFullYear() - years);
+                var addressDate = new Date(data.value);
+
+                console.log(minDate);
+                console.log(addressDate);
+
+                if ((minDate - addressDate) > 0){
+                    alert("Enough history");
+                } else{
+                    alert("Not enough history");
+                }
+            }
+        });
+    }
+
+    function updateAddition() {
+
+    }
+
+    console.log(getLastAddressDate());
+
+    function getLastAddressDate() {
+        var el = $('form[data-address-number]').last()
+        if ($(el).html() == null) {
+            return (new Date()).toDateString();
+        }
+
+        return $(el).find('input[name="moved_in"]').attr('value');
+
+    }
+
+    function checkAddressHistorySatisfied(date) {
+
+    }
 
     function updateFormStatus(formType, success) {
         var glyph = 'remove';

@@ -483,6 +483,10 @@ class InitialisationController extends Controller
             $applicationObj = $this->fetchApplicationDetails($application, 'id');
             $this->checkIfProfileCanBeEdited($applicationObj);
             $dictionaries = $this->fetchDictionaries($locationObj->installation->merchant);
+            $addresses = $this->profileGateway->getAddresses(
+                $applicationObj->ext_user,
+                $locationObj->installation->merchant->token
+            );
         } catch (\Exception $e) {
             $this->logError('Profile creation failed: ' . $e->getMessage() . ' trace[' . $e->getTraceAsString() . ']');
             throw $this->redirectWithException('/', 'Profile Creation Failed: ' . $e->getMessage(), $e);
@@ -494,6 +498,7 @@ class InitialisationController extends Controller
                     'application' => $applicationObj,
                     'location' => $locationObj,
                     'user' => $applicationObj->ext_user,
+                    'addresses' => $addresses,
                 ],
                 $dictionaries
             )

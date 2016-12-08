@@ -123,7 +123,7 @@ class AjaxController extends Controller
         $location = Location::findOrFail($location)->first();
 
         try {
-            return $this->profileGateway->setAddress(
+            return $this->profileGateway->addAddress(
                 (int) $request->get('user'),
                 [
                     'abode' => (string) $request->get('abode'),
@@ -196,6 +196,29 @@ class AjaxController extends Controller
         } catch (\Exception $e) {
             $this->logError('Set Profile Financial failed: ' . $e->getMessage(), $request->all());
             return $this->apiResponseFromException($e, 422);
+        }
+    }
+
+    /**
+     * @authpr EB
+     * @param Request $request
+     * @param $location
+     * @return array|\Illuminate\Http\Response
+     */
+    public function removeProfileAddress(Request $request, $location)
+    {
+        /** @var Location $location */
+        $location = Location::findOrFail($location)->first();
+
+        try {
+            return $this->profileGateway->removeAddress(
+                $request->get('user'),
+                $request->get('address'),
+                $location->installation->merchant->token
+            );
+        } catch (\Exception $e) {
+            $this->logError('Remove Profile Address failed: ' . $e->getMessage(), $request->all());
+            return $this->apiResponseFromException($e, $e->getCode());
         }
     }
 }
