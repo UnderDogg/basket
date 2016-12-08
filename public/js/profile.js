@@ -116,10 +116,43 @@ $(document).ready(function() {
     });
 
     function updateAddressPanelForAddition(response, formData) {
-        console.log(response);
-        console.log(formData);
-
         // We have to add the address
+        var addressArr = {};
+        $.each(formData, function(i, data) {
+            if (data.name == 'abode') {
+                addressArr['abode'] = data.value;
+            }
+            if (data.name == 'building_name') {
+                addressArr['building_name'] = data.value;
+            }
+            if (data.name == 'building_number') {
+                addressArr['building_number'] = data.value;
+            }
+            if (data.name == 'street') {
+                addressArr['street'] = data.value;
+            }
+            if (data.name == 'locality') {
+                addressArr['locality'] = data.value;
+            }
+            if (data.name == 'town') {
+                addressArr['town'] = data.value;
+            }
+            if (data.name == 'postcode') {
+                addressArr['postcode'] = data.value;
+            }
+            if (data.name == 'address') {
+                addressArr['address'] = data.value;
+            }
+            if (data.name == 'user') {
+                addressArr['user'] = data.value;
+            }
+            if (data.name == 'moved_in') {
+                addressArr['moved_in'] = data.value;
+            }
+        });
+
+        console.log(addressArr);
+        console.log(getAddressAsString(addressArr));
 
         // We have to move the 'remove address' button down a notch
 
@@ -127,24 +160,47 @@ $(document).ready(function() {
     }
 
     function updateAddressPanelForRemoval(formData) {
+        var addressArr = {};
         $.each(formData, function(i, data) {
-            if (data.name == 'moved_in') {
-                // NEW CODE
-                var minDate = new Date(new Date(Date.now()).toDateString());
-                var years = 3;
-                minDate.setFullYear((minDate).getFullYear() - years);
-                var addressDate = new Date(data.value);
-
-                console.log(minDate);
-                console.log(addressDate);
-
-                if ((minDate - addressDate) > 0){
-                    alert("Enough history");
-                } else{
-                    alert("Not enough history");
-                }
+            if (data.name == 'abode') {
+                addressArr['abode'] = data.value;
+            }
+            if (data.name == 'building_name') {
+                addressArr['building_name'] = data.value;
+            }
+            if (data.name == 'building_number') {
+                addressArr['building_number'] = data.value;
+            }
+            if (data.name == 'street') {
+                addressArr['street'] = data.value;
+            }
+            if (data.name == 'locality') {
+                addressArr['locality'] = data.value;
+            }
+            if (data.name == 'town') {
+                addressArr['town'] = data.value;
+            }
+            if (data.name == 'postcode') {
+                addressArr['postcode'] = data.value;
             }
         });
+
+        console.log(addressArr.street);
+        console.log(getAddressAsString(addressArr));
+
+    }
+
+    function getAddressAsString(addressArr) {
+        var string = '';
+        if (!(addressArr.abode == '')) string = string + addressArr.abode + ', ';
+        if (!(addressArr.building_name == '')) string = string + addressArr.building_name + ', ';
+        if (!(addressArr.building_number == '')) string = string + addressArr.building_number + ' ';
+        if (!(addressArr.street == '')) string = string + addressArr.street + ', ';
+        if (!(addressArr.locality == '')) string = string + addressArr.locality + ', ';
+        if (!(addressArr.town == '')) string = string + addressArr.town + ', ';
+        if (!(addressArr.postcode == '')) string = string + addressArr.postcode;
+
+        return string;
     }
 
     function updateAddition() {
