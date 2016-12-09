@@ -2,7 +2,7 @@
     <div class="panel-heading" role="tab" id="headingAddress">
         <h4 class="panel-title">
             <a role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
-                Address <small>(Optional)</small> <span class="address-status"></span>
+                Address <small>(Optional)</small> <span class="address-status">@if(!empty($addresses))<small class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></small> @endif</span>
                 <p class="pull-right">
                     <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
                     <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
@@ -10,15 +10,6 @@
             </a>
         </h4>
     </div>
-    <!--------------->
-    <!--------------->
-    <!--------------->
-    <!--------------->
-    {{--{{var_dump($addresses)}}--}}
-    <!--------------->
-    <!--------------->
-    <!--------------->
-    <!--------------->
     <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddress">
         <div class="panel-body">
             <div class="col-sm-12">
@@ -43,57 +34,74 @@
                             {!! Form::hidden('moved_in', $address['moved_in']) !!}
                             {!! Form::token() !!}
                             <div class="col-sm-2">
-                                <a class="btn btn-danger @if(!($address == end($addresses))) hidden @endif" data-target="removeAddress" data-source="ajax">Remove Address</a>
+                                <a class="btn btn-danger @if(!($address == end($addresses)))hidden @endif" data-target="removeAddress" data-source="ajax">Remove Address</a>
                             </div>
                         </div>
-                        @if(!($address == last($addresses)))<hr/> @endif
+                        <hr @if(\Carbon\Carbon::parse($address['moved_in'])->diffInYears(\Carbon\Carbon::now()) >= 3)class="hidden" @endif/>
                     </form>
                 @endforeach
+                <!-- Address Clone -->
+                <form class="form-horizontal hidden" id="addressClone" method="POST" data-address-number="">
+                    <div class="form-group">
+                        {!! Form::label('prev', 'Current address', ['class' => 'col-sm-2 control-label text-right']) !!}
+                        <div class="col-sm-8">
+                            <p class="form-control-static"></p>
+                        </div>
+                        {!! Form::hidden('address', '')!!}
+                        {!! Form::hidden('user', isset($user) ? $user : null) !!}
+                        {!! Form::hidden('moved_in', '') !!}
+                        {!! Form::token() !!}
+                        <div class="col-sm-2">
+                            <a class="btn btn-danger hidden" data-target="removeAddress" data-source="ajax">Remove Address</a>
+                        </div>
+                    </div>
+                    <hr/>
+                </form>
                 <form class="form-horizontal @if(!empty($addresses) && (\Carbon\Carbon::parse(last($addresses)['moved_in'])->diffInYears(\Carbon\Carbon::now()) >= 3))hidden @endif" id="address" method="POST">
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
 
                     <div class="form-group">
-                        <p>Search for an address by typing your postcode in the field below</p>
+                        <p class="col-sm-offset-2 col-sm-8">Search for an address by typing your postcode in the field below</p><p class="col-sm-2">&nbsp;</p>
                         {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('postcode', isset($postcode) ? $postcode : null, ['class' => 'form-control', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here',  'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
+                            {!! Form::text('postcode', null, ['class' => 'form-control', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here',  'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
                         </div>
                     </div>
                     <hr/>
                     <div class="form-group">
                         {!! Form::label('abode', 'Flat / Unit Number', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('abode', isset($abode) ? $abode : null, ['class' => 'form-control', 'maxlength' => 30]) !!}
+                            {!! Form::text('abode', null, ['class' => 'form-control', 'maxlength' => 30]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('building_name', 'Building Name', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('building_name', isset($building_name) ? $building_name : null, ['class' => 'form-control', 'maxlength' => 50]) !!}
+                            {!! Form::text('building_name', null, ['class' => 'form-control', 'maxlength' => 50]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('building_number', 'Building Number', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('building_number', isset($building_number) ? $building_number : null, ['class' => 'form-control', 'maxlength' => 12]) !!}
+                            {!! Form::text('building_number', null, ['class' => 'form-control', 'maxlength' => 12]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('street', 'Street', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('street', isset($street) ? $street : null, ['class' => 'form-control', 'maxlength' => 50, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a street']) !!}
+                            {!! Form::text('street', null, ['class' => 'form-control', 'maxlength' => 50, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a street']) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('locality', 'Locality', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('locality', isset($locality) ? $locality : null, ['class' => 'form-control', 'maxlength' => 50]) !!}
+                            {!! Form::text('locality', null, ['class' => 'form-control', 'maxlength' => 50]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('town', 'Town', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('town', isset($town) ? $town : null, ['class' => 'form-control', 'maxlength' => 25, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a town']) !!}
+                            {!! Form::text('town', null, ['class' => 'form-control', 'maxlength' => 25, 'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a town']) !!}
                         </div>
                     </div>
                     <hr/>
@@ -122,6 +130,7 @@
                             </select>
                         </div>
                     </div>
+                    {!! Form::hidden('max_date', isset($address['moved_in']) ? $address['moved_in'] : \Carbon\Carbon::now()->toDateString()) !!}
                     {!! Form::token() !!}
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
