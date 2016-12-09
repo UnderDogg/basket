@@ -18,7 +18,6 @@
                         <div class="form-group">
                             {!! Form::label('prev', ($address == array_values($addresses)[0]) ? 'Current address' : 'Previous address ' . $k, ['class' => 'col-sm-2 control-label text-right']) !!}
                             <div class="col-sm-8">
-                                <!-- Show the address formatted -->
                                 <p class="form-control-static">
                                     @if($abode = $address['abode']) {!! $abode !!}, @endif
                                     @if($building_name = $address['building_name']) {!! $building_name !!}, @endif
@@ -40,7 +39,6 @@
                         <hr @if(\Carbon\Carbon::parse($address['moved_in'])->diffInYears(\Carbon\Carbon::now()) >= 3)class="hidden" @endif/>
                     </form>
                 @endforeach
-                <!-- Address Clone -->
                 <form class="form-horizontal hidden" id="addressClone" method="POST" data-address-number="">
                     <div class="form-group">
                         {!! Form::label('prev', 'Current address', ['class' => 'col-sm-2 control-label text-right']) !!}
