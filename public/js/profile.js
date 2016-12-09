@@ -117,14 +117,124 @@ $(document).ready(function() {
         return false;
     }
 
+    // Personal
+    var phoneValidation = {
+        callback: {
+            message: 'You must enter at least one contact phone number',
+            callback: function (value, validator) {
+                var isEmpty = true;
+                var mobile = validator.getFieldElements('phone_mobile');
+                if (mobile.eq(0).val() !== '') {
+                    isEmpty = false;
+                }
+                var home = validator.getFieldElements('phone_home');
+                if (home.eq(0).val() !== '') {
+                    isEmpty = false;
+                }
+
+                if (!isEmpty) {
+                    validator.updateStatus('phone_mobile', validator.STATUS_VALID, 'callback');
+                    validator.updateStatus('phone_home', validator.STATUS_VALID, 'callback');
+                    return true;
+                }
+                return false;
+            }
+        }
+    };
+
+    $('#personal').on('change', '#dob_day, #dob_month, #dob_year', function(e) {
+        var y = $('#personal').find('#dob_year').val(),
+            m = $('#personal').find('#dob_month').val(),
+            d = $('#personal').find('#dob_day').val();
+
+        $('#personal').find('[name="date_of_birth"]').val(y === '' && m === '' && d === '' ? '' : [y, m, d].join('-'));
+        $('#personal').formValidation('revalidateField', 'date_of_birth');
+    });
+
+    $('#personal').formValidation({
+        framework: 'bootstrap',
+        fields: {
+            date_of_birth: {
+                err: '.dob-error',
+                excluded: false,
+                validators: {
+                    date: {
+                        format: 'YYYY-MM-DD',
+                        message: 'Please fully enter the date of birth'
+                    }
+                }
+            },
+            phone_home: {validators: phoneValidation},
+            phone_mobile: {validators: phoneValidation}
+        }
+    });
+
+    $('#dob_day').prepend( '<option value="">-- Day --</option>');
+    $('#dob_month').prepend( '<option value="">-- Month --</option>');
+    $('#dob_year').prepend( '<option value="">-- Year --</option>');
+    $('#dob_day :nth-child(1)').prop('selected', true);
+    $('#dob_month :nth-child(1)').prop('selected', true);
+    $('#dob_year :nth-child(1)').prop('selected', true);
+
+    $("#number_of_dependents option[value='10']").html('10 +');
+    $("#number_of_dependents").prepend( '<option value="">-- Please select --</option>');
+    $('#number_of_dependents :nth-child(1)').prop('selected', true);
+
+    // Address
+    capturePlus.listen("load", function(control) {
+        control.listen("populate", function() {
+            $('#address').data('formValidation').resetForm();
+        });
+    });
+
+    $('#address').formValidation({
+        framework: 'bootstrap',
+        button: {
+            selector: '[data-target="save"]'
+        },
+        fields: {
+            moved_in: {
+                err: '.moved-in-error',
+                icon: false,
+                excluded: false,
+                validators: {
+                    date: {
+                        format: 'YYYY-MM-DD',
+                        max: 'max_date'
+                    },
+                    notEmpty: {
+                        message: 'Please fully enter the moved in date'
+                    }
+                }
+            }
+        }
+    });
+
+    $('#address').on('change', '#moved_in_month, #moved_in_year', function(e) {
+        var y = $('#moved_in_year').val(),
+            m = $('#moved_in_month').val(),
+            d = '1';
+
+        $('#address').find('[name="moved_in"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
+        $('#address').formValidation('revalidateField', 'moved_in');
+    });
+
+    $('#moved_in_month').prepend( '<option value="">-- Month --</option>');
+    $('#moved_in_year').prepend( '<option value="">-- Year --</option>');
+    $('#moved_in_year option:last').text($('#moved_in_year option:last').text() + ' and earlier');
+    $('#moved_in_month :nth-child(1)').prop('selected', true);
+    $('#moved_in_year :nth-child(1)').prop('selected', true);
+
+    // Multiple Address
+
     function updateAddressPanelForAddition(response, formData) {
         // Create variables
         var clone = $('#addressClone'),
             appendedAddress = clone.clone(),
             sortedArr = getSortedArray(
-            ['abode', 'building_name', 'building_number', 'street', 'locality', 'town', 'postcode', 'user', 'moved_in'],
-            flattenArray(formData)
-        );
+                ['abode', 'building_name', 'building_number', 'street', 'locality', 'town', 'postcode', 'user', 'moved_in'],
+                flattenArray(formData)
+            );
 
         // Previous address or current address
         $(appendedAddress).find('.control-label').html(getAddressLabel());
@@ -142,7 +252,7 @@ $(document).ready(function() {
         // Insert into the document
         $(appendedAddress).removeClass('hidden').insertBefore(clone);
 
-        // We also have to hide the input ONLY IF we have sufficient history
+        // We also have to hide the input if there is sufficient history
         toggleAddressForm(sortedArr.moved_in);
     }
 
@@ -278,114 +388,6 @@ $(document).ready(function() {
 
         return sortedArr;
     }
-
-    // Personal
-    var phoneValidation = {
-        callback: {
-            message: 'You must enter at least one contact phone number',
-            callback: function (value, validator) {
-                var isEmpty = true;
-                var mobile = validator.getFieldElements('phone_mobile');
-                if (mobile.eq(0).val() !== '') {
-                    isEmpty = false;
-                }
-                var home = validator.getFieldElements('phone_home');
-                if (home.eq(0).val() !== '') {
-                    isEmpty = false;
-                }
-
-                if (!isEmpty) {
-                    validator.updateStatus('phone_mobile', validator.STATUS_VALID, 'callback');
-                    validator.updateStatus('phone_home', validator.STATUS_VALID, 'callback');
-                    return true;
-                }
-                return false;
-            }
-        }
-    };
-
-    $('#personal').on('change', '#dob_day, #dob_month, #dob_year', function(e) {
-        var y = $('#personal').find('#dob_year').val(),
-            m = $('#personal').find('#dob_month').val(),
-            d = $('#personal').find('#dob_day').val();
-
-        $('#personal').find('[name="date_of_birth"]').val(y === '' && m === '' && d === '' ? '' : [y, m, d].join('-'));
-        $('#personal').formValidation('revalidateField', 'date_of_birth');
-    });
-
-    $('#personal').formValidation({
-        framework: 'bootstrap',
-        fields: {
-            date_of_birth: {
-                err: '.dob-error',
-                excluded: false,
-                validators: {
-                    date: {
-                        format: 'YYYY-MM-DD',
-                        message: 'Please fully enter the date of birth'
-                    }
-                }
-            },
-            phone_home: {validators: phoneValidation},
-            phone_mobile: {validators: phoneValidation}
-        }
-    });
-
-    $('#dob_day').prepend( '<option value="">-- Day --</option>');
-    $('#dob_month').prepend( '<option value="">-- Month --</option>');
-    $('#dob_year').prepend( '<option value="">-- Year --</option>');
-    $('#dob_day :nth-child(1)').prop('selected', true);
-    $('#dob_month :nth-child(1)').prop('selected', true);
-    $('#dob_year :nth-child(1)').prop('selected', true);
-
-    $("#number_of_dependents option[value='10']").html('10 +');
-    $("#number_of_dependents").prepend( '<option value="">-- Please select --</option>');
-    $('#number_of_dependents :nth-child(1)').prop('selected', true);
-
-    // Address
-    capturePlus.listen("load", function(control) {
-        control.listen("populate", function() {
-            $('#address').data('formValidation').resetForm();
-        });
-    });
-
-    $('#address').formValidation({
-        framework: 'bootstrap',
-        button: {
-            selector: '[data-target="save"]'
-        },
-        fields: {
-            moved_in: {
-                err: '.moved-in-error',
-                icon: false,
-                excluded: false,
-                validators: {
-                    date: {
-                        format: 'YYYY-MM-DD',
-                        max: 'max_date'
-                    },
-                    notEmpty: {
-                        message: 'Please fully enter the moved in date'
-                    }
-                }
-            }
-        }
-    });
-
-    $('#address').on('change', '#moved_in_month, #moved_in_year', function(e) {
-        var y = $('#moved_in_year').val(),
-            m = $('#moved_in_month').val(),
-            d = '1';
-
-        $('#address').find('[name="moved_in"]').val(y === '' && m === '' ? '' : [y, m, d].join('-'));
-        $('#address').formValidation('revalidateField', 'moved_in');
-    });
-
-    $('#moved_in_month').prepend( '<option value="">-- Month --</option>');
-    $('#moved_in_year').prepend( '<option value="">-- Year --</option>');
-    $('#moved_in_year option:last').text($('#moved_in_year option:last').text() + ' and earlier');
-    $('#moved_in_month :nth-child(1)').prop('selected', true);
-    $('#moved_in_year :nth-child(1)').prop('selected', true);
 
     // Employment
     $('#employment').formValidation({
