@@ -66,7 +66,9 @@ $(document).ready(function() {
         return false;
     });
 
-    $('a[data-target="removeAddress"][data-source="ajax"]').on('click', function (event) {
+    $('a[data-target="removeAddress"][data-source="ajax"]').bind('click', removeAddress);
+
+    function removeAddress(event) {
         var form = jQuery(event.currentTarget).parents('form');
         var formId = $(form).attr("id");
 
@@ -82,10 +84,9 @@ $(document).ready(function() {
                 showLoading();
             },
             success: function () {
-                updateAddressPanelForRemoval(formData);
+                updateAddressPanelForRemoval(form);
+                updateFormStatus(formId, true);
                 hideLoading();
-                // Remove the form from the view
-                $(form).remove();
             },
             error: function (response) {
                 hideLoading();
@@ -95,6 +96,7 @@ $(document).ready(function() {
                     console.log('Error Encountered: ' + e);
                     errorText = 'There was a problem with the API';
                 }
+                updateFormStatus(formId, false);
                 swal({
                     title: 'An Error Occurred!',
                     text: 'We were unable to remove the address.' +
@@ -113,114 +115,128 @@ $(document).ready(function() {
         });
 
         return false;
-    });
-
-    function updateAddressPanelForAddition(response, formData) {
-        // We have to add the address
-        var addressArr = {};
-        $.each(formData, function(i, data) {
-            if (data.name == 'abode') {
-                addressArr['abode'] = data.value;
-            }
-            if (data.name == 'building_name') {
-                addressArr['building_name'] = data.value;
-            }
-            if (data.name == 'building_number') {
-                addressArr['building_number'] = data.value;
-            }
-            if (data.name == 'street') {
-                addressArr['street'] = data.value;
-            }
-            if (data.name == 'locality') {
-                addressArr['locality'] = data.value;
-            }
-            if (data.name == 'town') {
-                addressArr['town'] = data.value;
-            }
-            if (data.name == 'postcode') {
-                addressArr['postcode'] = data.value;
-            }
-            if (data.name == 'address') {
-                addressArr['address'] = data.value;
-            }
-            if (data.name == 'user') {
-                addressArr['user'] = data.value;
-            }
-            if (data.name == 'moved_in') {
-                addressArr['moved_in'] = data.value;
-            }
-        });
-
-        console.log(addressArr);
-        console.log(getAddressAsString(addressArr));
-
-        // We have to move the 'remove address' button down a notch
-
-        // We also have to hide the input ONLY IF we have sufficient history
     }
 
-    function updateAddressPanelForRemoval(formData) {
-        var addressArr = {};
-        $.each(formData, function(i, data) {
-            if (data.name == 'abode') {
-                addressArr['abode'] = data.value;
-            }
-            if (data.name == 'building_name') {
-                addressArr['building_name'] = data.value;
-            }
-            if (data.name == 'building_number') {
-                addressArr['building_number'] = data.value;
-            }
-            if (data.name == 'street') {
-                addressArr['street'] = data.value;
-            }
-            if (data.name == 'locality') {
-                addressArr['locality'] = data.value;
-            }
-            if (data.name == 'town') {
-                addressArr['town'] = data.value;
-            }
-            if (data.name == 'postcode') {
-                addressArr['postcode'] = data.value;
-            }
-        });
+    function updateAddressPanelForAddition(response, formData) {
+        // Create variables
+        var clone = $('#addressClone'),
+            appendedAddress = clone.clone(),
+            sortedArr = getSortedArray(
+            ['abode', 'building_name', 'building_number', 'street', 'locality', 'town', 'postcode', 'user', 'moved_in'],
+            flattenArray(formData)
+        );
 
-        console.log(addressArr.street);
-        console.log(getAddressAsString(addressArr));
+        // Previous address or current address
+        $(appendedAddress).find('.control-label').html(getAddressLabel());
+        $(appendedAddress).find('.form-control-static').html(getAddressAsString(sortedArr));
+        $(appendedAddress).find('input[name="address"]').val(response.address);
+        $(appendedAddress).find('input[name="moved_in"]').val(sortedArr.moved_in);
+        var addKey = getLastAddressKey();
+        $(appendedAddress).attr('id', 'address' + addKey);
+        $(appendedAddress).attr('data-address-number', addKey);
 
+        // We have to move the 'remove address' button down a notch
+        $(appendedAddress).find('a[data-target]').removeClass('hidden').bind('click', removeAddress);
+        hidePreviousRemoveAddressButton();
+
+        // Insert into the document
+        $(appendedAddress).removeClass('hidden').insertBefore(clone);
+
+        // We also have to hide the input ONLY IF we have sufficient history
+        toggleAddressForm(sortedArr.moved_in);
     }
 
     function getAddressAsString(addressArr) {
-        var string = '';
-        if (!(addressArr.abode == '')) string = string + addressArr.abode + ', ';
-        if (!(addressArr.building_name == '')) string = string + addressArr.building_name + ', ';
-        if (!(addressArr.building_number == '')) string = string + addressArr.building_number + ' ';
-        if (!(addressArr.street == '')) string = string + addressArr.street + ', ';
-        if (!(addressArr.locality == '')) string = string + addressArr.locality + ', ';
-        if (!(addressArr.town == '')) string = string + addressArr.town + ', ';
-        if (!(addressArr.postcode == '')) string = string + addressArr.postcode;
+        var addressLine = '';
+        if (!(addressArr.abode == null)) addressLine = addressLine + addressArr.abode + ', ';
+        if (!(addressArr.building_name == null)) addressLine = addressLine + addressArr.building_name + ', ';
+        if (!(addressArr.building_number == null)) addressLine = addressLine + addressArr.building_number + ' ';
+        if (!(addressArr.street == null)) addressLine = addressLine + addressArr.street + ', ';
+        if (!(addressArr.locality == null)) addressLine = addressLine + addressArr.locality + ', ';
+        if (!(addressArr.town == null)) addressLine = addressLine + addressArr.town + ', ';
+        if (!(addressArr.postcode == null)) addressLine = addressLine + addressArr.postcode;
 
-        return string;
+        return addressLine;
     }
 
-    function updateAddition() {
+    function getAddressLabel() {
+        var previousAddress = $('#addressClone').prev('form[data-address-number]');
+        if (previousAddress.html() == null) {
+            return 'Current address';
+        }
 
+        return 'Previous address ' + (parseInt($(previousAddress).attr('data-address-number')) + 1);
     }
 
-    console.log(getLastAddressDate());
+    function hidePreviousRemoveAddressButton() {
+        var el = $('form[data-address-number]').not('#addressClone').last();
+        if ($(el).html() != null) {
+            $(el).find('a[data-target]').addClass('hidden');
+        }
+    }
+
+    function toggleAddressForm(date) {
+        var movedIn = new Date(date);
+
+        var dateNow = new Date(Date.now()),
+            minDate = new Date();
+
+        minDate.setFullYear((dateNow.getFullYear() - 3), dateNow.getMonth(), dateNow.getDate());
+        minDate.setHours(0,0,0,0);
+
+        var addressForm = $('#address');
+        addressForm.data('formValidation').resetForm(true);
+        addressForm.data('formValidation').resetField('month', true);
+        addressForm.data('formValidation').resetField('year', true);
+
+        if(movedIn - minDate > 0) {
+            addressForm.removeClass('hidden');
+            console.log(addressForm.prevAll('form').not('#addressClone').first());
+            addressForm.prevAll('form').not('#addressClone').first().find('hr').removeClass('hidden');
+        } else {
+            addressForm.addClass('hidden');
+            addressForm.prevAll('form').not('#addressClone').first().find('hr').addClass('hidden');
+        }
+        addressForm.find('input[name="max_date"]').attr(
+            'value',
+            movedIn.getFullYear() + '-' + (parseInt(movedIn.getMonth()) + 1) + '-' + movedIn.getDate()
+        );
+    }
+
+    function updateAddressPanelForRemoval(form) {
+        // Remove the form from the view
+        $(form).remove();
+
+        // Move the 'remove address' button up a notch
+        showCurrentRemoveAddressButton();
+
+        // Toggle the address form
+        toggleAddressForm(getLastAddressDate());
+    }
+
+    function showCurrentRemoveAddressButton() {
+        var el = $('form[data-address-number]').not('#addressClone').last();
+        if ($(el).html() != null) {
+            $(el).find('a[data-target]').removeClass('hidden');
+        }
+    }
 
     function getLastAddressDate() {
-        var el = $('form[data-address-number]').last()
+        var el = $('form[data-address-number]').not('#addressClone').last();
         if ($(el).html() == null) {
             return (new Date()).toDateString();
         }
 
         return $(el).find('input[name="moved_in"]').attr('value');
-
     }
 
-    function checkAddressHistorySatisfied(date) {
+    function getLastAddressKey() {
+        var el = $('form[data-address-number]').not('#addressClone').last();
+        if ($(el).html() == null) {
+            return 1;
+        }
 
+        return parseInt($(el).attr('data-address-number')) + 1;
     }
 
     function updateFormStatus(formType, success) {
@@ -239,6 +255,28 @@ $(document).ready(function() {
 
     function hideLoading() {
         $('.loading').hide();
+    }
+
+    function flattenArray(x) {
+        var unsortedArray = [];
+
+        $.each(x, function(i, j){
+            unsortedArray[j.name] = j.value;
+        });
+
+        return unsortedArray;
+    }
+
+    function getSortedArray(order, unsortedArr) {
+        var sortedArr = [];
+
+        $.each(order, function(i, j){
+            if(unsortedArr[j].length) {
+                sortedArr[j] = unsortedArr[j];
+            }
+        });
+
+        return sortedArr;
     }
 
     // Personal
@@ -324,7 +362,7 @@ $(document).ready(function() {
                 validators: {
                     date: {
                         format: 'YYYY-MM-DD',
-                        message: 'Please fully enter the moved in date'
+                        max: 'max_date'
                     },
                     notEmpty: {
                         message: 'Please fully enter the moved in date'
