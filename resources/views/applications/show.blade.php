@@ -176,7 +176,7 @@
                             <dt>Net Settle Amount</dt>
                             <dd>{{ '&pound;' . number_format($applications->ext_finance_net_settlement/100, 2) }}</dd>
                             <dt>Validity</dt>
-                            <dd>{{ $applications->ext_validity }}</dd>
+                            <dd>{{ $applications->ext_order_validity }}</dd>
                         </dl>
                     </div>
                 </div>

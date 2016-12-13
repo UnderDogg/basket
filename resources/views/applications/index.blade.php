@@ -36,7 +36,7 @@
             <th>Net Settlement</th>
             <th>Location</th>
             <th>Applicant Email</th>
-            <th><span class="pull-right">Actions</span></th>
+            <th class="col-btn-actions"><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
             {{--FILTERS--}}
@@ -71,7 +71,7 @@
             <th>{!! Form::text('ext_applicant_email_address', Request::only('ext_applicant_email_address')['ext_applicant_email_address'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th class="text-right">
                 <div class="btn-group pull-right">
-                    <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
+                    <button type="submit" class="filter btn btn-info btn-xs">FILTER</button>
                     <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -110,35 +110,85 @@
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
-
                     <div class="btn-group">
-                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
+                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs">View</a>
+                        {{--<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#collapse-{!! $item->id !!}" aria-expanded="false" aria-controls="collapseExample">Quick view</button>--}}
+                        <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
 
-                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {!! in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete'])?'':'disabled="disabled"' !!}>
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right">
+                            @if(Auth::user()->can('applications-view'))
+                                <li><a href="#" data-toggle="collapse" data-target="#collapse-{!! $item->id !!}" aria-expanded="false">Quick View</a></li>
+                            @endif
 
-                                @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
-                                <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
-                                @endif
+                            @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
+                            <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
+                            @endif
 
-                                @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
-                                <li><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></li>
-                                @endif
+                            @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
+                            <li><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></li>
+                            @endif
 
-                                @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
-                                <li><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></li>
-                                @endif
+                            @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
+                            <li><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></li>
+                            @endif
 
-                            </ul>
+                        </ul>
                     </div>
-
                 </td>
             </tr>
+            <tr class="collapse collapse-out" id="collapse-{!! $item->id !!}">
+                <td colspan="50">
+                    <div class="row">
+                        <div class="col col-xs-12 col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>Order Summary</strong></div>
+                                <div class="panel-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Retailer Reference</dt>
+                                        <dd>{{ $item->ext_order_reference }}</dd>
+                                        <dt>Order Description</dt>
+                                        <dd>{{ $item->ext_order_description }}</dd>
+                                        <dt>Order Amount</dt>
+                                        <dd>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</dd>
+                                        <dt>Validity</dt>
+                                        <dd>{{ date('d/m/Y H:i', strtotime($item->ext_order_validity)) }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xs-12 col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>Application Actions</strong></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        @if(Auth::user()->can('applications-view'))
+                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}">View Application</a></div>
+                                        @endif
+
+                                        @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
+                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></div>
+                                        @endif
+
+                                        @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
+                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></div>
+                                        @endif
+
+                                        @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
+                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="hidden"></tr>
         @empty
-            <tr><td colspan="16"><em>No records found</em></td></tr>
+            <tr><td colspan="17"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}
