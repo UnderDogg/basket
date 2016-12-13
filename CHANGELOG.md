@@ -1,3 +1,6 @@
+## Features
+- Added **Multiple Address** support (134691997)
+
 # 1.14.7
 2016-12-01
 
