@@ -17,7 +17,7 @@
                     <form class="form-horizontal" id="address{!! $address['id'] !!}" method="POST" data-address-number="{!! $k !!}">
                         <div class="form-group">
                             {!! Form::label('prev', ($address == array_values($addresses)[0]) ? 'Current address' : 'Previous address ' . $k, ['class' => 'col-sm-2 control-label text-right']) !!}
-                            <div class="col-sm-8">
+                            <div class="col-sm-6 col-lg-8">
                                 <p class="form-control-static">
                                     @if($abode = $address['abode']) {!! $abode !!}, @endif
                                     @if($building_name = $address['building_name']) {!! $building_name !!}, @endif
@@ -32,8 +32,8 @@
                             {!! Form::hidden('user', isset($user) ? $user : null) !!}
                             {!! Form::hidden('moved_in', $address['moved_in']) !!}
                             {!! Form::token() !!}
-                            <div class="col-sm-2">
-                                <a class="btn btn-danger @if(!($address == end($addresses)))hidden @endif" data-target="removeAddress" data-source="ajax">Remove Address</a>
+                            <div class="col-sm-4 col-lg-2">
+                                <a class="btn btn-danger @if(!($address == end($addresses)))hidden @endif form-control-static pull-right" data-target="removeAddress" data-source="ajax">Remove</a>
                             </div>
                         </div>
                         <hr @if(\Carbon\Carbon::parse($address['moved_in'])->diffInYears(\Carbon\Carbon::now()) >= 3)class="hidden" @endif/>
@@ -42,15 +42,15 @@
                 <form class="form-horizontal hidden" id="addressClone" method="POST" data-address-number="">
                     <div class="form-group">
                         {!! Form::label('prev', 'Current address', ['class' => 'col-sm-2 control-label text-right']) !!}
-                        <div class="col-sm-8">
+                        <div class="col-sm-6 col-md-7 col-lg-8">
                             <p class="form-control-static"></p>
                         </div>
                         {!! Form::hidden('address', '')!!}
                         {!! Form::hidden('user', isset($user) ? $user : null) !!}
                         {!! Form::hidden('moved_in', '') !!}
                         {!! Form::token() !!}
-                        <div class="col-sm-2">
-                            <a class="btn btn-danger hidden" data-target="removeAddress" data-source="ajax">Remove Address</a>
+                        <div class="col-sm-4 col-md-3 col-lg-2">
+                            <a class="btn btn-danger hidden form-control" data-target="removeAddress" data-source="ajax">Remove</a>
                         </div>
                     </div>
                     <hr/>
@@ -59,7 +59,9 @@
                     {!! Form::hidden('user', isset($user) ? $user : null) !!}
 
                     <div class="form-group">
-                        <p class="col-sm-offset-2 col-sm-8">Search for an address by typing your postcode in the field below</p><p class="col-sm-2">&nbsp;</p>
+                        <div class="row container-fluid">
+                            <p class="col-sm-offset-2 col-sm-8">Search for an address by typing your postcode in the field below</p><p class="col-sm-2 hidden-xs">&nbsp;</p>
+                        </div>
                         {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
                             {!! Form::text('postcode', null, ['class' => 'form-control', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here',  'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
