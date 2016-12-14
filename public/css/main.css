@@ -47,10 +47,13 @@ h4.fieldLabel {
     overflow-x: scroll;
 }
 .layout-large {
-    width: 1800px;
+    min-width: 1800px;
 }
 .layout-large th {
     width: 150px;
+}
+.col-btn-actions {
+    min-width: 115px;
 }
 
 .table-va-middle td {

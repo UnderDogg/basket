@@ -4,8 +4,8 @@
 
     <h1>Applications
         <div class="btn-group pull-right">
-            <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
-            <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
+            <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true && Auth::user()->can('applications-fulfil') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
+            <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true && Auth::user()->can('applications-cancel') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
             @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
             <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
@@ -176,7 +176,7 @@
                             <dt>Net Settle Amount</dt>
                             <dd>{{ '&pound;' . number_format($applications->ext_finance_net_settlement/100, 2) }}</dd>
                             <dt>Validity</dt>
-                            <dd>{{ $applications->ext_validity }}</dd>
+                            <dd>{{ $applications->ext_order_validity }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                         </dl>
                     </div>
                 </div>
-                @if(!empty($applications->ext_applicant_first_name))
+                @if(!empty($applications->ext_applicant_first_name) && empty($applications->ext_customer_first_name))
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Applicant Details</strong></div>
                     <div class="panel-body">
