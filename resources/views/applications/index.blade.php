@@ -113,7 +113,6 @@
                     <div class="btn-toolbar pull-right" role="toolbar">
                         <div class="btn-group">
                             <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs">View</a>
-                            {{--<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#collapse-{!! $item->id !!}" aria-expanded="false" aria-controls="collapseExample">Quick view</button>--}}
                             <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
