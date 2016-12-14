@@ -202,7 +202,7 @@
                         </dl>
                     </div>
                 </div>
-                @if(!empty($applications->ext_applicant_first_name))
+                @if(!empty($applications->ext_applicant_first_name) && empty($applications->ext_customer_first_name))
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Applicant Details</strong></div>
                     <div class="panel-body">
