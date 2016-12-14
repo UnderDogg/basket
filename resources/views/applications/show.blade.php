@@ -52,7 +52,7 @@
                                 <dd>{{ $applications->user->name }}</dd>
                             @endif
 
-                            <dt>Installations</dt>
+                            <dt>Installation</dt>
                             <dd>
                                 @if(Auth::user()->can('merchants-view'))
                                     <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
