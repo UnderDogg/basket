@@ -35,8 +35,8 @@
             <th>Commission</th>
             <th>Net Settlement</th>
             <th>Location</th>
-            <th>Applicant Email</th>
-            <th class="col-btn-actions"><span class="pull-right">Actions</span></th>
+            <th>Email</th>
+            <th class="col-btn-actions">Actions</th>
         </tr>
         <tr>
             {{--FILTERS--}}
@@ -106,36 +106,41 @@
                 <td>{{ '&pound;' . number_format($item->ext_finance_commission/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
-                <td nowrap>{{ $item->ext_applicant_email_address }}</td>
+                <td nowrap>{{ isset($item->ext_customer_email_address) ? $item->ext_customer_email_address : $item->ext_applicant_email_address }}</td>
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
-                    <div class="btn-group">
-                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs">View</a>
-                        {{--<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#collapse-{!! $item->id !!}" aria-expanded="false" aria-controls="collapseExample">Quick view</button>--}}
-                        <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
+                    <div class="btn-toolbar pull-right" role="toolbar">
+                        <div class="btn-group">
+                            <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs">View</a>
+                            {{--<button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#collapse-{!! $item->id !!}" aria-expanded="false" aria-controls="collapseExample">Quick view</button>--}}
+                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
+                                @endif
 
-                            @if(Auth::user()->can('applications-view'))
-                                <li><a href="#" data-toggle="collapse" data-target="#collapse-{!! $item->id !!}" aria-expanded="false">Quick View</a></li>
-                            @endif
+                                @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></li>
+                                @endif
 
-                            @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
-                            <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
-                            @endif
+                                @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
+                                <li><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></li>
+                                @endif
 
-                            @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
-                            <li><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></li>
-                            @endif
-
-                            @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
-                            <li><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></li>
-                            @endif
-
-                        </ul>
+                            </ul>
+                        </div>
+                        @if(Auth::user()->can('applications-view'))
+                        <div class="btn-group">
+                            <a role="button" class="collapsed btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapse-{!! $item->id !!}" aria-expanded="false" aria-controls="collapseAddress" title="Quick View">
+                                <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 </td>
             </tr>
@@ -155,30 +160,51 @@
                                         <dd>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</dd>
                                         <dt>Validity</dt>
                                         <dd>{{ date('d/m/Y H:i', strtotime($item->ext_order_validity)) }}</dd>
+                                        <dt>Fulfilment Method</dt>
+                                        <dd>{{ $item->ext_fulfilment_method }}</dd>
+                                        <dt>Fulfilment Location</dt>
+                                        <dd>{{ $item->ext_fulfilment_location }}</dd>
                                     </dl>
                                 </div>
                             </div>
                         </div>
                         <div class="col col-xs-12 col-sm-6">
                             <div class="panel panel-default">
-                                <div class="panel-heading"><strong>Application Actions</strong></div>
+                                <div class="panel-heading"><strong>Customer Details</strong></div>
                                 <div class="panel-body">
-                                    <div class="row">
-                                        @if(Auth::user()->can('applications-view'))
-                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}">View Application</a></div>
+                                    <dl class="dl-horizontal">
+                                        @if(isset($item->ext_customer_first_name))
+                                        <dt>Title</dt>
+                                        <dd>{{ $item->ext_customer_title }}</dd>
+                                        <dt>First Name</dt>
+                                        <dd>{{ $item->ext_customer_first_name }}</dd>
+                                        <dt>Last Name</dt>
+                                        <dd>{{ $item->ext_customer_last_name }}</dd>
+                                        <dt>Email Address</dt>
+                                        <dd>{{ $item->ext_customer_email_address }}</dd>
+                                        <dt>Home Phone Number</dt>
+                                        <dd>{{ $item->ext_customer_phone_home }}</dd>
+                                        <dt>Mobile Phone Number</dt>
+                                        <dd>{{ $item->ext_customer_phone_mobile }}</dd>
+                                        @else
+                                        <dt>Title</dt>
+                                        <dd>{{ $item->ext_applicant_title }}</dd>
+                                        <dt>First Name</dt>
+                                        <dd>{{ $item->ext_applicant_first_name }}</dd>
+                                        <dt>Last Name</dt>
+                                        <dd>{{ $item->ext_applicant_last_name }}</dd>
+                                        <dt>Date of Birth</dt>
+                                        <dd>{{ $item->ext_applicant_date_of_birth }}</dd>
+                                        <dt>Email Address</dt>
+                                        <dd>{{ $item->ext_applicant_email_address }}</dd>
+                                        <dt>Home Phone Number</dt>
+                                        <dd>{{ $item->ext_applicant_phone_home }}</dd>
+                                        <dt>Mobile Phone Number</dt>
+                                        <dd>{{ $item->ext_applicant_phone_mobile }}</dd>
+                                        <dt>Postcode</dt>
+                                        <dd>{{ $item->ext_applicant_postcode }}</dd>
                                         @endif
-
-                                        @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
-                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></div>
-                                        @endif
-
-                                        @if(Auth::user()->can('applications-cancel') && !in_array($item->ext_current_status, ['declined', 'pending_cancellation', 'cancelled']))
-                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}/request-cancellation">Request Cancellation</a></div>
-                                        @endif
-
-                                        @if(Auth::user()->can('applications-refund') && in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete']))
-                                            <div class="col col-xs-12"><a href="{{Request::URL()}}/{{$item->id}}/partial-refund">Partial Refund</a></div>
-                                        @endif
+                                    </dl>
                                     </div>
                                 </div>
                             </div>
