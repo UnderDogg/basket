@@ -6,7 +6,7 @@
 
     @include('includes.page.breadcrumb', ['over' => [1 => $application->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
 
-        {!! Form::open( ['method'=>'post'] ) !!}
+        {!! Form::open( ['method'=>'post', 'class' => 'form-horizontal'] ) !!}
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Key Information</strong></div>
             <div class="panel-body">
@@ -56,13 +56,17 @@
                     You will not be able to reverse this later.
             </p>
         </div>
-        <div class="pull-right">
-            {!! Form::submit('Fulfil', [
-                        'class' => 'btn btn-success',
-                        'name' => 'confirmDelete'
-                        ]) !!}
-            <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
+        <div class="container-fluid">
+            <div class="form-group">
+                {!! Form::label('reference', 'Fulfilment Reference (optional)') !!}
+                {!! Form::text('reference', null, ['class' => 'form-control', 'placeholder' => 'Reference']) !!}
+            </div>
+            <div class="form-group pull-right">
+                {!! Form::submit('Fulfil', ['class' => 'btn btn-success']) !!}
+                <a href="{{Request::server('HTTP_REFERER')}}" class="btn btn-info">Cancel</a>
+            </div>
         </div>
+
         {!! Form::close() !!}
 
 @endsection
