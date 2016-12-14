@@ -1,5 +1,10 @@
 ## Features
 - Added **Multiple Address** support (134691997)
+- Added *Quick View* functionality on the *Applications Report* (135527715)
+- Using *Customer* details instead of *Applicant* when set (135692513)
+
+## Bug Fixes
+- Application action button fixes to disable when user does not have permission 
 
 # 1.14.7
 2016-12-01
