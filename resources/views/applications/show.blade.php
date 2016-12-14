@@ -116,6 +116,8 @@
                             <dd>{{ $applications->ext_fulfilment_method }}</dd>
                             <dt>Fulfilment Location</dt>
                             <dd>{{ $applications->ext_fulfilment_location }}</dd>
+                            <dt>Fulfilment Reference</dt>
+                            <dd>{{ $applications->ext_fulfilment_reference }}</dd>
                         </dl>
                     </div>
                 </div>
