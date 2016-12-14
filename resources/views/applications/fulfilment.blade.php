@@ -59,7 +59,7 @@
         <div class="container-fluid">
             <div class="form-group">
                 {!! Form::label('reference', 'Fulfilment Reference (optional)') !!}
-                {!! Form::text('reference', null, ['class' => 'form-control', 'placeholder' => 'Reference']) !!}
+                {!! Form::text('reference', null, ['class' => 'form-control', 'placeholder' => 'e.g. Tracking reference']) !!}
             </div>
             <div class="form-group pull-right">
                 {!! Form::submit('Fulfil', ['class' => 'btn btn-success']) !!}
