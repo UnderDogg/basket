@@ -52,7 +52,7 @@
                                 <dd>{{ $applications->user->name }}</dd>
                             @endif
 
-                            <dt>Installations</dt>
+                            <dt>Installation</dt>
                             <dd>
                                 @if(Auth::user()->can('merchants-view'))
                                     <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
@@ -116,6 +116,8 @@
                             <dd>{{ $applications->ext_fulfilment_method }}</dd>
                             <dt>Fulfilment Location</dt>
                             <dd>{{ $applications->ext_fulfilment_location }}</dd>
+                            <dt>Fulfilment Reference</dt>
+                            <dd>{{ $applications->ext_fulfilment_reference }}</dd>
                         </dl>
                     </div>
                 </div>

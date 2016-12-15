@@ -31,6 +31,7 @@ use App\ExportableModelInterface;
  * @property string $ext_products_default
  * @property string $ext_fulfilment_method
  * @property string $ext_fulfilment_location
+ * @property string $ext_fulfilment_reference
  * @property string $ext_customer_title
  * @property string $ext_customer_first_name
  * @property string $ext_customer_last_name
@@ -110,6 +111,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_products_default',
         'ext_fulfilment_method',
         'ext_fulfilment_location',
+        'ext_fulfilment_reference',
         'ext_customer_title',
         'ext_customer_first_name',
         'ext_customer_last_name',
