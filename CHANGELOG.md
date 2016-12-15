@@ -2,6 +2,12 @@
 2016-12-15
 
 ## Features
+- Added *Fulfilment Reference* (135529307)
+
+# 1.15.0
+2016-12-15
+
+## Features
 - Added **Multiple Address** support (134691997)
 - Added *Quick View* functionality on the *Applications Report* (135527715)
 - Using *Customer* details instead of *Applicant* when set (135692513)
