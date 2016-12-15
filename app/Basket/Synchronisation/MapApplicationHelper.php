@@ -92,6 +92,7 @@ class MapApplicationHelper
         if ($fulfilmentEntity !== null) {
             $application->ext_fulfilment_method = $fulfilmentEntity->getMethod();
             $application->ext_fulfilment_location = $fulfilmentEntity->getLocation();
+            $application->ext_fulfilment_reference = $fulfilmentEntity->getReference();
         }
     }
 

@@ -117,16 +117,17 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     /**
      * @author WN
      * @param int $id
+     * @param string $reference
      * @return bool
      * @throws \Exception
      */
-    public function fulfil($id)
+    public function fulfil($id, $reference = null)
     {
         $application = $this->fetchApplicationLocalObject($id);
         $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         try {
-            return $this->applicationGateway->fulfilApplication($application->ext_id, $merchant->token);
+            return $this->applicationGateway->fulfilApplication($application->ext_id, $merchant->token, $reference);
 
         } catch (\Exception $e) {
 
