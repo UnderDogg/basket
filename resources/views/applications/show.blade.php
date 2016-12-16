@@ -38,39 +38,39 @@
                         <dt>Current Status</dt>
                         <dd>
                             @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
-                                <span class="{{ AppHelper::getApplicationStatusBackgroundColour($applications->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
-                                    {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
-                                </span>
-                                @if($applications->ext_current_status != '')</abbr>@endif
-                            </dd>
+                            <span class="{{ AppHelper::getApplicationStatusBackgroundColour($applications->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
+                                {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                            </span>
+                            @if($applications->ext_current_status != '')</abbr>@endif
+                        </dd>
 
-                            <dt>Order Reference</dt>
-                            <dd>{{ $applications->ext_order_reference }}</dd>
+                        <dt>Order Reference</dt>
+                        <dd>{{ $applications->ext_order_reference }}</dd>
 
-                            @if($applications->user !== null)
-                                <dt>Requester</dt>
-                                <dd>{{ $applications->user->name }}</dd>
+                        @if($applications->user !== null)
+                            <dt>Requester</dt>
+                            <dd>{{ $applications->user->name }}</dd>
+                        @endif
+
+                        <dt>Installation</dt>
+                        <dd>
+                            @if(Auth::user()->can('merchants-view'))
+                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
+                            @else
+                                {{ $applications->installation->name }}
                             @endif
+                        </dd>
 
-                            <dt>Installation</dt>
-                            <dd>
-                                @if(Auth::user()->can('merchants-view'))
-                                    <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
-                                @else
-                                    {{ $applications->installation->name }}
-                                @endif
-                            </dd>
-
-                            @if($applications->location !== null)
-                                <dt>Location</dt>
-                                <dd>
-                                    @if(Auth::user()->can('locations-view'))
-                                        <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a>
-                                    @else
-                                        {{ $applications->location->name }}
-                                    @endif
-                                </dd>
+                        @if($applications->location !== null)
+                        <dt>Location</dt>
+                        <dd>
+                            @if(Auth::user()->can('locations-view'))
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a>
+                            @else
+                                {{ $applications->location->name }}
                             @endif
+                        </dd>
+                        @endif
                         </dl>
                     </div>
                 </div>
