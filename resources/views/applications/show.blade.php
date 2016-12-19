@@ -42,6 +42,7 @@
                                 {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
                             </span>
                             @if($applications->ext_current_status != '')</abbr>@endif
+                            @if(true)&nbsp;<small>Customer contacted 21 Dec 2016 03:55 - awaiting customer response</small> @endif
                         </dd>
 
                         <dt>Order Reference</dt>
