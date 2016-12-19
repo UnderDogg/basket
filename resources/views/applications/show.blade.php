@@ -42,7 +42,7 @@
                                 {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
                             </span>
                             @if($applications->ext_current_status != '')</abbr>@endif
-                            @if(true)&nbsp;<small>Customer contacted 21 Dec 2016 03:55 - awaiting customer response</small> @endif
+                            @if($applications->ext_current_status == 'referred' && !empty($applications->ext_order_hold))&nbsp;<small>Customer contacted {!! ($applications->ext_order_hold instanceof \Carbon\Carbon) ? $applications->ext_order_hold->format('jS M Y H:i:s') : $applications->ext_order_hold !!} - awaiting customer response</small> @endif
                         </dd>
 
                         <dt>Order Reference</dt>
