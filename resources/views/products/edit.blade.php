@@ -20,7 +20,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="product-limits">
             {!! Form::open(['method' => 'POST','action' => ['ProductConfigurationController@updateProducts', $installation->id], 'class' => 'form-horizontal']) !!}
-            <input type = "hidden" name="save" id="save" value="limits" />
+            <input type = "hidden" name="save" id="save" value="limit" />
             <table class="table table-bordered">
                 <thead>
                 <tr>

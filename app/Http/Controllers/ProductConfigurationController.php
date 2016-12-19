@@ -81,12 +81,12 @@ class ProductConfigurationController extends Controller
                     self::updateProductOrder($installation, $request);
                     break;
                 default:
-                    throw new Exception('Save type not found');
+                    throw new \Exception('Save type not found');
             }
         } catch (\Exception $e) {
             throw $this->redirectWithException(
             'installations/' . $installation->id . '/products',
-            'Unable to save product configuration',
+            $e->getMessage(),
             $e
             );
         }
@@ -146,8 +146,8 @@ class ProductConfigurationController extends Controller
      * @author EA
      * @param Installation $installation
      * @param Request $request
-     * @throws \App\Exceptions\RedirectException
-     * @return \Illuminate\View\View
+     * @throws \Exception
+     * @return \Illuminate\View\
      */
     public function updateProductOrder(Installation $installation, Request $request)
     {
@@ -169,11 +169,7 @@ class ProductConfigurationController extends Controller
             );
 
         }  catch (\Exception $e) {
-                throw $this->redirectWithException(
-                'installations/' . $installation->id . '/products',
-                'Unable to save product order',
-                $e
-                );
+            throw new \Exception('Unable to save product order');
         }
 
         return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product ordering']);
@@ -230,7 +226,7 @@ class ProductConfigurationController extends Controller
     private function updateProductLimits($installation, Request $request)
     {
         /** @var \PayBreak\Sdk\Entities\GroupEntity[] $groups */
-        $groups = $this->fetchDefaultEditableProductSet($installation);
+        $groups = $this->fetchDefaultEditableProductSet($installation, true);
 
         $limits = $request->except('_token');
 
@@ -249,11 +245,7 @@ class ProductConfigurationController extends Controller
                         }
                     }
                 } catch (\Exception $e) {
-                    throw $this->redirectWithException(
-                        'installations/' . $installation->id . '/products',
-                        'Unable to save product limit',
-                        $e
-                    );
+                    throw new \Exception('Unable to save product limit');
                 }
             }
         }
