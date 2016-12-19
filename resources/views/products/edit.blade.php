@@ -6,9 +6,11 @@
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installation->name]])
     <p>&nbsp;</p>
 
-    <p id="product_ordering_help">
-        Click, drag and drop a product to determine its order when shown in the choose product drop-down list on our checkout page.
-    </p>
+    <div id="product_ordering_help" class="hidden">
+        <h5>
+            Click, drag and drop a product to determine its order on the drop down list in our checkout page.
+        </h5>
+    </div>
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -20,7 +22,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="product-limits">
             {!! Form::open(['method' => 'POST','action' => ['ProductConfigurationController@updateProducts', $installation->id], 'class' => 'form-horizontal']) !!}
-            <input type = "hidden" name="save" id="save" value="limit" />
+            <input type = "hidden" name="save" id="save" value="limits" />
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -183,6 +185,17 @@
             });
         });
 
+        $('[data-toggle=tab]').click(function(){
+            if($(this).attr('href')=='#product_ordering'){
+                $('#product_ordering_help').addClass('show');
+                $('#product_ordering_help').removeClass('hidden')
+            }
+            else{
+                $('#product_ordering_help').addClass('hidden');
+                $('#product_ordering_help').removeClass('show')
+            }
+        });
+
         $('#sortable_tbody').sortable();
 
         function saveOrder() {
@@ -194,5 +207,6 @@
             });
             document.getElementById("product_order").value = products;
         }
+
     </script>
 @endsection
