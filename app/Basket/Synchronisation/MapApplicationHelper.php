@@ -65,6 +65,7 @@ class MapApplicationHelper
             $application->ext_order_amount = $orderEntity->getAmount();
             $application->ext_order_description = $orderEntity->getDescription();
             $application->ext_order_validity = $orderEntity->getValidity();
+            $application->ext_order_hold = $orderEntity->getHold();
         }
     }
 
