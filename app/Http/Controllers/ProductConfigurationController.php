@@ -25,7 +25,7 @@ use PayBreak\Sdk\Entities\ProductEntity;
  */
 class ProductConfigurationController extends Controller
 {
-    const UPDATE_PRODUCT_LIMIT = 'limit';
+    const UPDATE_PRODUCT_LIMIT = 'limits';
     const UPDATE_PRODUCT_ORDER = 'order';
 
     /** @var \PayBreak\Sdk\Gateways\ProductGateway */
@@ -91,7 +91,7 @@ class ProductConfigurationController extends Controller
             );
         }
 
-        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product configuration']);
+        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product ' . $request->get('save')]);
     }
 
     /**
@@ -171,8 +171,6 @@ class ProductConfigurationController extends Controller
         }  catch (\Exception $e) {
             throw new \Exception('Unable to save product order');
         }
-
-        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product ordering']);
     }
 
     /**
@@ -221,7 +219,7 @@ class ProductConfigurationController extends Controller
      * author EA, EB
      * @param $installation
      * @param Request $request
-     * @throws \App\Exceptions\RedirectException
+     * @throws \Exception
      */
     private function updateProductLimits($installation, Request $request)
     {
