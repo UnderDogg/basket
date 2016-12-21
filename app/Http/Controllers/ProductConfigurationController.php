@@ -156,10 +156,7 @@ class ProductConfigurationController extends Controller
             $index = 0;
 
             foreach (explode(',', $request->get('product_order'))  as $product) {
-                $products['products'][] = [
-                    'product_code' => $product,
-                    'order' => $index++
-                ];
+                $products['products'][$product] = $index++;
             }
 
             $this->productGateway->orderProducts(
