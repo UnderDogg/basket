@@ -112,18 +112,27 @@ class SettlementsController extends Controller
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
 
+
+            $settlementDate = $request->get('date');
+
+            if (!(strtotime($settlementDate))) {
+
+                throw new \Exception('Invalid date format');
+            }
+
         } catch (\Exception $e) {
             throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
         }
 
-        $settlementDate = $request->get('date');
+        $settlementAmount =  array_sum(array_column($aggregateSettlementReport, 'settlement_amount'));
+
 
         return View('settlements.settlement_report', [
             'settlement_date' => $settlementDate,
-            'settlement_amount' => $request->get('amount', ''),
+            'settlement_amount' => $settlementAmount,
             'settlement_provider' => $request->get('provider', ''),
             'aggregate_settlement_report' => $aggregateSettlementReport,
-            'aggregate_settlement_total' => array_sum(array_column($aggregateSettlementReport, 'settlement_amount')),
+            'aggregate_settlement_total' => $settlementAmount,
             'merchant' => Merchant::where('id', '=', $merchant)->first(),
             'export_api_filename' => 'settlement-raw-' . $id . '-'
                 . date_format(DateTime::createFromFormat('Y-m-d', $settlementDate), 'Ymd'),
