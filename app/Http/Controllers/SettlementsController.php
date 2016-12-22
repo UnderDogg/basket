@@ -111,11 +111,10 @@ class SettlementsController extends Controller
             $aggregateSettlementReport = $this
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
-            
+
             $settlementDate = $request->get('date');
 
             if (!(strtotime($settlementDate))) {
-
                 throw new \Exception('Invalid date format');
             }
 
@@ -124,7 +123,6 @@ class SettlementsController extends Controller
         }
 
         $settlementAmount =  array_sum(array_column($aggregateSettlementReport, 'settlement_amount'));
-
 
         return View('settlements.settlement_report', [
             'settlement_date' => $settlementDate,
