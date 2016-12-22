@@ -111,8 +111,7 @@ class SettlementsController extends Controller
             $aggregateSettlementReport = $this
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
-
-
+            
             $settlementDate = $request->get('date');
 
             if (!(strtotime($settlementDate))) {
