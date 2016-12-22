@@ -23,6 +23,7 @@ use App\ExportableModelInterface;
  * @property string $ext_current_status
  * @property string $ext_order_reference
  * @property int $ext_order_amount
+ * @property \Carbon\Carbon|null $ext_order_hold
  * @property string $ext_order_description
  * @property string $ext_order_validity
  * @property string $ext_products_options
@@ -106,6 +107,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_order_amount',
         'ext_order_description',
         'ext_order_validity',
+        'ext_order_hold',
         'ext_products_options',
         'ext_products_groups',
         'ext_products_default',
@@ -157,6 +159,7 @@ class Application extends Model implements ExportableModelInterface
         'updated_at',
         'ext_cancellation_effective_date',
         'ext_cancellation_requested_date',
+        'ext_order_hold',
     ];
 
     /**
