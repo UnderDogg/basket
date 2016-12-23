@@ -1,3 +1,27 @@
+# 1.16.0
+2016-12-22
+
+## Features
+- Added `ext_order_hold` field (131613483)
+- Added field to application view to show hold information (131613483)
+
+# 1.15.1
+2016-12-15
+
+## Features
+- Added *Fulfilment Reference* (135529307)
+
+# 1.15.0
+2016-12-15
+
+## Features
+- Added **Multiple Address** support (134691997)
+- Added *Quick View* functionality on the *Applications Report* (135527715)
+- Using *Customer* details instead of *Applicant* when set (135692513)
+
+## Bug Fixes
+- Application action button fixes to disable when user does not have permission
+
 # 1.14.7
 2016-12-01
 
@@ -7,7 +31,7 @@
 # 1.14.6
 2016-12-01
 
-## Features 
+## Features
 - Changes for settlement report download button to directly to call csv api (134525555)
 
 # 1.14.5
@@ -34,7 +58,7 @@
 2016-11-17
 
 ## Features
-- Changed log messages for assisted applications 
+- Changed log messages for assisted applications
 
 ## Bug Fixes
 - Ensuring that the button is not hidden on smaller devices (134445811)

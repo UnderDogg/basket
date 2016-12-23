@@ -35,8 +35,8 @@
             <th>Commission</th>
             <th>Net Settlement</th>
             <th>Location</th>
-            <th>Applicant Email</th>
-            <th><span class="pull-right">Actions</span></th>
+            <th>Email</th>
+            <th class="col-btn-actions">Actions</th>
         </tr>
         <tr>
             {{--FILTERS--}}
@@ -71,7 +71,7 @@
             <th>{!! Form::text('ext_applicant_email_address', Request::only('ext_applicant_email_address')['ext_applicant_email_address'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th class="text-right">
                 <div class="btn-group pull-right">
-                    <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
+                    <button type="submit" class="filter btn btn-info btn-xs">FILTER</button>
                     <button type="button" class="filter btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -106,20 +106,18 @@
                 <td>{{ '&pound;' . number_format($item->ext_finance_commission/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
-                <td nowrap>{{ $item->ext_applicant_email_address }}</td>
+                <td nowrap>{{ isset($item->ext_customer_email_address) ? $item->ext_customer_email_address : $item->ext_applicant_email_address }}</td>
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
-
-                    <div class="btn-group">
-                        <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs"> View </a>
-
-                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {!! in_array($item->ext_current_status, ['converted', 'fulfilled', 'complete'])?'':'disabled="disabled"' !!}>
+                    <div class="btn-toolbar pull-right" role="toolbar">
+                        <div class="btn-group">
+                            <a href="{{Request::URL()}}/{{$item->id}}" type="button" class="btn btn-default btn-xs">View</a>
+                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
-
                                 @if(Auth::user()->can('applications-fulfil') && $item->ext_current_status === 'converted')
                                 <li><a href="{{Request::URL()}}/{{$item->id}}/fulfil">Fulfil</a></li>
                                 @endif
@@ -133,12 +131,89 @@
                                 @endif
 
                             </ul>
+                        </div>
+                        @if(Auth::user()->can('applications-view'))
+                        <div class="btn-group">
+                            <a role="button" class="collapsed btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapse-{!! $item->id !!}" aria-expanded="false" aria-controls="collapseAddress" title="Quick View">
+                                <span class="glyphicon glyphicon-chevron-right if-collapsed" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-chevron-down if-not-collapsed" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        @endif
                     </div>
-
                 </td>
             </tr>
+            <tr class="collapse collapse-out" id="collapse-{!! $item->id !!}">
+                <td colspan="50">
+                    <div class="row">
+                        <div class="col col-xs-12 col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>Order Summary</strong></div>
+                                <div class="panel-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Retailer Reference</dt>
+                                        <dd>{{ $item->ext_order_reference }}</dd>
+                                        <dt>Order Description</dt>
+                                        <dd>{{ $item->ext_order_description }}</dd>
+                                        <dt>Order Amount</dt>
+                                        <dd>{{ '&pound;' . number_format($item->ext_order_amount/100, 2) }}</dd>
+                                        <dt>Validity</dt>
+                                        <dd>{{ date('d/m/Y H:i', strtotime($item->ext_order_validity)) }}</dd>
+                                        <dt>Fulfilment Method</dt>
+                                        <dd>{{ $item->ext_fulfilment_method }}</dd>
+                                        <dt>Fulfilment Location</dt>
+                                        <dd>{{ $item->ext_fulfilment_location }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xs-12 col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>Customer Details</strong></div>
+                                <div class="panel-body">
+                                    <dl class="dl-horizontal">
+                                        @if(isset($item->ext_customer_first_name))
+                                        <dt>Title</dt>
+                                        <dd>{{ $item->ext_customer_title }}</dd>
+                                        <dt>First Name</dt>
+                                        <dd>{{ $item->ext_customer_first_name }}</dd>
+                                        <dt>Last Name</dt>
+                                        <dd>{{ $item->ext_customer_last_name }}</dd>
+                                        <dt>Email Address</dt>
+                                        <dd>{{ $item->ext_customer_email_address }}</dd>
+                                        <dt>Home Phone Number</dt>
+                                        <dd>{{ $item->ext_customer_phone_home }}</dd>
+                                        <dt>Mobile Phone Number</dt>
+                                        <dd>{{ $item->ext_customer_phone_mobile }}</dd>
+                                        @else
+                                        <dt>Title</dt>
+                                        <dd>{{ $item->ext_applicant_title }}</dd>
+                                        <dt>First Name</dt>
+                                        <dd>{{ $item->ext_applicant_first_name }}</dd>
+                                        <dt>Last Name</dt>
+                                        <dd>{{ $item->ext_applicant_last_name }}</dd>
+                                        <dt>Date of Birth</dt>
+                                        <dd>{{ $item->ext_applicant_date_of_birth }}</dd>
+                                        <dt>Email Address</dt>
+                                        <dd>{{ $item->ext_applicant_email_address }}</dd>
+                                        <dt>Home Phone Number</dt>
+                                        <dd>{{ $item->ext_applicant_phone_home }}</dd>
+                                        <dt>Mobile Phone Number</dt>
+                                        <dd>{{ $item->ext_applicant_phone_mobile }}</dd>
+                                        <dt>Postcode</dt>
+                                        <dd>{{ $item->ext_applicant_postcode }}</dd>
+                                        @endif
+                                    </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="hidden"></tr>
         @empty
-            <tr><td colspan="16"><em>No records found</em></td></tr>
+            <tr><td colspan="17"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}

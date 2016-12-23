@@ -4,8 +4,8 @@
 
     <h1>Applications
         <div class="btn-group pull-right">
-            <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
-            <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
+            <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true && Auth::user()->can('applications-fulfil') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
+            <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true && Auth::user()->can('applications-cancel') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
             @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
             <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
@@ -38,39 +38,40 @@
                         <dt>Current Status</dt>
                         <dd>
                             @if(AppHelper::getApplicationStatusDescription($applications->ext_current_status) != '')<abbr title="{{ AppHelper::getApplicationStatusDescription($applications->ext_current_status) }}">@endif
-                                <span class="{{ AppHelper::getApplicationStatusBackgroundColour($applications->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
-                                    {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
-                                </span>
-                                @if($applications->ext_current_status != '')</abbr>@endif
-                            </dd>
+                            <span class="{{ AppHelper::getApplicationStatusBackgroundColour($applications->ext_current_status)}} {{ AppHelper::getApplicationStatusTextColour($applications->ext_current_status) }}">
+                                {{ AppHelper::getApplicationDisplayName($applications->ext_current_status) }}
+                            </span>
+                            @if($applications->ext_current_status != '')</abbr>@endif
+                            @if($applications->ext_current_status == 'referred' && !empty($applications->ext_order_hold))&nbsp;<small>Customer contacted {!! ($applications->ext_order_hold instanceof \Carbon\Carbon) ? $applications->ext_order_hold->format('jS M Y H:i:s') : $applications->ext_order_hold !!} - awaiting customer response</small> @endif
+                        </dd>
 
-                            <dt>Order Reference</dt>
-                            <dd>{{ $applications->ext_order_reference }}</dd>
+                        <dt>Order Reference</dt>
+                        <dd>{{ $applications->ext_order_reference }}</dd>
 
-                            @if($applications->user !== null)
-                                <dt>Requester</dt>
-                                <dd>{{ $applications->user->name }}</dd>
+                        @if($applications->user !== null)
+                            <dt>Requester</dt>
+                            <dd>{{ $applications->user->name }}</dd>
+                        @endif
+
+                        <dt>Installation</dt>
+                        <dd>
+                            @if(Auth::user()->can('merchants-view'))
+                                <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
+                            @else
+                                {{ $applications->installation->name }}
                             @endif
+                        </dd>
 
-                            <dt>Installations</dt>
-                            <dd>
-                                @if(Auth::user()->can('merchants-view'))
-                                    <a href="{{Request::segment(0)}}/installations/{{$applications->installation->id}}">{{ $applications->installation->name }}</a>
-                                @else
-                                    {{ $applications->installation->name }}
-                                @endif
-                            </dd>
-
-                            @if($applications->location !== null)
-                                <dt>Location</dt>
-                                <dd>
-                                    @if(Auth::user()->can('locations-view'))
-                                        <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a>
-                                    @else
-                                        {{ $applications->location->name }}
-                                    @endif
-                                </dd>
+                        @if($applications->location !== null)
+                        <dt>Location</dt>
+                        <dd>
+                            @if(Auth::user()->can('locations-view'))
+                                <a href="{{Request::segment(0)}}/locations/{{$applications->location->id}}">{{ $applications->location->name }}</a>
+                            @else
+                                {{ $applications->location->name }}
                             @endif
+                        </dd>
+                        @endif
                         </dl>
                     </div>
                 </div>
@@ -116,6 +117,8 @@
                             <dd>{{ $applications->ext_fulfilment_method }}</dd>
                             <dt>Fulfilment Location</dt>
                             <dd>{{ $applications->ext_fulfilment_location }}</dd>
+                            <dt>Fulfilment Reference</dt>
+                            <dd>{{ $applications->ext_fulfilment_reference }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -176,7 +179,7 @@
                             <dt>Net Settle Amount</dt>
                             <dd>{{ '&pound;' . number_format($applications->ext_finance_net_settlement/100, 2) }}</dd>
                             <dt>Validity</dt>
-                            <dd>{{ $applications->ext_validity }}</dd>
+                            <dd>{{ $applications->ext_order_validity }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -202,7 +205,7 @@
                         </dl>
                     </div>
                 </div>
-                @if(!empty($applications->ext_applicant_first_name))
+                @if(!empty($applications->ext_applicant_first_name) && empty($applications->ext_customer_first_name))
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Applicant Details</strong></div>
                     <div class="panel-body">

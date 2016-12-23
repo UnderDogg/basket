@@ -175,10 +175,10 @@ class ApplicationsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function fulfil($installation, $id)
+    public function fulfil($installation, $id, Request $request)
     {
         try {
-            $this->applicationSynchronisationService->fulfil($id);
+            $this->applicationSynchronisationService->fulfil($id, $request->get('reference'));
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 '/installations/' . $installation . '/applications/' . $id,

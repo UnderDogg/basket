@@ -23,6 +23,7 @@ use App\ExportableModelInterface;
  * @property string $ext_current_status
  * @property string $ext_order_reference
  * @property int $ext_order_amount
+ * @property \Carbon\Carbon|null $ext_order_hold
  * @property string $ext_order_description
  * @property string $ext_order_validity
  * @property string $ext_products_options
@@ -31,6 +32,7 @@ use App\ExportableModelInterface;
  * @property string $ext_products_default
  * @property string $ext_fulfilment_method
  * @property string $ext_fulfilment_location
+ * @property string $ext_fulfilment_reference
  * @property string $ext_customer_title
  * @property string $ext_customer_first_name
  * @property string $ext_customer_last_name
@@ -105,11 +107,13 @@ class Application extends Model implements ExportableModelInterface
         'ext_order_amount',
         'ext_order_description',
         'ext_order_validity',
+        'ext_order_hold',
         'ext_products_options',
         'ext_products_groups',
         'ext_products_default',
         'ext_fulfilment_method',
         'ext_fulfilment_location',
+        'ext_fulfilment_reference',
         'ext_customer_title',
         'ext_customer_first_name',
         'ext_customer_last_name',
@@ -155,6 +159,7 @@ class Application extends Model implements ExportableModelInterface
         'updated_at',
         'ext_cancellation_effective_date',
         'ext_cancellation_requested_date',
+        'ext_order_hold',
     ];
 
     /**
