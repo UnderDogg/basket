@@ -1,3 +1,6 @@
+### Bug Fixes
+- Check in place to see if settlement date is valid (136551817)
+
 # 1.16.0
 2016-12-22
 
