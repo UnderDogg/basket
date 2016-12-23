@@ -6,7 +6,7 @@
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installation->name]])
     <p>&nbsp;</p>
 
-    <div id="product_ordering_help" class="invisible">
+    <div id="product-ordering-help" class="invisible">
         <h5>
             Click, drag and drop a product to determine its order on the drop down list in our checkout page.
         </h5>
@@ -15,7 +15,7 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#product-limits" aria-controls="product-limits" role="tab" data-toggle="tab">Product Limits</a></li>
-        <li role="presentation"><a href="#product_ordering" aria-controls="product-ordering" role="tab" data-toggle="tab">Product Order</a></li>
+        <li role="presentation"><a href="#product-ordering" aria-controls="product-ordering" role="tab" data-toggle="tab">Product Order</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -79,9 +79,9 @@
             {!! Form::close() !!}
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="product_ordering">
+        <div role="tabpanel" class="tab-pane" id="product-ordering">
             {!! Form::open(['method' => 'POST','action' => ['ProductConfigurationController@updateProducts', $installation->id], 'class' => 'form-horizontal']) !!}
-            <input type = "hidden" name="product_order" id="product_order" />
+            <input type = "hidden" name="product-order" id="product-order" />
             <input type = "hidden" name="save" id="save" value="order" />
             <table class="table table-bordered">
                 <thead>
@@ -117,7 +117,7 @@
                     <th>Max</th>
                 </tr>
                 </thead>
-                <tbody id="sortable_tbody">
+                <tbody id="sortable-tbody">
 
                 @forelse($products as $productData)
                     @if($i = 0) @endif
@@ -186,26 +186,26 @@
         });
 
         $('[data-toggle=tab]').click(function(){
-            if($(this).attr('href')=='#product_ordering'){
-                $('#product_ordering_help').addClass('show');
-                $('#product_ordering_help').removeClass('invisible')
+            if($(this).attr('href')=='#product-ordering'){
+                $('#product-ordering-help').addClass('show');
+                $('#product-ordering-help').removeClass('invisible')
             }
             else{
-                $('#product_ordering_help').addClass('invisible');
-                $('#product_ordering_help').removeClass('show')
+                $('#product-ordering-help').addClass('invisible');
+                $('#product-ordering-help').removeClass('show')
             }
         });
 
-        $('#sortable_tbody').sortable();
+        $('#sortable-tbody').sortable();
 
         function saveOrder() {
             var products = new Array();
-            $('tbody#sortable_tbody tr').each(function() {
+            $('tbody#sortable-tbody tr').each(function() {
                 if ($(this).attr("id")) {
                     products.push($(this).attr("id"));
                 }
             });
-            document.getElementById("product_order").value = products;
+            document.getElementById("product-order").value = products;
         }
 
     </script>

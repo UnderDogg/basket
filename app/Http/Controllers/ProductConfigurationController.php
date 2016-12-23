@@ -155,7 +155,7 @@ class ProductConfigurationController extends Controller
             $products = [];
             $index = 0;
 
-            foreach (explode(',', $request->get('product_order'))  as $product) {
+            foreach (explode(',', $request->get('product-order'))  as $product) {
                 $products['products'][$product] = $index++;
             }
 
