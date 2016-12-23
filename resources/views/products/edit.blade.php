@@ -6,7 +6,7 @@
     @include('includes.page.breadcrumb', ['crumbs' => Request::segments(), 'over' => [1  => $installation->name]])
     <p>&nbsp;</p>
 
-    <div id="product_ordering_help" class="hidden">
+    <div id="product_ordering_help" class="invisible">
         <h5>
             Click, drag and drop a product to determine its order on the drop down list in our checkout page.
         </h5>
@@ -188,10 +188,10 @@
         $('[data-toggle=tab]').click(function(){
             if($(this).attr('href')=='#product_ordering'){
                 $('#product_ordering_help').addClass('show');
-                $('#product_ordering_help').removeClass('hidden')
+                $('#product_ordering_help').removeClass('invisible')
             }
             else{
-                $('#product_ordering_help').addClass('hidden');
+                $('#product_ordering_help').addClass('invisible');
                 $('#product_ordering_help').removeClass('show')
             }
         });
