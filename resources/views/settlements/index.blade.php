@@ -59,7 +59,7 @@
                  {{-- ACTION BUTTONS --}}
                 <td class="text-right">
                     <div class="btn-group">
-                        <a href="{{ Request::URL() }}/{{ $item->id }}?date={{ $item->settlement_date }}&amp;provider={{ $item->provider }}&amp;amount={{ $item->amount }}" type="button" class="btn btn-default btn-xs"> View </a>
+                        <a href="{{ Request::URL() }}/{{ $item->id }}?date={{ $item->settlement_date }}&amp;provider={{ $item->provider }}" type="button" class="btn btn-default btn-xs"> View </a>
                     </div>
                 </td>
             </tr>
