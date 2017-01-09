@@ -1,3 +1,6 @@
+# 1.17.0
+2016-01-09
+
 ## Features 
 -  Functionality to save an installation products' order (132143811)
 -  Drag and drop user interface to allow users to sort installation products  (132143811)
