@@ -1,4 +1,8 @@
-### Bug Fixes
+## Features 
+-  Functionality to save an installation products' order (132143811)
+-  Drag and drop user interface to allow users to sort installation products  (132143811)
+
+## Bug Fixes
 - Check in place to see if settlement date is valid (136551817)
 
 # 1.16.0
