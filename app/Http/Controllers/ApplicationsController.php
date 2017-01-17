@@ -61,10 +61,15 @@ class ApplicationsController extends Controller
      * @author WN, MS
      * @param int $installation
      * @return \Illuminate\View\View
+     * @throws \App\Exceptions\RedirectException
      */
     public function index($installation)
     {
-        $filterDates = $this->getDateRange();
+        try {
+            $filterDates = $this->getDateRange();
+        } catch (\InvalidArgumentException $e) {
+            throw RedirectException::make($this->getRedirectUrl())->setError('Invalid application filter date(s)');
+        }
 
         $applications = $this->processDateFilters(
             Application::query(),
