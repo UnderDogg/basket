@@ -56,11 +56,7 @@ class SettlementsController extends Controller
      */
     public function index($id)
     {
-        try {
-            $dateRange = $this->getDateRange();
-        } catch (\InvalidArgumentException $e) {
-            throw RedirectException::make( $this->getRedirectUrl())->setError('Invalid settlement filter date(s)');
-        }
+        $dateRange = $this->getDateRange();
 
         try {
             $settlementReports = Collection::make(
