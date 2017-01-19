@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 
+use App\Exceptions\RedirectException;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -163,6 +164,7 @@ trait FilterTrait
     /**
      * @author EB
      * @return Carbon[]
+     * @throws \App\Exceptions\RedirectException
      */
     protected function getDateRange()
     {
@@ -173,14 +175,18 @@ trait FilterTrait
 
         $filters = $this->getFilters();
 
-        if($filters->has('date_to')) {
-            $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->endOfDay();
-            $filters->forget('date_to');
-        }
+        try {
+            if($filters->has('date_to')) {
+                $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->endOfDay();
+                $filters->forget('date_to');
+            }
 
-        if($filters->has('date_from')) {
-            $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->startOfDay();
-            $filters->forget('date_from');
+            if($filters->has('date_from')) {
+                $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->startOfDay();
+                $filters->forget('date_from');
+            }
+        } catch (\InvalidArgumentException $e) {
+            throw RedirectException::make($this->getRedirectUrl())->setError('Invalid filter date(s)');
         }
 
         return $defaultDates;
