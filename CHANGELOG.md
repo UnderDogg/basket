@@ -1,3 +1,6 @@
+## Bug Fixes
+- Incorrect filter dates format error is now caught and error message is displayed (137513871)
+
 # 1.17.0
 2016-01-09
 
