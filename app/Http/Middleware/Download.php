@@ -40,7 +40,6 @@ class Download
         $filename = $request->get('filename', 'export_' . date('Y-m-d_Hi'));
 
         if ($request->get('download') && array_key_exists($source, $response->original->getData())) {
-
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
@@ -63,7 +62,7 @@ class Download
                     $csv_headers_set = false;
 
                     foreach ($response->original->getData()[$source] as $data) {
-                        if(!$csv_headers_set){
+                        if (!$csv_headers_set) {
                             $writer->insertOne(array_keys($this->getArrayRepresentation($data)));
                             $csv_headers_set = true;
                         }
@@ -86,9 +85,7 @@ class Download
     private function processData(array $data)
     {
         foreach ($data as &$row) {
-
             if (is_array($row)) {
-
                 if (isset($row['ext_id'])) {
                     $row = $row['ext_id'];
                     continue;
@@ -113,20 +110,17 @@ class Download
      * @return array
      * @throws \Exception
      */
-    private function getArrayRepresentation($model){
-
-        if ($model instanceof ExportableModelInterface){
-
+    private function getArrayRepresentation($model)
+    {
+        if ($model instanceof ExportableModelInterface) {
             return $model->getExportableFields();
         }
 
         if ($model instanceof Model) {
-
             return $model->toArray();
         }
 
         if (is_array($model)) {
-
             return $model;
         }
 

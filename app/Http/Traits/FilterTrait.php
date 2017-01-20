@@ -50,7 +50,7 @@ trait FilterTrait
      */
     protected function processFilterTypes(array $config, $field, $value, Builder $query)
     {
-        if(array_key_exists($field, $config)) {
+        if (array_key_exists($field, $config)) {
             switch ($config[$field]) {
                 case Controller::FILTER_STRICT:
                     $query->where($field, '=', $value);
@@ -89,7 +89,6 @@ trait FilterTrait
     protected function getFilters()
     {
         if (!$this->filters) {
-
             $this->filters = Collection::make(Request::capture()->except(['limit', 'page', 'download']));
         }
 
@@ -105,10 +104,10 @@ trait FilterTrait
     protected function fetchFilterValues($model, $filter)
     {
         $rtn = [];
-        if($model) {
+        if ($model) {
             //Doing this because of Partial Refunds, needed as we are using a collection, not a builder
             ($model instanceof Builder) ? $model = $model->get() : $model = $model->all();
-            foreach($model as $item) {
+            foreach ($model as $item) {
                 $rtn[strtolower($item->{$filter})] = ucwords($item->{$filter});
             }
             $rtn = ['' => 'All'] + $rtn;
@@ -128,8 +127,8 @@ trait FilterTrait
     protected function fetchBooleanFilterValues($model, $filter, $falseLabel, $trueLabel)
     {
         $rtn = [];
-        if($model) {
-            foreach($model->get() as $item) {
+        if ($model) {
+            foreach ($model->get() as $item) {
                 ($item->{$filter} == 0) ? $rtn[0] = ucwords($falseLabel) : $rtn[1] = ucwords($trueLabel);
             }
             $rtn = ['' => 'All'] + $rtn;
@@ -147,10 +146,10 @@ trait FilterTrait
     protected function fetchAssociateFilterValues($model, $associate)
     {
         $rtn = [];
-        if($model) {
-            foreach($model->get() as $item) {
+        if ($model) {
+            foreach ($model->get() as $item) {
                 //Not null needed, because Users uses this, and a su can have null
-                if($item->{$associate} !== null) {
+                if ($item->{$associate} !== null) {
                     $rtn[$item->{$associate}->id] = $item->{$associate}->name;
                 }
             }
@@ -173,12 +172,12 @@ trait FilterTrait
 
         $filters = $this->getFilters();
 
-        if($filters->has('date_to')) {
+        if ($filters->has('date_to')) {
             $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->endOfDay();
             $filters->forget('date_to');
         }
 
-        if($filters->has('date_from')) {
+        if ($filters->has('date_from')) {
             $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->startOfDay();
             $filters->forget('date_from');
         }

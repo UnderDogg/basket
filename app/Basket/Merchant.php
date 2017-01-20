@@ -67,13 +67,13 @@ class Merchant extends Model
      */
     public function deactivate()
     {
-        if(!$this->exists) {
+        if (!$this->exists) {
             throw new Exception('Trying to deactivate none existing Merchant');
         }
         $this->active = false;
 
         if ($this->save()) {
-            foreach($this->installations()->get() as $inst) {
+            foreach ($this->installations()->get() as $inst) {
                 $inst->deactivate();
             }
             return $this;
@@ -89,12 +89,12 @@ class Merchant extends Model
      */
     public function activate()
     {
-        if(!$this->exists) {
+        if (!$this->exists) {
             throw new Exception('Trying to activate none existing Merchant');
         }
         $this->active = true;
 
-        if($this->save()) {
+        if ($this->save()) {
             return $this;
         }
 

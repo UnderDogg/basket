@@ -58,12 +58,10 @@ class ReadOnlySuperUserSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-
             try {
                 $perm = \App\Permission::where('name', '=', $permission)->first();
                 $role->permissions()->sync([$perm->id], false);
             } catch (Exception $e) {
-
             }
         }
 

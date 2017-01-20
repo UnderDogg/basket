@@ -27,8 +27,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     public function handle($request, Closure $next)
     {
-        if ('testing' !== app()->environment())
-        {
+        if ('testing' !== app()->environment()) {
             return parent::handle($request, $next);
         }
 

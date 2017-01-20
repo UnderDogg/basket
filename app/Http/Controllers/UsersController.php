@@ -94,7 +94,6 @@ class UsersController extends Controller
                     )
                 )
             );
-
         } catch (QueryException $e) {
             throw RedirectException::make('/users/create')
                 ->setError('Cannot create User');
@@ -163,24 +162,21 @@ class UsersController extends Controller
         $input = $request->all();
 
         try {
-
             if ($input['password']) {
                 $user->password = bcrypt($input['password']);
             }
             unset($input['password']);
 
             if (!$user->update($input)) {
-
                 throw new Exception('Problem saving object');
             }
             $this->applyRoles($user,
                 array_values(
                     $request->except(
-                        '_method','_token','name','email','password','merchant_id','saveChanges'
+                        '_method', '_token', 'name', 'email', 'password', 'merchant_id', 'saveChanges'
                     )
                 )
             );
-
         } catch (\Exception $e) {
             $this->logError('Cannot update user [' . $id . ']: ' . $e->getMessage());
             throw (new RedirectException())
@@ -209,7 +205,7 @@ class UsersController extends Controller
             $this->redirectWithException('/users/' . $id . '/edit', 'Cannot fetch user ' . $id, $e);
         }
 
-        return $this->validateLocations($id,$user,$request->except('_method', '_token', 'saveChanges'));
+        return $this->validateLocations($id, $user, $request->except('_method', '_token', 'saveChanges'));
     }
 
     /**
@@ -225,14 +221,13 @@ class UsersController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    private function validateLocations($id,$user,$request)
+    private function validateLocations($id, $user, $request)
     {
         $locations = $this->fetchMerchantLocationsFromUser($user);
-        if(count(array_intersect($locations->pluck('id')->toArray(),$request)) != count($request)){
+        if (count(array_intersect($locations->pluck('id')->toArray(), $request)) != count($request)) {
             $this->logError('Cannot update user [' . $id . '] locations: Locations for the user are invalid ');
             return redirect('/users/' . $id . '/locations')
                 ->with('messages', ['error' => 'Locations for the user are invalid']);
-
         } else {
             try {
                 $user->locations()->sync(array_values($request));
@@ -245,7 +240,6 @@ class UsersController extends Controller
                 return RedirectException::make('users' . $id . '/edit')->setError($e->getMessage());
             }
         }
-
     }
 
     /**
@@ -259,15 +253,12 @@ class UsersController extends Controller
     public function destroy($id)
     {
         if ($id == $this->getAuthenticatedUser()->id) {
-
             throw RedirectException::make('/')->setError('You cannot delete yourself!');
         }
 
         try {
-            
             return $this->destroyModel((new User()), $id, 'user', '/users');
         } catch (\Exception $e) {
-
             Log::error('Problem deleting user [' .  $id. ']: ' . $e->getMessage());
             throw RedirectException::make('/users/' . $id)->setError('There was a problem deleting the selected user. If this error persists, please contact afforditNOW! Support.');
         }
@@ -390,7 +381,6 @@ class UsersController extends Controller
     private function applyRoles(User $user, array $roles)
     {
         if (count($ar = $this->filterSuRole($roles)) > 0) {
-
             $user->merchant_id = null;
             if (!$user->save()) {
                 throw new Exception('Cannot remove Merchant form Super User');
@@ -411,7 +401,6 @@ class UsersController extends Controller
     private function filterSuRole(array $roles)
     {
         if (count(array_intersect($roles, $this->fetchSuRoles()->pluck('id')->toArray())) > 0) {
-
             if (in_array($id = $this->fetchSingleSuRoleByName(RolesController::SUPER_USER_NAME)->id, $roles)) {
                 return [$id];
             }

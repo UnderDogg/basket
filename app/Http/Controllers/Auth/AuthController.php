@@ -36,7 +36,6 @@ class AuthController extends Controller
         $this->redirectPath = '/';
         $this->loginPath = 'login';
         $this->redirectAfterLogout = '/';
-
     }
 
     /**

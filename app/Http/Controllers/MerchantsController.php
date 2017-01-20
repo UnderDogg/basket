@@ -70,7 +70,7 @@ class MerchantsController extends Controller
         ]);
 
 
-        $this->validateMerchantToken($request->only(['token'])['token'],$request->only(['name'])['name']);
+        $this->validateMerchantToken($request->only(['token'])['token'], $request->only(['name'])['name']);
         try {
             $merchant = Merchant::create($request->all());
             $this->merchantSynchronisationService->synchroniseMerchant($merchant->id, true);
@@ -179,7 +179,7 @@ class MerchantsController extends Controller
     public function validateMerchantToken($token, $merchantName)
     {
         $duplicatedTokens = Merchant::all()->where('token', $token);
-        if(!$duplicatedTokens->isEmpty()){
+        if (!$duplicatedTokens->isEmpty()) {
             $this->logError('Cannot create merchant['.$merchantName.'] merchant:Merchant token already exist in database');
             throw RedirectException::make('/merchants')
                 ->setError('Invalid merchant token ');

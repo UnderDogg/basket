@@ -55,9 +55,7 @@ class MerchantSynchronisationService extends AbstractSynchronisationService
 
         try {
             $merchantEntity = $this->gateway->getMerchant($id, $merchant->token);
-
         } catch (\Exception $e) {
-
             $merchant->linked = false;
             $merchant->save();
 

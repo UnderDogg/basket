@@ -67,7 +67,7 @@ class Location extends Model
      */
     public function activate()
     {
-        if(!$this->exists()) {
+        if (!$this->exists()) {
             throw new Exception('Trying to deactivate none existing Location');
         }
 
@@ -77,7 +77,7 @@ class Location extends Model
 
         $this->active = true;
 
-        if($this->save()) {
+        if ($this->save()) {
             return $this;
         }
         throw new Exception('Problem saving details');
@@ -92,12 +92,12 @@ class Location extends Model
      */
     public function deactivate()
     {
-        if(!$this->exists()) {
+        if (!$this->exists()) {
             throw new Exception('Trying to activate none existing Location');
         }
         $this->active = false;
 
-        if($this->save()) {
+        if ($this->save()) {
             return $this;
         }
         throw new Exception('Problem saving details');

@@ -17,8 +17,7 @@ class ApplicationEvents extends Migration
     */
     public function up()
     {
-        Schema::create('application_events', function(Blueprint $table)
-        {
+        Schema::create('application_events', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('application_id')->unsigned()->references('id')->on('applications');
             $table->integer('user_id')->unsigned()->nullable()->references('id')->on('users');

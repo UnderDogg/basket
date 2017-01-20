@@ -175,7 +175,7 @@ class RolesController extends Controller
     {
         $role = $this->fetchRoleById($id);
 
-        if($role->name == self::SUPER_USER_NAME || $role->name == self::READ_ONLY_NAME) {
+        if ($role->name == self::SUPER_USER_NAME || $role->name == self::READ_ONLY_NAME) {
             throw RedirectException::make('/')->setError('Cannot delete ' . $role->name . ', it\'s a special role!');
         }
 

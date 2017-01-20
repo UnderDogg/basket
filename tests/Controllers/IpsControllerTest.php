@@ -58,5 +58,4 @@ class IpsControllerTest extends TestCase
         $this->visit('/merchants/1/ips')
             ->seeStatusCode(200);
     }
-
 }

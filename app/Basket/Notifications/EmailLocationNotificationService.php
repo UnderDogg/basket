@@ -67,4 +67,3 @@ class EmailLocationNotificationService implements LocationNotificationService
         return $this->logger;
     }
 }
-

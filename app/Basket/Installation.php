@@ -117,13 +117,13 @@ class Installation extends Model
      */
     public function deactivate()
     {
-        if(!$this->exists) {
+        if (!$this->exists) {
             throw new Exception('Trying to deactivate none existing Installation');
         }
         $this->active = false;
 
         if ($this->save()) {
-            foreach($this->locations()->get() as $loc) {
+            foreach ($this->locations()->get() as $loc) {
                 $loc->deactivate();
             }
             return $this;
@@ -139,7 +139,7 @@ class Installation extends Model
      */
     public function activate()
     {
-        if(!$this->exists) {
+        if (!$this->exists) {
             throw new Exception('Trying to activate none existing Installation');
         }
 
@@ -149,7 +149,7 @@ class Installation extends Model
 
         $this->active = true;
 
-        if($this->save()) {
+        if ($this->save()) {
             return $this;
         }
 
