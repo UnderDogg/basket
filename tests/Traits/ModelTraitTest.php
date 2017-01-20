@@ -140,7 +140,7 @@ class ModelTraitTest extends TestCase
             ]
         )->first()->toArray();
 
-        foreach($details as $k => $v) {
+        foreach ($details as $k => $v) {
             $this->assertEquals($details[$k], $new[$k]);
         }
 
@@ -212,7 +212,7 @@ class ModelTraitTest extends TestCase
                     '/merchants',
                 ]
             );
-        } catch(RedirectException $e) {
+        } catch (RedirectException $e) {
             $this->assertEquals('You are not allowed to take any action on this Merchant', $e->getError());
             $this->assertEquals('/merchants', $e->getTarget());
         }

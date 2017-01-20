@@ -116,13 +116,13 @@ class InstallationsControllerTest extends TestCase
     {
         $installation = Installation::query()->find(1);
 
-        foreach($installation->locations() as $l1) {
+        foreach ($installation->locations() as $l1) {
             $l1->active = 1;
         }
 
         $installation->deactivate();
 
-        foreach($installation->locations() as $loc) {
+        foreach ($installation->locations() as $loc) {
             $this->assertEquals(0, $loc->active);
             $this->assertNotEquals(1, $loc->active);
         }
@@ -154,13 +154,13 @@ class InstallationsControllerTest extends TestCase
         $installation = Installation::query()->find(1);
         $merchant = \App\Basket\Merchant::findOrFail(1)->activate();
 
-        foreach($installation->locations() as $l1) {
+        foreach ($installation->locations() as $l1) {
             $l1->active = 0;
         }
 
         $installation->activate();
 
-        foreach($installation->locations() as $l2) {
+        foreach ($installation->locations() as $l2) {
             $this->assertEquals(1, $l2->active);
             $this->assertNotEquals(0, $l2->active);
         }
@@ -205,7 +205,7 @@ class InstallationsControllerTest extends TestCase
             ->willThrowException(new \Exception('Failed'));
         $this->app->instance('PayBreak\Sdk\Gateways\ProductGateway', $productGateway);
 
-            $this->visit('/installations/1')
+        $this->visit('/installations/1')
                 ->seeStatusCode(200)
             ->see('Failed');
     }

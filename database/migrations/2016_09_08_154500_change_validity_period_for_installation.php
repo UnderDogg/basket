@@ -23,8 +23,8 @@ class ChangeValidityPeriodForInstallation extends Migration
         $installations = \App\Basket\Installation::all();
 
         /** @var \App\Basket\Installation $installation */
-        foreach($installations as $installation) {
-            if($installation->validity < 86400) {
+        foreach ($installations as $installation) {
+            if ($installation->validity < 86400) {
                 $installation->validity = 86400;
                 $installation->save();
             }

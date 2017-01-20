@@ -47,13 +47,11 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($roles as $roleName) {
-
             try {
                 $role = \App\Role::where('name', '=', $roleName)->first();
 
                 $permission->roles()->attach($role->id);
             } catch (Exception $e) {
-
             }
         }
 

@@ -81,7 +81,7 @@ class PartialRefundsController extends Controller
      */
     private function fetchLocalApplication($id)
     {
-        if($temp = Application::where('ext_id', '=', $id)->first()) {
+        if ($temp = Application::where('ext_id', '=', $id)->first()) {
             return ['installation' => $temp->installation_id, 'id' => $temp->id];
         }
 
