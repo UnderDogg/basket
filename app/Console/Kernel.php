@@ -19,10 +19,8 @@ class Kernel extends ConsoleKernel
     {
         parent::__construct($app, $events);
 
-        array_walk($this->bootstrappers, function(&$bootstrapper)
-        {
-            if($bootstrapper === 'Illuminate\Foundation\Bootstrap\ConfigureLogging')
-            {
+        array_walk($this->bootstrappers, function (&$bootstrapper) {
+            if ($bootstrapper === 'Illuminate\Foundation\Bootstrap\ConfigureLogging') {
                 $bootstrapper = 'Bootstrap\ConfigureLogging';
             }
         });

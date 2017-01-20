@@ -58,7 +58,6 @@ class EmailConfigurationTemplateHelper
     public function has($field)
     {
         if (array_key_exists($field, $this->configuration)) {
-
             return true;
         }
 
@@ -74,7 +73,6 @@ class EmailConfigurationTemplateHelper
     public function getSafe($field, $default = '')
     {
         if (!$this->has($field)) {
-
             return $default;
         }
 
@@ -90,7 +88,6 @@ class EmailConfigurationTemplateHelper
     public function get($field)
     {
         if (!$this->has($field)) {
-
             throw new Exception('Attempted to access a non existing configuration element [' . $field . ']');
         }
 

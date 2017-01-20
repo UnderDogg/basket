@@ -21,7 +21,6 @@ class SaveTagVersionTest extends TestCase
         parent::setUp();
 
         Artisan::call('tag:save');
-
     }
 
     /**

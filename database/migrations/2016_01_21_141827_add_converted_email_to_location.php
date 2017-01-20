@@ -13,7 +13,7 @@ class AddConvertedEmailToLocation extends Migration
     public function up()
     {
         Schema::table('locations', function ($table) {
-            $table->boolean('converted_email')->default(TRUE);
+            $table->boolean('converted_email')->default(true);
         });
     }
 

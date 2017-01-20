@@ -223,9 +223,9 @@ class LocationsController extends Controller
     private function validateEmailAddressInput(Request $request)
     {
         $emails = explode(',', $request->get('email'));
-        foreach($emails as $email) {
+        foreach ($emails as $email) {
             $initial = $email;
-            if(!($email = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+            if (!($email = filter_var($email, FILTER_VALIDATE_EMAIL))) {
                 throw new \Exception('Cannot validate ' . $initial . ' as a valid email');
             }
         }

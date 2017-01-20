@@ -48,8 +48,8 @@ class IpsController extends Controller
             return view('merchants.ips', [
                 'ips' => $ips,
             ]);
-        } catch(\Exception $e) {
-            throw $this->redirectWithException('/merchants/','Trying to get IP\'s failed', $e);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/merchants/', 'Trying to get IP\'s failed', $e);
         }
     }
 
@@ -66,7 +66,7 @@ class IpsController extends Controller
         try {
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw $this->redirectWithException('/merchants/'.$id.'/ips', $e->getMessage(), $e);
         }
         return $this->redirectWithSuccessMessage(
@@ -87,7 +87,7 @@ class IpsController extends Controller
         try {
             $this->ipsGateway
                 ->deleteIpAddress($this->fetchMerchantById($id)->token, $ip);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw $this->redirectWithException(
                 '/merchants/'.$id.'/ips',
                 'Error while trying to delete an IP address',

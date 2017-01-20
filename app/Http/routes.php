@@ -12,7 +12,6 @@
 */
 
 Route::group(['middleware' => 'guest'], function () {
-
     Route::get('login', 'Auth\AuthController@getLogin');
     Route::post('login', 'Auth\AuthController@postLogin');
 
@@ -26,7 +25,6 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-
     Route::get('/', 'LandingController@index');
 
     Route::get('logout', 'Auth\AuthController@getLogout');
@@ -35,19 +33,19 @@ Route::group(['middleware' => 'auth'], function () {
      * Users
      */
     Route::group(['middleware' => 'permission:users-management'], function () {
-        Route::get(   'users/create',           'UsersController@create');
-        Route::get(   'users/{id}/delete',      'UsersController@delete');
-        Route::post(  'users',                  'UsersController@store');
-        Route::delete('users/{id}',             'UsersController@destroy');
-        Route::get(   'users/{id}/edit',        'UsersController@edit');
-        Route::patch( 'users/{id}',             'UsersController@update');
-        Route::get(   'users/{id}/locations',   'UsersController@editLocations');
-        Route::patch( 'users/{id}/locations',    'UsersController@updateLocations');
+        Route::get('users/create', 'UsersController@create');
+        Route::get('users/{id}/delete', 'UsersController@delete');
+        Route::post('users', 'UsersController@store');
+        Route::delete('users/{id}', 'UsersController@destroy');
+        Route::get('users/{id}/edit', 'UsersController@edit');
+        Route::patch('users/{id}', 'UsersController@update');
+        Route::get('users/{id}/locations', 'UsersController@editLocations');
+        Route::patch('users/{id}/locations', 'UsersController@updateLocations');
     });
 
     Route::group(['middleware' => 'permission:users-view'], function () {
-        Route::get(   'users',                  'UsersController@index');
-        Route::get(   'users/{id}',             'UsersController@show');
+        Route::get('users', 'UsersController@index');
+        Route::get('users/{id}', 'UsersController@show');
     });
 
     /*
@@ -80,8 +78,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'permission:merchants-view'], function () {
         Route::get('merchants', 'MerchantsController@index');
         Route::get('merchants/{id}', 'MerchantsController@show');
-        Route::get('installations',            'InstallationsController@index');
-        Route::get('installations/{id}',       'InstallationsController@show');
+        Route::get('installations', 'InstallationsController@index');
+        Route::get('installations/{id}', 'InstallationsController@show');
     });
 
     Route::group(['middleware' => 'permission:merchants-management'], function () {
@@ -92,13 +90,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('merchants/{id}/ips', 'IpsController@index');
         Route::post('merchants/{id}/ips/', 'IpsController@store');
         Route::delete('merchants/{id}/ips/{ip}', 'IpsController@delete');
-        Route::get('installations/{id}/edit',  'InstallationsController@edit');
-        Route::patch('installations/{id}',       'InstallationsController@update');
-        Route::get('installations/{id}/preview-email',  'InstallationsController@previewEmail');
-        Route::get('installations/{installation}/products',  'ProductConfigurationController@viewProducts');
-        Route::post('installations/{installation}/products',  'ProductConfigurationController@updateProducts');
-        Route::post('installations/{installation}/products/ordering',  'ProductConfigurationController@updateProductsOrder');
-
+        Route::get('installations/{id}/edit', 'InstallationsController@edit');
+        Route::patch('installations/{id}', 'InstallationsController@update');
+        Route::get('installations/{id}/preview-email', 'InstallationsController@previewEmail');
+        Route::get('installations/{installation}/products', 'ProductConfigurationController@viewProducts');
+        Route::post('installations/{installation}/products', 'ProductConfigurationController@updateProducts');
+        Route::post('installations/{installation}/products/ordering', 'ProductConfigurationController@updateProductsOrder');
     });
 
     /*
@@ -192,8 +189,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('account/edit', 'AccountController@edit');
     Route::post('account/edit', 'AccountController@update');
     Route::post('account/edit/password', 'AccountController@changePassword');
-
-
 });
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');

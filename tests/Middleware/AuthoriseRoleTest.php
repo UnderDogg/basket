@@ -38,7 +38,8 @@ class AuthoriseRoleTest extends TestCase
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException');
 
-        $middleware->handle(Mockery::mock('\Illuminate\Http\Request'), function(){}, 'xxx');
+        $middleware->handle(Mockery::mock('\Illuminate\Http\Request'), function () {
+        }, 'xxx');
     }
 
     public function testHandleThrowPass()
@@ -48,7 +49,9 @@ class AuthoriseRoleTest extends TestCase
         $this->assertTrue(
             $middleware->handle(
                 Mockery::mock('\Illuminate\Http\Request'),
-                function(){return true;},
+                function () {
+                    return true;
+                },
                 'su')
         );
     }

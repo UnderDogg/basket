@@ -220,8 +220,8 @@ class ApplicationsController extends Controller
 
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
-        } catch(\Exception $e) {
-            throw $this->redirectWithException('/installations/' . $installation . '/applications','Failed to request cancellation', $e);
+        } catch (\Exception $e) {
+            throw $this->redirectWithException('/installations/' . $installation . '/applications', 'Failed to request cancellation', $e);
         }
         return $this->redirectWithSuccessMessage(
             '/installations/' . $installation . '/applications/' . $id,
@@ -261,7 +261,6 @@ class ApplicationsController extends Controller
     {
         $application = $this->fetchApplicationById($id, $installation);
         if (!$this->canPartiallyRefund($application)) {
-
             throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
                 ->setError('You may not partially refund this application.');
         }
@@ -452,7 +451,6 @@ class ApplicationsController extends Controller
     {
         try {
             if (!$request->has(['effective_date', 'amount']) || !is_numeric($request->get('amount'))) {
-
                 throw new Exception('Please ensure all required fields have been completed correctly!');
             }
 
@@ -472,7 +470,6 @@ class ApplicationsController extends Controller
             }
 
             throw new Exception('An unknown error was encountered while trying to add the merchant payment.');
-
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $installation . '/applications/' . $id . '/add-merchant-payment',

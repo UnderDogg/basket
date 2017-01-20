@@ -339,8 +339,7 @@ class InitialisationController extends Controller
             }
 
             return $filteredProducts;
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
     }
@@ -389,9 +388,7 @@ class InitialisationController extends Controller
     {
         foreach ($creditInfo as &$group) {
             foreach ($group['products'] as &$product) {
-
                 if (array_key_exists($product['id'], $limits)) {
-
                     $min = (int) max($product['deposit']['minimum_percentage'], $limits[$product['id']]['min_deposit_percentage']);
                     $max = (int) min($product['deposit']['maximum_percentage'], $limits[$product['id']]['max_deposit_percentage']);
 
@@ -438,7 +435,7 @@ class InitialisationController extends Controller
      */
     private function validateApplicationCanBeMade(Location $location)
     {
-        if($location->installation->finance_offers > 0) {
+        if ($location->installation->finance_offers > 0) {
             return $location;
         }
 
@@ -459,7 +456,7 @@ class InitialisationController extends Controller
     private function validateApplicationRequest(Request $request, Location $location)
     {
         /** @var Application $application */
-        if($application = Application::where('ext_order_reference' , '=', $request->get('reference'))
+        if ($application = Application::where('ext_order_reference', '=', $request->get('reference'))
             ->where('installation_id', '=', $location->installation->id)->first()) {
             throw RedirectException::make('/locations/' . $location->id . '/applications/make')
                 ->setError('Unable to process the request, an application has already been created with this order

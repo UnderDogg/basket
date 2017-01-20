@@ -108,7 +108,7 @@ class ProductConfigurationController extends Controller
     {
         try {
             $limit = ProductLimit::where(['product' => $id, 'installation_id' => $installation->id])->first();
-            if ($limit == null)  {
+            if ($limit == null) {
                 throw new ModelNotFoundException();
             }
         } catch (\Exception $e) {
@@ -136,7 +136,7 @@ class ProductConfigurationController extends Controller
     private function fetchDefaultEditableProductSet(Installation $installation, $grouped)
     {
         if ($grouped) {
-           return  self::fetchGroupedProducts($installation);
+            return  self::fetchGroupedProducts($installation);
         }
 
         return self::fetchProducts($installation);
@@ -164,8 +164,7 @@ class ProductConfigurationController extends Controller
                 $installation->merchant->token,
                 $products
             );
-
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception('Unable to save product order');
         }
     }

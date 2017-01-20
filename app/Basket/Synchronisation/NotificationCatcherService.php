@@ -47,9 +47,7 @@ class NotificationCatcherService extends AbstractSynchronisationService
     {
         try {
             $app = $this->applicationSynchronisationServices->linkApplication($application, $installation);
-
         } catch (\Exception $e) {
-
             $this->logError('NotificationCatcherService: Application[ext' . $application .
                 '] can not be fetched or linked:' . $e->getMessage());
             throw new Exception('NotificationCatcherService: Application can not be fetched or linked');
@@ -58,7 +56,6 @@ class NotificationCatcherService extends AbstractSynchronisationService
         try {
             $app = $this->applicationSynchronisationServices->synchroniseApplication($app->id);
         } catch (\Exception $e) {
-
             $this->logError('NotificationCatcherService: Application[ext' . $application .
                 '] can not be synced: ' . $e->getMessage(), ['application' => $app->toArray()]);
             throw new Exception('NotificationCatcherService: Application can not be synced');
@@ -90,7 +87,6 @@ class NotificationCatcherService extends AbstractSynchronisationService
                 true
             );
         } catch (\Exception $e) {
-
             $this->logError('NotificationCatcherService: Installation[ext' . $installation .
                 '] can not be synced:' . $e->getMessage());
             throw new Exception('NotificationCatcherService: Installation cannot be synced');

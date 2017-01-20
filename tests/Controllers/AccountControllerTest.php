@@ -111,7 +111,6 @@ class AccountControllerTest extends TestCase
     {
         $this->typeEditPasswordDetails('', 'test', 'test');
         $this->assertSessionHasErrors('old_password', 'The old password field is required.');
-
     }
 
     /**

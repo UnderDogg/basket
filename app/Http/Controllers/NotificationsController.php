@@ -47,7 +47,6 @@ class NotificationsController extends Controller
             if ($application->location !== null
                 && $request->json('new_status') == 'converted'
                 && $application->location->converted_email) {
-
                 $this->locationNotificationService->convertedNotification($application, $application->location);
             }
 
@@ -55,9 +54,7 @@ class NotificationsController extends Controller
                 ['local_id' => $application->id, 'current_status' => $application->ext_current_status],
                 200
             );
-
         } catch (\Exception $e) {
-
             $this->logError('CatchNotification: Failed with message: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }

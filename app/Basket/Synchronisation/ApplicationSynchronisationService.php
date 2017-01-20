@@ -60,7 +60,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         try {
             $applicationEntity = $this->applicationGateway->getApplication($application->ext_id, $merchant->token);
-
         } catch (\Exception $e) {
             $this->logError('ApplicationSynchronisationService failed ' . $e->getMessage());
             throw $e;
@@ -91,7 +90,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         try {
             $installation = $this->fetchInstallationByExternalId($installationId);
         } catch (\Exception $e) {
-
             $this->logError('linkApplication: Installation not found for ID[' . $installationId . ']');
             throw new Exception('Installation not found');
         }
@@ -99,7 +97,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         try {
             $applicationEntity = $this->applicationGateway
                 ->getApplication($applicationId, $installation->merchant->token);
-
         } catch (\Exception $e) {
             $this->logError('Link Application failed ' . $e->getMessage());
             throw $e;
@@ -108,7 +105,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         try {
             return $this->createNewLocal($applicationEntity, $installation->id);
         } catch (\Exception $e) {
-
             $this->logError('LinkApplication: Problem saving Application[' . $installationId . ']');
             throw $e;
         }
@@ -128,9 +124,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         try {
             return $this->applicationGateway->fulfilApplication($application->ext_id, $merchant->token, $reference);
-
         } catch (\Exception $e) {
-
             $this->logError('ApplicationSynchronisationService: Fulfilment failed ' . $e->getMessage());
             throw $e;
         }
@@ -150,9 +144,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         try {
             return $this->applicationGateway->cancelApplication($application->ext_id, $description, $merchant->token);
-
         } catch (\Exception $e) {
-
             $this->logError('ApplicationSynchronisationService: CancellationRequest failed ' . $e->getMessage());
             throw $e;
         }
@@ -173,7 +165,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         try {
-
             $partialRefundGateway = \App::make('\PayBreak\Sdk\Gateways\PartialRefundGateway');
 
             return $partialRefundGateway->requestPartialRefund(
@@ -183,9 +174,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 $effectiveDate,
                 $description
             );
-
         } catch (\Exception $e) {
-
             $this->logError('ApplicationSynchronisationService: RequestPartialRefund failed ' . $e->getMessage());
             throw $e;
         }
@@ -245,9 +234,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             );
 
             return $app;
-
         } catch (\Exception $e) {
-
             $this->logError('IniApp: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
@@ -272,9 +259,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             );
 
             return $merchantPayments;
-
         } catch (\Exception $e) {
-
             return [];
         }
     }
@@ -301,9 +286,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             );
 
             return is_null($status);
-
         } catch (\Exception $e) {
-
             $this->logError('AddRemoteMerchantPayment: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
@@ -351,7 +334,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     {
         try {
             return Application::findOrFail($id);
-
         } catch (ModelNotFoundException $e) {
             $this->logError(
                 __CLASS__ . ': Failed fetching Installation[' . $id . '] local object: ' . $e->getMessage()
@@ -375,7 +357,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 $application->installation->ext_id, $application->ext_id, $application->installation->merchant->token
             );
         } catch (\Exception $e) {
-
             $this->logError(
                 'ApplicationSynchronisationService: Fetching Application Credit Information failed: ' . $e->getMessage()
             );
@@ -398,7 +379,6 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 $application->installation->merchant->token
             );
         } catch (\Exception $e) {
-
             $this->logError(
                 'ApplicationSynchronisationService: Fetching Application Status History failed: ' . $e->getMessage()
             );
@@ -465,9 +445,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             );
 
             return $app;
-
         } catch (\Exception $e) {
-
             $this->logError('IniAssistedApp: ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }

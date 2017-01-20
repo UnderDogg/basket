@@ -137,10 +137,9 @@ class InstallationsController extends Controller
         $old = $old->findOrFail($id);
 
         try {
-
             $request->merge(['email_configuration' => $this->getEmailConfigurationFromParams($request)]);
 
-            if($old->ext_notification_url !== $request->ext_notification_url ||
+            if ($old->ext_notification_url !== $request->ext_notification_url ||
                 $old->ext_return_url !== $request->ext_return_url) {
                 $this->installationGateway
                     ->patchInstallation(
@@ -185,13 +184,9 @@ class InstallationsController extends Controller
         $rtn = [];
 
         foreach ($fields as $field) {
-
             try {
-
                 $this->assertFieldExistsAndNotEmpty($request, $field);
-
             } catch (\Exception $e) {
-
                 continue;
             }
 

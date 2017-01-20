@@ -23,7 +23,6 @@ class CacheBustService
         $file = '../' . env('CACHE_BUST_HASH_SOURCE', 'VERSION.md');
 
         if (!file_exists($file)) {
-
             \Log::error('Frontend Cache Buster: expected CB Hash Source file does not exist. [' . $file . ']');
 
             return md5(uniqid());

@@ -99,7 +99,6 @@ class ApplicationEvent extends Model
     public static function validateEventType($type)
     {
         if (array_key_exists($type, self::getTypeDescriptionMap())) {
-
             return true;
         }
 
