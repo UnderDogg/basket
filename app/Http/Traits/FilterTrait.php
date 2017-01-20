@@ -175,12 +175,12 @@ trait FilterTrait
         $filters = $this->getFilters();
 
         try {
-            if($filters->has('date_to')) {
+            if ($filters->has('date_to')) {
                 $defaultDates['date_to'] = Carbon::createFromFormat('Y/m/d', $filters['date_to'])->endOfDay();
                 $filters->forget('date_to');
             }
 
-            if($filters->has('date_from')) {
+            if ($filters->has('date_from')) {
                 $defaultDates['date_from'] = Carbon::createFromFormat('Y/m/d', $filters['date_from'])->startOfDay();
                 $filters->forget('date_from');
             }
