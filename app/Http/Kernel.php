@@ -18,10 +18,8 @@ class Kernel extends HttpKernel
     {
         parent::__construct($app, $router);
 
-        array_walk($this->bootstrappers, function(&$bootstrapper)
-        {
-            if($bootstrapper === 'Illuminate\Foundation\Bootstrap\ConfigureLogging')
-            {
+        array_walk($this->bootstrappers, function (&$bootstrapper) {
+            if ($bootstrapper === 'Illuminate\Foundation\Bootstrap\ConfigureLogging') {
                 $bootstrapper = 'Bootstrap\ConfigureLogging';
             }
         });

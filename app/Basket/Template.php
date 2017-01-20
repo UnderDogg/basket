@@ -63,5 +63,4 @@ class Template extends Model
     {
         return $this->belongsToMany('App\Basket\Installation')->withPivot('template_id');
     }
-
 }

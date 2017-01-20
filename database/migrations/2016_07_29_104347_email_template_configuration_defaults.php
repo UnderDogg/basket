@@ -29,6 +29,5 @@ class EmailTemplateConfigurationDefaults extends Migration
      */
     public function down()
     {
-
     }
 }

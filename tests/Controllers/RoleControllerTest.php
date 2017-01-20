@@ -61,10 +61,10 @@ class RolesControllerTest extends TestCase
 
         $permissionVar = $view['permissionsAvailable'][0];
 
-        $this->assertNotEmpty( $permissionVar['id']             );
-        $this->assertNotEmpty( $permissionVar['name']           );
-        $this->assertNotEmpty( $permissionVar['display_name']   );
-        $this->assertNotEmpty( $permissionVar['description']    );
+        $this->assertNotEmpty($permissionVar['id']);
+        $this->assertNotEmpty($permissionVar['name']);
+        $this->assertNotEmpty($permissionVar['display_name']);
+        $this->assertNotEmpty($permissionVar['description']);
     }
 
     /**
@@ -108,10 +108,10 @@ class RolesControllerTest extends TestCase
         $roleVar = $view['role'];
 
 
-        $this->assertNotEmpty( $roleVar['id']                   );
-        $this->assertNotEmpty( $roleVar['name']                 );
-        $this->assertNotEmpty( $roleVar['display_name']         );
-        $this->assertNotEmpty( $roleVar['description']          );
+        $this->assertNotEmpty($roleVar['id']);
+        $this->assertNotEmpty($roleVar['name']);
+        $this->assertNotEmpty($roleVar['display_name']);
+        $this->assertNotEmpty($roleVar['description']);
     }
 
     /**
@@ -123,7 +123,7 @@ class RolesControllerTest extends TestCase
     {
         // Test 'New Role' page adds new role of form submission
         $this->visit('/roles/create')
-            ->type('UnitTest','name')
+            ->type('UnitTest', 'name')
             ->type('Unit Test', 'display_name')
             ->type('Unit Test Description', 'description')
             ->press('createRoleButton');
@@ -131,9 +131,9 @@ class RolesControllerTest extends TestCase
         // Test new Role has been added to mock database
         $roleData = Role::all()->last();
 
-        $this->assertEquals( 'UnitTest', $roleData->name                                    );
-        $this->assertEquals( 'Unit Test', $roleData->display_name                           );
-        $this->assertEquals( 'Unit Test Description', $roleData->description                );
+        $this->assertEquals('UnitTest', $roleData->name);
+        $this->assertEquals('Unit Test', $roleData->display_name);
+        $this->assertEquals('Unit Test Description', $roleData->description);
         $this->assertEmpty($roleData->permissions);
     }
 
@@ -161,11 +161,10 @@ class RolesControllerTest extends TestCase
         $view = $response->original;
         $roleVar = $view['role'];
 
-        $this->assertNotEmpty( $roleVar['id']                   );
-        $this->assertNotEmpty( $roleVar['name']                 );
-        $this->assertNotEmpty( $roleVar['display_name']         );
-        $this->assertNotEmpty( $roleVar['description']          );
-
+        $this->assertNotEmpty($roleVar['id']);
+        $this->assertNotEmpty($roleVar['name']);
+        $this->assertNotEmpty($roleVar['display_name']);
+        $this->assertNotEmpty($roleVar['description']);
     }
 
     /**
@@ -177,7 +176,7 @@ class RolesControllerTest extends TestCase
     {
         // Test 'Update Role' page updates a role from form submission
         $this->visit('/roles/1/edit')
-            ->type('UnitTest','name')
+            ->type('UnitTest', 'name')
             ->type('Unit Test', 'display_name')
             ->type('Unit Test Description', 'description')
             ->press('saveChanges')
@@ -186,8 +185,8 @@ class RolesControllerTest extends TestCase
         // Test new Role has been added to mock database
         $roleData = Role::find(1);
 
-        $this->assertEquals( 'UnitTest', $roleData->name                        );
-        $this->assertEquals( 'Unit Test', $roleData->display_name               );
-        $this->assertEquals( 'Unit Test Description', $roleData->description    );
+        $this->assertEquals('UnitTest', $roleData->name);
+        $this->assertEquals('Unit Test', $roleData->display_name);
+        $this->assertEquals('Unit Test Description', $roleData->description);
     }
 }

@@ -73,9 +73,9 @@ class SettlementsController extends Controller
 
         $filter = $this->getFilters();
 
-        if(!$filter->isEmpty()) {
-            $settlementReports = $settlementReports->filter(function($settlement_reports) use ($filter) {
-                if($settlement_reports['provider'] == $filter['provider']) {
+        if (!$filter->isEmpty()) {
+            $settlementReports = $settlementReports->filter(function ($settlement_reports) use ($filter) {
+                if ($settlement_reports['provider'] == $filter['provider']) {
                     return true;
                 }
             });
@@ -107,7 +107,6 @@ class SettlementsController extends Controller
     public function settlementReport($merchant, $id, Request $request)
     {
         try {
-
             $aggregateSettlementReport = $this
                 ->settlementGateway
                 ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id);
@@ -117,7 +116,6 @@ class SettlementsController extends Controller
             if (!(strtotime($settlementDate))) {
                 throw new \Exception('Invalid date format');
             }
-
         } catch (\Exception $e) {
             throw $this->redirectWithException('/', 'Failed fetching settlements', $e);
         }
@@ -175,7 +173,6 @@ class SettlementsController extends Controller
                 200,
                 $headers
             );
-
         } catch (\Exception $e) {
             throw $this->redirectWithException('/', 'Failed to download settlements csv', $e);
         }

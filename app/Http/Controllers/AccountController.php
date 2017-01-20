@@ -9,6 +9,7 @@
  */
 
 namespace App\Http\Controllers;
+
 use App\Exceptions\RedirectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -68,7 +69,7 @@ class AccountController extends Controller
         ]);
         try {
             $user->update($request->all());
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->redirectWithException('/account/edit', 'Error while trying to update', $e);
         }
         return $this->redirectWithSuccessMessage(
@@ -92,14 +93,14 @@ class AccountController extends Controller
             'new_password_confirmation' => 'required|different:old_password|same:new_password',
         ]);
 
-        if(!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
+        if (!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
             throw RedirectException::make('account/edit')->setError('Old password must match stored password');
         }
 
         try {
             $user->password = Hash::make($request['new_password']);
             $user->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logError('AccountController: Error while trying to change password: ' . $e->getMessage());
             throw RedirectException::make('/account/edit')->setError($e->getMessage());
         }

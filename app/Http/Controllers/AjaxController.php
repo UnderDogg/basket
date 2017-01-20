@@ -58,7 +58,6 @@ class AjaxController extends Controller
     {
         try {
             if (!$request->has('deposit', 'order_amount')) {
-
                 throw new Exception('Input field "deposit" and "order_amount" are both required.');
             }
 
@@ -73,7 +72,6 @@ class AjaxController extends Controller
                     'order_amount' => $request->input('order_amount'),
                 ]
             );
-
         } catch (\Exception $e) {
             return $this->apiResponseFromException($e);
         }

@@ -51,7 +51,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
             $installationEntity = $this->installationGateway
                 ->getInstallation($installation->ext_id, $installation->merchant->token);
         } catch (\Exception $e) {
-
             $installation->linked = false;
             $installation->save();
 
@@ -79,17 +78,13 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $localInstallations = Installation::where('merchant_id', '=', $merchantId)->get();
 
         try {
-
             $externalInstallations = $this->installationGateway->getInstallations($merchant->token);
-
         } catch (\Exception $e) {
-
             $this->logError(
                 'InstallationSynchronisationService failed while fetching for Merchant[' . $merchantId . ']:' .
                 $e->getMessage()
             );
             throw $e;
-
         }
 
         $rtn['current'] = $this->synchroniseCurrentInstallations($localInstallations);
@@ -109,7 +104,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $rtn = [];
 
         foreach ($localInstallations as $installation) {
-
             try {
                 $this->synchroniseInstallation($installation->id);
             } catch (\Exception $e) {
@@ -133,7 +127,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $rtn = [];
 
         foreach ($externalInstallations as $installation) {
-
             if ($this->isNewInstallation($installation->getId(), $localInstallations)) {
                 $newInstallation = new Installation();
                 $newInstallation->name = $installation->getName();
@@ -166,7 +159,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         $rtn = [];
 
         foreach ($localInstallations as $installation) {
-
             if ($installation->linked) {
                 $installation->linked = false;
                 $installation->save();
@@ -199,7 +191,7 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      */
     private function isNewInstallation($externalId, Collection $installations)
     {
-        $item = $installations->search(function($item) use ($externalId, $installations) {
+        $item = $installations->search(function ($item) use ($externalId, $installations) {
             if ($item->ext_id == $externalId) {
                 return true;
             }
@@ -207,7 +199,6 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
         });
 
         if ($item !== false) {
-
             $installations->forget($item);
             return false;
         }

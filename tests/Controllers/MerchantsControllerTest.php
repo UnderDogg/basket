@@ -99,15 +99,17 @@ class MerchantsControllerTest extends TestCase
     /**
      * @author EA
      */
-    public function testNewMerchant(){
-        $this->createNewMerchant('TestMerchant','1234567890qwertyuiopasdfghjklzxc');
+    public function testNewMerchant()
+    {
+        $this->createNewMerchant('TestMerchant', '1234567890qwertyuiopasdfghjklzxc');
         $this->seePageIs('/merchants/2');
     }
 
     /**
      * @author EA
      */
-    public function testEditMerchantValidation(){
+    public function testEditMerchantValidation()
+    {
         $this->visit('/merchants/1/edit')
             ->type('  ', 'name')
             ->type('12', 'token')
@@ -119,9 +121,10 @@ class MerchantsControllerTest extends TestCase
     /**
      * @author EA
      */
-    public function testNewMerchantDuplicationValidation(){
-        $this->createNewMerchant('TestMerchant','1234567890qwertyuiopasdfghjklzxc');
-        $this->createNewMerchant('TestMerchant','1234567890qwertyuiopasdfghjklzxc');
+    public function testNewMerchantDuplicationValidation()
+    {
+        $this->createNewMerchant('TestMerchant', '1234567890qwertyuiopasdfghjklzxc');
+        $this->createNewMerchant('TestMerchant', '1234567890qwertyuiopasdfghjklzxc');
         $this->seePageIs('/merchants')
             ->see('Invalid merchant token');
     }
@@ -144,7 +147,7 @@ class MerchantsControllerTest extends TestCase
      * @param $token
      * @author EA, EB
      */
-    private function createNewMerchant($merchantName,$token)
+    private function createNewMerchant($merchantName, $token)
     {
         $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
@@ -215,13 +218,13 @@ class MerchantsControllerTest extends TestCase
     public function testDeactivateChainsInstallation()
     {
         $merchant = \App\Basket\Merchant::query()->find(1);
-        foreach($merchant->installations() as $i1) {
+        foreach ($merchant->installations() as $i1) {
             $i1->active = 1;
         }
 
         $merchant->deactivate();
 
-        foreach($merchant->installations() as $i2) {
+        foreach ($merchant->installations() as $i2) {
             $this->assertEquals(1, $i2->active);
             $this->assertNotEquals(0, $i2->active);
         }

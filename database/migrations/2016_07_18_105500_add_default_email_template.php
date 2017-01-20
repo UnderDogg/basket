@@ -207,7 +207,7 @@ class AddDefaultEmailTemplate extends Migration
         $installations = \App\Basket\Installation::all();
 
         /** @var \App\Basket\Installation $installation */
-        foreach($installations as $installation) {
+        foreach ($installations as $installation) {
             $installation->templates()->attach($template);
         }
     }

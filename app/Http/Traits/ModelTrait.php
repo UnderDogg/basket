@@ -30,9 +30,7 @@ trait ModelTrait
     {
         try {
             return $model->findOrFail($id);
-
         } catch (ModelNotFoundException $e) {
-
             $this->logError(
                 'Could not get ' . $modelName . ' with ID [' . $id . ']; ' .
                 ucwords($modelName) . ' does not exist: ' . $e->getMessage()
@@ -57,9 +55,7 @@ trait ModelTrait
         try {
             $model->findOrFail($id);
             $model->destroy($id);
-
         } catch (ModelNotFoundException $e) {
-
             $this->logError('Deletion of this record did not complete successfully' . $e->getMessage());
             throw (new RedirectException())
                 ->setTarget($redirect)
@@ -82,11 +78,10 @@ trait ModelTrait
     protected function updateModel(Model $model, $id, $modelName, $redirect, Request $request)
     {
         $model = $this->fetchModelById($model, $id, $modelName, $redirect);
-        try{
+        try {
             $this->updateActiveField($model, $request->has('active'));
             $model->update($request->all());
         } catch (\Exception $e) {
-
             throw (new RedirectException())->setTarget($redirect . '/' . $id . '/edit')->setError($e->getMessage());
         }
 
@@ -249,9 +244,7 @@ trait ModelTrait
     {
         try {
             return $model->where($field, '=', $id)->first();
-
         } catch (ModelNotFoundException $e) {
-
             $this->logError(
                 'Could not get ' . $modelName . ' with ' . $field . ' [' . $id . ']; ' .
                 ucwords($modelName) . ' does not exist: ' . $e->getMessage()

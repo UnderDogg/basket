@@ -77,7 +77,7 @@ abstract class Controller extends BaseController
      */
     protected function getAuthenticatedUser()
     {
-        if(\Auth::getUser()) {
+        if (\Auth::getUser()) {
             return \Auth::getUser();
         }
 
@@ -174,7 +174,6 @@ abstract class Controller extends BaseController
         $code = $e->getCode();
 
         if (is_null($code) || $code === 0) {
-
             $code = $defaultCode;
         }
 
@@ -192,9 +191,9 @@ abstract class Controller extends BaseController
 
         $merchantLocations = new Collection();
 
-        foreach($installations as $installation) {
+        foreach ($installations as $installation) {
             $installationLocations = $installation->locations()->get();
-            foreach($installationLocations as $location) {
+            foreach ($installationLocations as $location) {
                 $merchantLocations->push($location);
             }
         }
@@ -212,7 +211,7 @@ abstract class Controller extends BaseController
      */
     protected function fetchMerchantLocationsFromUser(User $user)
     {
-        if($user->merchant_id == null) {
+        if ($user->merchant_id == null) {
             throw RedirectException::make('/users')
                 ->setError('Super Users do not belong to a Merchant, cannot fetch Locations');
         }
@@ -234,8 +233,7 @@ abstract class Controller extends BaseController
     {
         $location = $this->fetchModelByIdWithInstallationLimit((new Location()), $id, 'location', '/locations');
 
-        if (!in_array($id,  $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
-
+        if (!in_array($id, $this->getAuthenticatedUser()->locations->pluck('id')->all())) {
             throw RedirectException::make('/')->setError('You don\'t have permission to access this Location');
         }
 

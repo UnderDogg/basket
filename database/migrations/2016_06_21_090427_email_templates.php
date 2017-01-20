@@ -17,8 +17,7 @@ class EmailTemplates extends Migration
     */
     public function up()
     {
-        Schema::create('templates', function(Blueprint $table)
-        {
+        Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('merchant_id')->nullable()->unsigned();
             $table->foreign('merchant_id')->references('id')->on('merchants');
@@ -27,8 +26,7 @@ class EmailTemplates extends Migration
             $table->timestamps();
         });
 
-        Schema::create('installation_template', function(Blueprint $table)
-        {
+        Schema::create('installation_template', function (Blueprint $table) {
             $table->integer('template_id')->unsigned();
             $table->integer('installation_id')->unsigned();
             $table->foreign('template_id')->references('id')->on('templates');
@@ -43,15 +41,13 @@ class EmailTemplates extends Migration
     */
     public function down()
     {
-        Schema::table('templates', function(Blueprint $table)
-        {
+        Schema::table('templates', function (Blueprint $table) {
             $table->dropForeign('templates_merchant_id_foreign');
         });
 
-        Schema::table('installation_template', function(Blueprint $table)
-        {
-           $table->dropForeign('installation_template_template_id_foreign');
-           $table->dropForeign('installation_template_installation_id_foreign');
+        Schema::table('installation_template', function (Blueprint $table) {
+            $table->dropForeign('installation_template_template_id_foreign');
+            $table->dropForeign('installation_template_installation_id_foreign');
         });
 
         Schema::drop('templates');

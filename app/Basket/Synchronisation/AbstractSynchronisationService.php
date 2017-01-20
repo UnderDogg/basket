@@ -24,8 +24,8 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author WN
  * @package App\Basket\Synchronisation
  */
-class AbstractSynchronisationService {
-
+class AbstractSynchronisationService
+{
     use PsrLoggerTrait;
 
     private $logger;
@@ -68,7 +68,6 @@ class AbstractSynchronisationService {
         $inst = Installation::where('ext_id', $installation)->get();
 
         if (count($inst) == 1) {
-
             return $inst[0];
         }
 
@@ -85,7 +84,6 @@ class AbstractSynchronisationService {
         $app = Application::where('ext_id', $application)->get();
 
         if (count($app) == 1) {
-
             return $app[0];
         }
 
@@ -103,7 +101,6 @@ class AbstractSynchronisationService {
     {
         try {
             return $model->findOrFail($id);
-
         } catch (ModelNotFoundException $e) {
             $this->logError(
                 __CLASS__ . ': Failed fetching ' . ucwords($modelName) .
