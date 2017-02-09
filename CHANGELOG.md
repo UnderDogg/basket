@@ -1,5 +1,11 @@
+# 1.17.1
+2017-02-09
+
+## Bug Fixes
+- Fixed converted application email notification typo (139452581)
+
 # 1.17.0
-2016-01-09
+2017-01-09
 
 ## Features 
 -  Functionality to save an installation products' order (132143811)
