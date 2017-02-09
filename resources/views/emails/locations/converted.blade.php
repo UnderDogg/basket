@@ -39,7 +39,7 @@
     <li>Loan Amount: {{ money_format('%.2n', $application->ext_finance_loan_amount/100) }}</li>
     <li>Deposit Amount: {{ money_format('%.2n', $application->ext_finance_deposit/100) }}</li>
     <li>Subsidy Amount: {{ money_format('%.2n', $application->ext_finance_subsidy/100) }}</li>
-    <li>Net Settlement Amount: {{ money_format('%.2n', $application->ext_finance_net_settlementy/100) }}</li>
+    <li>Net Settlement Amount: {{ money_format('%.2n', $application->ext_finance_net_settlement/100) }}</li>
 </ul>
 
 @if($location->installation->location_instruction)
