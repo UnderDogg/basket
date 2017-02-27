@@ -2,7 +2,7 @@
 2017-02-27
 
 ## Bug Fixes
-- Fixed fields hoding a `0` value not being posted (139539261)
+- Fixed fields holding a `0` value not being posted (139539261)
 
 # 1.17.1
 2017-02-09
