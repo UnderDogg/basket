@@ -1,5 +1,9 @@
+# 1.17.3
+2017-02-28
+
 ## Bug Fixes
-- Missing variable in template (140727795)
+- Fixed missing variable in template (140727795)
+- Updated `wnowicki/generic` to `v0.6.2`
 
 # 1.17.2
 2017-02-27
