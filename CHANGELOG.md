@@ -1,3 +1,6 @@
+## Bug Fixes
+- Missing variable in template (140727795)
+
 # 1.17.2
 2017-02-27
 
@@ -13,7 +16,7 @@
 # 1.17.0
 2017-01-09
 
-## Features 
+## Features
 -  Functionality to save an installation products' order (132143811)
 -  Drag and drop user interface to allow users to sort installation products  (132143811)
 
