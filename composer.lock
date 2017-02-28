@@ -2339,16 +2339,16 @@
         },
         {
             "name": "wnowicki/generic",
-            "version": "0.6.1",
+            "version": "0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wnowicki/generic.git",
-                "reference": "3789fede868da62a9fb6b3c9856af658be0feae0"
+                "reference": "b31eaafa8a98716a107f1118b73049f55e64c54c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wnowicki/generic/zipball/3789fede868da62a9fb6b3c9856af658be0feae0",
-                "reference": "3789fede868da62a9fb6b3c9856af658be0feae0",
+                "url": "https://api.github.com/repos/wnowicki/generic/zipball/b31eaafa8a98716a107f1118b73049f55e64c54c",
+                "reference": "b31eaafa8a98716a107f1118b73049f55e64c54c",
                 "shasum": ""
             },
             "require": {
@@ -2383,7 +2383,7 @@
             "keywords": [
                 "generic"
             ],
-            "time": "2015-07-22T14:10:24+00:00"
+            "time": "2015-07-22T20:55:34+00:00"
         },
         {
             "name": "zizaco/entrust",
