@@ -1,3 +1,9 @@
+# 1.17.4
+2017-03-01
+
+## Bug Fixes
+- Fixed `applications` table needing a nullable constraint for `ext_application_address_postcode` (140785069)
+
 # 1.17.3
 2017-02-28
 
