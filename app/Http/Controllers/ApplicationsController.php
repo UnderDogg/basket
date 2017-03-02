@@ -16,6 +16,8 @@ use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
+use App\Http\Requests\ApplicationRequestCancellationRequest;
+use App\Http\Requests\RequestPartialRefundRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -212,12 +214,8 @@ class ApplicationsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function requestCancellation($installation, $id, Request $request)
+    public function requestCancellation($installation, $id, ApplicationRequestCancellationRequest $request)
     {
-        $this->validate($request, [
-            'description' => 'required',
-        ]);
-
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
         } catch (\Exception $e) {
@@ -274,18 +272,13 @@ class ApplicationsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function requestPartialRefund(Request $request, $installation, $id)
+    public function requestPartialRefund(RequestPartialRefundRequest $request, $installation, $id)
     {
         $application = $this->fetchApplicationById($id, $installation);
         if ($application->ext_order_amount / 100 == $request->refund_amount) {
             throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
                 ->setError('Cannot request partial refund for the full amount, you must request cancellation.');
         }
-        $this->validate($request, [
-            'refund_amount' => 'required|numeric|max:' . $application->ext_order_amount/100,
-            'effective_date' => 'required|date_format:Y/m/d',
-            'description' => 'required',
-        ]);
 
         $effectiveDate = \DateTime::createFromFormat('Y/m/d', $request->get('effective_date'))->format('Y-m-d');
 
