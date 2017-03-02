@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
+use App\Http\Requests\RoleStoreRequest;
 use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
@@ -56,17 +57,12 @@ class RolesController extends Controller
      * Store a newly created resource in storage.
      *
      * @author WN, MS
-     * @param Request $request
+     * @param RoleStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function store(Request $request)
+    public function store(RoleStoreRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'display_name' => 'required',
-        ]);
-
         try {
             $role = Role::create(
                 $request->only(
@@ -132,17 +128,12 @@ class RolesController extends Controller
      *
      * @author WN
      * @param  int $id
-     * @param Request $request
+     * @param RoleStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update($id, Request $request)
+    public function update($id, RoleStoreRequest $request)
     {
-        $this->validate($request, [
-            'name'          => 'required',
-            'display_name'  => 'required',
-        ]);
-
         try {
             $role = $this->fetchRoleById($id);
             $role->update($request->all());
