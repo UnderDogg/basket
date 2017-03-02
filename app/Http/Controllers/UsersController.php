@@ -13,6 +13,7 @@ use App\Basket\Merchant;
 use App\Exceptions\Exception;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Role;
 use App\User;
 use Illuminate\Database\QueryException;
@@ -139,19 +140,12 @@ class UsersController extends Controller
      *
      * @author WN
      * @param  int $id
-     * @param Request $request
+     * @param UserUpdateRequest $request
      * @return  \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update($id, Request $request)
+    public function update($id, UserUpdateRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'sometimes|max:255',
-            'merchant_id' => 'required',
-        ]);
-
         $user = $this->fetchUserById($id);
 
         $input = $request->all();

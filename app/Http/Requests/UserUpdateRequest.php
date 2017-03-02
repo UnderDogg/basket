@@ -9,11 +9,11 @@
 namespace App\Http\Requests;
 
 /**
- * Class UserStoreRequest
+ * Class UserUpdateRequest
  *
  * @package App\Http\Requests
  */
-class UserStoreRequest extends Request
+class UserUpdateRequest extends Request
 {
     /**
      * @return bool
