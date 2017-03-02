@@ -14,6 +14,7 @@ use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\InstallationUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Foundation\Properties\Bitwise;
@@ -116,7 +117,7 @@ class InstallationsController extends Controller
      * @author WN
      * @param  int $id
      * @param InstallationUpdateRequest $request
-     * @return Response
+     * @return RedirectResponse
      * @throws RedirectException
      */
     public function update($id, InstallationUpdateRequest $request)

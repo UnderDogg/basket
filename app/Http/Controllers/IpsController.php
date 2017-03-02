@@ -38,7 +38,7 @@ class IpsController extends Controller
      * @author EB
      * @param $id
      * @return \Illuminate\View\View
-     * @throws IpsController
+     * @throws RedirectException
      */
     public function index($id)
     {
@@ -80,7 +80,7 @@ class IpsController extends Controller
      * @param $id
      * @param $ip
      * @return mixed
-     * @throws IpsController
+     * @throws RedirectException
      */
     public function delete($id, $ip)
     {
