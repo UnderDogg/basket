@@ -11,6 +11,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\UpdateAccountRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -60,13 +62,9 @@ class AccountController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update(Request $request)
+    public function update(UpdateAccountRequest $request)
     {
         $user = $this->getAuthenticatedUser();
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|max:255',
-        ]);
         try {
             $user->update($request->all());
         } catch (\Exception $e) {
@@ -84,14 +82,9 @@ class AccountController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function changePassword(Request $request)
+    public function changePassword(ChangePasswordRequest $request)
     {
         $user = $this->getAuthenticatedUser();
-        $this->validate($request, [
-            'old_password' => 'required',
-            'new_password' => 'required|confirmed|different:old_password',
-            'new_password_confirmation' => 'required|different:old_password|same:new_password',
-        ]);
 
         if (!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
             throw RedirectException::make('account/edit')->setError('Old password must match stored password');
