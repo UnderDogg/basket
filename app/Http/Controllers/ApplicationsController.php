@@ -210,7 +210,7 @@ class ApplicationsController extends Controller
      * @author WN
      * @param $installation
      * @param $id
-     * @param Request $request
+     * @param ApplicationRequestCancellationRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
@@ -267,7 +267,7 @@ class ApplicationsController extends Controller
 
     /**
      * @author LH
-     * @param Request $request
+     * @param RequestPartialRefundRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException

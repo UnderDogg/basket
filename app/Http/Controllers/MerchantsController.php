@@ -58,7 +58,7 @@ class MerchantsController extends Controller
     /**
      * Store a newly created resource in storage
      *
-     * @param Request $request
+     * @param StoreMerchantRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
@@ -111,7 +111,7 @@ class MerchantsController extends Controller
      *
      * @author WN
      * @param  int $id
-     * @param Request $request
+     * @param UpdateMerchantRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */

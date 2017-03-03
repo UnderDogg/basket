@@ -57,7 +57,7 @@ class AccountController extends Controller
 
     /**
      * @author EB
-     * @param Request $request
+     * @param UpdateAccountRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
@@ -77,7 +77,7 @@ class AccountController extends Controller
 
     /**
      * @author EB
-     * @param Request $request
+     * @param ChangePasswordRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */

@@ -104,7 +104,7 @@ class InitialisationController extends Controller
     /**
      * @author WN, EB
      * @param $locationId
-     * @param Request $request
+     * @param RequestInitialisationRequest $request
      * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|Redirect
      * @throws RedirectException
      */
@@ -270,7 +270,7 @@ class InitialisationController extends Controller
     /**
      * @author WN
      * @param int $locationId
-     * @param Request $request
+     * @param ChooseProductRequest $request
      * @param bool $assisted
      * @return \Illuminate\Http\JsonResponse
      * @throws RedirectException
