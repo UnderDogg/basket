@@ -1,10 +1,35 @@
 ## Bug Fixes
 - Incorrect filter dates format error is now caught and error message is displayed (137513871)
 
-# 1.17.0
-2016-01-09
+# 1.17.4
+2017-03-01
 
-## Features 
+## Bug Fixes
+- Fixed `applications` table needing a nullable constraint for `ext_application_address_postcode` (140785069)
+
+# 1.17.3
+2017-02-28
+
+## Bug Fixes
+- Fixed missing variable in template (140727795)
+- Updated `wnowicki/generic` to `v0.6.2`
+
+# 1.17.2
+2017-02-27
+
+## Bug Fixes
+- Fixed fields holding a `0` value not being posted (139539261)
+
+# 1.17.1
+2017-02-09
+
+## Bug Fixes
+- Fixed converted application email notification typo (139452581)
+
+# 1.17.0
+2017-01-09
+
+## Features
 -  Functionality to save an installation products' order (132143811)
 -  Drag and drop user interface to allow users to sort installation products  (132143811)
 
