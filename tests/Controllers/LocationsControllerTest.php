@@ -162,8 +162,7 @@ class LocationsControllerTest extends TestCase
                 'name' => 'test',
                 'email' => 'High@location.com',
                 'address' => 'Location City',
-            ]
-        );
+            ]);
 
         $this->assertSessionHasErrors('reference', 'The reference format is invalid.');
     }

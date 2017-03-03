@@ -52,7 +52,8 @@ class AuthorisePermissionTest extends TestCase
                 function () {
                     return true;
                 },
-                'applications-view')
+                'applications-view'
+            )
         );
     }
 }
