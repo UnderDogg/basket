@@ -92,7 +92,8 @@ class InitialisationController extends Controller
      */
     public function prepare($locationId)
     {
-        return view('initialise.main',
+        return view(
+            'initialise.main',
             [
                 'location' => $this->validateApplicationCanBeMade($this->fetchLocation($locationId)),
             ]
@@ -254,7 +255,8 @@ class InitialisationController extends Controller
             $this->applicationSynchronisationService->synchroniseApplication($application->id);
             return $this->redirectWithSuccessMessage(
                 '/installations/' . $location->installation->id . '/applications/' . $application->id,
-                'Application successfully created. You can action on this in the `Application / Resume Link` section below'
+                'Application successfully created. You can action on' .
+                ' this in the `Application / Resume Link` section below'
             );
         }
 
@@ -330,8 +332,7 @@ class InitialisationController extends Controller
 
             /** @var ProductEntity $product */
             foreach ($products as $product) {
-                if (
-                    $product->getOrder()->getMinimumAmount() <= $orderAmount &&
+                if ($product->getOrder()->getMinimumAmount() <= $orderAmount &&
                     $product->getOrder()->getMaximumAmount() >= $orderAmount
                 ) {
                     $filteredProducts[] = $product;
@@ -384,13 +385,23 @@ class InitialisationController extends Controller
      * @param $amount
      * @return array
      */
-    public function getRestrictedDepositLimitsForProducts(array $creditInfo, array $limits, Installation $installation, $amount)
-    {
+    public function getRestrictedDepositLimitsForProducts(
+        array $creditInfo,
+        array $limits,
+        Installation $installation,
+        $amount
+    ) {
         foreach ($creditInfo as &$group) {
             foreach ($group['products'] as &$product) {
                 if (array_key_exists($product['id'], $limits)) {
-                    $min = (int) max($product['deposit']['minimum_percentage'], $limits[$product['id']]['min_deposit_percentage']);
-                    $max = (int) min($product['deposit']['maximum_percentage'], $limits[$product['id']]['max_deposit_percentage']);
+                    $min = (int) max(
+                        $product['deposit']['minimum_percentage'],
+                        $limits[$product['id']]['min_deposit_percentage']
+                    );
+                    $max = (int) min(
+                        $product['deposit']['maximum_percentage'],
+                        $limits[$product['id']]['max_deposit_percentage']
+                    );
 
                     if ($min > $max) {
                         unset($product);

@@ -103,7 +103,9 @@ class InstallationsController extends Controller
             'installations.edit',
             [
                 'installations' => $installation,
-                'emailConfigHelper' => EmailConfigurationTemplateHelper::makeFromJson($installation->email_configuration),
+                'emailConfigHelper' => EmailConfigurationTemplateHelper::makeFromJson(
+                    $installation->email_configuration
+                ),
                 'bitwise' => Bitwise::make($installation->finance_offers),
             ]
         );
@@ -205,8 +207,7 @@ class InstallationsController extends Controller
      */
     private function assertFieldExistsAndNotEmpty(Request $request, $field)
     {
-        if (
-            !(
+        if (!(
                 $request->has($field) &&
                 !is_null($request->get($field)) &&
                 strlen($request->get($field)) > 0

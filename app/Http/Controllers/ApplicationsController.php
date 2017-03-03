@@ -152,7 +152,8 @@ class ApplicationsController extends Controller
             (new Application()),
             $id,
             'application',
-            '/installations/' . $installation . '/applications', $request
+            '/installations/' . $installation . '/applications',
+            $request
         );
     }
 
@@ -221,7 +222,11 @@ class ApplicationsController extends Controller
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));
         } catch (\Exception $e) {
-            throw $this->redirectWithException('/installations/' . $installation . '/applications', 'Failed to request cancellation', $e);
+            throw $this->redirectWithException(
+                '/installations/' . $installation . '/applications',
+                'Failed to request cancellation',
+                $e
+            );
         }
         return $this->redirectWithSuccessMessage(
             '/installations/' . $installation . '/applications/' . $id,
@@ -244,11 +249,13 @@ class ApplicationsController extends Controller
             ->where('ext_current_status', '=', 'pending_cancellation')
             ->get();
 
-        return View('applications.pending-cancellation',
+        return View(
+            'applications.pending-cancellation',
             [
                 'applications' => $pendingCancellations,
                 'installation' => $installation,
-            ]);
+            ]
+        );
     }
 
     /**
@@ -317,7 +324,10 @@ class ApplicationsController extends Controller
     private function fetchApplicationById($id, $installation)
     {
         return $this->fetchModelByIdWithInstallationLimit(
-            (new Application()), $id, 'application', 'installations/' . $installation . '/applications'
+            (new Application()),
+            $id,
+            'application',
+            'installations/' . $installation . '/applications'
         );
     }
 
@@ -397,7 +407,9 @@ class ApplicationsController extends Controller
         return $this->redirectWithSuccessMessage(
             'installations/' . $installation . '/applications/' . $id,
             'Application successfully emailed to ' .
-            (empty($application->ext_customer_email_address) ? $application->ext_applicant_email_address : $application->ext_customer_email_address)
+            (empty($application->ext_customer_email_address) ?
+                $application->ext_applicant_email_address :
+                $application->ext_customer_email_address)
         );
     }
 
@@ -422,10 +434,16 @@ class ApplicationsController extends Controller
                         'installation_logo' => $application->installation->custom_logo_url,
                         'apply_url' => $application->ext_resume_url,
                     ],
-                    EmailConfigurationTemplateHelper::makeFromJson($application->installation->email_configuration)->toArray()
+                    EmailConfigurationTemplateHelper::makeFromJson(
+                        $application->installation->email_configuration
+                    )->toArray()
                 )
             );
-            ApplicationEvent\ApplicationEventHelper::addEvent($application, ApplicationEvent::TYPE_RESUME_EMAIL, Auth::user());
+            ApplicationEvent\ApplicationEventHelper::addEvent(
+                $application,
+                ApplicationEvent::TYPE_RESUME_EMAIL,
+                Auth::user()
+            );
         } catch (\Exception $e) {
             throw $this->redirectWithException(
                 'installations/' . $application->installation->id . '/applications/' . $application->id,
