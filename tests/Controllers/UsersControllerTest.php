@@ -162,7 +162,7 @@ class UsersControllerTest extends TestCase
      */
     public function testFailStore()
     {
-        $request = $this->createRequestForTest('UserStoreRequest', $this->getPostUserData('dev@paybreak.com'));
+        $request = $this->createRequestForTest($this->getPostUserData('dev@paybreak.com'), 'UserStoreRequest');
         $controller = new Controllers\UsersController();
         $this->setExpectedException('App\Exceptions\RedirectException');
         $controller->store($request);
@@ -330,7 +330,7 @@ class UsersControllerTest extends TestCase
      */
     public function testUpdateForException()
     {
-        $request = $this->createRequestForTest('UserUpdateRequest', $this->getPostUserData('it@paybreak.com'));
+        $request = $this->createRequestForTest($this->getPostUserData('it@paybreak.com'), 'UserUpdateRequest');
         $controller = new Controllers\UsersController();
         $this->setExpectedException('App\Exceptions\RedirectException');
         $controller->update(1, $request);

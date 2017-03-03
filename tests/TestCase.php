@@ -87,9 +87,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array $params
      * @return \App\Http\Requests\Request
      */
-    protected function createRequestForTest($request, array $params = [])
+    protected function createRequestForTest(array $params = [], $request = null)
     {
-        $requestClass = 'App\Http\Requests\\' . $request;
+        if (!is_null($request)) {
+            $requestClass = 'App\Http\Requests\\' . $request;
+        } else {
+            $requestClass = '\Illuminate\Http\Request';
+        }
+
         return new $requestClass($params);
     }
 
