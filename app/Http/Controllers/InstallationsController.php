@@ -291,6 +291,7 @@ class InstallationsController extends Controller
                     [
                         'installation_logo' => $installation->custom_logo_url,
                         'customer_title' => 'Title',
+                        'customer_first_name' => 'Forename',
                         'customer_last_name' => 'Surname',
                         'installation_name' => $name,
                         'order_description' => 'Example Order from ' . $name,

@@ -19,6 +19,8 @@ use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
+use App\Http\Requests\ChooseProductRequest;
+use App\Http\Requests\RequestInitialisationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use PayBreak\Foundation\Properties\Bitwise;
@@ -102,30 +104,13 @@ class InitialisationController extends Controller
     /**
      * @author WN, EB
      * @param $locationId
-     * @param Request $request
+     * @param RequestInitialisationRequest $request
      * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|Redirect
      * @throws RedirectException
      */
-    public function request($locationId, Request $request)
+    public function request($locationId, RequestInitialisationRequest $request)
     {
         try {
-            $this->validate(
-                $request,
-                [
-                    'amount' => 'required|integer',
-                    'group' => 'required',
-                    'product' => 'required',
-                    'reference' => 'required|min:6',
-                    'description' => 'required|min:6',
-                    'deposit' => 'sometimes|integer',
-                    'first_name' => 'sometimes',
-                    'last_name' => 'sometimes',
-                    'email' => 'sometimes|email|max:255',
-                    'phone_home' => 'sometimes|max:11',
-                    'phone_mobile' => 'sometimes|max:11',
-                ]
-            );
-
             $location = $this->fetchLocation($locationId);
             $this->validateApplicationRequest($request, $location);
 
@@ -285,14 +270,13 @@ class InitialisationController extends Controller
     /**
      * @author WN
      * @param int $locationId
-     * @param Request $request
+     * @param ChooseProductRequest $request
      * @param bool $assisted
      * @return \Illuminate\Http\JsonResponse
      * @throws RedirectException
      */
-    public function chooseProduct($locationId, Request $request, $assisted = false)
+    public function chooseProduct($locationId, ChooseProductRequest $request, $assisted = false)
     {
-        $this->validate($request, ['amount' => 'required|numeric']);
         $location = $this->fetchLocation($locationId);
 
         return view('initialise.main')->with(
