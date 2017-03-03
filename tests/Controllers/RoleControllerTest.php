@@ -45,7 +45,7 @@ class RolesControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_add_new_role_form()
+    public function testAddNewRoleForm()
     {
         // Test page gives 200 response
         $this->visit('/roles/create')
@@ -74,7 +74,7 @@ class RolesControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_index_page()
+    public function testIndexPage()
     {
         // Test page gives 200 response
         $this->visit('/roles')
@@ -93,7 +93,7 @@ class RolesControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_show_role_and_permissions()
+    public function testShowRoleAndPermissions()
     {
         // Test page gives 200 response
         $this->visit('/roles/1')
@@ -119,7 +119,7 @@ class RolesControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_role_stored_in_database()
+    public function testRoleStoredInDatabase()
     {
         // Test 'New Role' page adds new role of form submission
         $this->visit('/roles/create')
@@ -142,7 +142,7 @@ class RolesControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_edit_role_and_permissions_form()
+    public function testEditRoleAndPermissionsForm()
     {
         // Test page gives 200 response
         $this->visit('/roles/1/edit')
@@ -172,7 +172,7 @@ class RolesControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_roles_and_permissions_update()
+    public function testRolesAndPermissionsUpdate()
     {
         // Test 'Update Role' page updates a role from form submission
         $this->visit('/roles/1/edit')

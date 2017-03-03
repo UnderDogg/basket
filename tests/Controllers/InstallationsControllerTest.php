@@ -35,7 +35,7 @@ class InstallationsControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_index_page()
+    public function testIndexPage()
     {
         // Test page gives 200 response
         $this->visit('/installations')
