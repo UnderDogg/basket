@@ -13,7 +13,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UpdateAccountRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 /**
