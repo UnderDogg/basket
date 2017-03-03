@@ -136,7 +136,8 @@ class ApplicationHelper
             'converted' => [
                 'display_name' => 'Converted',
                 'color' => 'application-status-text',
-                'description' => 'This application is approved and ready to go, you should fulfil the order once the customers receives the goods/services.',
+                'description' => 'This application is approved and ready to go, you should fulfil the order once the ' .
+                    'customers receives the goods/services.',
                 'background' => 'application-bg-converted',
             ],
             'fulfilled' => [
@@ -171,7 +172,8 @@ class ApplicationHelper
         return [
             'display_name' => 'Not&nbsp;set',
             'color' => '',
-            'description' => 'This application may have not been synced yet and so no information regarding the status is available',
+            'description' =>
+                'This application may have not been synced yet and so no information regarding the status is available',
             'background' => '',
         ];
     }
