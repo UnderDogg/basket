@@ -85,7 +85,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @author EB
      * @param string $request
      * @param array $params
-     * @return \Illuminate\Http\Request
+     * @return \App\Http\Requests\Request
      */
     protected function createRequestForTest($request, array $params = [])
     {
