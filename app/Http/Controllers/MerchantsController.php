@@ -11,9 +11,9 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use App\Http\Requests;
 use App\Basket\Merchant;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreMerchantRequest;
+use App\Http\Requests\UpdateMerchantRequest;
 use Illuminate\Support\Facades\URL;
 
 /**
@@ -62,14 +62,8 @@ class MerchantsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function store(Request $request)
+    public function store(StoreMerchantRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'token' => 'required|min:32|max:32',
-        ]);
-
-
         $this->validateMerchantToken($request->only(['token'])['token'], $request->only(['name'])['name']);
         try {
             $merchant = Merchant::create($request->all());
@@ -121,14 +115,8 @@ class MerchantsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update($id, Request $request)
+    public function update($id, UpdateMerchantRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'token' => 'required|min:32|max:32',
-            'active' => 'required|sometimes',
-        ]);
-
         return $this->updateModel((new Merchant()), $id, 'merchant', '/merchants', $request);
     }
 
