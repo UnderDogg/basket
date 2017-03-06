@@ -106,7 +106,7 @@
                 <td>{{ '&pound;' . number_format($item->ext_finance_commission/100, 2) }}</td>
                 <td>{{ '&pound;' . number_format($item->ext_finance_net_settlement/100, 2) }}</td>
                 <td nowrap>{{ str_limit($item->ext_fulfilment_location, 15) }}</td>
-                <td nowrap>{{ empty($item->ext_customer_email_address) ? $item->ext_customer_email_address : $item->ext_applicant_email_address }}</td>
+                <td nowrap>{{ !empty($item->ext_customer_email_address) ? $item->ext_customer_email_address : $item->ext_applicant_email_address }}</td>
 
                 {{-- ACTION BUTTONS --}}
                 <td class="text-right">
