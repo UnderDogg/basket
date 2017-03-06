@@ -103,6 +103,7 @@ class ApplicationsController extends Controller
             'applications.show',
             [
                 'applications' => $application,
+                'amendmentAvailable' => $this->isAmendable($application),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
@@ -349,6 +350,16 @@ class ApplicationsController extends Controller
         return $this->fetchModelByIdWithInstallationLimit(
             (new Application()), $id, 'application', 'installations/' . $installation . '/applications'
         );
+    }
+
+    /**
+     * @author JH
+     * @param Application $application
+     * @return bool
+     */
+    private function isAmendable(Application $application)
+    {
+        return in_array($application->ext_current_status, ['converted', 'referred']);
     }
 
     /**
