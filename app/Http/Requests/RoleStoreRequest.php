@@ -5,11 +5,13 @@ namespace App\Http\Requests;
 /**
  * Class RoleStoreRequest
  *
+ * @author GK
  * @package App\Http\Requests
  */
 class RoleStoreRequest extends Request
 {
     /**
+     * @author GK
      * @return bool
      */
     public function authorize()
@@ -18,6 +20,7 @@ class RoleStoreRequest extends Request
     }
 
     /**
+     * @author GK
      * @return array
      */
     public function rules()

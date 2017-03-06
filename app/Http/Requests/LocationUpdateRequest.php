@@ -5,11 +5,13 @@ namespace App\Http\Requests;
 /**
  * Class LocationUpdateRequest
  *
+ * @author GK
  * @package App\Http\Requests
  */
 class LocationUpdateRequest extends Request
 {
     /**
+     * @author GK
      * @return bool
      */
     public function authorize()
@@ -18,6 +20,7 @@ class LocationUpdateRequest extends Request
     }
 
     /**
+     * @author GK
      * @return array
      */
     public function rules()

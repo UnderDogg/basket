@@ -5,11 +5,13 @@ namespace App\Http\Requests;
 /**
  * Class UserUpdateRequest
  *
+ * @author GK
  * @package App\Http\Requests
  */
 class UserUpdateRequest extends Request
 {
     /**
+     * @author GK
      * @return bool
      */
     public function authorize()
@@ -18,6 +20,7 @@ class UserUpdateRequest extends Request
     }
 
     /**
+     * @author GK
      * @return array
      */
     public function rules()

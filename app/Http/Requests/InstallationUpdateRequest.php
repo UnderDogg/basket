@@ -5,11 +5,13 @@ namespace App\Http\Requests;
 /**
  * Class InstallationUpdateRequest
  *
+ * @author GK
  * @package App\Http\Requests
  */
 class InstallationUpdateRequest extends Request
 {
     /**
+     * @author GK
      * @return bool
      */
     public function authorize()
@@ -18,6 +20,7 @@ class InstallationUpdateRequest extends Request
     }
 
     /**
+     * @author GK
      * @return array
      */
     public function rules()
@@ -37,6 +40,7 @@ class InstallationUpdateRequest extends Request
     /**
      * Modifies the request's data before validation
      *
+     * @author GK
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function getValidatorInstance()

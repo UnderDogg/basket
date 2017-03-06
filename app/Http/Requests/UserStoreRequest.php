@@ -5,11 +5,13 @@ namespace App\Http\Requests;
 /**
  * Class UserStoreRequest
  *
+ * @author GK
  * @package App\Http\Requests
  */
 class UserStoreRequest extends Request
 {
     /**
+     * @author GK
      * @return bool
      */
     public function authorize()
@@ -18,6 +20,7 @@ class UserStoreRequest extends Request
     }
 
     /**
+     * @author GK
      * @return array
      */
     public function rules()
