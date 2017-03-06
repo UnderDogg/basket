@@ -1,3 +1,9 @@
+# 1.17.5
+2017-03-06
+
+## Bug Fixes
+- Changed applicant email check on application report (141128997)
+
 # 1.17.4
 2017-03-01
 
