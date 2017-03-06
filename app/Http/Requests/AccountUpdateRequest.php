@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 /**
  * Class AccountUpdateRequest
  *
@@ -13,9 +11,9 @@ use App\Http\Requests\Request;
 class AccountUpdateRequest extends Request
 {
     /**
-     * @author JH
      * Determine if the user is authorized to make this request.
      *
+     * @author JH
      * @return bool
      */
     public function authorize()
