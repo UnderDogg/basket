@@ -181,6 +181,26 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     }
 
     /**
+     * @author JH
+     * @param Application $application
+     * @param int $amount
+     * @param string $description
+     * @return array
+     */
+    public function amendOrder(Application $application, $amount, $description)
+    {
+        $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
+
+        return $this->applicationGateway->amendOrder(
+            $application->installation_id,
+            $application->id,
+            $amount,
+            $description,
+            $merchant->token
+        );
+    }
+    
+    /**
      * @author WN, EB
      * @param Location $location
      * @param OrderEntity $orderEntity

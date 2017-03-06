@@ -309,6 +309,36 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * @author JH
+     * @param int $id
+     * @param int $installation
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws RedirectException
+     */
+    public function amendOrder($id, $installation)
+    {
+        $application = $this->fetchApplicationById($id, $installation);
+
+        try {
+            $this->applicationSynchronisationService->amendOrder(
+                $application,
+                ($request->get('amount') * 100),
+                $request->get('description')
+            );
+        } catch (\Exception $e) {
+            $this->logError('Error while trying to amend an order for application [' . $id . ']: '
+                . $e->getMessage());
+            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
+                ->setError(($e->getMessage()) ? $e->getMessage() : 'Amending an order failed');
+        }
+
+        return $this->redirectWithSuccessMessage(
+            '/installations/' . $installation . '/applications/' . $id,
+            'Order has been successfully amended'
+        );
+    }
+
+    /**
      * @author WN
      * @param int $id
      * @param int $installation
