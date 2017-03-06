@@ -11,8 +11,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Requests\UpdateAccountRequest;
+use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Requests\AccountUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -57,11 +57,11 @@ class AccountController extends Controller
 
     /**
      * @author EB
-     * @param UpdateAccountRequest $request
+     * @param AccountUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update(UpdateAccountRequest $request)
+    public function update(AccountUpdateRequest $request)
     {
         $user = $this->getAuthenticatedUser();
         try {
@@ -77,11 +77,11 @@ class AccountController extends Controller
 
     /**
      * @author EB
-     * @param ChangePasswordRequest $request
+     * @param PasswordChangeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function changePassword(ChangePasswordRequest $request)
+    public function changePassword(PasswordChangeRequest $request)
     {
         $user = $this->getAuthenticatedUser();
 

@@ -16,7 +16,7 @@ use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
-use App\Http\Requests\ApplicationRequestCancellationRequest;
+use App\Http\Requests\ApplicationCancellationRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -209,11 +209,11 @@ class ApplicationsController extends Controller
      * @author WN
      * @param $installation
      * @param $id
-     * @param ApplicationRequestCancellationRequest $request
+     * @param ApplicationCancellationRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function requestCancellation($installation, $id, ApplicationRequestCancellationRequest $request)
+    public function requestCancellation($installation, $id, ApplicationCancellationRequest $request)
     {
         try {
             $this->applicationSynchronisationService->requestCancellation($id, $request->get('description'));

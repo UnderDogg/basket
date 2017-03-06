@@ -5,13 +5,15 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 
 /**
- * Class StoreMerchantRequest
+ * Class AccountUpdateRequest
  *
+ * @author JH
  * @package App\Http\Requests
  */
-class StoreMerchantRequest extends Request
+class AccountUpdateRequest extends Request
 {
     /**
+     * @author JH
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -22,6 +24,7 @@ class StoreMerchantRequest extends Request
     }
 
     /**
+     * @author JH
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -29,8 +32,8 @@ class StoreMerchantRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'token' => 'required|min:32|max:32',
+            'name' => 'required',
+            'email' => 'required|email|max:255',
         ];
     }
 }

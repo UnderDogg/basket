@@ -5,15 +5,17 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 
 /**
- * Class ApplicationRequestCancellationRequest
+ * Class MerchantUpdateRequest
  *
+ * @author JH
  * @package App\Http\Requests
  */
-class ApplicationRequestCancellationRequest extends Request
+class MerchantUpdateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
      *
+     * @author JH
      * @return bool
      */
     public function authorize()
@@ -24,12 +26,15 @@ class ApplicationRequestCancellationRequest extends Request
     /**
      * Get the validation rules that apply to the request.
      *
+     * @author JH
      * @return array
      */
     public function rules()
     {
         return [
-            'description' => 'required',
+            'name' => 'required|max:255',
+            'token' => 'required|min:32|max:32',
+            'active' => 'required|sometimes',
         ];
     }
 }

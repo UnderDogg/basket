@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\ChooseProductRequest;
-use App\Http\Requests\RequestInitialisationRequest;
+use App\Http\Requests\InitialisationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use PayBreak\Foundation\Properties\Bitwise;
@@ -104,11 +104,11 @@ class InitialisationController extends Controller
     /**
      * @author WN, EB
      * @param $locationId
-     * @param RequestInitialisationRequest $request
+     * @param InitialisationRequest $request
      * @return $this|InitialisationController|\Illuminate\Http\RedirectResponse|Redirect
      * @throws RedirectException
      */
-    public function request($locationId, RequestInitialisationRequest $request)
+    public function request($locationId, InitialisationRequest $request)
     {
         try {
             $location = $this->fetchLocation($locationId);

@@ -12,8 +12,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
 use App\Basket\Merchant;
-use App\Http\Requests\StoreMerchantRequest;
-use App\Http\Requests\UpdateMerchantRequest;
+use App\Http\Requests\MerchantStoreRequest;
+use App\Http\Requests\MerchantUpdateRequest;
 use Illuminate\Support\Facades\URL;
 
 /**
@@ -58,11 +58,11 @@ class MerchantsController extends Controller
     /**
      * Store a newly created resource in storage
      *
-     * @param StoreMerchantRequest $request
+     * @param MerchantStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function store(StoreMerchantRequest $request)
+    public function store(MerchantStoreRequest $request)
     {
         $this->validateMerchantToken($request->only(['token'])['token'], $request->only(['name'])['name']);
         try {
@@ -111,11 +111,11 @@ class MerchantsController extends Controller
      *
      * @author WN
      * @param  int $id
-     * @param UpdateMerchantRequest $request
+     * @param MerchantUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update($id, UpdateMerchantRequest $request)
+    public function update($id, MerchantUpdateRequest $request)
     {
         return $this->updateModel((new Merchant()), $id, 'merchant', '/merchants', $request);
     }

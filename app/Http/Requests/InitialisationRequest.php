@@ -5,15 +5,17 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 
 /**
- * Class RequestInitialisationRequest
+ * Class InitialisationRequest
  *
+ * @author JH
  * @package App\Http\Requests
  */
-class RequestInitialisationRequest extends Request
+class InitialisationRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
      *
+     * @author JH
      * @return bool
      */
     public function authorize()
@@ -24,6 +26,7 @@ class RequestInitialisationRequest extends Request
     /**
      * Get the validation rules that apply to the request.
      *
+     * @author JH
      * @return array
      */
     public function rules()

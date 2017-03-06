@@ -82,7 +82,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * Creates a fake request for testing
      *
-     * @author EB
+     * @author EB, JH
      * @param array $params
      * @param string $request
      * @return mixed
