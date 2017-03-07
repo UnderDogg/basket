@@ -340,7 +340,7 @@ class ApplicationsController extends Controller
         $application = $this->fetchApplicationById($id, $installation);
 
         try {
-            $this->applicationSynchronisationService->amendOrder(
+            $newApplication = $this->applicationSynchronisationService->amendOrder(
                 $application,
                 ($request->get('amount') * 100),
                 $request->get('description')
@@ -353,7 +353,7 @@ class ApplicationsController extends Controller
         }
 
         return $this->redirectWithSuccessMessage(
-            '/installations/' . $installation . '/applications/' . $id,
+            '/installations/' . $installation . '/applications/' . $newApplication->id,
             'Order has been successfully amended'
         );
     }
