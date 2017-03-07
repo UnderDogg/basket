@@ -163,6 +163,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('ajax/locations/{location}/profile/removeAddress', 'AjaxController@removeProfileAddress');
         Route::post('ajax/locations/{location}/profile/employment', 'AjaxController@setProfileEmployment');
         Route::post('ajax/locations/{location}/profile/financial', 'AjaxController@setProfileFinancial');
+
+        Route::get('installations/{installation}/applications/{id}/amend-order', 'ApplicationsController@confirmAmendOrder');
+        Route::post('installations/{installation}/applications/{id}/amend-order', 'ApplicationsController@amendOrder');
     });
 
     Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {

@@ -16,6 +16,7 @@ use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
+use App\Http\Requests\AmendOrderRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -311,12 +312,30 @@ class ApplicationsController extends Controller
 
     /**
      * @author JH
+     * @param int $installation
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws RedirectException
+     */
+    public function confirmAmendOrder($installation, $id)
+    {
+        $application = $this->fetchApplicationById($id, $installation);
+        if (false) {
+            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
+                ->setError('You may not amend an order for this application.');
+        }
+        return view('applications.amend-order', ['application' => $application]);
+    }
+
+    /**
+     * @author JH
      * @param int $id
      * @param int $installation
+     * @param AmendOrderRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function amendOrder($id, $installation)
+    public function amendOrder($installation, $id, AmendOrderRequest $request)
     {
         $application = $this->fetchApplicationById($id, $installation);
 
