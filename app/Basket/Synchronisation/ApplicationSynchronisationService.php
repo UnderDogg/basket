@@ -192,8 +192,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         return $this->applicationGateway->amendOrder(
-            $application->installation_id,
-            $application->id,
+            $application->installation->ext_id,
+            $application->ext_id,
             $amount,
             $description,
             $merchant->token
