@@ -4,7 +4,7 @@
 
     <h1>Applications
         <div class="btn-group pull-right">
-            <a href="{{Request::url()}}/amend-order" class="btn btn-default {{ $amendmentAvailable == true && Auth::user()->can('applications-make') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-pencil"></span> Amend Order</a>
+            <a href="{{Request::url()}}/amend-order" class="btn btn-default{{ $amendmentAvailable == true && Auth::user()->can('applications-make') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-pencil"></span> Amend Order</a>
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true && Auth::user()->can('applications-fulfil') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
             <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true && Auth::user()->can('applications-cancel') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
             @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
