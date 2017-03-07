@@ -199,6 +199,11 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $merchant->token
         );
 
+        if (isset($response['id'])) {
+            $application->ext_current_status = 'order_amended';
+            $application->save();
+        }
+
         return $this->linkApplication($response['id'], $application->installation->ext_id);
     }
     
