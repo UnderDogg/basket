@@ -76,10 +76,12 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @author WN
      * @param int $applicationId External Application ID
      * @param string $installationId External Installation ID
+     * @param int|null $userId
+     * @param int|null $locationId
      * @return Application
      * @throws \Exception
      */
-    public function linkApplication($applicationId, $installationId)
+    public function linkApplication($applicationId, $installationId, $userId = null, $locationId = null)
     {
         try {
             return $this->fetchApplicationByExternalId($applicationId);
@@ -103,7 +105,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         }
 
         try {
-            return $this->createNewLocal($applicationEntity, $installation->id);
+            return $this->createNewLocal($applicationEntity, $installation->id, $userId, $locationId);
         } catch (\Exception $e) {
             $this->logError('LinkApplication: Problem saving Application[' . $installationId . ']');
             throw $e;
@@ -199,12 +201,8 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
             $merchant->token
         );
 
-        if (isset($response['id'])) {
-            $application->ext_current_status = 'order_amended';
-            $application->save();
-        }
-
-        return $this->linkApplication($response['id'], $application->installation->ext_id);
+        $this->synchroniseApplication($application->id);
+        return $this->linkApplication($response['id'], $application->installation->ext_id, \Auth::user()->id, $application->location_id);
     }
     
     /**
