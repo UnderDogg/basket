@@ -202,7 +202,13 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         );
 
         $this->synchroniseApplication($application->id);
-        return $this->linkApplication($response['id'], $application->installation->ext_id, \Auth::user()->id, $application->location_id);
+
+        return $this->linkApplication(
+            $response['id'],
+            $application->installation->ext_id,
+            \Auth::user()->id,
+            $application->location_id
+        );
     }
     
     /**
