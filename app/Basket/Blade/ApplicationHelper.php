@@ -157,6 +157,12 @@ class ApplicationHelper
                 'description' => '',
                 'background' => 'application-bg-pending-cancellation',
             ],
+            'order_amended' => [
+                'display_name' => 'Order Amended',
+                'color' => 'application-status-text',
+                'description' => '',
+                'background' => 'label-default',
+            ],
         ];
     }
 
