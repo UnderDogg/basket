@@ -22,9 +22,9 @@ class AccountUpdateRequest extends Request
     }
 
     /**
-     * @author JH
      * Get the validation rules that apply to the request.
      *
+     * @author JH
      * @return array
      */
     public function rules()
