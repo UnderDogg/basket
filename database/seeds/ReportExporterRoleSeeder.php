@@ -30,7 +30,16 @@ class ReportExporterRoleSeeder extends Seeder
         $permission->save();
 
         // attach permission to role
-        $permission->roles()->attach($role->id);
+        $roles = [
+            'su',
+            'rosu',
+            'report-exporter'
+        ];
+
+        foreach ($roles as $roleName) {
+            $role = \App\Role::where('name', '=', $roleName)->first();
+            $permission->roles()->attach($role->id);
+        }
         $permission->save();
 
         //add permission to all users
