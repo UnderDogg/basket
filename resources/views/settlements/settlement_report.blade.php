@@ -4,10 +4,12 @@
 
     <h1>
         Settlement Report
+        @if(Auth::user()->can('download-reports'))
         <div class="btn-toolbar pull-right">
             <a href="{{ Request::url() }}/csv?type=aggregate-settlement-report&amp;filename={{ $export_view_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Report</a>
             <a href="{{ Request::url() }}/csv?type=raw-settlement-report&amp;filename={{ $export_api_filename }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Download Raw</a>
         </div>
+        @endif
     </h1>
     @include('includes.page.breadcrumb', ['over' => [1 => isset($merchant->name) ? $merchant->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
     <h3><span>Amount: {{ '&pound;' . number_format($settlement_amount/100, 2) }}</span></h3>
