@@ -13,6 +13,8 @@ use App\Basket\Email\EmailApplicationService;
 use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Installation;
 use App\Exceptions\RedirectException;
+use App\Http\Requests\InstallationUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Foundation\Properties\Bitwise;
@@ -114,25 +116,12 @@ class InstallationsController extends Controller
      *
      * @author WN
      * @param  int $id
-     * @param Request $request
-     * @return Response
+     * @param InstallationUpdateRequest $request
+     * @return RedirectResponse
      * @throws RedirectException
      */
-    public function update($id, Request $request)
+    public function update($id, InstallationUpdateRequest $request)
     {
-        $this->amendValidityPeriod($request);
-
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'active' => 'required|sometimes',
-            'validity' => 'required|numeric|between:7200,2592000',
-            'custom_logo_url' => 'url|max:255',
-            'email_reply_to' => 'email|max:255',
-            'ext_return_url' => 'url|max:255',
-            'ext_notification_url' => 'url|max:255',
-            'finance_offers' => 'required|integer',
-        ]);
-
         $old = new Installation();
         $old = $old->findOrFail($id);
 
@@ -324,17 +313,5 @@ class InstallationsController extends Controller
         } catch (\Exception $e) {
             return view('emails.applications.blank')->with('content', 'Problem rendering template');
         }
-    }
-
-    /**
-     * @author EB
-     * @param Request $request
-     * @return Request
-     */
-    private function amendValidityPeriod(Request $request)
-    {
-        $request->merge(['validity' => ($request->get('validity') * 24 * 60 * 60)]);
-
-        return $request;
     }
 }

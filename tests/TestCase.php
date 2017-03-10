@@ -82,13 +82,20 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * Creates a fake request for testing
      *
-     * @author EB
+     * @author EB, JH
      * @param array $params
-     * @return \Illuminate\Http\Request
+     * @param string $request
+     * @return mixed
      */
-    protected function createRequestForTest(array $params = [])
+    protected function createRequestForTest(array $params = [], $request = '')
     {
-        return new \Illuminate\Http\Request($params);
+        if (!empty($request)) {
+            $requestClass = 'App\Http\Requests\\' . $request;
+        } else {
+            $requestClass = '\Illuminate\Http\Request';
+        }
+
+        return new $requestClass($params);
     }
 
     /**

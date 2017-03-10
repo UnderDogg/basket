@@ -12,6 +12,8 @@ namespace App\Http\Controllers;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
+use App\Http\Requests\LocationStoreRequest;
+use App\Http\Requests\LocationUpdateRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -57,20 +59,12 @@ class LocationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param LocationStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function store(Request $request)
+    public function store(LocationStoreRequest $request)
     {
-        $this->validate($request, [
-            'reference' => 'required|regex:/^[A-Za-z0-9\-]+$/',
-            'installation_id' => 'required',
-            'name' => 'required',
-            'email' => 'required|max:255',
-            'address' => 'required',
-        ]);
-
         try {
             $this->validateEmailAddressInput($request);
             $toCreate = $request->all();
@@ -115,21 +109,12 @@ class LocationsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  int $id
-     * @param Request $request
+     * @param LocationUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update($id, Request $request)
+    public function update($id, LocationUpdateRequest $request)
     {
-        $this->validate($request, [
-            'reference' => 'required|sometimes|regex:/^[A-Za-z0-9\-]+$/',
-            'active' => 'required|sometimes',
-            'name' => 'required',
-            'email' => 'required|max:255',
-            'address' => 'required',
-            'converted_email' => 'required|sometimes',
-        ]);
-
         $converted_email = $request->has('converted_email') ? '1' : '0';
         $request->request->add(['converted_email' => $converted_email]);
 
