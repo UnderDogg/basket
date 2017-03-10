@@ -1,3 +1,6 @@
+## Features
+- Changed validation throughout to use Form Request Objects (140935067)
+
 ## Bug Fixes
 - Incorrect filter dates format error is now caught and error message is displayed (137513871)
 
