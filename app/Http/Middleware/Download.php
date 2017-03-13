@@ -40,7 +40,13 @@ class Download
         $source = $request->get('source', 'api_data');
         $filename = $request->get('filename', 'export_' . date('Y-m-d_Hi'));
 
-        if ($request->get('download') && array_key_exists($source, $response->original->getData()) && Auth::user()->can('download-reports')) {
+        $downloadIsPermitted = false;
+        $user = Auth::user();
+        if ($user) {
+            $downloadIsPermitted = $user->can('download-reports');
+        }
+
+        if ($request->get('download') && array_key_exists($source, $response->original->getData()) && $downloadIsPermitted) {
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
