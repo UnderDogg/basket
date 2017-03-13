@@ -188,9 +188,14 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param int $amount
      * @param string $description
      * @return array
+     * @throws Exception
      */
     public function amendOrder(Application $application, $amount, $description)
     {
+        if (!$application->installation->order_amend) {
+            throw new Exception('Order amend is not enabled for this installation.');
+        }
+
         $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         $response = $this->applicationGateway->amendOrder(

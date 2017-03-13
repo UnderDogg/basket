@@ -320,7 +320,7 @@ class ApplicationsController extends Controller
     public function confirmAmendOrder($installation, $id)
     {
         $application = $this->fetchApplicationById($id, $installation);
-        if (!$this->isAmendable($application)) {
+        if (!$this->isAmendable($application) || !$application->installation->order_amend) {
             throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
                 ->setError('You may not amend an order for this application.');
         }
@@ -337,7 +337,7 @@ class ApplicationsController extends Controller
      */
     public function amendOrder($installation, $id, AmendOrderRequest $request)
     {
-        $application = $this->fetchApplicationById($id, $installation);
+        $application = $this->fetchApplicationById($id, $installation)->load('installation');
 
         try {
             $newApplication = $this->applicationSynchronisationService->amendOrder(
