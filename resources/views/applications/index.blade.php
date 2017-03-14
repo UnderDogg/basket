@@ -4,11 +4,13 @@
 
     <h1>
         Applications
+        @if(Auth::user()->can('download-reports'))
         <div class="btn-group pull-right">
             {{-- */$params='';/* --}}
             @foreach(Request::all() as $key=>$val) {{-- */$params.="$key=$val&";/*--}} @endforeach
             <a href="{!! Request::url() !!}/?{{$params}}download=csv&amp;limit=5000" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download CSV</a>
         </div>
+        @endif
     </h1>
 
     @include('includes.page.breadcrumb', ['over' => [1 => isset($applications[0]->installation->name) ? $applications[0]->installation->name : Request::segment(2)], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
