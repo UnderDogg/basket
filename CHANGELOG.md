@@ -1,3 +1,10 @@
+
+# 1.18.0
+2017-03-17
+
+## Features
+  - Restrict report downloads using new `Reporter Exporter` permission (140855703) 
+
 # 1.17.5
 2017-03-06
 
