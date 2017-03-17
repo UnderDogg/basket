@@ -4,7 +4,6 @@
 ## Features
 - Restrict report downloads using new the `Reporter Exporter` permission (140855703) 
 - Changed validation throughout to use Form Request Objects (140935067)
-- Restrict report downloads for Download Reports permission (140855703)
 
 ## Bug Fixes
 - Incorrect filter dates format error is now caught and error message is displayed (137513871)
