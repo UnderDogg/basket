@@ -10,7 +10,7 @@ class LandingController extends Controller
      * Display a listing of the resource.
      *
      * @author MS
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {

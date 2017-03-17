@@ -176,7 +176,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'permission:reports-view'], function () {
         Route::get('merchants/{merchant}/settlements', 'SettlementsController@index');
         Route::get('merchants/{merchant}/settlements/{id}', 'SettlementsController@settlementReport');
-        Route::get('merchants/{merchant}/settlements/{id}/csv', 'SettlementsController@downloadSettlementReportCsv');
+        Route::get(
+            'merchants/{merchant}/settlements/{id}/csv',
+            [
+                'middleware' => 'permission:download-reports',
+                'uses' => 'SettlementsController@downloadSettlementReportCsv'
+            ]
+        );
         Route::resource('merchants/{merchant}/partial-refunds', 'PartialRefundsController', [
             'only' => ['index', 'show'],
         ]);

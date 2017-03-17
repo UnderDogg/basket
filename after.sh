@@ -11,3 +11,5 @@ echo "# Migrations"
 php artisan migrate
 echo "# Seeders"
 php artisan db:seed --class=DevSeeder
+php artisan db:seed --class=ReadOnlySuperUserSeeder
+php artisan db:seed --class=ReportExporterRoleSeeder

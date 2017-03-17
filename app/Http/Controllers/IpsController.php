@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
 use App\Http\Requests;
+use App\Http\Requests\IpsStoreRequest;
 use Illuminate\Http\Request;
 use PayBreak\Sdk\Gateways\IpsGateway;
 
@@ -37,7 +38,7 @@ class IpsController extends Controller
      * @author EB
      * @param $id
      * @return \Illuminate\View\View
-     * @throws IpsController
+     * @throws RedirectException
      */
     public function index($id)
     {
@@ -56,13 +57,12 @@ class IpsController extends Controller
     /**
      * @author EB
      * @param $id
-     * @param Request $request
+     * @param IpsStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws IpsController
+     * @throws RedirectException
      */
-    public function store($id, Request $request)
+    public function store($id, IpsStoreRequest $request)
     {
-        $this->validate($request, ['ip' => 'required|ip']);
         try {
             $response= $this->ipsGateway
                 ->storeIpAddress($this->fetchMerchantById($id)->token, $request->ip);
@@ -80,7 +80,7 @@ class IpsController extends Controller
      * @param $id
      * @param $ip
      * @return mixed
-     * @throws IpsController
+     * @throws RedirectException
      */
     public function delete($id, $ip)
     {

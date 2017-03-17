@@ -11,7 +11,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use Illuminate\Http\Request;
+use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Requests\AccountUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -56,17 +57,13 @@ class AccountController extends Controller
 
     /**
      * @author EB
-     * @param Request $request
+     * @param AccountUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function update(Request $request)
+    public function update(AccountUpdateRequest $request)
     {
         $user = $this->getAuthenticatedUser();
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|max:255',
-        ]);
         try {
             $user->update($request->all());
         } catch (\Exception $e) {
@@ -80,18 +77,13 @@ class AccountController extends Controller
 
     /**
      * @author EB
-     * @param Request $request
+     * @param PasswordChangeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
-    public function changePassword(Request $request)
+    public function changePassword(PasswordChangeRequest $request)
     {
         $user = $this->getAuthenticatedUser();
-        $this->validate($request, [
-            'old_password' => 'required',
-            'new_password' => 'required|confirmed|different:old_password',
-            'new_password_confirmation' => 'required|different:old_password|same:new_password',
-        ]);
 
         if (!Hash::check($request->get("old_password"), $user->getAuthPassword())) {
             throw RedirectException::make('account/edit')->setError('Old password must match stored password');

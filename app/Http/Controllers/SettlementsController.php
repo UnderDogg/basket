@@ -86,7 +86,7 @@ class SettlementsController extends Controller
             $local[$report['id']] = Application::where('ext_id', '=', $report['id'])->first();
         }
 
-        return View('settlements.index', [
+        return view('settlements.index', [
             'settlement_reports' => $settlementReports,
             'default_dates' => $this->getDateRange(),
             'provider' => $this->fetchFilterValues($settlementReports, 'provider'),
@@ -122,7 +122,7 @@ class SettlementsController extends Controller
 
         $settlementAmount =  array_sum(array_column($aggregateSettlementReport, 'settlement_amount'));
 
-        return View('settlements.settlement_report', [
+        return view('settlements.settlement_report', [
             'settlement_date' => $settlementDate,
             'settlement_amount' => $settlementAmount,
             'settlement_provider' => $request->get('provider', ''),
