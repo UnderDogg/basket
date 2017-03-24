@@ -181,7 +181,7 @@ class MerchantsController extends Controller
         $duplicatedTokens = Merchant::all()->where('token', $token);
         if (!$duplicatedTokens->isEmpty()) {
             $this->logError(
-                'Cannot create merchant['.$merchantName.'] merchant:Merchant token already exist in database'
+                'Cannot create merchant[' . $merchantName . '] merchant:Merchant token already exist in database'
             );
             throw RedirectException::make('/merchants')
                 ->setError('Invalid merchant token ');
