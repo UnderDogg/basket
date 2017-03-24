@@ -158,8 +158,7 @@ class MerchantsController extends Controller
                 URL::previous(),
                 'Error while trying to synchronise Merchant[' . $id . ']',
                 $e
-            )
-            ;
+            );
         }
 
         return $this->redirectWithSuccessMessage(
