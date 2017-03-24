@@ -1,3 +1,6 @@
+## Features
+- Added documentation about the *Roles and Permissions*
+
 # 1.18.0
 2017-03-17
 
