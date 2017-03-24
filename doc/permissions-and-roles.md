@@ -5,7 +5,7 @@
 Certain features require the user to have permission to use them.
 
 ID | Permission Code | Display Name | Description
---- | --- | --- | --- | ---
+---|---|---|---
 1 | merchants-management | Merchants Management | merchants management
 2 | merchants-view | Merchants View | merchants show
 3 | users-management | Users Management | user management
@@ -22,12 +22,12 @@ ID | Permission Code | Display Name | Description
 14 | reports-view | Reports View | reports-view
 15 | applications-merchant-payments | Merchant Payments | merchant payments
 
-## Roles
+## Default Roles
 
 Roles are a set of permissions that can be configured. A user can have multiple roles.
 
 ID | Display Name | Role Code | Description
---- | --- | --- | --- | ---
+---|---|---|---
 1 | System Administrator | su | Can do everything
 2 | Merchant Administrator | administrator | Merchant Administrator
 3 | Report Role | report | run reports
@@ -37,18 +37,15 @@ ID | Display Name | Role Code | Description
 8 | Read Only Super User | rosu | Read only user who can see everything
 9 | Business Role | business | Can View and Cancel Applications
 
-## Default Configuration
-By default the roles have the following permissions
-
-### roles
+### Default Permissions
 
 ID | Display Name | Permits
---- | --- | ---
-1 | System Administrator | {merchants-management, merchants-view, users-management, users-view, roles-management, roles-view, locations-view, locations-management, applications-view, applications-make, applications-fulfil, applications-cancel, applications-refund, reports-view, applications-merchant-payments}
-2 | Merchant Administrator | {merchants-management, merchants-view, users-management, users-view, roles-management, roles-view, locations-view, locations-management, applications-view, applications-make, applications-fulfil, applications-cancel, applications-refund, reports-view, applications-merchant-payments}
-3 | Report Role | {locations-view, applications-view, reports-view}
-4 | Manager Role | {locations-view, applications-view, applications-make, applications-fulfil, applications-cancel, applications-refund, reports-view, applications-merchant-payments}
-5 | Sales Role | {applications-view, applications-make}
-7 | Sales Manager | {applications-view, applications-make, applications-fulfil, applications-cancel, applications-refund}
-8 | Read Only Super User | {merchants-view, users-view, roles-view, locations-view, applications-view, reports-view}
-9 | Business Role | {applications-view, applications-cancel}
+---|---|---
+1 | System Administrator | `merchants-management`,<br>`merchants-view`,<br> `users-management`,<br> `users-view`,<br> `roles-management`,<br> `roles-view`,<br> `locations-view`,<br> `locations-management`,<br> `applications-view`,<br> `applications-make`,<br> `applications-fulfil`,<br> `applications-cancel`,<br> `applications-refund`,<br> `reports-view`,<br> `applications-merchant-payments`
+2 | Merchant Administrator | `merchants-management`,<br> `merchants-view`,<br> `users-management`,<br> `users-view`,<br> `roles-management`,<br> `roles-view`,<br> `locations-view`,<br> `locations-management`,<br> `applications-view`,<br> `applications-make`,<br> applications-fulfil,<br> `applications-cancel`,<br> `applications-refund`,<br> `reports-view`,<br> `applications-merchant-payments`
+3 | Report Role | `locations-view`,<br> `applications-view`,<br> `reports-view`
+4 | Manager Role | `locations-view`,<br> `applications-view`,<br> `applications-make`,<br> `applications-fulfil`,<br> `applications-cancel`,<br> `applications-refund`,<br> `reports-view`,<br> `applications-merchant-payments`
+5 | Sales Role | `applications-view`,<br> `applications-make`
+7 | Sales Manager | `applications-view`,<br> `applications-make`,<br> `applications-fulfil`,<br> `applications-cancel`,<br> `applications-refund`
+8 | Read Only Super User | `merchants-view`,<br> `users-view`,<br> `roles-view`,<br> `locations-view`,<br> `applications-view`,<br> `reports-view`
+9 | Business Role | `applications-view`,<br> `applications-cancel`
