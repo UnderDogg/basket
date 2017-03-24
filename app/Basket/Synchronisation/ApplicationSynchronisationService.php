@@ -354,7 +354,9 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
         try {
             return $this->applicationGateway->getApplicationCreditInfo(
-                $application->installation->ext_id, $application->ext_id, $application->installation->merchant->token
+                $application->installation->ext_id,
+                $application->ext_id,
+                $application->installation->merchant->token
             );
         } catch (\Exception $e) {
             $this->logError(

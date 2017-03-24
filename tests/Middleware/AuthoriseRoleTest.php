@@ -52,7 +52,8 @@ class AuthoriseRoleTest extends TestCase
                 function () {
                     return true;
                 },
-                'su')
+                'su'
+            )
         );
     }
 }

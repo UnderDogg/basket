@@ -52,8 +52,9 @@ class AvailableInstallations
 
         if ($this->auth->user() && $this->auth->user()->merchant_id) {
             view()->share(
-                'available_installations', $installations->where('merchant_id', $this->auth->user()->merchant_id
-            )->get());
+                'available_installations',
+                $installations->where('merchant_id', $this->auth->user()->merchant_id)->get()
+            );
         } else {
             view()->share('available_installations', $installations->get());
         }

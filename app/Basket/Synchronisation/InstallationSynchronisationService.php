@@ -122,8 +122,11 @@ class InstallationSynchronisationService extends AbstractSynchronisationService
      * @param int $merchantId
      * @return Installation[]
      */
-    private function synchroniseNewInstallations(array $externalInstallations, Collection $localInstallations, $merchantId)
-    {
+    private function synchroniseNewInstallations(
+        array $externalInstallations,
+        Collection $localInstallations,
+        $merchantId
+    ) {
         $rtn = [];
 
         foreach ($externalInstallations as $installation) {

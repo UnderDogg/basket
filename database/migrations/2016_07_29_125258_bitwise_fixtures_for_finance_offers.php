@@ -22,8 +22,7 @@ class BitwiseFixturesForFinanceOffers extends Migration
         foreach ($installations as $installation) {
             $bitwise = \PayBreak\Foundation\Properties\Bitwise::make($installation->finance_offers);
 
-            if (
-                $bitwise->contains(\App\Basket\Installation::LINK) ||
+            if ($bitwise->contains(\App\Basket\Installation::LINK) ||
                 $bitwise->contains(\App\Basket\Installation::EMAIL)
             ) {
                 $bitwise->remove(\App\Basket\Installation::LINK);

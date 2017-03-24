@@ -84,7 +84,8 @@ class ApplicationEvent extends Model
         return [
             self::TYPE_CUSTOM                   => 'Custom Event.',
             self::TYPE_NOTIFICATION_INITIALISED => '(Notification Received) - Application Initialised',
-            self::TYPE_RESUME_LINK              => '(Application Resume) - Application Link Created in Retailer Back Office',
+            self::TYPE_RESUME_LINK              =>
+                '(Application Resume) - Application Link Created in Retailer Back Office',
             self::TYPE_RESUME_EMAIL             => '(Application Resume) - Application Email Sent',
             self::TYPE_RESUME_INSTORE           => '(Application Resume) - Instore Application Started',
         ];

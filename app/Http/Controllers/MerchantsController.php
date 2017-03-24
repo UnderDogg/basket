@@ -145,8 +145,8 @@ class MerchantsController extends Controller
             throw $this->redirectWithException(
                 URL::previous(),
                 'Error while trying to synchronise Merchant[' . $id . ']',
-                $e)
-            ;
+                $e
+            );
         }
 
         return $this->redirectWithSuccessMessage(
@@ -168,7 +168,9 @@ class MerchantsController extends Controller
     {
         $duplicatedTokens = Merchant::all()->where('token', $token);
         if (!$duplicatedTokens->isEmpty()) {
-            $this->logError('Cannot create merchant['.$merchantName.'] merchant:Merchant token already exist in database');
+            $this->logError(
+                'Cannot create merchant[' . $merchantName . '] merchant:Merchant token already exist in database'
+            );
             throw RedirectException::make('/merchants')
                 ->setError('Invalid merchant token ');
         }

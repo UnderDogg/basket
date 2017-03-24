@@ -48,7 +48,8 @@ class AccountController extends Controller
      */
     private function renderView($view)
     {
-        return view('account.' . $view,
+        return view(
+            'account.' . $view,
             [
                 'user' => $this->getAuthenticatedUser(),
             ]

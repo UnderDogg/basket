@@ -95,7 +95,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('installations/{id}/preview-email', 'InstallationsController@previewEmail');
         Route::get('installations/{installation}/products', 'ProductConfigurationController@viewProducts');
         Route::post('installations/{installation}/products', 'ProductConfigurationController@updateProducts');
-        Route::post('installations/{installation}/products/ordering', 'ProductConfigurationController@updateProductsOrder');
+        Route::post(
+            'installations/{installation}/products/ordering',
+            'ProductConfigurationController@updateProductsOrder'
+        );
     });
 
     /*
@@ -137,13 +140,25 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'permission:applications-cancel'], function () {
-        Route::get('installations/{installation}/applications/{id}/request-cancellation', 'ApplicationsController@confirmCancellation');
-        Route::post('installations/{installation}/applications/{id}/request-cancellation', 'ApplicationsController@requestCancellation');
+        Route::get(
+            'installations/{installation}/applications/{id}/request-cancellation',
+            'ApplicationsController@confirmCancellation'
+        );
+        Route::post(
+            'installations/{installation}/applications/{id}/request-cancellation',
+            'ApplicationsController@requestCancellation'
+        );
     });
 
     Route::group(['middleware' => 'permission:applications-refund'], function () {
-        Route::get('installations/{installation}/applications/{id}/partial-refund', 'ApplicationsController@confirmPartialRefund');
-        Route::post('installations/{installation}/applications/{id}/partial-refund', 'ApplicationsController@requestPartialRefund');
+        Route::get(
+            'installations/{installation}/applications/{id}/partial-refund',
+            'ApplicationsController@confirmPartialRefund'
+        );
+        Route::post(
+            'installations/{installation}/applications/{id}/partial-refund',
+            'ApplicationsController@requestPartialRefund'
+        );
     });
 
     Route::group(['middleware' => 'permission:applications-make'], function () {
@@ -157,7 +172,10 @@ Route::group(['middleware' => 'auth'], function () {
         route::get('locations/{location}/applications/{id}/profile', 'InitialisationController@showProfile');
         Route::get('locations/{location}/no-finance', 'InitialisationController@noFinance');
 
-        Route::get('ajax/installations/{installation}/products/{product}/credit-info', 'AjaxController@getCreditInformationForProduct');
+        Route::get(
+            'ajax/installations/{installation}/products/{product}/credit-info',
+            'AjaxController@getCreditInformationForProduct'
+        );
         Route::post('ajax/locations/{location}/profile/personal', 'AjaxController@setProfilePersonal');
         Route::post('ajax/locations/{location}/profile/address', 'AjaxController@addProfileAddress');
         Route::post('ajax/locations/{location}/profile/removeAddress', 'AjaxController@removeProfileAddress');
@@ -166,8 +184,14 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'permission:applications-merchant-payments'], function () {
-        Route::get('installations/{installation}/applications/{id}/add-merchant-payment', 'ApplicationsController@addMerchantPayment');
-        Route::post('installations/{installation}/applications/{id}/add-merchant-payment', 'ApplicationsController@processAddMerchantPayment');
+        Route::get(
+            'installations/{installation}/applications/{id}/add-merchant-payment',
+            'ApplicationsController@addMerchantPayment'
+        );
+        Route::post(
+            'installations/{installation}/applications/{id}/add-merchant-payment',
+            'ApplicationsController@processAddMerchantPayment'
+        );
     });
 
     /*

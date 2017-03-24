@@ -63,7 +63,9 @@ class SettlementsController extends Controller
                 $this
                     ->settlementGateway
                     ->getSettlementReports(
-                        $this->fetchMerchantById($id)->token, $dateRange['date_from'], $dateRange['date_to']
+                        $this->fetchMerchantById($id)->token,
+                        $dateRange['date_from'],
+                        $dateRange['date_to']
                     )
             );
         } catch (\Exception $e) {
@@ -155,10 +157,10 @@ class SettlementsController extends Controller
                         ->getSingleAggregateSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
                     break;
                 case self::RAW_SETTLEMENT_REPORT:
-                   $csvResponse =  $this
+                    $csvResponse =  $this
                        ->settlementCsvGateway
                        ->getSingleSettlementReport($this->fetchMerchantById($merchant)->token, $id, true);
-                     break;
+                    break;
                 default:
                     throw new Exception('Settlement report type not found');
             }
