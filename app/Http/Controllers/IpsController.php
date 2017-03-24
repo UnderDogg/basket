@@ -92,8 +92,7 @@ class IpsController extends Controller
                 '/merchants/'.$id.'/ips',
                 'Error while trying to delete an IP address',
                 $e
-            )
-            ;
+            );
         }
         return $this->redirectWithSuccessMessage(
             'merchants/'.$id.'/ips',
