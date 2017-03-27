@@ -114,12 +114,21 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             @if(true)
-                            <dt>Pre-agreement</dt>
-                            <dd>@if(true)<a href="http://url.pdf" target="_blank"><span class="glyphicon glyphicon-download-alt"></span> PDF</a>@else access restricted @endif</dd>
+                                <dt><abbr title="Standard European Consumer Credit Information">SECCI</abbr></dt>
+                                <dd>
+                                    <a href="{!! Request::url() !!}/secci.pdf">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
                             @endif
                             @if(true)
-                            <dt>Agreement</dt>
-                            <dd>@if(false)<a href="http://url.pdf" target="_blank"><span class="glyphicon glyphicon-download-alt"></span> PDF</a>@else access restricted @endif</dd>
+                                <dt>Agreement</dt>
+                                <dd>
+                                    <a href="{!! Request::url() !!}/agreement.pdf">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
+                                </dd>
                             @endif
                         </dl>
                     </div>
