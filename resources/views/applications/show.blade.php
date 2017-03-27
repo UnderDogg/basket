@@ -110,6 +110,21 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Documents</strong></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            @if(true)
+                            <dt>Pre-agreement</dt>
+                            <dd>@if(true)<a href="http://url.pdf" target="_blank"><span class="glyphicon glyphicon-download-alt"></span> PDF</a>@else access restricted @endif</dd>
+                            @endif
+                            @if(true)
+                            <dt>Agreement</dt>
+                            <dd>@if(false)<a href="http://url.pdf" target="_blank"><span class="glyphicon glyphicon-download-alt"></span> PDF</a>@else access restricted @endif</dd>
+                            @endif
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading"><strong>Fulfilment Details</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
