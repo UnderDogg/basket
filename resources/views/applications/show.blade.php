@@ -114,9 +114,9 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             @if(true)
-                                <dt><abbr title="Standard European Consumer Credit Information">SECCI</abbr></dt>
+                                <dt>Pre-agreement</dt>
                                 <dd>
-                                    <a href="{!! Request::url() !!}/secci.pdf">
+                                    <a href="{!! Request::url() !!}/pre-agreement.pdf" target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         PDF
                                     </a>
@@ -124,7 +124,7 @@
                             @if(true)
                                 <dt>Agreement</dt>
                                 <dd>
-                                    <a href="{!! Request::url() !!}/agreement.pdf">
+                                    <a href="{!! Request::url() !!}/agreement.pdf" target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         PDF
                                     </a>
