@@ -151,6 +151,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_user',
         'ext_metadata',
         'ext_resume_url',
+        'ext_is_regulated',
         'last_sync_at',
     ];
 
