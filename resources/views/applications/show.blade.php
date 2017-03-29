@@ -113,6 +113,7 @@
                     <div class="panel-heading"><strong>Documents</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
+                            @if($applications->ext_is_regulated)
                             <dt>Pre-agreement</dt>
                             <dd>
                                 @if($showDocuments)
@@ -123,6 +124,7 @@
                                 @else
                                     <span>not available</span>
                                 @endif
+                            @endif
                             <dt>Agreement</dt>
                             <dd>
                                 @if($showDocuments)

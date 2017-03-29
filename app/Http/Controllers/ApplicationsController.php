@@ -569,7 +569,7 @@ class ApplicationsController extends Controller
     {
         return in_array(
             $application->ext_current_status,
-            [6, 9, 10, 11]
+            ['referred', 'converted', 'fulfilled', 'complete']
         );
     }
 }
