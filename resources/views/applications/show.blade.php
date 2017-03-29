@@ -113,23 +113,27 @@
                     <div class="panel-heading"><strong>Documents</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
-                            @if(true)
-                                <dt>Pre-agreement</dt>
-                                <dd>
+                            <dt>Pre-agreement</dt>
+                            <dd>
+                                @if($showDocuments)
                                     <a href="{!! Request::url() !!}/pre-agreement.pdf" target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         PDF
                                     </a>
-                            @endif
-                            @if(true)
-                                <dt>Agreement</dt>
-                                <dd>
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            <dt>Agreement</dt>
+                            <dd>
+                                @if($showDocuments)
                                     <a href="{!! Request::url() !!}/agreement.pdf" target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         PDF
                                     </a>
-                                </dd>
-                            @endif
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            </dd>
                         </dl>
                     </div>
                 </div>

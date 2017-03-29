@@ -104,6 +104,7 @@ class ApplicationsController extends Controller
             'applications.show',
             [
                 'applications' => $application,
+                'showDocuments' => $this->areDocumentsAvailable($application),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
@@ -555,5 +556,20 @@ class ApplicationsController extends Controller
             'ext_finance_subsidy' => Controller::FILTER_FINANCE,
             'ext_finance_net_settlement' => Controller::FILTER_FINANCE,
         ];
+    }
+
+    /**
+     * Returns if the pre-agreement and agreement documents are available for the application
+     *
+     * @author GK
+     * @param $application
+     * @return bool
+     */
+    private function areDocumentsAvailable($application)
+    {
+        return in_array(
+            $application->ext_current_status,
+            [6, 9, 10, 11]
+        );
     }
 }
