@@ -42,23 +42,27 @@ class DocumentController extends Controller
      */
     public function getPreAgreement($installationId, $applicationId)
     {
-        $installation = $this->fetchInstallation($installationId);
+        try {
+            $installation = $this->fetchInstallation($installationId);
 
-        /** @var Application $application */
-        $application =  $this->fetchModelByIdWithInstallationLimit(
-            (new Application()),
-            $applicationId,
-            'application',
-            \Request::url() . '-missing'
-        );
+            /** @var Application $application */
+            $application =  $this->fetchModelByIdWithInstallationLimit(
+                (new Application()),
+                $applicationId,
+                'application',
+                \Request::url() . '-missing'
+            );
 
-        $body = $this->documentGateway->getPreAgreementPdf(
-            $installation->merchant->token,
-            $installation->ext_id,
-            $application->ext_id
-        );
+            $body = $this->documentGateway->getPreAgreementPdf(
+                $installation->merchant->token,
+                $installation->ext_id,
+                $application->ext_id
+            );
 
-        return $this->displayPdf($body, $application->ext_id . '-pre-agreement');
+            return $this->displayPdf($body, $application->ext_id . '-pre-agreement');
+        } catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     /**
@@ -71,23 +75,27 @@ class DocumentController extends Controller
      */
     public function getAgreement($installationId, $applicationId)
     {
-        $installation = $this->fetchInstallation($installationId);
+        try {
+            $installation = $this->fetchInstallation($installationId);
 
-        /** @var Application $application */
-        $application =  $this->fetchModelByIdWithInstallationLimit(
-            (new Application()),
-            $applicationId,
-            'application',
-            \Request::url() . '-missing'
-        );
+            /** @var Application $application */
+            $application =  $this->fetchModelByIdWithInstallationLimit(
+                (new Application()),
+                $applicationId,
+                'application',
+                \Request::url() . '-missing'
+            );
 
-        $body = $this->documentGateway->getAgreementPdf(
-            $installation->merchant->token,
-            $installation->ext_id,
-            $application->ext_id
-        );
+            $body = $this->documentGateway->getAgreementPdf(
+                $installation->merchant->token,
+                $installation->ext_id,
+                $application->ext_id
+            );
 
-        return $this->displayPdf($body, $application->ext_id . '-agreement');
+            return $this->displayPdf($body, $application->ext_id . '-agreement');
+        } catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     private function displayPdf($body, $name)
