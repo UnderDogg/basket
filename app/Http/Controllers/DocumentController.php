@@ -20,6 +20,9 @@ use PayBreak\Sdk\Gateways\DocumentGateway;
  */
 class DocumentController extends Controller
 {
+    const PREAGREEMENT = 'pre-agreement';
+    const AGREEMENT = 'agreement';
+
     /** @var  DocumentGateway */
     protected $documentGateway;
 
@@ -42,27 +45,7 @@ class DocumentController extends Controller
      */
     public function getPreAgreement($installationId, $applicationId)
     {
-        try {
-            $installation = $this->fetchInstallation($installationId);
-
-            /** @var Application $application */
-            $application =  $this->fetchModelByIdWithInstallationLimit(
-                (new Application()),
-                $applicationId,
-                'application',
-                \Request::url() . '-missing'
-            );
-
-            $body = $this->documentGateway->getPreAgreementPdf(
-                $installation->merchant->token,
-                $installation->ext_id,
-                $application->ext_id
-            );
-
-            return $this->displayPdf($body, $application->ext_id . '-pre-agreement');
-        } catch (\Exception $e) {
-            abort(404);
-        }
+        return $this->getPdf($installationId, $applicationId, self::PREAGREEMENT);
     }
 
     /**
@@ -75,6 +58,11 @@ class DocumentController extends Controller
      */
     public function getAgreement($installationId, $applicationId)
     {
+        return $this->getPdf($installationId, $applicationId, self::AGREEMENT);
+    }
+
+    private function getPdf($installationId, $applicationId, $type)
+    {
         try {
             $installation = $this->fetchInstallation($installationId);
 
@@ -86,15 +74,28 @@ class DocumentController extends Controller
                 \Request::url() . '-missing'
             );
 
-            $body = $this->documentGateway->getAgreementPdf(
-                $installation->merchant->token,
-                $installation->ext_id,
-                $application->ext_id
-            );
+            $body = null;
+            switch ($type) {
+                case self::PREAGREEMENT:
+                    $body = $this->documentGateway->getPreAgreementPdf(
+                        $installation->merchant->token,
+                        $installation->ext_id,
+                        $application->ext_id
+                    );
+                    break;
+                case self::AGREEMENT:
+                default:
+                    $body = $this->documentGateway->getAgreementPdf(
+                        $installation->merchant->token,
+                        $installation->ext_id,
+                        $application->ext_id
+                    );
+                    break;
+            }
 
-            return $this->displayPdf($body, $application->ext_id . '-agreement');
+            return $this->displayPdf($body, $application->ext_id . '-' . $type);
         } catch (\Exception $e) {
-            abort(404);
+            return abort(404);
         }
     }
 
