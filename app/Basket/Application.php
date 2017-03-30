@@ -79,6 +79,7 @@ use App\ExportableModelInterface;
  * @property string $ext_resume_url
  * @property int $ext_user
  * @property ApplicationEvent[] $applicationEvents
+ * @property boolean $ext_is_regulated
  *
  * @author MS
  * @package App\Basket

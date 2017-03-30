@@ -13,7 +13,7 @@ class AddIsRegulatedToApplicationsTable extends Migration
     public function up()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->boolean('ext_is_regulated');
+            $table->boolean('ext_is_regulated')->nullable(false)->default(1);
         });
     }
 
