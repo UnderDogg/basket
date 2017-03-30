@@ -61,6 +61,12 @@ class DocumentController extends Controller
         return $this->getPdf($installationId, $applicationId, self::AGREEMENT);
     }
 
+    /**
+     * @author GK
+     * @param $installationId
+     * @param $applicationId
+     * @param $type
+     */
     private function getPdf($installationId, $applicationId, $type)
     {
         try {
@@ -99,6 +105,11 @@ class DocumentController extends Controller
         }
     }
 
+    /**
+     * @author GK
+     * @param $body
+     * @param $name
+     */
     private function displayPdf($body, $name)
     {
         if (isset($body) && $body) {
