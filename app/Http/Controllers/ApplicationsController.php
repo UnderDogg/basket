@@ -562,7 +562,7 @@ class ApplicationsController extends Controller
      * Returns if the pre-agreement and agreement documents are available for the application
      *
      * @author GK
-     * @param $application
+     * @param Application $application
      * @return bool
      */
     private function areDocumentsAvailable($application)

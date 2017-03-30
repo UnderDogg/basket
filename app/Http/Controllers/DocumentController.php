@@ -63,9 +63,10 @@ class DocumentController extends Controller
 
     /**
      * @author GK
-     * @param $installationId
-     * @param $applicationId
-     * @param $type
+     * @param int $installationId
+     * @param int $applicationId
+     * @param string $type
+     * @return bool|void
      */
     private function getPdf($installationId, $applicationId, $type)
     {
@@ -107,8 +108,9 @@ class DocumentController extends Controller
 
     /**
      * @author GK
-     * @param $body
-     * @param $name
+     * @param string $body
+     * @param string $name
+     * @return bool|void
      */
     private function displayPdf($body, $name)
     {
@@ -120,7 +122,7 @@ class DocumentController extends Controller
 
             echo base64_decode($body);
 
-            die();
+            return true;
         }
         return abort(404);
     }
