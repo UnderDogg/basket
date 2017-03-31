@@ -118,26 +118,49 @@ $(document).ready(function() {
     }
 
     // Personal
+    var atLeastOnePhonePresent = function (validator) {
+        var isEmpty = true;
+        var mobile = validator.getFieldElements('phone_mobile');
+        if (mobile.eq(0).val() !== '') {
+            isEmpty = false;
+        }
+        var home = validator.getFieldElements('phone_home');
+        if (home.eq(0).val() !== '') {
+            isEmpty = false;
+        }
+
+        if (!isEmpty) {
+            validator.updateStatus('phone_mobile', validator.STATUS_VALID, 'callback');
+            validator.updateStatus('phone_home', validator.STATUS_VALID, 'callback');
+            return true;
+        }
+        return false;
+    };
+
+    var isValidMobileNumber = function (number) {
+        if (/^07.*$/g.test(number)) {
+            return /^[\d]{11}$/g.test(number);
+        }
+        return null
+    };
+
     var phoneValidation = {
         callback: {
             message: 'You must enter at least one contact phone number',
             callback: function (value, validator) {
-                var isEmpty = true;
-                var mobile = validator.getFieldElements('phone_mobile');
-                if (mobile.eq(0).val() !== '') {
-                    isEmpty = false;
-                }
-                var home = validator.getFieldElements('phone_home');
-                if (home.eq(0).val() !== '') {
-                    isEmpty = false;
-                }
+                var validNumber = isValidMobileNumber(value);
 
-                if (!isEmpty) {
-                    validator.updateStatus('phone_mobile', validator.STATUS_VALID, 'callback');
-                    validator.updateStatus('phone_home', validator.STATUS_VALID, 'callback');
-                    return true;
+                if (validNumber !== null) {
+                    return {
+                        valid: validNumber,
+                        message: 'A mobile number must be at least 11 characters long'
+                    };
+                } else {
+                    return {
+                        valid: atLeastOnePhonePresent(validator),
+                        message: 'You must enter at least one contact phone number'
+                    };
                 }
-                return false;
             }
         }
     };
