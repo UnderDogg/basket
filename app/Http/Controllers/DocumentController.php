@@ -78,7 +78,7 @@ class DocumentController extends Controller
                 (new Application()),
                 $applicationId,
                 'application',
-                \Request::url() . '-missing'
+                'installations/' . $installation . '/applications'
             );
 
             $body = null;
