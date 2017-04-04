@@ -134,7 +134,7 @@
 
     <script>
         $(document).ready(function() {
-            var atLeastOnePhonePresent = function (validator) {
+            var atLeastOnePhoneNumberIsEntered = function (validator) {
                 var isEmpty = true;
                 var mobile = validator.getFieldElements('phone_mobile');
                 if (mobile.eq(0).val() !== '') {
@@ -153,30 +153,15 @@
                 return false;
             };
 
-            var isValidMobileNumber = function (number) {
-                if (/^07.*$/g.test(number)) {
-                    return /^[\d]{11}$/g.test(number);
-                }
-                return null
-            };
-
             var phoneValidation = {
+                regexp: {
+                    message: 'A mobile number must be at least 11 characters long',
+                    regexp: /(?:(?=^07.*$)^\d{11}$|(?!^07.*$)^.*$)/
+                },
                 callback: {
                     message: 'You must enter at least one contact phone number',
                     callback: function (value, validator) {
-                        var validNumber = isValidMobileNumber(value);
-
-                        if (validNumber !== null) {
-                            return {
-                                valid: validNumber,
-                                message: 'A mobile number must be at least 11 characters long'
-                            };
-                        } else {
-                            return {
-                                valid: atLeastOnePhonePresent(validator),
-                                message: 'You must enter at least one contact phone number'
-                            };
-                        }
+                        return  atLeastOnePhoneNumberIsEntered(validator)
                     }
                 }
             };
