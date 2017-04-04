@@ -1,3 +1,6 @@
+## Features
+- Added the option to view the documents of the application (139542975)
+
 # 1.18.0
 2017-03-17
 
