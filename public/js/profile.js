@@ -140,7 +140,7 @@ $(document).ready(function() {
     var phoneValidation = {
         regexp: {
             message: 'A mobile number must be at least 11 characters long',
-            regexp: /(?:(?=^07.*$)^\d{11}$|(?!^07.*$)^.*$)/
+            regexp: /(?:(?=^07.*$)(?:^\d{2,9}$|^\d{11}$)|(?!^07.*$)^.*$)/
         },
         callback: {
             message: 'You must enter at least one contact phone number',
