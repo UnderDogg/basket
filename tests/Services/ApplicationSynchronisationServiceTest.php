@@ -100,7 +100,8 @@ class ApplicationSynchronisationServiceTest extends TestCase
     {
         $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([
-            'application_address' => ['postcode' => 'test']
+            'application_address' => ['postcode' => 'test'],
+            'is_regulated' => true
         ]);
 
         $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
@@ -684,6 +685,7 @@ class ApplicationSynchronisationServiceTest extends TestCase
             ->setFinance($this->getFinanceEntity())
             ->setCancellation($this->getCancellationEntity())
             ->setMetadata([])
-            ->setResumeUrl('https://www.google.co.uk');
+            ->setResumeUrl('https://www.google.co.uk')
+            ->setIsRegulated(true);
     }
 }

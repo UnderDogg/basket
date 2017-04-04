@@ -110,6 +110,36 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Documents</strong></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            @if($applications->ext_is_regulated)
+                            <dt>Pre-agreement</dt>
+                            <dd>
+                                @if($showDocuments)
+                                    <a href="{!! Request::url() !!}/pre-agreement.pdf" target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            @endif
+                            <dt>Agreement</dt>
+                            <dd>
+                                @if($showDocuments)
+                                    <a href="{!! Request::url() !!}/agreement.pdf" target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading"><strong>Fulfilment Details</strong></div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">

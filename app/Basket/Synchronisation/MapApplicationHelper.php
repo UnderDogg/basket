@@ -51,6 +51,7 @@ class MapApplicationHelper
         $application->ext_resume_url = $applicationEntity->getResumeUrl();
         $application->ext_metadata = json_encode($applicationEntity->getMetadata());
         $application->ext_user = $applicationEntity->getUser();
+        $application->ext_is_regulated = is_null($applicationEntity->getIsRegulated()) ? $application->ext_is_regulated : $applicationEntity->getIsRegulated();
     }
 
     /**

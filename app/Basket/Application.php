@@ -79,6 +79,7 @@ use App\ExportableModelInterface;
  * @property string $ext_resume_url
  * @property int $ext_user
  * @property ApplicationEvent[] $applicationEvents
+ * @property boolean $ext_is_regulated
  *
  * @author MS
  * @package App\Basket
@@ -151,6 +152,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_user',
         'ext_metadata',
         'ext_resume_url',
+        'ext_is_regulated',
         'last_sync_at',
     ];
 
