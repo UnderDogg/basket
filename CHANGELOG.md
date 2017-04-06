@@ -1,5 +1,6 @@
 ## Features
 - Added documentation about the *Roles and Permissions*
+- Added an extra check to force mobile numbers to be 11 characters long (142219727)
 
 # 1.18.0
 2017-03-17
