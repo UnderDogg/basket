@@ -6,8 +6,8 @@
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true && Auth::user()->can('applications-fulfil') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
             <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true && Auth::user()->can('applications-cancel') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
-            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
-            <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
+            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true && Auth::user()->can('applications-merchant-payments') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
+            <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true && Auth::user()->can('applications-refund') ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
     </h1>
         @include('includes.page.breadcrumb', ['over' => [1 => $applications->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
