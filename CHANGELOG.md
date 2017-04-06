@@ -2,6 +2,9 @@
 - Added documentation about the *Roles and Permissions*
 - Added an extra check to force mobile numbers to be 11 characters long (142219727)
 
+## Bug Fixes
+- Disable the `Partial Refund` and `Merchant Payments` buttons if the user does not have the required permissions (143238017)
+
 # 1.18.0
 2017-03-17
 
