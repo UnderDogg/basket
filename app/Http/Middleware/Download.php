@@ -50,11 +50,11 @@ class Download
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
-                        $response->original->getData()[$source], 200,
+                        $response->original->getData()[$source],
+                        200,
                         ['Content-Disposition' => 'attachment; filename="'. $filename . '.json"']
                     );
                 case 'csv':
-
                     $writer = Writer::createFromFileObject(new \SplTempFileObject());
 
                     $writer->setDelimiter(',');

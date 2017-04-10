@@ -72,7 +72,10 @@ class UsersController extends Controller
     public function store(UserStoreRequest $request)
     {
         $array = $request->only(
-            'name', 'email', 'password', 'merchant_id'
+            'name',
+            'email',
+            'password',
+            'merchant_id'
         );
 
         if (!$this->isMerchantAllowedForUser($array['merchant_id'])) {
@@ -83,10 +86,16 @@ class UsersController extends Controller
         $array['password'] = bcrypt($array['password']);
         try {
             $user = User::create($array);
-            $this->applyRoles($user,
+            $this->applyRoles(
+                $user,
                 array_values(
                     $request->except(
-                        '_token', 'name', 'email', 'password', 'merchant_id', 'createUserButton'
+                        '_token',
+                        'name',
+                        'email',
+                        'password',
+                        'merchant_id',
+                        'createUserButton'
                     )
                 )
             );
@@ -159,10 +168,17 @@ class UsersController extends Controller
             if (!$user->update($input)) {
                 throw new Exception('Problem saving object');
             }
-            $this->applyRoles($user,
+            $this->applyRoles(
+                $user,
                 array_values(
                     $request->except(
-                        '_method', '_token', 'name', 'email', 'password', 'merchant_id', 'saveChanges'
+                        '_method',
+                        '_token',
+                        'name',
+                        'email',
+                        'password',
+                        'merchant_id',
+                        'saveChanges'
                     )
                 )
             );
@@ -200,8 +216,8 @@ class UsersController extends Controller
     /**
      * * The function validates the user location update request by matching the locations ids that are assigned to the
      * user's installation to the locations ids sent by the request. If the number of matches are not equal to the
-     * number of locations ids in the request a invalid location id is present in the request and an exception is thrown.
-     * If the validation is passed the locations are updated.
+     * number of locations ids in the request a invalid location id is present in the request and an exception is
+     * thrown. If the validation is passed the locations are updated.
      *
      * @author EA
      * @param int $id
@@ -249,7 +265,10 @@ class UsersController extends Controller
             return $this->destroyModel((new User()), $id, 'user', '/users');
         } catch (\Exception $e) {
             Log::error('Problem deleting user [' .  $id. ']: ' . $e->getMessage());
-            throw RedirectException::make('/users/' . $id)->setError('There was a problem deleting the selected user. If this error persists, please contact afforditNOW! Support.');
+            throw RedirectException::make(
+                '/users/' . $id
+            )->setError('There was a problem deleting the selected user. If this error persists,' .
+                ' please contact afforditNOW! Support.');
         }
     }
 
@@ -353,7 +372,10 @@ class UsersController extends Controller
     {
         $roles = Role::all()->keyBy('id');
 
-        if (array_search(RolesController::SUPER_USER_NAME, $this->getAuthenticatedUser()->roles->pluck('name')->toArray()) === false) {
+        if (array_search(
+            RolesController::SUPER_USER_NAME,
+            $this->getAuthenticatedUser()->roles->pluck('name')->toArray()
+        ) === false) {
             $roles->forget($this->fetchSingleSuRoleByName(RolesController::SUPER_USER_NAME)->id);
             $roles->forget($this->fetchSingleSuRoleByName(RolesController::READ_ONLY_NAME)->id);
         }

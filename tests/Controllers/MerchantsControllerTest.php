@@ -45,7 +45,7 @@ class MerchantsControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_add_new_merchants_form()
+    public function testAddNewMerchantsForm()
     {
         // Test page gives 200 response
         $this->visit('/merchants/create')
@@ -59,7 +59,7 @@ class MerchantsControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_index_page()
+    public function testIndexPage()
     {
         // Test page gives 200 response
         $this->visit('/merchants')

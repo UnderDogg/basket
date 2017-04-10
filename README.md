@@ -19,6 +19,9 @@ If you discover any security related issues, please email dev@paybreak.com inste
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+## Documentation
+- [Permission and roles](doc/permissions-and-roles.md)
+
 ## Configurable Options
 
 `ENV_BANNER` - Determines if the environment banner is displayed (defaults to false)  

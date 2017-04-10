@@ -1,11 +1,16 @@
 ## Features
 - Added the option to view the documents of the application (139542975)
+- Added documentation about the *Roles and Permissions*
+- Added an extra check to force mobile numbers to be 11 characters long (142219727)
+
+## Bug Fixes
+- Disable the `Partial Refund` and `Merchant Payments` buttons if the user does not have the required permissions (143238017)
 
 # 1.18.0
 2017-03-17
 
 ## Features
-- Restrict report downloads using new the `Reporter Exporter` permission (140855703) 
+- Restrict report downloads using new the `Reporter Exporter` permission (140855703)
 - Changed validation throughout to use Form Request Objects (140935067)
 
 ## Bug Fixes

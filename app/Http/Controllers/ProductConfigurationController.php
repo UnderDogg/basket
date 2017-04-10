@@ -85,13 +85,16 @@ class ProductConfigurationController extends Controller
             }
         } catch (\Exception $e) {
             throw $this->redirectWithException(
-            'installations/' . $installation->id . '/products',
-            $e->getMessage(),
-            $e
+                'installations/' . $installation->id . '/products',
+                $e->getMessage(),
+                $e
             );
         }
 
-        return $this->viewProducts($installation->id)->with('messages', ['success' => 'Successfully saved product ' . $request->get('save')]);
+        return $this->viewProducts($installation->id)->with(
+            'messages',
+            ['success' => 'Successfully saved product ' . $request->get('save')]
+        );
     }
 
     /**
@@ -155,7 +158,7 @@ class ProductConfigurationController extends Controller
             $products = [];
             $index = 0;
 
-            foreach (explode(',', $request->get('product-order'))  as $product) {
+            foreach (explode(',', $request->get('product-order')) as $product) {
                 $products['products'][$product] = $index++;
             }
 
@@ -186,7 +189,8 @@ class ProductConfigurationController extends Controller
         foreach ($groups as $group) {
             $products = $group->getProducts();
             foreach ($products as $key => &$product) {
-                if ($product->getDeposit()->getMinimumPercentage() == null && $product->getDeposit()->getMaximumPercentage() == null) {
+                if ($product->getDeposit()->getMinimumPercentage() == null &&
+                    $product->getDeposit()->getMaximumPercentage() == null) {
                     unset($products[$key]);
                 }
             }
@@ -231,8 +235,7 @@ class ProductConfigurationController extends Controller
                         $min = (float)$limits['min-' . $product->getId()];
                         $max = (float)$limits['max-' . $product->getId()];
 
-                        if (
-                            $min >= $product->getDeposit()->getMinimumPercentage() &&
+                        if ($min >= $product->getDeposit()->getMinimumPercentage() &&
                             $max <= $product->getDeposit()->getMaximumPercentage()
                         ) {
                             $this->storeProductLimit($product->getId(), $installation, $product, $min, $max);

@@ -6,8 +6,8 @@
         <div class="btn-group pull-right">
             <a href="{{Request::url()}}/fulfil" class="btn btn-info{{ $fulfilmentAvailable == true && Auth::user()->can('applications-fulfil') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-gift"></span> Fulfil</a>
             <a href="{{Request::url()}}/request-cancellation" class="btn btn-danger{{ $cancellationAvailable == true && Auth::user()->can('applications-cancel') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-remove-circle"></span> Request Cancellation</a>
-            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
-            <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
+            @if(Auth::user()->can('applications-merchant-payments'))<a href="{{Request::url()}}/add-merchant-payment" class="btn btn-success{{ $merchantPaymentsAvailable == true && Auth::user()->can('applications-merchant-payments') ? ' ' : ' disabled' }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Merchant Payment</a>@endif
+            <a href="{{Request::url()}}/partial-refund" class="btn btn-warning{{ $partialRefundAvailable == true && Auth::user()->can('applications-refund') ? '' : ' disabled' }}"><span class="glyphicon glyphicon-adjust"></span> Partial Refund</a>
         </div>
     </h1>
         @include('includes.page.breadcrumb', ['over' => [1 => $applications->installation->name], 'permission' => [0 => Auth::user()->can('merchants-view'), 1 => Auth::user()->can('merchants-view')]])
@@ -106,6 +106,36 @@
                             <dd>{{ $applications->ext_products_options }}</dd>
                             <dt>Product Default</dt>
                             <dd>{{ $applications->ext_products_default }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Documents</strong></div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            @if($applications->ext_is_regulated)
+                            <dt>Pre-agreement</dt>
+                            <dd>
+                                @if($showDocuments)
+                                    <a href="{!! Request::url() !!}/pre-agreement.pdf" target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            @endif
+                            <dt>Agreement</dt>
+                            <dd>
+                                @if($showDocuments)
+                                    <a href="{!! Request::url() !!}/agreement.pdf" target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            </dd>
                         </dl>
                     </div>
                 </div>

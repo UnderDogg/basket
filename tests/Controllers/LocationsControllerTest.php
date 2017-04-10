@@ -35,7 +35,7 @@ class LocationsControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_index_page()
+    public function testIndexPage()
     {
         // Test page gives 200 response
         $this->visit('/locations')
@@ -53,7 +53,7 @@ class LocationsControllerTest extends TestCase
      *
      * @author MS
      */
-    public function test_create()
+    public function testCreate()
     {
         // Test page gives 200 response
         $this->visit('/locations/create')
@@ -94,7 +94,7 @@ class LocationsControllerTest extends TestCase
      * Test new locations button
      * @author EA
      */
-    public function test_new_locations_button()
+    public function testNewLocationsButton()
     {
         // Test page gives 200 response
         $this->visit('/locations')
@@ -107,7 +107,7 @@ class LocationsControllerTest extends TestCase
      * Test new locations form
      * @author EA
      */
-    public function test_new_locations_form()
+    public function testNewLocationsForm()
     {
         $this->visit('/locations/create')
             ->type('TestLocation1Ref', 'reference')
@@ -162,8 +162,7 @@ class LocationsControllerTest extends TestCase
                 'name' => 'test',
                 'email' => 'High@location.com',
                 'address' => 'Location City',
-            ]
-        );
+            ]);
 
         $this->assertSessionHasErrors('reference', 'The reference format is invalid.');
     }
