@@ -1,3 +1,6 @@
+# 1.19.0
+2017-04-10
+
 ## Features
 - Added the option to view the documents of the application (139542975)
 - Added documentation about the *Roles and Permissions*
