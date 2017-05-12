@@ -1,3 +1,9 @@
+# 1.20.0
+2017-05-12
+
+## Bug Fixes
+- Better metadata processing e.g ` "do"` (145114001)
+
 # 1.19.0
 2017-04-10
 
