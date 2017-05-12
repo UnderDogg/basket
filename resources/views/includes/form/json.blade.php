@@ -1,5 +1,8 @@
 <?php
     if($json != null) {
+        if(!is_array($json)) {
+            $json = [$json];
+        }
         echo formatNice($json);
     } else {
         echo "<dl></dl>";
