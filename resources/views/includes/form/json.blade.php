@@ -1,6 +1,6 @@
 <?php
-    if($json != null) {
-        if(!is_array($json)) {
+    if ($json != null) {
+        if (!is_array($json)) {
             $json = [$json];
         }
         echo formatNice($json);
