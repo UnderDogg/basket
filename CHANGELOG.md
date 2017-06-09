@@ -1,4 +1,14 @@
+# 1.19.1
+2017-05-12
+
+## Bug Fixes
+- Better metadata processing e.g ` "do"` (145114001)
+
+# 1.19.0
+2017-04-10
+
 ## Features
+- Added the option to view the documents of the application (139542975)
 - Added documentation about the *Roles and Permissions*
 - Added an extra check to force mobile numbers to be 11 characters long (142219727)
 
@@ -9,7 +19,7 @@
 2017-03-17
 
 ## Features
-- Restrict report downloads using new the `Reporter Exporter` permission (140855703) 
+- Restrict report downloads using new the `Reporter Exporter` permission (140855703)
 - Changed validation throughout to use Form Request Objects (140935067)
 
 ## Bug Fixes
