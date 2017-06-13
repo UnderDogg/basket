@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Active</th>
             <th>Linked</th>
+            <th>Merchant Liable</th>
             <th><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
@@ -21,6 +22,7 @@
             <th>{!! Form::text('name', Request::only('name')['name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::select('active', $active, Request::only('active')['active'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::select('linked', $linked, Request::only('linked')['linked'], ['class' => 'filter form-control']) !!}</th>
+            <th>{!! Form::select('ext_feature_merchant_liable', $ext_feature_merchant_liable, Request::only('ext_feature_merchant_liable')['ext_feature_merchant_liable'], ['class' => 'filter form-control']) !!}</th>
             <th>
                 <div class="btn-group pull-right">
                     <button type="submit" class="filter btn btn-info btn-xs"> FILTER </button>
@@ -50,6 +52,13 @@
                         <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Unlinked</span>
                     @elseif( $item->linked == 1 )
                         <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Linked</span>
+                    @endif
+                </td>
+                <td class="col-xs-2 col-md-1">
+                    @if( $item->ext_feature_merchant_liable == 0 )
+                        <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Not Liable</span>
+                    @elseif( $item->ext_feature_merchant_liable == 1 )
+                        <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Liable</span>
                     @endif
                 </td>
 
