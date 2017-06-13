@@ -54,7 +54,7 @@ class InstallationsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @author WN, MS
+     * @author WN, MS, EB
      * @return \Illuminate\View\View
      */
     public function index()
@@ -68,6 +68,12 @@ class InstallationsController extends Controller
             [
                 'linked' => $this->fetchBooleanFilterValues($installations, 'linked', 'Unlinked', 'Linked'),
                 'active' => $this->fetchBooleanFilterValues($installations, 'active', 'Inactive', 'Active'),
+                'ext_feature_merchant_liable' => $this->fetchBooleanFilterValues(
+                    $installations,
+                    'ext_feature_merchant_liable',
+                    'Not Liable',
+                    'Liable'
+                ),
             ]
         );
     }
