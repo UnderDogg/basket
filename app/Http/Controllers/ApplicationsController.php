@@ -84,6 +84,7 @@ class ApplicationsController extends Controller
                 'default_dates' => $filterDates,
                 'ext_current_status' => $this->fetchFilterValues($applications, 'ext_current_status'),
                 'ext_finance_option_group' => $this->fetchFilterValues($applications, 'ext_finance_option_group'),
+                'ext_merchant_liable_at' => $this->fetchNullFilterValues('Not Liable', 'Liable'),
                 'export_custom_filename' => 'applications-export-'.date('Ymd-Hi'),
             ]
         );
@@ -555,6 +556,7 @@ class ApplicationsController extends Controller
             'ext_finance_deposit' => Controller::FILTER_FINANCE,
             'ext_finance_subsidy' => Controller::FILTER_FINANCE,
             'ext_finance_net_settlement' => Controller::FILTER_FINANCE,
+            'ext_merchant_liable_at' => Controller::FILTER_NULL,
         ];
     }
 
