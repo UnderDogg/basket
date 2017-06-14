@@ -44,6 +44,10 @@ abstract class Controller extends BaseController
     // Types of filters
     const FILTER_STRICT = 1;
     const FILTER_FINANCE = 2;
+    const FILTER_NULL = 4;
+
+    const FILTER_IS_NULL_KEY = 'null';
+    const FILTER_IS_NOT_NULL_KEY = 'not_null';
 
     /**
      * Get Merchant Token
