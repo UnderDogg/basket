@@ -79,7 +79,8 @@ use App\ExportableModelInterface;
  * @property string $ext_resume_url
  * @property int $ext_user
  * @property ApplicationEvent[] $applicationEvents
- * @property boolean $ext_is_regulated
+ * @property bool $ext_is_regulated
+ * @property \Carbon\Carbon|null $ext_merchant_liable_at
  *
  * @author MS
  * @package App\Basket
@@ -153,6 +154,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_metadata',
         'ext_resume_url',
         'ext_is_regulated',
+        'ext_merchant_liable_at',
         'last_sync_at',
     ];
 
@@ -162,6 +164,7 @@ class Application extends Model implements ExportableModelInterface
         'ext_cancellation_effective_date',
         'ext_cancellation_requested_date',
         'ext_order_hold',
+        'ext_merchant_liable_at',
     ];
 
     /**
