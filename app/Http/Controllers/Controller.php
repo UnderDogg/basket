@@ -9,6 +9,7 @@
  */
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use App\Basket\Application;
 use App\Basket\Installation;
 use App\Basket\Location;
@@ -34,7 +35,7 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author MS
  * @package App\Http\Controllers
  */
-abstract class Controller extends BaseController
+class Controller extends BaseController
 {
     use DispatchesJobs, ValidatesRequests, PsrLoggerTrait, ModelTrait, FilterTrait, LimitTrait;
 
