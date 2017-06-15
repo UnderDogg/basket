@@ -149,7 +149,7 @@ return [
 
         'Zizaco\Entrust\EntrustServiceProvider',
         Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
-        Illuminate\Html\HtmlServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Additional Services
@@ -202,8 +202,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust'   => \Zizaco\Entrust\EntrustFacade::class,
-        'Form'      => Illuminate\Html\FormFacade::class,
-        'HTML'      => Illuminate\Html\HtmlFacade::class,
+        'Form'      => Collective\Html\FormFacade::class,
+        'HTML'      => Collective\Html\HtmlFacade::class,
         'Str'       => Illuminate\Support\Str::class,
         'DbView'    => Flynsarmy\DbBladeCompiler\Facades\DbView::class,
         'Bust'      => \App\Basket\CacheBust\CacheBustService::class,
