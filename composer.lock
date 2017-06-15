@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0961a419a36953336f3be30eacc49d23",
+    "content-hash": "48a0b9675f435b6d4a08ce09d857eea3",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -836,6 +836,60 @@
             ],
             "description": "A virtual machine for web artisans.",
             "time": "2016-09-17T04:42:33+00:00"
+        },
+        {
+            "name": "laravelcollective/html",
+            "version": "v5.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/html.git",
+                "reference": "4f6701c7c3f6ff2aee1f4ed205ed6820e1e3048e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/4f6701c7c3f6ff2aee1f4ed205ed6820e1e3048e",
+                "reference": "4f6701c7c3f6ff2aee1f4ed205ed6820e1e3048e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "5.2.*",
+                "illuminate/routing": "5.2.*",
+                "illuminate/session": "5.2.*",
+                "illuminate/support": "5.2.*",
+                "illuminate/view": "5.2.*",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "illuminate/database": "5.2.*",
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                },
+                {
+                    "name": "Adam Engebretson",
+                    "email": "adam@laravelcollective.com"
+                }
+            ],
+            "description": "HTML and Form Builders for the Laravel Framework",
+            "homepage": "http://laravelcollective.com",
+            "time": "2017-05-21T18:02:21+00:00"
         },
         {
             "name": "league/csv",
