@@ -66,7 +66,7 @@ trait FilterTrait
                 case Controller::FILTER_NULL:
                     if ($value === Controller::FILTER_IS_NOT_NULL_KEY) {
                         $query->whereNotNull($field);
-                    } else if ($value === Controller::FILTER_IS_NULL_KEY) {
+                    } elseif ($value === Controller::FILTER_IS_NULL_KEY) {
                         $query->whereNull($field);
                     }
                     break;
