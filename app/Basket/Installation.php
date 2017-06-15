@@ -28,6 +28,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $ext_return_url
  * @property string $ext_notification_url
  * @property string $ext_default_product
+ * @property bool   $ext_feature_merchant_liable
  * @property        $created_at
  * @property        $updated_at
  * @property Merchant $merchant
@@ -64,6 +65,7 @@ class Installation extends Model
         'ext_return_url',
         'ext_notification_url',
         'ext_default_product',
+        'ext_feature_merchant_liable',
         'location_instruction',
         'validity',
         'custom_logo_url',

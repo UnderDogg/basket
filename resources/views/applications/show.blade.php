@@ -72,6 +72,13 @@
                             @endif
                         </dd>
                         @endif
+
+                        @if($applications->ext_merchant_liable_at !== null)
+                            <dt>Taken Liability at</dt>
+                            <dd>
+                               {{ $applications->ext_merchant_liable_at }}
+                            </dd>
+                        @endif
                         </dl>
                     </div>
                 </div>

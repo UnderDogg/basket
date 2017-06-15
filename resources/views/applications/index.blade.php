@@ -27,6 +27,7 @@
             <th>Current Status</th>
             <th>Retailer Reference</th>
             <th>Finance Group</th>
+            <th>Retailer Liable</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Postcode</th>
@@ -43,7 +44,7 @@
         <tr>
             {{--FILTERS--}}
             <th>{!! Form::text('ext_id', Request::only('ext_id')['ext_id'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
-            <th class="datepicker-spacing">
+            <th class="filter-spacing">
                 <div style="padding-right: 0px !important; padding-left: 0px !important;" class="col-md-12">
                     <div style="padding-right: 0px !important; padding-left: 2px !important; padding-bottom: 2px !important;">
                         <div class="datepicker">
@@ -60,6 +61,7 @@
             <th>{!! Form::select('ext_current_status', $ext_current_status, Request::only('ext_current_status')['ext_current_status'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::text('ext_order_reference', Request::only('ext_order_reference')['ext_order_reference'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::select('ext_finance_option_group', $ext_finance_option_group, Request::only('ext_finance_option_group')['ext_finance_option_group'], ['class' => 'filter form-control']) !!}</th>
+            <th class="filter-spacing">{!! Form::select('ext_merchant_liable_at', $ext_merchant_liable_at, Request::only('ext_merchant_liable_at')['ext_merchant_liable_at'], ['class' => 'filter form-control']) !!}</th>
             <th>{!! Form::text('ext_customer_first_name', Request::only('ext_customer_first_name')['ext_customer_first_name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::text('ext_customer_last_name', Request::only('ext_customer_last_name')['ext_customer_last_name'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
             <th>{!! Form::text('ext_application_address_postcode', Request::only('ext_application_address_postcode')['ext_application_address_postcode'], ['class' => 'filter col-xs-12 pull-down']) !!}</th>
@@ -98,6 +100,7 @@
                 </td>
                 <td>{{ $item->ext_order_reference }}</td>
                 <td>{{ $item->ext_finance_option_group }}</td>
+                <td>{{ is_null($item->ext_merchant_liable_at) ? 'Not&nbsp;Liable' : 'Liable' }}</td>
                 <td>{{ $item->ext_customer_first_name }}</td>
                 <td>{{ $item->ext_customer_last_name }}</td>
                 <td>{{ $item->ext_application_address_postcode }}</td>
@@ -215,7 +218,7 @@
             </tr>
             <tr class="hidden"></tr>
         @empty
-            <tr><td colspan="17"><em>No records found</em></td></tr>
+            <tr><td colspan="50"><em>No records found</em></td></tr>
         @endforelse
     </table>
     {!! Form::close() !!}
