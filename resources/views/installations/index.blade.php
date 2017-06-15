@@ -14,7 +14,7 @@
             <th>Name</th>
             <th>Active</th>
             <th>Linked</th>
-            <th>Merchant Liable</th>
+            <th>Merchant Liability</th>
             <th><span class="pull-right">Actions</span></th>
         </tr>
         <tr>
@@ -56,9 +56,9 @@
                 </td>
                 <td class="col-xs-2 col-md-1">
                     @if( $item->ext_feature_merchant_liable == 0 )
-                        <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Not Liable</span>
+                        <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                     @elseif( $item->ext_feature_merchant_liable == 1 )
-                        <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Liable</span>
+                        <span class="label label-success pull-right"><i class="glyphicon glyphicon-ok"></i> Active</span>
                     @endif
                 </td>
 

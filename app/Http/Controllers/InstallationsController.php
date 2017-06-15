@@ -71,8 +71,8 @@ class InstallationsController extends Controller
                 'ext_feature_merchant_liable' => $this->fetchBooleanFilterValues(
                     $installations,
                     'ext_feature_merchant_liable',
-                    'Not Liable',
-                    'Liable'
+                    'Inactive',
+                    'Active'
                 ),
             ]
         );

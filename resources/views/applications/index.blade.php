@@ -27,7 +27,7 @@
             <th>Current Status</th>
             <th>Retailer Reference</th>
             <th>Finance Group</th>
-            <th>Liable</th>
+            <th>Retailer Liable</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Postcode</th>

@@ -233,7 +233,7 @@ class Application extends Model implements ExportableModelInterface
             'AddrTown' => $this->ext_application_address_town,
             'AddrPostcode' => $this->ext_application_address_postcode,
             'OrderDescription' => $this->ext_order_description,
-            'MerchantLiableAt' => $this->ext_merchant_liable_at,
+            'RetailerLiableAt' => $this->ext_merchant_liable_at,
         ];
     }
 
