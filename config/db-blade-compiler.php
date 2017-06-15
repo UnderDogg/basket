@@ -1,7 +1,7 @@
 <?php
 
 
-return array(
+return [
 
     /**
      * This property will be added to models being compiled with DbView
@@ -16,4 +16,4 @@ return array(
     'model_default_field' => 'content',
 
     'cache' => false
-);
+];
