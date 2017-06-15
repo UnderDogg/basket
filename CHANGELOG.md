@@ -1,3 +1,6 @@
+## Features
+- Change field type to password for change password form (147270697)
+
 # 1.19.1
 2017-05-12
 
