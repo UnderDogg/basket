@@ -62,6 +62,8 @@ class DevSeeder extends DBSeeder
             $installationObject->linked = $installation[3];
             $installationObject->ext_id = $installation[4];
             $installationObject->location_instruction = '';
+            $installationObject->merchant_payments = 0;
+            $installationObject->finance_offers = 14;
             $installationObject->save();
         }
 
