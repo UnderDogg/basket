@@ -36,7 +36,7 @@ class DevSeeder extends DBSeeder
         $this->rolesPermissions[] = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14];
         $this->rolesPermissions[] = [7, 9, 14];
         $this->rolesPermissions[] = [7, 9, 10, 11, 12, 13];
-        $this->rolesPermissions[] = [7, 9];
+        $this->rolesPermissions[] = [7, 9, 10];
 
         $this->users[] = ['Dev Merchant Administrator', 'it@paybreak.com', 'password', 1, 2];
         $this->users[] = ['Dev Reporter', 'report@paybreak.com', 'password', 1, 3];
