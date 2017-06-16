@@ -1241,6 +1241,54 @@
             "time": "2015-05-02T15:40:40+00:00"
         },
         {
+            "name": "paybreak/api-client",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PayBreak/api-client.git",
+                "reference": "a420859d974eebcc34877d8b38fa7890b08cb612"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PayBreak/api-client/zipball/a420859d974eebcc34877d8b38fa7890b08cb612",
+                "reference": "a420859d974eebcc34877d8b38fa7890b08cb612",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "paybreak/foundation": "~0.7",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PayBreak\\ApiClient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayBreak",
+                    "email": "dev@paybreak.com",
+                    "homepage": "https://github.com/PayBreak",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP ApiClient Library",
+            "homepage": "https://github.com/PayBreak/api-client",
+            "keywords": [
+                "API-Client"
+            ],
+            "time": "2017-05-24T09:45:18+00:00"
+        },
+        {
             "name": "paybreak/foundation",
             "version": "0.14.0",
             "source": {
@@ -1289,20 +1337,21 @@
         },
         {
             "name": "paybreak/paybreak-sdk-php",
-            "version": "4.13.0",
+            "version": "4.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PayBreak/paybreak-sdk-php.git",
-                "reference": "f9505cb41d4d07d07e78a1dd97ad59abcc4e2114"
+                "reference": "9a164202c17f4fe80fc1dc01a2f45c68fd4f963f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/f9505cb41d4d07d07e78a1dd97ad59abcc4e2114",
-                "reference": "f9505cb41d4d07d07e78a1dd97ad59abcc4e2114",
+                "url": "https://api.github.com/repos/PayBreak/paybreak-sdk-php/zipball/9a164202c17f4fe80fc1dc01a2f45c68fd4f963f",
+                "reference": "9a164202c17f4fe80fc1dc01a2f45c68fd4f963f",
                 "shasum": ""
             },
             "require": {
                 "nesbot/carbon": "~1.19",
+                "paybreak/api-client": "~1.0",
                 "php": ">=5.5",
                 "psr/log": "~1.0",
                 "wnowicki/generic": "~0.0"
@@ -1326,7 +1375,7 @@
             "keywords": [
                 "paybreak"
             ],
-            "time": "2017-04-03T10:43:57+00:00"
+            "time": "2017-06-15T14:11:54+00:00"
         },
         {
             "name": "psr/http-message",
