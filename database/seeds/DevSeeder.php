@@ -39,8 +39,8 @@ class DevSeeder extends DBSeeder
 
         $this->users[] = ['Administrator', 'it@paybreak.com', 'password', 1, 2];
         $this->users[] = ['Dev Reporter', 'report@paybreak.com', 'password', 1, 3];
-        $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 3];
-        $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 4];
+        $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 4];
+        $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 5];
 
         DB::insert('INSERT INTO merchants (id, name, token, created_at, updated_at) VALUES (?, ?, ?, ?, ?)', [
             1,
