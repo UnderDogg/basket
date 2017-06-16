@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use App\Basket\Installation;
-use App\Role;
-use App\Permission;
 use App\Basket\Location;
 use App\Basket\Merchant;
+use App\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class DevSeeder extends DBSeeder
 {
@@ -78,8 +78,32 @@ class DevSeeder extends DBSeeder
             $locationObject->email = $location[4];
             $locationObject->address = $location[5];
             $locationObject->save();
+
+            self::attachUserToLocation(
+                $locationObject,
+                User::where('email', 'like', 'sales@%')->where('merchant_id', $locationObject->installation->id)
+            );
         }
 
         Model::reguard();
+    }
+
+    /**
+     * @param Location $location
+     * @param Builder $userQuery
+     * @return bool
+     */
+    private function attachUserToLocation(Location $location, Builder $userQuery)
+    {
+        /** @var User $item */
+        foreach ($userQuery->get() as $item) {
+            try {
+                $item->locations()->attach($location);
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
