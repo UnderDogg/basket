@@ -5,6 +5,7 @@ use App\Basket\Installation;
 use App\Role;
 use App\Permission;
 use App\Basket\Location;
+use App\Basket\Merchant;
 
 class DevSeeder extends DBSeeder
 {
@@ -42,13 +43,13 @@ class DevSeeder extends DBSeeder
         $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 4];
         $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 5];
 
-        DB::insert('INSERT INTO merchants (id, name, token, created_at, updated_at) VALUES (?, ?, ?, ?, ?)', [
-            1,
-            'Test Merchant',
-            'mytoken',
-            time(),
-            time(),
-        ]);
+
+        $merchant = new Merchant();
+        $merchant->id = 1;
+        $merchant->active = 1;
+        $merchant->name = 'Test Merchant';
+        $merchant->token = 'mytoken';
+        $merchant->save();
 
         // Apply Seed Data to Data Source
         parent::seedDataSource();
