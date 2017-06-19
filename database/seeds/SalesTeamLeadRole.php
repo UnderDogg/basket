@@ -7,7 +7,7 @@ use App\User;
 
 class SalesTeamLeadRole extends Seeder
 {
-    const EXISTING_SALES_ROLE_KEY = 'sale';
+    const EXISTING_SALES_ROLE_KEY = 'sales';
 
     /**
      * Run the database seeds.
@@ -16,28 +16,28 @@ class SalesTeamLeadRole extends Seeder
      */
     public function run()
     {
-        $permission = $this->makeSalesLeadPermission();
+        /** @var Role $newRole */
+        $newRole = Role::where('name', self::EXISTING_SALES_ROLE_KEY)->first();
+        $newRole->name = 'sales-lead';
+        $newRole->display_name = 'Sales Team Lead Role';
+        $newRole->description = 'sales team lead, access in-store finance page and in-store details';
+        $newRole->save();
 
-        $existingSalesRole = Role::where('name', self::EXISTING_SALES_ROLE_KEY)->first();
-        $newRole = $this->clonePermissionsFromRoleWithAdditionalPermission($existingSalesRole, $permission);
+        $oldRole = new Role();
+        $oldRole->name = self::EXISTING_SALES_ROLE_KEY;
+        $oldRole->display_name = 'Sales Role';
+        $oldRole->description = 'access in-store finance page and in-store details';
+        $oldRole->save();
 
-        /** @var User $user */
-        foreach ($existingSalesRole->users as $user) {
-            $user->roles()->attach($newRole);
+        //Clone the permissions from another role
+        foreach ($newRole->permissions as $permission) {
+            $oldRole->permissions()->attach($permission);
         }
 
-        /** @var Role $role */
-        foreach (Role::where('name', 'su')->get() as $role) {
-            $role->permissions()->attach($permission);
-        }
-
-        /** @var Role $role */
-        foreach (Role::where('name', 'rosu')->get() as $role) {
-            $role->permissions()->attach($permission);
-        }
+        $newRole->permissions()->attach($this->makeApplicationViewAll());
     }
 
-    private function makeSalesLeadPermission()
+    private function makeApplicationViewAll()
     {
         $permission = new Permission();
         $permission->name = Permission::VIEW_ALL_APPLICATIONS;
@@ -46,27 +46,5 @@ class SalesTeamLeadRole extends Seeder
         $permission->save();
 
         return $permission;
-    }
-
-    /**
-     * @param Role $sourceRole
-     * @return Role
-     */
-    private function clonePermissionsFromRoleWithAdditionalPermission(Role $sourceRole, Permission $permission)
-    {
-        $role = new Role();
-        $role->name = 'sales-lead';
-        $role->display_name = 'Sales Team Lead Role';
-        $role->description = 'sales team lead';
-        $role->save();
-
-        $role->permissions()->attach($permission);
-
-        //Clone the permissions from another role
-        foreach ($sourceRole->permissions as $permission) {
-            $role->permissions()->attach($permission);
-        }
-
-        return $role;
     }
 }
