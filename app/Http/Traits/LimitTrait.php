@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Basket\Installation;
+use App\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -57,5 +58,20 @@ trait LimitTrait
     protected function limitToActive(Builder $query)
     {
         return $query->where('active', true);
+    }
+
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    protected function limitOnOwnApplications(Builder $query)
+    {
+        if (!\Auth::user()->can(Permission::VIEW_ALL_APPLICATIONS)) {
+
+            var_dump(\Auth::user()->can(Permission::VIEW_ALL_APPLICATIONS));
+            $query->where('user_id', \Auth::user()->id);
+        }
+
+        return $query;
     }
 }
