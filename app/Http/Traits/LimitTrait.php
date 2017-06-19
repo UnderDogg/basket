@@ -64,10 +64,9 @@ trait LimitTrait
      * @param Builder $query
      * @return Builder
      */
-    protected function limitOnOwnApplications(Builder $query)
+    protected function limitToOwnApplications(Builder $query)
     {
         if (!\Auth::user()->can(Permission::VIEW_ALL_APPLICATIONS)) {
-            var_dump(\Auth::user()->can(Permission::VIEW_ALL_APPLICATIONS));
             $query->where('user_id', \Auth::user()->id);
         }
 
