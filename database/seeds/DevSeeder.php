@@ -49,6 +49,8 @@ class DevSeeder extends DBSeeder
         $merchant->active = 1;
         $merchant->name = 'Test Merchant';
         $merchant->token = 'mytoken';
+        $merchant->created_at = \Carbon\Carbon::now();
+        $merchant->updated_at = \Carbon\Carbon::now();
         $merchant->save();
 
         // Apply Seed Data to Data Source
