@@ -77,6 +77,9 @@ class DevSeeder extends DBSeeder
             $locationObject->save();
         }
 
+        // Add the sales team lead role and inherit assignments from `sale` role.
+        (new SalesTeamLeadRole())->run();
+
         Model::reguard();
     }
 }
