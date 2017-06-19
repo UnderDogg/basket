@@ -29,10 +29,7 @@ class SalesTeamLeadRole extends Seeder
         $oldRole->description = 'access in-store finance page and in-store details';
         $oldRole->save();
 
-        //Clone the permissions from another role
-        foreach ($newRole->permissions as $permission) {
-            $oldRole->permissions()->attach($permission);
-        }
+        $oldRole->permissions()->sync($newRole->permissions, false);
 
         $newRole->permissions()->attach($this->makeApplicationViewAll());
     }
