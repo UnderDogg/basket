@@ -24,8 +24,8 @@ class AddUnsignedToExtId extends Migration
      */
     public function down()
     {
-        Schema::table('applications', function ($table) {
-            $table->integer('ext_id')->signed()->change();
-        });
+        // Schema::table('applications', function ($table) {
+        //     $table->integer('ext_id')->signed()->change();
+        // });
     }
 }
