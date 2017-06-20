@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use App\Basket\Installation;
-use App\Role;
-use App\Permission;
 use App\Basket\Location;
+use App\Basket\Merchant;
+use App\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class DevSeeder extends DBSeeder
 {
