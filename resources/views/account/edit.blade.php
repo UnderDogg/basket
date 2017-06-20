@@ -42,19 +42,19 @@
                     <div class="form-group">
                         {!! Form::label('old_password', 'Old password:', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('old_password', null, ['class' => 'form-control']) !!}
+                            {!! Form::password('old_password', ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('new_password', 'New password:', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('new_password', null, ['class' => 'form-control']) !!}
+                            {!! Form::password('new_password', ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('new_password_confirmation', 'Confirm password:', ['class' => 'col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('new_password_confirmation', null, ['class' => 'form-control']) !!}
+                            {!! Form::password('new_password_confirmation', ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group">

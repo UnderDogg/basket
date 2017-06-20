@@ -1,3 +1,12 @@
+## Changes
+- Improve the seeder for initial dev setup
+- Improve compatibility across multiple versions of MySQL from 5.6 to 5.7, in prep for DB Engine Upgrade
+- Change field type to password for change password form (147270697)
+
+## Features
+- Added `Merchant Liable` concept to Installation and Application (147092245)
+- Added new mechanism to allow users to see everyone’s applications or just their own. Configurable with Role `sales-team-lead` (147201981)
+
 # 1.19.1
 2017-05-12
 

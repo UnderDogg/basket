@@ -30,5 +30,6 @@
         <env name="APP_KEY" value="ao5hYvUNFr7g0J841xavRqxTPXUd0iZT"/>
         <env name="LOG_SYSLOG" value="false"/>
         <env name="LOG_FILE" value="false"/>
+        <env name="CACHE_BUST_HASH_SOURCE" value="basket/composer.lock"/>
     </php>
 </phpunit>
