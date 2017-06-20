@@ -164,8 +164,8 @@ class ModelTraitTest extends TestCase
             ]
         )->first()->toArray();
 
-        $this->assertEquals(0, $old['active']);
-        $this->assertNotEquals(1, $old['active']);
+        $this->assertEquals(1, $old['active']);
+        $this->assertNotEquals(0, $old['active']);
         $this->assertEquals(1, $new['active']);
         $this->assertNotEquals(0, $new['active']);
     }
