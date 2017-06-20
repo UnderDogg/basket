@@ -5,6 +5,7 @@
 
 ## Features
 - Added `Merchant Liable` concept to Installation and Application (147092245)
+- Added new mechanism to allow users to see everyone’s applications or just their own. Configurable with Role `sales-team-lead` (147201981)
 
 # 1.19.1
 2017-05-12
