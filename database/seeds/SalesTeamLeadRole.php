@@ -36,10 +36,14 @@ class SalesTeamLeadRole extends Seeder
         $newRole->permissions()->attach($permission);
 
         /** @var Role $rosu */
-        Role::where('name', 'rosu')->first()->permissions()->attach($permission);
+        foreach (Role::where('name', 'rosu') as $role) {
+            $role->permissions()->attach($permission);
+        }
 
-        /** @var Role $su */
-        Role::where('su', 'rosu')->first()->permissions()->attach($permission);
+        /** @var Role $rosu */
+        foreach (Role::where('name', 'su') as $role) {
+            $role->permissions()->attach($permission);
+        }
     }
 
     /**
