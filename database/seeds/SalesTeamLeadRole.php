@@ -31,7 +31,15 @@ class SalesTeamLeadRole extends Seeder
 
         $oldRole->permissions()->sync($newRole->permissions, false);
 
-        $newRole->permissions()->attach($this->makeApplicationViewAll());
+        $permission = $this->makeApplicationViewAll();
+
+        $newRole->permissions()->attach($permission);
+
+        /** @var Role $rosu */
+        Role::where('name', 'rosu')->first()->permissions()->attach($permission);
+
+        /** @var Role $su */
+        Role::where('su', 'rosu')->first()->permissions()->attach($permission);
     }
 
     /**
