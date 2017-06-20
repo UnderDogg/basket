@@ -12,10 +12,8 @@ class UpdateCreatedAtUpdatedAtInApplicationEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('application_events', function (Blueprint $table) {
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-        });
+        \DB::statement('ALTER TABLE application_events CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+        \DB::statement('ALTER TABLE application_events CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
     }
 
     /**

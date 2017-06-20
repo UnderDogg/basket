@@ -12,10 +12,8 @@ class UpdateCreatedAtUpdatedAtInTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('templates', function (Blueprint $table) {
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
-        });
+        \DB::statement('ALTER TABLE templates CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+        \DB::statement('ALTER TABLE templates CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
     }
 
     /**
