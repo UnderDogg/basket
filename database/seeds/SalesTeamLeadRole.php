@@ -34,6 +34,9 @@ class SalesTeamLeadRole extends Seeder
         $newRole->permissions()->attach($this->makeApplicationViewAll());
     }
 
+    /**
+     * @return Permission
+     */
     private function makeApplicationViewAll()
     {
         $permission = new Permission();
