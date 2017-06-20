@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use App\Basket\Installation;
-use App\Role;
-use App\Permission;
 use App\Basket\Location;
+use App\Basket\Merchant;
+use App\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class DevSeeder extends DBSeeder
 {
@@ -30,25 +31,26 @@ class DevSeeder extends DBSeeder
         $this->roles[] = ['Merchant Administrator', 'administrator', 'Merchant Administrator'];
         $this->roles[] = ['Report Role', 'report', 'run reports'];
         $this->roles[] = ['Manager Role', 'manager', 'run reports and perform cancellations'];
-        $this->roles[] = ['Sales Role', 'sale', 'access in-store finance page and in-store details'];
+        $this->roles[] = ['Sales Role', 'sales', 'access in-store finance page and in-store details'];
 
         $this->rolesPermissions[] = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14];
         $this->rolesPermissions[] = [7, 9, 14];
         $this->rolesPermissions[] = [7, 9, 10, 11, 12, 13];
-        $this->rolesPermissions[] = [7, 9];
+        $this->rolesPermissions[] = [7, 9, 10];
 
-        $this->users[] = ['Administrator', 'it@paybreak.com', 'password', 1, 2];
+        $this->users[] = ['Dev Merchant Administrator', 'it@paybreak.com', 'password', 1, 2];
         $this->users[] = ['Dev Reporter', 'report@paybreak.com', 'password', 1, 3];
-        $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 3];
-        $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 4];
+        $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 4];
+        $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 5];
 
-        DB::insert('INSERT INTO merchants (id, name, token, created_at, updated_at) VALUES (?, ?, ?, ?, ?)', [
-            1,
-            'Test Merchant',
-            'mytoken',
-            time(),
-            time(),
-        ]);
+        $merchant = new Merchant();
+        $merchant->id = 1;
+        $merchant->active = 1;
+        $merchant->name = 'Test Merchant';
+        $merchant->token = 'mytoken';
+        $merchant->created_at = \Carbon\Carbon::now();
+        $merchant->updated_at = \Carbon\Carbon::now();
+        $merchant->save();
 
         // Apply Seed Data to Data Source
         parent::seedDataSource();
@@ -62,6 +64,8 @@ class DevSeeder extends DBSeeder
             $installationObject->linked = $installation[3];
             $installationObject->ext_id = $installation[4];
             $installationObject->location_instruction = '';
+            $installationObject->merchant_payments = 0;
+            $installationObject->finance_offers = 14;
             $installationObject->save();
         }
 
@@ -75,8 +79,32 @@ class DevSeeder extends DBSeeder
             $locationObject->email = $location[4];
             $locationObject->address = $location[5];
             $locationObject->save();
+
+            self::attachUserToLocation(
+                $locationObject,
+                User::where('email', 'like', 'sales@%')->where('merchant_id', $locationObject->installation->id)
+            );
         }
 
         Model::reguard();
+    }
+
+    /**
+     * @param Location $location
+     * @param Builder $userQuery
+     * @return bool
+     */
+    private function attachUserToLocation(Location $location, Builder $userQuery)
+    {
+        /** @var User $item */
+        foreach ($userQuery->get() as $item) {
+            try {
+                $item->locations()->attach($location);
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
