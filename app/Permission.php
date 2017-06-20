@@ -24,6 +24,8 @@ use Zizaco\Entrust\Traits\EntrustPermissionTrait;
  */
 class Permission extends EntrustPermission
 {
+    const VIEW_ALL_APPLICATIONS = 'applications-view-all';
+
     use EntrustPermissionTrait;
     /**
      * The database table used by the model.

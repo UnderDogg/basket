@@ -74,6 +74,7 @@ class ApplicationsController extends Controller
             $filterDates['date_to']
         );
 
+        $this->limitToOwnApplications($applications);
         $this->limitToInstallationOnMerchant($applications->where('installation_id', $installation));
 
         return $this->standardIndexAction(
