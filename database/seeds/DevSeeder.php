@@ -43,7 +43,6 @@ class DevSeeder extends DBSeeder
         $this->users[] = ['Dev Manager', 'manager@paybreak.com', 'password', 1, 4];
         $this->users[] = ['Dev Sales', 'sales@paybreak.com', 'password', 1, 5];
 
-
         $merchant = new Merchant();
         $merchant->id = 1;
         $merchant->active = 1;
