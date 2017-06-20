@@ -1,3 +1,6 @@
+# 1.19.2
+2017-06-20
+
 ## Changes
 - Improve the seeder for initial dev setup
 - Improve compatibility across multiple versions of MySQL from 5.6 to 5.7, in prep for DB Engine Upgrade
