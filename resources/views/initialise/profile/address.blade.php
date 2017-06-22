@@ -64,7 +64,7 @@
                         </div>
                         {!! Form::label('postcode', 'Postcode', ['class' => 'col-sm-2 control-label text-right']) !!}
                         <div class="col-sm-8">
-                            {!! Form::text('postcode', null, ['class' => 'form-control', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here',  'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode']) !!}
+                            {!! Form::text('postcode', null, ['class' => 'form-control', 'maxlength' => 8, 'placeholder' => 'Start typing your postcode here',  'data-fv-notempty' => 'true', 'data-fv-notempty-message' => 'Please enter a postcode', 'data-fv-zipcode' => 'true', 'data-fv-zipcode-country' =>'GB', 'data-fv-zipcode-message' => 'Please enter a valid postcode']) !!}
                         </div>
                     </div>
                     <hr/>
