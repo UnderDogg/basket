@@ -1,3 +1,6 @@
+## Bug Fixes
+- Added frontend validation for postcode in the assisted journey (147515323)
+
 # 1.19.3
 2017-06-22
 
