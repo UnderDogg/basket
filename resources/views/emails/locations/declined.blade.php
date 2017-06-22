@@ -33,15 +33,6 @@
     <li>Mobile Phone number: <strong>{{ $application->ext_customer_phone_mobile }}</strong></li>
 </ul>
 
-<h2>Credit Details</h2>
-<ul>
-    <li>Order Amount: {{ money_format('%.2n', $application->ext_finance_order_amount/100) }}</li>
-    <li>Loan Amount: {{ money_format('%.2n', $application->ext_finance_loan_amount/100) }}</li>
-    <li>Deposit Amount: {{ money_format('%.2n', $application->ext_finance_deposit/100) }}</li>
-    <li>Subsidy Amount: {{ money_format('%.2n', $application->ext_finance_subsidy/100) }}</li>
-    <li>Net Settlement Amount: {{ money_format('%.2n', $application->ext_finance_net_settlement/100) }}</li>
-</ul>
-
 @if($location->installation->location_instruction)
 <h2>Additional Instructions</h2>
 {!! $location->installation->getLocationInstructionAsHtml() !!}
