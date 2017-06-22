@@ -12,6 +12,7 @@ namespace App\Basket;
 
 use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
+use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Location Model
@@ -26,13 +27,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
- * @property bool   $converted_email
+ * @property int    $email_settings
  * @property Installation $installation
  * @package App\Basket
  */
 class Location extends Model
 {
     protected $table = 'locations';
+
+    const EMAIL_CONVERTED = 1;
+    const EMAIL_DECLINED = 2;
+    const EMAIL_REFERRED = 4;
 
     /**
      * Attributes that should be mass-assignable.
@@ -45,7 +50,7 @@ class Location extends Model
         'name',
         'email',
         'address',
-        'converted_email',
+        'email_settings',
     ];
 
     /**
@@ -110,5 +115,93 @@ class Location extends Model
     public function getEmails()
     {
         return explode(',', $this->email);
+    }
+
+    /**
+     * @author GK
+     * @return bool
+     */
+    public function getConvertedEmailSetting()
+    {
+        return $this->getEmailSettingFlag(self::EMAIL_CONVERTED);
+    }
+
+    /**
+     * @author GK
+     * @param $bool
+     * @return $this
+     */
+    public function setConvertedEmailSetting($bool)
+    {
+        $this->setEmailSettingFlag(self::EMAIL_CONVERTED, $bool);
+
+        return $this;
+    }
+
+    /**
+     * @author GK
+     * @return bool
+     */
+    public function getDeclinedEmailSetting()
+    {
+        return $this->getEmailSettingFlag(self::EMAIL_DECLINED);
+    }
+
+    /**
+     * @author GK
+     * @param $bool
+     * @return $this
+     */
+    public function setDeclinedEmailSetting($bool)
+    {
+        $this->setEmailSettingFlag(self::EMAIL_DECLINED, $bool);
+
+        return $this;
+    }
+
+    /**
+     * @author GK
+     * @return bool
+     */
+    public function getReferredEmailSetting()
+    {
+        return $this->getEmailSettingFlag(self::EMAIL_REFERRED);
+    }
+
+    /**
+     * @author GK
+     * @param $bool
+     * @return $this
+     */
+    public function setReferredEmailSetting($bool)
+    {
+        $this->setEmailSettingFlag(self::EMAIL_REFERRED, $bool);
+
+        return $this;
+    }
+
+    /**
+     * @author GK
+     * @param $flag
+     * @return bool
+     */
+    private function getEmailSettingFlag($flag)
+    {
+        return Bitwise::make($this->email_settings)->contains($flag);
+    }
+
+    /**
+     * @author GK
+     * @param $flag
+     * @param $bool
+     * @return int
+     */
+    private function setEmailSettingFlag($flag, $bool)
+    {
+        if ($bool) {
+            return $this->email_settings = Bitwise::make($this->email_settings)->apply($flag);
+        } else {
+            return $this->email_settings = Bitwise::make($this->email_settings)->remove($flag);
+        }
     }
 }

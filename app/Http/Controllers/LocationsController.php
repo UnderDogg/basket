@@ -15,6 +15,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests\LocationStoreRequest;
 use App\Http\Requests\LocationUpdateRequest;
 use Illuminate\Http\Request;
+use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Class LocationsController
@@ -115,10 +116,8 @@ class LocationsController extends Controller
      */
     public function update($id, LocationUpdateRequest $request)
     {
-        $converted_email = $request->has('converted_email') ? '1' : '0';
-        $request->request->add(['converted_email' => $converted_email]);
-
         try {
+            $request = $this->convertBitwiseEmailSettingsInput($request);
             $this->validateEmailAddressInput($request);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
@@ -216,5 +215,27 @@ class LocationsController extends Controller
         }
 
         return implode($emails);
+    }
+
+    /**
+     * @author GK
+     * @param Request $request
+     * @return Request
+     */
+    private function convertBitwiseEmailSettingsInput(Request $request)
+    {
+        $bitwise = Bitwise::make(0);
+
+        $bitwise->apply($request->get('converted_email') ? Location::EMAIL_CONVERTED : 0);
+        $bitwise->apply($request->get('declined_email') ? Location::EMAIL_DECLINED : 0);
+        $bitwise->apply($request->get('referred_email') ? Location::EMAIL_REFERRED : 0);
+
+        $request['email_settings'] = $bitwise->get();
+
+        unset($request['converted_email']);
+        unset($request['declined_email']);
+        unset($request['referred_email']);
+
+        return $request;
     }
 }

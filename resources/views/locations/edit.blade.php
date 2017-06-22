@@ -51,11 +51,25 @@
             {!! Form::label('converted_email', 'Converted Email', ['class' => 'col-sm-2 control-label']) !!}
             <div class="col-sm-8">
                 <label class="checkbox-inline">
-                    @if($location->converted_email == 1)
-                        {!! Form::input('checkbox', 'converted_email', 0, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @else
-                        {!! Form::input('checkbox', 'converted_email', 1, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @endif
+                    {!! Form::input('checkbox', 'converted_email', 'true', ['checked' => $location->getConvertedEmailSetting() ? 'true' : null,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('declined_email', 'Declined Email', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                <label class="checkbox-inline">
+                    {!! Form::input('checkbox', 'declined_email', 'true', ['checked' => $location->getDeclinedEmailSetting() ? 'true' : null,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('referred_email', 'Referred Email', ['class' => 'col-sm-2 control-label']) !!}
+            <div class="col-sm-8">
+                <label class="checkbox-inline">
+                    {!! Form::input('checkbox', 'referred_email', 'true', ['checked' => $location->getReferredEmailSetting() ? 'true' : null,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
                 </label>
             </div>
         </div>

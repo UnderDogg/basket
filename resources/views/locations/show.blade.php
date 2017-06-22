@@ -49,10 +49,26 @@
                         <dd>{!! $location->address !!}</dd>
                         <dt>Converted Email</dt>
                         <dd>
-                            @if( $location->converted_email == 0 )
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
-                            @elseif( $location->converted_email == 1 )
+                            @if($location->getConvertedEmailSetting())
                                 <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @else
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                            @endif
+                        </dd>
+                        <dt>Declined Email</dt>
+                        <dd>
+                            @if($location->getDeclinedEmailSetting())
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @else
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                            @endif
+                        </dd>
+                        <dt>Referred Email</dt>
+                        <dd>
+                            @if($location->getReferredEmailSetting())
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @else
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
                             @endif
                         </dd>
                     </dl>
