@@ -285,7 +285,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
                 $merchant->token
             );
 
-            return is_null($status);
+            return empty($status);
         } catch (\Exception $e) {
             $this->logError('AddRemoteMerchantPayment: ' . $e->getMessage());
             throw new Exception($e->getMessage());
