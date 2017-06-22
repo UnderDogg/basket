@@ -90,8 +90,7 @@ class NotificationsController extends Controller
      */
     private function processNotification($application, $request)
     {
-        switch ($request->json('new_status'))
-        {
+        switch ($request->json('new_status')) {
             case self::STATUS_CONVERTED:
                 if ($application->location->getConvertedEmailSetting()) {
                     $this->locationNotificationService->convertedNotification($application, $application->location);
