@@ -21,6 +21,11 @@ use Illuminate\Http\Request;
  */
 class NotificationsController extends Controller
 {
+    const STATUS_CONVERTED = 'converted';
+    const STATUS_PRE_DECLINED = 'pre_declined';
+    const STATUS_DECLINED = 'declined';
+    const STATUS_REFERRED = 'referred';
+
     private $notificationCatcherService;
     private $locationNotificationService;
 
@@ -44,10 +49,8 @@ class NotificationsController extends Controller
             $application = $this->notificationCatcherService
                 ->catchNotification($request->json('application'), $installation);
 
-            if ($application->location !== null
-                && $request->json('new_status') == 'converted'
-                && $application->location->converted_email) {
-                $this->locationNotificationService->convertedNotification($application, $application->location);
+            if ($application->location !== null) {
+                $this->processNotification($application, $request);
             }
 
             return response()->json(
@@ -77,6 +80,33 @@ class NotificationsController extends Controller
         } catch (\Exception $e) {
             $this->logError('CatchSynchronisationNotification: Failed with message: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
+    /**
+     * @author GK
+     * @param \App\Basket\Application $application
+     * @param $request
+     */
+    private function processNotification($application, $request)
+    {
+        switch ($request->json('new_status'))
+        {
+            case self::STATUS_CONVERTED:
+                if ($application->location->getConvertedEmailSetting()) {
+                    $this->locationNotificationService->convertedNotification($application, $application->location);
+                }
+                break;
+            case self::STATUS_PRE_DECLINED:
+            case self::STATUS_DECLINED:
+                if ($application->location->getDeclinedEmailSetting()) {
+                    $this->locationNotificationService->declinedNotification($application, $application->location);
+                }
+                break;
+            case self::STATUS_REFERRED:
+                if ($application->location->getReferredEmailSetting()) {
+                    $this->locationNotificationService->referredNotification($application, $application->location);
+                }
         }
     }
 }

@@ -22,9 +22,26 @@ use App\Basket\Application;
 interface LocationNotificationService
 {
     /**
+     * @author ??
      * @param Application $application
      * @param Location $location
      * @return bool
      */
     public function convertedNotification(Application $application, Location $location);
+
+    /**
+     * @author GK
+     * @param Application $application
+     * @param Location $location
+     * @return mixed
+     */
+    public function declinedNotification(Application $application, Location $location);
+
+    /**
+     * @author GK
+     * @param Application $application
+     * @param Location $location
+     * @return mixed
+     */
+    public function referredNotification(Application $application, Location $location);
 }
