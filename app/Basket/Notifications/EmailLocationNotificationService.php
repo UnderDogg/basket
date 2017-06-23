@@ -123,6 +123,7 @@ class EmailLocationNotificationService implements LocationNotificationService
      * @author GK
      * @param string $type
      * @return string
+     * @throws \Exception
      */
     private function getView($type)
     {
@@ -133,6 +134,8 @@ class EmailLocationNotificationService implements LocationNotificationService
                 return 'emails.locations.declined';
             case self::REFERRED:
                 return 'emails.locations.referred';
+            default:
+                throw new \Exception('Selected notification type [' . $type . '] does not have a view assigned to it.');
         }
     }
 
