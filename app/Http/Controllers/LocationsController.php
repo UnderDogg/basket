@@ -226,15 +226,18 @@ class LocationsController extends Controller
     {
         $bitwise = Bitwise::make(0);
 
-        $bitwise->apply($request->get('converted_email') ? Location::EMAIL_CONVERTED : 0);
-        $bitwise->apply($request->get('declined_email') ? Location::EMAIL_DECLINED : 0);
-        $bitwise->apply($request->get('referred_email') ? Location::EMAIL_REFERRED : 0);
+        $values = [
+            'converted_email' => Location::EMAIL_CONVERTED,
+            'declined_email' => Location::EMAIL_DECLINED,
+            'referred_email' => Location::EMAIL_REFERRED,
+        ];
+
+        foreach ($values as $name => $bitwiseValue) {
+            $bitwise->apply($request->get($name) ? $bitwiseValue : 0);
+            unset($request[$name]);
+        }
 
         $request['email_settings'] = $bitwise->get();
-
-        unset($request['converted_email']);
-        unset($request['declined_email']);
-        unset($request['referred_email']);
 
         return $request;
     }
