@@ -27,7 +27,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
- * @property int    $email_settings
+ * @property int    $email_notifications
  * @property Installation $installation
  * @package App\Basket
  */
@@ -50,7 +50,7 @@ class Location extends Model
         'name',
         'email',
         'address',
-        'email_settings',
+        'email_notifications',
     ];
 
     /**
@@ -187,7 +187,7 @@ class Location extends Model
      */
     private function getEmailSettingFlag($flag)
     {
-        return Bitwise::make($this->email_settings)->contains($flag);
+        return Bitwise::make($this->email_notifications)->contains($flag);
     }
 
     /**
@@ -199,9 +199,9 @@ class Location extends Model
     private function setEmailSettingFlag($flag, $bool)
     {
         if ($bool) {
-            return $this->email_settings = Bitwise::make($this->email_settings)->apply($flag);
+            return $this->email_notifications = Bitwise::make($this->email_notifications)->apply($flag);
         } else {
-            return $this->email_settings = Bitwise::make($this->email_settings)->remove($flag);
+            return $this->email_notifications = Bitwise::make($this->email_notifications)->remove($flag);
         }
     }
 }

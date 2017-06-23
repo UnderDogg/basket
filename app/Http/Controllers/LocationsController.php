@@ -237,7 +237,7 @@ class LocationsController extends Controller
             unset($request[$name]);
         }
 
-        $request['email_settings'] = $bitwise->get();
+        $request['email_notifications'] = $bitwise->get();
 
         return $request;
     }

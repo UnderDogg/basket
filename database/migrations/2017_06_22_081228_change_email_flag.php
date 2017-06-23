@@ -15,7 +15,7 @@ class ChangeEmailFlag extends Migration
     public function up()
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->renameColumn('converted_email', 'email_settings');
+            $table->renameColumn('converted_email', 'email_notifications');
         });
     }
 
@@ -30,13 +30,14 @@ class ChangeEmailFlag extends Migration
         $locations = Location::all();
         foreach ($locations as $location) {
             /** @var App\Basket\Location location */
-            $location->email_settings = $location->getConvertedEmailSetting() ? 1 : 0;
+            $location->email_notifications = $location->getConvertedEmailSetting() ? 1 : 0;
 
             $location->save();
         }
 
+
         Schema::table('locations', function (Blueprint $table) {
-            $table->renameColumn('email_settings', 'converted_email');
+            $table->renameColumn('email_notifications', 'converted_email');
         });
     }
 }
