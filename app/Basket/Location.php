@@ -123,7 +123,7 @@ class Location extends Model
      */
     public function getConvertedEmailSetting()
     {
-        return $this->getEmailSettingFlag(self::EMAIL_CONVERTED);
+        return $this->getEmailNotificationFlag(self::EMAIL_CONVERTED);
     }
 
     /**
@@ -133,7 +133,7 @@ class Location extends Model
      */
     public function setConvertedEmailSetting($bool)
     {
-        $this->setEmailSettingFlag(self::EMAIL_CONVERTED, $bool);
+        $this->setEmailNotificationFlag(self::EMAIL_CONVERTED, $bool);
 
         return $this;
     }
@@ -144,7 +144,7 @@ class Location extends Model
      */
     public function getDeclinedEmailSetting()
     {
-        return $this->getEmailSettingFlag(self::EMAIL_DECLINED);
+        return $this->getEmailNotificationFlag(self::EMAIL_DECLINED);
     }
 
     /**
@@ -154,7 +154,7 @@ class Location extends Model
      */
     public function setDeclinedEmailSetting($bool)
     {
-        $this->setEmailSettingFlag(self::EMAIL_DECLINED, $bool);
+        $this->setEmailNotificationFlag(self::EMAIL_DECLINED, $bool);
 
         return $this;
     }
@@ -165,7 +165,7 @@ class Location extends Model
      */
     public function getReferredEmailSetting()
     {
-        return $this->getEmailSettingFlag(self::EMAIL_REFERRED);
+        return $this->getEmailNotificationFlag(self::EMAIL_REFERRED);
     }
 
     /**
@@ -175,7 +175,7 @@ class Location extends Model
      */
     public function setReferredEmailSetting($bool)
     {
-        $this->setEmailSettingFlag(self::EMAIL_REFERRED, $bool);
+        $this->setEmailNotificationFlag(self::EMAIL_REFERRED, $bool);
 
         return $this;
     }
@@ -185,7 +185,7 @@ class Location extends Model
      * @param $flag
      * @return bool
      */
-    private function getEmailSettingFlag($flag)
+    private function getEmailNotificationFlag($flag)
     {
         return Bitwise::make($this->email_notifications)->contains($flag);
     }
@@ -196,7 +196,7 @@ class Location extends Model
      * @param $bool
      * @return int
      */
-    private function setEmailSettingFlag($flag, $bool)
+    private function setEmailNotificationFlag($flag, $bool)
     {
         if ($bool) {
             return $this->email_notifications = Bitwise::make($this->email_notifications)->apply($flag);
