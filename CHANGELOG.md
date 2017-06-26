@@ -1,3 +1,6 @@
+## Features
+- remove obsolete ``assisted_journey`` column from ``installations`` table (147333985)
+
 ## Bug Fixes
 - Added frontend validation for postcode in the assisted journey (147515323)
 
