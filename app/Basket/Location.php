@@ -11,8 +11,8 @@
 namespace App\Basket;
 
 use App\Exceptions\Exception;
+use App\Helpers\Notifications;
 use Illuminate\Database\Eloquent\Model;
-use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Location Model
@@ -27,17 +27,13 @@ use PayBreak\Foundation\Properties\Bitwise;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
- * @property int    $email_notifications
+ * @property Notifications $notifications
  * @property Installation $installation
  * @package App\Basket
  */
 class Location extends Model
 {
     protected $table = 'locations';
-
-    const EMAIL_CONVERTED = 1;
-    const EMAIL_DECLINED = 2;
-    const EMAIL_REFERRED = 4;
 
     /**
      * Attributes that should be mass-assignable.
@@ -50,8 +46,38 @@ class Location extends Model
         'name',
         'email',
         'address',
-        'email_notifications',
+        'notifications',
     ];
+
+    /**
+     * @author GK
+     * @param $value
+     * @return Notifications
+     */
+    protected function getNotificationsAttribute($value)
+    {
+        return new Notifications($this->attributes['notifications']);
+    }
+
+    /**
+     * @author GK
+     * @param $value
+     * @throws Exception
+     */
+    protected function setNotificationsAttribute($value)
+    {
+        if (is_array($value)) {
+            $notifications = new Notifications();
+
+            foreach ($value as $bit) {
+                $notifications->add($bit);
+            }
+
+            $this->attributes['notifications'] = $notifications->getState();
+        } else {
+            throw new Exception('Unidentified type provided for property [notifications] on [Location] object');
+        }
+    }
 
     /**
      * Get the installation record for the application
@@ -115,93 +141,5 @@ class Location extends Model
     public function getEmails()
     {
         return explode(',', $this->email);
-    }
-
-    /**
-     * @author GK
-     * @return bool
-     */
-    public function getConvertedEmailSetting()
-    {
-        return $this->getEmailNotificationFlag(self::EMAIL_CONVERTED);
-    }
-
-    /**
-     * @author GK
-     * @param $bool
-     * @return $this
-     */
-    public function setConvertedEmailSetting($bool)
-    {
-        $this->setEmailNotificationFlag(self::EMAIL_CONVERTED, $bool);
-
-        return $this;
-    }
-
-    /**
-     * @author GK
-     * @return bool
-     */
-    public function getDeclinedEmailSetting()
-    {
-        return $this->getEmailNotificationFlag(self::EMAIL_DECLINED);
-    }
-
-    /**
-     * @author GK
-     * @param $bool
-     * @return $this
-     */
-    public function setDeclinedEmailSetting($bool)
-    {
-        $this->setEmailNotificationFlag(self::EMAIL_DECLINED, $bool);
-
-        return $this;
-    }
-
-    /**
-     * @author GK
-     * @return bool
-     */
-    public function getReferredEmailSetting()
-    {
-        return $this->getEmailNotificationFlag(self::EMAIL_REFERRED);
-    }
-
-    /**
-     * @author GK
-     * @param $bool
-     * @return $this
-     */
-    public function setReferredEmailSetting($bool)
-    {
-        $this->setEmailNotificationFlag(self::EMAIL_REFERRED, $bool);
-
-        return $this;
-    }
-
-    /**
-     * @author GK
-     * @param $flag
-     * @return bool
-     */
-    private function getEmailNotificationFlag($flag)
-    {
-        return Bitwise::make($this->email_notifications)->contains($flag);
-    }
-
-    /**
-     * @author GK
-     * @param $flag
-     * @param $bool
-     * @return int
-     */
-    private function setEmailNotificationFlag($flag, $bool)
-    {
-        if ($bool) {
-            return $this->email_notifications = Bitwise::make($this->email_notifications)->apply($flag);
-        } else {
-            return $this->email_notifications = Bitwise::make($this->email_notifications)->remove($flag);
-        }
     }
 }

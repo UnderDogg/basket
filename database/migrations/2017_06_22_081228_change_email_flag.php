@@ -1,6 +1,7 @@
 <?php
 
 use App\Basket\Location;
+use App\Helpers\Notifications;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -15,7 +16,7 @@ class ChangeEmailFlag extends Migration
     public function up()
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->renameColumn('converted_email', 'email_notifications');
+            $table->renameColumn('converted_email', 'notifications');
         });
     }
 
@@ -30,14 +31,17 @@ class ChangeEmailFlag extends Migration
         $locations = Location::all();
         foreach ($locations as $location) {
             /** @var App\Basket\Location location */
-            $location->email_notifications = $location->getConvertedEmailSetting() ? 1 : 0;
+            if ($location->notifications->has(Notifications::CONVERTED)) {
+                $location->notifications = [Notifications::CONVERTED];
+            } else {
+                $location->notifications = [];
+            }
 
             $location->save();
         }
 
-
         Schema::table('locations', function (Blueprint $table) {
-            $table->renameColumn('email_notifications', 'converted_email');
+            $table->renameColumn('notifications', 'converted_email');
         });
     }
 }
