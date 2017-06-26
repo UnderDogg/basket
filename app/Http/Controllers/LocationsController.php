@@ -36,6 +36,7 @@ class LocationsController extends Controller
     {
         $locations = Location::query();
         $this->limitToInstallationOnMerchant($locations);
+
         return $this->standardIndexAction(
             $locations,
             'locations.index',
@@ -75,6 +76,7 @@ class LocationsController extends Controller
             $this->logError('Could not successfully create new Location' . $e->getMessage());
             throw RedirectException::make('/locations/')->setError($e->getMessage());
         }
+
         return $this->redirectWithSuccessMessage(
             'locations',
             'New location has been successfully created'
@@ -117,7 +119,6 @@ class LocationsController extends Controller
     public function update($id, LocationUpdateRequest $request)
     {
         try {
-            $request = $this->convertBitwiseEmailSettingsInput($request);
             $this->validateEmailAddressInput($request);
         } catch (\Exception $e) {
             throw $this->redirectWithException(
@@ -127,7 +128,7 @@ class LocationsController extends Controller
             );
         }
 
-        return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
+        return $this->updateModel(new Location(), $id, 'location', '/locations', $request);
     }
 
     /**
@@ -153,6 +154,7 @@ class LocationsController extends Controller
         $location = $this->fetchLocationById($id);
         $location->type = 'location';
         $location->controller = 'Locations';
+
         return view('includes.page.confirm_delete', ['object' => $location]);
     }
 
@@ -215,30 +217,5 @@ class LocationsController extends Controller
         }
 
         return implode($emails);
-    }
-
-    /**
-     * @author GK
-     * @param Request $request
-     * @return Request
-     */
-    private function convertBitwiseEmailSettingsInput(Request $request)
-    {
-        $bitwise = Bitwise::make(0);
-
-        $values = [
-            'converted_email' => Location::EMAIL_CONVERTED,
-            'declined_email' => Location::EMAIL_DECLINED,
-            'referred_email' => Location::EMAIL_REFERRED,
-        ];
-
-        foreach ($values as $name => $bitwiseValue) {
-            $bitwise->apply($request->get($name) ? $bitwiseValue : 0);
-            unset($request[$name]);
-        }
-
-        $request['email_notifications'] = $bitwise->get();
-
-        return $request;
     }
 }
