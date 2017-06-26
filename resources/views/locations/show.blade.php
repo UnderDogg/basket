@@ -47,28 +47,22 @@
                         <dd>@foreach($location->getEmails() as $email){{$email}} @endforeach</dd>
                         <dt>Location Address</dt>
                         <dd>{!! $location->address !!}</dd>
-                        <dt>Converted Email</dt>
+                        <dt>Notification Emails</dt>
                         <dd>
-                            @if($location->getConvertedEmailSetting())
-                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @if($location->notifications->has(\App\Helpers\Notifications::CONVERTED))
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Converted</span>
                             @else
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Converted</span>
                             @endif
-                        </dd>
-                        <dt>Declined Email</dt>
-                        <dd>
-                            @if($location->getDeclinedEmailSetting())
-                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @if($location->notifications->has(\App\Helpers\Notifications::DECLINED))
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Declined</span>
                             @else
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Declined</span>
                             @endif
-                        </dd>
-                        <dt>Referred Email</dt>
-                        <dd>
-                            @if($location->getReferredEmailSetting())
-                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @if($location->notifications->has(\App\Helpers\Notifications::REFERRED))
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Referred</span>
                             @else
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Referred</span>
                             @endif
                         </dd>
                     </dl>
