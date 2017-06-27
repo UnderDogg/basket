@@ -12,6 +12,7 @@ namespace App\Basket;
 
 use App\Exceptions\Exception;
 use App\Helpers\NotificationPreferences;
+use App\Http\Traits\FlagTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,6 +34,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Location extends Model
 {
+    use FlagTrait;
+
     protected $table = 'locations';
 
     /**
@@ -50,33 +53,25 @@ class Location extends Model
     ];
 
     /**
+     * Return the fields addressed by a flagged type:
+     * ['field_name' => Object::class]
      * @author GK
-     * @param $value
-     * @return Notifications
+     * @return array
      */
-    protected function getNotificationsAttribute($value)
+    protected function getFlagFields()
     {
-        return new Notifications($this->attributes['notifications']);
+        return [
+            'notifications' => NotificationPreferences::class
+        ];
     }
 
     /**
      * @author GK
      * @param $value
-     * @throws Exception
      */
     protected function setNotificationsAttribute($value)
     {
-        if (is_array($value)) {
-            $notifications = new Notifications();
-
-            foreach ($value as $bit) {
-                $notifications->add($bit);
-            }
-
-            $this->attributes['notifications'] = $notifications->getState();
-        } else {
-            throw new Exception('Unidentified type provided for property [notifications] on [Location] object');
-        }
+        $this->setFlagAttribute('notifications', $value);
     }
 
     /**
@@ -141,5 +136,17 @@ class Location extends Model
     public function getEmails()
     {
         return explode(',', $this->email);
+    }
+
+    /**
+     * @author GK
+     * @param array $attributes
+     * @return $this
+     */
+    public function fill(array $attributes)
+    {
+        $attributes = $this->forceFillFlags($attributes);
+
+        return parent::fill($attributes);
     }
 }
