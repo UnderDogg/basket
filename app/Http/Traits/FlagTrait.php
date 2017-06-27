@@ -23,22 +23,6 @@ trait FlagTrait
     abstract protected function getFlagFields();
 
     /**
-     * FlagTrait constructor.
-     *
-     * @throws InvalidTypeException
-     */
-    public function __construct()
-    {
-        foreach ($this->getFlagFields() as $key => $value) {
-            $singleton = $this->makeFlagObject($key);
-
-            if (!($singleton instanceof FlagFieldInterface)) {
-                throw new InvalidTypeException('The provided type does not implement [FlagFieldInterface]');
-            }
-        }
-    }
-
-    /**
      * Call in the fill method if you want the properties to be always set
      *
      * @author GK
@@ -112,6 +96,7 @@ trait FlagTrait
      * @author GK
      * @param $key
      * @return FlagFieldInterface
+     * @throws InvalidTypeException
      */
     private function makeFlagObject($key)
     {
@@ -120,6 +105,11 @@ trait FlagTrait
         }
 
         $type = $this->getFlagFields()[$key];
+
+        if (!(new $type() instanceof FlagFieldInterface)) {
+            throw new InvalidTypeException('The provided type does not implement [FlagFieldInterface]');
+        }
+
         $status = 0;
         $this->flagSingletons[$key] = new $type($status, function (AbstractBitwiser $flags) use ($key) {
             $this->attributes[$key] = $flags->getState();

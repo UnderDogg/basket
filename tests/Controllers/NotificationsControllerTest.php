@@ -4,6 +4,7 @@ use App\Basket\Application;
 use App\Basket\Location;
 use App\Basket\Notifications\LocationNotificationService;
 use App\Basket\Synchronisation\NotificationCatcherService;
+use App\Helpers\NotificationPreferences;
 use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getConvertedEmailSetting')->willReturn(true);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::CONVERTED)
+            ->willReturn(true);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -57,9 +64,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getConvertedEmailSetting')->willReturn(false);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::CONVERTED)
+            ->willReturn(false);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -93,9 +106,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getDeclinedEmailSetting')->willReturn(true);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::DECLINED)
+            ->willReturn(true);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -129,9 +148,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getDeclinedEmailSetting')->willReturn(false);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::DECLINED)
+            ->willReturn(false);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -165,9 +190,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getDeclinedEmailSetting')->willReturn(true);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::DECLINED)
+            ->willReturn(true);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -201,9 +232,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getDeclinedEmailSetting')->willReturn(false);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::DECLINED)
+            ->willReturn(false);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -237,9 +274,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getReferredEmailSetting')->willReturn(true);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::REFERRED)
+            ->willReturn(true);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
@@ -273,9 +316,15 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockLocation = $this->getMockBuilder(Location::class, ['getConvertedEmailSetting'])
+        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
             ->disableOriginalConstructor()->getMock();
-        $mockLocation->expects($this->once())->method('getReferredEmailSetting')->willReturn(false);
+        $mockNotifications->expects($this->once())
+            ->method('has')
+            ->with(NotificationPreferences::REFERRED)
+            ->willReturn(false);
+
+        $mockLocation = $this->getMock(Location::class);
+        $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
         $mockApplication->location = $mockLocation;
