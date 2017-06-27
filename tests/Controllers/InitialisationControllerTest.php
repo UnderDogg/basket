@@ -54,7 +54,7 @@ class InitialisationControllerTest extends TestCase
     {
         $user = User::find(1);
         $this->visit('/locations/1/applications/make')
-            ->see('You don&#039;t have permission to access this Location')
+            ->see('You don\'t have permission to access this Location')
             ->seeStatusCode(200);
     }
 

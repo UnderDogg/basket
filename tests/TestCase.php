@@ -60,7 +60,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $method = $reflection->getMethod($method);
         $method->setAccessible(true);
 
-        $obj = $this->getMock($class);
+        $obj = $this->createMock($class);
 
         return $method->invokeArgs($obj, $params);
     }
