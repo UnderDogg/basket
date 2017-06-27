@@ -63,6 +63,13 @@ trait FilterTrait
                         '%' . $this->processMoneyFilters($value) . '%'
                     );
                     break;
+                case Controller::FILTER_NULL:
+                    if ($value === Controller::FILTER_IS_NOT_NULL_KEY) {
+                        $query->whereNotNull($field);
+                    } elseif ($value === Controller::FILTER_IS_NULL_KEY) {
+                        $query->whereNull($field);
+                    }
+                    break;
                 default:
                     throw new Exception('Unhandled filter for field ' . $field);
             }
@@ -134,6 +141,17 @@ trait FilterTrait
             }
             $rtn = ['' => 'All'] + $rtn;
         }
+
+        return $rtn;
+    }
+
+    protected function fetchNullFilterValues($isNullLabel, $isNotNullLabel)
+    {
+        $rtn = [];
+
+        $rtn[Controller::FILTER_IS_NULL_KEY] = ucwords($isNullLabel);
+        $rtn[Controller::FILTER_IS_NOT_NULL_KEY] = ucwords($isNotNullLabel);
+        $rtn = ['' => 'All'] + $rtn;
 
         return $rtn;
     }

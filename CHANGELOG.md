@@ -1,3 +1,27 @@
+## Features
+- remove obsolete ``assisted_journey`` column from ``installations`` table (147333985)
+
+## Bug Fixes
+- Added frontend validation for postcode in the assisted journey (147515323)
+
+# 1.19.3
+2017-06-22
+
+## Bug Fixes
+- Fixed a problem with merchant payments not being added (147515743)
+
+# 1.19.2
+2017-06-20
+
+## Bug Fixes
+- Improve the seeder for initial dev setup
+- Improve compatibility across multiple versions of MySQL from 5.6 to 5.7, in prep for DB Engine Upgrade
+- Change field type to password for change password form (147270697)
+
+## Features
+- Added `Merchant Liable` concept to Installation and Application (147092245)
+- Added new mechanism to allow users to see everyone’s applications or just their own. Configurable with Role `sales-team-lead` (147201981)
+
 # 1.19.1
 2017-05-12
 

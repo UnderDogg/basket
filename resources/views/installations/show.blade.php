@@ -50,6 +50,14 @@
                                 @endif
                             </dd>
                         @endforeach
+                        <dt>Merchant Liability</dt>
+                        <dd>
+                            @if( $installations->ext_feature_merchant_liable == 0 )
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
+                            @elseif( $installations->ext_feature_merchant_liable == 1 )
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @endif
+                        </dd>
                     </dl>
                 </div>
             </div>

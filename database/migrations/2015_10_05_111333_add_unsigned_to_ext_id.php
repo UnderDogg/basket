@@ -24,8 +24,11 @@ class AddUnsignedToExtId extends Migration
      */
     public function down()
     {
-        Schema::table('applications', function ($table) {
-            $table->integer('ext_id')->signed()->change();
-        });
+        // NOTE: This has been disabled with the DB engine upgrades as
+        // setting the column to signed causes data violations. Code left for clarity in future.
+        //
+        // Schema::table('applications', function ($table) {
+        //     $table->integer('ext_id')->signed()->change();
+        // });
     }
 }

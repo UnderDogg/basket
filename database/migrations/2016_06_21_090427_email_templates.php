@@ -23,7 +23,8 @@ class EmailTemplates extends Migration
             $table->foreign('merchant_id')->references('id')->on('merchants');
             $table->boolean('active')->default(true);
             $table->text('html');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::create('installation_template', function (Blueprint $table) {
