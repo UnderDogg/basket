@@ -98,7 +98,7 @@ return [
     |
     */
 
-    'log' => 'single',
+    'log' => 'syslog',
 
         'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
@@ -148,7 +148,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         'Zizaco\Entrust\EntrustServiceProvider',
-        Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
         /*
