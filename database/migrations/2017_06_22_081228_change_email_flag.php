@@ -1,7 +1,7 @@
 <?php
 
 use App\Basket\Location;
-use App\Helpers\Notifications;
+use App\Helpers\NotificationPreferences;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -31,8 +31,8 @@ class ChangeEmailFlag extends Migration
         $locations = Location::all();
         foreach ($locations as $location) {
             /** @var App\Basket\Location location */
-            if ($location->notifications->has(Notifications::CONVERTED)) {
-                $location->notifications = [Notifications::CONVERTED];
+            if ($location->notifications->has(NotificationPreferences::CONVERTED)) {
+                $location->notifications = [NotificationPreferences::CONVERTED];
             } else {
                 $location->notifications = [];
             }

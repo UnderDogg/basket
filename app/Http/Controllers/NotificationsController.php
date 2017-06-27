@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Basket\Notifications\LocationNotificationService;
 use App\Basket\Synchronisation\NotificationCatcherService;
+use App\Helpers\NotificationPreferences;
 use Illuminate\Http\Request;
 
 /**
@@ -92,18 +93,18 @@ class NotificationsController extends Controller
     {
         switch ($request->json('new_status')) {
             case self::STATUS_CONVERTED:
-                if ($application->location->getConvertedEmailSetting()) {
+                if ($application->location->notifications->has(NotificationPreferences::CONVERTED)) {
                     $this->locationNotificationService->convertedNotification($application, $application->location);
                 }
                 break;
             case self::STATUS_PRE_DECLINED:
             case self::STATUS_DECLINED:
-                if ($application->location->getDeclinedEmailSetting()) {
+                if ($application->location->notifications->has(NotificationPreferences::DECLINED)) {
                     $this->locationNotificationService->declinedNotification($application, $application->location);
                 }
                 break;
             case self::STATUS_REFERRED:
-                if ($application->location->getReferredEmailSetting()) {
+                if ($application->location->notifications->has(NotificationPreferences::REFERRED)) {
                     $this->locationNotificationService->referredNotification($application, $application->location);
                 }
         }

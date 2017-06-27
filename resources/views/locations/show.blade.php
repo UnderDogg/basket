@@ -49,17 +49,17 @@
                         <dd>{!! $location->address !!}</dd>
                         <dt>Notification Emails</dt>
                         <dd>
-                            @if($location->notifications->has(\App\Helpers\Notifications::CONVERTED))
+                            @if($location->notifications->has(\App\Helpers\NotificationPreferences::CONVERTED))
                                 <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Converted</span>
                             @else
                                 <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Converted</span>
                             @endif
-                            @if($location->notifications->has(\App\Helpers\Notifications::DECLINED))
+                            @if($location->notifications->has(\App\Helpers\NotificationPreferences::DECLINED))
                                 <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Declined</span>
                             @else
                                 <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Declined</span>
                             @endif
-                            @if($location->notifications->has(\App\Helpers\Notifications::REFERRED))
+                            @if($location->notifications->has(\App\Helpers\NotificationPreferences::REFERRED))
                                 <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Referred</span>
                             @else
                                 <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Referred</span>

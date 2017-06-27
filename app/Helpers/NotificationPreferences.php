@@ -10,7 +10,7 @@ use Flow\Bitwiser\AbstractBitwiser;
  * @author GK
  * @package App\Helpers
  */
-class Notifications extends AbstractBitwiser
+class NotificationPreferences extends AbstractBitwiser implements FlagFieldInterface
 {
     const CONVERTED = 0;
     const DECLINED = 1;

@@ -11,7 +11,7 @@
 namespace App\Basket;
 
 use App\Exceptions\Exception;
-use App\Helpers\Notifications;
+use App\Helpers\NotificationPreferences;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
- * @property Notifications $notifications
+ * @property NotificationPreferences $notifications
  * @property Installation $installation
  * @package App\Basket
  */

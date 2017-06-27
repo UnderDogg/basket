@@ -15,7 +15,6 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests\LocationStoreRequest;
 use App\Http\Requests\LocationUpdateRequest;
 use Illuminate\Http\Request;
-use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Class LocationsController

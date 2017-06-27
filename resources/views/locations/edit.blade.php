@@ -51,15 +51,15 @@
             <label for="notifications" class="col-sm-2 control-label"><abbr title="We can send you a notification e-mail to the provided address(es) when an application gets converted, declined or referred. Select the status if you wish to be notified.">Notification Emails</abbr></label>
             <div class="col-sm-8">
                 <label class="checkbox-inline">
-                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\Notifications::CONVERTED, ['checked' => $location->notifications->has(App\Helpers\Notifications::CONVERTED) ? 'true' : null]) !!}
+                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\NotificationPreferences::CONVERTED, ['checked' => $location->notifications->has(App\Helpers\NotificationPreferences::CONVERTED) ? 'true' : null]) !!}
                     Converted
                 </label>
                 <label class="checkbox-inline">
-                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\Notifications::DECLINED, ['checked' => $location->notifications->has(App\Helpers\Notifications::DECLINED) ? 'true' : null]) !!}
+                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\NotificationPreferences::DECLINED, ['checked' => $location->notifications->has(App\Helpers\NotificationPreferences::DECLINED) ? 'true' : null]) !!}
                     Declined
                 </label>
                 <label class="checkbox-inline">
-                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\Notifications::REFERRED, ['checked' => $location->notifications->has(App\Helpers\Notifications::REFERRED) ? 'true' : null]) !!}
+                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\NotificationPreferences::REFERRED, ['checked' => $location->notifications->has(App\Helpers\NotificationPreferences::REFERRED) ? 'true' : null]) !!}
                     Referred
                 </label>
             </div>
