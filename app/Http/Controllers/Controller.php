@@ -35,7 +35,7 @@ use WNowicki\Generic\Logger\PsrLoggerTrait;
  * @author MS
  * @package App\Http\Controllers
  */
-class Controller extends BaseController
+abstract class Controller extends BaseController
 {
     use DispatchesJobs, ValidatesRequests, PsrLoggerTrait, ModelTrait, FilterTrait, LimitTrait;
 
