@@ -23,6 +23,13 @@ trait FlagTrait
     abstract protected function getFlagFields();
 
     /**
+     * @author GK
+     * @param $key
+     * @return mixed
+     */
+    abstract protected function getAttribute($key);
+
+    /**
      * Call in the fill method if you want the properties to be always set
      *
      * @author GK
