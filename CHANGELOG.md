@@ -1,3 +1,15 @@
+## Features
+- remove obsolete ``assisted_journey`` column from ``installations`` table (147333985)
+
+## Bug Fixes
+- Added frontend validation for postcode in the assisted journey (147515323)
+
+# 1.19.3
+2017-06-22
+
+## Bug Fixes
+- Fixed a problem with merchant payments not being added (147515743)
+
 # 1.19.2
 2017-06-20
 
