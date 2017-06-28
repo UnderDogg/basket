@@ -5,6 +5,18 @@ paths:
     support: tests/_support
     envs: tests/_envs
 actor_suffix: Tester
+settings:
+    bootstrap: ../../bootstrap/autoload.php
+    lint: false
+    colors: true
+    backup_globals: false
+    convertErrorsToExceptions: true
+    convertNoticesToExceptions: true
+    convertWarningsToExceptions: true
+    processIsolation: false
+coverage:
+    enabled: true
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+        - Codeception\Extension\DotReporter
