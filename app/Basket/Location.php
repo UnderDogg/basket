@@ -11,8 +11,6 @@
 namespace App\Basket;
 
 use App\Exceptions\Exception;
-use App\Helpers\NotificationPreferences;
-use App\Http\Traits\FlagTrait;
 use Illuminate\Database\Eloquent\Model;
 use PayBreak\Foundation\Properties\Bitwise;
 
@@ -57,11 +55,12 @@ class Location extends Model
 
     /**
      * @author GK
+     * @param $value
      * @return Bitwise
      */
-    protected function getNotificationsAttribute()
+    protected function getNotificationsAttribute($value)
     {
-        return Bitwise::make($this->getAttribute('notifications'));
+        return Bitwise::make($value);
     }
 
     /**
@@ -70,7 +69,7 @@ class Location extends Model
      */
     protected function setNotificationsAttribute(array $value)
     {
-        $this->attributes['notifications'] = Bitwise::makeFromArray($value);
+        $this->attributes['notifications'] = Bitwise::makeFromArray($value)->get();
     }
 
     /**

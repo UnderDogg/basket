@@ -87,9 +87,9 @@ class NotificationsController extends Controller
     /**
      * @author GK
      * @param \App\Basket\Application $application
-     * @param $request
+     * @param Request $request
      */
-    private function processNotification($application, $request)
+    private function processNotification($application, Request $request)
     {
         switch ($request->json('new_status')) {
             case self::STATUS_CONVERTED:
