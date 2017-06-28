@@ -30,9 +30,9 @@ class ChangeEmailFlag extends Migration
     {
         $locations = Location::all();
         foreach ($locations as $location) {
-            /** @var App\Basket\Location location */
-            if ($location->notifications->has(NotificationPreferences::CONVERTED)) {
-                $location->notifications = [NotificationPreferences::CONVERTED];
+            /** @var App\Basket\Location $location */
+            if ($location->notifications->contains(Location::NOTIFICATIONS_CONVERTED)) {
+                $location->notifications = [Location::NOTIFICATIONS_CONVERTED];
             } else {
                 $location->notifications = [];
             }

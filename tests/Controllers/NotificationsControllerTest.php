@@ -7,6 +7,7 @@ use App\Basket\Synchronisation\NotificationCatcherService;
 use App\Helpers\NotificationPreferences;
 use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
+use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Class NotificationsControllerTest
@@ -22,11 +23,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::CONVERTED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_CONVERTED)
             ->willReturn(true);
 
         $mockLocation = $this->getMock(Location::class);
@@ -64,11 +65,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::CONVERTED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_CONVERTED)
             ->willReturn(false);
 
         $mockLocation = $this->getMock(Location::class);
@@ -106,11 +107,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::DECLINED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(true);
 
         $mockLocation = $this->getMock(Location::class);
@@ -148,11 +149,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::DECLINED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(false);
 
         $mockLocation = $this->getMock(Location::class);
@@ -190,11 +191,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::DECLINED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(true);
 
         $mockLocation = $this->getMock(Location::class);
@@ -232,11 +233,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::DECLINED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(false);
 
         $mockLocation = $this->getMock(Location::class);
@@ -274,11 +275,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::REFERRED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_REFERRED)
             ->willReturn(true);
 
         $mockLocation = $this->getMock(Location::class);
@@ -316,11 +317,11 @@ class NotificationsControllerTest extends TestCase
     {
         $installation = 'TestInstallation';
 
-        $mockNotifications = $this->getMockBuilder(NotificationPreferences::class)
+        $mockNotifications = $this->getMockBuilder(Bitwise::class)
             ->disableOriginalConstructor()->getMock();
         $mockNotifications->expects($this->once())
-            ->method('has')
-            ->with(NotificationPreferences::REFERRED)
+            ->method('contains')
+            ->with(Location::NOTIFICATIONS_REFERRED)
             ->willReturn(false);
 
         $mockLocation = $this->getMock(Location::class);

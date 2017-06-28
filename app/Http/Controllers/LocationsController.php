@@ -12,7 +12,6 @@ namespace App\Http\Controllers;
 use App\Basket\Installation;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
-use App\Helpers\NotificationPreferences;
 use App\Http\Requests\LocationStoreRequest;
 use App\Http\Requests\LocationUpdateRequest;
 use Illuminate\Http\Request;
@@ -71,7 +70,7 @@ class LocationsController extends Controller
             $this->validateEmailAddressInput($request);
             $toCreate = $request->all();
             $toCreate['active'] = ($request->has('active')) ? 1 : 0;
-            $toCreate['notifications'] = [NotificationPreferences::CONVERTED];
+            $toCreate['notifications'] = [Location::NOTIFICATIONS_CONVERTED];
             Location::create($toCreate);
         } catch (\Exception $e) {
             $this->logError('Could not successfully create new Location' . $e->getMessage());

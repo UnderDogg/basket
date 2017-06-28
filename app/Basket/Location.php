@@ -14,6 +14,7 @@ use App\Exceptions\Exception;
 use App\Helpers\NotificationPreferences;
 use App\Http\Traits\FlagTrait;
 use Illuminate\Database\Eloquent\Model;
+use PayBreak\Foundation\Properties\Bitwise;
 
 /**
  * Location Model
@@ -28,15 +29,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property        $created_at
  * @property        $updated_at
- * @property NotificationPreferences $notifications
+ * @property Bitwise $notifications
  * @property Installation $installation
  * @package App\Basket
  */
 class Location extends Model
 {
-    use FlagTrait;
-
     protected $table = 'locations';
+
+    const NOTIFICATIONS_CONVERTED = '1';
+    const NOTIFICATIONS_DECLINED = '2';
+    const NOTIFICATIONS_REFERRED = '4';
 
     /**
      * Attributes that should be mass-assignable.
@@ -53,25 +56,21 @@ class Location extends Model
     ];
 
     /**
-     * Return the fields addressed by a flagged type:
-     * ['field_name' => Object::class]
      * @author GK
-     * @return array
+     * @return Bitwise
      */
-    protected function getFlagFields()
+    protected function getNotificationsAttribute()
     {
-        return [
-            'notifications' => NotificationPreferences::class
-        ];
+        return Bitwise::make($this->getAttribute('notifications'));
     }
 
     /**
      * @author GK
-     * @param $value
+     * @param array $value
      */
-    protected function setNotificationsAttribute($value)
+    protected function setNotificationsAttribute(array $value)
     {
-        $this->setFlagAttribute('notifications', $value);
+        $this->attributes['notifications'] = Bitwise::makeFromArray($value);
     }
 
     /**
@@ -145,7 +144,9 @@ class Location extends Model
      */
     public function fill(array $attributes)
     {
-        $attributes = $this->forceFillFlags($attributes);
+        if (!array_key_exists('notifications', $attributes)) {
+            $attributes['notifications'] = [];
+        }
 
         return parent::fill($attributes);
     }

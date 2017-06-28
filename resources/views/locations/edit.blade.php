@@ -51,15 +51,15 @@
             <label for="notifications" class="col-sm-2 control-label"><abbr title="We can send you a notification e-mail to the provided address(es) when an application gets converted, declined or referred. Select the status if you wish to be notified.">Notification Emails</abbr></label>
             <div class="col-sm-8">
                 <label class="checkbox-inline">
-                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\NotificationPreferences::CONVERTED, ['checked' => $location->notifications->has(App\Helpers\NotificationPreferences::CONVERTED) ? 'true' : null]) !!}
+                    {!! Form::input('checkbox', 'notifications[]', \App\Basket\Location::NOTIFICATIONS_CONVERTED, ['checked' => $location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_CONVERTED) ? 'true' : null]) !!}
                     Converted
                 </label>
                 <label class="checkbox-inline">
-                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\NotificationPreferences::DECLINED, ['checked' => $location->notifications->has(App\Helpers\NotificationPreferences::DECLINED) ? 'true' : null]) !!}
+                    {!! Form::input('checkbox', 'notifications[]', \App\Basket\Location::NOTIFICATIONS_DECLINED, ['checked' => $location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_DECLINED) ? 'true' : null]) !!}
                     Declined
                 </label>
                 <label class="checkbox-inline">
-                    {!! Form::input('checkbox', 'notifications[]', App\Helpers\NotificationPreferences::REFERRED, ['checked' => $location->notifications->has(App\Helpers\NotificationPreferences::REFERRED) ? 'true' : null]) !!}
+                    {!! Form::input('checkbox', 'notifications[]', \App\Basket\Location::NOTIFICATIONS_REFERRED, ['checked' => $location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_REFERRED) ? 'true' : null]) !!}
                     Referred
                 </label>
             </div>
