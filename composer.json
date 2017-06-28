@@ -29,7 +29,8 @@
         "scrutinizer/ocular": "~1.1",
         "doctrine/dbal": "~2.4",
         "symfony/dom-crawler": "~3.0",
-        "symfony/css-selector": "3.0"
+        "symfony/css-selector": "3.0",
+        "codeception/codeception": "^2.3"
     },
     "autoload": {
         "classmap": [
