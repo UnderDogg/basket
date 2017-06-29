@@ -1,5 +1,6 @@
 ## Features
 - remove obsolete ``assisted_journey`` column from ``installations`` table (147333985)
+- Add options to be notified of declined and referred applications on location level (144469467)
 
 ## Bug Fixes
 - Added frontend validation for postcode in the assisted journey (147515323)
