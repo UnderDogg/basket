@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Session\TokenMismatchException;
@@ -17,8 +18,9 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         AuthorizationException::class,
-        ValidationException::class,
         HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
         RedirectException::class,
         TokenMismatchException::class
     ];
