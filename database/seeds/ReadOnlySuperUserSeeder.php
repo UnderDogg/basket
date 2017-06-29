@@ -40,8 +40,6 @@ class ReadOnlySuperUserSeeder extends Seeder
      */
     protected function seedDataSource()
     {
-        Model::unguard();
-
         $role = new \App\Role();
         $role->name = 'rosu';
         $role->display_name = 'Read Only Super User';
@@ -64,7 +62,5 @@ class ReadOnlySuperUserSeeder extends Seeder
             } catch (Exception $e) {
             }
         }
-
-        Model::reguard();
     }
 }

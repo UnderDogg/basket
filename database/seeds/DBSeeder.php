@@ -88,8 +88,6 @@ class DBSeeder extends Seeder
      */
     protected function seedDataSource()
     {
-        Model::unguard();
-
         foreach ($this->permissions as $permissionsToAdd) {
             $permissionObject = new Permission();
             $permissionObject->name = $permissionsToAdd[1];
@@ -129,7 +127,5 @@ class DBSeeder extends Seeder
         }
 
         (new PermissionSeeder())->run();
-
-        Model::reguard();
     }
 }
