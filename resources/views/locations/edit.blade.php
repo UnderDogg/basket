@@ -21,7 +21,7 @@
         </div>
 
         <div class="form-group">
-            <label for="email" class="col-sm-2 control-label"><abbr title="This should be a valid email address, as we will send the converted email to this email address. This field can contain multiple email addresses, but they must be separated with a comma, and have no spaces between them">Email</abbr></label>
+            <label for="email" class="col-sm-2 control-label"><abbr title="This should be a valid email address, as we will send the notification emails to this email address. This field can contain multiple email addresses, but they must be separated with a comma, and have no spaces between them">Email</abbr></label>
             <div class="col-sm-8">
                 {!! Form::input('email', 'email', null, ['class' => 'form-control', 'data-fv-notempty' => 'true', 'data-fv-emailaddress' => 'true', 'data-fv-emailaddress-multiple' => 'true', 'data-fv-emailaddress-separator' => ',', 'maxlength' => 255, 'data-fv-emailaddress-message' => 'Please enter a valid email address, or multiple email addresses, separated with only a comma']) !!}
             </div>
@@ -39,7 +39,7 @@
             <div class="col-sm-8">
                 <label class="checkbox-inline">
                     @if($location->active == 1)
-                        {!! Form::input('checkbox', 'active', 1, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
+                        {!! Form::input('checkbox', 'active', 1, ['checked' => true, 'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
                     @else
                         {!! Form::input('checkbox', 'active', 0, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
                     @endif
@@ -48,14 +48,19 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('converted_email', 'Converted Email', ['class' => 'col-sm-2 control-label']) !!}
+            <label for="notifications" class="col-sm-2 control-label"><abbr title="We can send you a notification e-mail to the provided address(es) when an application gets converted, declined or referred. Select the status if you wish to be notified.">Notification Emails</abbr></label>
             <div class="col-sm-8">
                 <label class="checkbox-inline">
-                    @if($location->converted_email == 1)
-                        {!! Form::input('checkbox', 'converted_email', 0, ['checked' => true,'data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @else
-                        {!! Form::input('checkbox', 'converted_email', 1, ['data-toggle' => 'toggle', 'data-on' => '<i class="glyphicon glyphicon-ok"></i> Active', 'data-off' => '<i class="glyphicon glyphicon-remove"></i> Inactive', 'data-onstyle' => 'success', 'data-offstyle' => 'danger', 'data-size' => 'small']) !!}
-                    @endif
+                    {!! Form::input('checkbox', 'notifications[]', \App\Basket\Location::NOTIFICATIONS_CONVERTED, ['checked' => $location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_CONVERTED) ? 'true' : null]) !!}
+                    Converted
+                </label>
+                <label class="checkbox-inline">
+                    {!! Form::input('checkbox', 'notifications[]', \App\Basket\Location::NOTIFICATIONS_DECLINED, ['checked' => $location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_DECLINED) ? 'true' : null]) !!}
+                    Declined
+                </label>
+                <label class="checkbox-inline">
+                    {!! Form::input('checkbox', 'notifications[]', \App\Basket\Location::NOTIFICATIONS_REFERRED, ['checked' => $location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_REFERRED) ? 'true' : null]) !!}
+                    Referred
                 </label>
             </div>
         </div>

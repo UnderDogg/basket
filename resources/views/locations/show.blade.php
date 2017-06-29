@@ -47,12 +47,22 @@
                         <dd>@foreach($location->getEmails() as $email){{$email}} @endforeach</dd>
                         <dt>Location Address</dt>
                         <dd>{!! $location->address !!}</dd>
-                        <dt>Converted Email</dt>
+                        <dt>Notification Emails</dt>
                         <dd>
-                            @if( $location->converted_email == 0 )
-                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Inactive</span>
-                            @elseif( $location->converted_email == 1 )
-                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Active</span>
+                            @if($location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_CONVERTED))
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Converted</span>
+                            @else
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Converted</span>
+                            @endif
+                            @if($location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_DECLINED))
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Declined</span>
+                            @else
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Declined</span>
+                            @endif
+                            @if($location->notifications->contains(\App\Basket\Location::NOTIFICATIONS_REFERRED))
+                                <span class="label label-success"><i class="glyphicon glyphicon-ok"></i> Referred</span>
+                            @else
+                                <span class="label label-danger"><i class="glyphicon glyphicon-remove"></i> Referred</span>
                             @endif
                         </dd>
                     </dl>
