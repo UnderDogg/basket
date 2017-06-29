@@ -35,9 +35,9 @@ class Location extends Model
 {
     protected $table = 'locations';
 
-    const NOTIFICATIONS_CONVERTED = '1';
-    const NOTIFICATIONS_DECLINED = '2';
-    const NOTIFICATIONS_REFERRED = '4';
+    const NOTIFICATIONS_CONVERTED = 1;
+    const NOTIFICATIONS_DECLINED = 2;
+    const NOTIFICATIONS_REFERRED = 4;
 
     /**
      * Attributes that should be mass-assignable.
