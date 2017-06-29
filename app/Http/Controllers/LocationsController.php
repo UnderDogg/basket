@@ -35,6 +35,7 @@ class LocationsController extends Controller
     {
         $locations = Location::query();
         $this->limitToInstallationOnMerchant($locations);
+
         return $this->standardIndexAction(
             $locations,
             'locations.index',
@@ -69,11 +70,13 @@ class LocationsController extends Controller
             $this->validateEmailAddressInput($request);
             $toCreate = $request->all();
             $toCreate['active'] = ($request->has('active')) ? 1 : 0;
+            $toCreate['notifications'] = [Location::NOTIFICATIONS_CONVERTED];
             Location::create($toCreate);
         } catch (\Exception $e) {
             $this->logError('Could not successfully create new Location' . $e->getMessage());
             throw RedirectException::make('/locations/')->setError($e->getMessage());
         }
+
         return $this->redirectWithSuccessMessage(
             'locations',
             'New location has been successfully created'
@@ -115,9 +118,6 @@ class LocationsController extends Controller
      */
     public function update($id, LocationUpdateRequest $request)
     {
-        $converted_email = $request->has('converted_email') ? '1' : '0';
-        $request->request->add(['converted_email' => $converted_email]);
-
         try {
             $this->validateEmailAddressInput($request);
         } catch (\Exception $e) {
@@ -128,7 +128,7 @@ class LocationsController extends Controller
             );
         }
 
-        return $this->updateModel((new Location()), $id, 'location', '/locations', $request);
+        return $this->updateModel(new Location(), $id, 'location', '/locations', $request);
     }
 
     /**
@@ -154,6 +154,7 @@ class LocationsController extends Controller
         $location = $this->fetchLocationById($id);
         $location->type = 'location';
         $location->controller = 'Locations';
+
         return view('includes.page.confirm_delete', ['object' => $location]);
     }
 
