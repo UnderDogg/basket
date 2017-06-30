@@ -1,3 +1,6 @@
+# 1.19.4
+2017-06-30
+
 ## Features
 - remove obsolete ``assisted_journey`` column from ``installations`` table (147333985)
 - Add options to be notified of declined and referred applications on location level (144469467)
