@@ -285,10 +285,10 @@ class InitialisationController extends Controller
             [
                 'options' => $this->getCreditInfoWithProductLimits(
                     $location->installation,
-                    $request->get('amount') * 100
+                    $request->get('amount_in_pounds') * 100
                 ),
-                'flexibleFinance' => $this->prepareFlexibleFinance($location, $request->get('amount') * 100),
-                'amount' => floor($request->get('amount') * 100),
+                'flexibleFinance' => $this->prepareFlexibleFinance($location, $request->get('amount_in_pounds') * 100),
+                'amount' => floor($request->get('amount_in_pounds') * 100),
                 'location' => $location,
                 'bitwise' => Bitwise::make($location->installation->finance_offers),
                 'reference' => $this->generateOrderReferenceFromLocation($location),

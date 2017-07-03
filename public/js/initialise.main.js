@@ -20,7 +20,7 @@ $(document).ready(function(){
     // Make sure the number input is parsed
     $('.form-finance-info').submit(function(e) {
         var uifield = $('.form-finance-info').first().find('input[name=ui_amount]');
-        var field = $('.form-finance-info').first().find('input[name=amount]');
+        var field = $('.form-finance-info').first().find('input[name=amount_in_pounds]');
         var number = $(uifield).val();
         $(field).val(parseFloat(number.replace(',','')));
     });
