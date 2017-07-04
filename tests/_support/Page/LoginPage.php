@@ -1,8 +1,15 @@
 <?php
+
 namespace Page;
 
-use Tests\Acceptance\BaseCest;
+use Helper\BaseCest;
 
+/**
+ * Class LoginPage
+ *
+ * @author GK
+ * @package Page
+ */
 class LoginPage
 {
     // include url of current page
@@ -32,12 +39,13 @@ class LoginPage
      * @author GK
      * @param \AcceptanceTester $I
      * @param int $role
+     * @param string|null $password
      */
-    public static function login(\AcceptanceTester $I, $role)
+    public static function login(\AcceptanceTester $I, $role, $password = null)
     {
         $I->amOnPage(self::$URL);
         $I->fillField(self::$emailField, self::getLoginName($role));
-        $I->fillField(self::$passwordField, 'password');
+        $I->fillField(self::$passwordField, is_null($password) ? 'password' : $password);
         $I->click(self::$signInButton);
     }
 

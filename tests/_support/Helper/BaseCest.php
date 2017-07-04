@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Acceptance;
+namespace Helper;
 
 use AcceptanceTester;
 use Page\LoginPage;
@@ -31,10 +31,11 @@ class BaseCest
      * @author GK
      * @param AcceptanceTester $I
      * @param int $role
+     * @param string $password
      */
-    protected function login(AcceptanceTester &$I, $role = self::ROLE_ADMIN)
+    protected function login(AcceptanceTester &$I, $role = self::ROLE_ADMIN, $password = null)
     {
-        LoginPage::login($I, $role);
+        LoginPage::login($I, $role, $password);
     }
 
     /**

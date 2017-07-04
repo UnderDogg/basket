@@ -4,7 +4,14 @@ namespace Tests\Acceptance;
 
 use AcceptanceTester;
 use Page\LoginPage;
+use Helper\BaseCest;
 
+/**
+ * Class NavigationCest
+ *
+ * @author GK
+ * @package Tests\Acceptance
+ */
 class NavigationCest extends BaseCest
 {
     /**
@@ -202,43 +209,5 @@ class NavigationCest extends BaseCest
         $I->see('Display Name');
         $I->see('Role Code');
         $I->see('Actions');
-    }
-
-    /**
-     * @author GK
-     * @param AcceptanceTester $I
-     */
-    public function goToAccount(AcceptanceTester $I)
-    {
-        $I->am('user');
-        $I->wantTo('go to the account settings');
-        $I->lookForwardTo('see the account settings');
-        $this->login($I);
-        $I->click('Account');
-        $I->see('Account management');
-        $I->see('User Details');
-        $I->see('Name:');
-        $I->see('Email:');
-    }
-
-    /**
-     * @author GK
-     * @param AcceptanceTester $I
-     */
-    public function goToAccountEdit(AcceptanceTester $I)
-    {
-        $I->am('user');
-        $I->wantTo('go to the account settings\'s edit page');
-        $I->lookForwardTo('see the account setting\'s edit form');
-        $this->login($I);
-        $I->click('Account');
-        $I->click('Edit');
-        $I->see('Edit account details');
-        $I->see('User Details');
-        $I->see('Name:');
-        $I->see('Email:');
-        $I->see('Old password:');
-        $I->see('New password:');
-        $I->see('Confirm password:');
     }
 }
