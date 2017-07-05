@@ -151,26 +151,6 @@ class NavigationCest extends BaseCest
      * @author GK
      * @param AcceptanceTester $I
      */
-    public function goToLocations(AcceptanceTester $I)
-    {
-        $I->am('user');
-        $I->wantTo('go to the locations');
-        $I->lookForwardTo('see the locations table');
-
-        $this->login($I);
-        $I->click('Locations');
-        $I->see('Locations');
-        $I->see('Reference');
-        $I->see('Name');
-        $I->see('Installation');
-        $I->see('Active');
-        $I->see('Actions');
-    }
-
-    /**
-     * @author GK
-     * @param AcceptanceTester $I
-     */
     public function goToUsers(AcceptanceTester $I)
     {
         $I->am('user');

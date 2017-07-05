@@ -5,15 +5,15 @@ namespace Page;
 use AcceptanceTester;
 
 /**
- * Class AccountPage
+ * Class LocationsPage
  *
  * @author GK
  * @package Page
  */
-class AccountPage
+class LocationsPage
 {
     // include url of current page
-    public static $URL = '/account';
+    public static $URL = '/locations';
 
     /**
      * Declare UI map for this page here. CSS or XPath allowed.
@@ -21,16 +21,41 @@ class AccountPage
      * public static $formSubmitButton = "#mainForm input[type=submit]";
      */
 
-    public static $menuButton = 'Account';
+    public static $pageTitle = 'Locations';
+    public static $pageAddTitle = 'Create Location';
+    public static $pageEditTitle = 'Edit Location';
+    public static $pageDeleteTitle = 'Delete Location';
+
+    public static $menuButton = 'Locations';
+    public static $addButton = 'Add New Location';
+    public static $submitAddFormButton = 'Create Location';
+    public static $filterButton = 'FILTER';
+    public static $viewButton = 'View';
     public static $editButton = 'Edit';
-    public static $updateDetailsButton = 'Update details';
-    public static $changePasswordButton = 'Change password';
+    public static $deleteButton = 'Delete';
 
     public static $nameField = 'name';
     public static $emailField = 'email';
     public static $oldPasswordField = 'old_password';
     public static $newPasswordField = 'new_password';
     public static $confirmPasswordField = 'new_password_confirmation';
+
+    public static $tableTitles = [
+        'Reference',
+        'Name',
+        'Installation',
+        'Active',
+        'Actions'
+    ];
+    public static $addFormElements = [
+        'Reference:',
+        'Installation:',
+        'Active:',
+        'Name:',
+        'Email',
+        'Address:',
+        'Create Location'
+    ];
 
     /**
      * Basic route example for your current URL
@@ -46,9 +71,9 @@ class AccountPage
      * @author GK
      * @param AcceptanceTester $I
      */
-    public function goToEdit(AcceptanceTester $I)
+    public function goToAddNew(AcceptanceTester $I)
     {
         $I->click(self::$menuButton);
-        $I->click(self::$editButton);
+        $I->click(self::$addButton);
     }
 }

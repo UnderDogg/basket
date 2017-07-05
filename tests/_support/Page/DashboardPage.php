@@ -3,7 +3,7 @@
 namespace Page;
 
 /**
- * Class LoginPage
+ * Class DashboardPage
  *
  * @author GK
  * @package Page
