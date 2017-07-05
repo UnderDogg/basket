@@ -277,19 +277,15 @@ class ApplicationsController extends Controller
     /**
      * @author LH
      * @param Request $request
-     * @param $id
+     * @param int $installation
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function requestPartialRefund(Request $request, $installation, $id)
     {
-        $application = $this->fetchApplicationById($id, $installation);
-        if ($application->ext_order_amount / 100 == $request->refund_amount) {
-            throw RedirectException::make('/installations/' . $installation . '/applications/' . $id)
-                ->setError('Cannot request partial refund for the full amount, you must request cancellation.');
-        }
         $this->validate($request, [
-            'refund_amount' => 'required|numeric|max:' . $application->ext_order_amount/100,
+            'refund_amount' => 'required|numeric',
             'effective_date' => 'required|date_format:Y/m/d',
             'description' => 'required',
         ]);
