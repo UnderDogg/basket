@@ -15,22 +15,22 @@ class AccountPage
     // include url of current page
     public static $URL = '/account';
 
-    public static $menuButton = 'Account';
-    public static $editButton = 'Edit';
-
-    public static $nameField = 'name';
-    public static $emailField = 'email';
-    public static $updateDetailsButton = 'Update details';
-    public static $oldPasswordField = 'old_password';
-    public static $newPasswordField = 'new_password';
-    public static $confirmPassword = 'new_password_confirmation';
-    public static $changePasswordButton = '';
-
     /**
      * Declare UI map for this page here. CSS or XPath allowed.
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
      */
+
+    public static $menuButton = 'Account';
+    public static $editButton = 'Edit';
+    public static $updateDetailsButton = 'Update details';
+    public static $changePasswordButton = 'Change password';
+
+    public static $nameField = 'name';
+    public static $emailField = 'email';
+    public static $oldPasswordField = 'old_password';
+    public static $newPasswordField = 'new_password';
+    public static $confirmPasswordField = 'new_password_confirmation';
 
     /**
      * Basic route example for your current URL

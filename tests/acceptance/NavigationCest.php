@@ -3,6 +3,7 @@
 namespace Tests\Acceptance;
 
 use AcceptanceTester;
+use Page\DashboardPage;
 use Page\LoginPage;
 use Helper\BaseCest;
 
@@ -18,14 +19,16 @@ class NavigationCest extends BaseCest
      * @author GK
      * @param AcceptanceTester $I
      * @param LoginPage $loginPage
+     * @param DashboardPage $dashboard
      */
-    public function signInAndLogout(AcceptanceTester $I, LoginPage $loginPage)
+    public function signInAndLogout(AcceptanceTester $I, LoginPage $loginPage, DashboardPage $dashboard)
     {
         $I->am('user');
         $I->wantTo('login to website');
         $I->lookForwardTo('access website features for logged-in users');
-        $loginPage::login($I, self::ROLE_ADMIN);
-        $I->see('DASHBOARD');
+
+        $loginPage::login($I);
+        $I->see($dashboard::$pageTitle);
         $I->see('Support Details');
         $loginPage::logout($I);
         $I->see('Sign In');
@@ -40,6 +43,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the applications');
         $I->lookForwardTo('see the applications table');
+
         $this->login($I);
         $I->click('Applications');
         $I->see('Applications');
@@ -72,6 +76,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the pending cancellations');
         $I->lookForwardTo('see the pending cancellations table');
+
         $this->login($I);
         $I->click('Pending Cancellations');
         $I->see('Pending Cancellations');
@@ -91,6 +96,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the settlement reports');
         $I->lookForwardTo('see the settlement reports table');
+
         $this->login($I);
         $I->click('Settlements');
         $I->see('Settlement Reports');
@@ -110,6 +116,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the partial refunds');
         $I->lookForwardTo('see the partial refunds table');
+
         $this->login($I);
         $I->click('Partial Refunds');
         $I->see('Partial Refunds');
@@ -129,6 +136,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the installations');
         $I->lookForwardTo('see the installations table');
+
         $this->login($I);
         $I->click('Installations');
         $I->see('Installations');
@@ -148,6 +156,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the locations');
         $I->lookForwardTo('see the locations table');
+
         $this->login($I);
         $I->click('Locations');
         $I->see('Locations');
@@ -167,6 +176,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the users');
         $I->lookForwardTo('see the users table');
+
         $this->login($I);
         $I->click('Users');
         $I->see('Users');
@@ -185,6 +195,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the merchants');
         $I->lookForwardTo('see the merchants table');
+
         $this->login($I);
         $I->click('Merchants');
         $I->see('Merchants');
@@ -202,6 +213,7 @@ class NavigationCest extends BaseCest
         $I->am('user');
         $I->wantTo('go to the roles and permissions');
         $I->lookForwardTo('see the roles table');
+
         $this->login($I);
         $I->click('Roles & Permissions');
         $I->see('Roles');

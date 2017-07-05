@@ -13,12 +13,6 @@ use Page\LoginPage;
  */
 class BaseCest
 {
-    const ROLE_ADMIN = 0;
-    const ROLE_MERCHANTADMINISTRATOR = 1;
-    const ROLE_REPORTER = 2;
-    const ROLE_MANAGER = 3;
-    const ROLE_SALES = 4;
-
     /**
      * BaseCest constructor.
      */
@@ -33,9 +27,10 @@ class BaseCest
      * @param int $role
      * @param string $password
      */
-    protected function login(AcceptanceTester &$I, $role = self::ROLE_ADMIN, $password = null)
+    protected function login(AcceptanceTester &$I, $role = AcceptanceTester::ROLE_ADMIN, $password = null)
     {
-        LoginPage::login($I, $role, $password);
+        $I->setRole($role);
+        LoginPage::login($I, $password);
     }
 
     /**

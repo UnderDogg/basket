@@ -2,7 +2,7 @@
 
 namespace Page;
 
-use Helper\BaseCest;
+use AcceptanceTester;
 
 /**
  * Class LoginPage
@@ -15,15 +15,15 @@ class LoginPage
     // include url of current page
     public static $URL = '/login';
 
-    public static $emailField = 'email';
-    public static $passwordField = 'password';
-    public static $signInButton = 'Sign In';
-
     /**
      * Declare UI map for this page here. CSS or XPath allowed.
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
      */
+
+    public static $emailField = 'email';
+    public static $passwordField = 'password';
+    public static $signInButton = 'Sign In';
 
     /**
      * Basic route example for your current URL
@@ -38,14 +38,13 @@ class LoginPage
     /**
      * @author GK
      * @param \AcceptanceTester $I
-     * @param int $role
      * @param string|null $password
      */
-    public static function login(\AcceptanceTester $I, $role, $password = null)
+    public static function login(AcceptanceTester $I, $password = null)
     {
         $I->amOnPage(self::$URL);
-        $I->fillField(self::$emailField, self::getLoginName($role));
-        $I->fillField(self::$passwordField, is_null($password) ? 'password' : $password);
+        $I->fillField(self::$emailField, $I->getLoginName());
+        $I->fillField(self::$passwordField, is_null($password) ? $I::DEFAULT_PASSWORD : $password);
         $I->click(self::$signInButton);
     }
 
@@ -53,29 +52,8 @@ class LoginPage
      * @author GK
      * @param \AcceptanceTester $I
      */
-    public static function logout(\AcceptanceTester $I)
+    public static function logout(AcceptanceTester $I)
     {
         $I->click('Logout');
-    }
-
-    /**
-     * @author GK
-     * @param $role
-     * @return string
-     */
-    private static function getLoginName($role)
-    {
-        switch ($role) {
-            case BaseCest::ROLE_ADMIN:
-                return 'dev@paybreak.com';
-            case BaseCest::ROLE_MERCHANTADMINISTRATOR:
-                return 'it@paybreak.com';
-            case BaseCest::ROLE_REPORTER:
-                return 'report@paybreak.com';
-            case BaseCest::ROLE_MANAGER:
-                return 'manager@paybreak.com';
-            case BaseCest::ROLE_SALES:
-                return 'sales@paybreak.com';
-        }
     }
 }
