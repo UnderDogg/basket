@@ -20,11 +20,13 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    const ROLE_ADMIN = 0;
-    const ROLE_MERCHANTADMINISTRATOR = 1;
-    const ROLE_REPORTER = 2;
-    const ROLE_MANAGER = 3;
-    const ROLE_SALES = 4;
+    const ROLE_ADMIN = 1;
+    const ROLE_MERCHANT_ADMINISTRATOR = 2;
+    const ROLE_REPORTER = 3;
+    const ROLE_MANAGER = 4;
+    const ROLE_SALES_LEADER = 5;
+    const ROLE_SALES = 6;
+    const ROLE_READ_ONLY_SUPER_USER = 7;
 
     const DEFAULT_PASSWORD = 'password';
 
@@ -59,14 +61,18 @@ class AcceptanceTester extends \Codeception\Actor
         switch ($this->role) {
             case self::ROLE_ADMIN:
                 return 'dev@paybreak.com';
-            case self::ROLE_MERCHANTADMINISTRATOR:
+            case self::ROLE_MERCHANT_ADMINISTRATOR:
                 return 'it@paybreak.com';
             case self::ROLE_REPORTER:
                 return 'report@paybreak.com';
             case self::ROLE_MANAGER:
                 return 'manager@paybreak.com';
+            case self::ROLE_SALES_LEADER:
+                return 'sales-lead@paybreak.com';
             case self::ROLE_SALES:
                 return 'sales@paybreak.com';
+            case self::ROLE_READ_ONLY_SUPER_USER:
+                return 'rosu@paybreak.com';
         }
     }
 }
