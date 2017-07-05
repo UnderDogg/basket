@@ -155,4 +155,32 @@ class AccountCest extends BaseCest
         $this->login($I, $I::ROLE_ADMIN);
         $I->see(DashboardPage::$pageTitle);
     }
+
+    /**
+     * @author GK
+     * @param AcceptanceTester $I
+     * @param AccountPage $accountPage
+     */
+    public function checkEmptyFieldsValidation(AcceptanceTester $I, AccountPage $accountPage)
+    {
+        $I->am('user');
+        $I->wantTo('commit user details form empty');
+        $I->lookForwardTo('Getting a warning about empty fields');
+
+        $this->login($I);
+        $accountPage->goToEdit($I);
+        $I->fillField(AccountPage::$nameField, '');
+        $I->fillField(AccountPage::$emailField, '');
+        $I->click(AccountPage::$updateDetailsButton);
+        $I->see('The name cannot be empty');
+        $I->see('The email address cannot be empty');
+
+        $I->fillField(AccountPage::$oldPasswordField, '');
+        $I->fillField(AccountPage::$newPasswordField, '');
+        $I->fillField(AccountPage::$confirmPasswordField, '');
+        $I->click(AccountPage::$changePasswordButton);
+        $I->see('The old password cannot be empty');
+        $I->see('The new password cannot be empty');
+        $I->see('The confirmed password cannot be empty');
+    }
 }
