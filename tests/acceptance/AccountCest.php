@@ -28,14 +28,15 @@ class AccountCest extends BaseCest
     /**
      * @author GK
      * @param AcceptanceTester $I
+     * @param AccountPage $accountPage
      */
-    public function goToAccountEdit(AcceptanceTester $I)
+    public function goToAccountEdit(AcceptanceTester $I, AccountPage $accountPage)
     {
         $I->am('user');
         $I->wantTo('go to the account settings\'s edit page');
         $I->lookForwardTo('see the account setting\'s edit form');
         $this->login($I);
-        AccountPage::goToEdit($I);
+        $accountPage->goToEdit($I);
         $I->see('Edit account details');
         $I->see('User Details');
         $I->see('Name:');
@@ -48,14 +49,15 @@ class AccountCest extends BaseCest
     /**
      * @author GK
      * @param AcceptanceTester $I
+     * @param AccountPage $accountPage
      */
-    public function changeName(AcceptanceTester $I)
+    public function changeName(AcceptanceTester $I, AccountPage $accountPage)
     {
         $I->am('user');
         $I->wantTo('Change my password');
         $I->lookForwardTo('log in with my new password');
         $this->login($I);
-        AccountPage::goToEdit($I);
+        $accountPage->goToEdit($I);
         $I->fillField(AccountPage::$nameField, 'test');
         $I->click(AccountPage::$updateDetailsButton);
         $I->see('Your details have successfully been changed');

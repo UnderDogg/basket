@@ -42,7 +42,7 @@ class AccountPage
         return static::$URL.$param;
     }
 
-    public static function goToEdit(AcceptanceTester $I)
+    public function goToEdit(AcceptanceTester $I)
     {
         $I->click(AccountPage::$menuButton);
         $I->click(AccountPage::$editButton);
