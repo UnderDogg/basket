@@ -51,10 +51,10 @@ class InstallationsControllerTest extends TestCase
      */
     public function testShow()
     {
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $productGateway = new \PayBreak\Sdk\Gateways\ProductGateway($mock);
@@ -193,10 +193,10 @@ class InstallationsControllerTest extends TestCase
      */
     public function testShowForException()
     {
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $productGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ProductGateway')->setConstructorArgs([$mock])
@@ -215,10 +215,10 @@ class InstallationsControllerTest extends TestCase
      */
     public function testShowForProductsEmptyException()
     {
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $productGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ProductGateway')->setConstructorArgs([$mock])

@@ -206,12 +206,10 @@ class UsersControllerTest extends TestCase
     public function testSuEditUserLocations()
     {
         $this->visit('users/1/locations');
+        $this->see('Super Users do not belong to a Merchant, cannot fetch Locations');
+
         $this->call('GET', 'users/1/locations');
         $this->assertRedirectedTo('users');
-        $this->assertSessionHas(
-            'messages',
-            ['error' => 'Super Users do not belong to a Merchant, cannot fetch Locations']
-        );
         $this->see('Users');
         $this->dontSee('Update User Locations');
     }
@@ -222,10 +220,11 @@ class UsersControllerTest extends TestCase
     public function testEditUserLocations()
     {
         $this->visit('users/2/locations');
-        $this->call('GET', 'users/2/locations');
+        // $this->call('GET', 'users/2/locations');
         $this->see('Update User Locations');
         $this->check('Higher Location');
         $this->submitForm('Save Changes');
+        $this->see('User details were successfully updated');
     }
 
     /**
@@ -234,7 +233,6 @@ class UsersControllerTest extends TestCase
     public function testEditPage()
     {
         $this->visit('users/1/edit');
-        $this->call('GET', 'users/1/edit');
         $this->see('Edit User');
     }
 
@@ -244,7 +242,6 @@ class UsersControllerTest extends TestCase
     public function testEditErrors()
     {
         $this->visit('users/1/edit');
-        $this->call('GET', 'users/1/edit');
         $this->see('Edit User');
         $this->type('', 'name')
             ->type('', 'email')
@@ -262,11 +259,10 @@ class UsersControllerTest extends TestCase
     public function testEditForm()
     {
         $this->visit('users/2/edit');
-        $this->call('GET', 'users/2/edit');
         $this->see('Edit User');
         $this->type('TestName', 'name');
         $this->press('Save Changes');
-        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+        $this->see('User details were successfully updated');
     }
 
     /**
@@ -339,21 +335,10 @@ class UsersControllerTest extends TestCase
     public function testUpdateLocationsForm()
     {
         $this->visit('users/2/locations');
-        $this->call('GET', 'users/2/locations');
         $this->see('Update User Locations');
         $this->check('Higher Location');
         $this->press('Save Changes');
-        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
-    }
-
-    public function testUpdateLocations()
-    {
-        $this->visit('/users/2/locations');
-        $this->call('GET', '/users/2/locations');
-        $request = $this->createRequestForTest(['Higher_Location' => '1']);
-        $controller = new Controllers\UsersController();
-        $controller->updateLocations(2, $request);
-        $this->assertSessionHas('messages', ['success' => 'User details were successfully updated']);
+        $this->see('User details were successfully updated');
     }
 
     public function testFailUpdateLocationsUndefinedUser()
@@ -368,24 +353,22 @@ class UsersControllerTest extends TestCase
     {
         $user = User::find(2);
         $this->be($user);
-        $this->visit('users/2/delete')
-            ->see('Delete User');
-        $this->call('GET', 'users/2/delete');
+        $this->visit('users/2/delete');
+        $this->see('Delete User');
         $this->seePageIs('users/2/delete');
         $this->assertViewHas('object', $this->getDeleteFormUserObject(2));
-        $this->press('Confirm')
-            ->assertSessionHas('messages', ['error' => 'You cannot delete yourself!']);
+        $this->press('Confirm');
+        $this->see('You cannot delete yourself');
     }
 
     public function testDeleteForm()
     {
-        $this->visit('users/2/delete')
-            ->see('Delete User');
-        $this->call('GET', 'users/2/delete');
+        $this->visit('users/2/delete');
+        $this->see('Delete User');
         $this->seePageIs('users/2/delete');
         $this->assertViewHas('object', $this->getDeleteFormUserObject(2));
-        $this->press('Confirm')
-            ->assertSessionHas('messages', ['success' => 'User was successfully deleted']);
+        $this->press('Confirm');
+        $this->see('User was successfully deleted');
     }
 
     /**

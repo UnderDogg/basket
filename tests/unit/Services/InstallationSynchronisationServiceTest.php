@@ -53,10 +53,10 @@ class InstallationSynchronisationServiceTest extends TestCase
             'return_url' => 'go.com',
         ];
 
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn($response);
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $installationGateway = new \PayBreak\Sdk\Gateways\InstallationGateway($mock);
@@ -65,7 +65,7 @@ class InstallationSynchronisationServiceTest extends TestCase
         $rtn = $service->synchroniseInstallation(1);
 
         $this->assertInstanceOf(\App\Basket\Installation::class, $rtn);
-        $this->assertSame('1', $rtn->id);
+        $this->assertSame(1, $rtn->id);
         $this->assertSame($rtn->ext_return_url, 'go.com');
     }
 
@@ -74,11 +74,11 @@ class InstallationSynchronisationServiceTest extends TestCase
      */
     public function testSynchroniseInstallationForException()
     {
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')
             ->willThrowException(new Exception('Synchronise Installation Failed'));
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $installationGateway = new \PayBreak\Sdk\Gateways\InstallationGateway($mock);
@@ -93,11 +93,11 @@ class InstallationSynchronisationServiceTest extends TestCase
      */
     public function testSynchroniseAllInstallationsForException()
     {
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')
             ->willThrowException(new Exception('Synchronise Installations Failed'));
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $installationGateway = new \PayBreak\Sdk\Gateways\InstallationGateway($mock);

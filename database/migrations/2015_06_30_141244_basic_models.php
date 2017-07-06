@@ -84,7 +84,7 @@ class BasicModels extends Migration
             $table->string('ext_order_description')->nullable();
             $table->string('ext_order_validity')->nullable();
             $table->string('ext_products_groups')->nullable();
-            $table->json('ext_products_options')->nullable();
+            $table->text('ext_products_options')->nullable();
             $table->string('ext_products_default')->nullable();
             $table->string('ext_fulfilment_method')->nullable();
             $table->string('ext_fulfilment_location')->nullable();
@@ -115,7 +115,7 @@ class BasicModels extends Migration
             $table->integer('ext_finance_deposit')->nullable();
             $table->integer('ext_finance_subsidy')->nullable();
             $table->integer('ext_finance_net_settlement')->nullable();
-            $table->json('ext_metadata')->nullable();
+            $table->text('ext_metadata')->nullable();
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -30,7 +30,7 @@ class ChooseProductRequest extends Request
     public function rules()
     {
         return [
-            'amount' => 'required|numeric'
+            'amount_in_pounds' => 'required|numeric'
         ];
     }
 }

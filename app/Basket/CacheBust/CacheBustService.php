@@ -20,7 +20,7 @@ class CacheBustService
      */
     public static function getVersionHash()
     {
-        $file = '../' . env('CACHE_BUST_HASH_SOURCE', 'VERSION.md');
+        $file = '../' . config('basket.cacheBustHashSource');
 
         if (!file_exists($file)) {
             \Log::error('Frontend Cache Buster: expected CB Hash Source file does not exist. [' . $file . ']');

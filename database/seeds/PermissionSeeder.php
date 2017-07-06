@@ -32,8 +32,6 @@ class PermissionSeeder extends Seeder
      */
     protected function seedDataSource()
     {
-        Model::unguard();
-
         $permission = new \App\Permission();
         $permission->name = 'applications-merchant-payments';
         $permission->display_name = 'Merchant Payments';
@@ -56,7 +54,5 @@ class PermissionSeeder extends Seeder
         }
 
         $permission->save();
-
-        Model::reguard();
     }
 }

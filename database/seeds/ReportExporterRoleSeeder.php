@@ -13,8 +13,6 @@ class ReportExporterRoleSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
         // create new role
         $role = new \App\Role();
         $role->name = 'report-exporter';
@@ -47,7 +45,5 @@ class ReportExporterRoleSeeder extends Seeder
         foreach ($users as $user) {
             $user->attachRole($role);
         }
-
-        Model::reguard();
     }
 }

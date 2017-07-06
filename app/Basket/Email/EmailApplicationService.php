@@ -48,16 +48,16 @@ class EmailApplicationService
         $subject = $this->getDefaultForApplicationEmail(
             $data,
             'email_subject',
-            'EMAIL_TEMPLATE_DEFAULT_SUBJECT',
+            'email-templates.defaultSubject',
             'Your afforditNOW Finance Application'
         );
 
-        $replyTo = $this->getDefaultForApplicationEmail($data, 'email_reply_to', 'EMAIL_TEMPLATE_DEFAULT_REPLY_TO');
+        $replyTo = $this->getDefaultForApplicationEmail($data, 'email_reply_to', 'email-templates.defaultReplyTo');
 
         $fromName = $this->getDefaultForApplicationEmail(
             $data,
             'email_from_name',
-            'EMAIL_TEMPLATE_DEFAULT_FROM_NAME',
+            'email-templates.defaultFromName',
             'afforditNOW Finance'
         );
 
@@ -69,7 +69,7 @@ class EmailApplicationService
                         ->subject($subject)
                         ->replyTo($replyTo)
                         ->from(
-                            env('MAIL_FROM'),
+                            config('mail.from')['address'],
                             $fromName
                         );
             }
@@ -95,13 +95,13 @@ class EmailApplicationService
      * @author EB
      * @param array $data
      * @param string $field
-     * @param string $envKey
+     * @param string $confKey
      * @param string|null $default
      * @return mixed
      */
-    private function getDefaultForApplicationEmail($data, $field, $envKey, $default = null)
+    private function getDefaultForApplicationEmail($data, $field, $confKey, $default = null)
     {
-        return (isset($data[$field]) && !is_null($data[$field]) ? $data[$field] : env($envKey, $default));
+        return (isset($data[$field]) && !is_null($data[$field]) ? $data[$field] : config($confKey, $default));
     }
 
     /**
