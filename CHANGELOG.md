@@ -1,3 +1,9 @@
+# 1.20.1
+2017-07-06
+
+## Bug Fixes
+- Fixed Upgrade to Laravel 5.2
+
 # 1.20.0
 2017-07-06
 
