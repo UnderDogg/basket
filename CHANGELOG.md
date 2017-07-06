@@ -1,3 +1,9 @@
+# 1.19.5
+2017-07-06
+
+## Bug Fixes 
+- Removing partial refund validation, handled by the API (147758423)
+
 # 1.19.4
 2017-06-30
 
