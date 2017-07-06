@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class InstallationUpdateRequest
@@ -8,7 +9,7 @@ namespace App\Http\Requests;
  * @author GK
  * @package App\Http\Requests
  */
-class InstallationUpdateRequest extends Request
+class InstallationUpdateRequest extends FormRequest
 {
     /**
      * @author GK

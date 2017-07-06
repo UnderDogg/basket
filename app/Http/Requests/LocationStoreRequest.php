@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class LocationStoreRequest
@@ -8,7 +9,7 @@ namespace App\Http\Requests;
  * @author GK
  * @package App\Http\Requests
  */
-class LocationStoreRequest extends Request
+class LocationStoreRequest extends FormRequest
 {
     /**
      * @author GK
