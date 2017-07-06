@@ -1,3 +1,16 @@
+# 1.20.1
+2017-07-06
+
+## Bug Fixes
+- Fixed Upgrade to Laravel 5.2
+
+# 1.20.0
+2017-07-06
+
+## Features
+- Introduced codeception and made it the new composer test method (147256117)
+- Upgrade to Laravel 5.2 (147256117)
+
 # 1.19.5
 2017-07-06
 
