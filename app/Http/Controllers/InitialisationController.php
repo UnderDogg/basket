@@ -15,7 +15,6 @@ use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
 use App\Basket\Merchant;
 use App\Basket\Synchronisation\InitialiseApplicationHelper;
-use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
 use App\Exceptions\RedirectException;
@@ -23,6 +22,7 @@ use App\Http\Requests\ChooseProductRequest;
 use App\Http\Requests\InitialisationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 use PayBreak\Foundation\Properties\Bitwise;
 use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use PayBreak\Sdk\Entities\ProductEntity;
@@ -118,7 +118,7 @@ class InitialisationController extends Controller
             return $this->applicationRequestType($location, $request);
         } catch (RedirectException $e) {
             throw $e;
-        } catch (HttpResponseException $e) {
+        } catch (ValidationException $e) {
             throw RedirectException::make('/locations/' . $locationId . '/applications/make')
                 ->setError($e->getMessage());
         } catch (\Exception $e) {
@@ -285,10 +285,10 @@ class InitialisationController extends Controller
             [
                 'options' => $this->getCreditInfoWithProductLimits(
                     $location->installation,
-                    $request->get('amount') * 100
+                    $request->get('amount_in_pounds') * 100
                 ),
-                'flexibleFinance' => $this->prepareFlexibleFinance($location, $request->get('amount') * 100),
-                'amount' => floor($request->get('amount') * 100),
+                'flexibleFinance' => $this->prepareFlexibleFinance($location, $request->get('amount_in_pounds') * 100),
+                'amount' => floor($request->get('amount_in_pounds') * 100),
                 'location' => $location,
                 'bitwise' => Bitwise::make($location->installation->finance_offers),
                 'reference' => $this->generateOrderReferenceFromLocation($location),

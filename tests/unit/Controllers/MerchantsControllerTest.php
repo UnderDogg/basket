@@ -149,10 +149,10 @@ class MerchantsControllerTest extends TestCase
      */
     private function createNewMerchant($merchantName, $token)
     {
-        $mockApiClient = $this->getMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
+        $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
 
-        $mock = $this->getMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
+        $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $merchantGateway = new \PayBreak\Sdk\Gateways\MerchantGateway($mock);

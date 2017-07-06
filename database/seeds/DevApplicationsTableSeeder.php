@@ -12,10 +12,6 @@ class DevApplicationsTableSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
         factory(App\Basket\Application::class, 50)->create();
-
-        Model::reguard();
     }
 }

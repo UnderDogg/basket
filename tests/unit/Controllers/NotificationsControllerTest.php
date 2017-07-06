@@ -30,7 +30,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_CONVERTED)
             ->willReturn(true);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -50,7 +50,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_CONVERTED);
@@ -72,7 +72,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_CONVERTED)
             ->willReturn(false);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -92,7 +92,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_CONVERTED);
@@ -114,7 +114,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(true);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -134,7 +134,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_PRE_DECLINED);
@@ -156,7 +156,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(false);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -176,7 +176,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_PRE_DECLINED);
@@ -198,7 +198,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(true);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -218,7 +218,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_DECLINED);
@@ -240,7 +240,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_DECLINED)
             ->willReturn(false);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -260,7 +260,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_DECLINED);
@@ -282,7 +282,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_REFERRED)
             ->willReturn(true);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -302,7 +302,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_REFERRED);
@@ -324,7 +324,7 @@ class NotificationsControllerTest extends TestCase
             ->with(Location::NOTIFICATIONS_REFERRED)
             ->willReturn(false);
 
-        $mockLocation = $this->getMock(Location::class);
+        $mockLocation = $this->createMock(Location::class);
         $mockLocation->expects($this->once())->method('__get')->with('notifications')->willReturn($mockNotifications);
 
         $mockApplication = new Application();
@@ -344,7 +344,7 @@ class NotificationsControllerTest extends TestCase
             $mockLocationNotificationService
         );
 
-        $request = $this->getMock(Request::class);
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->any())->method('json')
             ->willReturn(NotificationsController::STATUS_REFERRED);

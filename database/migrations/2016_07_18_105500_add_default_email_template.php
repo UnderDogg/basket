@@ -16,7 +16,6 @@ class AddDefaultEmailTemplate extends Migration
      */
     public function up()
     {
-        \Illuminate\Database\Eloquent\Model::unguard();
         $template = new \App\Basket\Template();
         $template->html = '<html>
 <head>

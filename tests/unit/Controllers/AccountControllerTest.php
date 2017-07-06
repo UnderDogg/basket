@@ -54,13 +54,9 @@ class AccountControllerTest extends TestCase
     public function testEditWithIncorrectData()
     {
         $this->typeEditDetails('', 'NotAnEmail');
-
-        $this->assertSessionHasErrors(
-            [
-                'name' => 'The name field is required.',
-                'email' => 'The email must be a valid email address.',
-            ]
-        );
+        $this->seePageIs('account/edit');
+        $this->see('The name field is required');
+        $this->see('The email must be a valid email address');
     }
 
     /**
@@ -69,7 +65,7 @@ class AccountControllerTest extends TestCase
     public function testEditRequiredFields()
     {
         $this->typeEditDetails('', '');
-
+        $this->seePageIs('account/edit');
         $this->see('The name field is required');
         $this->see('The email field is required');
     }
@@ -80,7 +76,7 @@ class AccountControllerTest extends TestCase
     public function testEditDetails()
     {
         $this->typeEditDetails('Developer', 'develop@paybreak.com');
-
+        $this->seePageIs('account/edit');
         $this->see('Your details have successfully been changed');
     }
 
@@ -90,18 +86,10 @@ class AccountControllerTest extends TestCase
     public function testNewPasswordConfirmation()
     {
         $this->typeEditPasswordDetails('password', 'password', 'testing');
-
-        $this->assertSessionHasErrors(
-            [
-                'new_password',
-                'new_password_confirmation',
-            ],
-            [
-                'The new password confirmation does not match.',
-                'The new password and old password must be different.',
-                'The new password confirmation and new password must match.',
-            ]
-        );
+        $this->seePageIs('account/edit');
+        $this->see('The new password confirmation does not match');
+        $this->see('The new password and old password must be different');
+        $this->see('The new password confirmation and new password must match');
     }
 
     /**
@@ -110,7 +98,9 @@ class AccountControllerTest extends TestCase
     public function testOldPasswordRequired()
     {
         $this->typeEditPasswordDetails('', 'test', 'test');
-        $this->assertSessionHasErrors('old_password', 'The old password field is required.');
+
+        $this->seePageIs('account/edit');
+        $this->see('The old password field is required');
     }
 
     /**
@@ -119,18 +109,11 @@ class AccountControllerTest extends TestCase
     public function testEditPasswordRequired()
     {
         $this->typeEditPasswordDetails('', '', '');
-        $this->assertSessionHasErrors(
-            [
-                'old_password',
-                'new_password',
-                'new_password_confirmation',
-            ],
-            [
-                'The old password field is required.',
-                'The new password field is required.',
-                'The new password confirmation field is required.',
-            ]
-        );
+
+        $this->seePageIs('account/edit');
+        $this->see('The old password field is required');
+        $this->see('The new password field is required');
+        $this->see('The new password confirmation field is required');
     }
 
     /**
@@ -139,10 +122,9 @@ class AccountControllerTest extends TestCase
     public function testOldPasswordStored()
     {
         $this->typeEditPasswordDetails('test', 'pass', 'pass');
-        $messages = $this->app['session.store']->get('messages');
-        $this->assertEquals($messages, [
-            'error' => 'Old password must match stored password'
-        ]);
+
+        $this->seePageIs('account/edit');
+        $this->see('Old password must match stored password');
     }
 
     /**
@@ -151,10 +133,7 @@ class AccountControllerTest extends TestCase
     public function testEditPasswordWithCorrectData()
     {
         $this->typeEditPasswordDetails('password', 'new-password', 'new-password');
-        $messages = $this->app['session.store']->get('messages');
-        $this->assertEquals($messages, [
-            'success' => 'Your password has successfully been changed'
-        ]);
+
         $this->seePageIs('account/edit');
         $this->see('Your password has successfully been changed');
     }
