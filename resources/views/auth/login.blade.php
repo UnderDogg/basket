@@ -7,7 +7,7 @@
     </div>
     <br/>
     <div class="inner-addon left-addon right-addon">
-        <a href="/password/email">Forgot?</a>
+        <a href="/password/reset">Forgot?</a>
         <i class="glyphicon glyphicon-asterisk"></i>
         <input class="form-control" type="password" name="password" aria-describedby="basic-addon2" placeholder="Password" tabindex="2">
     </div>
