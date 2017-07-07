@@ -77,8 +77,8 @@ class Download
                         }
                         $writer->insertOne($this->processData($this->getArrayRepresentation($data)));
                     }
-                    
-                    return response()->make((string)$writer, 200, $headers);
+
+                    return response()->make($writer->__toString(), 200, $headers);
                 default:
                     throw RedirectException::make('/')->setError('Unrecognised type to download');
             }
