@@ -42,11 +42,13 @@ class Download
 
         $downloadIsPermitted = false;
         $user = Auth::user();
+
         if ($user) {
             $downloadIsPermitted = $user->can('download-reports');
         }
 
         if ($request->get('download') && array_key_exists($source, $response->original->getData()) && $downloadIsPermitted) {
+
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
@@ -75,8 +77,8 @@ class Download
                         }
                         $writer->insertOne($this->processData($this->getArrayRepresentation($data)));
                     }
-
-                    return response()->make($writer, 200, $headers);
+                    
+                    return response()->make((string)$writer, 200, $headers);
                 default:
                     throw RedirectException::make('/')->setError('Unrecognised type to download');
             }
