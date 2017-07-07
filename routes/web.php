@@ -12,8 +12,7 @@
 */
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('login', 'Auth\AuthController@getLogin');
-    Route::post('login', 'Auth\AuthController@postLogin');
+    Auth::routes();
 
     // Password reset link request routes...
     Route::get('password/email', 'Auth\PasswordController@getEmail');
@@ -27,7 +26,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'LandingController@index');
 
-    Route::get('logout', 'Auth\AuthController@getLogout');
+    Route::get('logout', 'Auth\LoginController@logout');
 
     /*
      * Users
