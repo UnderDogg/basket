@@ -48,7 +48,6 @@ class Download
         }
 
         if ($request->get('download') && array_key_exists($source, $response->original->getData()) && $downloadIsPermitted) {
-
             switch ($request->get('download')) {
                 case 'json':
                     return response()->json(
