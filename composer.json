@@ -8,7 +8,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6",
+        "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
         "zizaco/entrust": "1.4.*",
         "laravel/homestead": "^2.1",
@@ -19,7 +19,7 @@
         "paybreak/paybreak-sdk-php": "^4.0",
         "paybreak/foundation": "~0.11",
         "flynsarmy/db-blade-compiler": "~2.0",
-        "laravelcollective/html": "~5.2"
+        "laravelcollective/html": "~5.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
