@@ -29,4 +29,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+    /**
+     * @author EB
+     * @return string
+     */
+    public function redirectTo()
+    {
+        return '/';
+    }
 }
