@@ -1,6 +1,6 @@
 @if($object->count())
     @foreach($object as $item)
-        {{-- */$selects[]=$item->{$field};/* --}}
+        @php $selects[]=$item->{$field}; @endphp
     @endforeach
 @endif
 

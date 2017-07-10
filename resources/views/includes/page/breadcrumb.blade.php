@@ -4,7 +4,7 @@
     <li><a href="/"{!! $crumbs[0] !!}>Dashboard</a></li>
     @foreach($crumbs as $k => $v)
 
-        {{-- */$url.='/'.$v;/* --}}
+        @php $url.='/'.$v; @endphp
         <li>
         @if(end($crumbs) == $v || (isset($permission[$k]) && (!$permission[$k])))
             {!! ucwords(str_replace('-', ' ', isset($over[$k])?$over[$k]:$v)) !!}
