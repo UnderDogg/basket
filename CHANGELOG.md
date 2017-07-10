@@ -1,3 +1,9 @@
+# 1.20.2 
+2017-07-07
+
+## Bug Fixes
+- Fixed a problem with CSV download 
+
 # 1.20.1
 2017-07-06
 
