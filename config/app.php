@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Retailer Back Office',
+    'name' => 'affordItNOW Retailer Back Office',
 
     'env' => env('APP_ENV', 'production'),
 
