@@ -60,7 +60,7 @@ class Download
 
                     $writer->setDelimiter(',');
                     $writer->setNewline("\r\n");
-                    $writer->setEncodingFrom("utf-8");
+                    $writer->setInputEncoding("utf-8");
 
                     $headers = [
                         'Content-Type' => 'text/csv',
