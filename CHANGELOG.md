@@ -1,3 +1,6 @@
+## Features
+- Upgraded from Laravel 5.2 to 5.3 (147256117)
+
 # 1.20.2 
 2017-07-07
 
