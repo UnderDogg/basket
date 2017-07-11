@@ -79,7 +79,7 @@ class MapApplicationHelper
     private function mapProducts(Application $application, ProductsEntity $productsEntity = null)
     {
         if ($productsEntity !== null) {
-            $application->ext_products_options = json_encode($productsEntity->getOptions());
+            $application->ext_products_options = is_null($productsEntity->getOptions()) ? null : json_encode($productsEntity->getOptions());
             $application->ext_products_groups = $productsEntity->getGroup();
             $application->ext_products_default = $productsEntity->getDefault();
         }
