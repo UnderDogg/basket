@@ -11,6 +11,10 @@
 |
 */
 
+Route::group(['middleware' => 'guest'], function () {
+    Auth::routes();
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'LandingController@index');
 
@@ -212,5 +216,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
 Route::post('push/installations/{id}', 'NotificationsController@catchSynchronisationNotification');
-
-Auth::routes();
