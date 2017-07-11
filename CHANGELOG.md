@@ -1,6 +1,9 @@
 ## Features
 - Upgraded from Laravel 5.2 to 5.3 (147256117)
 
+## Bug Fixes
+- Stopped `MapApplicationHelper` from storing `null` as string (148652961)
+
 # 1.20.2 
 2017-07-07
 
