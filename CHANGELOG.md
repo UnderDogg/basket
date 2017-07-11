@@ -1,3 +1,9 @@
+# 1.21.1
+2017-07-11
+
+## Bug Fixes
+- Removed API routes from `RouteServiceProvider` to stop issues with `Route:Cache` command
+
 # 1.21.0
 2017-07-11
 
