@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * Class UserUpdateRequest
  *
  * @author GK
  * @package App\Http\Requests
  */
-class UserUpdateRequest extends Request
+class UserUpdateRequest extends FormRequest
 {
     /**
      * @author GK

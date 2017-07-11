@@ -234,7 +234,8 @@ class ApplicationsController extends Controller
         );
     }
 
-    /**Display pending cancellation list.
+    /**
+     * Display pending cancellation list.
      *
      * @author SD, EB
      * @param $installationId

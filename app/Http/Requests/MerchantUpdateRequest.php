@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * Class MerchantUpdateRequest
  *
  * @author JH
  * @package App\Http\Requests
  */
-class MerchantUpdateRequest extends Request
+class MerchantUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

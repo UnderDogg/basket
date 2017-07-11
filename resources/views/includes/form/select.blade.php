@@ -1,6 +1,6 @@
 @forelse($object as $item)
-    {{-- */$selects[strtolower($item->{$field})]=ucwords($item->{$field});/* --}}
+    @php $selects[strtolower($item->{$field})]=ucwords($item->{$field}); @endphp
 @empty
-    {{-- */$selects = [];/* --}}
+    @php $selects = []; @endphp
 @endforelse
 {!! Form::select($field, $selects, Request::only($field)[$field], ['class' => 'filter form-control']) !!}

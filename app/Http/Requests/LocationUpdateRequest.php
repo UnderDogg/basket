@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * Class LocationUpdateRequest
  *
  * @author GK
  * @package App\Http\Requests
  */
-class LocationUpdateRequest extends Request
+class LocationUpdateRequest extends FormRequest
 {
     /**
      * @author GK

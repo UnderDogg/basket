@@ -9,7 +9,6 @@
  */
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use App\Basket\Application;
 use App\Basket\Installation;
 use App\Basket\Location;

@@ -8,18 +8,18 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6",
-        "laravel/framework": "5.2.*",
+        "php": ">=5.6.4",
+        "laravel/framework": "5.3.*",
         "zizaco/entrust": "1.4.*",
         "laravel/homestead": "^2.1",
         "guzzlehttp/guzzle": "^6.0",
         "wnowicki/generic": "~0.0",
         "erusev/parsedown": "^1.5",
-        "league/csv": "^7.1",
+        "league/csv": "^8.0",
         "paybreak/paybreak-sdk-php": "^4.0",
         "paybreak/foundation": "~0.11",
         "flynsarmy/db-blade-compiler": "~2.0",
-        "laravelcollective/html": "~5.2"
+        "laravelcollective/html": "~5.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -27,8 +27,8 @@
         "phpunit/phpunit": "~5.0",
         "scrutinizer/ocular": "~1.1",
         "doctrine/dbal": "~2.4",
-        "symfony/dom-crawler": "~3.0",
-        "symfony/css-selector": "~3.0",
+        "symfony/dom-crawler": "3.1.*",
+        "symfony/css-selector": "3.1.*",
         "codeception/codeception": "^2.3"
     },
     "autoload": {

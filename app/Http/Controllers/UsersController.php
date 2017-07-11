@@ -441,6 +441,6 @@ class UsersController extends Controller
      */
     private function fetchSingleSuRoleByName($name)
     {
-        return $this->fetchSuRoles()->where('name', $name)->first();
+        return $this->fetchSuRoles()->whereStrict('name', $name)->first();
     }
 }

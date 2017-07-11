@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * Class InitialisationRequest
  *
  * @author JH
  * @package App\Http\Requests
  */
-class InitialisationRequest extends Request
+class InitialisationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
