@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * Class RoleStoreRequest
  *
  * @author GK
  * @package App\Http\Requests
  */
-class RoleStoreRequest extends Request
+class RoleStoreRequest extends FormRequest
 {
     /**
      * @author GK

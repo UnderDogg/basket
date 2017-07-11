@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * Class ApplicationCancellationRequest
  *
  * @author JH
  * @package App\Http\Requests
  */
-class ApplicationCancellationRequest extends Request
+class ApplicationCancellationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
