@@ -29,4 +29,13 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    /**
+     * @author EB
+     * @return string
+     */
+    public function redirectTo()
+    {
+        return '/';
+    }
 }
