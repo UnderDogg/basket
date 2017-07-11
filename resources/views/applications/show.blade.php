@@ -108,8 +108,8 @@
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             @if($applications->ext_finance_option)
-                            <dt>Product Option Chosen</dt>
-                            <dd>{{ $applications->ext_finance_option }}</dd>
+                                <dt>Product Option Chosen</dt>
+                                <dd>{{ $applications->ext_finance_option }}</dd>
                             @endif
                             <dt>Product Group</dt>
                             <dd>{{ $applications->ext_products_groups }}</dd>
