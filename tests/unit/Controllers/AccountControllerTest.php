@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use Symfony\Component\Console\Tests\Input;
 
-class AccountControllerTest extends TestCase
+class AccountControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN

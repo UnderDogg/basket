@@ -16,7 +16,7 @@ use App\Http\Middleware\AuthoriseRole;
  *
  * @author WN
  */
-class AuthoriseRoleTest extends TestCase
+class AuthoriseRoleTest extends BrowserKitTestCase
 {
     /**
      * @author WN

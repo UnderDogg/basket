@@ -11,7 +11,7 @@
 use App\User;
 use Illuminate\Support\Facades\Artisan;
 
-class ApplicationSynchronisationServiceTest extends TestCase
+class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
 {
     /**
      * @author EB

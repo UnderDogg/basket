@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Basket\Location;
 
-class LocationsControllerTest extends TestCase
+class LocationsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS

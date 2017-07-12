@@ -11,7 +11,7 @@
 use App\User;
 use App\Http\Controllers;
 
-class InitialisationControllerTest extends TestCase
+class InitialisationControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN

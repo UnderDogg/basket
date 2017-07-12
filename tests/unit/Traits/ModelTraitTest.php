@@ -13,7 +13,7 @@ use App\Exceptions\RedirectException;
 use App\User;
 use App\Http\Controllers;
 
-class ModelTraitTest extends TestCase
+class ModelTraitTest extends BrowserKitTestCase
 {
     /**
      * using MerchantTableSeeder so we can do checks to make sure that the user is allowed for different merchants

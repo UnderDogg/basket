@@ -11,7 +11,7 @@
 use App\User;
 use App\Http\Controllers;
 
-class UsersControllerTest extends TestCase
+class UsersControllerTest extends BrowserKitTestCase
 {
     /**
      * @author EA

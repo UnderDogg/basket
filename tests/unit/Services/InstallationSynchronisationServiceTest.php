@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Artisan;
  *
  * @author EB
  */
-class InstallationSynchronisationServiceTest extends TestCase
+class InstallationSynchronisationServiceTest extends BrowserKitTestCase
 {
     /**
      * @author EB

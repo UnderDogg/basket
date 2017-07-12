@@ -11,7 +11,7 @@
 use App\User;
 use App\Http\Controllers;
 
-class SaveTagVersionTest extends TestCase
+class SaveTagVersionTest extends BrowserKitTestCase
 {
     /**
      * @author CS

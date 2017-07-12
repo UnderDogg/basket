@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Basket\Installation;
 
-class InstallationsControllerTest extends TestCase
+class InstallationsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS

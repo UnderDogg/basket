@@ -14,7 +14,7 @@ use PayBreak\Foundation\Properties\Bitwise;
  *
  * @author GK
  */
-class NotificationsControllerTest extends TestCase
+class NotificationsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author GK

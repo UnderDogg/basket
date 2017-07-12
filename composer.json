@@ -29,7 +29,8 @@
         "doctrine/dbal": "~2.4",
         "symfony/dom-crawler": "3.1.*",
         "symfony/css-selector": "3.1.*",
-        "codeception/codeception": "^2.3"
+        "codeception/codeception": "^2.3",
+        "laravel/browser-kit-testing": "^1.0"
     },
     "autoload": {
         "classmap": [
@@ -42,7 +43,8 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/unit/TestCase.php"
+            "tests/unit/TestCase.php",
+            "tests/BrowserKitTestCase.php"
         ]
     },
     "scripts": {

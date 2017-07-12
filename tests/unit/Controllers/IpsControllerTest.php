@@ -11,7 +11,7 @@
 use App\User;
 use App\Http\Controllers;
 
-class IpsControllerTest extends TestCase
+class IpsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author EA

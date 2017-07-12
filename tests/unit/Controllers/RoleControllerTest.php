@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Role;
 
-class RolesControllerTest extends TestCase
+class RolesControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS

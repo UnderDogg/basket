@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Merchants;
 
-class MerchantsControllerTest extends TestCase
+class MerchantsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS

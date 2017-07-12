@@ -16,7 +16,7 @@ use App\Http\Middleware\AuthorisePermission;
  *
  * @author WN
  */
-class AuthorisePermissionTest extends TestCase
+class AuthorisePermissionTest extends BrowserKitTestCase
 {
     /**
      * @author WN
