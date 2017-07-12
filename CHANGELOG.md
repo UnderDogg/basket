@@ -1,3 +1,9 @@
+# 1.21.3
+2017-07-12
+
+## Bug Fixes
+- Updated the version
+
 # 1.21.2
 2017-07-12
 
