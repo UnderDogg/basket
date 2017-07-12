@@ -82,7 +82,7 @@ class Installation extends Model
      */
     public function merchant()
     {
-        return $this->belongsTo('App\Basket\Merchant');
+        return $this->belongsTo(\App\Basket\Merchant::class);
     }
 
     /**
@@ -91,7 +91,7 @@ class Installation extends Model
      */
     public function locations()
     {
-        return $this->hasMany('App\Basket\Location');
+        return $this->hasMany(\App\Basket\Location::class);
     }
 
     /**
@@ -100,7 +100,7 @@ class Installation extends Model
     */
     public function templates()
     {
-        return $this->belongsToMany('App\Basket\Template');
+        return $this->belongsToMany(\App\Basket\Template::class);
     }
 
     /**
@@ -109,7 +109,7 @@ class Installation extends Model
      */
     public function productLimits()
     {
-        return $this->hasMany('App\Basket\ProductLimit');
+        return $this->hasMany(\App\Basket\ProductLimit::class);
     }
 
     /**

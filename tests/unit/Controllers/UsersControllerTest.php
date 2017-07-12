@@ -164,7 +164,7 @@ class UsersControllerTest extends BrowserKitTestCase
     {
         $request = $this->createRequestForTest($this->getPostUserData('dev@paybreak.com'), 'UserStoreRequest');
         $controller = new Controllers\UsersController();
-        $this->setExpectedException('App\Exceptions\RedirectException');
+        $this->setExpectedException(\App\Exceptions\RedirectException::class);
         $controller->store($request);
     }
 
@@ -328,7 +328,7 @@ class UsersControllerTest extends BrowserKitTestCase
     {
         $request = $this->createRequestForTest($this->getPostUserData('it@paybreak.com'), 'UserUpdateRequest');
         $controller = new Controllers\UsersController();
-        $this->setExpectedException('App\Exceptions\RedirectException');
+        $this->setExpectedException(\App\Exceptions\RedirectException::class);
         $controller->update(1, $request);
     }
 

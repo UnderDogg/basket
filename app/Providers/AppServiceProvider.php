@@ -28,14 +28,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(
-            'App\Basket\Notifications\LocationNotificationService',
-            'App\Basket\Notifications\EmailLocationNotificationService'
+            \App\Basket\Notifications\LocationNotificationService::class,
+            \App\Basket\Notifications\EmailLocationNotificationService::class
         );
 
-        $this->app->bind('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface', 'App\Gateways\ApiClientFactory');
+        $this->app->bind('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface', \App\Gateways\ApiClientFactory::class);
 
         $this->app->when('PayBreak\Sdk\Gateways\SettlementCsvGateway')
             ->needs('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface')
-            ->give('App\Gateways\ApiCsvClientFactory');
+            ->give(\App\Gateways\ApiCsvClientFactory::class);
     }
 }

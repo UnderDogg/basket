@@ -142,7 +142,7 @@ class InstallationsControllerTest extends BrowserKitTestCase
                 'Can\'t activate Installation because Merchant is not active.',
                 $e->getMessage()
             );
-            $this->assertEquals('App\Exceptions\Exception', get_class($e));
+            $this->assertEquals(\App\Exceptions\Exception::class, get_class($e));
         }
     }
 

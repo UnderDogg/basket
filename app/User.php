@@ -58,7 +58,7 @@ class User extends Authenticatable
      */
     public function merchant()
     {
-        return $this->belongsTo('App\Basket\Merchant');
+        return $this->belongsTo(\App\Basket\Merchant::class);
     }
 
     /**
@@ -72,7 +72,7 @@ class User extends Authenticatable
      */
     public function role()
     {
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo(\App\Role::class);
     }
 
     /**
@@ -81,6 +81,6 @@ class User extends Authenticatable
      */
     public function locations()
     {
-        return $this->belongsToMany('App\Basket\Location');
+        return $this->belongsToMany(\App\Basket\Location::class);
     }
 }

@@ -54,6 +54,6 @@ class ProductLimit extends Model
      */
     public function installation()
     {
-        return $this->belongsTo('App\Basket\Installation');
+        return $this->belongsTo(\App\Basket\Installation::class);
     }
 }

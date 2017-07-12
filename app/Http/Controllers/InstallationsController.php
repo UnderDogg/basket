@@ -41,7 +41,7 @@ class InstallationsController extends Controller
     public function __construct()
     {
         $this->installationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\InstallationSynchronisationService'
+            \App\Basket\Synchronisation\InstallationSynchronisationService::class
         );
         $this->installationGateway = \App::make(
             'PayBreak\Sdk\Gateways\InstallationGateway'

@@ -46,13 +46,13 @@ class ApplicationsController extends Controller
     public function __construct(ApplicationGateway $applicationGateway)
     {
         $this->applicationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\ApplicationSynchronisationService'
+            \App\Basket\Synchronisation\ApplicationSynchronisationService::class
         );
 
         $this->applicationGateway = $applicationGateway;
 
         $this->emailApplicationService = \App::make(
-            '\App\Basket\Email\EmailApplicationService'
+            \App\Basket\Email\EmailApplicationService::class
         );
     }
 

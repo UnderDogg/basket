@@ -291,7 +291,7 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway->expects($this->any())->method('initialiseApplication')->willThrowException(new Exception('Fail'));
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
 
-        $this->setExpectedException('App\Exceptions\Exception', 'Fail');
+        $this->setExpectedException(\App\Exceptions\Exception::class, 'Fail');
         $service->initialiseApplication(
             \App\Basket\Location::first(),
             $this->getOrderEntity(),
@@ -318,7 +318,7 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
 
         $this->assertInstanceOf(
-            '\App\Basket\Application',
+            \App\Basket\Application::class,
             $service->initialiseApplication(
                 \App\Basket\Location::first(),
                 $this->getOrderEntity(),
@@ -409,7 +409,7 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->willThrowException(new Exception('Add Merchant Payment Failed'));
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
 
-        $this->setExpectedException('App\Exceptions\Exception', 'Add Merchant Payment Failed');
+        $this->setExpectedException(\App\Exceptions\Exception::class, 'Add Merchant Payment Failed');
         $service->addRemoteMerchantPayment($this->createApplicationForTest(), \Carbon\Carbon::now(), 1);
     }
 
@@ -518,7 +518,7 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
 
         $this->assertInstanceOf(
-            '\App\Basket\Application',
+            \App\Basket\Application::class,
             $service->initialiseAssistedApplication(
                 'test@email.com',
                 \App\Basket\Location::first(),
@@ -547,7 +547,7 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->willThrowException(new Exception('Fail'));
         $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
 
-        $this->setExpectedException('App\Exceptions\Exception', 'Fail');
+        $this->setExpectedException(\App\Exceptions\Exception::class, 'Fail');
         $service->initialiseAssistedApplication(
             'test@email.com',
             \App\Basket\Location::first(),
