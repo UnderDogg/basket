@@ -1,3 +1,9 @@
+# 1.21.2
+2017-07-12
+
+## Bug Fixes
+- Fixed an issue with logging out not redirecting to the login page
+
 # 1.21.1
 2017-07-11
 
