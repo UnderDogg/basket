@@ -21,7 +21,7 @@ class LocationsControllerTest extends BrowserKitTestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(2);
