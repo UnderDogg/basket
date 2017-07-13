@@ -23,10 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Psr\Log\LoggerInterface', function () {
-            return \Log::getMonolog();
-        });
-
         $this->app->bind(
             \App\Basket\Notifications\LocationNotificationService::class,
             \App\Basket\Notifications\EmailLocationNotificationService::class
