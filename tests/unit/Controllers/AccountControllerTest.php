@@ -21,7 +21,7 @@ class AccountControllerTest extends BrowserKitTestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DBSeeder']);
 
         $user = User::find(1);
