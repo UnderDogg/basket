@@ -65,7 +65,7 @@ setlocale(LC_MONETARY, 'en_GB.UTF8');
 |
 */
 
-$app->configureMonologUsing(function($monolog){
+$app->configureMonologUsing(function ($monolog) {
 
     if (env('LOG_SYSLOG', false)) {
         $syslogHandler = new SyslogHandler(env('LOG_PREFIX', 'BasketLog'), LOG_USER, LOG_NOTICE);
