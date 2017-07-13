@@ -83,6 +83,8 @@ return [
 
     'username' => env('MAIL_USERNAME'),
 
+    'password' => env('MAIL_PASSWORD'),
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Password
@@ -94,16 +96,15 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
     |--------------------------------------------------------------------------
     |
-    | When using the "sendmail" driver to send e-mails, we will need to know
-    | the path to where Sendmail lives on this server. A default path has
-    | been provided here, which will work well on most of your systems.
+    | If you are using Markdown based email rendering, you may configure your
+    | theme and component paths here, allowing you to customize the design
+    | of the emails. Or, you may simply stick with the Laravel defaults!
     |
     */
 
