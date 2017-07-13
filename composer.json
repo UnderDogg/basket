@@ -19,7 +19,7 @@
         "paybreak/paybreak-sdk-php": "^4.0",
         "paybreak/foundation": "~0.11",
         "flynsarmy/db-blade-compiler": "^5.4",
-        "laravelcollective/html": "~5.3",
+        "laravelcollective/html": "~5.4",
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
