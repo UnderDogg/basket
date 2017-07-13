@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'affordItNOW Retailer Back Office',
+    'name' => env('APP_NAME', 'Laravel'),
 
     'env' => env('APP_ENV', 'production'),
 
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -110,9 +110,9 @@ return [
     |
     */
 
-    'log' => 'syslog',
+    'log' => env('APP_LOG', 'syslog'),
 
-        'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
