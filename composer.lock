@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0824953207d632e2f10e5c3ce400fbf9",
+    "content-hash": "342e0aa158ae9a80a41d18d3106aee5e",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -150,16 +150,16 @@
         },
         {
             "name": "flynsarmy/db-blade-compiler",
-            "version": "v2.0.2",
+            "version": "5.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Flynsarmy/laravel-db-blade-compiler.git",
-                "reference": "011658034c5ca14d42c64c7f1024f7cc9811fdb3"
+                "reference": "5d6e198388a4e8b0bfa2bf039e3b0fcb18e3b8d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Flynsarmy/laravel-db-blade-compiler/zipball/011658034c5ca14d42c64c7f1024f7cc9811fdb3",
-                "reference": "011658034c5ca14d42c64c7f1024f7cc9811fdb3",
+                "url": "https://api.github.com/repos/Flynsarmy/laravel-db-blade-compiler/zipball/5d6e198388a4e8b0bfa2bf039e3b0fcb18e3b8d0",
+                "reference": "5d6e198388a4e8b0bfa2bf039e3b0fcb18e3b8d0",
                 "shasum": ""
             },
             "require": {
@@ -194,7 +194,7 @@
                 "laravel",
                 "model"
             ],
-            "time": "2015-06-15T22:21:08+00:00"
+            "time": "2017-03-28T22:20:20+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
