@@ -11,6 +11,9 @@
 |
 */
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogHandler;
+
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
@@ -51,6 +54,29 @@ $app->singleton(
 */
 
 setlocale(LC_MONETARY, 'en_GB.UTF8');
+
+/*
+|--------------------------------------------------------------------------
+| Configure Logging
+|--------------------------------------------------------------------------
+|
+| This directive ensures logs are pushed to correct upstream handlers, such as
+| Syslog to be handled by Loggly, AWS CloudWatch Logs or other handlers.
+|
+*/
+
+$app->configureMonologUsing(function($monolog){
+
+    if (env('LOG_SYSLOG', false)) {
+        $syslogHandler = new SyslogHandler(env('LOG_PREFIX', 'BasketLog'), LOG_USER, LOG_NOTICE);
+        $monolog->pushHandler($syslogHandler);
+    }
+
+    if (env('LOG_FILE', false)) {
+        $streamHandler = new StreamHandler(storage_path('logs/laravel.log'), LOG_NOTICE);
+        $monolog->pushHandler($streamHandler);
+    }
+});
 
 /*
 |--------------------------------------------------------------------------
