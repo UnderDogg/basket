@@ -146,8 +146,8 @@ trait FilterTrait
     }
 
     /**
-     * @param $isNullLabel
-     * @param $isNotNullLabel
+     * @param string $isNullLabel
+     * @param string $isNotNullLabel
      * @return array
      */
     protected function fetchNullFilterValues($isNullLabel, $isNotNullLabel)

@@ -352,13 +352,13 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author EB
-     * @param $application
+     * @param int $applicationId
      * @return array
      * @throws \Exception
      */
-    public function getCreditInfoForApplication($application)
+    public function getCreditInfoForApplication($applicationId)
     {
-        $application = $this->fetchApplicationLocalObject($application);
+        $application = $this->fetchApplicationLocalObject($applicationId);
 
         try {
             return $this->applicationGateway->getApplicationCreditInfo(
