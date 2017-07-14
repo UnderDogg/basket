@@ -165,7 +165,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         try {
-            $partialRefundGateway = \App::make('\PayBreak\Sdk\Gateways\PartialRefundGateway');
+            $partialRefundGateway = \App::make(\PayBreak\Sdk\Gateways\PartialRefundGateway::class);
 
             return $partialRefundGateway->requestPartialRefund(
                 $merchant->token,

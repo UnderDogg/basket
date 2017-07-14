@@ -29,7 +29,9 @@ class MerchantsController extends Controller
 
     public function __construct()
     {
-        $this->merchantSynchronisationService = \App::make(\App\Basket\Synchronisation\MerchantSynchronisationService::class);
+        $this->merchantSynchronisationService = \App::make(
+            \App\Basket\Synchronisation\MerchantSynchronisationService::class
+        );
     }
 
     /**

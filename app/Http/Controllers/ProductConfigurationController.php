@@ -37,7 +37,7 @@ class ProductConfigurationController extends Controller
     public function __construct()
     {
         $this->productGateway = \App::make(
-            'PayBreak\Sdk\Gateways\ProductGateway'
+            PayBreak\Sdk\Gateways\ProductGateway::class
         );
     }
 

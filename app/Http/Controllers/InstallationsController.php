@@ -44,10 +44,10 @@ class InstallationsController extends Controller
             \App\Basket\Synchronisation\InstallationSynchronisationService::class
         );
         $this->installationGateway = \App::make(
-            'PayBreak\Sdk\Gateways\InstallationGateway'
+            PayBreak\Sdk\Gateways\InstallationGateway::class
         );
         $this->productGateway = \App::make(
-            'PayBreak\Sdk\Gateways\ProductGateway'
+            PayBreak\Sdk\Gateways\ProductGateway::class
         );
     }
 
