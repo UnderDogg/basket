@@ -10,9 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use App\Http\Requests;
 use App\Http\Requests\IpsStoreRequest;
-use Illuminate\Http\Request;
 use PayBreak\Sdk\Gateways\IpsGateway;
 
 /**

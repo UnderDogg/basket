@@ -10,9 +10,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Basket\Merchant;
 use App\Basket\Synchronisation\MerchantSynchronisationService;
 use App\Exceptions\RedirectException;
-use App\Basket\Merchant;
 use App\Http\Requests\MerchantStoreRequest;
 use App\Http\Requests\MerchantUpdateRequest;
 use Illuminate\Support\Facades\URL;

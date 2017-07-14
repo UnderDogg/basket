@@ -13,7 +13,6 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests\RoleStoreRequest;
 use App\Permission;
 use App\Role;
-use Illuminate\Http\Request;
 
 /**
  * Class RolesController
