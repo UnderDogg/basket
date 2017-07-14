@@ -160,7 +160,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author LH
-     * @param $id
+     * @param int $id
      * @param $refundAmount
      * @param $effectiveDate
      * @param $description
@@ -303,7 +303,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
      * @param ApplicationEntity $applicationEntity
      * @param int $installationId
      * @param int|null $requester
-     * @param null $location
+     * @param int|null $location
      * @return Application
      * @throws Exception
      */
@@ -331,7 +331,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Application
      * @throws ModelNotFoundException
      * @throws \Exception
@@ -339,7 +339,9 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
     private function fetchApplicationLocalObject($id)
     {
         try {
-            return Application::findOrFail($id);
+            /** @var Application $application */
+            $application = Application::findOrFail($id);
+            return $application;
         } catch (ModelNotFoundException $e) {
             $this->logError(
                 __CLASS__ . ': Failed fetching Installation[' . $id . '] local object: ' . $e->getMessage()
@@ -350,13 +352,13 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
 
     /**
      * @author EB
-     * @param $application
+     * @param int $applicationId
      * @return array
      * @throws \Exception
      */
-    public function getCreditInfoForApplication($application)
+    public function getCreditInfoForApplication($applicationId)
     {
-        $application = $this->fetchApplicationLocalObject($application);
+        $application = $this->fetchApplicationLocalObject($applicationId);
 
         try {
             return $this->applicationGateway->getApplicationCreditInfo(
