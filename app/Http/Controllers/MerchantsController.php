@@ -10,6 +10,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Basket\Synchronisation\MerchantSynchronisationService;
 use App\Exceptions\RedirectException;
 use App\Basket\Merchant;
 use App\Http\Requests\MerchantStoreRequest;
@@ -27,11 +28,14 @@ class MerchantsController extends Controller
     /** @var  \App\Basket\Synchronisation\MerchantSynchronisationService */
     private $merchantSynchronisationService;
 
-    public function __construct()
+    /**
+     * MerchantsController constructor.
+     * @author SL
+     * @param MerchantSynchronisationService $merchantSynchronisationService
+     */
+    public function __construct(MerchantSynchronisationService $merchantSynchronisationService)
     {
-        $this->merchantSynchronisationService = \App::make(
-            \App\Basket\Synchronisation\MerchantSynchronisationService::class
-        );
+        $this->merchantSynchronisationService = $merchantSynchronisationService;
     }
 
     /**
