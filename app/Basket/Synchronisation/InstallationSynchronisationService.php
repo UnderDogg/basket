@@ -12,8 +12,8 @@ namespace App\Basket\Synchronisation;
 
 use App\Basket\Installation;
 use Illuminate\Database\Eloquent\Collection;
-use PayBreak\Sdk\Entities\Installation\FeaturesEntity;
 use PayBreak\Sdk\Entities\InstallationEntity;
+use PayBreak\Sdk\Entities\Installation\FeaturesEntity;
 use PayBreak\Sdk\Gateways\InstallationGateway;
 use Psr\Log\LoggerInterface;
 

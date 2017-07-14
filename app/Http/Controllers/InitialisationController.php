@@ -13,22 +13,22 @@ use App\Basket\Application;
 use App\Basket\ApplicationEvent;
 use App\Basket\ApplicationEvent\ApplicationEventHelper;
 use App\Basket\Installation;
-use App\Basket\Merchant;
-use App\Basket\Synchronisation\InitialiseApplicationHelper;
-use Illuminate\Support\Facades\Auth;
 use App\Basket\Location;
+use App\Basket\Merchant;
+use App\Basket\Synchronisation\ApplicationSynchronisationService;
+use App\Basket\Synchronisation\InitialiseApplicationHelper;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\ChooseProductRequest;
 use App\Http\Requests\InitialisationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 use PayBreak\Foundation\Properties\Bitwise;
-use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use PayBreak\Sdk\Entities\ProductEntity;
 use PayBreak\Sdk\Gateways\CreditInfoGateway;
-use PayBreak\Sdk\Gateways\ProductGateway;
 use PayBreak\Sdk\Gateways\DictionaryGateway;
+use PayBreak\Sdk\Gateways\ProductGateway;
 use PayBreak\Sdk\Gateways\ProfileGateway;
 
 /**
