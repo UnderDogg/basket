@@ -47,11 +47,13 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
 
+        /** @var \PayBreak\Sdk\ApiClient\ApiClientFactoryInterface $mock */
         $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->assertInstanceOf(\App\Basket\Application::class, $service->synchroniseApplication(1));
@@ -66,11 +68,13 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willThrowException(new Exception());
 
+        /** @var \PayBreak\Sdk\ApiClient\ApiClientFactoryInterface $mock */
         $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->setExpectedException(Exception::class, 'Problem with get: Application data form Provider API');
         $this->createApplicationForTest();
@@ -82,11 +86,13 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mockApiClient = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClient->expects($this->any())->method('get')->willReturn([]);
 
+        /** @var \PayBreak\Sdk\ApiClient\ApiClientFactoryInterface $mock */
         $mock = $this->createMock('PayBreak\Sdk\ApiClient\ApiClientFactoryInterface');
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->setExpectedException(Exception::class, 'Installation not found');
         $service->linkApplication(1, 'NotAnInstallation');
@@ -108,7 +114,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $return = $service->linkApplication(1, 'TestInstall');
         $this->assertInstanceOf(\App\Basket\Application::class, $return);
@@ -128,7 +135,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->setExpectedException(
             WNowicki\Generic\Exception::class,
@@ -149,7 +157,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->assertTrue($service->fulfil(1));
@@ -168,7 +177,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->setExpectedException(
@@ -191,7 +201,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->assertTrue($service->requestCancellation(1, 'Description'));
@@ -210,7 +221,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->setExpectedException(
@@ -233,10 +245,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
-
         $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
-        $this->app->instance('\PayBreak\Sdk\Gateways\PartialRefundGateway', $partialRefundGateway);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->assertNull($service->requestPartialRefund(1, 2000, '2016-01-01', 'Cancel'));
@@ -255,7 +265,6 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mock->expects($this->any())->method('makeApiClient')->willReturn($mockApiClient);
 
         $applicationGateway = new \PayBreak\Sdk\Gateways\ApplicationGateway($mock);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway);
 
         $mockApiClientPR = $this->createMock('PayBreak\Sdk\ApiClient\ProviderApiClient');
         $mockApiClientPR->expects($this->any())->method('post')->willThrowException(new Exception(''));
@@ -264,7 +273,7 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $mockPR->expects($this->any())->method('makeApiClient')->willReturn($mockApiClientPR);
 
         $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mockPR);
-        $this->app->instance('\PayBreak\Sdk\Gateways\PartialRefundGateway', $partialRefundGateway);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($applicationGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $this->setExpectedException(
@@ -289,7 +298,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
             ->getMock();
         $appGateway->expects($this->any())->method('initialiseApplication')->willThrowException(new Exception('Fail'));
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->setExpectedException(\App\Exceptions\Exception::class, 'Fail');
         $service->initialiseApplication(
@@ -315,7 +325,10 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
             ->getMock();
         $appGateway->expects($this->any())->method('initialiseApplication')->willReturn($this->getApplication());
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+
+        $appGateway->expects($this->any())->method('initialiseApplication')->willReturn($this->getApplication());
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->assertInstanceOf(
             \App\Basket\Application::class,
@@ -343,7 +356,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
             ->getMock();
         $appGateway->expects($this->any())->method('getMerchantPayments')->willReturn($response);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $rtn = $service->getRemoteMerchantPayments($this->createApplicationForTest());
 
@@ -365,7 +379,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->getMock();
         $appGateway->expects($this->any())->method('getMerchantPayments')
             ->willThrowException(new Exception('Get Merchant Payments Failed'));
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $rtn = $service->getRemoteMerchantPayments($this->createApplicationForTest());
 
@@ -386,7 +401,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
             ->getMock();
         $appGateway->expects($this->any())->method('addMerchantPayment')->willReturn(null);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->assertTrue(
             $service->addRemoteMerchantPayment($this->createApplicationForTest(), \Carbon\Carbon::now(), 1)
@@ -407,7 +423,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->getMock();
         $appGateway->expects($this->any())->method('addMerchantPayment')
             ->willThrowException(new Exception('Add Merchant Payment Failed'));
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->setExpectedException(\App\Exceptions\Exception::class, 'Add Merchant Payment Failed');
         $service->addRemoteMerchantPayment($this->createApplicationForTest(), \Carbon\Carbon::now(), 1);
@@ -427,7 +444,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
             ->getMock();
         $appGateway->expects($this->any())->method('getApplicationCreditInfo')->willReturn($response);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
         $rtn = $service->getCreditInfoForApplication(1);
@@ -450,7 +468,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->getMock();
         $appGateway->expects($this->any())->method('getApplicationCreditInfo')
             ->willThrowException(new Exception('Get Credit Info For Application Failed'));
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->createApplicationForTest();
 
@@ -472,7 +491,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
         $appGateway = $this->getMockBuilder('\PayBreak\Sdk\Gateways\ApplicationGateway')->setConstructorArgs([$mock])
             ->getMock();
         $appGateway->expects($this->any())->method('getApplicationHistory')->willReturn($response);
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $rtn = $service->getApplicationHistory($this->createApplicationForTest());
 
@@ -494,7 +514,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->getMock();
         $appGateway->expects($this->any())->method('getApplicationHistory')
             ->willThrowException(new Exception('Get Application History Failed'));
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->setExpectedException('Exception', 'Get Application History Failed');
         $service->getApplicationHistory($this->createApplicationForTest());
@@ -515,7 +536,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->getMock();
         $appGateway->expects($this->any())->method('initialiseAssistedApplication')
             ->willReturn($this->getApplication());
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->assertInstanceOf(
             \App\Basket\Application::class,
@@ -545,7 +567,8 @@ class ApplicationSynchronisationServiceTest extends BrowserKitTestCase
             ->getMock();
         $appGateway->expects($this->any())->method('initialiseAssistedApplication')
             ->willThrowException(new Exception('Fail'));
-        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway);
+        $partialRefundGateway = new \PayBreak\Sdk\Gateways\PartialRefundGateway($mock);
+        $service = new \App\Basket\Synchronisation\ApplicationSynchronisationService($appGateway, $partialRefundGateway);
 
         $this->setExpectedException(\App\Exceptions\Exception::class, 'Fail');
         $service->initialiseAssistedApplication(
