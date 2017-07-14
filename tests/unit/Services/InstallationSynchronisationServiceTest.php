@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Artisan;
  *
  * @author EB
  */
-class InstallationSynchronisationServiceTest extends TestCase
+class InstallationSynchronisationServiceTest extends BrowserKitTestCase
 {
     /**
      * @author EB
@@ -25,7 +25,7 @@ class InstallationSynchronisationServiceTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);

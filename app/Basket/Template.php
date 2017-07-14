@@ -52,7 +52,7 @@ class Template extends Model
      */
     public function merchant()
     {
-        return $this->belongsTo('App\Basket\Merchant');
+        return $this->belongsTo(\App\Basket\Merchant::class);
     }
 
     /**
@@ -61,6 +61,6 @@ class Template extends Model
      */
     public function installations()
     {
-        return $this->belongsToMany('App\Basket\Installation')->withPivot('template_id');
+        return $this->belongsToMany(\App\Basket\Installation::class)->withPivot('template_id');
     }
 }

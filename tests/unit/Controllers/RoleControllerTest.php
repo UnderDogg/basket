@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Role;
 
-class RolesControllerTest extends TestCase
+class RolesControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS
@@ -21,7 +21,7 @@ class RolesControllerTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DBSeeder']);
 
         $user = User::find(1);

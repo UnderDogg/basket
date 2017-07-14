@@ -24,6 +24,7 @@ use PayBreak\Sdk\Entities\ApplicationEntity;
 use PayBreak\Sdk\Entities\Application\ApplicantEntity;
 use PayBreak\Sdk\Entities\Application\OrderEntity;
 use PayBreak\Sdk\Gateways\ApplicationGateway;
+use PayBreak\Sdk\Gateways\PartialRefundGateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -35,15 +36,22 @@ use Psr\Log\LoggerInterface;
 class ApplicationSynchronisationService extends AbstractSynchronisationService
 {
     private $applicationGateway;
+    private $partialRefundGateway;
 
     /**
      * @param ApplicationGateway $applicationGateway
+     * @param PartialRefundGateway $partialRefundGateway
      * @param LoggerInterface|null $logger
      */
-    public function __construct(ApplicationGateway $applicationGateway, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        ApplicationGateway $applicationGateway,
+        PartialRefundGateway $partialRefundGateway,
+        LoggerInterface $logger = null
+    ) {
         parent::__construct($logger);
+
         $this->applicationGateway = $applicationGateway;
+        $this->partialRefundGateway = $partialRefundGateway;
     }
 
     /**
@@ -165,9 +173,7 @@ class ApplicationSynchronisationService extends AbstractSynchronisationService
         $merchant = $this->fetchMerchantLocalObject($application->installation->merchant_id);
 
         try {
-            $partialRefundGateway = \App::make('\PayBreak\Sdk\Gateways\PartialRefundGateway');
-
-            return $partialRefundGateway->requestPartialRefund(
+            return $this->partialRefundGateway->requestPartialRefund(
                 $merchant->token,
                 $application->ext_id,
                 $refundAmount,

@@ -11,10 +11,12 @@ namespace App\Http\Controllers;
 
 use App\Basket\Application;
 use App\Basket\ApplicationEvent;
+use App\Basket\Email\EmailApplicationService;
 use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Email\EmailTemplateEngine;
 use App\Basket\Installation;
 use App\Basket\Location;
+use App\Basket\Synchronisation\ApplicationSynchronisationService;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\ApplicationCancellationRequest;
 use Carbon\Carbon;
@@ -43,17 +45,21 @@ class ApplicationsController extends Controller
     /** @var \App\Basket\Email\EmailApplicationService */
     private $emailApplicationService;
 
-    public function __construct(ApplicationGateway $applicationGateway)
-    {
-        $this->applicationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\ApplicationSynchronisationService'
-        );
-
+    /**
+     * ApplicationsController constructor.
+     * @author ??, SL
+     * @param ApplicationGateway $applicationGateway
+     * @param EmailApplicationService $emailApplicationService
+     * @param ApplicationSynchronisationService $applicationSynchronisationService
+     */
+    public function __construct(
+        ApplicationGateway $applicationGateway,
+        EmailApplicationService $emailApplicationService,
+        ApplicationSynchronisationService $applicationSynchronisationService
+    ) {
+        $this->applicationSynchronisationService = $applicationSynchronisationService;
         $this->applicationGateway = $applicationGateway;
-
-        $this->emailApplicationService = \App::make(
-            '\App\Basket\Email\EmailApplicationService'
-        );
+        $this->emailApplicationService = $emailApplicationService;
     }
 
     /**

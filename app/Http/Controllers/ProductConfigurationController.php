@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use PayBreak\Sdk\Entities\GroupEntity;
 use PayBreak\Sdk\Entities\ProductEntity;
+use PayBreak\Sdk\Gateways\ProductGateway;
 
 /**
  * Class ProductConfigurationController
@@ -33,12 +34,11 @@ class ProductConfigurationController extends Controller
 
     /**
      * @author EB
+     * @param ProductGateway $productGateway
      */
-    public function __construct()
+    public function __construct(ProductGateway $productGateway)
     {
-        $this->productGateway = \App::make(
-            'PayBreak\Sdk\Gateways\ProductGateway'
-        );
+        $this->productGateway = $productGateway;
     }
 
     /**

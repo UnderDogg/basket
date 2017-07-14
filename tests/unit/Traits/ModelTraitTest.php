@@ -13,7 +13,7 @@ use App\Exceptions\RedirectException;
 use App\User;
 use App\Http\Controllers;
 
-class ModelTraitTest extends TestCase
+class ModelTraitTest extends BrowserKitTestCase
 {
     /**
      * using MerchantTableSeeder so we can do checks to make sure that the user is allowed for different merchants
@@ -24,7 +24,7 @@ class ModelTraitTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);

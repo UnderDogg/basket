@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Basket\Email\EmailApplicationService;
 use App\Basket\Email\EmailConfigurationTemplateHelper;
 use App\Basket\Installation;
+use App\Basket\Synchronisation\InstallationSynchronisationService;
 use App\Exceptions\RedirectException;
 use App\Http\Requests\InstallationUpdateRequest;
 use Illuminate\Http\RedirectResponse;
@@ -19,6 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PayBreak\Foundation\Properties\Bitwise;
 use PayBreak\Sdk\Entities\GroupEntity;
+use PayBreak\Sdk\Gateways\InstallationGateway;
+use PayBreak\Sdk\Gateways\ProductGateway;
 
 /**
  * Class InstallationController
@@ -35,20 +38,22 @@ class InstallationsController extends Controller
 
     protected $productGateway;
 
+
     /**
-     * @author WN
+     * InstallationsController constructor.
+     * @author WN, SL
+     * @param InstallationSynchronisationService $installationSynchronisationService
+     * @param InstallationGateway $installationGateway
+     * @param ProductGateway $productGateway
      */
-    public function __construct()
-    {
-        $this->installationSynchronisationService = \App::make(
-            'App\Basket\Synchronisation\InstallationSynchronisationService'
-        );
-        $this->installationGateway = \App::make(
-            'PayBreak\Sdk\Gateways\InstallationGateway'
-        );
-        $this->productGateway = \App::make(
-            'PayBreak\Sdk\Gateways\ProductGateway'
-        );
+    public function __construct(
+        InstallationSynchronisationService $installationSynchronisationService,
+        InstallationGateway $installationGateway,
+        ProductGateway $productGateway
+    ) {
+        $this->installationSynchronisationService = $installationSynchronisationService;
+        $this->installationGateway = $installationGateway;
+        $this->productGateway = $productGateway;
     }
 
     /**
