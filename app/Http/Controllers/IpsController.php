@@ -10,9 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RedirectException;
-use App\Http\Requests;
 use App\Http\Requests\IpsStoreRequest;
-use Illuminate\Http\Request;
 use PayBreak\Sdk\Gateways\IpsGateway;
 
 /**
@@ -79,7 +77,7 @@ class IpsController extends Controller
      * @author EB
      * @param $id
      * @param $ip
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      * @throws RedirectException
      */
     public function delete($id, $ip)

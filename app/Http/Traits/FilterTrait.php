@@ -145,6 +145,11 @@ trait FilterTrait
         return $rtn;
     }
 
+    /**
+     * @param $isNullLabel
+     * @param $isNotNullLabel
+     * @return array
+     */
     protected function fetchNullFilterValues($isNullLabel, $isNotNullLabel)
     {
         $rtn = [];
@@ -185,6 +190,7 @@ trait FilterTrait
      */
     protected function getDateRange()
     {
+        /** @var Carbon[] $defaultDates */
         $defaultDates = [
             'date_to' => Carbon::now(),
             'date_from' => Carbon::today(),
