@@ -1,3 +1,8 @@
+# Unreleased
+
+## Changes
+- Adjusted namespaces, docblocks and type hinting comments to help CI checks run clearer.
+
 # 1.22.0
 2017-07-14
 
