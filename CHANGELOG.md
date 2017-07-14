@@ -1,4 +1,5 @@
-# Unreleased
+# 1.22.0
+2017-07-14
 
 ## Changes
 - Upgrade Laravel Framework to 5.4.* (147256117)
