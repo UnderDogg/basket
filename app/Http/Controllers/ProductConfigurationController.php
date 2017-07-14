@@ -175,9 +175,9 @@ class ProductConfigurationController extends Controller
     /**
      * @author EB, EA
      * @param Installation $installation
-     * @return array
+     * @return GroupEntity[]
      */
-    private function fetchGroupedProducts($installation)
+    private function fetchGroupedProducts(Installation $installation)
     {
 
         /** @var GroupEntity[] $groups */
@@ -217,7 +217,7 @@ class ProductConfigurationController extends Controller
 
     /**
      * author EA, EB
-     * @param $installation
+     * @param Installation $installation
      * @param Request $request
      * @throws \Exception
      */

@@ -144,7 +144,7 @@ class SettlementsController extends Controller
      * @param int $merchant
      * @param int $id
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      * @throws RedirectException
      */
     public function downloadSettlementReportCsv($merchant, $id, Request $request)

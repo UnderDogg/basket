@@ -39,7 +39,7 @@ class DocumentController extends Controller
      * @author GK
      * @param $installationId
      * @param $applicationId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return boolean|null
      * @internal param int $installation
      * @internal param int $id
      */
@@ -52,7 +52,7 @@ class DocumentController extends Controller
      * @author GK
      * @param $installationId
      * @param $applicationId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return boolean|null
      * @internal param int $installation
      * @internal param int $id
      */
