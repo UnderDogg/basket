@@ -57,7 +57,7 @@ class Merchant extends Model
      */
     public function installations()
     {
-        return $this->hasMany('App\Basket\Installation');
+        return $this->hasMany(\App\Basket\Installation::class);
     }
 
     /**

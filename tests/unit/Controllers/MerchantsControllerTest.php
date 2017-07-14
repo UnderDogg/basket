@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Merchants;
 
-class MerchantsControllerTest extends TestCase
+class MerchantsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS
@@ -21,7 +21,7 @@ class MerchantsControllerTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);

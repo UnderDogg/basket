@@ -12,7 +12,7 @@ use App\User;
 use App\Http\Controllers;
 use App\Basket\Installation;
 
-class InstallationsControllerTest extends TestCase
+class InstallationsControllerTest extends BrowserKitTestCase
 {
     /**
      * @author WN, MS
@@ -21,7 +21,7 @@ class InstallationsControllerTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);
@@ -142,7 +142,7 @@ class InstallationsControllerTest extends TestCase
                 'Can\'t activate Installation because Merchant is not active.',
                 $e->getMessage()
             );
-            $this->assertEquals('App\Exceptions\Exception', get_class($e));
+            $this->assertEquals(\App\Exceptions\Exception::class, get_class($e));
         }
     }
 

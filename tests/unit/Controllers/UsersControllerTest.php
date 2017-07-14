@@ -11,7 +11,7 @@
 use App\User;
 use App\Http\Controllers;
 
-class UsersControllerTest extends TestCase
+class UsersControllerTest extends BrowserKitTestCase
 {
     /**
      * @author EA
@@ -20,7 +20,7 @@ class UsersControllerTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DevSeeder']);
 
         $user = User::find(1);
@@ -164,7 +164,7 @@ class UsersControllerTest extends TestCase
     {
         $request = $this->createRequestForTest($this->getPostUserData('dev@paybreak.com'), 'UserStoreRequest');
         $controller = new Controllers\UsersController();
-        $this->setExpectedException('App\Exceptions\RedirectException');
+        $this->setExpectedException(\App\Exceptions\RedirectException::class);
         $controller->store($request);
     }
 
@@ -328,7 +328,7 @@ class UsersControllerTest extends TestCase
     {
         $request = $this->createRequestForTest($this->getPostUserData('it@paybreak.com'), 'UserUpdateRequest');
         $controller = new Controllers\UsersController();
-        $this->setExpectedException('App\Exceptions\RedirectException');
+        $this->setExpectedException(\App\Exceptions\RedirectException::class);
         $controller->update(1, $request);
     }
 

@@ -16,7 +16,7 @@ use App\Http\Middleware\AuthoriseRole;
  *
  * @author WN
  */
-class AuthoriseRoleTest extends TestCase
+class AuthoriseRoleTest extends BrowserKitTestCase
 {
     /**
      * @author WN
@@ -25,7 +25,7 @@ class AuthoriseRoleTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
         Artisan::call('db:seed', ['--class' => 'DBSeeder']);
 
         $user = User::find(1);

@@ -172,7 +172,7 @@ class Application extends Model implements ExportableModelInterface
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(\App\User::class);
     }
 
     /**
@@ -180,7 +180,7 @@ class Application extends Model implements ExportableModelInterface
      */
     public function installation()
     {
-        return $this->belongsTo('App\Basket\Installation');
+        return $this->belongsTo(\App\Basket\Installation::class);
     }
 
     /**
@@ -188,7 +188,7 @@ class Application extends Model implements ExportableModelInterface
      */
     public function location()
     {
-        return $this->belongsTo('App\Basket\Location');
+        return $this->belongsTo(\App\Basket\Location::class);
     }
 
     /**
@@ -197,7 +197,7 @@ class Application extends Model implements ExportableModelInterface
      */
     public function applicationEvents()
     {
-        return $this->hasMany('App\Basket\ApplicationEvent');
+        return $this->hasMany(\App\Basket\ApplicationEvent::class);
     }
 
     /**

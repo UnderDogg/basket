@@ -40,7 +40,7 @@ class ApplicationEvent extends Model
      */
     public function application()
     {
-        return $this->belongsTo('App\Basket\Application');
+        return $this->belongsTo(\App\Basket\Application::class);
     }
 
     /**
@@ -49,7 +49,7 @@ class ApplicationEvent extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(\App\User::class);
     }
 
     /**
