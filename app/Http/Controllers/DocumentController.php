@@ -135,7 +135,7 @@ class DocumentController extends Controller
                     );
                     break;
                 case self::ADEQUATE_EXPLANATION:
-                    $body = $this->documentGateway->getAvailableDocuments(
+                    $body = $this->documentGateway->getAdequateExplanation(
                         $installation->merchant->token,
                         $installation->ext_id,
                         $application->ext_id
