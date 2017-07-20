@@ -1,3 +1,9 @@
+# 1.22.1
+2017-07-20
+
+## Fixed
+- Move DB_STRICT choice to env
+
 # 1.22.0
 2017-07-14
 
