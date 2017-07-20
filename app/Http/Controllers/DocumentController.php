@@ -22,6 +22,7 @@ class DocumentController extends Controller
 {
     const PREAGREEMENT = 'pre-agreement';
     const AGREEMENT = 'agreement';
+    const ADEQUATE_EXPLANATION = 'adequate-explanation';
 
     /** @var  DocumentGateway */
     protected $documentGateway;
@@ -39,7 +40,7 @@ class DocumentController extends Controller
      * @author GK
      * @param $installationId
      * @param $applicationId
-     * @return boolean|null
+     * @return \Illuminate\Http\RedirectResponse
      * @internal param int $installation
      * @internal param int $id
      */
@@ -52,7 +53,7 @@ class DocumentController extends Controller
      * @author GK
      * @param $installationId
      * @param $applicationId
-     * @return boolean|null
+     * @return \Illuminate\Http\RedirectResponse
      * @internal param int $installation
      * @internal param int $id
      */
@@ -62,7 +63,43 @@ class DocumentController extends Controller
     }
 
     /**
-     * @author GK
+     * @author EB
+     * @param $installationId
+     * @param $applicationId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getAdequateExplanation($installationId, $applicationId)
+    {
+        return $this->getPdf($installationId, $applicationId, self::ADEQUATE_EXPLANATION);
+    }
+
+    /**
+     * @author EB
+     * @param $installationId
+     * @param $applicationId
+     * @return array
+     */
+    public function getAvailableDocuments($installationId, $applicationId)
+    {
+        $installation = $this->fetchInstallation($installationId);
+
+        /** @var Application $application */
+        $application =  $this->fetchModelByIdWithInstallationLimit(
+            (new Application()),
+            $applicationId,
+            'application',
+            'installations/' . $installation . '/applications'
+        );
+
+        return $this->documentGateway->getAvailableDocuments(
+            $installation->merchant->token,
+            $installation->ext_id,
+            $application->ext_id
+        );
+    }
+
+    /**
+     * @author GK, EB
      * @param int $installationId
      * @param int $applicationId
      * @param string $type
@@ -91,13 +128,21 @@ class DocumentController extends Controller
                     );
                     break;
                 case self::AGREEMENT:
-                default:
                     $body = $this->documentGateway->getAgreementPdf(
                         $installation->merchant->token,
                         $installation->ext_id,
                         $application->ext_id
                     );
                     break;
+                case self::ADEQUATE_EXPLANATION:
+                    $body = $this->documentGateway->getAdequateExplanation(
+                        $installation->merchant->token,
+                        $installation->ext_id,
+                        $application->ext_id
+                    );
+                    break;
+                default:
+                    return abort(404);
             }
 
             return $this->displayPdf($body, $application->ext_id . '-' . $type);
