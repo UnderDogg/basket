@@ -1,7 +1,8 @@
-# Unreleased
+# 1.22.1
+2017-07-20
 
-## Changes
-- Adjusted namespaces, docblocks and type hinting comments to help CI checks run clearer.
+## Fixed
+- Move DB_STRICT choice to env
 
 # 1.22.0
 2017-07-14
@@ -40,7 +41,7 @@
 2017-07-07
 
 ## Bug Fixes
-- Fixed a problem with CSV download 
+- Fixed a problem with CSV download
 
 # 1.20.1
 2017-07-06
@@ -58,7 +59,7 @@
 # 1.19.5
 2017-07-06
 
-## Bug Fixes 
+## Bug Fixes
 - Removing partial refund validation, handled by the API (147758423)
 
 # 1.19.4
