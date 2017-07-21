@@ -1,5 +1,8 @@
+# 1.23.0
+2017-07-21
+
 ## Features
-- link to view adequate explanation()
+- Link to view adequate explanation()
 
 # 1.22.1
 2017-07-20
