@@ -69,6 +69,7 @@
             <tr><td colspan="7"><em>No records found</em></td></tr>
         @endforelse
     </table>
+    {{ $partial_refunds->links() }}
     {!! Form::close() !!}
 
 

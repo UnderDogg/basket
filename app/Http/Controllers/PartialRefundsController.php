@@ -11,7 +11,10 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Input;
 use PayBreak\Sdk\Gateways\PartialRefundGateway;
 
 /**
@@ -21,6 +24,8 @@ use PayBreak\Sdk\Gateways\PartialRefundGateway;
  */
 class PartialRefundsController extends Controller
 {
+    const REFUNDS_PER_PAGE = 4;
+
     protected $partialRefundGateway;
 
     /**
@@ -36,9 +41,10 @@ class PartialRefundsController extends Controller
      *
      * @author LH
      * @param int $id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function index($id)
+    public function index($id, Request $request)
     {
         $partialRefunds = Collection::make(
             $this->partialRefundGateway->listPartialRefunds($this->fetchMerchantById($id)->token)
@@ -67,11 +73,25 @@ class PartialRefundsController extends Controller
         }
 
         return View('partial-refunds.index', [
-            'partial_refunds' => $partialRefunds,
+            'partial_refunds' => $this->convertCollectionToPaginator($partialRefunds, $request),
             'statuses' => $statuses,
             'status' => $this->fetchFilterValues($partialRefunds, 'status'),
             'local' => $local,
         ]);
+    }
+
+    /**
+     * @author SL
+     * @param Collection $collection
+     * @param Request $request
+     * @return LengthAwarePaginator
+     */
+    private function convertCollectionToPaginator(Collection $collection, Request $request)
+    {
+        $paginator = new LengthAwarePaginator($collection->forPage(Input::get('page', 1), self::REFUNDS_PER_PAGE), $collection->count(), self::REFUNDS_PER_PAGE);
+        $paginator->withPath($request->path());
+
+        return $paginator;
     }
 
     /**
