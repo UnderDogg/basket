@@ -69,5 +69,6 @@
     </table>
 
     {!! Form::close() !!}
+    {{ $settlement_reports->links() }}
 
 @endsection

@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Basket\Application;
 use App\Basket\Merchant;
 use App\Exceptions\RedirectException;
+use App\Http\Traits\PaginatesCollectionsTrait;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -26,6 +27,8 @@ use PayBreak\Sdk\Gateways\SettlementGateway;
  */
 class SettlementsController extends Controller
 {
+    use PaginatesCollectionsTrait;
+
     const RAW_SETTLEMENT_REPORT = 'raw-settlement-report';
     const AGGREGATE_SETTLEMENT_REPORT = 'aggregate-settlement-report';
     
@@ -51,10 +54,11 @@ class SettlementsController extends Controller
      *
      * @author MS
      * @param int $id
+     * @param Request $request
      * @return \Illuminate\View\View
-     * @throws \App\Exceptions\RedirectException
+     * @throws RedirectException
      */
-    public function index($id)
+    public function index($id, Request $request)
     {
         $dateRange = $this->getDateRange();
 
@@ -89,7 +93,7 @@ class SettlementsController extends Controller
         }
 
         return view('settlements.index', [
-            'settlement_reports' => $settlementReports,
+            'settlement_reports' => $this->convertCollectionToPaginator($settlementReports, $request),
             'default_dates' => $this->getDateRange(),
             'provider' => $this->fetchFilterValues($settlementReports, 'provider'),
             'local' => $local,
