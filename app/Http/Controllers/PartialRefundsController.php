@@ -24,7 +24,7 @@ use PayBreak\Sdk\Gateways\PartialRefundGateway;
  */
 class PartialRefundsController extends Controller
 {
-    const REFUNDS_PER_PAGE = 4;
+    const REFUNDS_PER_PAGE = 15;
 
     protected $partialRefundGateway;
 
@@ -89,7 +89,7 @@ class PartialRefundsController extends Controller
     private function convertCollectionToPaginator(Collection $collection, Request $request)
     {
         $paginator = new LengthAwarePaginator($collection->forPage(Input::get('page', 1), self::REFUNDS_PER_PAGE), $collection->count(), self::REFUNDS_PER_PAGE);
-        $paginator->withPath($request->path());
+        $paginator->withPath('/' . $request->path());
 
         return $paginator;
     }
