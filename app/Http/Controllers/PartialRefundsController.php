@@ -11,6 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Http\Traits\PaginatesCollectionsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -24,7 +25,7 @@ use PayBreak\Sdk\Gateways\PartialRefundGateway;
  */
 class PartialRefundsController extends Controller
 {
-    const REFUNDS_PER_PAGE = 15;
+    use PaginatesCollectionsTrait;
 
     protected $partialRefundGateway;
 
@@ -78,20 +79,6 @@ class PartialRefundsController extends Controller
             'status' => $this->fetchFilterValues($partialRefunds, 'status'),
             'local' => $local,
         ]);
-    }
-
-    /**
-     * @author SL
-     * @param Collection $collection
-     * @param Request $request
-     * @return LengthAwarePaginator
-     */
-    private function convertCollectionToPaginator(Collection $collection, Request $request)
-    {
-        $paginator = new LengthAwarePaginator($collection->forPage(Input::get('page', 1), self::REFUNDS_PER_PAGE), $collection->count(), self::REFUNDS_PER_PAGE);
-        $paginator->withPath('/' . $request->path());
-
-        return $paginator;
     }
 
     /**
