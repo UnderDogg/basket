@@ -7,7 +7,7 @@ php:
 env:
   global:
     - setup=basic
-    - CACHE_BUST_HASH_SOURCE=./../../../composer.lock
+    - CACHE_BUST_HASH_SOURCE=basket/composer.lock
 
 sudo: false
 
