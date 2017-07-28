@@ -8,6 +8,8 @@ env:
   global:
     - setup=basic
     - CACHE_BUST_HASH_SOURCE=basket/composer.lock
+    - LOG_SYSLOG=false
+    - LOG_FILE=false
 
 sudo: false
 
