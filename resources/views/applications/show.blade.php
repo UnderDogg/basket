@@ -127,7 +127,7 @@
                             @if($applications->ext_is_regulated)
                             <dt>Pre-agreement</dt>
                             <dd>
-                                @if($showDocuments)
+                                @if($showDocuments && in_array('pre-agreement', $availableDocuments))
                                     <a href="{!! Request::url() !!}/pre-agreement.pdf" target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         PDF
@@ -138,8 +138,19 @@
                             @endif
                             <dt>Agreement</dt>
                             <dd>
-                                @if($showDocuments)
+                                @if($showDocuments && in_array('agreement', $availableDocuments))
                                     <a href="{!! Request::url() !!}/agreement.pdf" target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                        PDF
+                                    </a>
+                                @else
+                                    <span>not available</span>
+                                @endif
+                            </dd>
+                            <dt>Adequate Explanation</dt>
+                            <dd>
+                                @if($showDocuments && in_array('adequate-explanation', $availableDocuments))
+                                    <a href="{!! Request::url() !!}/adequate-explanation.pdf" target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         PDF
                                     </a>
