@@ -44,7 +44,7 @@ class AccountControllerTest extends BrowserKitTestCase
     public function testEditWithIncorrectData()
     {
         $this->typeEditDetails('', 'NotAnEmail');
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('The name field is required');
         $this->see('The email must be a valid email address');
     }
@@ -55,7 +55,7 @@ class AccountControllerTest extends BrowserKitTestCase
     public function testEditRequiredFields()
     {
         $this->typeEditDetails('', '');
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('The name field is required');
         $this->see('The email field is required');
     }
@@ -66,7 +66,7 @@ class AccountControllerTest extends BrowserKitTestCase
     public function testEditDetails()
     {
         $this->typeEditDetails('Developer', 'develop@paybreak.com');
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('Your details have successfully been changed');
     }
 
@@ -76,7 +76,7 @@ class AccountControllerTest extends BrowserKitTestCase
     public function testNewPasswordConfirmation()
     {
         $this->typeEditPasswordDetails('password', 'password', 'testing');
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('The new password confirmation does not match');
         $this->see('The new password and old password must be different');
         $this->see('The new password confirmation and new password must match');
@@ -89,7 +89,7 @@ class AccountControllerTest extends BrowserKitTestCase
     {
         $this->typeEditPasswordDetails('', 'test', 'test');
 
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('The old password field is required');
     }
 
@@ -100,7 +100,7 @@ class AccountControllerTest extends BrowserKitTestCase
     {
         $this->typeEditPasswordDetails('', '', '');
 
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('The old password field is required');
         $this->see('The new password field is required');
         $this->see('The new password confirmation field is required');
@@ -113,7 +113,7 @@ class AccountControllerTest extends BrowserKitTestCase
     {
         $this->typeEditPasswordDetails('test', 'pass', 'pass');
 
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('Old password must match stored password');
     }
 
@@ -124,7 +124,7 @@ class AccountControllerTest extends BrowserKitTestCase
     {
         $this->typeEditPasswordDetails('password', 'new-password', 'new-password');
 
-        $this->seePageIs('account/edit');
+        $this->seePageIs('account');
         $this->see('Your password has successfully been changed');
     }
 
@@ -138,13 +138,13 @@ class AccountControllerTest extends BrowserKitTestCase
      */
     private function typeEditPasswordDetails($old, $new, $confirm)
     {
-        $this->visit('account/edit')
+        $this->visit('account')
             ->seeStatusCode(200)
             ->type($old, 'old_password')
             ->type($new, 'new_password')
             ->type($confirm, 'new_password_confirmation')
             ->press('Change password')
-            ->seePageIs('/account/edit')
+            ->seePageIs('/account')
             ->assertViewHas('user');
     }
 
@@ -157,12 +157,12 @@ class AccountControllerTest extends BrowserKitTestCase
      */
     private function typeEditDetails($name, $email)
     {
-        $this->visit('account/edit')
+        $this->visit('account')
             ->seeStatusCode(200)
             ->type($name, 'name')
             ->type($email, 'email')
             ->press('Update details')
-            ->seePageIs('/account/edit')
+            ->seePageIs('/account')
             ->assertViewHas('user');
     }
 }
