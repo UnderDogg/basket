@@ -209,8 +209,8 @@ Route::group(['middleware' => 'auth'], function () {
      * Account
      */
     Route::get('account', 'AccountController@edit');
-    Route::post('account/edit', 'AccountController@update');
-    Route::post('account/edit/password', 'AccountController@changePassword');
+    Route::post('account', 'AccountController@update');
+    Route::post('account/password', 'AccountController@changePassword');
 });
 
 Route::post('push/installations/{id}/catch-notification', 'NotificationsController@catchNotification');
