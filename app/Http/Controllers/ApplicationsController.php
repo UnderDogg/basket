@@ -93,7 +93,7 @@ class ApplicationsController extends Controller
                 'ext_current_status' => $this->fetchFilterValues($applications, 'ext_current_status'),
                 'ext_finance_option_group' => $this->fetchFilterValues($applications, 'ext_finance_option_group'),
                 'ext_merchant_liable_at' => $this->fetchNullFilterValues('Not Liable', 'Liable'),
-                'export_custom_filename' => 'applications-export-'.date('Ymd-Hi'),
+                'export_custom_filename' => 'applications-export-' . date('Ymd-Hi'),
             ]
         );
     }
