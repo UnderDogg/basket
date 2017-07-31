@@ -16,6 +16,8 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/vue-tables-2', function () {return view('vue-tables-2');});
+
     Route::get('/', 'LandingController@index');
 
     Route::get('logout', 'Auth\LoginController@logout');
