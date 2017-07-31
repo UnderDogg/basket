@@ -1,3 +1,15 @@
+# 1.23.0
+2017-07-21
+
+## Features
+- Link to view adequate explanation()
+
+# 1.22.1
+2017-07-20
+
+## Fixed
+- Move DB_STRICT choice to env
+
 # 1.22.0
 2017-07-14
 
@@ -35,7 +47,7 @@
 2017-07-07
 
 ## Bug Fixes
-- Fixed a problem with CSV download 
+- Fixed a problem with CSV download
 
 # 1.20.1
 2017-07-06
@@ -53,7 +65,7 @@
 # 1.19.5
 2017-07-06
 
-## Bug Fixes 
+## Bug Fixes
 - Removing partial refund validation, handled by the API (147758423)
 
 # 1.19.4

@@ -21,6 +21,7 @@ use App\Exceptions\RedirectException;
 use App\Http\Requests\ApplicationCancellationRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PayBreak\Foundation\Exception;
@@ -113,6 +114,7 @@ class ApplicationsController extends Controller
             [
                 'applications' => $application,
                 'showDocuments' => $this->areDocumentsAvailable($application),
+                'availableDocuments' => $this->getAvailableDocuments($application),
                 'fulfilmentAvailable' => $this->isFulfilable($application),
                 'cancellationAvailable' => $this->isCancellable($application),
                 'partialRefundAvailable' => $this->canPartiallyRefund($application),
@@ -577,5 +579,18 @@ class ApplicationsController extends Controller
             $application->ext_current_status,
             ['referred', 'converted', 'fulfilled', 'complete']
         );
+    }
+
+    /**
+     * @author EB
+     * @param Application $application
+     * @return array
+     */
+    private function getAvailableDocuments(Application $application)
+    {
+        /** @var DocumentController $documentController */
+        $documentController = App::make(DocumentController::class);
+
+        return $documentController->getAvailableDocuments($application->installation->id, $application->id);
     }
 }

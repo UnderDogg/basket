@@ -124,6 +124,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('installations/{installation}/applications/{id}/email', 'ApplicationsController@emailApplication');
         Route::get('installations/{installation}/applications/{id}/pre-agreement.pdf', 'DocumentController@getPreAgreement');
         Route::get('installations/{installation}/applications/{id}/agreement.pdf', 'DocumentController@getAgreement');
+        Route::get('installations/{installation}/applications/{id}/adequate-explanation.pdf', 'DocumentController@getAdequateExplanation');
     });
 
     Route::group(['middleware' => 'permission:applications-fulfil'], function () {
