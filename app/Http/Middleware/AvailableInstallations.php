@@ -48,7 +48,7 @@ class AvailableInstallations
      */
     public function handle($request, Closure $next)
     {
-        $installations = Installation::where('active', true);
+        $installations = Installation::where('active', true)->orderby('name');
 
         if ($this->auth->user() && $this->auth->user()->merchant_id) {
             view()->share(

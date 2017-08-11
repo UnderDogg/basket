@@ -11,6 +11,8 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Application;
+use App\Http\Traits\PaginatesCollectionsTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use PayBreak\Sdk\Gateways\PartialRefundGateway;
 
@@ -21,6 +23,8 @@ use PayBreak\Sdk\Gateways\PartialRefundGateway;
  */
 class PartialRefundsController extends Controller
 {
+    use PaginatesCollectionsTrait;
+
     protected $partialRefundGateway;
 
     /**
@@ -36,9 +40,10 @@ class PartialRefundsController extends Controller
      *
      * @author LH
      * @param int $id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function index($id)
+    public function index($id, Request $request)
     {
         $partialRefunds = Collection::make(
             $this->partialRefundGateway->listPartialRefunds($this->fetchMerchantById($id)->token)
@@ -67,7 +72,7 @@ class PartialRefundsController extends Controller
         }
 
         return View('partial-refunds.index', [
-            'partial_refunds' => $partialRefunds,
+            'partial_refunds' => $this->convertCollectionToPaginator($partialRefunds, $request),
             'statuses' => $statuses,
             'status' => $this->fetchFilterValues($partialRefunds, 'status'),
             'local' => $local,
