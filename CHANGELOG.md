@@ -1,3 +1,10 @@
+# 1.24.1
+2017-08-14
+
+## Fixed
+- Updated filter type to be strict when using status (150164063)
+- Updated filter options to offload processing of large datasets to DB layer (150164063)
+
 # 1.24.0
 2017-08-11
 
