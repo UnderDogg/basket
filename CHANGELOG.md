@@ -1,3 +1,9 @@
+# 1.24.2
+2017-08-14
+
+## Fixed
+- Fix incorrectly used types
+
 # 1.24.1
 2017-08-14
 
