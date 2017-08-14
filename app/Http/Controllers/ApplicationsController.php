@@ -557,6 +557,7 @@ class ApplicationsController extends Controller
     protected function getFiltersConfiguration()
     {
         return [
+            'ext_current_status' => Controller::FILTER_STRICT,
             'ext_order_amount' => Controller::FILTER_FINANCE,
             'ext_finance_loan_amount' => Controller::FILTER_FINANCE,
             'ext_finance_deposit' => Controller::FILTER_FINANCE,
