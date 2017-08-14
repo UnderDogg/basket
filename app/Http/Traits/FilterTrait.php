@@ -127,7 +127,7 @@ trait FilterTrait
             throw new InvalidTypeException('Attempted to filter on invalid type [' . get_class($model) . ']');
         }
 
-        return ['' => 'All'] + $this->fetchDistinctValuesByColumn($collection, $filter);
+        return  array_merge(['' => 'All'], $this->fetchDistinctValuesByColumn($collection, $filter));
     }
 
     /**
