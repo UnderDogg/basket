@@ -121,7 +121,7 @@ trait FilterTrait
             $builder->getQuery()->orders = null;
 
             $collection = $builder->distinct()->select($filter)->get();
-        } else if ($model instanceof Collection) {
+        } elseif ($model instanceof Collection) {
             $collection = $model;
         } else {
             throw new InvalidTypeException('Attempted to filter on invalid type [' . get_class($model) . ']');
