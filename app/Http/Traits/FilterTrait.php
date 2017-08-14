@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 
+use App\Exceptions\InvalidTypeException;
 use App\Exceptions\RedirectException;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -123,7 +124,7 @@ trait FilterTrait
         } else if ($model instanceof Collection) {
             $collection = $model;
         } else {
-            throw new \App\Exceptions\Exception('TODO: This exception is a placeholder');
+            throw new InvalidTypeException('Attempted to filter on invalid type [' . get_class($model) . ']');
         }
 
         return ['' => 'All'] + $this->fetchDistinctValuesByColumn($collection, $filter);
