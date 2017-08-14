@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use WNowicki\Generic\Exception;
 
@@ -104,21 +105,43 @@ trait FilterTrait
     }
 
     /**
-     * @author EB
+     * @author EB, SL
      * @param $model
      * @param string $filter
      * @return array
+     * @throws \App\Exceptions\Exception
      */
     protected function fetchFilterValues($model, $filter)
     {
+        if ($model instanceof Builder) {
+            // Clone to avoid referencing issues &&
+            // Workaround inability to clear orders https://github.com/laravel/framework/issues/20469
+            $builder = clone $model;
+            $builder->getQuery()->orders = null;
+
+            $collection = $builder->distinct()->select($filter)->get();
+        } else if ($model instanceof Collection) {
+            $collection = $model;
+        } else {
+            throw new \App\Exceptions\Exception('TODO: This exception is a placeholder');
+        }
+
+        return ['' => 'All'] + $this->fetchDistinctValuesByColumnFromCollection($collection, $filter);
+    }
+
+    /**
+     * @author SL
+     * @param Collection $collection
+     * @param string $column
+     * @return array
+     */
+    private function fetchDistinctValuesByColumnFromCollection(Collection $collection, $column)
+    {
         $rtn = [];
-        if ($model) {
-            //Doing this because of Partial Refunds, needed as we are using a collection, not a builder
-            ($model instanceof Builder) ? $model = $model->get() : $model = $model->all();
-            foreach ($model as $item) {
-                $rtn[strtolower($item->{$filter})] = ucwords($item->{$filter});
-            }
-            $rtn = ['' => 'All'] + $rtn;
+
+        foreach ($collection->all() as $item) {
+
+            $rtn[strtolower($item->{$column})] = ucwords($item->{$column});
         }
 
         return $rtn;
