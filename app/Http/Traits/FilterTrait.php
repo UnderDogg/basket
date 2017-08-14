@@ -126,7 +126,7 @@ trait FilterTrait
             throw new \App\Exceptions\Exception('TODO: This exception is a placeholder');
         }
 
-        return ['' => 'All'] + $this->fetchDistinctValuesByColumnFromCollection($collection, $filter);
+        return ['' => 'All'] + $this->fetchDistinctValuesByColumn($collection, $filter);
     }
 
     /**
@@ -135,7 +135,7 @@ trait FilterTrait
      * @param string $column
      * @return array
      */
-    private function fetchDistinctValuesByColumnFromCollection(Collection $collection, $column)
+    private function fetchDistinctValuesByColumn(Collection $collection, $column)
     {
         $rtn = [];
 
