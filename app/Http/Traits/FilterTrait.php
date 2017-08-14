@@ -121,7 +121,7 @@ trait FilterTrait
             $builder->getQuery()->orders = null;
 
             $collection = $builder->distinct()->select($filter)->get();
-        } elseif ($model instanceof Collection) {
+        } elseif ($model instanceof \Illuminate\Support\Collection) {
             $collection = $model;
         } else {
             throw new InvalidTypeException('Attempted to filter on invalid type [' . get_class($model) . ']');
@@ -132,11 +132,11 @@ trait FilterTrait
 
     /**
      * @author SL
-     * @param Collection $collection
+     * @param \Illuminate\Support\Collection $collection
      * @param string $column
      * @return array
      */
-    private function fetchDistinctValuesByColumn(Collection $collection, $column)
+    private function fetchDistinctValuesByColumn(\Illuminate\Support\Collection $collection, $column)
     {
         $rtn = [];
 
