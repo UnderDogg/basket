@@ -141,7 +141,6 @@ trait FilterTrait
         $rtn = [];
 
         foreach ($collection->all() as $item) {
-
             $rtn[strtolower($item->{$column})] = ucwords($item->{$column});
         }
 
