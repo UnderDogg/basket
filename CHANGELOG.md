@@ -1,3 +1,9 @@
+# 1.24.3
+2017-08-15
+
+## Added
+- `predis/predis` client for backing php sessions
+
 # 1.24.2
 2017-08-14
 
