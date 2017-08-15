@@ -38,16 +38,6 @@ class InitialisationControllerTest extends BrowserKitTestCase
     }
 
     /**
-     * @author WN
-     */
-    public function testEdit()
-    {
-        // Test page gives 200 response
-        $this->visit('/account/edit')
-            ->seeStatusCode(200);
-    }
-
-    /**
      * @author EB
      */
     public function testPrepareWithoutPermissionForLocation()

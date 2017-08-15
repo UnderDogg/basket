@@ -1,3 +1,28 @@
+# 1.24.2
+2017-08-14
+
+## Fixed
+- Fix incorrectly used types
+
+# 1.24.1
+2017-08-14
+
+## Fixed
+- Updated filter type to be strict when using status (150164063)
+- Updated filter options to offload processing of large datasets to DB layer (150164063)
+
+# 1.24.0
+2017-08-11
+
+## Changed
+- Removed plain user `view` page and replaced with the edit to remove unnecessary step (148906001)
+- Order Applications dropdown alphabetically (148906001)
+- Add paging to partial refunds view (148906001)
+- Add paging to pending cancellations view (148906001)
+- Change filter field on applications view to use correct email field (148906001)
+- Groundwork to allow `DB_STRICT` mode to be turned back on (148906001)
+- Bumped `paybreak/paybreak-sdk-php` to fix no documents existing
+
 # 1.23.0
 2017-07-21
 
