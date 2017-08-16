@@ -81,3 +81,9 @@ auth.json
 /app/log.txt
 
 resources/views/includes/page/version.blade.php
+
+*.log
+
+public/css/app.css
+
+public/js/app.js
