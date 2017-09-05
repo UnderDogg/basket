@@ -14,7 +14,9 @@ use App\Exceptions\RedirectException;
 use App\ExportableModelInterface;
 use Illuminate\Database\Eloquent\Model;
 use Closure;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use League\Csv\Writer;
 
 /**
@@ -36,6 +38,10 @@ class Download
     public function handle($request, Closure $next)
     {
         $response = $next($request);
+
+        if (!$response instanceof Response) {
+            Log::warning('Unexpected response type: [' . get_class($response) . '] on route [' . $request->method() . ':' . $request->path() . ']');
+        }
 
         $source = $request->get('source', 'api_data');
         $filename = $request->get('filename', 'export_' . date('Y-m-d_Hi'));
