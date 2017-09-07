@@ -40,7 +40,12 @@ class Download
         $response = $next($request);
 
         if (!$response instanceof Response) {
-            Log::warning('Unexpected response type: [' . get_class($response) . '] on route [' . $request->method() . ':' . $request->path() . ']');
+
+            Log::warning(
+                'Unexpected response type: [' . get_class($response) . '] on route [' . $request->method() .
+                '] [' . $request->path() . ']',
+                ['request_headers' => (array) $request->headers]
+            );
         }
 
         $source = $request->get('source', 'api_data');
