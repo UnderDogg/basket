@@ -1,3 +1,9 @@
+# 1.24.5
+2017-09-08
+
+## Added
+- Extra logging to assist diagnosis of bug (#150323279)
+
 # 1.24.3
 2017-08-15
 
