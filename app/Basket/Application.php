@@ -234,6 +234,8 @@ class Application extends Model implements ExportableModelInterface
             'AddrPostcode' => $this->ext_application_address_postcode,
             'OrderDescription' => $this->ext_order_description,
             'RetailerLiableAt' => $this->ext_merchant_liable_at,
+            'Requester' => ((isset($this->user) && isset($this->user->name)) ? $this->user->name : ''),
+            'RequesterEmail' => ((isset($this->user) && isset($this->user->email)) ? $this->user->email : ''),
         ];
     }
 
