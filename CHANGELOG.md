@@ -1,4 +1,7 @@
-### Added
+# 1.25.0
+2017-09-08
+
+## Added
 - Adding RequesterId and RequesterEmail to Application CSV (148008039)
 
 # 1.24.4
