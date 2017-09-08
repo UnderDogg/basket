@@ -1,6 +1,12 @@
 ### Added
 - Adding RequesterId and RequesterEmail to Application CSV (148008039)
 
+# 1.24.4
+2017-09-08
+
+## Added
+- Extra logging to assist diagnosis of bug (#150323279)
+
 # 1.24.3
 2017-08-15
 
