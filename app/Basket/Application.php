@@ -11,7 +11,6 @@ namespace App\Basket;
 
 use Illuminate\Database\Eloquent\Model;
 use App\ExportableModelInterface;
-use App\User;
 
 /**
  * Class Application
@@ -235,8 +234,8 @@ class Application extends Model implements ExportableModelInterface
             'AddrPostcode' => $this->ext_application_address_postcode,
             'OrderDescription' => $this->ext_order_description,
             'RetailerLiableAt' => $this->ext_merchant_liable_at,
-            'Requester' => $this->getRequesterName(),
-            'RequesterEmail' => $this->getRequesterEmail(),
+            'Requester' => ((isset($this->user) && isset($this->user->name)) ? $this->user->name : ''),
+            'RequesterEmail' => ((isset($this->user) && isset($this->user->email)) ? $this->user->email : ''),
         ];
     }
 
@@ -250,25 +249,5 @@ class Application extends Model implements ExportableModelInterface
     private function getFormattedCurrency($fieldData)
     {
         return $fieldData/100;
-    }
-
-    /**
-     * @author EA
-     * @return string
-     */
-    private function getRequesterName()
-    {
-        $requester = User::withTrashed()->where('id', $this->user_id)->first();
-        return (isset($requester->name) ? $requester->name : '');
-    }
-
-    /**
-     * @author EA
-     * @return string
-     */
-    private function getRequesterEmail()
-    {
-        $requester = User::withTrashed()->where('id', $this->user_id)->first();
-        return (isset($requester->email) ? $requester->email : '');
     }
 }
