@@ -1,3 +1,9 @@
+# 1.25.1
+2017-09-12
+
+### Fixed 
+ - Also get soft-deleted users in the application report csv download
+
 # 1.25.0
 2017-09-08
 
